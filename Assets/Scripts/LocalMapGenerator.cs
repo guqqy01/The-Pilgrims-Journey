@@ -15,45 +15,112 @@ namespace Map
         [SerializeField]
         private Color gizmosColor;
 
-        public List<Vector2Int> path;
+        public List<Vector2Int>[] paths;
 
         public Vector2Int start = new Vector2Int(10, 0);
 
+        public List<Direction> targetDirections;
+        Direction startDirection;
         private void Start()
         {
-            CreatePath();
+            CreatePath(start, startDirection, targetDirections);
         }
 
-        public void CreatePath()
+        private Direction GetNextDirection(Direction currentDirection, Direction targetDirection, Vector2Int position)
         {
-            path = new List<Vector2Int>() {start};
+            if (targetDirection != currentDirection)
+                return targetDirection;
 
-            int yPos = 0;
-
-            Direction currentDirection = Direction.Up;
-
-            while (yPos < mapSize.y)
+            if (Mathf.Abs((int)currentDirection) == 2)
             {
-                int xPos = path[path.Count - 1].x;
+                float dirRan = UnityEngine.Random.Range(1f / mapSize.x, 1f - 1f / mapSize.x);
+                return (dirRan > (float)position.x / mapSize.x) ? Direction.Right : Direction.Left;
+            }
+            else
+            {
+                float dirRan = UnityEngine.Random.Range(1f / mapSize.y, 1f - 1f / mapSize.y);
+                return (dirRan > (float)position.y / mapSize.y) ? Direction.Up : Direction.Down;
+            }
+        }
+
+        
+
+        public void CreatePathFromStartToTargetDirection(ref List<Vector2Int> path, Vector2Int start, Direction startDirection, Direction targetDirection)
+        {
+            Direction currentDirection = startDirection;
+            int[] position = new int[2];
+
+            position[0] = start.x;
+            position[1] = start.y;
+
+            int targetInt = (int)targetDirection > 0 ? (targetDirection == Direction.Right) ? mapSize.x : mapSize.y: 0;
+
+            int GetDistanceToTarget()
+            {
+                return position[Mathf.Abs((int)targetDirection) - 1] - targetInt;
+            }
+
+            int distanceToTarget = GetDistanceToTarget();
+
+            while (distanceToTarget > 0)
+            {
+                int additional = targetDirection == currentDirection ? 0 : 1;
+
                 switch (currentDirection)
                 {
                     case Direction.Up:
-                        yPos = Mathf.Min(UnityEngine.Random.Range(yPos + 2, yPos + 8), mapSize.y);
-                        float dirRan = UnityEngine.Random.Range(1f / mapSize.x, 1f - 1f / mapSize.x);
-                        currentDirection = (dirRan > (float)xPos / mapSize.x) ? Direction.Right: Direction.Left;
+                        position[1] = Mathf.Min(UnityEngine.Random.Range(position[1] + 2, position[1] + 8), mapSize.y - additional);
                         break;
                     case Direction.Left:
-                        xPos = Mathf.Max(UnityEngine.Random.Range(xPos - 8, xPos - 2), 1);
-                        currentDirection = Direction.Up;
+                        position[0] = Mathf.Max(UnityEngine.Random.Range(position[0] - 8, position[0] - 2), additional);
                         break;
                     case Direction.Right:
-                        xPos = Mathf.Min(UnityEngine.Random.Range(xPos + 2, xPos + 8), mapSize.x - 1);
-                        currentDirection = Direction.Up;
+                        position[0] = Mathf.Min(UnityEngine.Random.Range(position[0] + 2, position[0] + 8), mapSize.x - additional);
+                        break;
+                    case Direction.Down:
+                        position[1] = Mathf.Max(UnityEngine.Random.Range(position[1] - 8, position[1] - 2), additional);
                         break;
                 }
 
-                path.Add(new Vector2Int(xPos, yPos));
+                Vector2Int point = new Vector2Int(position[0], position[1]);
+
+                currentDirection = GetNextDirection(currentDirection, targetDirection, point);
+                path.Add(point);
             }
+        }
+
+        private Vector2Int GetClosestNodeToTargetDirection(Direction targetDirection)
+        {
+            List<Vector2Int> closestPoints = new List<Vector2Int>();
+
+            int closestDistance = int.MaxValue;
+
+            foreach (List<Vector2Int> path in paths)
+            {
+                if (path == null || path.Count == 0)
+                    continue;
+
+                for (int i = 0; i < path.Count; i++)
+                {
+
+                }
+            }
+        }
+
+        public void CreatePath(Vector2Int start, Direction startDirection, List<Direction> targetDirections)
+        {
+            paths = new List<Vector2Int> [targetDirections.Count];
+
+            if (paths.Length > 0)
+                paths[0].Add(start);
+
+            Direction currentDirection = startDirection;
+
+            for (int i = 0; i < targetDirections.Count; i++)
+            {
+                CreatePathFromStartToTargetDirection(paths[i], , i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
+            }
+
         }
 
         public void GenerateMap()
@@ -66,13 +133,16 @@ namespace Map
             Gizmos.color = gizmosColor;
             Gizmos.DrawWireCube(Vector3.zero, (Vector2)mapSize * mapScale);
 
-            for (int i = 0; i < path.Count; i++)
+            foreach (List<Vector2Int> path in paths)
             {
-                Vector2 pos = ((Vector2)path[i] - mapSize / 2) * mapScale;
-                Gizmos.DrawCube(pos, Vector3.one * mapScale * 0.5f);
+                for (int i = 0; i < path.Count; i++)
+                {
+                    Vector2 pos = ((Vector2)path[i] - mapSize / 2) * mapScale;
+                    Gizmos.DrawCube(pos, Vector3.one * mapScale * 0.5f);
 
-                if (i != path.Count - 1)
-                    Gizmos.DrawLine(pos, ((Vector2)path[i + 1] - mapSize / 2) * mapScale);
+                    if (i != path.Count - 1)
+                        Gizmos.DrawLine(pos, ((Vector2)path[i + 1] - mapSize / 2) * mapScale);
+                }
             }
         }
     }
@@ -80,10 +150,10 @@ namespace Map
     [Flags]
     public enum Direction
     {
-        Up = 1,
-        Down = 2,
-        Left = 4,
-        Right = 8,
+        Up = 2,
+        Down = -2,
+        Left = -1,
+        Right = 1,
     }
 }
 
