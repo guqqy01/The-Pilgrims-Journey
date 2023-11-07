@@ -20,7 +20,7 @@ namespace Map
         public Vector2Int start = new Vector2Int(10, 0);
 
         public List<Direction> targetDirections;
-        Direction startDirection;
+        public Direction startDirection;
         private void Start()
         {
             CreatePath(start, startDirection, targetDirections);
@@ -82,6 +82,8 @@ namespace Map
                         break;
                 }
 
+                distanceToTarget = GetDistanceToTarget();
+
                 Vector2Int point = new Vector2Int(position[0], position[1]);
 
                 currentDirection = GetNextDirection(currentDirection, targetDirection, point);
@@ -102,14 +104,71 @@ namespace Map
 
                 for (int i = 0; i < path.Count; i++)
                 {
-
+                    switch (targetDirection)
+                    {
+                        case Direction.Up:
+                            if (mapSize.y - path[i].y < closestDistance)
+                            {
+                                closestPoints.Clear();
+                                closestPoints.Add(path[i]);
+                                closestDistance = mapSize.y - path[i].y;
+                            }
+                            else if (mapSize.y - path[i].y == closestDistance)
+                            {
+                                closestPoints.Add(path[i]);
+                            }
+                            break;
+                        case Direction.Down:
+                            if (path[i].y < closestDistance)
+                            {
+                                closestPoints.Clear();
+                                closestPoints.Add(path[i]);
+                                closestDistance = path[i].y;
+                            }
+                            else if (path[i].y == closestDistance)
+                            {
+                                closestPoints.Add(path[i]);
+                            }
+                            break;
+                        case Direction.Left:
+                            if (path[i].x < closestDistance)
+                            {
+                                closestPoints.Clear();
+                                closestPoints.Add(path[i]);
+                                closestDistance = path[i].x;
+                            }
+                            else if (path[i].x == closestDistance)
+                            {
+                                closestPoints.Add(path[i]);
+                            }
+                            break;
+                        case Direction.Right:
+                            if (mapSize.x - path[i].x < closestDistance)
+                            {
+                                closestPoints.Clear();
+                                closestPoints.Add(path[i]);
+                                closestDistance = mapSize.x - path[i].x;
+                            }
+                            else if (mapSize.x - path[i].x == closestDistance)
+                            {
+                                closestPoints.Add(path[i]);
+                            }
+                            break;
+                    }
                 }
             }
+
+            return closestPoints[UnityEngine.Random.Range(0, closestPoints.Count)];
         }
 
         public void CreatePath(Vector2Int start, Direction startDirection, List<Direction> targetDirections)
         {
             paths = new List<Vector2Int> [targetDirections.Count];
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                paths[i] = new List<Vector2Int>();
+            }
 
             if (paths.Length > 0)
                 paths[0].Add(start);
@@ -118,9 +177,8 @@ namespace Map
 
             for (int i = 0; i < targetDirections.Count; i++)
             {
-                CreatePathFromStartToTargetDirection(paths[i], , i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
+                CreatePathFromStartToTargetDirection(ref paths[i], i == 0 ? start : GetClosestNodeToTargetDirection(targetDirections[i]), i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
             }
-
         }
 
         public void GenerateMap()
@@ -133,8 +191,14 @@ namespace Map
             Gizmos.color = gizmosColor;
             Gizmos.DrawWireCube(Vector3.zero, (Vector2)mapSize * mapScale);
 
+            if (paths == null)
+                return;
+
             foreach (List<Vector2Int> path in paths)
             {
+                if (path == null)
+                    continue;
+
                 for (int i = 0; i < path.Count; i++)
                 {
                     Vector2 pos = ((Vector2)path[i] - mapSize / 2) * mapScale;
@@ -147,7 +211,7 @@ namespace Map
         }
     }
 
-    [Flags]
+
     public enum Direction
     {
         Up = 2,
