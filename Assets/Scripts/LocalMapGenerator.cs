@@ -19,8 +19,6 @@ namespace Map
 
         public Pathway pathway;
 
-        public List<Vector2Int> pathFromPathway;
-
         public Vector2Int start = new Vector2Int(10, 0);
 
         public List<Direction> targetDirections;
@@ -112,8 +110,10 @@ namespace Map
 
             int closestDistance = int.MaxValue;
 
-            foreach (List<Vector2Int> path in pathway.paths)
+            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in pathway.Nodes)
             {
+                List<Vector2Int> path = directionAndPath.Value;
+
                 if (path == null || path.Count == 0)
                     continue;
 
@@ -192,7 +192,7 @@ namespace Map
             {
                 for (int j = 0; j < mapSize.y + 1; j++)
                 {
-                    if (pathFromPathway.Contains(new Vector2Int(i, j)))
+                    if (pathway.ContainsStep(new Vector2Int(i, j)))
                     {
                         tiles.Add(Instantiate(pathTile, new Vector3(i, j), Quaternion.identity, transform));
                     }
@@ -206,22 +206,22 @@ namespace Map
 
         public void CreatePath(Vector2Int start, Direction startDirection, List<Direction> targetDirections)
         {
-            pathway = new Pathway(targetDirections.Count);
+            pathway = new Pathway(targetDirections);
 
             for (int i = 0; i < targetDirections.Count; i++)
             {
                 Vector2Int startPoint = i == 0 ? start : GetClosestNodeToTargetDirection(targetDirections[i]);
-                pathway[i].Add(startPoint);
-                CreatePathFromStartToTargetDirection(pathway[i], startPoint, i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
+                pathway[targetDirections[i]].Add(startPoint);
+                CreatePathFromStartToTargetDirection(pathway[targetDirections[i]], startPoint, i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
             }
 
-            pathFromPathway = pathway.GetPathway();
+            pathway.CreatePaths(targetDirections);
 
             PlaceTiles();
         }
 
 
-        private void OnDrawGizmos()
+        /*private void OnDrawGizmos()
         {
             Gizmos.color = gizmosColor;
             Gizmos.DrawWireCube(Vector3.zero, (Vector2)mapSize * mapScale);
@@ -249,8 +249,9 @@ namespace Map
                 Vector2 pos = ((Vector2)pathFromPathway[i] - mapSize / 2) * mapScale;
                 Gizmos.DrawCube(pos, Vector3.one * mapScale * 0.5f);
             }
-        }
+        }*/
     }
+
 
 
     public enum Direction
@@ -259,79 +260,6 @@ namespace Map
         Down = -2,
         Left = -1,
         Right = 1,
-    }
-
-    public class Pathway
-    {
-        public List<Vector2Int>[] paths;
-
-        public int Count => paths.Length;
-
-        public Pathway(int numberOfPaths)
-        {
-            paths = new List<Vector2Int>[numberOfPaths];
-
-            for (int i = 0; i < paths.Length; i++)
-            {
-                paths[i] = new List<Vector2Int>();
-            }
-        }
-
-        public List<Vector2Int> this[int path]
-        {
-            get
-            {
-                return paths[path];
-            }
-        }
-
-        public Vector2Int this[int path, int point]
-        {
-            get
-            {
-                return paths[path][point];
-            }
-            set
-            {
-                paths[path][point] = value;
-            }
-        }
-
-        public List<Vector2Int> GetPathway()
-        {
-            List<Vector2Int> pathway = new List<Vector2Int>();
-
-            for (int i = 0; i < paths.Length; i++)
-            {
-                for (int j = 0; j < paths[i].Count; j++)
-                {
-                    if (!pathway.Contains(paths[i][j]))
-                        pathway.Add(paths[i][j]);
-
-                    
-                    if (j != paths[i].Count - 1)
-                    {
-                        int xPos1 = paths[i][j].x;
-                        int yPos1 = paths[i][j].y;
-
-                        int xPos2 = paths[i][j + 1].x;
-                        int yPos2 = paths[i][j + 1].y;
-
-                        for (int k = 1; k < Mathf.Abs(xPos1 - xPos2); k++)
-                        {
-                            pathway.Add(new Vector2Int(xPos1 - (k * (int)Mathf.Sign(xPos1 - xPos2)), yPos1));
-                        }
-
-                        for (int k = 1; k < Mathf.Abs(yPos1 - yPos2); k++)
-                        {
-                            pathway.Add(new Vector2Int(xPos1, yPos1 - (k * (int)Mathf.Sign(yPos1 - yPos2))));
-                        }
-                    }
-                }
-            }
-
-            return pathway;
-        }
     }
 }
 
