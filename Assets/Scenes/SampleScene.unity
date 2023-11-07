@@ -490,8 +490,9 @@ MonoBehaviour:
   mapSize: {x: 20, y: 20}
   mapScale: 0.5
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
-  path: []
   start: {x: 2, y: 0}
+  targetDirections: 0200000001000000ffffffff
+  startDirection: 2
 --- !u!4 &833186580
 Transform:
   m_ObjectHideFlags: 0
