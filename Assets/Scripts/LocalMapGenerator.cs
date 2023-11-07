@@ -54,14 +54,14 @@ namespace Map
             position[1] = start.y;
 
             int targetInt = (int)targetDirection > 0 ? (targetDirection == Direction.Right) ? mapSize.x : mapSize.y: 0;
-
+            Debug.Log("TargetInt = " + targetInt);
             int GetDistanceToTarget()
             {
-                return position[Mathf.Abs((int)targetDirection) - 1] - targetInt;
+                return Mathf.Abs(position[Mathf.Abs((int)targetDirection) - 1] - targetInt);
             }
 
             int distanceToTarget = GetDistanceToTarget();
-
+            Debug.Log("distance = " + distanceToTarget);
             while (distanceToTarget > 0)
             {
                 int additional = targetDirection == currentDirection ? 0 : 1;
@@ -82,7 +82,11 @@ namespace Map
                         break;
                 }
 
+
+
                 distanceToTarget = GetDistanceToTarget();
+
+                Debug.Log("distance = " + distanceToTarget);
 
                 Vector2Int point = new Vector2Int(position[0], position[1]);
 
