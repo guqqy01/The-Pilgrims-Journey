@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
+
 namespace Map
 {
     public class LocalMapGenerator : MonoBehaviour
@@ -174,12 +176,11 @@ namespace Map
                 paths[i] = new List<Vector2Int>();
             }
 
-            if (paths.Length > 0)
-                paths[0].Add(start);
-
             for (int i = 0; i < targetDirections.Count; i++)
             {
-                CreatePathFromStartToTargetDirection(ref paths[i], i == 0 ? start : GetClosestNodeToTargetDirection(targetDirections[i]), i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
+                Vector2Int startPoint = i == 0 ? start : GetClosestNodeToTargetDirection(targetDirections[i]);
+                paths[i].Add(startPoint);
+                CreatePathFromStartToTargetDirection(ref paths[i], startPoint, i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
             }
 
 
