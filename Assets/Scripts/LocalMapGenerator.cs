@@ -173,11 +173,21 @@ namespace Map
             if (paths.Length > 0)
                 paths[0].Add(start);
 
-            Direction currentDirection = startDirection;
-
             for (int i = 0; i < targetDirections.Count; i++)
             {
                 CreatePathFromStartToTargetDirection(ref paths[i], i == 0 ? start : GetClosestNodeToTargetDirection(targetDirections[i]), i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
+            }
+
+
+            foreach (List<Vector2Int> path in paths)
+            {
+                if (path == null)
+                    continue;
+
+                for (int i = 0; i < path.Count; i++)
+                {
+                    Debug.Log(path[i]);
+                }
             }
         }
 
