@@ -13,7 +13,7 @@ namespace Map
 
             if (GUILayout.Button("Generate Path"))
             {
-                script.CreatePath(script.start, script.startDirection, script.targetDirections);
+                script.CreateMap();
                 SceneView.RepaintAll();
             }
         }
