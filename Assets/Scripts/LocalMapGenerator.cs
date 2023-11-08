@@ -91,7 +91,9 @@ namespace Map
 
             for (int i = 0; i < numberOfEnemys; i++)
             {
+                Vector2Int point = weightMap[i];
 
+                enemys.Add(Instantiate(enemy, new Vector3(point.x, point.y), Quaternion.identity, transform));
             }
         }
 
@@ -364,6 +366,18 @@ namespace Map
             set
             {
                 points[coordsAndIndex[new Vector2Int(i, j)]].weight = value;
+            }
+        }
+
+        public Vector2Int this[int i]
+        {
+            get
+            {
+                return points[i].coords;
+            }
+            set
+            {
+                points[i].coords = value;
             }
         }
 
