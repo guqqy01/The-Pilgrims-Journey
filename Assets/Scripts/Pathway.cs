@@ -31,6 +31,16 @@ namespace Map
             return false;
         }
 
+        public bool ContainsStep(int x, int y)
+        {
+            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in Paths)
+            {
+                if (directionAndPath.Value.Contains(new Vector2Int(x, y)))
+                    return true;
+            }
+            return false;
+        }
+
         public Pathway(List<Direction> targetDirections)
         {
             Nodes = new Dictionary<Direction, List<Vector2Int>>();

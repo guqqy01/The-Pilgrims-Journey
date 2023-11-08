@@ -28,13 +28,70 @@ namespace Map
         public GameObject wallTile;
 
         public List<GameObject> tiles;
+        public List<GameObject> enemys;
+
 
         public Vector2Int targetDirectionMinMax = new Vector2Int(2, 5);
         public Vector2Int traverseDirectionMinMax = new Vector2Int(2, 10);
 
+        public GameObject enemy;
+
+        public int[,] enemyWeightMap;
+
+        public int numberOfEnemys;
+
+        [SerializeField]
+        private int tileWeightRange;
+
         private void Start()
         {
             CreatePath(start, startDirection, targetDirections);
+
+            CreateEnemyWeightMap(tileWeightRange);
+
+            SpawnEnemys();
+        }
+
+        private void CreateEnemyWeightMap(int range)
+        {
+            enemyWeightMap = new int[mapSize.x, mapSize.y];
+
+            for (int i = 0; i < mapSize.x; i++)
+            {
+                for (int j = 0; j < mapSize.y; j++)
+                {
+                    enemyWeightMap[i, j] = 0;
+
+                    if (pathway.ContainsStep(i, j))
+                        continue;
+
+                    for (int x = - range; x < range; x++)
+                    {
+                        for (int y = - range; y < range; y++)
+                        {
+                            if (pathway.ContainsStep(x, y))
+                            {
+                                enemyWeightMap[i, j] += 2 * range - Mathf.Abs(i) - Mathf.Abs(j);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SpawnEnemys()
+        {
+            for (int i = 0; i < enemys.Count; i++)
+                DestroyImmediate(enemys[i]);
+
+            enemys.Clear();
+
+            
+
+            for (int i = 0; i < numberOfEnemys; i++)
+            {
+
+            }
         }
 
         private Direction GetNextDirection(Direction currentDirection, Direction targetDirection, Vector2Int position)
@@ -260,6 +317,22 @@ namespace Map
         Down = -2,
         Left = -1,
         Right = 1,
+    }
+
+    [CreateAssetMenu()]
+    public class BiomeSettings : ScriptableObject
+    {
+        
+    }
+
+    [CreateAssetMenu]
+    public class MonsterStats : ScriptableObject
+    {
+        public int Map;
+
+        public int baseMapPoints;
+
+        public int mapPointsPerTileInRange;
     }
 }
 
