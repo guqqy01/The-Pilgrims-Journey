@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 namespace Map
 {
@@ -36,7 +37,7 @@ namespace Map
 
         public GameObject enemy;
 
-        public int[,] enemyWeightMap;
+        public MapWeightPoint[] weightMap;
 
         public int numberOfEnemys;
 
@@ -54,13 +55,13 @@ namespace Map
 
         private void CreateEnemyWeightMap(int range)
         {
-            enemyWeightMap = new int[mapSize.x, mapSize.y];
+            weightMap = new MapWeightPoint[mapSize.x * mapSize.y];
 
             for (int i = 0; i < mapSize.x; i++)
             {
                 for (int j = 0; j < mapSize.y; j++)
                 {
-                    enemyWeightMap[i, j] = 0;
+                    weightMap[mapSize.x * i + j] = new MapWeightPoint(new Vector2Int(i, j), 0);
 
                     if (pathway.ContainsStep(i, j))
                         continue;
@@ -71,12 +72,14 @@ namespace Map
                         {
                             if (pathway.ContainsStep(x, y))
                             {
-                                enemyWeightMap[i, j] += 2 * range - Mathf.Abs(i) - Mathf.Abs(j);
+                                weightMap[mapSize.x * i + j] += 2 * range - Mathf.Abs(i) - Mathf.Abs(j);
                             }
                         }
                     }
                 }
             }
+
+            Array.Sort(weightMap);
         }
 
         private void SpawnEnemys()
@@ -85,8 +88,6 @@ namespace Map
                 DestroyImmediate(enemys[i]);
 
             enemys.Clear();
-
-            
 
             for (int i = 0; i < numberOfEnemys; i++)
             {
@@ -333,6 +334,28 @@ namespace Map
         public int baseMapPoints;
 
         public int mapPointsPerTileInRange;
+    }
+
+    public struct MapWeightPoint : IComparable<MapWeightPoint>
+    {
+        public Vector2Int coords;
+        public int weight;
+
+        public MapWeightPoint(Vector2Int coords, int weight)
+        {
+            this.coords = coords;
+            this.weight = weight;
+        }
+
+        public int CompareTo(MapWeightPoint other)
+        {
+            return weight.CompareTo(other.weight);
+        }
+
+        public static MapWeightPoint operator +(MapWeightPoint mwp, int weight)
+        {
+            return new MapWeightPoint(mwp.coords, mwp.weight + weight);
+        } 
     }
 }
 
