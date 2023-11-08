@@ -37,7 +37,7 @@ namespace Map
 
         public GameObject enemy;
 
-        public MapWeightPoint[] weightMap;
+        public WeightMap weightMap;
 
         public int numberOfEnemys;
 
@@ -55,13 +55,13 @@ namespace Map
 
         private void CreateEnemyWeightMap(int range)
         {
-            weightMap = new MapWeightPoint[mapSize.x * mapSize.y];
+            weightMap = new WeightMap(mapSize.x, mapSize.y);
 
             for (int i = 0; i < mapSize.x; i++)
             {
                 for (int j = 0; j < mapSize.y; j++)
                 {
-                    weightMap[mapSize.x * i + j] = new MapWeightPoint(new Vector2Int(i, j), 0);
+                    weightMap[i, j] = 0;
 
                     if (pathway.ContainsStep(i, j))
                         continue;
@@ -72,14 +72,14 @@ namespace Map
                         {
                             if (pathway.ContainsStep(x, y))
                             {
-                                weightMap[mapSize.x * i + j] += 2 * range - Mathf.Abs(i) - Mathf.Abs(j);
+                                weightMap[i, j] += 2 * range - Mathf.Abs(i) - Mathf.Abs(j);
                             }
                         }
                     }
                 }
             }
 
-            Array.Sort(weightMap);
+            weightMap.Sort();
         }
 
         private void SpawnEnemys()
@@ -334,6 +334,50 @@ namespace Map
         public int baseMapPoints;
 
         public int mapPointsPerTileInRange;
+    }
+
+    public class WeightMap
+    {
+        public MapWeightPoint[] points;
+
+        public Dictionary<Vector2Int, int> coordsAndIndex;
+
+        public WeightMap(int xSize, int ySize)
+        {
+            points = new MapWeightPoint[xSize * ySize];
+
+            for (int i = 0; i < xSize; i++)
+            {
+                for (int j = 0; j < ySize; j++)
+                {
+                    coordsAndIndex.Add(new Vector2Int(i, j), 0);
+                }
+            }
+        }
+
+        public int this[int i, int j]
+        {
+            get
+            {
+                return points[coordsAndIndex[new Vector2Int(i, j)]].weight;
+            }
+            set
+            {
+                points[coordsAndIndex[new Vector2Int(i, j)]].weight = value;
+            }
+        }
+
+        public void Sort()
+        {
+            Array.Sort(points);
+
+            coordsAndIndex.Clear();
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                coordsAndIndex.Add(points[i].coords, i);
+            }
+        }
     }
 
     public struct MapWeightPoint : IComparable<MapWeightPoint>
