@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 
 namespace Monsters
@@ -93,11 +94,22 @@ public class Movement : MonoBehaviour
 
     public Animator ani;
 
-    public List<Vector2Int> path;
+    public List<Vector2Int> Path { private set; get; }
 
-    private void FixedUpdate()
+    private int currentPathIndex = 0;
+
+    public void Init(List<Vector2Int> path)
     {
-        
+        Path = path;
+    }
+
+    private void Update()
+    {
+        Vector2 targetPos = Path[currentPathIndex];
+
+         Vector2 direction = targetPos - (Vector2)transform.position;
+
+        transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
     }
 }
 
