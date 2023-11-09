@@ -175,7 +175,7 @@ namespace Map
 
             int closestDistance = int.MaxValue;
 
-            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in pathway.Nodes)
+            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in pathway.SectionNodesPaths)
             {
                 List<Vector2Int> path = directionAndPath.Value;
 

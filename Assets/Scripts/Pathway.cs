@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace Map
 {
     public class Pathway
     {
-        public Dictionary<Direction, List<Vector2Int>> Nodes;
+        public Dictionary<Direction, List<Vector2Int>> SectionNodesPaths;
 
-        public Dictionary<Direction, List<Vector2Int>> Paths;
+        public Dictionary<Direction, List<Vector2Int>> PathNodes;
 
-        public int Count => Nodes.Count;
+        public Dictionary<Direction, List<Vector2Int>> stepPaths;
+
+        public int Count => SectionNodesPaths.Count;
 
         public bool ContainsNode(Vector2Int vector2Int)
         {
-            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in Nodes)
+            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in SectionNodesPaths)
             {
                 if (directionAndPath.Value.Contains(vector2Int))
                     return true;
@@ -23,7 +26,7 @@ namespace Map
 
         public bool ContainsStep(Vector2Int vector2Int)
         {
-            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in Paths)
+            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in stepPaths)
             {
                 if (directionAndPath.Value.Contains(vector2Int))
                     return true;
@@ -33,7 +36,7 @@ namespace Map
 
         public bool ContainsStep(int x, int y)
         {
-            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in Paths)
+            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in stepPaths)
             {
                 if (directionAndPath.Value.Contains(new Vector2Int(x, y)))
                     return true;
@@ -43,11 +46,11 @@ namespace Map
 
         public Pathway(List<Direction> targetDirections)
         {
-            Nodes = new Dictionary<Direction, List<Vector2Int>>();
+            SectionNodesPaths = new Dictionary<Direction, List<Vector2Int>>();
 
             for (int i = 0; i < targetDirections.Count; i++)
             {
-                Nodes.Add(targetDirections[i], new List<Vector2Int>());
+                SectionNodesPaths.Add(targetDirections[i], new List<Vector2Int>());
             }
         }
 
@@ -55,7 +58,7 @@ namespace Map
         {
             get
             {
-                return Nodes[direction];
+                return SectionNodesPaths[direction];
             }
         }
 
@@ -63,11 +66,11 @@ namespace Map
         {
             get
             {
-                return Nodes[direction][point];
+                return SectionNodesPaths[direction][point];
             }
             set
             {
-                Nodes[direction][point] = value;
+                SectionNodesPaths[direction][point] = value;
             }
         }
 
@@ -104,35 +107,47 @@ namespace Map
             return path;
         }
 
-        public void CreatePaths(List<Direction> targetDirections)
+        public void CreateNodePath(List<Direction> targetDirections)
         {
             if (targetDirections.Count == 0)
                 return;
 
-            Paths = new Dictionary<Direction, List<Vector2Int>>();
-            List<Vector2Int> mainPath = GetPathFromNodes(Nodes[targetDirections[0]]);
-            Paths.Add(targetDirections[0], mainPath);
+            PathNodes = new Dictionary<Direction, List<Vector2Int>>
+            {
+                { targetDirections[0], SectionNodesPaths[targetDirections[0]] }
+            };
 
             if (targetDirections.Count == 1)
                 return;
 
             for (int i = 1; i < targetDirections.Count; i++)
             {
-                Vector2Int connectionNode = Nodes[targetDirections[i]][0];
+                Vector2Int connectionNode = SectionNodesPaths[targetDirections[i]][0];
 
                 List<Vector2Int> path = new List<Vector2Int>();
 
-                foreach(Vector2Int step in mainPath)
+                foreach (Vector2Int node in SectionNodesPaths[targetDirections[0]])
                 {
-                    if (step == connectionNode)
+                    if (node == connectionNode)
                         break;
 
-                    path.Add(step);
+                    path.Add(node);
                 }
 
-                path.AddRange(GetPathFromNodes(Nodes[targetDirections[i]]));
+                path.AddRange(SectionNodesPaths[targetDirections[i]]);
 
-                Paths.Add(targetDirections[i], path);
+                PathNodes.Add(targetDirections[i], path);
+            }
+        }
+
+        public void CreatePaths(List<Direction> targetDirections)
+        {
+            CreateNodePath(targetDirections);
+
+            for (int i = 0; i < targetDirections.Count; i++)
+            {
+                List<Vector2Int> stepPath = GetPathFromNodes(PathNodes[targetDirections[i]]);
+                stepPaths.Add(targetDirections[i], stepPath);
             }
         }
     }

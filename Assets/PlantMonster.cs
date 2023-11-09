@@ -87,6 +87,20 @@ public class Health : MonoBehaviour
     }
 }
 
+public class Movement : MonoBehaviour
+{
+    public float speed = 1f;
+
+    public Animator ani;
+
+    public List<Vector2Int> path;
+
+    private void FixedUpdate()
+    {
+        
+    }
+}
+
 public class Projectile : MonoBehaviour
 {
     public int damage;
@@ -110,14 +124,14 @@ public class Projectile : MonoBehaviour
         this.layerMask = layerMask;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (homing && target != null)
         {
             direction = target.position - transform.position;
         }
 
-        transform.position += (Vector3)direction.normalized * speed;
+        transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
