@@ -107,7 +107,7 @@ public class Movement : MonoBehaviour
     {
         Vector2 targetPos = Path[currentPathIndex];
 
-         Vector2 direction = targetPos - (Vector2)transform.position;
+        Vector2 direction = targetPos - (Vector2)transform.position;
 
         transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
     }
