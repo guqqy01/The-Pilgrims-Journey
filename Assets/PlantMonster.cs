@@ -78,7 +78,12 @@ public class Health : MonoBehaviour
 
     public void ModifyHealth(float amount)
     {
+        currentHealth = Mathf.Clamp(amount + currentHealth, 0, maxHealth);
 
+        onHealthChange?.Invoke();
+
+        if (currentHealth == 0 && onDie != null)
+            onDie.Invoke();
     }
 }
 
