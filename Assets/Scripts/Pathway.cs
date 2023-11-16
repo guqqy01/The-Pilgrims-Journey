@@ -143,7 +143,7 @@ namespace Map
         public void CreatePaths(List<Direction> targetDirections)
         {
             CreateNodePath(targetDirections);
-
+            stepPaths = new Dictionary<Direction, List<Vector2Int>>();
             for (int i = 0; i < targetDirections.Count; i++)
             {
                 List<Vector2Int> stepPath = GetPathFromNodes(PathNodes[targetDirections[i]]);
