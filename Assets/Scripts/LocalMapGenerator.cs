@@ -5,11 +5,7 @@ namespace Map
 {
     public class LocalMapGenerator : MonoBehaviour
     {
-        [SerializeField]
-        private Vector2Int mapSize = new Vector2Int(20, 20);
-
-        [SerializeField]
-        private float mapScale = 1f;
+        public static LocalMapGenerator Instance { private set; get; }
 
         [SerializeField]
         private Color gizmosColor;
@@ -24,15 +20,10 @@ namespace Map
         public List<Direction> targetDirections;
         public Direction startDirection;
 
-        public GameObject pathTile;
-        public GameObject wallTile;
 
         public List<GameObject> tiles;
         public List<GameObject> enemys;
 
-
-        public Vector2Int targetDirectionMinMax = new Vector2Int(2, 5);
-        public Vector2Int traverseDirectionMinMax = new Vector2Int(2, 10);
 
         public GameObject enemy;
 
@@ -43,12 +34,20 @@ namespace Map
         [SerializeField]
         private int tileWeightRange;
 
-        
+        public BiomeSettings biomeSettings;
+        private int mapSizeX => biomeSettings.mapSize.x;
+        private int mapSizeY => biomeSettings.mapSize.y;
 
-        private void Start()
+        private int targetDistanceMin => biomeSettings.targetDirectionMinMax.x;
+        private int targetDistanceMax => biomeSettings.targetDirectionMinMax.y;
+        private int traverseDistanceMin => biomeSettings.traverseDirectionMinMax.x;
+        private int traverseDistanceMax => biomeSettings.traverseDirectionMinMax.y;
+
+        private void Awake()
         {
-            CreateMap();
+            Instance = this;
         }
+
 
         public void CreateMap()
         {
@@ -61,11 +60,11 @@ namespace Map
 
         private void CreateEnemyWeightMap(int range)
         {
-            weightMap = new WeightMap(mapSize.x, mapSize.y);
+            weightMap = new WeightMap(mapSizeX, mapSizeY);
 
-            for (int i = 0; i < mapSize.x; i++)
+            for (int i = 0; i < mapSizeX; i++)
             {
-                for (int j = 0; j < mapSize.y; j++)
+                for (int j = 0; j < mapSizeY; j++)
                 {
 
                     weightMap[i, j] = 0;
@@ -98,7 +97,7 @@ namespace Map
 
             for (int i = 0; i < numberOfEnemys; i++)
             {
-                Vector2Int point = weightMap[mapSize.x * mapSize.y - 1 - i];
+                Vector2Int point = weightMap[mapSizeX * mapSizeY - 1 - i];
 
                 enemys.Add(Instantiate(enemy, new Vector3(point.x, point.y), Quaternion.identity, transform));
             }
@@ -111,13 +110,13 @@ namespace Map
 
             if (Mathf.Abs((int)currentDirection) == 2)
             {
-                float dirRan = UnityEngine.Random.Range(1f / mapSize.x, 1f - 1f / mapSize.x);
-                return (dirRan > (float)position.x / mapSize.x) ? Direction.Right : Direction.Left;
+                float dirRan = UnityEngine.Random.Range(1f / mapSizeX, 1f - 1f / mapSizeX);
+                return (dirRan > (float)position.x / mapSizeX) ? Direction.Right : Direction.Left;
             }
             else
             {
-                float dirRan = UnityEngine.Random.Range(1f / mapSize.y, 1f - 1f / mapSize.y);
-                return (dirRan > (float)position.y / mapSize.y) ? Direction.Up : Direction.Down;
+                float dirRan = UnityEngine.Random.Range(1f / mapSizeY, 1f - 1f / mapSizeY);
+                return (dirRan > (float)position.y / mapSizeY) ? Direction.Up : Direction.Down;
             }
         }
 
@@ -131,7 +130,7 @@ namespace Map
             position[0] = start.x;
             position[1] = start.y;
 
-            int targetInt = (int)targetDirection > 0 ? (targetDirection == Direction.Right) ? mapSize.x : mapSize.y: 0;
+            int targetInt = (int)targetDirection > 0 ? (targetDirection == Direction.Right) ? mapSizeX : mapSizeY : 0;
 
             int GetDistanceToTarget()
             {
@@ -149,16 +148,16 @@ namespace Map
                 switch (currentDirection)
                 {
                     case Direction.Up:
-                        position[1] = Mathf.Min(UnityEngine.Random.Range(position[1] + (isTargetDir ? targetDirectionMinMax.x : traverseDirectionMinMax.x), position[1] + (isTargetDir ? targetDirectionMinMax.y : traverseDirectionMinMax.y)), mapSize.y - additional);
+                        position[1] = Mathf.Min(UnityEngine.Random.Range(position[1] + (isTargetDir ? targetDistanceMin : traverseDistanceMin), position[1] + (isTargetDir ? targetDistanceMax : traverseDistanceMax)), mapSizeY - additional);
                         break;
                     case Direction.Left:
-                        position[0] = Mathf.Max(UnityEngine.Random.Range(position[0] - (isTargetDir ? targetDirectionMinMax.y : traverseDirectionMinMax.y), position[0] - (isTargetDir ? targetDirectionMinMax.x : traverseDirectionMinMax.x)), additional);
+                        position[0] = Mathf.Max(UnityEngine.Random.Range(position[0] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[0] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
                         break;
                     case Direction.Right:
-                        position[0] = Mathf.Min(UnityEngine.Random.Range(position[0] + (isTargetDir ? targetDirectionMinMax.x : traverseDirectionMinMax.x), position[0] + (isTargetDir ? targetDirectionMinMax.y : traverseDirectionMinMax.y)), mapSize.x - additional);
+                        position[0] = Mathf.Min(UnityEngine.Random.Range(position[0] + (isTargetDir ? targetDistanceMin : traverseDistanceMin), position[0] + (isTargetDir ? targetDistanceMax : traverseDistanceMax)), mapSizeX - additional);
                         break;
                     case Direction.Down:
-                        position[1] = Mathf.Max(UnityEngine.Random.Range(position[1] - (isTargetDir ? targetDirectionMinMax.y : traverseDirectionMinMax.y), position[1] - (isTargetDir ? targetDirectionMinMax.x : traverseDirectionMinMax.x)), additional);
+                        position[1] = Mathf.Max(UnityEngine.Random.Range(position[1] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[1] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
                         break;
                 }
 
@@ -186,19 +185,19 @@ namespace Map
 
                 for (int i = 0; i < path.Count; i++)
                 {
-                    if (path[i].x == 0 || path[i].x == mapSize.x || path[i].y == 0 || path[i].y == mapSize.y)
+                    if (path[i].x == 0 || path[i].x == mapSizeX || path[i].y == 0 || path[i].y == mapSizeY)
                         continue;
 
                     switch (targetDirection)
                     {
                         case Direction.Up:
-                            if (mapSize.y - path[i].y < closestDistance)
+                            if (mapSizeY - path[i].y < closestDistance)
                             {
                                 closestPoints.Clear();
                                 closestPoints.Add(path[i]);
-                                closestDistance = mapSize.y - path[i].y;
+                                closestDistance = mapSizeY - path[i].y;
                             }
-                            else if (mapSize.y - path[i].y == closestDistance)
+                            else if (mapSizeY - path[i].y == closestDistance)
                             {
                                 closestPoints.Add(path[i]);
                             }
@@ -228,13 +227,13 @@ namespace Map
                             }
                             break;
                         case Direction.Right:
-                            if (mapSize.x - path[i].x < closestDistance)
+                            if (mapSizeX - path[i].x < closestDistance)
                             {
                                 closestPoints.Clear();
                                 closestPoints.Add(path[i]);
-                                closestDistance = mapSize.x - path[i].x;
+                                closestDistance = mapSizeX - path[i].x;
                             }
-                            else if (mapSize.x - path[i].x == closestDistance)
+                            else if (mapSizeX - path[i].x == closestDistance)
                             {
                                 closestPoints.Add(path[i]);
                             }
@@ -255,17 +254,19 @@ namespace Map
 
             tiles.Clear();
 
-            for (int i = 0; i < mapSize.x + 1; i++)
+            biomeSettings.Setup();
+
+            for (int i = 0; i < mapSizeX + 1; i++)
             {
-                for (int j = 0; j < mapSize.y + 1; j++)
+                for (int j = 0; j < mapSizeY + 1; j++)
                 {
                     if (pathway.ContainsStep(new Vector2Int(i, j)))
                     {
-                        tiles.Add(Instantiate(pathTile, new Vector3(i, j), Quaternion.identity, transform));
+                        tiles.Add(Instantiate(biomeSettings.GetPathTile(), new Vector3(i, j), Quaternion.identity, transform));
                     }
                     else
                     {
-                        tiles.Add(Instantiate(wallTile, new Vector3(i, j), Quaternion.identity, transform));
+                        tiles.Add(Instantiate(biomeSettings.GetMapTile(), new Vector3(i, j), Quaternion.identity, transform));
                     }
                 }
             }
@@ -311,22 +312,6 @@ namespace Map
         Down = -2,
         Left = -1,
         Right = 1,
-    }
-
-    [CreateAssetMenu()]
-    public class BiomeSettings : ScriptableObject
-    {
-        
-    }
-
-    [CreateAssetMenu]
-    public class MonsterStats : ScriptableObject
-    {
-        public int Map;
-
-        public int baseMapPoints;
-
-        public int mapPointsPerTileInRange;
     }
 }
 

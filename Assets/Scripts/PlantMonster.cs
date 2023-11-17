@@ -1,25 +1,31 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 
 namespace Monsters
 {
     public class PlantMonster : MonoBehaviour
     {
-        public float range;
+        [SerializeField]
+        private float range = 3f;
 
-        public float attackSpeed;
+        [SerializeField]
+        private float attackSpeed = 1f;
+
+        [SerializeField]
+        private float projectileSpeed = 5f;
         private float nextAttackTime;
-
-        public int damage;
+        [SerializeField]
+        private int damage = 1;
 
         public Projectile projectile;
-
 
         public Transform target;
 
         public LayerMask targetMask;
+
+        [SerializeField]
+        private Animator ani;
 
         public Transform GetClosestTargetInRange()
         {
@@ -52,9 +58,11 @@ namespace Monsters
             {
                 if (Time.time >= nextAttackTime)
                 {
+                    ani.SetTrigger("Shoot");
+
                     Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
-                    project.Init(damage, attackSpeed, false, target, target.position - transform.position, targetMask);  
+                    project.Init(damage, projectileSpeed, false, target, target.position - transform.position, targetMask);  
 
                     nextAttackTime = Time.time + 1f / attackSpeed;
                 }

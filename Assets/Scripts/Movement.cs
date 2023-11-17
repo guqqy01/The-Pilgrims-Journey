@@ -11,18 +11,55 @@ public class Movement : MonoBehaviour
 
     private int currentPathIndex = 0;
 
+    private bool finishedPath = false;
+
+    [SerializeField]
+    private Transform visualTransform;
+
     public void Init(List<Vector2Int> path)
     {
         Path = path;
+        finishedPath = false;
     }
 
     private void Update()
     {
+        if (finishedPath || Path == null)
+            return;
+
         Vector2 targetPos = Path[currentPathIndex];
 
-        Vector2 direction = targetPos - (Vector2)transform.position;
+        Vector2 toVector = targetPos - (Vector2)transform.position;
 
-        transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
+        ani.SetBool("Right", Vector2.Angle(toVector, Vector2.right) < 10f);
+        ani.SetBool("Left", Vector2.Angle(toVector, Vector2.left) < 10f);
+        ani.SetBool("Up", Vector2.Angle(toVector, Vector2.up) < 10f);
+        ani.SetBool("Down", Vector2.Angle(toVector, Vector2.down) < 10f);
+
+        visualTransform.localScale = new Vector3(Vector2.Angle(toVector, Vector2.left) < 10f  ? - 1 : 1, visualTransform.localScale.y, visualTransform.localScale.z);
+
+        float distance = toVector.magnitude;
+
+        float distanceToMove = speed * Time.deltaTime;
+
+        if (distance < distanceToMove)
+        {
+            transform.position = (Vector2)Path[currentPathIndex];
+
+            if (currentPathIndex == Path.Count - 1)
+            {
+                finishedPath = true;
+                return;
+            }
+
+            currentPathIndex++;
+
+            distanceToMove = distanceToMove - distance;
+        }
+
+        transform.position += (Vector3)toVector.normalized * distanceToMove;
+
+
     }
 }
 

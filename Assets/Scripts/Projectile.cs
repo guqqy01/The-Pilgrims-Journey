@@ -33,15 +33,16 @@ public class Projectile : MonoBehaviour
         transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(other.gameObject.layer == layerMask)
+        if (1 << collision.gameObject.layer == layerMask)
         {
-            Health health = other.GetComponent<Health>();
+            if (collision.TryGetComponent(out Health health))
+            {
+                health.ModifyHealth(-damage);
 
-            health.ModifyHealth(-damage);
-
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }

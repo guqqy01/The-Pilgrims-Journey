@@ -12,6 +12,7 @@ namespace Map
         public Dictionary<Direction, List<Vector2Int>> stepPaths;
 
         public int Count => SectionNodesPaths.Count;
+        public int PathCount(Direction direction) => PathNodes[direction].Count;
 
         public bool ContainsNode(Vector2Int vector2Int)
         {
