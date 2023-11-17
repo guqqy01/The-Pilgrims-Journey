@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
 namespace Map
 {
     public class Pathway
@@ -126,12 +125,28 @@ namespace Map
 
                 List<Vector2Int> path = new List<Vector2Int>();
 
-                foreach (Vector2Int node in SectionNodesPaths[targetDirections[0]])
-                {
-                    if (node == connectionNode)
-                        break;
+                int? connectionIndex = null;
 
-                    path.Add(node);
+                for (int j = 0; j < i; j++)
+                {
+                    if (SectionNodesPaths[targetDirections[j]].Contains(connectionNode))
+                    {
+                        connectionIndex = j;
+                        break;
+                    }
+                }
+
+                for (int j = 0; j <= connectionIndex; j++)
+                {
+                    Vector2Int stepConnectionNode = j < connectionIndex ? SectionNodesPaths[targetDirections[j + 1]][0] : connectionNode;
+
+                    foreach (Vector2Int node in SectionNodesPaths[targetDirections[j]])
+                    {
+                        if (node == stepConnectionNode)
+                            break;
+
+                        path.Add(node);
+                    }
                 }
 
                 path.AddRange(SectionNodesPaths[targetDirections[i]]);

@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.VisualScripting;
-using UnityEngine.UIElements;
 
 namespace Map
 {
@@ -16,6 +13,9 @@ namespace Map
 
         [SerializeField]
         private Color gizmosColor;
+
+        [SerializeField]
+        private Direction drawDirection;
 
         public Pathway pathway;
 
@@ -42,6 +42,8 @@ namespace Map
 
         [SerializeField]
         private int tileWeightRange;
+
+        
 
         private void Start()
         {
@@ -285,36 +287,20 @@ namespace Map
             PlaceTiles();
         }
 
-
-        /*private void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             Gizmos.color = gizmosColor;
-            Gizmos.DrawWireCube(Vector3.zero, (Vector2)mapSize * mapScale);
 
-            if (pathway == null)
+            if (pathway == null || pathway.PathNodes == null || !pathway.PathNodes.ContainsKey(drawDirection))
                 return;
 
-            for (int i = 0; i < pathway.Count; i++)
+            List<Vector2Int> list = pathway.PathNodes[drawDirection];
+
+            for (int i = 0; i < list.Count; i++)
             {
-                for (int j = 0; j < pathway[i].Count; j++)
-                {
-                    Vector2 pos = ((Vector2)pathway[i][j] - mapSize / 2) * mapScale;
-                    Gizmos.DrawCube(pos, Vector3.one * mapScale * 0.5f);
-
-                    if (j != pathway[i].Count - 1)
-                        Gizmos.DrawLine(pos, ((Vector2)pathway[i][j + 1] - mapSize / 2) * mapScale);
-                }
+                Gizmos.DrawCube((Vector2)list[i], Vector3.one);
             }
-
-            if (pathFromPathway == null)
-                return;
-
-            for (int i = 0; i < pathFromPathway.Count; i++)
-            {
-                Vector2 pos = ((Vector2)pathFromPathway[i] - mapSize / 2) * mapScale;
-                Gizmos.DrawCube(pos, Vector3.one * mapScale * 0.5f);
-            }
-        }*/
+        }
     }
 
 
