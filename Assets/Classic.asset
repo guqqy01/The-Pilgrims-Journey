@@ -14,40 +14,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapTiles:
   - tile: {fileID: 3731026218722152532, guid: c0b06713bc54f24408dd60efe4a9ffbc, type: 3}
-    chance: 30
+    sharedChance: 18
   - tile: {fileID: 3259729890803404254, guid: 23a6721075f66714bb80641c7f3022fc, type: 3}
-    chance: 2
+    sharedChance: 2
   - tile: {fileID: 2124369653076366516, guid: 06487669afb2be742a93b71518ac9457, type: 3}
-    chance: 3
+    sharedChance: 6
   - tile: {fileID: 9108646384197424566, guid: 134dadd963caab24c9f5173791040e7e, type: 3}
-    chance: 3
+    sharedChance: 6
   - tile: {fileID: 422978305843428840, guid: e376f36f9f258bd4099309a9cd88111f, type: 3}
-    chance: 3
+    sharedChance: 6
   - tile: {fileID: 8950057803970378861, guid: bf4f0bb72c9c3b24e95599fe0a2f1044, type: 3}
-    chance: 3
+    sharedChance: 6
   - tile: {fileID: 582086164258781242, guid: 03a37da9a106eaf4b8ef1292342d9aa6, type: 3}
-    chance: 3
+    sharedChance: 6
   - tile: {fileID: 836080519985611715, guid: 1bc51fb0fbdb96f4fb3327291a5264ec, type: 3}
-    chance: 1
+    sharedChance: 2
   - tile: {fileID: 7431356276749353189, guid: a16b8cd49a090e048b9f62f0f9ad477a, type: 3}
-    chance: 1
+    sharedChance: 0
   - tile: {fileID: 8678644788674210422, guid: f5ff01dcb6eeafb4882c7ed7446475f4, type: 3}
-    chance: 1
-  maxMapTileChance: 50
+    sharedChance: 2
+  maxMapTileChance: 54
   pathTiles:
   - tile: {fileID: 1147749591256196171, guid: 62f7105ab11ac5e4ca7832aa3f24f16e, type: 3}
-    chance: 10
+    sharedChance: 12
   - tile: {fileID: 2423605034701844253, guid: e937aebc52c47fd44bf8bf254c82f4db, type: 3}
-    chance: 2
+    sharedChance: 2
   - tile: {fileID: 5311976027272107098, guid: 3b3742e14f6a7d549aaaa3ea2816d3d2, type: 3}
-    chance: 2
+    sharedChance: 2
   - tile: {fileID: 7452988462115125100, guid: 26daaba3b1c964748aeea7fcd9fc6ba3, type: 3}
-    chance: 1
+    sharedChance: 1
   - tile: {fileID: 3109802119570723597, guid: 5083a571e128ddb419783efba67588c8, type: 3}
-    chance: 1
+    sharedChance: 1
   - tile: {fileID: 8928058025006309627, guid: 2a51847de69dee6409cbcdc164b1117d, type: 3}
-    chance: 2
-  maxPathTileChance: 18
-  mapSize: {x: 30, y: 30}
+    sharedChance: 1
+  maxPathTileChance: 19
+  mapObjects:
+  - name: LongXLog
+    overlay: {fileID: 3945307353718369762, guid: ef366f376e29d214faf2aff1c2dca1ad, type: 3}
+    size: {x: 3, y: 1}
+    chance: 0.001
+    maxAmount: 2
+  - name: SmallLog
+    overlay: {fileID: 286464404650855383, guid: 45daba8f88f44634fb9634f7591e179c, type: 3}
+    size: {x: 1, y: 1}
+    chance: 0.02
+    maxAmount: 50
+  - name: SmallMushroomLog
+    overlay: {fileID: 4745904604217164526, guid: 264ee9bf35cefef478c8e3513093ad9d, type: 3}
+    size: {x: 1, y: 1}
+    chance: 0.002
+    maxAmount: 5
+  - name: Tree
+    overlay: {fileID: 3250540372309406603, guid: 8d2b02348d63dd64ca8e23038161ce26, type: 3}
+    size: {x: 6, y: 6}
+    chance: 0.005
+    maxAmount: 3
+  - name: CampFire
+    overlay: {fileID: 4682467625707116253, guid: d86cfa00209638b41bf7840a380a7d49, type: 3}
+    size: {x: 3, y: 3}
+    chance: 0.001
+    maxAmount: 1
+  mapSize: {x: 54, y: 30}
   targetDirectionMinMax: {x: 2, y: 5}
   traverseDirectionMinMax: {x: 2, y: 10}

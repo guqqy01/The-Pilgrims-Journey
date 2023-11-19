@@ -23,9 +23,13 @@ namespace Map
 
         public List<GameObject> tiles;
         public List<GameObject> enemys;
+        public List<GameObject> mapObjectGOs;
 
+        private Dictionary<string, int> mapObjects = new Dictionary<string, int>();
 
-        public GameObject enemy;
+        private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
+
+        public GameObject enemyPrefab;
 
         public WeightMap weightMap;
 
@@ -55,7 +59,28 @@ namespace Map
 
             CreateEnemyWeightMap(tileWeightRange);
 
+            occupiedSpots.Clear();
+
             SpawnEnemys();
+
+            SpawnMapObjects();
+        }
+
+        private void SpawnMapObjects()
+        {
+            for (int i = 0; i < mapObjectGOs.Count; i++)
+                DestroyImmediate(mapObjectGOs[i]);
+
+            mapObjectGOs.Clear();
+            mapObjects.Clear();
+
+            for (int i = 0; i < mapSizeX + 1; i++)
+            {
+                for (int j = 0; j < mapSizeY + 1; j++)
+                {
+                    TryPlaceOverlayObject(i, j);
+                }
+            }
         }
 
         private void CreateEnemyWeightMap(int range)
@@ -99,7 +124,9 @@ namespace Map
             {
                 Vector2Int point = weightMap[mapSizeX * mapSizeY - 1 - i];
 
-                enemys.Add(Instantiate(enemy, new Vector3(point.x, point.y), Quaternion.identity, transform));
+                enemys.Add(Instantiate(enemyPrefab, new Vector3(point.x, point.y), Quaternion.identity, transform));
+
+                occupiedSpots.Add(point);
             }
         }
 
@@ -245,6 +272,45 @@ namespace Map
             return closestPoints[UnityEngine.Random.Range(0, closestPoints.Count)];
         }
 
+        private void TryPlaceOverlayObject(int i, int j)
+        {
+            if (!biomeSettings.TryGetOverlayObject(mapObjects, out OverlayMapObject mapObject))
+                return;
+
+            for (int x = 0; x < mapObject.size.x; x++)
+            {
+                for (int y = 0; y < mapObject.size.y; y++)
+                {
+                    if (occupiedSpots.Contains(new Vector2Int(i + x, j + y)) ||
+                        i + x > biomeSettings.mapSize.x ||
+                        j + y > biomeSettings.mapSize.x ||
+                        pathway.ContainsStep(new Vector2Int(i + x, j + y)))
+                    {
+                        return;
+                    }
+                }
+            }
+
+            mapObjectGOs.Add(Instantiate(mapObject.overlay, new Vector3(i + (mapObject.size.x - 1) / 2f, j + (mapObject.size.y - 1) / 2f), Quaternion.identity, transform));
+
+            if (mapObjects.ContainsKey(mapObject.name))
+            {
+                mapObjects[mapObject.name]++;
+            }
+            else
+            {
+                mapObjects.Add(mapObject.name, 1);
+            }
+
+            for (int x = 0; x < mapObject.size.x; x++)
+            {
+                for (int y = 0; y < mapObject.size.y; y++)
+                {
+                    occupiedSpots.Add(new Vector2Int(i + x, j + y));
+                }
+            }
+        }
+
         private void PlaceTiles()
         {
             for (int i = 0; i < tiles.Count; i++)
@@ -271,6 +337,8 @@ namespace Map
                 }
             }
         }
+
+        
 
         public void CreatePath(Vector2Int start, Direction startDirection, List<Direction> targetDirections)
         {

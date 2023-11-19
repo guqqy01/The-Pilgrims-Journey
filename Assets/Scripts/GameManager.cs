@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     {
         mapGenerator = LocalMapGenerator.Instance;
         mapGenerator.CreateMap();
+        PathPicker.instance.SetPositions(mapGenerator.pathway.PathNodes[pathDirection]);
     }
 
     void Update()
