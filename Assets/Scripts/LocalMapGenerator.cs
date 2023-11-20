@@ -68,17 +68,61 @@ namespace Map
 
         private void SpawnMapObjects()
         {
-            for (int i = 0; i < mapObjectGOs.Count; i++)
-                DestroyImmediate(mapObjectGOs[i]);
-
-            mapObjectGOs.Clear();
-            mapObjects.Clear();
-
-            for (int i = 0; i < mapSizeX + 1; i++)
+            foreach (OverlayMapObject mapObject in biomeSettings.mapObjects)
             {
-                for (int j = 0; j < mapSizeY + 1; j++)
+                int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));
+
+                int breaker = mapSizeX * mapSizeY;
+
+                while (amountToPlace > 0 && breaker > 0)
                 {
-                    TryPlaceOverlayObject(i, j);
+                    int i = UnityEngine.Random.Range(0, mapSizeX);
+                    int j = UnityEngine.Random.Range(0, mapSizeY);
+
+                    bool canPlace = true;
+
+                    for (int x = 0; x < mapObject.size.x; x++)
+                    {
+                        for (int y = 0; y < mapObject.size.y; y++)
+                        {
+                            if (occupiedSpots.Contains(new Vector2Int(i + x, j + y)) ||
+                                i + x > biomeSettings.mapSize.x ||
+                                j + y > biomeSettings.mapSize.y ||
+                                pathway.ContainsStep(new Vector2Int(i + x, j + y)))
+                            {
+                                canPlace = false;
+                            }
+                        }
+                    }
+
+                    if (canPlace)
+                    {
+                        mapObjectGOs.Add(Instantiate(mapObject.overlay, new Vector3(i + (mapObject.size.x - 1) / 2f, j + (mapObject.size.y - 1) / 2f), Quaternion.identity, transform));
+
+                        if (mapObjects.ContainsKey(mapObject.name))
+                        {
+                            mapObjects[mapObject.name]++;
+                        }
+                        else
+                        {
+                            mapObjects.Add(mapObject.name, 1);
+                        }
+
+                        for (int x = 0; x < mapObject.size.x; x++)
+                        {
+                            for (int y = 0; y < mapObject.size.y; y++)
+                            {
+                                occupiedSpots.Add(new Vector2Int(i + x, j + y));
+                            }
+                        }
+
+                        breaker = mapSizeX * mapSizeY;
+                        amountToPlace--;
+                    }
+                    else
+                    {
+                        breaker--;
+                    }
                 }
             }
         }
@@ -272,43 +316,10 @@ namespace Map
             return closestPoints[UnityEngine.Random.Range(0, closestPoints.Count)];
         }
 
-        private void TryPlaceOverlayObject(int i, int j)
+        private void TryPlaceOverlayObject()
         {
-            if (!biomeSettings.TryGetOverlayObject(mapObjects, out OverlayMapObject mapObject))
-                return;
-
-            for (int x = 0; x < mapObject.size.x; x++)
-            {
-                for (int y = 0; y < mapObject.size.y; y++)
-                {
-                    if (occupiedSpots.Contains(new Vector2Int(i + x, j + y)) ||
-                        i + x > biomeSettings.mapSize.x ||
-                        j + y > biomeSettings.mapSize.x ||
-                        pathway.ContainsStep(new Vector2Int(i + x, j + y)))
-                    {
-                        return;
-                    }
-                }
-            }
-
-            mapObjectGOs.Add(Instantiate(mapObject.overlay, new Vector3(i + (mapObject.size.x - 1) / 2f, j + (mapObject.size.y - 1) / 2f), Quaternion.identity, transform));
-
-            if (mapObjects.ContainsKey(mapObject.name))
-            {
-                mapObjects[mapObject.name]++;
-            }
-            else
-            {
-                mapObjects.Add(mapObject.name, 1);
-            }
-
-            for (int x = 0; x < mapObject.size.x; x++)
-            {
-                for (int y = 0; y < mapObject.size.y; y++)
-                {
-                    occupiedSpots.Add(new Vector2Int(i + x, j + y));
-                }
-            }
+           
+            
         }
 
         private void PlaceTiles()

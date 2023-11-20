@@ -67,25 +67,6 @@ namespace Map
             return pathTiles[0].tile;
         }
 
-        public bool TryGetOverlayObject(Dictionary<string, int> inputMapObjects, out OverlayMapObject overlayMapObject)
-        {
-            overlayMapObject = new OverlayMapObject();
-
-            for (int i = 0; i < mapObjects.Count; i++)
-            {
-                if (inputMapObjects.ContainsKey(mapObjects[i].name) && inputMapObjects[mapObjects[i].name] >= mapObjects[i].maxAmount)
-                    continue;
-
-                float rnd = UnityEngine.Random.value;
-                if (mapObjects[i].chance >= rnd)
-                {
-                    overlayMapObject = mapObjects[i];
-                    return true;
-                }
-            }
-
-            return false;
-        }
     }
 
     [Serializable]
@@ -113,10 +94,7 @@ namespace Map
 
         public Vector2Int size;
 
-        [Range(0, 1)]
-        public float chance;
-
-        public int maxAmount;
+        public AnimationCurve amountToSpawnCurve;
     }
 }
 
