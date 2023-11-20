@@ -52,28 +52,138 @@ MonoBehaviour:
   - name: LongXLog
     overlay: {fileID: 3945307353718369762, guid: ef366f376e29d214faf2aff1c2dca1ad, type: 3}
     size: {x: 3, y: 1}
-    chance: 0.001
-    maxAmount: 2
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 5
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - name: SmallLog
     overlay: {fileID: 286464404650855383, guid: 45daba8f88f44634fb9634f7591e179c, type: 3}
-    size: {x: 1, y: 1}
-    chance: 0.02
-    maxAmount: 50
+    size: {x: 3, y: 1}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - name: SmallMushroomLog
     overlay: {fileID: 4745904604217164526, guid: 264ee9bf35cefef478c8e3513093ad9d, type: 3}
-    size: {x: 1, y: 1}
-    chance: 0.002
-    maxAmount: 5
+    size: {x: 3, y: 1}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - name: Tree
     overlay: {fileID: 3250540372309406603, guid: 8d2b02348d63dd64ca8e23038161ce26, type: 3}
     size: {x: 6, y: 6}
-    chance: 0.005
-    maxAmount: 3
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 5
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - name: CampFire
     overlay: {fileID: 4682467625707116253, guid: d86cfa00209638b41bf7840a380a7d49, type: 3}
     size: {x: 3, y: 3}
-    chance: 0.001
-    maxAmount: 1
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   mapSize: {x: 54, y: 30}
   targetDirectionMinMax: {x: 2, y: 5}
   traverseDirectionMinMax: {x: 2, y: 10}
