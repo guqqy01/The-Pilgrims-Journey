@@ -71,6 +71,8 @@ namespace Map
             for (int i = 0; i < mapObjectGOs.Count; i++)
                 DestroyImmediate(mapObjectGOs[i]);
 
+            mapObjectGOs.Clear();
+
             foreach (OverlayMapObject mapObject in biomeSettings.mapObjects)
             {
                 int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));

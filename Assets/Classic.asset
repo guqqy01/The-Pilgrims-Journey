@@ -49,9 +49,36 @@ MonoBehaviour:
     sharedChance: 1
   maxPathTileChance: 19
   mapObjects:
-  - name: LongXLog
-    overlay: {fileID: 3945307353718369762, guid: ef366f376e29d214faf2aff1c2dca1ad, type: 3}
-    size: {x: 3, y: 1}
+  - name: CampFire
+    overlay: {fileID: 4682467625707116253, guid: d86cfa00209638b41bf7840a380a7d49, type: 3}
+    size: {x: 3, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: BigTree
+    overlay: {fileID: 8125792519148305516, guid: 807f90826a4a24b4a9c54220f820cdac, type: 3}
+    size: {x: 6, y: 7}
     amountToSpawnCurve:
       serializedVersion: 2
       m_Curve:
@@ -69,60 +96,6 @@ MonoBehaviour:
         value: 5
         inSlope: 2
         outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - name: SmallLog
-    overlay: {fileID: 286464404650855383, guid: 45daba8f88f44634fb9634f7591e179c, type: 3}
-    size: {x: 3, y: 1}
-    amountToSpawnCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 5
-        inSlope: 65.094345
-        outSlope: 65.094345
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.033333335
-      - serializedVersion: 3
-        time: 1
-        value: 25
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - name: SmallMushroomLog
-    overlay: {fileID: 4745904604217164526, guid: 264ee9bf35cefef478c8e3513093ad9d, type: 3}
-    size: {x: 3, y: 1}
-    amountToSpawnCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 5
-        inSlope: 65.094345
-        outSlope: 65.094345
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.033333335
-      - serializedVersion: 3
-        time: 1
-        value: 25
-        inSlope: 0
-        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -157,9 +130,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - name: CampFire
-    overlay: {fileID: 4682467625707116253, guid: d86cfa00209638b41bf7840a380a7d49, type: 3}
-    size: {x: 3, y: 3}
+  - name: LongXLog
+    overlay: {fileID: 3945307353718369762, guid: ef366f376e29d214faf2aff1c2dca1ad, type: 3}
+    size: {x: 3, y: 1}
     amountToSpawnCurve:
       serializedVersion: 2
       m_Curve:
@@ -168,16 +141,205 @@ MonoBehaviour:
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 1
+        value: 5
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: SmallLog
+    overlay: {fileID: 286464404650855383, guid: 45daba8f88f44634fb9634f7591e179c, type: 3}
+    size: {x: 2, y: 2}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: SmallMushroomLog
+    overlay: {fileID: 4745904604217164526, guid: 264ee9bf35cefef478c8e3513093ad9d, type: 3}
+    size: {x: 2, y: 2}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: SmallTree1
+    overlay: {fileID: 2492408188466081983, guid: 5e74a2b4291fa7b4fbc6d523d2fb3aa7, type: 3}
+    size: {x: 2, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: SmallTree2
+    overlay: {fileID: 2521365173640986611, guid: 701caf56b354fa347ab67f3c0ce46954, type: 3}
+    size: {x: 2, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: SmallTree3
+    overlay: {fileID: 1091637453226664382, guid: 30453ea655754d64ab405f355a2a2be5, type: 3}
+    size: {x: 2, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: SmallTree4
+    overlay: {fileID: 8566021355020502724, guid: f146797083168554696fdb81bb19b74c, type: 3}
+    size: {x: 2, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: SmallTree5
+    overlay: {fileID: 1774372208409546282, guid: f98c7e5f0ec7c004da16a4bd8dafe15d, type: 3}
+    size: {x: 2, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 65.094345
+        outSlope: 65.094345
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
