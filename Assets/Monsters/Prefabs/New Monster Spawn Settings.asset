@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945d5f93844d9ab46baf73a6c9be6cf0, type: 3}
+  m_Name: New Monster Spawn Settings
+  m_EditorClassIdentifier: 
+  rangeAndMonster:
+  - range: 1
+    spawnAmount: 5
+    monster: {fileID: 3053903325147364415, guid: ebe436923d93e28468f555dfae88c699, type: 3}
+  - range: 2
+    spawnAmount: 50
+    monster: {fileID: 4957495057371097057, guid: f17ecc19c59195447a80c1f4f45b458c, type: 3}

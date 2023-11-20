@@ -1,67 +1,83 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using System.IO;
+using System.Linq;
 namespace Map
 {
     [Serializable]
     public class WeightMap
     {
-        public MapWeightPoint[] points;
+        public Dictionary<int, MapWeightPoint[]> rangeAndPoints;
 
-        public Dictionary<Vector2Int, int> coordsAndIndex;
+        public Dictionary<int, Dictionary<Vector2Int, int>> rangeAndCoordsAndIndex;
 
-        public WeightMap(int xSize, int ySize)
+        public WeightMap(int maxRange, int xSize, int ySize)
         {
-            points = new MapWeightPoint[xSize * ySize];
+            rangeAndPoints = new Dictionary<int, MapWeightPoint[]>();
+            rangeAndCoordsAndIndex = new Dictionary<int, Dictionary<Vector2Int, int>>();
 
-            coordsAndIndex = new Dictionary<Vector2Int, int>();
-
-            for (int i = 0; i < xSize; i++)
+            for (int range = 1; range <= maxRange; range++)
             {
-                for (int j = 0; j < ySize; j++)
+
+                MapWeightPoint[] points = new MapWeightPoint[xSize * ySize];
+                Dictionary<Vector2Int, int> rangeDictionary = new Dictionary<Vector2Int, int>();
+
+                for (int i = 0; i < xSize; i++)
                 {
-                    coordsAndIndex.Add(new Vector2Int(i, j), i * ySize + j);
-                    points[i * ySize + j] = new MapWeightPoint(new Vector2Int(i, j), 0);
+                    for (int j = 0; j < ySize; j++)
+                    {
+                        rangeDictionary.Add(new Vector2Int(i, j), i * ySize + j);
+                        points[i * ySize + j] = new MapWeightPoint(new Vector2Int(i, j), 0);
+                    }
                 }
+                rangeAndPoints.Add(range, points);
+                rangeAndCoordsAndIndex.Add(range, rangeDictionary);
             }
+
+            
 
         }
 
-        public int this[int i, int j]
+        public int this[int range, int i, int j]
         {
             get
             {
-                return points[coordsAndIndex[new Vector2Int(i, j)]].weight;
+                return rangeAndPoints[range][rangeAndCoordsAndIndex[range][new Vector2Int(i, j)]].weight;
             }
             set
             {
-                points[coordsAndIndex[new Vector2Int(i, j)]].weight = value;
+                rangeAndPoints[range][rangeAndCoordsAndIndex[range][new Vector2Int(i, j)]].weight = value;
             }
         }
 
-        public Vector2Int this[int i]
+        public Vector2Int this[int range, int i]
         {
             get
             {
-                return points[i].coords;
+                return rangeAndPoints[range][i].coords;
             }
             set
             {
-                points[i].coords = value;
+                rangeAndPoints[range][i].coords = value;
             }
         }
 
         public void Sort()
         {
-            Array.Sort(points);
+            List<int> keyArray = rangeAndPoints.Keys.ToList();
 
-            coordsAndIndex.Clear();
-
-            for (int i = 0; i < points.Length; i++)
+            for (int i = 0; i < keyArray.Count; i++)
             {
-                coordsAndIndex.Add(points[i].coords, i);
-            }
+                Array.Sort(rangeAndPoints[keyArray[i]]);
+
+                rangeAndCoordsAndIndex[keyArray[i]].Clear();
+
+                for (int j = 0; j < rangeAndPoints[keyArray[i]].Length; j++)
+                {
+                    rangeAndCoordsAndIndex[keyArray[i]].Add(rangeAndPoints[keyArray[i]][j].coords, i);
+                }
+            } 
         }
     }
 }

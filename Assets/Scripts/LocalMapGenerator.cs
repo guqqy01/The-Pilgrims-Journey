@@ -20,23 +20,20 @@ namespace Map
         public List<Direction> targetDirections;
         public Direction startDirection;
 
-
-        public List<GameObject> tiles;
-        public List<GameObject> enemys;
-        public List<GameObject> mapObjectGOs;
+        [SerializeField, HideInInspector]
+        private List<GameObject> tiles;
+        [SerializeField, HideInInspector]
+        private List<GameObject> enemys;
+        [SerializeField, HideInInspector]
+        private List<GameObject> mapObjectGOs;
 
         private Dictionary<string, int> mapObjects = new Dictionary<string, int>();
 
         private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
 
-        public GameObject enemyPrefab;
+        public MonsterSpawnSettings monsterSettings;
 
-        public WeightMap weightMap;
-
-        public int numberOfEnemys;
-
-        [SerializeField]
-        private int tileWeightRange;
+        private WeightMap weightMap;
 
         public BiomeSettings biomeSettings;
         private int mapSizeX => biomeSettings.mapSize.x;
@@ -57,7 +54,7 @@ namespace Map
         {
             CreatePath(start, startDirection, targetDirections);
 
-            CreateEnemyWeightMap(tileWeightRange);
+            CreateEnemyWeightMap();
 
             occupiedSpots.Clear();
 
@@ -132,27 +129,40 @@ namespace Map
             }
         }
 
-        private void CreateEnemyWeightMap(int range)
+        private void CreateEnemyWeightMap()
         {
-            weightMap = new WeightMap(mapSizeX, mapSizeY);
+            int maxRange = 0;
+
+            for (int i = 0; i < monsterSettings.rangeAndMonster.Count; i++)
+            {
+                if (monsterSettings.rangeAndMonster[i].range > maxRange)
+                    maxRange = monsterSettings.rangeAndMonster[i].range;
+            }
+
+            weightMap = new WeightMap(maxRange, mapSizeX, mapSizeY);
 
             for (int i = 0; i < mapSizeX; i++)
             {
                 for (int j = 0; j < mapSizeY; j++)
                 {
 
-                    weightMap[i, j] = 0;
-
+                    for (int k = 1; k <= maxRange; k++)
+                    {
+                        weightMap[k, i, j] = 0;
+                    }
+                    
                     if (pathway.ContainsStep(i, j))
                         continue;
 
-                    for (int x = - range; x <= range; x++)
+                    for (int x = - maxRange; x <= maxRange; x++)
                     {
-                        for (int y = - range; y <= range; y++)
+                        for (int y = - maxRange; y <= maxRange; y++)
                         {
                             if (pathway.ContainsStep(i + x, j + y))
                             {
-                                weightMap[i, j] += 2 * range - Mathf.Abs(x) - Mathf.Abs(y);
+                                int range = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
+
+                                weightMap[range, i, j] += 2 * maxRange - Mathf.Abs(x) - Mathf.Abs(y);
                             }
                         }
                     }
@@ -169,13 +179,28 @@ namespace Map
 
             enemys.Clear();
 
-            for (int i = 0; i < numberOfEnemys; i++)
+            foreach (MonsterSpawn spawn in monsterSettings.rangeAndMonster)
             {
-                Vector2Int point = weightMap[mapSizeX * mapSizeY - 1 - i];
+                for (int i = 0; i < spawn.spawnAmount; i++)
+                {
+                    int spawnIndex = i;
 
-                enemys.Add(Instantiate(enemyPrefab, new Vector3(point.x, point.y), Quaternion.identity, transform));
+                    Vector2Int point = weightMap[spawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
 
-                occupiedSpots.Add(point);
+                    int breaker = mapSizeX * mapSizeY;
+
+                    while (occupiedSpots.Contains(point) && breaker > 0)
+                    {
+                        point = weightMap[spawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
+
+                        spawnIndex++;
+                        breaker--;
+                    }
+
+                    enemys.Add(Instantiate(spawn.monster, new Vector3(point.x, point.y), Quaternion.identity, transform));
+
+                    occupiedSpots.Add(point);
+                }
             }
         }
 
