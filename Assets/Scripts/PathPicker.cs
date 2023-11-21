@@ -59,10 +59,6 @@ public class PathPicker : MonoBehaviour
         {
             Vector3 worldPoint = cam.ScreenToWorldPoint(Input.mousePosition);
             Collider2D collider = Physics2D.OverlapPoint(worldPoint, pathPickerLayerMask);
-            Debug.Log(worldPoint);
-            Debug.Log(collider == null);
-            Debug.Log(collider != null ? collider.gameObject.layer : "nah brav");
-            Debug.Log((int)pathPickerLayerMask);
 
             if (collider != null)
             {
