@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+
 namespace Map
 {
     [CustomEditor(typeof(LocalMapGenerator))]
@@ -15,6 +17,7 @@ namespace Map
             {
                 script.CreateMap();
                 SceneView.RepaintAll();
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             }
         }
     }

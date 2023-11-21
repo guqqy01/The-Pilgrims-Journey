@@ -36,6 +36,8 @@ namespace Map
         private WeightMap weightMap;
 
         public BiomeSettings biomeSettings;
+
+
         private int mapSizeX => biomeSettings.mapSize.x;
         private int mapSizeY => biomeSettings.mapSize.y;
 
@@ -62,6 +64,7 @@ namespace Map
 
             SpawnMapObjects();
         }
+
 
         private void SpawnMapObjects()
         {
@@ -346,11 +349,6 @@ namespace Map
             return closestPoints[UnityEngine.Random.Range(0, closestPoints.Count)];
         }
 
-        private void TryPlaceOverlayObject()
-        {
-           
-            
-        }
 
         private void PlaceTiles()
         {

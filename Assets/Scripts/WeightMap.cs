@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Linq;
+
 namespace Map
 {
     [Serializable]
@@ -21,22 +22,19 @@ namespace Map
             {
 
                 MapWeightPoint[] points = new MapWeightPoint[xSize * ySize];
-                Dictionary<Vector2Int, int> rangeDictionary = new Dictionary<Vector2Int, int>();
+                Dictionary<Vector2Int, int> coordsAndIndex = new Dictionary<Vector2Int, int>();
 
                 for (int i = 0; i < xSize; i++)
                 {
                     for (int j = 0; j < ySize; j++)
                     {
-                        rangeDictionary.Add(new Vector2Int(i, j), i * ySize + j);
+                        coordsAndIndex.Add(new Vector2Int(i, j), i * ySize + j);
                         points[i * ySize + j] = new MapWeightPoint(new Vector2Int(i, j), 0);
                     }
                 }
                 rangeAndPoints.Add(range, points);
-                rangeAndCoordsAndIndex.Add(range, rangeDictionary);
+                rangeAndCoordsAndIndex.Add(range, coordsAndIndex);
             }
-
-            
-
         }
 
         public int this[int range, int i, int j]
