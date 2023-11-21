@@ -45,6 +45,8 @@ public class PathPicker : MonoBehaviour
 
     private Dictionary<Transform, Direction> pathPickerPoints = new Dictionary<Transform, Direction>();
 
+    public Direction? pickedDirection = null;
+
     [SerializeField]
     private Camera cam;
 
@@ -62,11 +64,15 @@ public class PathPicker : MonoBehaviour
 
             if (collider != null)
             {
-                Debug.Log("hit");
                 if (pathPickerPoints.ContainsKey(collider.transform))
                 {
-                    Debug.Log("set Pos");
-                    SetPositions(mapGenerator.pathway.PathNodes[pathPickerPoints[collider.transform]]);
+                    Direction direction = pathPickerPoints[collider.transform];
+
+                    List<Vector2Int> pathPoints = mapGenerator.pathway.PathNodes[direction];
+
+                    SetPositions(pathPoints);
+
+                    pickedDirection = direction;
                 }
             }
         }

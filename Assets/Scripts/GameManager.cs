@@ -11,9 +11,6 @@ public class GameManager : MonoBehaviour
     public Movement tankPrefab;
 
     [SerializeField]
-    private Direction pathDirection;
-
-    [SerializeField]
     private float peasantSpawnRate = 10f;
     private float nextPeasantSpawnTime = 0f;
 
@@ -25,25 +22,31 @@ public class GameManager : MonoBehaviour
     {
         mapGenerator = LocalMapGenerator.Instance;
         mapGenerator.CreateMap();
-        //PathPicker.instance.SetPositions(mapGenerator.pathway.PathNodes[pathDirection]);
         PathPicker.instance.Setup();
     }
 
     void Update()
     {
-        if (Time.time >= nextPeasantSpawnTime)
+        if (PathPicker.instance.pickedDirection != null)
         {
-            Movement mov = Instantiate(peasantPrefab, (Vector2)mapGenerator.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-            mov.Init(mapGenerator.pathway.PathNodes[pathDirection]);
-            nextPeasantSpawnTime = Time.time + peasantSpawnRate;
+            Direction pathDirection = (Direction)PathPicker.instance.pickedDirection;
+
+            if (Time.time >= nextPeasantSpawnTime)
+            {
+                Movement mov = Instantiate(peasantPrefab, (Vector2)mapGenerator.pathway.PathNodes[pathDirection][0], Quaternion.identity);
+                mov.Init(mapGenerator.pathway.PathNodes[pathDirection]);
+                nextPeasantSpawnTime = Time.time + peasantSpawnRate;
+            }
+
+            if (Time.time >= nextTankSpawnTime)
+            {
+                Movement mov = Instantiate(tankPrefab, (Vector2)mapGenerator.pathway.PathNodes[pathDirection][0], Quaternion.identity);
+                mov.Init(mapGenerator.pathway.PathNodes[pathDirection]);
+                nextTankSpawnTime = Time.time + tankSpawnRate;
+            }
         }
 
-        if (Time.time >= nextTankSpawnTime)
-        {
-            Movement mov = Instantiate(tankPrefab, (Vector2)mapGenerator.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-            mov.Init(mapGenerator.pathway.PathNodes[pathDirection]);
-            nextTankSpawnTime = Time.time + tankSpawnRate;
-        }
+        
     }
 
 }
