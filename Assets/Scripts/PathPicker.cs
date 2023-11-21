@@ -57,15 +57,20 @@ public class PathPicker : MonoBehaviour
     {
         if (InputManagerInstance.LeftClick)
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            Vector3 worldPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D collider = Physics2D.OverlapPoint(worldPoint, pathPickerLayerMask);
+            Debug.Log(worldPoint);
+            Debug.Log(collider == null);
+            Debug.Log(collider != null ? collider.gameObject.layer : "nah brav");
+            Debug.Log((int)pathPickerLayerMask);
 
-            if(Physics.Raycast(ray, out RaycastHit hitInfo, 100f, pathPickerLayerMask))
+            if (collider != null)
             {
                 Debug.Log("hit");
-                if (pathPickerPoints.ContainsKey(hitInfo.transform))
+                if (pathPickerPoints.ContainsKey(collider.transform))
                 {
                     Debug.Log("set Pos");
-                    SetPositions(mapGenerator.pathway.PathNodes[pathPickerPoints[hitInfo.transform]]);
+                    SetPositions(mapGenerator.pathway.PathNodes[pathPickerPoints[collider.transform]]);
                 }
             }
         }
