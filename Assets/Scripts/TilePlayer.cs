@@ -35,16 +35,21 @@ public class TilePlayer : MonoBehaviour
     public delegate void OnTileChange();
     public OnTileChange onTileChange;
 
+    [SerializeField]
     private bool isPlaying = false;
 
     private UnitSpawningInfo previousSpawningUnits;
     private UnitSpawningInfo currentSpawningUnits;
 
+    [SerializeField]
+    private Tile peasantTile;
+    [SerializeField]
+    private Vector2Int position;
 
-
-    private void Awake()
+    private void Start()
     {
-        
+        Debug.Log(TryPlaceTile(peasantTile, position));
+        PositionChanged();
     }
 
     private void Update()
@@ -52,12 +57,12 @@ public class TilePlayer : MonoBehaviour
         if (!isPlaying)
             return;
 
-        int posBefore = Mathf.CeilToInt(CurrentPosition);
+        int posBefore = Mathf.FloorToInt(CurrentPosition) + 1;
 
         CurrentPosition += Time.deltaTime / oneTileTime;
         playerTime += Time.deltaTime;
 
-        if (posBefore != Mathf.CeilToInt(CurrentPosition))
+        if (posBefore != Mathf.FloorToInt(CurrentPosition) + 1)
         {
             PositionChanged();
             onPositionChange?.Invoke();
@@ -66,9 +71,10 @@ public class TilePlayer : MonoBehaviour
         if (PathPicker.instance.pickedDirection != null)
         {
             Direction pathDirection = (Direction)PathPicker.instance.pickedDirection;
-
+            
             for (int i = 0; i < currentSpawningUnits.Count; i++)
             {
+                
                 if (playerTime >= currentSpawningUnits[i].nextSpawnTime)
                 {
                     Movement mov = Instantiate(currentSpawningUnits[i].unit.movement, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
@@ -92,6 +98,8 @@ public class TilePlayer : MonoBehaviour
 
     public void PositionChanged()
     {
+        Debug.Log("Position changed");
+
         List<Tile> tiles = GetTilesAtCurrentPosition();
 
         previousSpawningUnits = currentSpawningUnits;
@@ -127,10 +135,11 @@ public class TilePlayer : MonoBehaviour
 
             for (int i = 0; i < tile.shape.Count; i++)
             {
-                occupiedSpot.Add(tile.shape[i] + position);
+                occupiedSpot.Add(tile.shape[i] + position - new Vector2Int(1, 0));
             }
 
             tileAndOccupiedSpot.Add(tile, occupiedSpot);
+
             onTileChange?.Invoke();
             return true;
         }
@@ -152,19 +161,17 @@ public class TilePlayer : MonoBehaviour
 
     public List<Tile> GetTilesAtCurrentPosition()
     {
-        return GetTilesInPosition(Mathf.CeilToInt(CurrentPosition));
+        return GetTilesInPosition(Mathf.FloorToInt(CurrentPosition) + 1);
     }
 
     public List<Tile> GetTilesInPosition(int position)
     {
         List<Tile> tiles = new List<Tile>();
-
         bool IsTileInPosition(KeyValuePair<Tile, List<Vector2Int>> kvpTile)
         {
             for (int i = 0; i < kvpTile.Value.Count; i++)
             {
                 Vector2Int tileSpot = kvpTile.Value[i];
-
                 if (position == tileSpot.x)
                     return true;
             }
@@ -220,11 +227,10 @@ public class UnitSpawningInfo
             int multiplier = 0;
             foreach(Vector2Int v2int in tileAndSpaces[tile])
             {
-                if (v2int.x - position == 0)
+                if (v2int.x - position - 1 == 0)
                     multiplier++;
             }
-
-            unitSpawnInfo.Add(new UnitSpawnInfo(tile, previous.ContainsUnit(tile.unit) ? previous[tile.unit].nextSpawnTime : Time.time, multiplier));
+            unitSpawnInfo.Add(new UnitSpawnInfo(tile, previous != null && previous.ContainsUnit(tile.unit) ? previous[tile.unit].nextSpawnTime : Time.time, multiplier));
         }
     }
 
