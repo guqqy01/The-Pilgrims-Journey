@@ -27,24 +27,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (PathPicker.instance.pickedDirection != null)
-        {
-            Direction pathDirection = (Direction)PathPicker.instance.pickedDirection;
-
-            if (Time.time >= nextPeasantSpawnTime)
-            {
-                Movement mov = Instantiate(peasantPrefab, (Vector2)mapGenerator.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-                mov.Init(mapGenerator.pathway.PathNodes[pathDirection]);
-                nextPeasantSpawnTime = Time.time + peasantSpawnRate;
-            }
-
-            if (Time.time >= nextTankSpawnTime)
-            {
-                Movement mov = Instantiate(tankPrefab, (Vector2)mapGenerator.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-                mov.Init(mapGenerator.pathway.PathNodes[pathDirection]);
-                nextTankSpawnTime = Time.time + tankSpawnRate;
-            }
-        }
+        
 
         
     }
