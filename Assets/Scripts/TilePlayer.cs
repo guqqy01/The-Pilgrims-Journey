@@ -5,6 +5,7 @@ public class TilePlayer : MonoBehaviour
 {
     public Vector2Int tilePlayerSize;
 
+    private float playerTime = 0;
     public float CurrentPosition { private set; get; }
 
     [SerializeField]
@@ -30,24 +31,35 @@ public class TilePlayer : MonoBehaviour
     public delegate void OnTileChange();
     public OnTileChange onTileChange;
 
+    private bool isPlaying = false;
+
+    private Dictionary<Unit, float> unitsAndSpawnRate = new Dictionary<Unit, float>();
+    private Dictionary<Unit, float> unitsAndNextSpawnTime = new Dictionary<Unit, float>();
+
     private void Update()
     {
+        if (!isPlaying)
+            return;
+
+        CurrentPosition += Time.deltaTime / oneTileTime;
+        playerTime += Time.deltaTime;
+
         
     }
 
     public void Play()
     {
-
+        isPlaying = true;
     }
 
     public void Pause()
     {
-
+        isPlaying = false;
     }
 
     public void Stop()
     {
-
+        isPlaying = false;
     }
 
     private bool PointOutOfPlayer(Vector2Int point) => point.x > tilePlayerSize.x || point.x <= 0 || point.y > tilePlayerSize.y || point.y <= 0;
