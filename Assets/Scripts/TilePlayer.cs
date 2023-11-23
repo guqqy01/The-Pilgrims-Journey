@@ -25,7 +25,7 @@ public class TilePlayer : MonoBehaviour
             {
                 list.AddRange(kvp.Value);
             }
-
+            
             return list;
         }
     }
@@ -44,11 +44,17 @@ public class TilePlayer : MonoBehaviour
     [SerializeField]
     private Tile peasantTile;
     [SerializeField]
-    private Vector2Int position;
+    private Vector2Int peasantPos;
+
+    [SerializeField]
+    private Tile tankTile;
+    [SerializeField]
+    private Vector2Int tankPos;
 
     private void Start()
     {
-        Debug.Log(TryPlaceTile(peasantTile, position));
+        Debug.Log(TryPlaceTile(peasantTile, peasantPos));
+        Debug.Log(TryPlaceTile(tankTile, tankPos));
         PositionChanged();
     }
 
@@ -71,15 +77,15 @@ public class TilePlayer : MonoBehaviour
         if (PathPicker.instance.pickedDirection != null)
         {
             Direction pathDirection = (Direction)PathPicker.instance.pickedDirection;
-            
+
             for (int i = 0; i < currentSpawningUnits.Count; i++)
             {
-                
                 if (playerTime >= currentSpawningUnits[i].nextSpawnTime)
                 {
                     Movement mov = Instantiate(currentSpawningUnits[i].unit.movement, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
                     mov.Init(LocalMapGenerator.Instance.pathway.PathNodes[pathDirection]);
                     currentSpawningUnits[i].nextSpawnTime = playerTime + 1f / currentSpawningUnits[i].spawnRate;
+                    
                 }
             }
         }
@@ -104,7 +110,7 @@ public class TilePlayer : MonoBehaviour
 
         previousSpawningUnits = currentSpawningUnits;
 
-        currentSpawningUnits = new UnitSpawningInfo(tiles, previousSpawningUnits, tileAndOccupiedSpot, Mathf.CeilToInt(CurrentPosition));
+        currentSpawningUnits = new UnitSpawningInfo(tiles, previousSpawningUnits, tileAndOccupiedSpot, Mathf.FloorToInt(CurrentPosition) + 1);
 
         foreach (Tile tile in tiles)
         {
@@ -118,7 +124,7 @@ public class TilePlayer : MonoBehaviour
     {
         for (int i = 0; i < tileShape.Count; i++)
         {
-            Vector2Int point = tileShape[i] + tilePosition;
+            Vector2Int point = tileShape[i] + tilePosition - new Vector2Int(1, 0);
 
             if (OccupiedSpaces.Contains(point) || PointOutOfPlayer(point))
                 return false;
@@ -224,13 +230,23 @@ public class UnitSpawningInfo
 
         foreach (Tile tile in tiles)
         {
+            UnitSpawnInfo info = this[tile.unit];
+
             int multiplier = 0;
-            foreach(Vector2Int v2int in tileAndSpaces[tile])
+            foreach (Vector2Int v2int in tileAndSpaces[tile])
             {
-                if (v2int.x - position - 1 == 0)
+                if (v2int.x - position == 0)
                     multiplier++;
             }
-            unitSpawnInfo.Add(new UnitSpawnInfo(tile, previous != null && previous.ContainsUnit(tile.unit) ? previous[tile.unit].nextSpawnTime : Time.time, multiplier));
+
+            if (info != null)
+            {
+                info.AddSpawnRate(multiplier);
+            }
+            else
+            {
+                unitSpawnInfo.Add(new UnitSpawnInfo(tile, previous != null && previous.ContainsUnit(tile.unit) ? previous[tile.unit].nextSpawnTime : Time.time, multiplier));
+            }
         }
     }
 
@@ -257,5 +273,10 @@ public class UnitSpawnInfo
         unit = tile.unit;
         spawnRate = unit.baseSpawnRate * spawnRateMultiplier;
         this.nextSpawnTime = nextSpawnTime;
+    }
+
+    public void AddSpawnRate(int multiplier)
+    {
+        spawnRate += unit.baseSpawnRate * multiplier;
     }
 }

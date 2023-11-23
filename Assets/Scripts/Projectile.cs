@@ -13,6 +13,10 @@ public class Projectile : MonoBehaviour
 
     public LayerMask layerMask;
 
+    public bool oneHit = true;
+
+    private bool hit = false;
+
     public void Init(int damage, float speed, bool homing, Transform target, Vector2 direction, LayerMask layerMask)
     {
         this.damage = damage;
@@ -35,10 +39,12 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (1 << collision.gameObject.layer == layerMask)
+        if (!hit && 1 << collision.gameObject.layer == layerMask)
         {
             if (collision.TryGetComponent(out Health health))
             {
+                hit = true;
+
                 health.ModifyHealth(-damage);
 
                 Destroy(gameObject);
