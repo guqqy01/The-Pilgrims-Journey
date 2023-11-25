@@ -13,16 +13,18 @@ public class TileHandler : MonoBehaviour
 
     public TilePlayer player;
 
-    private RectTransform playerRect;
+    private RectTransform playerRectTransform;
 
-    public RectTransform PlayerRect
+    public Canvas canvas;
+
+    public RectTransform PlayerRectTransform
     {
         get
         {
-            if(playerRect == null)
-                playerRect = player.GetComponent<RectTransform>();
+            if (playerRectTransform == null)
+                playerRectTransform = player.GetComponent<RectTransform>();
 
-            return playerRect;
+            return playerRectTransform;
         }
     }
 
@@ -38,7 +40,16 @@ public class TileHandler : MonoBehaviour
         /*if (selectedTile == null)
             return;*/
 
-        Vector2 v2 = PlayerRect.rect.position - (Vector2)Input.mousePosition;
-        Debug.Log(PlayerRect.rect.x);
+        Vector2 Pos = Input.mousePosition / canvas.scaleFactor;
+        Vector2 PlayerPos = PlayerRectTransform.position / canvas.scaleFactor;
+        Vector2 relativePos = Pos + PlayerRectTransform.sizeDelta / 2f - PlayerPos;
+
+        Vector2Int playerSize = player.tilePlayerSize;
+
+        Vector2 tileSize = new Vector2(PlayerRectTransform.sizeDelta.x/ playerSize.x, PlayerRectTransform.sizeDelta.y / playerSize.y);
+
+        Vector2Int MouseTilePosition = new Vector2Int(Mathf.CeilToInt(relativePos.x / tileSize.x), Mathf.CeilToInt(relativePos.y / tileSize.y));
+
+
     }
 }
