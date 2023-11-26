@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public List<Vector2Int> shape;
+    public Vector2ListWrapper shape;
 
     public bool locked;
 

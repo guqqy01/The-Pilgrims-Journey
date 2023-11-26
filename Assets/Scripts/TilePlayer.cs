@@ -135,13 +135,13 @@ public class TilePlayer : MonoBehaviour
 
     public bool TryPlaceTile(Tile tile, Vector2Int position)
     {
-        if (CanPlaceTile(tile.shape, position))
+        if (CanPlaceTile(tile.shape.v2IntList, position))
         {
             List<Vector2Int> occupiedSpot = new List<Vector2Int>();
 
-            for (int i = 0; i < tile.shape.Count; i++)
+            for (int i = 0; i < tile.shape.v2IntList.Count; i++)
             {
-                occupiedSpot.Add(tile.shape[i] + position - new Vector2Int(1, 0));
+                occupiedSpot.Add(tile.shape.v2IntList[i] + position - new Vector2Int(1, 0));
             }
 
             tileAndOccupiedSpot.Add(tile, occupiedSpot);
