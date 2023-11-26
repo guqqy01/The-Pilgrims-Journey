@@ -17,6 +17,9 @@ public class TileHandler : MonoBehaviour
 
     public Vector2ListWrapper test;
 
+    private float playerTileSizeX => PlayerRectTransform.sizeDelta.x / player.tilePlayerSize.x;
+    private float playerTileSizeY => PlayerRectTransform.sizeDelta.y / player.tilePlayerSize.y;
+
     public RectTransform PlayerRectTransform
     {
         get
@@ -44,11 +47,7 @@ public class TileHandler : MonoBehaviour
         Vector2 PlayerPos = PlayerRectTransform.position / canvas.scaleFactor;
         Vector2 relativePos = mousePosition + PlayerRectTransform.sizeDelta / 2f - PlayerPos;
 
-        Vector2Int playerSize = player.tilePlayerSize;
-
-        Vector2 tileSize = new Vector2(PlayerRectTransform.sizeDelta.x/ playerSize.x, PlayerRectTransform.sizeDelta.y / playerSize.y);
-
-        Vector2Int mouseTilePosition = new Vector2Int(Mathf.CeilToInt(relativePos.x / tileSize.x), Mathf.CeilToInt(relativePos.y / tileSize.y));
+        Vector2Int mouseTilePosition = new Vector2Int(Mathf.CeilToInt(relativePos.x / playerTileSizeX), Mathf.CeilToInt(relativePos.y / playerTileSizeY));
 
         if (InputManager.Instance.LeftClick)
         {

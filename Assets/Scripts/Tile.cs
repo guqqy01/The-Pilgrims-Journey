@@ -10,3 +10,8 @@ public class Tile : MonoBehaviour
 
     public Unit unit;
 }
+
+public class TileUI
+{
+
+}
