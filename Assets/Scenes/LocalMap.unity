@@ -141895,8 +141895,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.597, y: 0.13100001}
   m_AnchorMax: {x: 0.597, y: 0.13100001}
-  m_AnchoredPosition: {x: -143.5, y: 55}
-  m_SizeDelta: {x: 131.25, y: 43.75}
+  m_AnchoredPosition: {x: -143.61215, y: 55.415596}
+  m_SizeDelta: {x: 128.125, y: 40.625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1744249836
 MonoBehaviour:
@@ -141918,7 +141918,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 780835541, guid: 1ce28910ce7a9964a97a7657e0fcaca2, type: 3}
+  m_Sprite: {fileID: -1074072865, guid: 6e65bf36e13718b49ae91de73dab786e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -160487,7 +160487,6 @@ GameObject:
   - component: {fileID: 1937083901}
   - component: {fileID: 1937083900}
   - component: {fileID: 1937083902}
-  - component: {fileID: 1937083903}
   m_Layer: 5
   m_Name: TilePlayer
   m_TagString: Untagged
@@ -160530,14 +160529,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.92283255, b: 0.6289308, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -109841314, guid: d6fd898ae22967947afb8414085ea99b, type: 3}
+  m_Sprite: {fileID: -621743853, guid: a199ac26be2d83440901b8fb6b6bea65, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -160574,19 +160573,6 @@ MonoBehaviour:
   peasantPos: {x: 1, y: 1}
   tankTile: {fileID: 734640195}
   tankPos: {x: 1, y: 0}
---- !u!114 &1937083903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1937083898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!1 &1938111014
 GameObject:
   m_ObjectHideFlags: 0
