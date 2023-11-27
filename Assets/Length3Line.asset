@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Length3Line
   m_EditorClassIdentifier: 
   shape:
-    v2IntList: []
-  shapeSprite: {fileID: 0}
+    v2IntList:
+    - {x: -1, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  shapeSprite: {fileID: -1074072865, guid: 6e65bf36e13718b49ae91de73dab786e, type: 3}

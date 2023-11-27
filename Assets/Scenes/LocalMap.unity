@@ -160399,10 +160399,6 @@ MonoBehaviour:
   tilePlayerSize: {x: 8, y: 2}
   oneTileTime: 15
   isPlaying: 0
-  peasantTile: {fileID: 1744249838}
-  peasantPos: {x: 1, y: 1}
-  tankTile: {fileID: 0}
-  tankPos: {x: 1, y: 0}
 --- !u!114 &1937083903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174469,9 +174465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1beceb121ae004fb21160ae6bf1b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedTile: {fileID: 1744249838}
-  selectedTileUI: {fileID: 1744249836}
-  invalidTilePlacementColor: {r: 1, g: 0, b: 0, a: 0.4392157}
+  selectedTileUIPrefab: {fileID: 0}
+  invalidTilePlacementColor: {r: 0, g: 0, b: 0, a: 0}
   inventory: {fileID: 0}
   player: {fileID: 1937083902}
   canvas: {fileID: 2122093763}
