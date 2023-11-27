@@ -48,16 +48,21 @@ public class TileHandler : MonoBehaviour
 
     }
 
+    private Vector2Int GetMouseTilePositionOnPlayer()
+    {
+        Vector2 mousePosition = Input.mousePosition / canvas.scaleFactor;
+        Vector2 playerPos = PlayerRectTransform.position / canvas.scaleFactor;
+        Vector2 relativePos = mousePosition + PlayerRectTransform.sizeDelta / 2f - playerPos;
+
+        return new Vector2Int(Mathf.CeilToInt(relativePos.x / playerTileSizeX), Mathf.CeilToInt(relativePos.y / playerTileSizeY));
+    }
+
     private void HandlePlaceTileOnPlayer()
     {
         if (selectedTile == null)
             return;
 
-        Vector2 mousePosition = Input.mousePosition / canvas.scaleFactor;
-        Vector2 playerPos = PlayerRectTransform.position / canvas.scaleFactor;
-        Vector2 relativePos = mousePosition + PlayerRectTransform.sizeDelta / 2f - playerPos;
-
-        Vector2Int mouseTilePosition = new Vector2Int(Mathf.CeilToInt(relativePos.x / playerTileSizeX), Mathf.CeilToInt(relativePos.y / playerTileSizeY));
+        Vector2Int mouseTilePosition = GetMouseTilePositionOnPlayer();
 
         selectedTileUI.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.tilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.tilePlayerSize.y / 2f));
         Color white = Color.white;
