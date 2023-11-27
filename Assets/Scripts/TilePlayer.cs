@@ -53,8 +53,6 @@ public class TilePlayer : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(TryPlaceTile(peasantTile, peasantPos));
-        Debug.Log(TryPlaceTile(tankTile, tankPos));
         PositionChanged();
     }
 
@@ -124,7 +122,7 @@ public class TilePlayer : MonoBehaviour
     {
         for (int i = 0; i < tileShape.Count; i++)
         {
-            Vector2Int point = tileShape[i] + tilePosition - new Vector2Int(1, 0);
+            Vector2Int point = tileShape[i] + tilePosition;
 
             if (OccupiedSpaces.Contains(point) || PointOutOfPlayer(point))
                 return false;
@@ -141,11 +139,11 @@ public class TilePlayer : MonoBehaviour
 
             for (int i = 0; i < tile.shape.v2IntList.Count; i++)
             {
-                occupiedSpot.Add(tile.shape.v2IntList[i] + position - new Vector2Int(1, 0));
+                occupiedSpot.Add(tile.shape.v2IntList[i] + position);
             }
 
             tileAndOccupiedSpot.Add(tile, occupiedSpot);
-
+            PositionChanged();
             onTileChange?.Invoke();
             return true;
         }

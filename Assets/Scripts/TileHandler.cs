@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class TileHandler : MonoBehaviour
 {
     public Tile selectedTile;
+    [SerializeField]
+    private Image selectedTileUI;
 
     public TileInventory inventory;
 
@@ -38,22 +40,30 @@ public class TileHandler : MonoBehaviour
 
     }
 
+    private void HandleSelectTileOnInventory()
+    {
+
+    }
+
     private void HandlePlaceTileOnPlayer()
     {
-        /*if (selectedTile == null)
-            return;*/
+        if (selectedTile == null)
+            return;
 
         Vector2 mousePosition = Input.mousePosition / canvas.scaleFactor;
-        Vector2 PlayerPos = PlayerRectTransform.position / canvas.scaleFactor;
-        Vector2 relativePos = mousePosition + PlayerRectTransform.sizeDelta / 2f - PlayerPos;
+        Vector2 playerPos = PlayerRectTransform.position / canvas.scaleFactor;
+        Vector2 relativePos = mousePosition + PlayerRectTransform.sizeDelta / 2f - playerPos;
 
         Vector2Int mouseTilePosition = new Vector2Int(Mathf.CeilToInt(relativePos.x / playerTileSizeX), Mathf.CeilToInt(relativePos.y / playerTileSizeY));
 
+        selectedTileUI.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.tilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.tilePlayerSize.y / 2f));
+        
         if (InputManager.Instance.LeftClick)
         {
             if(player.TryPlaceTile(selectedTile, mouseTilePosition))
             {
                 selectedTile = null;
+                selectedTileUI = null;
             }
         }
     }
