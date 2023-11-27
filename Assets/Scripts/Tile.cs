@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Tile : MonoBehaviour
+[Serializable]
+public class Tile
 {
-    public Vector2ListWrapper shape;
-
     public bool locked;
 
     public Unit unit;
-}
 
-public class TileUI
-{
+    public TileShape shape;
 
+    public List<Vector2Int> Shape => shape.shape.v2IntList;
 }

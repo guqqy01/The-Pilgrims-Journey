@@ -34,9 +34,5 @@ public class TileInventory : MonoBehaviour
 
             onChange?.Invoke();
         }
-        else
-        {
-            throw new System.Exception("Tile: " + tile.name + ", is not in inventory");
-        }
     }
 }

@@ -41,15 +41,7 @@ public class TilePlayer : MonoBehaviour
     private UnitSpawningInfo previousSpawningUnits;
     private UnitSpawningInfo currentSpawningUnits;
 
-    [SerializeField]
-    private Tile peasantTile;
-    [SerializeField]
-    private Vector2Int peasantPos;
-
-    [SerializeField]
-    private Tile tankTile;
-    [SerializeField]
-    private Vector2Int tankPos;
+    private bool PointOutOfPlayer(Vector2Int point) => point.x > tilePlayerSize.x || point.x <= 0 || point.y > tilePlayerSize.y || point.y <= 0;
 
     private void Start()
     {
@@ -116,7 +108,7 @@ public class TilePlayer : MonoBehaviour
         }
     }
 
-    private bool PointOutOfPlayer(Vector2Int point) => point.x > tilePlayerSize.x || point.x <= 0 || point.y > tilePlayerSize.y || point.y <= 0;
+    
 
     public bool CanPlaceTile(List<Vector2Int> tileShape, Vector2Int tilePosition)
     {
@@ -133,13 +125,13 @@ public class TilePlayer : MonoBehaviour
 
     public bool TryPlaceTile(Tile tile, Vector2Int position)
     {
-        if (CanPlaceTile(tile.shape.v2IntList, position))
+        if (CanPlaceTile(tile.Shape, position))
         {
             List<Vector2Int> occupiedSpot = new List<Vector2Int>();
 
-            for (int i = 0; i < tile.shape.v2IntList.Count; i++)
+            for (int i = 0; i < tile.Shape.Count; i++)
             {
-                occupiedSpot.Add(tile.shape.v2IntList[i] + position);
+                occupiedSpot.Add(tile.Shape[i] + position);
             }
 
             tileAndOccupiedSpot.Add(tile, occupiedSpot);

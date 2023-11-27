@@ -8,4 +8,6 @@ public class Unit : ScriptableObject
     public float baseSpawnRate = 1f;
 
     public Movement movement;
+
+    public Sprite unitSprite;
 }
