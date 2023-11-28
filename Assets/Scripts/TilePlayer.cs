@@ -125,22 +125,20 @@ public class TilePlayer : MonoBehaviour
 
     public bool TryPlaceTile(Tile tile, Vector2Int position)
     {
-        if (CanPlaceTile(tile.Shape, position))
+        if (!CanPlaceTile(tile.Shape, position))
+            return false;
+
+        List<Vector2Int> occupiedSpot = new List<Vector2Int>();
+
+        for (int i = 0; i < tile.Shape.Count; i++)
         {
-            List<Vector2Int> occupiedSpot = new List<Vector2Int>();
-
-            for (int i = 0; i < tile.Shape.Count; i++)
-            {
-                occupiedSpot.Add(tile.Shape[i] + position);
-            }
-
-            tileAndOccupiedSpot.Add(tile, occupiedSpot);
-            PositionChanged();
-            onTileChange?.Invoke();
-            return true;
+            occupiedSpot.Add(tile.Shape[i] + position);
         }
 
-        return false;
+        tileAndOccupiedSpot.Add(tile, occupiedSpot);
+        PositionChanged();
+        onTileChange?.Invoke();
+        return true;
     }
 
     public bool RemoveTile(Tile tile)

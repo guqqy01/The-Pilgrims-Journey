@@ -4,35 +4,53 @@ using UnityEngine;
 
 public class TileInventory : MonoBehaviour
 {
-    public Dictionary<Tile, int> tilesAndAmount = new Dictionary<Tile, int>();
+    Dictionary<Tile, List<Vector2Int>> tileAndOccupiedSpot = new Dictionary<Tile, List<Vector2Int>>();
+
+    public List<Vector2Int> occupiedSpots
+    {
+        get
+        {
+            List<Vector2Int> spots = new List<Vector2Int>();
+
+            foreach(KeyValuePair<Tile, List<Vector2Int>> kvp in tileAndOccupiedSpot)
+            {
+                spots.AddRange(kvp.Value);
+            }
+
+            return spots;
+        }
+    }
 
     public delegate void OnChange();
     public OnChange onChange;
 
-    public void AddTile(Tile tile)
+    [SerializeField]
+    private Vector2Int inventorySize;
+
+    private bool PointOutOfPlayer(Vector2Int point) => point.x > inventorySize.x || point.x <= 0 || point.y > inventorySize.y || point.y <= 0;
+
+    public bool CanPlaceTile(Tile tile, Vector2Int position)
     {
-        if (tilesAndAmount.ContainsKey(tile))
+        foreach(Vector2Int point in tile.Shape)
         {
-            tilesAndAmount[tile]++;
-        }
-        else
-        {
-            tilesAndAmount.Add(tile, 1);
+            if(PointOutOfPlayer(point) || occupiedSpots.Contains(point))
+            {
+                return false;
+            }
         }
 
-        onChange?.Invoke();
+        return true;
     }
 
-    public void RemoveTile(Tile tile)
+    public bool AddTile(Tile tile, Vector2Int position)
     {
-        if (tilesAndAmount.ContainsKey(tile))
+        if(CanPlaceTile(tile, position))
         {
-            tilesAndAmount[tile]--;
 
-            if (tilesAndAmount[tile] <= 0)
-                tilesAndAmount.Remove(tile);
 
-            onChange?.Invoke();
+            return true;
         }
+
+        return false;
     }
 }
