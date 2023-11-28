@@ -53,4 +53,9 @@ public class TileInventory : MonoBehaviour
 
         return false;
     }
+
+    public bool RemoveTile(Tile tile)
+    {
+
+    }
 }

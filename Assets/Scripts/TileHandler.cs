@@ -75,6 +75,8 @@ public class TileHandler : MonoBehaviour
         {
             if(player.TryPlaceTile(selectedTile, mouseTilePosition))
             {
+                inventory.RemoveTile(selectedTile);
+
                 selectedTile.Color = Color.white;
                 selectedTile = null;
             }
