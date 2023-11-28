@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c617d603ceb8a6645b58f3d4f61c4064
+guid: 7f9894e9c90a80a49a9c3d9f8d555e31
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,70 +103,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: TilePlayers (2) (3)_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 104
-        width: 113
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d4b1cd3e4d25bf14fb4d22a9da814782
-      internalID: 1825682115
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TilePlayers (2) (3)_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 59
-        width: 113
-        height: 43
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8d1113054f527484e8c5641735f180f7
-      internalID: -1996750663
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TilePlayers (2) (3)_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 113
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6331cdf02b4b3f1489070e56c917b5fd
-      internalID: 1845895080
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -177,10 +114,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      TilePlayers (2) (3)_0: 1825682115
-      TilePlayers (2) (3)_1: -1996750663
-      TilePlayers (2) (3)_2: 1845895080
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
