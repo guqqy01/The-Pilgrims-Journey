@@ -33,7 +33,7 @@ public class TileInventory : MonoBehaviour
     {
         foreach(Vector2Int point in tile.Shape)
         {
-            if(PointOutOfPlayer(point) || occupiedSpots.Contains(point))
+            if(PointOutOfPlayer(point + position) || occupiedSpots.Contains(point + position))
             {
                 return false;
             }
@@ -46,7 +46,7 @@ public class TileInventory : MonoBehaviour
     {
         if(CanPlaceTile(tile, position))
         {
-
+            tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
 
             return true;
         }

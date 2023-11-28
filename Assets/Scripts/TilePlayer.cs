@@ -128,14 +128,7 @@ public class TilePlayer : MonoBehaviour
         if (!CanPlaceTile(tile.Shape, position))
             return false;
 
-        List<Vector2Int> occupiedSpot = new List<Vector2Int>();
-
-        for (int i = 0; i < tile.Shape.Count; i++)
-        {
-            occupiedSpot.Add(tile.Shape[i] + position);
-        }
-
-        tileAndOccupiedSpot.Add(tile, occupiedSpot);
+        tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
         PositionChanged();
         onTileChange?.Invoke();
         return true;
