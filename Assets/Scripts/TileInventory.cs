@@ -56,6 +56,6 @@ public class TileInventory : MonoBehaviour
 
     public bool RemoveTile(Tile tile)
     {
-
+        return tileAndOccupiedSpot.Remove(tile);
     }
 }
