@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static TilePlayer;
 
 public class TileInventory : MonoBehaviour
 {
@@ -29,13 +28,13 @@ public class TileInventory : MonoBehaviour
     private Vector2Int tileInventorySize;
     public Vector2Int TileInventorySize => tileInventorySize;
 
-    private bool PointOutOfPlayer(Vector2Int point) => point.x > tileInventorySize.x || point.x <= 0 || point.y > tileInventorySize.y || point.y <= 0;
+    public bool PointOutOfGrid(Vector2Int point) => point.x > tileInventorySize.x || point.x <= 0 || point.y > tileInventorySize.y || point.y <= 0;
 
     public bool CanPlaceTile(Tile tile, Vector2Int position)
     {
         foreach(Vector2Int point in tile.Shape)
         {
-            if(PointOutOfPlayer(point + position) || (TryGetTileAtPosition(point, out Tile outTile) && outTile != tile))
+            if(PointOutOfGrid(point + position) || (TryGetTileAtPosition(point, out Tile outTile) && outTile != tile))
             {
                 return false;
             }
@@ -57,7 +56,7 @@ public class TileInventory : MonoBehaviour
     {
         tile = null;
 
-        if (PointOutOfPlayer(v2Int))
+        if (PointOutOfGrid(v2Int))
             return false;
 
         foreach (var kvp in tileAndOccupiedSpot)
