@@ -110,7 +110,7 @@ public class TileHandler : MonoBehaviour
 
         selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.TilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.TilePlayerSize.y / 2f));
 
-        Color color = player.CanPlaceTile(selectedTile.Shape, mouseTilePosition) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
+        Color color = player.CanPlaceTile(selectedTile, mouseTilePosition) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         selectedTile.Color = color;
         if (InputManager.Instance.LeftClick)
         {
@@ -130,13 +130,13 @@ public class TileHandler : MonoBehaviour
 
         selectedTile.rectTransform.position = (Vector2)InventoryRectTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePosition.x - 0.5f - inventoryTileSizeX / 2f), inventoryTileSizeY * (mouseTilePosition.y - 0.5f - inventoryTileSizeY / 2f));
 
-        Color color = player.CanPlaceTile(selectedTile.Shape, mouseTilePosition) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
+        Color color = inventory.CanPlaceTile(selectedTile, mouseTilePosition) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         selectedTile.Color = color;
         if (InputManager.Instance.LeftClick)
         {
-            if (player.TryPlaceTile(selectedTile, mouseTilePosition))
+            if (inventory.TryPlaceTile(selectedTile, mouseTilePosition))
             {
-                inventory.RemoveTile(selectedTile);
+                player.RemoveTile(selectedTile);
 
                 selectedTile.Color = Color.white;
                 selectedTile = null;

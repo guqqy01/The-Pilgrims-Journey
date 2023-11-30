@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TilePlayer;
 
 public class TileInventory : MonoBehaviour
 {
@@ -42,6 +43,15 @@ public class TileInventory : MonoBehaviour
 
         return true;
     }
+    public bool TryPlaceTile(Tile tile, Vector2Int position)
+    {
+        if (!CanPlaceTile(tile, position))
+            return false;
+
+        tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
+        return true;
+    }
+
 
     public bool TryGetTileAtPosition(Vector2Int v2Int, out Tile tile)
     {
