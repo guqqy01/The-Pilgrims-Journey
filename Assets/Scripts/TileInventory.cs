@@ -25,9 +25,10 @@ public class TileInventory : MonoBehaviour
     public OnChange onChange;
 
     [SerializeField]
-    private Vector2Int inventorySize;
+    private Vector2Int tileInventorySize;
+    public Vector2Int TileInventorySize => tileInventorySize;
 
-    private bool PointOutOfPlayer(Vector2Int point) => point.x > inventorySize.x || point.x <= 0 || point.y > inventorySize.y || point.y <= 0;
+    private bool PointOutOfPlayer(Vector2Int point) => point.x > tileInventorySize.x || point.x <= 0 || point.y > tileInventorySize.y || point.y <= 0;
 
     public bool CanPlaceTile(Tile tile, Vector2Int position)
     {
@@ -40,6 +41,25 @@ public class TileInventory : MonoBehaviour
         }
 
         return true;
+    }
+
+    public bool TryGetTileAtPosition(Vector2Int v2Int, out Tile tile)
+    {
+        tile = null;
+
+        if (PointOutOfPlayer(v2Int))
+            return false;
+
+        foreach (var kvp in tileAndOccupiedSpot)
+        {
+            if (kvp.Value.Contains(v2Int))
+            {
+                tile = kvp.Key;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool AddTile(Tile tile, Vector2Int position)

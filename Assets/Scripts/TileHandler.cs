@@ -11,17 +11,18 @@ public class TileHandler : MonoBehaviour
     private Color invalidTilePlacementColor;
 
     public TileInventory inventory;
+    private RectTransform inventoryRectTransform;
 
     public TilePlayer player;
-
     private RectTransform playerRectTransform;
 
     public Canvas canvas;
 
-    public Vector2ListWrapper test;
+    private float playerTileSizeX => PlayerRectTransform.sizeDelta.x / player.TilePlayerSize.x;
+    private float playerTileSizeY => PlayerRectTransform.sizeDelta.y / player.TilePlayerSize.y;
 
-    private float playerTileSizeX => PlayerRectTransform.sizeDelta.x / player.tilePlayerSize.x;
-    private float playerTileSizeY => PlayerRectTransform.sizeDelta.y / player.tilePlayerSize.y;
+    private float inventoryTileSizeX => InventoryRectTransform.sizeDelta.x / inventory.TileInventorySize.x;
+    private float inventoryTileSizeY => InventoryRectTransform.sizeDelta.y / inventory.TileInventorySize.y;
 
     public RectTransform PlayerRectTransform
     {
@@ -34,21 +35,51 @@ public class TileHandler : MonoBehaviour
         }
     }
 
+    public RectTransform InventoryRectTransform
+    {
+        get
+        {
+            if (inventoryRectTransform == null)
+                inventoryRectTransform = inventory.GetComponent<RectTransform>();
+
+            return inventoryRectTransform;
+        }
+    }
+
     private void Update()
     {
         HandlePlaceTileOnPlayer();
-
-
+        HandlePlaceTileOnInventory();
+        HandleSelectTile();
     }
 
-    private void HandleSelectTileOnInventory()
+    private void HandleSelectTile()
     {
+        if (!InputManager.Instance.LeftClick)
+            return;
 
+        Vector2Int playerMousePos = GetMouseTilePositionOnPlayer();
+        if (player.TryGetTileAtPosition(playerMousePos, out Tile tile))
+        {
+            selectedTile = tile;
+            tile.SelectTile(true);
+        }
+
+        Vector2Int inventoryMousePos = GetMouseTilePositionOnInventory();
+        if (inventory.TryGetTileAtPosition(inventoryMousePos, out Tile tile1))
+        {
+            selectedTile = tile1;
+            tile1.SelectTile(true);
+        }
     }
 
-    public void SelectTile(Tile tile)
+    private Vector2Int GetMouseTilePositionOnInventory()
     {
-        selectedTile = tile;
+        Vector2 mousePosition = Input.mousePosition / canvas.scaleFactor;
+        Vector2 inventoryPos = InventoryRectTransform.position / canvas.scaleFactor;
+        Vector2 relativePos = mousePosition + InventoryRectTransform.sizeDelta / 2f - inventoryPos;
+
+        return new Vector2Int(Mathf.CeilToInt(relativePos.x / inventoryTileSizeX), Mathf.CeilToInt(relativePos.y / inventoryTileSizeY));
     }
 
     private Vector2Int GetMouseTilePositionOnPlayer()
@@ -67,13 +98,36 @@ public class TileHandler : MonoBehaviour
 
         Vector2Int mouseTilePosition = GetMouseTilePositionOnPlayer();
 
-        selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.tilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.tilePlayerSize.y / 2f));
+        selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.TilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.TilePlayerSize.y / 2f));
 
         Color color = player.CanPlaceTile(selectedTile.Shape, mouseTilePosition) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         selectedTile.Color = color;
         if (InputManager.Instance.LeftClick)
         {
             if(player.TryPlaceTile(selectedTile, mouseTilePosition))
+            {
+                inventory.RemoveTile(selectedTile);
+
+                selectedTile.Color = Color.white;
+                selectedTile = null;
+            }
+        }
+    }
+
+    private void HandlePlaceTileOnInventory()
+    {
+        if (selectedTile == null)
+            return;
+
+        Vector2Int mouseTilePosition = GetMouseTilePositionOnPlayer();
+
+        selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.TilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.TilePlayerSize.y / 2f));
+
+        Color color = player.CanPlaceTile(selectedTile.Shape, mouseTilePosition) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
+        selectedTile.Color = color;
+        if (InputManager.Instance.LeftClick)
+        {
+            if (player.TryPlaceTile(selectedTile, mouseTilePosition))
             {
                 inventory.RemoveTile(selectedTile);
 

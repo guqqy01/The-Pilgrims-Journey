@@ -13,6 +13,8 @@ public class Tile : MonoBehaviour
 
     public TileShape shape;
 
+    public bool Selected { private set; get; } = false;
+
     public RectTransform rectTransform { private set; get; }
     private Image image;
     public List<Vector2Int> Shape => shape.shape.v2IntList;
@@ -31,5 +33,10 @@ public class Tile : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         image = GetComponent<Image>();
+    }
+
+    public void SelectTile(bool select)
+    {
+        Selected = select;
     }
 }

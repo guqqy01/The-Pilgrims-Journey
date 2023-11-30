@@ -4,7 +4,9 @@ using Map;
 
 public class TilePlayer : MonoBehaviour
 {
-    public Vector2Int tilePlayerSize;
+    [SerializeField]
+    private Vector2Int tilePlayerSize;
+    public Vector2Int TilePlayerSize => tilePlayerSize;
 
     private float playerTime = 0;
     public float CurrentPosition { private set; get; }
@@ -41,7 +43,7 @@ public class TilePlayer : MonoBehaviour
     private UnitSpawningInfo previousSpawningUnits;
     private UnitSpawningInfo currentSpawningUnits;
 
-    private bool PointOutOfPlayer(Vector2Int point) => point.x > tilePlayerSize.x || point.x <= 0 || point.y > tilePlayerSize.y || point.y <= 0;
+    public bool PointOutOfPlayer(Vector2Int point) => point.x > tilePlayerSize.x || point.x <= 0 || point.y > tilePlayerSize.y || point.y <= 0;
 
     private void Start()
     {
@@ -79,6 +81,25 @@ public class TilePlayer : MonoBehaviour
                 }
             }
         }
+    }
+
+    public bool TryGetTileAtPosition(Vector2Int v2Int, out Tile tile)
+    {
+        tile = null;
+
+        if (PointOutOfPlayer(v2Int))
+            return false;
+
+        foreach (var kvp in tileAndOccupiedSpot)
+        {
+            if (kvp.Value.Contains(v2Int))
+            {
+                tile = kvp.Key;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void PlayAndPause()
