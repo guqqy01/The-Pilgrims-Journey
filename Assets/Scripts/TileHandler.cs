@@ -48,12 +48,19 @@ public class TileHandler : MonoBehaviour
 
     private void Update()
     {
-        HandlePlaceTileOnPlayer();
-        HandlePlaceTileOnInventory();
-        HandleSelectTile();
+        if (selectedTile != null)
+        {
+            HandlePlaceTileOnPlayer();
+            HandlePlaceTileOnInventory();
+        }
+        else
+        {
+            HandleSelectTileOnPlayer();
+            HandleSelectTileOnInventory();
+        }
     }
 
-    private void HandleSelectTile()
+    private void HandleSelectTileOnPlayer()
     {
         if (!InputManager.Instance.LeftClick)
             return;
@@ -64,12 +71,18 @@ public class TileHandler : MonoBehaviour
             selectedTile = tile;
             tile.SelectTile(true);
         }
+    }
+
+    private void HandleSelectTileOnInventory()
+    {
+        if (!InputManager.Instance.LeftClick)
+            return;
 
         Vector2Int inventoryMousePos = GetMouseTilePositionOnInventory();
-        if (inventory.TryGetTileAtPosition(inventoryMousePos, out Tile tile1))
+        if (inventory.TryGetTileAtPosition(inventoryMousePos, out Tile tile))
         {
-            selectedTile = tile1;
-            tile1.SelectTile(true);
+            selectedTile = tile;
+            tile.SelectTile(true);
         }
     }
 
@@ -93,9 +106,6 @@ public class TileHandler : MonoBehaviour
 
     private void HandlePlaceTileOnPlayer()
     {
-        if (selectedTile == null)
-            return;
-
         Vector2Int mouseTilePosition = GetMouseTilePositionOnPlayer();
 
         selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.TilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.TilePlayerSize.y / 2f));
@@ -116,12 +126,9 @@ public class TileHandler : MonoBehaviour
 
     private void HandlePlaceTileOnInventory()
     {
-        if (selectedTile == null)
-            return;
+        Vector2Int mouseTilePosition = GetMouseTilePositionOnInventory();
 
-        Vector2Int mouseTilePosition = GetMouseTilePositionOnPlayer();
-
-        selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePosition.x - 0.5f - player.TilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePosition.y - 0.5f - player.TilePlayerSize.y / 2f));
+        selectedTile.rectTransform.position = (Vector2)InventoryRectTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePosition.x - 0.5f - inventoryTileSizeX / 2f), inventoryTileSizeY * (mouseTilePosition.y - 0.5f - inventoryTileSizeY / 2f));
 
         Color color = player.CanPlaceTile(selectedTile.Shape, mouseTilePosition) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         selectedTile.Color = color;

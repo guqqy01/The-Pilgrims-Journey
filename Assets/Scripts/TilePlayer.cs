@@ -129,16 +129,16 @@ public class TilePlayer : MonoBehaviour
         }
     }
 
-    
 
-    public bool CanPlaceTile(List<Vector2Int> tileShape, Vector2Int tilePosition)
+
+    public bool CanPlaceTile(Tile tile, Vector2Int position)
     {
-        for (int i = 0; i < tileShape.Count; i++)
+        foreach (Vector2Int point in tile.Shape)
         {
-            Vector2Int point = tileShape[i] + tilePosition;
-
-            if (OccupiedSpaces.Contains(point) || PointOutOfPlayer(point))
+            if (PointOutOfPlayer(point + position) || (TryGetTileAtPosition(point, out Tile outTile) && outTile != tile))
+            {
                 return false;
+            }
         }
 
         return true;
@@ -146,7 +146,7 @@ public class TilePlayer : MonoBehaviour
 
     public bool TryPlaceTile(Tile tile, Vector2Int position)
     {
-        if (!CanPlaceTile(tile.Shape, position))
+        if (!CanPlaceTile(tile, position))
             return false;
 
         tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
