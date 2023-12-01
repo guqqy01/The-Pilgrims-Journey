@@ -11,7 +11,7 @@ public class TileHandler : MonoBehaviour
     [SerializeField]
     private Color invalidTilePlacementColor;
 
-    public TileInventory inventory;
+    public TileGrid inventory;
     private RectTransform inventoryRectTransform;
 
     public TilePlayer player;
@@ -19,11 +19,11 @@ public class TileHandler : MonoBehaviour
 
     public Canvas canvas;
 
-    private float playerTileSizeX => PlayerRectTransform.sizeDelta.x / player.TilePlayerSize.x;
-    private float playerTileSizeY => PlayerRectTransform.sizeDelta.y / player.TilePlayerSize.y;
+    private float playerTileSizeX => PlayerRectTransform.sizeDelta.x / player.TileGridSize.x;
+    private float playerTileSizeY => PlayerRectTransform.sizeDelta.y / player.TileGridSize.y;
 
-    private float inventoryTileSizeX => InventoryRectTransform.sizeDelta.x / inventory.TileInventorySize.x;
-    private float inventoryTileSizeY => InventoryRectTransform.sizeDelta.y / inventory.TileInventorySize.y;
+    private float inventoryTileSizeX => InventoryRectTransform.sizeDelta.x / inventory.TileGridSize.x;
+    private float inventoryTileSizeY => InventoryRectTransform.sizeDelta.y / inventory.TileGridSize.y;
 
     public RectTransform PlayerRectTransform
     {
@@ -71,6 +71,7 @@ public class TileHandler : MonoBehaviour
         if (player.TryGetTileAtPosition(playerMousePos, out Tile tile))
         {
             selectedTile = tile;
+            selectedTile.transform.parent = canvas.transform;
             tile.SelectTile(true);
         }
     }
@@ -84,6 +85,7 @@ public class TileHandler : MonoBehaviour
         if (inventory.TryGetTileAtPosition(inventoryMousePos, out Tile tile))
         {
             selectedTile = tile;
+            selectedTile.transform.parent = canvas.transform;
             tile.SelectTile(true);
         }
     }
@@ -110,21 +112,21 @@ public class TileHandler : MonoBehaviour
     {
         Vector2Int mouseTilePositionPlayer = GetMouseTilePositionOnPlayer();
         Vector2Int mouseTilePositionInventory = GetMouseTilePositionOnInventory();
-        if (!player.PointOutOfPlayer(mouseTilePositionPlayer))
+        if (!player.PointOutOfGrid(mouseTilePositionPlayer))
         {
-            selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - player.TilePlayerSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - player.TilePlayerSize.y / 2f));
+            selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - player.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - player.TileGridSize.y / 2f));
 
             selectedTile.Color = player.CanPlaceTile(selectedTile, mouseTilePositionPlayer) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
         else if (!inventory.PointOutOfGrid(mouseTilePositionInventory))
         {
-            selectedTile.rectTransform.position = (Vector2)InventoryRectTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - inventoryTileSizeX / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - inventoryTileSizeY / 2f));
+            selectedTile.rectTransform.position = (Vector2)InventoryRectTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - inventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - inventory.TileGridSize.y / 2f));
 
             selectedTile.Color = inventory.CanPlaceTile(selectedTile, mouseTilePositionInventory) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
         else
         {
-            selectedTile.rectTransform.position = Input.mousePosition / canvas.scaleFactor;
+            selectedTile.rectTransform.position = Input.mousePosition;
 
             selectedTile.Color = Color.white.SetAlpha(0.5f);
         }
@@ -139,6 +141,7 @@ public class TileHandler : MonoBehaviour
 
         if(player.TryPlaceTile(selectedTile, mouseTilePosition))
         {
+            selectedTile.transform.parent = player.transform;
             inventory.RemoveTile(selectedTile);
 
             selectedTile.Color = Color.white;
@@ -156,6 +159,7 @@ public class TileHandler : MonoBehaviour
         
         if (inventory.TryPlaceTile(selectedTile, mouseTilePosition))
         {
+            selectedTile.transform.parent = inventory.transform;
             player.RemoveTile(selectedTile);
 
             selectedTile.Color = Color.white;

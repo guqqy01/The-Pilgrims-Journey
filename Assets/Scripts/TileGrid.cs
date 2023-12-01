@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileInventory : MonoBehaviour
+public class TileGrid : MonoBehaviour
 {
-    Dictionary<Tile, List<Vector2Int>> tileAndOccupiedSpot = new Dictionary<Tile, List<Vector2Int>>();
+    protected Dictionary<Tile, List<Vector2Int>> tileAndOccupiedSpot = new Dictionary<Tile, List<Vector2Int>>();
 
-    public List<Vector2Int> occupiedSpots
+    public List<Vector2Int> OccupiedSpots
     {
         get
         {
@@ -21,14 +21,14 @@ public class TileInventory : MonoBehaviour
         }
     }
 
-    public delegate void OnChange();
-    public OnChange onChange;
+    public delegate void OnTileChange();
+    public OnTileChange onTileChange;
 
     [SerializeField]
-    private Vector2Int tileInventorySize;
-    public Vector2Int TileInventorySize => tileInventorySize;
+    protected Vector2Int tileGridSize;
+    public Vector2Int TileGridSize => tileGridSize;
 
-    public bool PointOutOfGrid(Vector2Int point) => point.x > tileInventorySize.x || point.x <= 0 || point.y > tileInventorySize.y || point.y <= 0;
+    public bool PointOutOfGrid(Vector2Int point) => point.x > tileGridSize.x || point.x <= 0 || point.y > tileGridSize.y || point.y <= 0;
 
     public bool CanPlaceTile(Tile tile, Vector2Int position)
     {
@@ -42,12 +42,22 @@ public class TileInventory : MonoBehaviour
 
         return true;
     }
+
     public bool TryPlaceTile(Tile tile, Vector2Int position)
     {
         if (!CanPlaceTile(tile, position))
             return false;
 
-        tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
+        if (tileAndOccupiedSpot.ContainsKey(tile))
+        {
+            tileAndOccupiedSpot[tile] = tile.Shape.AddToAll(position);
+        }
+        else
+        {
+            tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
+        }
+
+        onTileChange?.Invoke();
         return true;
     }
 
@@ -66,18 +76,6 @@ public class TileInventory : MonoBehaviour
                 tile = kvp.Key;
                 return true;
             }
-        }
-
-        return false;
-    }
-
-    public bool AddTile(Tile tile, Vector2Int position)
-    {
-        if(CanPlaceTile(tile, position))
-        {
-            tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
-
-            return true;
         }
 
         return false;
