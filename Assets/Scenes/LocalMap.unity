@@ -18581,7 +18581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50143f80bac3e5441b4de4a7ace9aad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileInventorySize: {x: 3, y: 3}
+  tileGridSize: {x: 3, y: 3}
 --- !u!1 &177568063
 GameObject:
   m_ObjectHideFlags: 0
@@ -157391,7 +157391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21.8, y: -21.9}
+  m_AnchoredPosition: {x: 142.3, y: 49.10002}
   m_SizeDelta: {x: 84.375, y: 84.375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1876786628
@@ -161348,7 +161348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec29a59a8956d94fbe5290b51528f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePlayerSize: {x: 8, y: 2}
+  tileGridSize: {x: 8, y: 2}
   oneTileTime: 15
   isPlaying: 0
 --- !u!114 &1937083903
@@ -164967,7 +164967,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 21.8}
+  m_AnchoredPosition: {x: 164.1, y: 92.8}
   m_SizeDelta: {x: 128.125, y: 84.375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1985611074
