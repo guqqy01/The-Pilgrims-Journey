@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Map;
-
+using ModularMotion;
 public class TilePlayer : TileGrid
 {
     private float playerTime = 0;
@@ -16,12 +16,30 @@ public class TilePlayer : TileGrid
     [SerializeField]
     private bool isPlaying = false;
 
+    [SerializeField]
+    private Canvas canvas;
+
+    [SerializeField]
+    private RectTransform playerUIPoint;
+    [SerializeField]
+    private float playerUIPointYOffset;
+
     private UnitSpawningInfo previousSpawningUnits;
     private UnitSpawningInfo currentSpawningUnits;
+
+    private UIMotion uIMotion;
+
+    private void Awake()
+    {
+        uIMotion = GetComponent<UIMotion>();
+        
+    }
 
     private void Start()
     {
         PositionChanged();
+        playerUIPoint.position = GridTransform.position + new Vector3(-GridTransform.sizeDelta.x, GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
+        onTileChange += PositionChanged;
     }
 
     private void Update()
@@ -33,6 +51,8 @@ public class TilePlayer : TileGrid
 
         CurrentPlayingPosition += Time.deltaTime / oneTileTime;
         playerTime += Time.deltaTime;
+
+        playerUIPoint.position = GridTransform.position + new Vector3(-GridTransform.sizeDelta.x + 2f * CurrentPlayingPosition * (GridTransform.sizeDelta.x / TileGridSize.x), GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
 
         if (posBefore != Mathf.FloorToInt(CurrentPlayingPosition) + 1)
         {
@@ -57,26 +77,47 @@ public class TilePlayer : TileGrid
         }
     }
 
+    public void OpenClosePlayer()
+    {
+        uIMotion.Play();
+    }
+
     public void PlayAndPause()
     {
         isPlaying = !isPlaying;
+
+        if (!isPlaying)
+            return;
+
+        List<Tile> tilesInPosition = GetTilesInPosition(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        foreach (Tile tile in tilesInPosition)
+        {
+            tile.locked = true;
+        }
     }
 
     public void Stop()
     {
+        foreach(Tile tile in Tiles)
+        {
+            tile.locked = false;
+        }
         isPlaying = false;
         playerTime = 0;
     }
 
     public void PositionChanged()
     {
-        List<Tile> tiles = GetTilesInPosition(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        List<Tile> tilesInPosition = GetTilesInPosition(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
 
         previousSpawningUnits = currentSpawningUnits;
 
-        currentSpawningUnits = new UnitSpawningInfo(tiles, previousSpawningUnits, tileAndOccupiedSpot, Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        currentSpawningUnits = new UnitSpawningInfo(tilesInPosition, previousSpawningUnits, tileAndOccupiedSpot, Mathf.FloorToInt(CurrentPlayingPosition) + 1);
 
-        foreach (Tile tile in tiles)
+        if (!isPlaying)
+            return;
+
+        foreach (Tile tile in tilesInPosition)
         {
             tile.locked = true;
         }

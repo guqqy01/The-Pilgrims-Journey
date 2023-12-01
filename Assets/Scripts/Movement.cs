@@ -16,6 +16,13 @@ public class Movement : MonoBehaviour
     [SerializeField]
     private Transform visualTransform;
 
+    private float initialXScale;
+
+    private void Awake()
+    {
+        initialXScale = visualTransform.localScale.x;
+    }
+
     public void Init(List<Vector2Int> path)
     {
         Path = path;
@@ -36,7 +43,7 @@ public class Movement : MonoBehaviour
         ani.SetBool("Up", Vector2.Angle(toVector, Vector2.up) < 10f);
         ani.SetBool("Down", Vector2.Angle(toVector, Vector2.down) < 10f);
 
-        visualTransform.localScale = new Vector3(Vector2.Angle(toVector, Vector2.left) < 10f  ? - 1 : 1, visualTransform.localScale.y, visualTransform.localScale.z);
+        visualTransform.localScale = new Vector3(Vector2.Angle(toVector, Vector2.left) < 10f  ? -initialXScale : initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
 
         float distance = toVector.magnitude;
 

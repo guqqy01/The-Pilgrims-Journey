@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class TileGrid : MonoBehaviour
 {
     [SerializeField]
@@ -24,6 +24,8 @@ public class TileGrid : MonoBehaviour
             return spots;
         }
     }
+
+    public List<Tile> Tiles => tileAndOccupiedSpot.Keys.ToList();
 
     public delegate void OnTileChange();
     public OnTileChange onTileChange;

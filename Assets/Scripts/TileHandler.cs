@@ -49,11 +49,11 @@ public class TileHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            selectedTile.rectTransform.Rotate(new Vector3(0, 0, 90));
+            selectedTile.Rotate(90);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            selectedTile.rectTransform.Rotate(new Vector3(0, 0, -90));
+            selectedTile.Rotate(-90);
         }
     }
 
@@ -63,7 +63,7 @@ public class TileHandler : MonoBehaviour
             return;
 
         Vector2Int playerMousePos = GetMouseTilePositionOnPlayer();
-        if (player.TryGetTileAtPosition(playerMousePos, out Tile tile))
+        if (player.TryGetTileAtPosition(playerMousePos, out Tile tile) && !tile.locked)
         {
             selectedTile = tile;
             selectedTile.transform.SetParent(canvas.transform, true);

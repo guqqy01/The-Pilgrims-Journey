@@ -15,6 +15,9 @@ public class Tile : MonoBehaviour
 
     public bool Selected { private set; get; } = false;
 
+    [SerializeField]
+    private RectTransform unitUITransform;
+
     public RectTransform rectTransform { private set; get; }
     private Image image;
 
@@ -70,6 +73,12 @@ public class Tile : MonoBehaviour
         {
             image.color = value;
         }
+    }
+
+    public void Rotate(int angle)
+    {
+        rectTransform.Rotate(new Vector3(0, 0, angle));
+        unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void Awake()
