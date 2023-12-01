@@ -12,45 +12,28 @@ public class TileHandler : MonoBehaviour
     private Color invalidTilePlacementColor;
 
     public TileGrid inventory;
-    private RectTransform inventoryRectTransform;
 
     public TilePlayer player;
-    private RectTransform playerRectTransform;
 
     public Canvas canvas;
 
-    private float playerTileSizeX => PlayerRectTransform.sizeDelta.x / player.TileGridSize.x;
-    private float playerTileSizeY => PlayerRectTransform.sizeDelta.y / player.TileGridSize.y;
+    private static Vector2 inventorySizeDeltaOffset = new Vector2(-3, -3);
+    private static Vector2 playerSizeDeltaOffset = new Vector2(-3, -3);
 
-    private float inventoryTileSizeX => InventoryRectTransform.sizeDelta.x / inventory.TileGridSize.x;
-    private float inventoryTileSizeY => InventoryRectTransform.sizeDelta.y / inventory.TileGridSize.y;
+    private float playerTileSizeX => (player.GridTransform.sizeDelta.x + playerSizeDeltaOffset.x) / player.TileGridSize.x;
+    private float playerTileSizeY => (player.GridTransform.sizeDelta.y + playerSizeDeltaOffset.y) / player.TileGridSize.y;
 
-    public RectTransform PlayerRectTransform
-    {
-        get
-        {
-            if (playerRectTransform == null)
-                playerRectTransform = player.GetComponent<RectTransform>();
+    private float inventoryTileSizeX => (inventory.GridTransform.sizeDelta.x + inventorySizeDeltaOffset.x) / inventory.TileGridSize.x;
+    private float inventoryTileSizeY => (inventory.GridTransform.sizeDelta.y + inventorySizeDeltaOffset.y) / inventory.TileGridSize.y;
 
-            return playerRectTransform;
-        }
-    }
 
-    public RectTransform InventoryRectTransform
-    {
-        get
-        {
-            if (inventoryRectTransform == null)
-                inventoryRectTransform = inventory.GetComponent<RectTransform>();
-
-            return inventoryRectTransform;
-        }
-    }
 
     private void Update()
     {
         if (selectedTile != null)
         {
+
+            HandleTileRotation();
             HandleSelectedTileHover();
             HandlePlaceTileOnPlayer();
             HandlePlaceTileOnInventory();
@@ -59,6 +42,18 @@ public class TileHandler : MonoBehaviour
         {
             HandleSelectTileOnPlayer();
             HandleSelectTileOnInventory();
+        }
+    }
+
+    private void HandleTileRotation()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            selectedTile.rectTransform.Rotate(new Vector3(0, 0, 90));
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            selectedTile.rectTransform.Rotate(new Vector3(0, 0, -90));
         }
     }
 
@@ -71,7 +66,7 @@ public class TileHandler : MonoBehaviour
         if (player.TryGetTileAtPosition(playerMousePos, out Tile tile))
         {
             selectedTile = tile;
-            selectedTile.transform.parent = canvas.transform;
+            selectedTile.transform.SetParent(canvas.transform, true);
             tile.SelectTile(true);
         }
     }
@@ -85,7 +80,7 @@ public class TileHandler : MonoBehaviour
         if (inventory.TryGetTileAtPosition(inventoryMousePos, out Tile tile))
         {
             selectedTile = tile;
-            selectedTile.transform.parent = canvas.transform;
+            selectedTile.transform.SetParent(canvas.transform, true);
             tile.SelectTile(true);
         }
     }
@@ -93,8 +88,8 @@ public class TileHandler : MonoBehaviour
     private Vector2Int GetMouseTilePositionOnInventory()
     {
         Vector2 mousePosition = Input.mousePosition / canvas.scaleFactor;
-        Vector2 inventoryPos = InventoryRectTransform.position / canvas.scaleFactor;
-        Vector2 relativePos = mousePosition + InventoryRectTransform.sizeDelta / 2f - inventoryPos;
+        Vector2 inventoryPos = inventory.GridTransform.position / canvas.scaleFactor;
+        Vector2 relativePos = mousePosition + (inventory.GridTransform.sizeDelta + inventorySizeDeltaOffset) / 2f - inventoryPos;
 
         return new Vector2Int(Mathf.CeilToInt(relativePos.x / inventoryTileSizeX), Mathf.CeilToInt(relativePos.y / inventoryTileSizeY));
     }
@@ -102,8 +97,8 @@ public class TileHandler : MonoBehaviour
     private Vector2Int GetMouseTilePositionOnPlayer()
     {
         Vector2 mousePosition = Input.mousePosition / canvas.scaleFactor;
-        Vector2 playerPos = PlayerRectTransform.position / canvas.scaleFactor;
-        Vector2 relativePos = mousePosition + PlayerRectTransform.sizeDelta / 2f - playerPos;
+        Vector2 playerPos = player.GridTransform.position / canvas.scaleFactor;
+        Vector2 relativePos = mousePosition + (player.GridTransform.sizeDelta + playerSizeDeltaOffset) / 2f - playerPos;
 
         return new Vector2Int(Mathf.CeilToInt(relativePos.x / playerTileSizeX), Mathf.CeilToInt(relativePos.y / playerTileSizeY));
     }
@@ -114,13 +109,13 @@ public class TileHandler : MonoBehaviour
         Vector2Int mouseTilePositionInventory = GetMouseTilePositionOnInventory();
         if (!player.PointOutOfGrid(mouseTilePositionPlayer))
         {
-            selectedTile.rectTransform.position = (Vector2)PlayerRectTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - player.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - player.TileGridSize.y / 2f));
+            selectedTile.rectTransform.position = (Vector2)player.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - player.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - player.TileGridSize.y / 2f)) + selectedTile.Offset;
 
             selectedTile.Color = player.CanPlaceTile(selectedTile, mouseTilePositionPlayer) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
         else if (!inventory.PointOutOfGrid(mouseTilePositionInventory))
         {
-            selectedTile.rectTransform.position = (Vector2)InventoryRectTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - inventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - inventory.TileGridSize.y / 2f));
+            selectedTile.rectTransform.position = (Vector2)inventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - inventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - inventory.TileGridSize.y / 2f)) + selectedTile.Offset;
 
             selectedTile.Color = inventory.CanPlaceTile(selectedTile, mouseTilePositionInventory) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
@@ -141,7 +136,7 @@ public class TileHandler : MonoBehaviour
 
         if(player.TryPlaceTile(selectedTile, mouseTilePosition))
         {
-            selectedTile.transform.parent = player.transform;
+            selectedTile.transform.SetParent(player.transform, true);
             inventory.RemoveTile(selectedTile);
 
             selectedTile.Color = Color.white;
@@ -159,7 +154,7 @@ public class TileHandler : MonoBehaviour
         
         if (inventory.TryPlaceTile(selectedTile, mouseTilePosition))
         {
-            selectedTile.transform.parent = inventory.transform;
+            selectedTile.transform.SetParent(inventory.transform, true);
             player.RemoveTile(selectedTile);
 
             selectedTile.Color = Color.white;

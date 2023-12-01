@@ -4,7 +4,6 @@ using Map;
 
 public class TilePlayer : TileGrid
 {
-
     private float playerTime = 0;
     public float CurrentPlayingPosition { private set; get; }
 

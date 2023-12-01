@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class TileGrid : MonoBehaviour
 {
+    [SerializeField]
+    private RectTransform gridTransform;
+    public RectTransform GridTransform => gridTransform;
+
     protected Dictionary<Tile, List<Vector2Int>> tileAndOccupiedSpot = new Dictionary<Tile, List<Vector2Int>>();
 
     public List<Vector2Int> OccupiedSpots
