@@ -7,12 +7,6 @@ namespace Map
     {
         public static LocalMapGenerator Instance { private set; get; }
 
-        [SerializeField]
-        private Color gizmosColor;
-
-        [SerializeField]
-        private Direction drawDirection;
-
         public Pathway pathway;
 
         public Vector2Int start = new Vector2Int(10, 0);
@@ -35,7 +29,7 @@ namespace Map
 
         private WeightMap weightMap;
 
-        public BiomeSettings biomeSettings;
+        public LocalMapGenerationSettings biomeSettings;
 
 
         private int mapSizeX => biomeSettings.mapSize.x;
@@ -393,21 +387,6 @@ namespace Map
             pathway.CreatePaths(targetDirections);
 
             PlaceTiles();
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = gizmosColor;
-
-            if (pathway == null || pathway.PathNodes == null || !pathway.PathNodes.ContainsKey(drawDirection))
-                return;
-
-            List<Vector2Int> list = pathway.PathNodes[drawDirection];
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                Gizmos.DrawCube((Vector2)list[i], Vector3.one);
-            }
         }
     }
 

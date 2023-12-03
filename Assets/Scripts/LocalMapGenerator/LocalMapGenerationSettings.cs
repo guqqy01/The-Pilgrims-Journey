@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Map
 {
     [CreateAssetMenu()]
-    public class BiomeSettings : ScriptableObject
+    public class LocalMapGenerationSettings : ScriptableObject
     {
         public List<MapTile> mapTiles;
         [SerializeField, HideInInspector]
