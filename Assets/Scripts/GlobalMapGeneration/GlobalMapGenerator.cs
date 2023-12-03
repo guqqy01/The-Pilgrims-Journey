@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
+using Map;
+
 public class GlobalMapGenerator : MonoBehaviour
 {
     public static GlobalMapGenerator instance;
@@ -63,8 +66,17 @@ public class GlobalMapPoint
 {
     public Vector2Int point;
 
+    public LocalMapGenerationSettings localMapSettings;
+
     public GlobalMapPoint(Vector2Int point)
     {
         this.point = point;
+    }
+
+    public void LoadLocalMap()
+    {
+        SceneManager.LoadSceneAsync("LocalMap");
+        LocalMapGenerator.Instance.biomeSettings = localMapSettings;
+        LocalMapGenerator.Instance.CreateMap();
     }
 }
