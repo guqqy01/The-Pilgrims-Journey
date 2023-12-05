@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System;
-using Map;
 
 public class GlobalMapGenerator : MonoBehaviour
 {
@@ -32,51 +30,12 @@ public class GlobalMapGenerator : MonoBehaviour
         for (int i = 0; i < startLineDist; i++)
         {
             Vector2Int position = new Vector2Int(0, i);
-
-            GlobalMapPoint point = new GlobalMapPoint(position);
-
-            combinedPoints.Add(point);
         }
 
         for (int i = Mathf.CeilToInt(-numSeperatedPaths / 2f); i < Mathf.CeilToInt(numSeperatedPaths / 2f); i++)
         {
             Vector2Int position = new Vector2Int(i, startLineDist - 1);
-
-            GlobalMapPoint point = new GlobalMapPoint(position);
-
-            combinedPoints.Add(point);
         }
     }
 
-
-    private void OnDrawGizmos()
-    {
-        if (combinedPoints == null)
-            return;
-
-        foreach (GlobalMapPoint point in combinedPoints)
-        {
-            Gizmos.DrawCube((Vector2)point.point, Vector3.one * 0.5f);
-        }
-    }
-}
-
-[Serializable]
-public class GlobalMapPoint
-{
-    public Vector2Int point;
-
-    public LocalMapGenerationSettings localMapSettings;
-
-    public GlobalMapPoint(Vector2Int point)
-    {
-        this.point = point;
-    }
-
-    public void LoadLocalMap()
-    {
-        SceneManager.LoadSceneAsync("LocalMap");
-        LocalMapGenerator.Instance.biomeSettings = localMapSettings;
-        LocalMapGenerator.Instance.CreateMap();
-    }
 }
