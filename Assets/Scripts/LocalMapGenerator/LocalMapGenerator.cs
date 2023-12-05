@@ -43,6 +43,7 @@ namespace Map
         private void Awake()
         {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
 
 
@@ -60,12 +61,27 @@ namespace Map
         }
 
 
-        private void SpawnMapObjects()
+        public void DestroyMap()
         {
             for (int i = 0; i < mapObjectGOs.Count; i++)
-                DestroyImmediate(mapObjectGOs[i]);
+            {
+                if (Application.isPlaying)
+                {
+                    Destroy(mapObjectGOs[i]);
+                }
+                else
+                {
+                    DestroyImmediate(mapObjectGOs[i]);
+                }
+            }
 
             mapObjectGOs.Clear();
+        }
+
+        private void SpawnMapObjects()
+        {
+            DestroyMap();
+
 
             foreach (OverlayMapObject mapObject in biomeSettings.mapObjects)
             {
@@ -169,12 +185,26 @@ namespace Map
             weightMap.Sort();
         }
 
-        private void SpawnEnemys()
+        public void DestoryEnemys() 
         {
             for (int i = 0; i < enemys.Count; i++)
-                DestroyImmediate(enemys[i]);
+            {
+                if (Application.isPlaying)
+                {
+                    Destroy(enemys[i]);
+                }
+                else
+                {
+                    DestroyImmediate(enemys[i]);
+                }
+            }
 
             enemys.Clear();
+        }
+
+        private void SpawnEnemys()
+        {
+            DestoryEnemys();
 
             foreach (MonsterSpawn spawn in monsterSettings.rangeAndMonster)
             {
@@ -343,15 +373,26 @@ namespace Map
             return closestPoints[UnityEngine.Random.Range(0, closestPoints.Count)];
         }
 
-
-        private void PlaceTiles()
+        public void DestroyTiles()
         {
             for (int i = 0; i < tiles.Count; i++)
             {
-                DestroyImmediate(tiles[i]);
+                if (Application.isPlaying)
+                {
+                    Destroy(tiles[i]);
+                }
+                else
+                {
+                    DestroyImmediate(tiles[i]);
+                }
             }
 
             tiles.Clear();
+        }
+
+        private void PlaceTiles()
+        {
+            DestroyTiles();
 
             biomeSettings.Setup();
 
