@@ -29,16 +29,16 @@ namespace Map
 
         private WeightMap weightMap;
 
-        public LocalMapGenerationSettings biomeSettings;
+        public LocalMapGenerationSettings generationSettings;
 
 
-        private int mapSizeX => biomeSettings.mapSize.x;
-        private int mapSizeY => biomeSettings.mapSize.y;
+        private int mapSizeX => generationSettings.mapSize.x;
+        private int mapSizeY => generationSettings.mapSize.y;
 
-        private int targetDistanceMin => biomeSettings.targetDirectionMinMax.x;
-        private int targetDistanceMax => biomeSettings.targetDirectionMinMax.y;
-        private int traverseDistanceMin => biomeSettings.traverseDirectionMinMax.x;
-        private int traverseDistanceMax => biomeSettings.traverseDirectionMinMax.y;
+        private int targetDistanceMin => generationSettings.targetDirectionMinMax.x;
+        private int targetDistanceMax => generationSettings.targetDirectionMinMax.y;
+        private int traverseDistanceMin => generationSettings.traverseDirectionMinMax.x;
+        private int traverseDistanceMax => generationSettings.traverseDirectionMinMax.y;
 
         private void Awake()
         {
@@ -83,7 +83,7 @@ namespace Map
             DestroyMap();
 
 
-            foreach (OverlayMapObject mapObject in biomeSettings.mapObjects)
+            foreach (OverlayMapObject mapObject in generationSettings.mapObjects)
             {
                 int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));
 
@@ -101,8 +101,8 @@ namespace Map
                         for (int y = 0; y < mapObject.size.y; y++)
                         {
                             if (occupiedSpots.Contains(new Vector2Int(i + x, j + y)) ||
-                                i + x > biomeSettings.mapSize.x ||
-                                j + y > biomeSettings.mapSize.y ||
+                                i + x > generationSettings.mapSize.x ||
+                                j + y > generationSettings.mapSize.y ||
                                 pathway.ContainsStep(new Vector2Int(i + x, j + y)))
                             {
                                 canPlace = false;
@@ -394,7 +394,7 @@ namespace Map
         {
             DestroyTiles();
 
-            biomeSettings.Setup();
+            generationSettings.Setup();
 
             for (int i = 0; i < mapSizeX + 1; i++)
             {
@@ -402,11 +402,11 @@ namespace Map
                 {
                     if (pathway.ContainsStep(new Vector2Int(i, j)))
                     {
-                        tiles.Add(Instantiate(biomeSettings.GetPathTile(), new Vector3(i, j), Quaternion.identity, transform));
+                        tiles.Add(Instantiate(generationSettings.GetPathTile(), new Vector3(i, j), Quaternion.identity, transform));
                     }
                     else
                     {
-                        tiles.Add(Instantiate(biomeSettings.GetMapTile(), new Vector3(i, j), Quaternion.identity, transform));
+                        tiles.Add(Instantiate(generationSettings.GetMapTile(), new Vector3(i, j), Quaternion.identity, transform));
                     }
                 }
             }

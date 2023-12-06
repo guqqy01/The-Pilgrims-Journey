@@ -7,8 +7,12 @@ public class GlobalMapPoint : MonoBehaviour
 {
     public LocalMapGenerationSettings localMapSettings;
 
-    [SerializeField]
-    private Collider2D collider2D;
+    private new Collider2D collider2D;
+
+    private void Awake()
+    {
+        collider2D = GetComponent<Collider2D>();
+    }
 
     private void Update()
     {
@@ -23,10 +27,10 @@ public class GlobalMapPoint : MonoBehaviour
 
     public void LoadLocalMap()
     {
-        SceneManager.LoadScene("LocalMap");
         SceneManager.sceneLoaded += Test;
         SceneManager.sceneUnloaded += Test;
-        LocalMapGenerator.Instance.biomeSettings = localMapSettings;
+        SceneManager.LoadScene("LocalMap");
+        LocalMapGenerator.Instance.generationSettings = localMapSettings;
         LocalMapGenerator.Instance.CreateMap();
     }
 
