@@ -27,20 +27,14 @@ public class GlobalMapPoint : MonoBehaviour
 
     public void LoadLocalMap()
     {
+        SceneManager.sceneLoaded -= Test;
         SceneManager.sceneLoaded += Test;
-        SceneManager.sceneUnloaded += Test;
-        SceneManager.LoadScene("LocalMap");
-        LocalMapGenerator.Instance.generationSettings = localMapSettings;
-        LocalMapGenerator.Instance.CreateMap();
+        GameManager.Instance.SetLocalMapObject(localMapSettings);
+        SceneManager.LoadSceneAsync("LocalMap");
     }
 
     public void Test(Scene scene, LoadSceneMode loadSceneMode)
     {
-        Debug.Log("Loaded: " + scene.name);
-    }
-
-    public void Test(Scene scene)
-    {
-        Debug.Log("Unloaded: " + scene.name);
+        GameManager.Instance.SetupLocalMap();
     }
 }

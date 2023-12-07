@@ -31,7 +31,6 @@ namespace Map
 
         public LocalMapGenerationSettings generationSettings;
 
-
         private int mapSizeX => generationSettings.mapSize.x;
         private int mapSizeY => generationSettings.mapSize.y;
 
@@ -45,7 +44,6 @@ namespace Map
             if(Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(this);
             }
             else
             {
@@ -65,6 +63,8 @@ namespace Map
             SpawnEnemys();
 
             SpawnMapObjects();
+
+            PathPicker.instance.Setup();
         }
 
 

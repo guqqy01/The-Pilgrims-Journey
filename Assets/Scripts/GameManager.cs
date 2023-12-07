@@ -5,25 +5,35 @@ using Map;
 
 public class GameManager : MonoBehaviour
 {
-    LocalMapGenerator mapGenerator;
+    public static GameManager Instance;
 
-    public Movement peasantPrefab;
-    public Movement tankPrefab;
+    public LocalMapGenerationSettings LocalMapSettings { get; private set; }
 
-    [SerializeField]
-    private float peasantSpawnRate = 10f;
-    private float nextPeasantSpawnTime = 0f;
 
-    [SerializeField]
-    private float tankSpawnRate = 10f;
-    private float nextTankSpawnTime = 0f;
-
-    void Start()
+    private void Awake()
     {
-        mapGenerator = LocalMapGenerator.Instance;
-        mapGenerator.CreateMap();
-        PathPicker.instance.Setup();
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
+
+    public void SetLocalMapObject(LocalMapGenerationSettings settings)
+    {
+        LocalMapSettings = settings;
+    }
+
+    public void SetupLocalMap()
+    {
+        LocalMapGenerator.Instance.generationSettings = LocalMapSettings;
+        LocalMapGenerator.Instance.CreateMap();
+    }
+
 
     void Update()
     {
