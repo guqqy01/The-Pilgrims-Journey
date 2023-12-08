@@ -28,5 +28,19 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!LeftClick)
+            return;
 
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        Collider2D collider = Physics2D.OverlapPoint(ray.origin);
+
+        if (collider == null)
+            return;
+
+        if (collider.TryGetComponent(out InputInteractiveObject interactiveObject))
+            interactiveObject.Interact();
+    }
 }
