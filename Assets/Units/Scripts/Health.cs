@@ -2,8 +2,8 @@
 
 public class Health : MonoBehaviour
 {
-    public int maxHealth = 5;
-    public int currentHealth = 5;
+    public int maxHealth { private set; get; } = 5;
+    public int currentHealth { private set; get; } = 5;
 
     public delegate void OnDie();
     public OnDie onDie;
@@ -11,8 +11,9 @@ public class Health : MonoBehaviour
     public delegate void OnHealthChange(int currentHealth);
     public OnHealthChange onHealthChange;
 
-    private void Start()
+    public void Init(int maxHealth)
     {
+        this.maxHealth = maxHealth;
         currentHealth = maxHealth;
         onHealthChange?.Invoke(currentHealth);
     }

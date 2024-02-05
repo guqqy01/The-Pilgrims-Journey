@@ -68,8 +68,8 @@ public class TilePlayer : TileGrid
             {
                 if (playerTime >= currentSpawningUnits[i].nextSpawnTime)
                 {
-                    Movement mov = Instantiate(currentSpawningUnits[i].unit.movement, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-                    mov.Init(LocalMapGenerator.Instance.pathway.PathNodes[pathDirection]);
+                    Unit unit = Instantiate(currentSpawningUnits[i].unit.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
+                    unit.Init(currentSpawningUnits[i].unit, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection]);
                     currentSpawningUnits[i].nextSpawnTime = playerTime + 1f / currentSpawningUnits[i].spawnRate;
                     
                 }

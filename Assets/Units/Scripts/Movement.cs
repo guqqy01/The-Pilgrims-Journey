@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float speed = 1f;
+    private float baseSpeed;
+    public float speed { private set; get; } = 1f;
 
     public Animator ani;
 
@@ -23,8 +24,10 @@ public class Movement : MonoBehaviour
         initialXScale = visualTransform.localScale.x;
     }
 
-    public void Init(List<Vector2Int> path)
+    public void Init(List<Vector2Int> path, float speed)
     {
+        baseSpeed = speed;
+        this.speed = speed;
         Path = path;
         finishedPath = false;
     }

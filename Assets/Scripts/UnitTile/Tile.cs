@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
 {
     public bool locked;
 
-    public Unit unit;
+    public UnitSO unit;
 
     public TileShape shape;
 

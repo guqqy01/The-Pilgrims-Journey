@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: 3152279250383704034}
   - component: {fileID: 3207248203820527080}
   - component: {fileID: 2468762895627085193}
+  - component: {fileID: -3200719875420227310}
   m_Layer: 6
   m_Name: Peasant
   m_TagString: Untagged
@@ -423,8 +424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  currentHealth: 5
 --- !u!114 &3207248203820527080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4eca2dfe04f114c8d315a3f5f37120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
   ani: {fileID: 8982089313793131042}
   visualTransform: {fileID: 8982089313793131040}
 --- !u!61 &2468762895627085193
@@ -466,3 +464,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &-3200719875420227310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8982089314669466726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49ee7bd2deeab6409c9cfb299c51c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSO: {fileID: 11400000, guid: 5462e31195e56de46a7a21e97f3a7dc2, type: 2}

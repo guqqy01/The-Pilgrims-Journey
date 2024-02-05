@@ -15,7 +15,7 @@ public class UnitSpawningInfo
         }
     }
 
-    public UnitSpawnInfo this[Unit unit]
+    public UnitSpawnInfo this[UnitSO unit]
     {
         get
         {
@@ -57,7 +57,7 @@ public class UnitSpawningInfo
         }
     }
 
-    public bool ContainsUnit(Unit unit)
+    public bool ContainsUnit(UnitSO unit)
     {
         foreach(UnitSpawnInfo info in unitSpawnInfo)
         {

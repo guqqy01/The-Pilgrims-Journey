@@ -2,12 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu()]
-public class Unit : ScriptableObject
+[RequireComponent(typeof(Movement), typeof(Health))]
+public class Unit : MonoBehaviour
 {
-    public float baseSpawnRate = 1f;
+    private UnitSO unitSO;
 
-    public Movement movement;
+    private Movement movement;
+    private Health health;
+    
+    public float MovementSpeed => movement.speed;
+    public float CurrentHealth => health.currentHealth;
+    public float MaxHealth => health.maxHealth;
 
-    public Sprite unitSprite;
+    private void Awake()
+    {
+        movement = GetComponent<Movement>();
+        health = GetComponent<Health>();
+    }
+
+    public void Init(UnitSO unitSO, List<Vector2Int> path)
+    {
+        this.unitSO = unitSO;
+        movement.Init(path, unitSO.MovementSpeed);
+        health.Init(unitSO.MaxHealth);
+    }
 }
