@@ -18,6 +18,6 @@ public class HealthUI : MonoBehaviour
 
     private void OnHealthChange(int currentHealth)
     {
-        healthFill.fillAmount = (float)currentHealth / health.maxHealth;
+        healthFill.fillAmount = (float)currentHealth / health.MaxHealth;
     }
 }

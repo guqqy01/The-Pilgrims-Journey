@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-[Serializable]
 public class Tile : MonoBehaviour
 {
     public bool locked;
@@ -12,6 +11,8 @@ public class Tile : MonoBehaviour
     public UnitSO unit;
 
     public TileShape shape;
+
+    public TileStats tileStats;
 
     public bool Selected { private set; get; } = false;
 

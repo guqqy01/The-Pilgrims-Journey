@@ -39,7 +39,7 @@ public class UnitSpawningInfo
         {
             UnitSpawnInfo info = this[tile.unit];
 
-            int multiplier = 0;
+            float multiplier = 0;
             foreach (Vector2Int v2int in tileAndSpaces[tile])
             {
                 if (v2int.x - position == 0)

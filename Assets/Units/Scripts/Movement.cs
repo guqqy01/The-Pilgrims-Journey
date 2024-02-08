@@ -4,7 +4,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     private float baseSpeed;
-    public float speed { private set; get; } = 1f;
+    private float speedMultiplier;
+    public float speed => baseSpeed * speedMultiplier;
 
     public Animator ani;
 
@@ -24,10 +25,10 @@ public class Movement : MonoBehaviour
         initialXScale = visualTransform.localScale.x;
     }
 
-    public void Init(List<Vector2Int> path, float speed)
+    public void Init(List<Vector2Int> path, UnitSO unitSO, TileStats tileStats)
     {
-        baseSpeed = speed;
-        this.speed = speed;
+        baseSpeed = unitSO.MovementSpeed;
+        speedMultiplier = tileStats.movementMultiplier;
         Path = path;
         finishedPath = false;
     }
