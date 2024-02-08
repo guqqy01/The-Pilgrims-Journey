@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Units;
 
 public class ShroomMonster : MonoBehaviour
 {
@@ -47,9 +48,9 @@ public class ShroomMonster : MonoBehaviour
         {
             if (1 << colliders[i].gameObject.layer == targetMask)
             {
-                if (colliders[i].TryGetComponent(out Health health))
+                if (colliders[i].TryGetComponent(out Units.Unit unit))
                 {
-                    health.ModifyHealth(-damage);
+                    unit.Damage(damage);
                 }
             }
         }

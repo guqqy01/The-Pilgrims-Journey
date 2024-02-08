@@ -41,11 +41,11 @@ public class Projectile : MonoBehaviour
     {
         if (!hit && 1 << collision.gameObject.layer == layerMask)
         {
-            if (collision.TryGetComponent(out Health health))
+            if (collision.TryGetComponent(out Units.Unit unit))
             {
                 hit = true;
 
-                health.ModifyHealth(-damage);
+                unit.Damage(damage);
 
                 Destroy(gameObject);
             }

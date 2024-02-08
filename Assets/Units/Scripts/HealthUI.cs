@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthUI : MonoBehaviour
+namespace Units
 {
-    [SerializeField]
-    private Image healthFill;
-
-    [SerializeField]
-    private Health health;
-
-    private void Awake()
+    public class HealthUI : MonoBehaviour
     {
-        health.onHealthChange += OnHealthChange;
-    }
+        [SerializeField]
+        private Image healthFill;
 
-    private void OnHealthChange(int currentHealth)
-    {
-        healthFill.fillAmount = (float)currentHealth / health.MaxHealth;
+        [SerializeField]
+        private Health health;
+
+        private void Awake()
+        {
+            health.onHealthChange += OnHealthChange;
+        }
+
+        private void OnHealthChange(int currentHealth)
+        {
+            healthFill.fillAmount = (float)currentHealth / health.MaxHealth;
+        }
     }
 }
+

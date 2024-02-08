@@ -1,4 +1,6 @@
-﻿public class UnitSpawnInfo
+﻿using Units;
+
+public class UnitSpawnInfo
 {
     public UnitSO unit;
     public TileStats tileStats;

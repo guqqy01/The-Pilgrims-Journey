@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using Units;
+
 
 public class Tile : MonoBehaviour
 {
