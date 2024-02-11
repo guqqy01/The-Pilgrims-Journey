@@ -5,7 +5,7 @@ using System;
 using UnityEngine.UI;
 using Units;
 
-
+[RequireComponent(typeof(TileStats))]
 public class Tile : MonoBehaviour
 {
     public bool locked;
@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour
 
     public TileShape shape;
 
-    public TileStats tileStats;
+    public TileStats tileStats { private set; get; }
 
     public bool Selected { private set; get; } = false;
 
@@ -22,6 +22,7 @@ public class Tile : MonoBehaviour
     private RectTransform unitUITransform;
 
     public RectTransform rectTransform { private set; get; }
+    [SerializeField]
     private Image image;
 
     private static float multiplier = 210;
@@ -87,7 +88,7 @@ public class Tile : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
+        tileStats = GetComponent<TileStats>();
     }
 
     public void SelectTile(bool select)

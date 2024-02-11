@@ -68,7 +68,7 @@ namespace Units
 
         public int DamageShield(int amount)
         {
-            int leftOverDmg = Mathf.Min(amount - currentShield, 0);
+            int leftOverDmg = Mathf.Max(amount - currentShield, 0);
 
             currentShield = Mathf.Clamp(currentShield - amount, 0, maxShield);
 
