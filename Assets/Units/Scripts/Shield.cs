@@ -8,8 +8,8 @@ namespace Units
         private int additionalShield;
         private float shieldMultiplier = 1;
 
-        public int maxShield => Mathf.CeilToInt((baseShield + additionalShield) * shieldMultiplier);
-        public int currentShield { private set; get; } = 5;
+        public int MaxShield => Mathf.CeilToInt((baseShield + additionalShield) * shieldMultiplier);
+        public int CurrentShield { private set; get; } = 5;
 
 
         private float baseRegeneration;
@@ -43,14 +43,14 @@ namespace Units
             baseCooldown = unitSO.ShieldCooldown;
             cooldownMultiplier = tileStats.shieldCooldownMultiplier;
 
-            currentShield = maxShield;
-            onShieldChange?.Invoke(currentShield);
+            CurrentShield = MaxShield;
+            onShieldChange?.Invoke(CurrentShield);
         }
 
 
         private void Update()
         {
-            if (currentShield == maxShield) return;
+            if (CurrentShield == MaxShield) return;
 
             if (Time.time >= timeToNextRegenPoint)
             {
@@ -61,22 +61,22 @@ namespace Units
 
         public void RegenerateShield(int amount)
         {
-            currentShield = Mathf.Clamp(currentShield + amount, 0, maxShield);
+            CurrentShield = Mathf.Clamp(CurrentShield + amount, 0, MaxShield);
 
-            onShieldChange?.Invoke(currentShield);
+            onShieldChange?.Invoke(CurrentShield);
         }
 
         public int DamageShield(int amount)
         {
-            int leftOverDmg = Mathf.Max(amount - currentShield, 0);
+            int leftOverDmg = Mathf.Max(amount - CurrentShield, 0);
 
-            currentShield = Mathf.Clamp(currentShield - amount, 0, maxShield);
+            CurrentShield = Mathf.Clamp(CurrentShield - amount, 0, MaxShield);
 
-            onShieldChange?.Invoke(currentShield);
+            onShieldChange?.Invoke(CurrentShield);
 
             if (amount > 0) timeToNextRegenPoint = Time.time + baseCooldown;
 
-            if (currentShield == 0)
+            if (CurrentShield == 0)
                 onDestroy?.Invoke();
 
             return leftOverDmg;
