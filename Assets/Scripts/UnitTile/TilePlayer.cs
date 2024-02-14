@@ -124,6 +124,11 @@ public class TilePlayer : TileGrid
         }
     }
 
+    public void TileChanged()
+    {
+
+    }
+
     public List<Tile> GetTilesInPosition(int position)
     {
         List<Tile> tiles = new List<Tile>();
