@@ -2,7 +2,7 @@
 
 public class UnitSpawnInfo
 {
-    public UnitSO unit;
+    public Tile tile;
     public TileStats tileStats;
 
     public float spawnRate;
@@ -10,14 +10,14 @@ public class UnitSpawnInfo
 
     public UnitSpawnInfo(Tile tile, float nextSpawnTime, float spawnRateMultiplier)
     {
-        unit = tile.unit;
+        this.tile = tile;
         tileStats = tile.tileStats;
-        spawnRate = unit.BaseSpawnRate * spawnRateMultiplier;
+        spawnRate = tile.unit.BaseSpawnRate * spawnRateMultiplier;
         this.nextSpawnTime = nextSpawnTime;
     }
 
     public void AddSpawnRate(float multiplier)
     {
-        spawnRate += unit.BaseSpawnRate * multiplier;
+        spawnRate += tile.unit.BaseSpawnRate * multiplier;
     }
 }

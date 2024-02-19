@@ -16,13 +16,13 @@ public class UnitSpawningInfo
         }
     }
 
-    public UnitSpawnInfo this[UnitSO unit]
+    public UnitSpawnInfo this[Tile tile]
     {
         get
         {
             for (int i = 0; i < unitSpawnInfo.Count; i++)
             {
-                if (unitSpawnInfo[i].unit == unit)
+                if (unitSpawnInfo[i].tile == tile)
                 {
                     return unitSpawnInfo[i];
                 }
@@ -38,7 +38,7 @@ public class UnitSpawningInfo
 
         foreach (Tile tile in tiles)
         {
-            UnitSpawnInfo info = this[tile.unit];
+            UnitSpawnInfo info = this[tile];
 
             float multiplier = 0;
             foreach (Vector2Int v2int in tileAndSpaces[tile])
@@ -53,16 +53,16 @@ public class UnitSpawningInfo
             }
             else
             {
-                unitSpawnInfo.Add(new UnitSpawnInfo(tile, previous != null && previous.ContainsUnit(tile.unit) ? previous[tile.unit].nextSpawnTime : Time.time, multiplier));
+                unitSpawnInfo.Add(new UnitSpawnInfo(tile, previous != null && previous.ContainsTile(tile) ? previous[tile].nextSpawnTime : Time.time, multiplier));
             }
         }
     }
 
-    public bool ContainsUnit(UnitSO unit)
+    public bool ContainsTile(Tile tile)
     {
         foreach(UnitSpawnInfo info in unitSpawnInfo)
         {
-            if (info.unit == unit)
+            if (info.tile == tile)
                 return true;
         }
 
