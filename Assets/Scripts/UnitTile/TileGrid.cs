@@ -26,11 +26,11 @@ public class TileGrid : MonoBehaviour
     {
         get
         {
-            return tiles[position.x, position.y];
+            return tiles[position.x - 1, position.y - 1];
         }
         set
         {
-            tiles[position.x, position.y] = value;
+            tiles[position.x - 1, position.y - 1] = value;
         }
     }
 
@@ -82,9 +82,11 @@ public class TileGrid : MonoBehaviour
         if (!CanPlaceTile(tile, position))
             return false;
 
+        RemoveTile(tile);
+
         foreach(var point in tile.Shape.AddToAll(position))
         {
-            tiles[point.x, point.y] = tile;
+            tiles[point.x - 1, point.y - 1] = tile;
         }
 
         onTileChange?.Invoke();

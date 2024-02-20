@@ -47,14 +47,14 @@ public class TilePlayer : TileGrid
         if (!isPlaying)
             return;
 
-        int posBefore = Mathf.FloorToInt(CurrentPlayingPosition) + 1;
+        int posBefore = Mathf.FloorToInt(CurrentPlayingPosition);
 
         CurrentPlayingPosition += Time.deltaTime / oneTileTime;
         playerTime += Time.deltaTime;
 
         playerUIPoint.position = GridTransform.position + new Vector3(-GridTransform.sizeDelta.x + 2f * CurrentPlayingPosition * (GridTransform.sizeDelta.x / TileGridSize.x), GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
 
-        if (posBefore != Mathf.FloorToInt(CurrentPlayingPosition) + 1)
+        if (posBefore != Mathf.FloorToInt(CurrentPlayingPosition))
         {
             PositionChanged();
             onCurrentPlayingPositionChange?.Invoke();
@@ -92,7 +92,7 @@ public class TilePlayer : TileGrid
         if (!isPlaying)
             return;
 
-        Dictionary<Tile, int> tilesInPosition = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        Dictionary<Tile, int> tilesInPosition = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition));
         foreach (KeyValuePair<Tile, int> tile in tilesInPosition)
         {
             tile.Key.locked = true;
@@ -111,7 +111,7 @@ public class TilePlayer : TileGrid
 
     public void PositionChanged()
     {
-        spawningTilesAndSize = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        spawningTilesAndSize = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition));
 
         if (!isPlaying)
             return;

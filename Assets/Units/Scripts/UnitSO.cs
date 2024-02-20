@@ -33,5 +33,12 @@ namespace Units
 
         public Sprite unitSprite;
     }
+
+    public interface UnitSpecialAbility
+    {
+        public int Level { get; set; }
+
+        public void LevelUp();
+    }
 }
 
