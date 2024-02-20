@@ -8,24 +8,47 @@ public class TileGrid : MonoBehaviour
     private RectTransform gridTransform;
     public RectTransform GridTransform => gridTransform;
 
-    protected Dictionary<Tile, List<Vector2Int>> tileAndOccupiedSpot = new Dictionary<Tile, List<Vector2Int>>();
+    protected Tile[,] tiles;
 
-    public List<Vector2Int> OccupiedSpots
+    public Tile this[int i, int j]
     {
         get
         {
-            List<Vector2Int> spots = new List<Vector2Int>();
-
-            foreach(KeyValuePair<Tile, List<Vector2Int>> kvp in tileAndOccupiedSpot)
-            {
-                spots.AddRange(kvp.Value);
-            }
-
-            return spots;
+            return tiles[i, j];
+        }
+        set
+        {
+            tiles[i, j] = value;
         }
     }
 
-    public List<Tile> Tiles => tileAndOccupiedSpot.Keys.ToList();
+    public Tile this[Vector2Int position]
+    {
+        get
+        {
+            return tiles[position.x, position.y];
+        }
+        set
+        {
+            tiles[position.x, position.y] = value;
+        }
+    }
+
+    public List<Tile> Tiles 
+    {
+        get
+        {
+            List<Tile> returnList = new List<Tile>();
+
+            foreach (var tile in tiles)
+            {
+                if (tile != null)
+                    returnList.Add(tile);
+            }
+
+            return returnList;
+        }
+    }
 
     public delegate void OnTileChange();
     public OnTileChange onTileChange;
@@ -33,6 +56,11 @@ public class TileGrid : MonoBehaviour
     [SerializeField]
     protected Vector2Int tileGridSize;
     public Vector2Int TileGridSize => tileGridSize;
+
+    protected virtual void Awake()
+    {
+        tiles = new Tile[tileGridSize.x, tileGridSize.y];
+    }
 
     public bool PointOutOfGrid(Vector2Int point) => point.x > tileGridSize.x || point.x <= 0 || point.y > tileGridSize.y || point.y <= 0;
 
@@ -54,13 +82,9 @@ public class TileGrid : MonoBehaviour
         if (!CanPlaceTile(tile, position))
             return false;
 
-        if (tileAndOccupiedSpot.ContainsKey(tile))
+        foreach(var point in tile.Shape.AddToAll(position))
         {
-            tileAndOccupiedSpot[tile] = tile.Shape.AddToAll(position);
-        }
-        else
-        {
-            tileAndOccupiedSpot.Add(tile, tile.Shape.AddToAll(position));
+            tiles[point.x, point.y] = tile;
         }
 
         onTileChange?.Invoke();
@@ -75,20 +99,26 @@ public class TileGrid : MonoBehaviour
         if (PointOutOfGrid(v2Int))
             return false;
 
-        foreach (var kvp in tileAndOccupiedSpot)
-        {
-            if (kvp.Value.Contains(v2Int))
-            {
-                tile = kvp.Key;
-                return true;
-            }
-        }
+        tile = this[v2Int];
 
-        return false;
+        return tile != null;
     }
 
     public bool RemoveTile(Tile tile)
     {
-        return tileAndOccupiedSpot.Remove(tile);
+        bool haveRemovedTile = false;
+
+        for (int i = 0; i < tileGridSize.x; i++)
+        {
+            for (int j = 0; j < tileGridSize.y; j++)
+            {
+                if (tiles[i, j] == tile)
+                {
+                    tiles[i, j] = null;
+                    haveRemovedTile = true;
+                }
+            }
+        }
+        return haveRemovedTile;
     }
 }

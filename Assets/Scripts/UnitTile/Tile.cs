@@ -28,6 +28,8 @@ public class Tile : MonoBehaviour
     private static float multiplier = 210;
     public Vector2 Offset => multiplier * GetOffset();
 
+    public float TimeForNextSpawn = 0;
+    public float SpawnRate = 0;
 
     public Vector2 GetOffset()
     {

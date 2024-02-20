@@ -32,28 +32,21 @@ public class UnitSpawningInfo
         }
     }
 
-    public UnitSpawningInfo(List<Tile> tiles, UnitSpawningInfo previous, Dictionary<Tile, List<Vector2Int>> tileAndSpaces, int position)
+    public UnitSpawningInfo(Dictionary<Tile, int> tilesAndSize, UnitSpawningInfo previous, int position)
     {
         unitSpawnInfo = new List<UnitSpawnInfo>();
 
-        foreach (Tile tile in tiles)
+        foreach (KeyValuePair<Tile, int> kvp in tilesAndSize)
         {
-            UnitSpawnInfo info = this[tile];
-
-            float multiplier = 0;
-            foreach (Vector2Int v2int in tileAndSpaces[tile])
-            {
-                if (v2int.x - position == 0)
-                    multiplier++;
-            }
+            UnitSpawnInfo info = this[kvp.Key];
 
             if (info != null)
             {
-                info.AddSpawnRate(multiplier);
+                info.AddSpawnRate(kvp.Value);
             }
             else
             {
-                unitSpawnInfo.Add(new UnitSpawnInfo(tile, previous != null && previous.ContainsTile(tile) ? previous[tile].nextSpawnTime : Time.time, multiplier));
+                unitSpawnInfo.Add(new UnitSpawnInfo(kvp.Key, previous != null && previous.ContainsTile(kvp.Key) ? previous[kvp.Key].nextSpawnTime : Time.time, kvp.Value));
             }
         }
     }

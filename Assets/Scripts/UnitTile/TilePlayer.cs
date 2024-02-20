@@ -30,10 +30,10 @@ public class TilePlayer : TileGrid
 
     private UIMotion uIMotion;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         uIMotion = GetComponent<UIMotion>();
-        
     }
 
     private void Start()
@@ -90,10 +90,10 @@ public class TilePlayer : TileGrid
         if (!isPlaying)
             return;
 
-        List<Tile> tilesInPosition = GetTilesInPosition(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
-        foreach (Tile tile in tilesInPosition)
+        Dictionary<Tile, int> tilesInPosition = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        foreach (KeyValuePair<Tile, int> tile in tilesInPosition)
         {
-            tile.locked = true;
+            tile.Key.locked = true;
         }
     }
 
@@ -109,18 +109,18 @@ public class TilePlayer : TileGrid
 
     public void PositionChanged()
     {
-        List<Tile> tilesInPosition = GetTilesInPosition(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        Dictionary<Tile, int> tilesInPosition = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
 
         previousSpawningUnits = currentSpawningUnits;
 
-        currentSpawningUnits = new UnitSpawningInfo(tilesInPosition, previousSpawningUnits, tileAndOccupiedSpot, Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        currentSpawningUnits = new UnitSpawningInfo(tilesInPosition, previousSpawningUnits, Mathf.FloorToInt(CurrentPlayingPosition) + 1);
 
         if (!isPlaying)
             return;
 
-        foreach (Tile tile in tilesInPosition)
+        foreach (KeyValuePair<Tile, int> tile in tilesInPosition)
         {
-            tile.locked = true;
+            tile.Key.locked = true;
         }
     }
 
@@ -129,26 +129,25 @@ public class TilePlayer : TileGrid
 
     }
 
-    public List<Tile> GetTilesInPosition(int position)
+    public Dictionary<Tile, int> GetTilesInPositionAndSize(int position)
     {
-        List<Tile> tiles = new List<Tile>();
-        bool IsTileInPosition(KeyValuePair<Tile, List<Vector2Int>> kvpTile)
+        Dictionary<Tile, int> returnTiles = new Dictionary<Tile, int>();
+
+        for (int i = 0; i < tiles.GetLength(1); i++)
         {
-            for (int i = 0; i < kvpTile.Value.Count; i++)
+            if (tiles[position, i] != null)
             {
-                Vector2Int tileSpot = kvpTile.Value[i];
-                if (position == tileSpot.x)
-                    return true;
+                if (returnTiles.ContainsKey(tiles[position, i]))
+                {
+                    returnTiles[tiles[position, i]] += 1;
+                }
+                else
+                {
+                    returnTiles.Add(tiles[position, i], 1);
+                }
             }
-            return false;
         }
 
-        foreach (var kvp in tileAndOccupiedSpot)
-        {
-            if (IsTileInPosition(kvp))
-                tiles.Add(kvp.Key);
-        }
-
-        return tiles;
+        return returnTiles;
     }
 }
