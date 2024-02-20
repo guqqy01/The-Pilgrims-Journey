@@ -25,8 +25,7 @@ public class TilePlayer : TileGrid
     [SerializeField]
     private float playerUIPointYOffset;
 
-    private UnitSpawningInfo previousSpawningUnits;
-    private UnitSpawningInfo currentSpawningUnits;
+    private Dictionary<Tile, int> spawningTilesAndSize = new Dictionary<Tile, int>();
 
     private UIMotion uIMotion;
 
@@ -65,16 +64,19 @@ public class TilePlayer : TileGrid
         {
             Direction pathDirection = (Direction)PathPicker.instance.pickedDirection;
 
-            for (int i = 0; i < currentSpawningUnits.Count; i++)
+            foreach (KeyValuePair<Tile, int> tileAndSize in spawningTilesAndSize)
             {
-                if (playerTime >= currentSpawningUnits[i].nextSpawnTime)
+                Tile tile = tileAndSize.Key;
+                int size = tileAndSize.Value;
+
+                if (playerTime >= tile.TimeForNextSpawn)
                 {
-                    Unit unit = Instantiate(currentSpawningUnits[i].tile.unit.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-                    unit.Init(currentSpawningUnits[i].tile.unit, currentSpawningUnits[i].tileStats ,LocalMapGenerator.Instance.pathway.PathNodes[pathDirection]);
-                    currentSpawningUnits[i].nextSpawnTime = playerTime + 1f / currentSpawningUnits[i].spawnRate;
-                    
+                    Unit unit = Instantiate(tile.unit.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
+                    unit.Init(tile.unit, tile.tileStats, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection]);
+                    tile.TimeForNextSpawn = playerTime + 1f / tile.SpawnRate(size);
+
                 }
-            }
+            } 
         }
     }
 
@@ -109,24 +111,15 @@ public class TilePlayer : TileGrid
 
     public void PositionChanged()
     {
-        Dictionary<Tile, int> tilesInPosition = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
-
-        previousSpawningUnits = currentSpawningUnits;
-
-        currentSpawningUnits = new UnitSpawningInfo(tilesInPosition, previousSpawningUnits, Mathf.FloorToInt(CurrentPlayingPosition) + 1);
+        spawningTilesAndSize = GetTilesInPositionAndSize(Mathf.FloorToInt(CurrentPlayingPosition) + 1);
 
         if (!isPlaying)
             return;
 
-        foreach (KeyValuePair<Tile, int> tile in tilesInPosition)
+        foreach (KeyValuePair<Tile, int> tile in spawningTilesAndSize)
         {
             tile.Key.locked = true;
         }
-    }
-
-    public void TileChanged()
-    {
-
     }
 
     public Dictionary<Tile, int> GetTilesInPositionAndSize(int position)

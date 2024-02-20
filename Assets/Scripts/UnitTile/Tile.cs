@@ -29,7 +29,7 @@ public class Tile : MonoBehaviour
     public Vector2 Offset => multiplier * GetOffset();
 
     public float TimeForNextSpawn = 0;
-    public float SpawnRate = 0;
+    public float SpawnRate(int positionTileSize) => unit.BaseSpawnRate * tileStats.spawningMultiplier * positionTileSize;
 
     public Vector2 GetOffset()
     {
