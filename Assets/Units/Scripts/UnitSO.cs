@@ -34,11 +34,36 @@ namespace Units
         public Sprite unitSprite;
     }
 
+    public enum Rarity
+    {
+        common,
+        uncommon,
+        rare,
+        epic,
+        legendary,
+    }
+
     public interface UnitSpecialAbility
     {
+        public Rarity Rarity { get; set; }
+
         public int Level { get; set; }
 
-        public void LevelUp();
+        public virtual void LevelUp()
+        {
+            Level++;
+        }
+    }
+
+    public class SpeedInNumbers : UnitSpecialAbility
+    {
+        public float BaseSpeedBuff;
+        public float SpeedLevelIncrement;
+        public float Range;
+
+        public Rarity Rarity { get; set; }
+
+        public int Level { get; set; } = 0;
     }
 }
 
