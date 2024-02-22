@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,38 +33,18 @@ namespace Units
         public Unit unitPrefab;
 
         public Sprite unitSprite;
+
+        [SerializeReference]
+        public UnitSpecialAbility UnitSpecialAbility;
     }
 
     public enum Rarity
     {
-        common,
-        uncommon,
-        rare,
-        epic,
-        legendary,
-    }
-
-    public interface UnitSpecialAbility
-    {
-        public Rarity Rarity { get; set; }
-
-        public int Level { get; set; }
-
-        public virtual void LevelUp()
-        {
-            Level++;
-        }
-    }
-
-    public class SpeedInNumbers : UnitSpecialAbility
-    {
-        public float BaseSpeedBuff;
-        public float SpeedLevelIncrement;
-        public float Range;
-
-        public Rarity Rarity { get; set; }
-
-        public int Level { get; set; } = 0;
+        common = 1,
+        uncommon = 2,
+        rare = 3,
+        epic = 4,
+        legendary = 5,
     }
 }
 
