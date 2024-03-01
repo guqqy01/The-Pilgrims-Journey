@@ -10,8 +10,9 @@ namespace Units
         private Movement movement;
         private Health health;
         private Shield shield;
+        private UnitSpecial special;
 
-        public float MovementSpeed => movement.speed;
+        public float MovementSpeed => movement.Speed;
         public float CurrentHealth => health.currentHealth;
         public float MaxHealth => health.MaxHealth;
 
@@ -20,13 +21,15 @@ namespace Units
             movement = GetComponent<Movement>();
             health = GetComponent<Health>();
             shield = GetComponent<Shield>();
+            special = GetComponent<UnitSpecial>();
         }
 
-        public void Init(UnitSO unitSO, TileStats tileStats, List<Vector2Int> path)
+        public void Init(UnitCard unitCard, TileStats tileStats, List<Vector2Int> path)
         {
-            movement.Init(path, unitSO, tileStats);
-            health.Init(unitSO, tileStats);
-            shield.Init(unitSO, tileStats);
+            movement.Init(path, unitCard, tileStats);
+            health.Init(unitCard, tileStats);
+            shield.Init(unitCard, tileStats);
+            special.Init(unitCard.rarity, unitCard.Level);
         }
 
         public void Damage(int damage)

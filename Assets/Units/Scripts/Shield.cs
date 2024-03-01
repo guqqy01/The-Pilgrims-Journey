@@ -1,26 +1,22 @@
 ﻿using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Units
 {
     internal class Shield : MonoBehaviour
     {
-        private int baseShield;
-        private int additionalShield;
-        private float shieldMultiplier = 1;
-
-        public int MaxShield => Mathf.CeilToInt((baseShield + additionalShield) * shieldMultiplier);
+        private BuffableIntStat shield;
+        public int MaxShield => shield.Value;
         public int CurrentShield { private set; get; } = 5;
 
 
-        private float baseRegeneration;
-        private float regenerationMultiplier = 1;
+        private BuffableFloatStat regeneration;
+        public float Regeneration => regeneration.Value;
 
-        public float Regeneration => baseRegeneration * regenerationMultiplier;
 
-        private float baseCooldown;
-        private float cooldownMultiplier = 1;
+        private BuffableFloatStat cooldown;
+        public float Cooldown => cooldown.Value;
 
-        public float Cooldown => baseCooldown * cooldownMultiplier;
 
         private float timeToNextRegenPoint;
 
@@ -31,19 +27,19 @@ namespace Units
         public delegate void OnShieldChange(int currentShield);
         public OnShieldChange onShieldChange;
 
-        public void Init(UnitSO unitSO, TileStats tileStats)
+        public void Init(UnitCard unitCard, TileStats tileStats)
         {
-            baseShield = unitSO.Shield;
-            additionalShield = tileStats.additionalShield;
-            shieldMultiplier = tileStats.shieldMultiplier;
-
-            baseRegeneration = unitSO.ShieldRegeneration;
-            regenerationMultiplier = tileStats.shieldRegenerationMultiplier;
-
-            baseCooldown = unitSO.ShieldCooldown;
-            cooldownMultiplier = tileStats.shieldCooldownMultiplier;
-
+            shield = new BuffableIntStat(unitCard.unitSO.Shield);
+            shield.AddBaseBuff("Tile", tileStats.additionalShield);
+            shield.AddPercentBuff("Tile", tileStats.shieldMultiplier);
             CurrentShield = MaxShield;
+
+            regeneration = new BuffableFloatStat(unitCard.unitSO.ShieldRegeneration);
+            regeneration.AddPercentBuff("Tile", tileStats.shieldRegenerationMultiplier);
+
+            cooldown = new BuffableFloatStat(unitCard.unitSO.ShieldCooldown);
+            cooldown.AddPercentBuff("Tile", tileStats.shieldCooldownMultiplier);
+
             onShieldChange?.Invoke(CurrentShield);
         }
 
@@ -55,7 +51,7 @@ namespace Units
             if (Time.time >= timeToNextRegenPoint)
             {
                 RegenerateShield(1);
-                timeToNextRegenPoint += baseRegeneration;
+                timeToNextRegenPoint += Regeneration;
             }
         }
 
@@ -74,7 +70,7 @@ namespace Units
 
             onShieldChange?.Invoke(CurrentShield);
 
-            if (amount > 0) timeToNextRegenPoint = Time.time + baseCooldown;
+            if (amount > 0) timeToNextRegenPoint = Time.time + Cooldown;
 
             if (CurrentShield == 0)
                 onDestroy?.Invoke();

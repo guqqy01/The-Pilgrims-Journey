@@ -5,9 +5,8 @@ namespace Units
 {
     public class Movement : MonoBehaviour
     {
-        private float baseSpeed;
-        private float speedMultiplier;
-        public float speed => baseSpeed * speedMultiplier;
+        public BuffableFloatStat speed;
+        public float Speed => speed.Value;
 
         public Animator ani;
 
@@ -27,10 +26,10 @@ namespace Units
             initialXScale = visualTransform.localScale.x;
         }
 
-        public void Init(List<Vector2Int> path, UnitSO unitSO, TileStats tileStats)
+        public void Init(List<Vector2Int> path, UnitCard unitCard, TileStats tileStats)
         {
-            baseSpeed = unitSO.MovementSpeed;
-            speedMultiplier = tileStats.movementMultiplier;
+            speed = new BuffableFloatStat(unitCard.unitSO.MovementSpeed);
+            speed.AddPercentBuff("Tile", tileStats.movementMultiplier);
             Path = path;
             finishedPath = false;
         }
@@ -53,7 +52,7 @@ namespace Units
 
             float distance = toVector.magnitude;
 
-            float distanceToMove = speed * Time.deltaTime;
+            float distanceToMove = Speed * Time.deltaTime;
 
             if (distance < distanceToMove)
             {

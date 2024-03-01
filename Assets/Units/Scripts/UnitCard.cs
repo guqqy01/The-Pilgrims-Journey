@@ -2,9 +2,10 @@
 
 namespace Units
 {
-    public interface UnitSpecialAbility
+    public class UnitCard : MonoBehaviour
     {
-        public Rarity Rarity { get; set; }
+        public UnitSO unitSO;
+        public Rarity rarity;
 
         public int Level { get; set; }
         public int MaxLevel { get; set; }
@@ -14,7 +15,7 @@ namespace Units
 
         public virtual int CostFunction()
         {
-            return Level * (int)Rarity * 100;
+            return Level * (int)rarity * 100;
         }
 
         public virtual bool TryLevelUp(int gold)

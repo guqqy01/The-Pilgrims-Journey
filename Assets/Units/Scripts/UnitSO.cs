@@ -33,9 +33,6 @@ namespace Units
         public Unit unitPrefab;
 
         public Sprite unitSprite;
-
-        [SerializeReference]
-        public UnitSpecialAbility UnitSpecialAbility;
     }
 
     public enum Rarity
@@ -45,6 +42,12 @@ namespace Units
         rare = 3,
         epic = 4,
         legendary = 5,
+    }
+
+    public struct RarityCalc
+    {
+        public Rarity rarity;
+        public float spawnRate;
     }
 }
 

@@ -1,21 +1,50 @@
-﻿namespace Units
+﻿using UnityEngine;
+
+namespace Units
 {
-    using static UnitSpecialAbility;
-    public class SpeedInNumbers : UnitSpecialAbility
+    public class SpeedInNumbers : UnitSpecial
     {
         public float BaseSpeedBuff = 0.1f;
         public float SpeedLevelIncrement = 0.1f;
         public float Range = 2f;
 
-        public float SpeedBuff => (int)Rarity * (BaseSpeedBuff + SpeedLevelIncrement * Level);
+        [SerializeField]
+        private int numOfCloseUnitsNeededToGetBuff;
+        [SerializeField]
+        private LayerMask mask;
 
-        public Rarity Rarity { get; set; }
+        private Movement movement;
 
-        public int Level { get; set; } = 0;
-        public int MaxLevel { get; set; } = 5;
+        Rarity rarity;
+        int level;
 
-        public OnLevelUp OnLevelUpEvent { get; set; }
+        public float SpeedBuff => (int)rarity * (BaseSpeedBuff + SpeedLevelIncrement * level);
 
+        public override void Init(Rarity rarity, int level)
+        {
+            this.rarity = rarity;
+            this.level = level;
+        }
+
+        private void Awake()
+        {
+            movement = GetComponent<Movement>();
+        }
+
+        private void Update()
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Range, mask);
+        
+            if(colliders.Length >= numOfCloseUnitsNeededToGetBuff)
+            {
+                movement.speed.AddPercentBuff("SpeedInNumbersBuff", SpeedBuff);
+            }
+        }
+    }
+
+    public abstract class UnitSpecial : MonoBehaviour
+    {
+        public abstract void Init(Rarity rarity, int level);
     }
 }
 
