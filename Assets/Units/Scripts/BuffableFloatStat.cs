@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Units
 {
-
     public struct BuffableFloatStat
     {
         private float baseStat;
@@ -142,7 +141,7 @@ namespace Units
                 baseBuff += kvp.Value;
             }
 
-            Value = Mathf.Max(Mathf.CeilToInt(baseStat * percentBuff) + baseBuff, 0);
+            Value = Mathf.Max(baseStat * percentBuff + baseBuff, 0);
         }
     }
 }

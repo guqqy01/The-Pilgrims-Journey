@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86796da0b9612d043b531ba449b56e56, type: 3}
   m_Name: Peasant
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 1
+  BaseSpawnRate: 2
   MovementSpeed: 1
   SlowResist: 0.2
-  MaxHealth: 5
+  baseHealth: 5
   Shield: 5
   ShieldRegeneration: 0.5
   ShieldCooldown: 1.5

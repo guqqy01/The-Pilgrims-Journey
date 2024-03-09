@@ -39,6 +39,10 @@ namespace Units
             {
                 movement.speed.AddPercentBuff("SpeedInNumbersBuff", SpeedBuff);
             }
+            else
+            {
+                movement.speed.RemovePercentBuff("SpeedInNumbersBuff");
+            }
         }
     }
 
