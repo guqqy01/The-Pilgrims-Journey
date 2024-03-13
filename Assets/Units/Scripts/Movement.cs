@@ -26,9 +26,9 @@ namespace Units
             initialXScale = visualTransform.localScale.x;
         }
 
-        public void Init(List<Vector2Int> path, UnitCard unitCard, TileStats tileStats)
+        public void Init(List<Vector2Int> path, UnitSO unitSO, TileStats tileStats)
         {
-            speed = new BuffableFloatStat(unitCard.unitSO.MovementSpeed);
+            speed = new BuffableFloatStat(unitSO.MovementSpeed);
             speed.AddPercentBuff("Tile", tileStats.movementMultiplier);
             Path = path;
             finishedPath = false;

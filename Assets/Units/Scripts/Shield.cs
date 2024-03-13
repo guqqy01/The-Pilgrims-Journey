@@ -27,17 +27,17 @@ namespace Units
         public delegate void OnShieldChange(int currentShield);
         public OnShieldChange onShieldChange;
 
-        public void Init(UnitCard unitCard, TileStats tileStats)
+        public void Init(UnitSO unitSO, TileStats tileStats)
         {
-            shield = new BuffableIntStat(unitCard.unitSO.Shield);
+            shield = new BuffableIntStat(unitSO.Shield);
             shield.AddBaseBuff("Tile", tileStats.additionalShield);
             shield.AddPercentBuff("Tile", tileStats.shieldMultiplier);
             CurrentShield = MaxShield;
 
-            regeneration = new BuffableFloatStat(unitCard.unitSO.ShieldRegeneration);
+            regeneration = new BuffableFloatStat(unitSO.ShieldRegeneration);
             regeneration.AddPercentBuff("Tile", tileStats.shieldRegenerationMultiplier);
 
-            cooldown = new BuffableFloatStat(unitCard.unitSO.ShieldCooldown);
+            cooldown = new BuffableFloatStat(unitSO.ShieldCooldown);
             cooldown.AddPercentBuff("Tile", tileStats.shieldCooldownMultiplier);
 
             onShieldChange?.Invoke(CurrentShield);

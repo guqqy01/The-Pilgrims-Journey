@@ -34,20 +34,5 @@ namespace Units
 
         public Sprite unitSprite;
     }
-
-    public enum Rarity
-    {
-        common = 1,
-        uncommon = 2,
-        rare = 3,
-        epic = 4,
-        legendary = 5,
-    }
-
-    public struct RarityCalc
-    {
-        public Rarity rarity;
-        public float spawnRate;
-    }
 }
 

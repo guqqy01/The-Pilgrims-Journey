@@ -14,9 +14,9 @@ namespace Units
         public delegate void OnHealthChange(int currentHealth);
         public OnHealthChange onHealthChange;
 
-        public void Init(UnitCard unitCard, TileStats tileStats)
+        public void Init(UnitSO unitSO, TileStats tileStats)
         {
-            maxHealth = new BuffableIntStat(unitCard.unitSO.baseHealth);
+            maxHealth = new BuffableIntStat(unitSO.baseHealth);
             maxHealth.AddBaseBuff("Tile", tileStats.additionalHealth);
             maxHealth.AddPercentBuff("Tile", tileStats.healthMultiplier);
 

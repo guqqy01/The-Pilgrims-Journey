@@ -11,8 +11,19 @@ public class Tile : MonoBehaviour
 
     public EquipmentSO equipment1;
     public EquipmentSO equipment2;
+    public SpecialEquipmentSO specialEquipment;
 
-    public UnitCard unit;
+    public UnitSO baseUnit;
+
+    public UnitSO Unit
+    {
+        get
+        {
+            return specialEquipment.GetUnit(baseUnit);
+        }
+    }
+
+    public int level;
 
     public TileShape shape;
 
@@ -31,7 +42,7 @@ public class Tile : MonoBehaviour
     public Vector2 Offset => multiplier * GetOffset();
 
     public float TimeForNextSpawn = 0;
-    public float SpawnRate(int positionTileSize) => unit.unitSO.BaseSpawnRate * tileStats.spawningMultiplier * positionTileSize;
+    public float SpawnRate(int positionTileSize) => Unit.BaseSpawnRate * tileStats.spawningMultiplier * positionTileSize;
 
     public Vector2 GetOffset()
     {

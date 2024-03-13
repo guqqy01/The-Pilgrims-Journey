@@ -2,10 +2,9 @@
 
 namespace Units
 {
-    public class SpeedInNumbers : UnitSpecial
+    public class SpeedInNumbers : MonoBehaviour
     {
-        public float BaseSpeedBuff = 0.1f;
-        public float SpeedLevelIncrement = 0.1f;
+        public float SpeedBuff = 0.1f;
         public float Range = 2f;
 
         [SerializeField]
@@ -14,17 +13,6 @@ namespace Units
         private LayerMask mask;
 
         private Movement movement;
-
-        Rarity rarity;
-        int level;
-
-        public float SpeedBuff => (int)rarity * (BaseSpeedBuff + SpeedLevelIncrement * level);
-
-        public override void Init(Rarity rarity, int level)
-        {
-            this.rarity = rarity;
-            this.level = level;
-        }
 
         private void Awake()
         {
@@ -44,11 +32,6 @@ namespace Units
                 movement.speed.RemovePercentBuff("SpeedInNumbersBuff");
             }
         }
-    }
-
-    public abstract class UnitSpecial : MonoBehaviour
-    {
-        public abstract void Init(Rarity rarity, int level);
     }
 }
 
