@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
-
+using System.Collections.Generic;
 namespace Units
 {
     internal class Shield : MonoBehaviour
@@ -27,18 +27,37 @@ namespace Units
         public delegate void OnShieldChange(int currentShield);
         public OnShieldChange onShieldChange;
 
-        public void Init(UnitSO unitSO, TileStats tileStats)
+        public void Init(UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs)
         {
             shield = new BuffableIntStat(unitSO.Shield);
             shield.AddBaseBuff("Tile", tileStats.additionalShield);
-            shield.AddPercentBuff("Tile", tileStats.shieldMultiplier);
+            shield.AddMultiplierBuff("Tile", tileStats.shieldMultiplier);
+
+            for (int i = 0; i < equipmentSOs.Count; i++)
+            {
+                shield.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntBaseValue(UnitIntStats.Shield));
+                shield.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntMultiplierValue(UnitIntStats.Shield));
+            }
+
             CurrentShield = MaxShield;
 
             regeneration = new BuffableFloatStat(unitSO.ShieldRegeneration);
-            regeneration.AddPercentBuff("Tile", tileStats.shieldRegenerationMultiplier);
+            regeneration.AddMultiplierBuff("Tile", tileStats.shieldRegenerationMultiplier);
+
+            for (int i = 0; i < equipmentSOs.Count; i++)
+            {
+                regeneration.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.ShieldRegeneration));
+                regeneration.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.ShieldRegeneration));
+            }
 
             cooldown = new BuffableFloatStat(unitSO.ShieldCooldown);
-            cooldown.AddPercentBuff("Tile", tileStats.shieldCooldownMultiplier);
+            cooldown.AddMultiplierBuff("Tile", tileStats.shieldCooldownMultiplier);
+
+            for (int i = 0; i < equipmentSOs.Count; i++)
+            {
+                cooldown.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.ShieldCooldown));
+                cooldown.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.ShieldCooldown));
+            }
 
             onShieldChange?.Invoke(CurrentShield);
         }

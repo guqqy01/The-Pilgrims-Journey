@@ -22,11 +22,11 @@ namespace Units
             shield = GetComponent<Shield>();
         }
 
-        public void Init(UnitSO unitSO, TileStats tileStats, List<Vector2Int> path)
+        public void Init(UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs, List<Vector2Int> path)
         {
             movement.Init(path, unitSO, tileStats);
-            health.Init(unitSO, tileStats);
-            shield.Init(unitSO, tileStats);
+            health.Init(unitSO, tileStats, equipmentSOs);
+            shield.Init(unitSO, tileStats, equipmentSOs);
         }
 
         public void Damage(int damage)

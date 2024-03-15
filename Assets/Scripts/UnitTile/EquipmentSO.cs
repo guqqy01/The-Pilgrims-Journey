@@ -9,26 +9,48 @@ public class EquipmentSO : ScriptableObject
 
     public List<EquipmentIntBuff> IntBuffs;
     public List<EquipmentFloatBuff> FloatBuffs;
-}
 
-public class SpecialEquipmentSO : EquipmentSO
-{
-    public List<FromToUnit> unitChanges;
-
-    public UnitSO GetUnit(UnitSO baseUnit)
+    public int IntBaseValue(UnitIntStats intStat)
     {
-        foreach (FromToUnit fromToUnit in unitChanges) 
+        foreach (EquipmentIntBuff intBuff in IntBuffs)
         {
-            if (fromToUnit.baseUnit == baseUnit)
-                return fromToUnit.toUnit;
+            if (intBuff.stat == intStat)
+                return intBuff.buffBaseAmount;
         }
 
-        return baseUnit;
-    } 
-}
+        return 0;
+    }
 
-public struct FromToUnit
-{
-    public UnitSO baseUnit;
-    public UnitSO toUnit;
+    public float IntMultiplierValue(UnitIntStats intStat)
+    {
+        foreach (EquipmentIntBuff intBuff in IntBuffs)
+        {
+            if (intBuff.stat == intStat)
+                return intBuff.buffMultiplierAmount;
+        }
+
+        return 0;
+    }
+
+    public float FloatBaseValue(UnitFloatStats floatStat)
+    {
+        foreach (EquipmentFloatBuff floatBuff in FloatBuffs)
+        {
+            if (floatBuff.stat == floatStat)
+                return floatBuff.buffBaseAmount;
+        }
+
+        return 0;
+    }
+
+    public float FloatMultiplierValue(UnitFloatStats floatStat)
+    {
+        foreach (EquipmentFloatBuff floatBuff in FloatBuffs)
+        {
+            if (floatBuff.stat == floatStat)
+                return floatBuff.buffMultiplierAmount;
+        }
+
+        return 0;
+    }
 }

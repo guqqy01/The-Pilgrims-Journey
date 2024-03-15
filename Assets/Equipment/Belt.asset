@@ -10,14 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
-  m_Name: TestEquipment
+  m_Name: Belt
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: -1149349956, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   IntBuffs:
-  - stat: 1
-    buffBaseAmount: 0
-    buffPercentAmount: 0
-  FloatBuffs:
   - stat: 0
-    buffBaseAmount: 0
-    buffPercentAmount: 0
+    buffBaseAmount: 10
+    buffMultiplierAmount: 1.5
+  FloatBuffs: []

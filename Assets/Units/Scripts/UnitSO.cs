@@ -8,6 +8,8 @@ namespace Units
     [CreateAssetMenu()]
     public class UnitSO : ScriptableObject
     {
+        public int Tier;
+
         [Header("Spawning")]
         public float BaseSpawnRate = 1f;
 
@@ -33,6 +35,39 @@ namespace Units
         public Unit unitPrefab;
 
         public Sprite unitSprite;
+
+        public List<UnitLookup> unitLookups;
+
+        public UnitSO GetUnit(List<EquipmentSO> equipmentSOs)
+        {
+            List<UnitLookup> reversedLookups = unitLookups;
+            reversedLookups.Reverse();
+
+            foreach (UnitLookup unitLookup in reversedLookups)
+            {
+                if (unitLookup.ContainsEquipment(equipmentSOs))
+                    return unitLookup.unitSO;
+            }
+
+            return this;
+        }
+    }
+
+    [Serializable]
+    public struct UnitLookup
+    {
+        public UnitSO unitSO;
+        public List<EquipmentSO> requiredEquipment;
+
+        public bool ContainsEquipment(List<EquipmentSO> equipmentSOs)
+        {
+            foreach (EquipmentSO equipment in requiredEquipment)
+            {
+                if (!equipmentSOs.Contains(equipment))
+                    return false;
+            }
+            return true;
+        }
     }
 }
 

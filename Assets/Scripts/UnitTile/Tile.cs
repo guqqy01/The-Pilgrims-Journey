@@ -11,7 +11,9 @@ public class Tile : MonoBehaviour
 
     public EquipmentSO equipment1;
     public EquipmentSO equipment2;
-    public SpecialEquipmentSO specialEquipment;
+    public EquipmentSO equipment3;
+
+    public List<EquipmentSO> Equipment => new List<EquipmentSO>() { equipment1, equipment2, equipment3 };
 
     public UnitSO baseUnit;
 
@@ -19,11 +21,9 @@ public class Tile : MonoBehaviour
     {
         get
         {
-            return specialEquipment.GetUnit(baseUnit);
+            return baseUnit.GetUnit(Equipment);
         }
     }
-
-    public int level;
 
     public TileShape shape;
 
@@ -41,6 +41,7 @@ public class Tile : MonoBehaviour
     private static float multiplier = 210;
     public Vector2 Offset => multiplier * GetOffset();
 
+    [HideInInspector]
     public float TimeForNextSpawn = 0;
     public float SpawnRate(int positionTileSize) => Unit.BaseSpawnRate * tileStats.spawningMultiplier * positionTileSize;
 

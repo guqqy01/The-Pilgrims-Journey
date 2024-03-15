@@ -29,7 +29,7 @@ namespace Units
         public void Init(List<Vector2Int> path, UnitSO unitSO, TileStats tileStats)
         {
             speed = new BuffableFloatStat(unitSO.MovementSpeed);
-            speed.AddPercentBuff("Tile", tileStats.movementMultiplier);
+            speed.AddMultiplierBuff("Tile", tileStats.movementMultiplier);
             Path = path;
             finishedPath = false;
         }

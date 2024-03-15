@@ -25,11 +25,11 @@ namespace Units
         
             if(colliders.Length >= numOfCloseUnitsNeededToGetBuff)
             {
-                movement.speed.AddPercentBuff("SpeedInNumbersBuff", SpeedBuff);
+                movement.speed.AddMultiplierBuff("SpeedInNumbersBuff", SpeedBuff);
             }
             else
             {
-                movement.speed.RemovePercentBuff("SpeedInNumbersBuff");
+                movement.speed.RemoveMultiplierBuff("SpeedInNumbersBuff");
             }
         }
     }

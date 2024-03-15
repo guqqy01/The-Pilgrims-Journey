@@ -9,13 +9,13 @@ namespace Units
         public int Value { private set; get; }
 
         private Dictionary<string, int> BaseStatBuff;
-        private Dictionary<string, float> PercentStatBuff;
+        private Dictionary<string, float> MultiplierStatBuff;
 
         public BuffableIntStat(int baseStat)
         {
             this.baseStat = baseStat;
             BaseStatBuff = new Dictionary<string, int>();
-            PercentStatBuff = new Dictionary<string, float>();
+            MultiplierStatBuff = new Dictionary<string, float>();
             Value = baseStat;
         }
 
@@ -94,16 +94,16 @@ namespace Units
         /// <param name="reference"></param>
         /// <param name="buff"></param>
         /// <returns>The change of the stat value</returns>
-        public int AddPercentBuff(string reference, float buff)
+        public int AddMultiplierBuff(string reference, float buff)
         {
             int previous = Value;
-            if (PercentStatBuff.ContainsKey(reference))
+            if (MultiplierStatBuff.ContainsKey(reference))
             {
-                PercentStatBuff[reference] = buff;
+                MultiplierStatBuff[reference] = buff;
             }
             else
             {
-                PercentStatBuff.Add(reference, buff);
+                MultiplierStatBuff.Add(reference, buff);
             }
 
             RefreshValue();
@@ -115,12 +115,12 @@ namespace Units
         /// </summary>
         /// <param name="reference"></param>
         /// <returns>The change of the stat value</returns>
-        public int RemovePercentBuff(string reference)
+        public int RemoveMultiplierBuff(string reference)
         {
             int previous = Value;
-            if (PercentStatBuff.ContainsKey(reference))
+            if (MultiplierStatBuff.ContainsKey(reference))
             {
-                PercentStatBuff.Remove(reference);
+                MultiplierStatBuff.Remove(reference);
                 RefreshValue();
             }
             return Value - previous;
@@ -131,7 +131,7 @@ namespace Units
             float percentBuff = 1;
             int baseBuff = 0;
 
-            foreach (KeyValuePair<string, float> kvp in PercentStatBuff)
+            foreach (KeyValuePair<string, float> kvp in MultiplierStatBuff)
             {
                 percentBuff *= kvp.Value;
             }
