@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Tile selectedTile;
+    [SerializeField]
+    private Tile lastSelectedTile;
   
     [SerializeField]
     private EquipmentContainer selectedContainer;
@@ -70,6 +72,8 @@ public class UIManager : MonoBehaviour
         selectedTile.transform.SetParent(canvas.transform, true);
         tile.SelectTile(true);
 
+        lastSelectedTile = tile;
+
         selectedTileEquipmentContainer1.EquipmentSO = tile.equipment1;
         selectedTileEquipmentContainer2.EquipmentSO = tile.equipment2;
         selectedTileEquipmentContainer3.EquipmentSO = tile.equipment3;
@@ -106,13 +110,41 @@ public class UIManager : MonoBehaviour
 
             container.EquipmentSO = selectedContainer.EquipmentSO;
 
-            if (container == selectedTileEquipmentContainer1)
+            if (lastSelectedTile != null)
             {
-
+                if (container == selectedTileEquipmentContainer1)
+                {
+                    lastSelectedTile.equipment1 = container.EquipmentSO;
+                }
+                else if (container == selectedTileEquipmentContainer2)
+                {
+                    lastSelectedTile.equipment2 = container.EquipmentSO;
+                }
+                else if (container == selectedTileEquipmentContainer3)
+                {
+                    lastSelectedTile.equipment3 = container.EquipmentSO;
+                }
             }
-
+            
             selectedContainer.EquipmentSO = holder;
 
+            if (lastSelectedTile != null)
+            {
+                if (selectedContainer == selectedTileEquipmentContainer1)
+                {
+                    lastSelectedTile.equipment1 = selectedContainer.EquipmentSO;
+                }
+                else if (selectedContainer == selectedTileEquipmentContainer2)
+                {
+                    lastSelectedTile.equipment2 = selectedContainer.EquipmentSO;
+                }
+                else if (selectedContainer == selectedTileEquipmentContainer3)
+                {
+                    lastSelectedTile.equipment3 = selectedContainer.EquipmentSO;
+                }
+            }
+
+            selectedContainer.Deselect();
             selectedContainer = null;
         }
         else
@@ -121,6 +153,7 @@ public class UIManager : MonoBehaviour
                 return;
 
             selectedContainer = container;
+            selectedContainer.Select();
         }
     }
 

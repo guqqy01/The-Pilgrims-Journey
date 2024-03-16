@@ -31,6 +31,10 @@ public class EquipmentContainer : MonoBehaviour
     [SerializeField]
     private Image equipmentImage;
 
+    [SerializeField]
+    private GameObject normalSlot;
+    [SerializeField]
+    private GameObject selectedSlot;
 
     public void OnClick()
     {
@@ -40,10 +44,14 @@ public class EquipmentContainer : MonoBehaviour
     public void Select()
     {
         equipmentImage.color = equipmentImage.color.SetAlpha(0.5f);
+        normalSlot.SetActive(false);
+        selectedSlot.SetActive(true);
     }
 
     public void Deselect()
     {
         equipmentImage.color = equipmentImage.color.SetAlpha(1f);
+        normalSlot.SetActive(true);
+        selectedSlot.SetActive(false);
     }
 }

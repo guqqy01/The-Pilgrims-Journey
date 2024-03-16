@@ -180221,6 +180221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryGO: {fileID: 1785390893}
   selectedTile: {fileID: 1744249838}
+  lastSelectedTile: {fileID: 0}
   selectedContainer: {fileID: 0}
   selectedTileEquipmentContainer1: {fileID: 1803218266}
   selectedTileEquipmentContainer2: {fileID: 1341091059}
@@ -182330,6 +182331,10 @@ PrefabInstance:
       propertyPath: equipment1
       value: 
       objectReference: {fileID: 11400000, guid: 2f11feac139acd949b0279d7918bc6f5, type: 2}
+    - target: {fileID: 5261517286327620906, guid: c4a343e50e24a2c42b46b8a61f861e93, type: 3}
+      propertyPath: equipment2
+      value: 
+      objectReference: {fileID: 11400000, guid: aa25ec0261b56904a8fa15def602693e, type: 2}
     - target: {fileID: 5261517286327620910, guid: c4a343e50e24a2c42b46b8a61f861e93, type: 3}
       propertyPath: m_Name
       value: 1x2Tile
