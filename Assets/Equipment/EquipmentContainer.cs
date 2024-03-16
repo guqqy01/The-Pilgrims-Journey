@@ -7,6 +7,20 @@ public class EquipmentContainer : MonoBehaviour
 {
     private EquipmentSO equipmentSO;
 
+    private bool active = true;
+    public bool Active
+    {
+        get
+        {
+            return active;
+        }
+        set
+        {
+            cross.SetActive(!value);
+            active = value;
+        }
+    }
+
     public EquipmentSO EquipmentSO
     {
         get
@@ -36,8 +50,17 @@ public class EquipmentContainer : MonoBehaviour
     [SerializeField]
     private GameObject selectedSlot;
 
+    [SerializeField]
+    private GameObject cross;
+
+    public delegate void OnSelect(EquipmentContainer container, bool isSelected);
+    public OnSelect onSelect;
+
     public void OnClick()
     {
+        if (active == false)
+            return;
+
         UIManager.instance.EquipmentContainerSelectEvent(this);
     }
 
@@ -46,6 +69,8 @@ public class EquipmentContainer : MonoBehaviour
         equipmentImage.color = equipmentImage.color.SetAlpha(0.5f);
         normalSlot.SetActive(false);
         selectedSlot.SetActive(true);
+
+        onSelect?.Invoke(this, true);
     }
 
     public void Deselect()
@@ -53,5 +78,7 @@ public class EquipmentContainer : MonoBehaviour
         equipmentImage.color = equipmentImage.color.SetAlpha(1f);
         normalSlot.SetActive(true);
         selectedSlot.SetActive(false);
+
+        onSelect?.Invoke(this, false);
     }
 }

@@ -144,8 +144,8 @@ public class UIManager : MonoBehaviour
                 }
             }
 
-            selectedContainer.Deselect();
             selectedContainer = null;
+            selectedContainer.Deselect();
         }
         else
         {
