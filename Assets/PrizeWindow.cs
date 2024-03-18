@@ -20,6 +20,8 @@ public class PrizeWindow : MonoBehaviour
     [SerializeField]
     private List<EquipmentSO> equipment;
 
+    public int test = 3;
+
     private void Awake()
     {
         instance = this;

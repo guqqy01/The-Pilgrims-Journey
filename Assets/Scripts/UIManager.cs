@@ -126,7 +126,6 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("1");
             if (container.EquipmentSO == null)
                 return;
 
