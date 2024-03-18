@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class PrizeWindow : MonoBehaviour
 {
-    public PrizeWindow instance;
+    public static PrizeWindow instance;
 
-    public List<EquipmentContainer> equipmentContainers;
-
-    private EquipmentSO takenEquipment;
+    public List<PrizeContainer> prizeContainers;
 
     [SerializeField]
-    private Transform equipmentContainersHolder;
+    private Transform prizeContainersHolder;
 
     [SerializeField]
-    private EquipmentContainer equipmentContainerPrefab;
+    private PrizeContainer prizeContainerPrefab;
 
     [SerializeField]
     private List<Tile> tilePrefabs;
+
+    [SerializeField]
+    private List<EquipmentSO> equipment;
 
     private void Awake()
     {
@@ -26,55 +27,51 @@ public class PrizeWindow : MonoBehaviour
 
     public void LoadPrize(int numberOfEquipment)
     {
-        GetRightAmountOfEquipmentContainers(numberOfEquipment);
+        SpawnPrizeContainers(numberOfEquipment);
 
+        foreach (PrizeContainer container in prizeContainers)
+        {
+            if (equipment.Count == 0)
+                break;
 
-         
+            int random = Random.Range(0, equipment.Count);
 
+            container.EquipmentSO = equipment[random];
+        }
     }
 
-    private void GetRightAmountOfEquipmentContainers(int numberOfEquipment)
+    private void SpawnPrizeContainers(int numberOfPrizes)
     {
-        int difference = numberOfEquipment - equipmentContainers.Count;
-
-        if (difference == 0)
-            return;
-
-        if(difference > 0)
+        for (int i = 0; i < prizeContainers.Count; i++)
         {
-            for (int i = 0; i < difference; i++)
+            Destroy(prizeContainers[i].gameObject);
+        }
+
+        prizeContainers.Clear();
+
+        for (int i = 0; i < numberOfPrizes; i++)
+        {
+            PrizeContainer container = Instantiate(prizeContainerPrefab, prizeContainersHolder);
+            container.onEquipmentChange += OnEquipmentChanged;
+            prizeContainers.Add(container);
+        }
+        
+    }
+
+    private void OnEquipmentChanged(EquipmentSO from, EquipmentSO to)
+    {
+        if (to == null)
+        {
+            foreach (PrizeContainer equipmentContainer in prizeContainers)
             {
-                EquipmentContainer container = Instantiate(equipmentContainerPrefab, equipmentContainersHolder);
-                container.onSelect += OnContainerSelected;
-                equipmentContainers.Add(container);
+                equipmentContainer.Active = equipmentContainer.EquipmentSO == null;
             }
         }
         else
         {
-            for (int i = 0; i < - difference; i++)
+            foreach (PrizeContainer equipmentContainer in prizeContainers)
             {
-                Destroy(equipmentContainers[equipmentContainers.Count - 1 - i].gameObject);
-            }
-
-            equipmentContainers.RemoveAll(null);
-        }
-    }
-
-    private void OnContainerSelected(EquipmentContainer selected, bool isSelected)
-    {
-        if (isSelected)
-        {
-            takenEquipment = selected.EquipmentSO;
-            foreach (EquipmentContainer equipmentContainer in equipmentContainers)
-            {
-                equipmentContainer.Active = equipmentContainer == selected;
-            }
-        }
-        else
-        {
-            if (selected.EquipmentSO != null)
-            {
-
+                equipmentContainer.Active = true;
             }
         }
     }

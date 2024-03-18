@@ -37,8 +37,9 @@ public class EquipmentContainer : MonoBehaviour
             }
 
             equipmentImage.gameObject.SetActive(value != null);
-
+            EquipmentSO holder = equipmentSO;
             equipmentSO = value;
+            onEquipmentChange?.Invoke(holder, equipmentSO);
         }
     }
 
@@ -53,8 +54,8 @@ public class EquipmentContainer : MonoBehaviour
     [SerializeField]
     private GameObject cross;
 
-    public delegate void OnSelect(EquipmentContainer container, bool isSelected);
-    public OnSelect onSelect;
+    public delegate void OnEquipmentChange(EquipmentSO fromEquipment, EquipmentSO toEquipment);
+    public OnEquipmentChange onEquipmentChange;
 
     public void OnClick()
     {
@@ -69,8 +70,6 @@ public class EquipmentContainer : MonoBehaviour
         equipmentImage.color = equipmentImage.color.SetAlpha(0.5f);
         normalSlot.SetActive(false);
         selectedSlot.SetActive(true);
-
-        onSelect?.Invoke(this, true);
     }
 
     public void Deselect()
@@ -78,7 +77,5 @@ public class EquipmentContainer : MonoBehaviour
         equipmentImage.color = equipmentImage.color.SetAlpha(1f);
         normalSlot.SetActive(true);
         selectedSlot.SetActive(false);
-
-        onSelect?.Invoke(this, false);
     }
 }

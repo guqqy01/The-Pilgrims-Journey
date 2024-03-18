@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,11 +18,11 @@ public class UIManager : MonoBehaviour
     private EquipmentContainer selectedContainer;
 
     [SerializeField]
-    private EquipmentContainer selectedTileEquipmentContainer1;
+    public EquipmentContainer SelectedTileEquipmentContainer1;
     [SerializeField]
-    private EquipmentContainer selectedTileEquipmentContainer2;
+    public EquipmentContainer SelectedTileEquipmentContainer2;
     [SerializeField]
-    private EquipmentContainer selectedTileEquipmentContainer3;
+    public EquipmentContainer SelectedTileEquipmentContainer3;
 
     [SerializeField]
     private Color invalidTilePlacementColor;
@@ -74,9 +70,9 @@ public class UIManager : MonoBehaviour
 
         lastSelectedTile = tile;
 
-        selectedTileEquipmentContainer1.EquipmentSO = tile.equipment1;
-        selectedTileEquipmentContainer2.EquipmentSO = tile.equipment2;
-        selectedTileEquipmentContainer3.EquipmentSO = tile.equipment3;
+        SelectedTileEquipmentContainer1.EquipmentSO = tile.equipment1;
+        SelectedTileEquipmentContainer2.EquipmentSO = tile.equipment2;
+        SelectedTileEquipmentContainer3.EquipmentSO = tile.equipment3;
     }
 
     private void HandleTiles()
@@ -98,57 +94,39 @@ public class UIManager : MonoBehaviour
 
     public void EquipmentContainerSelectEvent(EquipmentContainer container)
     {
+        if (!container.Active)
+            return;
+
         if (selectedContainer != null)
         {
             if (container == selectedContainer)
             {
+                selectedContainer.Deselect();
                 selectedContainer = null;
                 return;
+            }
+
+            if (container is PrizeContainer prizeContainer)
+            {
+                if (prizeContainer.AllowedEquipment != null && prizeContainer.AllowedEquipment != selectedContainer.EquipmentSO)
+                {
+                    //Fail to change equipment
+                    return;
+                }
             }
 
             EquipmentSO holder = container.EquipmentSO;
 
             container.EquipmentSO = selectedContainer.EquipmentSO;
-
-            if (lastSelectedTile != null)
-            {
-                if (container == selectedTileEquipmentContainer1)
-                {
-                    lastSelectedTile.equipment1 = container.EquipmentSO;
-                }
-                else if (container == selectedTileEquipmentContainer2)
-                {
-                    lastSelectedTile.equipment2 = container.EquipmentSO;
-                }
-                else if (container == selectedTileEquipmentContainer3)
-                {
-                    lastSelectedTile.equipment3 = container.EquipmentSO;
-                }
-            }
             
             selectedContainer.EquipmentSO = holder;
 
-            if (lastSelectedTile != null)
-            {
-                if (selectedContainer == selectedTileEquipmentContainer1)
-                {
-                    lastSelectedTile.equipment1 = selectedContainer.EquipmentSO;
-                }
-                else if (selectedContainer == selectedTileEquipmentContainer2)
-                {
-                    lastSelectedTile.equipment2 = selectedContainer.EquipmentSO;
-                }
-                else if (selectedContainer == selectedTileEquipmentContainer3)
-                {
-                    lastSelectedTile.equipment3 = selectedContainer.EquipmentSO;
-                }
-            }
-
-            selectedContainer = null;
             selectedContainer.Deselect();
+            selectedContainer = null;
         }
         else
         {
+            Debug.Log("1");
             if (container.EquipmentSO == null)
                 return;
 

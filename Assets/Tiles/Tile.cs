@@ -110,5 +110,9 @@ public class Tile : MonoBehaviour
     public void SelectTile(bool select)
     {
         Selected = select;
+
+        UIManager.instance.SelectedTileEquipmentContainer1.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment1 = toEquipment;
+        UIManager.instance.SelectedTileEquipmentContainer2.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment2 = toEquipment;
+        UIManager.instance.SelectedTileEquipmentContainer3.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment3 = toEquipment;
     }
 }
