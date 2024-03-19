@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class EquipmentContainer : MonoBehaviour
 {
-    private EquipmentSO equipmentSO;
+    public EquipmentSO AllowedEquipment;
+    public EquipmentSO EquipmentSO { private set; get; }
 
     private bool active = true;
     public bool Active
@@ -18,28 +19,6 @@ public class EquipmentContainer : MonoBehaviour
         {
             cross.SetActive(!value);
             active = value;
-        }
-    }
-
-    public EquipmentSO EquipmentSO
-    {
-        get
-        {
-            return equipmentSO;
-        }
-        set
-        {
-            if (value != null)
-            {
-                equipmentImage.sprite = value.sprite;
-
-                equipmentImage.SetNativeSize();
-            }
-
-            equipmentImage.gameObject.SetActive(value != null);
-            EquipmentSO holder = equipmentSO;
-            equipmentSO = value;
-            onEquipmentChange?.Invoke(holder, equipmentSO);
         }
     }
 
@@ -77,5 +56,45 @@ public class EquipmentContainer : MonoBehaviour
         equipmentImage.color = equipmentImage.color.SetAlpha(1f);
         normalSlot.SetActive(true);
         selectedSlot.SetActive(false);
+    }
+
+    public bool TryChangeEquipment(EquipmentSO equipment)
+    {
+        if (!CanChangeEquipment(equipment))
+            return false;
+
+        if (equipment != null || AllowedEquipment != null)
+        {
+            if (equipment != null)
+            {
+                equipmentImage.sprite = equipment.sprite;
+                equipmentImage.color = Color.white.SetAlpha(1);
+            }
+            else if (AllowedEquipment != null)
+            {
+                equipmentImage.sprite = AllowedEquipment.sprite;
+                equipmentImage.color = Color.grey.SetAlpha(0.2f);
+            }
+
+            equipmentImage.SetNativeSize();
+        }
+
+        equipmentImage.gameObject.SetActive(equipment != null || AllowedEquipment != null);
+        EquipmentSO holder = EquipmentSO;
+        EquipmentSO = equipment;
+        onEquipmentChange?.Invoke(holder, EquipmentSO);
+
+        return true;
+    }
+
+    public bool CanChangeEquipment(EquipmentSO equipment)
+    {
+        if (!Active)
+            return false;
+
+        if (AllowedEquipment != null && equipment != null && AllowedEquipment != equipment)
+            return false;
+
+        return true;
     }
 }

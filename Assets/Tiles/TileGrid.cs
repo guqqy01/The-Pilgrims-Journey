@@ -68,7 +68,8 @@ public class TileGrid : MonoBehaviour
     {
         foreach(Vector2Int point in tile.Shape)
         {
-            if(PointOutOfGrid(point + position) || (TryGetTileAtPosition(point, out Tile outTile) && outTile != tile))
+            if(PointOutOfGrid(point + position) || (TryGetTileAtPosition(point + position,
+                out Tile outTile) && outTile != tile))
             {
                 return false;
             }

@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     public EquipmentContainer SelectedTileEquipmentContainer3;
 
     [SerializeField]
+    private Tile selectedTileHoverHolder;
+
+    [SerializeField]
     private Color invalidTilePlacementColor;
 
     public TileGrid tileInventory;
@@ -45,6 +48,10 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         inputManager = InputManager.Instance;
+
+        SelectedTileEquipmentContainer1.Active = false;
+        SelectedTileEquipmentContainer2.Active = false;
+        SelectedTileEquipmentContainer3.Active = false;
     }
 
     private void Awake()
@@ -65,25 +72,30 @@ public class UIManager : MonoBehaviour
     private void SelectTile(Tile tile)
     {
         selectedTile = tile;
-        selectedTile.transform.SetParent(canvas.transform, true);
-        tile.SelectTile(true);
+        selectedTileHoverHolder = Instantiate(selectedTile, canvas.transform);
+        //selectedTile.transform.SetParent(canvas.transform, true);
+        tile.SelectTile();
 
         lastSelectedTile = tile;
 
-        SelectedTileEquipmentContainer1.EquipmentSO = tile.equipment1;
-        SelectedTileEquipmentContainer2.EquipmentSO = tile.equipment2;
-        SelectedTileEquipmentContainer3.EquipmentSO = tile.equipment3;
+        SelectedTileEquipmentContainer1.Active = true;
+        SelectedTileEquipmentContainer2.Active = tile.UnlockedEquipment >= 2;
+        SelectedTileEquipmentContainer3.Active = tile.UnlockedEquipment >= 3;
+
+        SelectedTileEquipmentContainer1.TryChangeEquipment(tile.equipment1);
+        SelectedTileEquipmentContainer2.TryChangeEquipment(tile.equipment2);
+        SelectedTileEquipmentContainer3.TryChangeEquipment(tile.equipment3);
     }
 
     private void HandleTiles()
     {
         if (selectedTile != null)
         {
-
             HandleTileRotation();
             HandleSelectedTileHover();
             HandlePlaceTileOnPlayer();
             HandlePlaceTileOnInventory();
+            HandleCancelMoveTile();
         }
         else
         {
@@ -106,7 +118,7 @@ public class UIManager : MonoBehaviour
                 return;
             }
 
-            if (container is PrizeContainer prizeContainer)
+            if (container is EquipmentContainer prizeContainer)
             {
                 if (prizeContainer.AllowedEquipment != null && prizeContainer.AllowedEquipment != selectedContainer.EquipmentSO)
                 {
@@ -115,14 +127,17 @@ public class UIManager : MonoBehaviour
                 }
             }
 
-            EquipmentSO holder = container.EquipmentSO;
+            if (container.CanChangeEquipment(selectedContainer.EquipmentSO) && selectedContainer.CanChangeEquipment(container.EquipmentSO))
+            {
+                EquipmentSO holder = container.EquipmentSO;
 
-            container.EquipmentSO = selectedContainer.EquipmentSO;
-            
-            selectedContainer.EquipmentSO = holder;
+                container.TryChangeEquipment(selectedContainer.EquipmentSO);
 
-            selectedContainer.Deselect();
-            selectedContainer = null;
+                selectedContainer.TryChangeEquipment(holder);
+
+                selectedContainer.Deselect();
+                selectedContainer = null;
+            }
         }
         else
         {
@@ -135,15 +150,23 @@ public class UIManager : MonoBehaviour
     }
 
 
+    private void HandleCancelMoveTile()
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape))
+            return;
+
+        lastSelectedTile.DeselectTile();
+    }
+
     private void HandleTileRotation()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            selectedTile.Rotate(90);
+            selectedTileHoverHolder.Rotate(90);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            selectedTile.Rotate(-90);
+            selectedTileHoverHolder.Rotate(-90);
         }
     }
 
@@ -171,6 +194,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void SelectTileOnPrizeWindow()
+    {
+        PrizeWindow pw = PrizeWindow.instance;
+        if (pw.TileTaken == true)
+            return;
+
+        SelectTile(pw.prizeTile);
+        pw.TileTaken = true;
+    }
+
     private Vector2Int GetMouseTilePositionOnInventory()
     {
         Vector2 mousePosition = Input.mousePosition / canvas.scaleFactor;
@@ -195,22 +228,39 @@ public class UIManager : MonoBehaviour
         Vector2Int mouseTilePositionInventory = GetMouseTilePositionOnInventory();
         if (!tilePlayer.PointOutOfGrid(mouseTilePositionPlayer))
         {
-            selectedTile.rectTransform.position = (Vector2)tilePlayer.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - tilePlayer.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - tilePlayer.TileGridSize.y / 2f)) + selectedTile.Offset;
+            if (selectedTileHoverHolder == null)
+            {
+                selectedTileHoverHolder = Instantiate(selectedTile, canvas.transform);
+                selectedTileHoverHolder.DeselectTile();
+            }
 
-            selectedTile.Color = tilePlayer.CanPlaceTile(selectedTile, mouseTilePositionPlayer) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
+            selectedTileHoverHolder.rectTransform.position = (Vector2)tilePlayer.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - tilePlayer.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - tilePlayer.TileGridSize.y / 2f)) + selectedTileHoverHolder.Offset;
+
+            selectedTileHoverHolder.Color = tilePlayer.CanPlaceTile(selectedTileHoverHolder, mouseTilePositionPlayer) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
         else if (!tileInventory.PointOutOfGrid(mouseTilePositionInventory))
         {
-            selectedTile.rectTransform.position = (Vector2)tileInventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - tileInventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - tileInventory.TileGridSize.y / 2f)) + selectedTile.Offset;
+            if (selectedTileHoverHolder == null)
+            {
+                selectedTileHoverHolder = Instantiate(selectedTile, canvas.transform);
+                selectedTileHoverHolder.DeselectTile();
+            }
 
-            selectedTile.Color = tileInventory.CanPlaceTile(selectedTile, mouseTilePositionInventory) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
+            selectedTileHoverHolder.rectTransform.position = (Vector2)tileInventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - tileInventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - tileInventory.TileGridSize.y / 2f)) + selectedTileHoverHolder.Offset;
+
+            selectedTileHoverHolder.Color = tileInventory.CanPlaceTile(selectedTileHoverHolder, mouseTilePositionInventory) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
-        else
+        else if (selectedTileHoverHolder != null)
+        {
+            Destroy(selectedTileHoverHolder.gameObject);
+            selectedTileHoverHolder = null;
+        }
+        /*else
         {
             selectedTile.rectTransform.position = Input.mousePosition;
 
             selectedTile.Color = Color.white.SetAlpha(0.5f);
-        }
+        }*/
     }
 
     private void HandlePlaceTileOnPlayer()
@@ -220,13 +270,21 @@ public class UIManager : MonoBehaviour
 
         Vector2Int mouseTilePosition = GetMouseTilePositionOnPlayer();
 
+        Quaternion rotationHolder = selectedTile.rectTransform.rotation;
+        selectedTile.rectTransform.rotation = selectedTileHoverHolder.rectTransform.rotation;
+
         if (tilePlayer.TryPlaceTile(selectedTile, mouseTilePosition))
         {
             selectedTile.transform.SetParent(tilePlayer.transform, true);
             tileInventory.RemoveTile(selectedTile);
 
             selectedTile.Color = Color.white;
+            selectedTile.DeselectTile();
             selectedTile = null;
+        }
+        else
+        {
+            selectedTile.rectTransform.rotation = rotationHolder;
         }
     }
 
@@ -237,6 +295,8 @@ public class UIManager : MonoBehaviour
 
         Vector2Int mouseTilePosition = GetMouseTilePositionOnInventory();
 
+        Quaternion rotationHolder = selectedTile.rectTransform.rotation;
+        selectedTile.rectTransform.rotation = selectedTileHoverHolder.rectTransform.rotation;
 
         if (tileInventory.TryPlaceTile(selectedTile, mouseTilePosition))
         {
@@ -244,7 +304,12 @@ public class UIManager : MonoBehaviour
             tilePlayer.RemoveTile(selectedTile);
 
             selectedTile.Color = Color.white;
+            selectedTile.DeselectTile();
             selectedTile = null;
+        }
+        else
+        {
+            selectedTile.rectTransform.rotation = rotationHolder;
         }
     }
 

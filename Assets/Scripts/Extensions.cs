@@ -20,4 +20,9 @@ public static class Extensions
 
         return returnList;
     }
+
+    public static T GetRandom<T>(this List<T> list)
+    {
+        return list[Random.Range(0, list.Count)];
+    }
 }

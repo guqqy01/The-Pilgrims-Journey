@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu()]
-public class TileShape : ScriptableObject
+public class TileSO : ScriptableObject
 {
+    public Sprite TileSprite;
+
     public Vector2ListWrapper shape;
 }

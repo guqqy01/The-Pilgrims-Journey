@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Units;
 
 [RequireComponent(typeof(TileStats))]
-public class Tile : MonoBehaviour
+public class Tile : TileImage
 {
     public bool locked;
 
@@ -25,25 +25,68 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public TileShape shape;
+    public int UnlockedEquipment { private set; get; } = 1;
 
     public TileStats tileStats { private set; get; }
 
     public bool Selected { private set; get; } = false;
 
     [SerializeField]
-    private RectTransform unitUITransform;
-
-    public RectTransform rectTransform { private set; get; }
-    [SerializeField]
-    private Image image;
-
-    private static float multiplier = 210;
-    public Vector2 Offset => multiplier * GetOffset();
+    private GameObject highlight;
 
     [HideInInspector]
     public float TimeForNextSpawn = 0;
     public float SpawnRate(int positionTileSize) => Unit.BaseSpawnRate * tileStats.spawningMultiplier * positionTileSize;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        tileStats = GetComponent<TileStats>();
+    }
+
+    public void SelectTile()
+    {
+        highlight.SetActive(true);
+
+        UIManager.instance.SelectedTileEquipmentContainer1.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment1 = toEquipment;
+        UIManager.instance.SelectedTileEquipmentContainer2.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment2 = toEquipment;
+        UIManager.instance.SelectedTileEquipmentContainer3.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment3 = toEquipment;
+    }
+
+    public void DeselectTile()
+    {
+        highlight.SetActive(false);
+    }
+}
+
+public class TileImage : MonoBehaviour
+{
+    [SerializeField]
+    private RectTransform unitUITransform;
+
+    public RectTransform rectTransform { private set; get; }
+
+    [SerializeField]
+    private Image tileGraphics;
+
+    public TileSO tileSO;
+
+    private static float multiplier = 210;
+    public Vector2 Offset => multiplier * GetOffset();
+
+    public Color Color
+    {
+        set
+        {
+            if (tileGraphics != null)
+                tileGraphics.color = value;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
 
     public Vector2 GetOffset()
     {
@@ -75,23 +118,15 @@ public class Tile : MonoBehaviour
 
             List<Vector2Int> returnShape = new List<Vector2Int>();
 
-            for (int i = 0; i < shape.shape.v2IntList.Count; i++)
+            for (int i = 0; i < tileSO.shape.v2IntList.Count; i++)
             {
-                int x = Mathf.RoundToInt(shape.shape.v2IntList[i].x * Mathf.Cos(rotation * Mathf.Deg2Rad) - shape.shape.v2IntList[i].y * Mathf.Sin(rotation * Mathf.Deg2Rad));
-                int y = Mathf.RoundToInt(shape.shape.v2IntList[i].x * Mathf.Sin(rotation * Mathf.Deg2Rad) + shape.shape.v2IntList[i].y * Mathf.Cos(rotation * Mathf.Deg2Rad));
+                int x = Mathf.RoundToInt(tileSO.shape.v2IntList[i].x * Mathf.Cos(rotation * Mathf.Deg2Rad) - tileSO.shape.v2IntList[i].y * Mathf.Sin(rotation * Mathf.Deg2Rad));
+                int y = Mathf.RoundToInt(tileSO.shape.v2IntList[i].x * Mathf.Sin(rotation * Mathf.Deg2Rad) + tileSO.shape.v2IntList[i].y * Mathf.Cos(rotation * Mathf.Deg2Rad));
                 returnShape.Add(new Vector2Int(x, y));
             }
 
 
             return returnShape;
-        }
-    }
-
-    public Color Color
-    {
-        set
-        {
-            image.color = value;
         }
     }
 
@@ -101,18 +136,11 @@ public class Tile : MonoBehaviour
         unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
-    private void Awake()
+    public void Init(TileSO tileSO)
     {
-        rectTransform = GetComponent<RectTransform>();
-        tileStats = GetComponent<TileStats>();
-    }
+        this.tileSO = tileSO; 
 
-    public void SelectTile(bool select)
-    {
-        Selected = select;
-
-        UIManager.instance.SelectedTileEquipmentContainer1.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment1 = toEquipment;
-        UIManager.instance.SelectedTileEquipmentContainer2.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment2 = toEquipment;
-        UIManager.instance.SelectedTileEquipmentContainer3.onEquipmentChange = (EquipmentSO fromEquipment, EquipmentSO toEquipment) => equipment3 = toEquipment;
+        tileGraphics.sprite = tileSO.TileSprite;
+        tileGraphics.SetNativeSize();
     }
 }

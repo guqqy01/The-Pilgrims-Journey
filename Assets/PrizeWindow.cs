@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Units;
 
 public class PrizeWindow : MonoBehaviour
 {
     public static PrizeWindow instance;
 
-    public List<PrizeContainer> prizeContainers;
+    private List<EquipmentContainer> prizeContainers = new List<EquipmentContainer>();
 
     [SerializeField]
     private Transform prizeContainersHolder;
 
     [SerializeField]
-    private PrizeContainer prizeContainerPrefab;
+    private EquipmentContainer prizeContainerPrefab;
 
     [SerializeField]
     private List<Tile> tilePrefabs;
@@ -21,6 +23,31 @@ public class PrizeWindow : MonoBehaviour
     private List<EquipmentSO> equipment;
 
     public int test = 3;
+
+    [SerializeField]
+    private Text prizeText;
+
+    private int currentPage = 0;
+    private int lastPage;
+
+    private List<PrizeType> prizes = new List<PrizeType>();
+
+    [SerializeField]
+    private GameObject equipmentPage;
+    [SerializeField]
+    private GameObject tilePage;
+
+    public Tile prizeTile;
+
+    public bool TileTaken = false;
+
+    [SerializeField]
+    private Button skipButton;
+    [SerializeField]
+    private Button backButton;
+
+    [SerializeField]
+    private List<UnitSO> units;
 
     private void Awake()
     {
@@ -31,15 +58,30 @@ public class PrizeWindow : MonoBehaviour
     {
         SpawnPrizeContainers(numberOfEquipment);
 
-        foreach (PrizeContainer container in prizeContainers)
+        foreach (EquipmentContainer container in prizeContainers)
         {
             if (equipment.Count == 0)
                 break;
 
-            int random = Random.Range(0, equipment.Count);
-
-            container.EquipmentSO = equipment[random];
+            container.TryChangeEquipment(equipment.GetRandom());
+            container.AllowedEquipment = container.EquipmentSO;
         }
+
+        if (prizeTile != null && TileTaken == false)
+        {
+            Destroy(prizeTile.gameObject);
+        }
+
+        TileTaken = false;
+
+        prizeTile = Instantiate(tilePrefabs.GetRandom(), tilePage.transform);
+        prizeTile.baseUnit = units.GetRandom();
+
+        prizes = new List<PrizeType>() { PrizeType.Equipment, PrizeType.Tile };
+        currentPage = 0;
+        lastPage = prizes.Count - 1;
+
+        SetPages();
     }
 
     private void SpawnPrizeContainers(int numberOfPrizes)
@@ -53,7 +95,7 @@ public class PrizeWindow : MonoBehaviour
 
         for (int i = 0; i < numberOfPrizes; i++)
         {
-            PrizeContainer container = Instantiate(prizeContainerPrefab, prizeContainersHolder);
+            EquipmentContainer container = Instantiate(prizeContainerPrefab, prizeContainersHolder);
             container.onEquipmentChange += OnEquipmentChanged;
             prizeContainers.Add(container);
         }
@@ -64,17 +106,55 @@ public class PrizeWindow : MonoBehaviour
     {
         if (to == null)
         {
-            foreach (PrizeContainer equipmentContainer in prizeContainers)
+            foreach (EquipmentContainer equipmentContainer in prizeContainers)
             {
                 equipmentContainer.Active = equipmentContainer.EquipmentSO == null;
             }
         }
         else
         {
-            foreach (PrizeContainer equipmentContainer in prizeContainers)
+            foreach (EquipmentContainer equipmentContainer in prizeContainers)
             {
                 equipmentContainer.Active = true;
             }
         }
     }
+
+    public void GoNext()
+    {
+        currentPage = Mathf.Clamp(currentPage + 1, 0, lastPage);
+        SetPages();
+    }
+
+    public void GoPrevious()
+    {
+        currentPage = Mathf.Clamp(currentPage - 1, 0, lastPage);
+        SetPages();
+    }
+
+    private void SetPages()
+    {
+        prizeText.text = "Prize " + (currentPage + 1) + "/" + (lastPage + 1);
+
+        switch (prizes[currentPage])
+        {
+            case PrizeType.Equipment:
+                equipmentPage.SetActive(true);
+                tilePage.SetActive(false);
+                break;
+            case PrizeType.Tile:
+                equipmentPage.SetActive(false);
+                tilePage.SetActive(true);
+                break;
+        }
+
+        skipButton.interactable = currentPage != lastPage;
+        backButton.interactable = currentPage != 0;
+    }
+}
+
+public enum PrizeType
+{
+    Equipment,
+    Tile,
 }
