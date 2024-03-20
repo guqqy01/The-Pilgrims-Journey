@@ -26,16 +26,33 @@ namespace Units
             initialXScale = visualTransform.localScale.x;
         }
 
-        public void Init(List<Vector2Int> path, UnitSO unitSO, TileStats tileStats)
+        public void Init(List<Vector2Int> path, UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs)
         {
             speed = new BuffableFloatStat(unitSO.MovementSpeed);
             speed.AddMultiplierBuff("Tile", tileStats.movementMultiplier);
+
+            for (int i = 0; i < equipmentSOs.Count; i++)
+            {
+                if (equipmentSOs[i] == null)
+                    continue;
+
+                speed.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.Movement));
+                speed.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.Movement));
+            }
+
             Path = path;
             finishedPath = false;
         }
 
         private void Update()
         {
+            if (finishedPath)
+            {
+                GameManager.Instance.UnitPassed();
+                Destroy(gameObject);
+                return;
+            }
+
             if (finishedPath || Path == null)
                 return;
 

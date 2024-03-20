@@ -27,7 +27,7 @@ public class Tile : MonoBehaviour
     public EquipmentSO equipment3;
 
     public List<EquipmentSO> Equipment => new List<EquipmentSO>() { equipment1, equipment2, equipment3 };
-    public int UnlockedEquipment { private set; get; } = 1;
+    public int UnlockedEquipment { private set; get; } = 3;
 
     public UnitSO baseUnit;
 
@@ -39,8 +39,6 @@ public class Tile : MonoBehaviour
         }
     }
 
-    
-
     public TileStats tileStats { private set; get; }
 
     public bool Selected { private set; get; } = false;
@@ -50,7 +48,23 @@ public class Tile : MonoBehaviour
 
     [HideInInspector]
     public float TimeForNextSpawn = 0;
-    public float SpawnRate(int positionTileSize) => Unit.BaseSpawnRate * tileStats.spawningMultiplier * positionTileSize;
+
+    public float SpawnRate(int positionTileSize) 
+    {
+        float equipmentBaseValue = 0;
+        float equipmentMultiplierValue = 1;
+
+        foreach (EquipmentSO equipment in Equipment)
+        {
+            if (equipment != null)
+            {
+                equipmentBaseValue += equipment.FloatBaseValue(UnitFloatStats.SpawnRate);
+                equipmentMultiplierValue *= equipment.FloatMultiplierValue(UnitFloatStats.SpawnRate);
+            }
+        }
+
+        return tileStats.spawningMultiplier * equipmentMultiplierValue * positionTileSize * (Unit.BaseSpawnRate + equipmentBaseValue);
+    }
 
     public float SpawnRateValue
     {
@@ -68,7 +82,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return (tileStats.spawningMultiplier * equipmentMultiplierValue * (Unit.BaseSpawnRate + equipmentBaseValue));
+            return tileStats.spawningMultiplier * equipmentMultiplierValue * (Unit.BaseSpawnRate + equipmentBaseValue);
         }
     }
 

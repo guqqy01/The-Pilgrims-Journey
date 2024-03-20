@@ -23,6 +23,9 @@ namespace Units
 
             for (int i = 0; i < equipmentSOs.Count; i++)
             {
+                if (equipmentSOs[i] == null)
+                    continue;
+
                 maxHealth.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntBaseValue(UnitIntStats.Health));
                 maxHealth.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntMultiplierValue(UnitIntStats.Health));
             }

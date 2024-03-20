@@ -9,7 +9,7 @@ public class PrizeWindowEditor : Editor
         base.OnInspectorGUI();
         if (GUILayout.Button("Load Prizes"))
         {
-            ((PrizeWindow)target).LoadPrize(((PrizeWindow)target).test);
+            ((PrizeWindow)target).LoadPrize();
         }
     }
 }

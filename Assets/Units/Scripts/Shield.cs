@@ -35,6 +35,9 @@ namespace Units
 
             for (int i = 0; i < equipmentSOs.Count; i++)
             {
+                if (equipmentSOs[i] == null)
+                    continue;
+
                 shield.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntBaseValue(UnitIntStats.Shield));
                 shield.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntMultiplierValue(UnitIntStats.Shield));
             }
@@ -46,6 +49,9 @@ namespace Units
 
             for (int i = 0; i < equipmentSOs.Count; i++)
             {
+                if (equipmentSOs[i] == null)
+                    continue;
+
                 regeneration.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.ShieldRegeneration));
                 regeneration.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.ShieldRegeneration));
             }
@@ -55,6 +61,9 @@ namespace Units
 
             for (int i = 0; i < equipmentSOs.Count; i++)
             {
+                if (equipmentSOs[i] == null)
+                    continue;
+
                 cooldown.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.ShieldCooldown));
                 cooldown.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.ShieldCooldown));
             }

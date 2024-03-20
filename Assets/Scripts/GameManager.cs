@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Map;
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,13 @@ public class GameManager : MonoBehaviour
     public LocalMapGenerationSettings LocalMapSettings { get; private set; }
 
     public int Level = 1;
+
+    private int unitsPassed = 0;
+
+    [SerializeField]
+    private AnimationCurve requiredUnits;
+
+
 
     private void Awake()
     {
@@ -24,6 +32,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        LocalMapGenerator.Instance.CreateMap();
+        PrizeWindow.instance.gameObject.SetActive(true);
+        PrizeWindow.instance.LoadPrize();
+    }
+
     public void SetLocalMapObject(LocalMapGenerationSettings settings)
     {
         LocalMapSettings = settings;
@@ -35,12 +50,23 @@ public class GameManager : MonoBehaviour
         LocalMapGenerator.Instance.CreateMap();
     }
 
-
-    void Update()
+    public void UnitPassed()
     {
-        
+        unitsPassed++;
+        if (unitsPassed >= requiredUnits.Evaluate(Level))
+        {
+            //CompletedLevel
+            TilePlayer.Instance.StopAndReset();
 
-        
+            PrizeWindow.instance.gameObject.SetActive(true);
+            PrizeWindow.instance.LoadPrize();
+
+            Level++;
+
+            unitsPassed = 0;
+
+            LocalMapGenerator.Instance.CreateMap();
+        }
     }
 
 }

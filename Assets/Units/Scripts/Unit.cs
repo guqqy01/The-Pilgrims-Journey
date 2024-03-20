@@ -24,7 +24,7 @@ namespace Units
 
         public void Init(UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs, List<Vector2Int> path)
         {
-            movement.Init(path, unitSO, tileStats);
+            movement.Init(path, unitSO, tileStats, equipmentSOs);
             health.Init(unitSO, tileStats, equipmentSOs);
             shield.Init(unitSO, tileStats, equipmentSOs);
         }

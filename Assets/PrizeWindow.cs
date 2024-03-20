@@ -54,9 +54,9 @@ public class PrizeWindow : MonoBehaviour
         instance = this;
     }
 
-    public void LoadPrize(int numberOfEquipment)
+    public void LoadPrize()
     {
-        SpawnPrizeContainers(numberOfEquipment);
+        SpawnPrizeContainers(Random.Range(1, 4));
 
         foreach (EquipmentContainer container in prizeContainers)
         {
@@ -122,6 +122,11 @@ public class PrizeWindow : MonoBehaviour
 
     public void GoNext()
     {
+        if(currentPage == lastPage)
+        {
+            gameObject.SetActive(false);
+        }
+
         currentPage = Mathf.Clamp(currentPage + 1, 0, lastPage);
         SetPages();
     }
@@ -148,7 +153,6 @@ public class PrizeWindow : MonoBehaviour
                 break;
         }
 
-        skipButton.interactable = currentPage != lastPage;
         backButton.interactable = currentPage != 0;
     }
 }

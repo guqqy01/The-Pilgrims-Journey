@@ -5,6 +5,8 @@ using ModularMotion;
 using Units;
 public class TilePlayer : TileGrid
 {
+    public static TilePlayer Instance;
+
     private float playerTime = 0;
     public float CurrentPlayingPosition { private set; get; }
 
@@ -29,9 +31,12 @@ public class TilePlayer : TileGrid
 
     private UIMotion uIMotion;
 
+    private List<Unit> spawnedUnits = new List<Unit>();
+
     protected override void Awake()
     {
         base.Awake();
+        Instance = this;
         uIMotion = GetComponent<UIMotion>();
     }
 
@@ -73,6 +78,7 @@ public class TilePlayer : TileGrid
                 {
                     Unit unit = Instantiate(tile.Unit.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
                     unit.Init(tile.Unit, tile.tileStats, tile.Equipment, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection]);
+                    spawnedUnits.Add(unit);
                     tile.TimeForNextSpawn = playerTime + 1f / tile.SpawnRate(size);
 
                 }
@@ -99,14 +105,30 @@ public class TilePlayer : TileGrid
         }
     }
 
-    public void Stop()
+    public void StopAndReset()
     {
         foreach(Tile tile in Tiles)
         {
             tile.locked = false;
+            tile.TimeForNextSpawn = 0;
         }
+
+        foreach(Unit unit in spawnedUnits)
+        {
+            if(unit != null)
+            {
+                Destroy(unit.gameObject);
+            }
+        }
+
+        spawnedUnits.Clear();
+
         isPlaying = false;
+        CurrentPlayingPosition = 0;
         playerTime = 0;
+
+        PositionChanged();
+        playerUIPoint.position = GridTransform.position + new Vector3(-GridTransform.sizeDelta.x, GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
     }
 
     public void PositionChanged()

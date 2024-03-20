@@ -42,6 +42,9 @@ namespace Units
 
             foreach (UnitLookup unitLookup in reversedLookups)
             {
+                if (unitLookup.unitSO == null)
+                    continue;
+
                 if (unitLookup.ContainsEquipment(equipmentSOs))
                     return unitLookup.unitSO;
             }
@@ -58,6 +61,9 @@ namespace Units
 
         public bool ContainsEquipment(List<EquipmentSO> equipmentSOs)
         {
+            if (requiredEquipment.Count < 1)
+                return false;
+
             foreach (EquipmentSO equipment in requiredEquipment)
             {
                 if (!equipmentSOs.Contains(equipment))

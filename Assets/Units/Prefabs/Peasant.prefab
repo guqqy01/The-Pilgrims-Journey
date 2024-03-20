@@ -389,7 +389,6 @@ GameObject:
   - component: {fileID: 2468762895627085193}
   - component: {fileID: -3200719875420227310}
   - component: {fileID: 5069724962427592924}
-  - component: {fileID: 6368546676583906540}
   m_Layer: 6
   m_Name: Peasant
   m_TagString: Untagged
@@ -490,22 +489,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f242de0bb17004b459badd0aa0a21116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6368546676583906540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8982089314669466726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e3b32ed4934b974ca6ecf7ecb7e1b0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BaseSpeedBuff: 2
-  SpeedLevelIncrement: 0.5
-  Range: 2
-  numOfCloseUnitsNeededToGetBuff: 4
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
