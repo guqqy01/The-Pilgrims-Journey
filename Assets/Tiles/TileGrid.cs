@@ -68,8 +68,8 @@ public class TileGrid : MonoBehaviour
     {
         foreach(Vector2Int point in tile.Shape)
         {
-            if(PointOutOfGrid(point + position) || (TryGetTileAtPosition(point + position,
-                out Tile outTile) && outTile != tile))
+            if(PointOutOfGrid(point + position) || 
+                (TryGetTileAtPosition(point + position, out Tile outTile) && outTile != tile))
             {
                 return false;
             }
@@ -78,16 +78,30 @@ public class TileGrid : MonoBehaviour
         return true;
     }
 
-    public bool TryPlaceTile(Tile tile, Vector2Int position)
+    public bool HoverTileCanPlace(Tile hover, Tile selected, Vector2Int position)
     {
-        if (!CanPlaceTile(tile, position))
+        foreach (Vector2Int point in hover.Shape)
+        {
+            if (PointOutOfGrid(point + position) ||
+                (TryGetTileAtPosition(point + position, out Tile outTile) && outTile != selected))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool TryPlaceTile(Tile selectedTile, Vector2Int position)
+    {
+        if (!CanPlaceTile(selectedTile, position))
             return false;
 
-        RemoveTile(tile);
+        RemoveTile(selectedTile);
 
-        foreach(var point in tile.Shape.AddToAll(position))
+        foreach(var point in selectedTile.Shape.AddToAll(position))
         {
-            tiles[point.x - 1, point.y - 1] = tile;
+            tiles[point.x - 1, point.y - 1] = selectedTile;
         }
 
         onTileChange?.Invoke();

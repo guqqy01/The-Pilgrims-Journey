@@ -45272,6 +45272,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3280975962755692588, guid: c79c5188492be7e4585117f12155a0f0, type: 3}
+      propertyPath: m_Name
+      value: Title Inventory
+      objectReference: {fileID: 0}
     - target: {fileID: 3760986814201827586, guid: c79c5188492be7e4585117f12155a0f0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -180898,7 +180902,7 @@ MonoBehaviour:
   SelectedTileEquipmentContainer1: {fileID: 301117624}
   SelectedTileEquipmentContainer2: {fileID: 700864624}
   SelectedTileEquipmentContainer3: {fileID: 1436929213}
-  selectedTileHoverHolder: {fileID: 0}
+  hoverTile: {fileID: 0}
   invalidTilePlacementColor: {r: 1, g: 0, b: 0, a: 0.38039216}
   tileInventory: {fileID: 1785390894}
   tilePlayer: {fileID: 866104462}

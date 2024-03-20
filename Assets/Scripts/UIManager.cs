@@ -13,7 +13,9 @@ public class UIManager : MonoBehaviour
     private Tile selectedTile;
     [SerializeField]
     private Tile lastSelectedTile;
-  
+
+    private bool prizeTileSelected;
+
     [SerializeField]
     private EquipmentContainer selectedContainer;
 
@@ -25,7 +27,7 @@ public class UIManager : MonoBehaviour
     public EquipmentContainer SelectedTileEquipmentContainer3;
 
     [SerializeField]
-    private Tile selectedTileHoverHolder;
+    private Tile hoverTile;
 
     [SerializeField]
     private Color invalidTilePlacementColor;
@@ -72,9 +74,10 @@ public class UIManager : MonoBehaviour
     private void SelectTile(Tile tile)
     {
         selectedTile = tile;
-        selectedTileHoverHolder = Instantiate(selectedTile, canvas.transform);
-        //selectedTile.transform.SetParent(canvas.transform, true);
         tile.SelectTile();
+
+        if (prizeTileSelected)
+            return;
 
         lastSelectedTile = tile;
 
@@ -95,13 +98,14 @@ public class UIManager : MonoBehaviour
             HandleSelectedTileHover();
             HandlePlaceTileOnPlayer();
             HandlePlaceTileOnInventory();
-            HandleCancelMoveTile();
         }
         else
         {
             HandleSelectTileOnPlayer();
             HandleSelectTileOnInventory();
         }
+
+        HandleCancelMoveTile();
     }
 
     public void EquipmentContainerSelectEvent(EquipmentContainer container)
@@ -155,18 +159,46 @@ public class UIManager : MonoBehaviour
         if (!Input.GetKeyDown(KeyCode.Escape))
             return;
 
-        lastSelectedTile.DeselectTile();
+        if (prizeTileSelected)
+            prizeTileSelected = false;
+
+        if (selectedTile != null)
+        {
+            selectedTile = null;
+            if (hoverTile != null)
+            {
+                Destroy(hoverTile.gameObject);
+                hoverTile = null;
+            }
+        }
+        else if (lastSelectedTile != null)
+        {
+            lastSelectedTile.DeselectTile();
+            lastSelectedTile = null;
+
+            SelectedTileEquipmentContainer1.onEquipmentChange = null;
+            SelectedTileEquipmentContainer2.onEquipmentChange = null;
+            SelectedTileEquipmentContainer3.onEquipmentChange = null;
+
+            SelectedTileEquipmentContainer1.TryChangeEquipment(null);
+            SelectedTileEquipmentContainer2.TryChangeEquipment(null);
+            SelectedTileEquipmentContainer3.TryChangeEquipment(null);
+
+            SelectedTileEquipmentContainer1.Active = false;
+            SelectedTileEquipmentContainer2.Active = false;
+            SelectedTileEquipmentContainer3.Active = false;
+        }
     }
 
     private void HandleTileRotation()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            selectedTileHoverHolder.Rotate(90);
+            hoverTile.Rotate(90);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            selectedTileHoverHolder.Rotate(-90);
+            hoverTile.Rotate(-90);
         }
     }
 
@@ -200,8 +232,8 @@ public class UIManager : MonoBehaviour
         if (pw.TileTaken == true)
             return;
 
+        prizeTileSelected = true;
         SelectTile(pw.prizeTile);
-        pw.TileTaken = true;
     }
 
     private Vector2Int GetMouseTilePositionOnInventory()
@@ -228,39 +260,35 @@ public class UIManager : MonoBehaviour
         Vector2Int mouseTilePositionInventory = GetMouseTilePositionOnInventory();
         if (!tilePlayer.PointOutOfGrid(mouseTilePositionPlayer))
         {
-            if (selectedTileHoverHolder == null)
+            if (hoverTile == null)
             {
-                selectedTileHoverHolder = Instantiate(selectedTile, canvas.transform);
-                selectedTileHoverHolder.DeselectTile();
+                Vector3 position = (Vector2)tilePlayer.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - tilePlayer.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - tilePlayer.TileGridSize.y / 2f)) + selectedTile.Offset;
+                hoverTile = Instantiate(selectedTile, position, selectedTile.rectTransform.rotation, canvas.transform);
+                hoverTile.DeselectTile();
             }
-
-            selectedTileHoverHolder.rectTransform.position = (Vector2)tilePlayer.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - tilePlayer.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - tilePlayer.TileGridSize.y / 2f)) + selectedTileHoverHolder.Offset;
-
-            selectedTileHoverHolder.Color = tilePlayer.CanPlaceTile(selectedTileHoverHolder, mouseTilePositionPlayer) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
+            
+            hoverTile.rectTransform.position = (Vector2)tilePlayer.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - tilePlayer.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - tilePlayer.TileGridSize.y / 2f)) + hoverTile.Offset;
+            
+            hoverTile.Color = tilePlayer.HoverTileCanPlace(hoverTile, selectedTile, mouseTilePositionPlayer) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
         else if (!tileInventory.PointOutOfGrid(mouseTilePositionInventory))
         {
-            if (selectedTileHoverHolder == null)
+            if (hoverTile == null)
             {
-                selectedTileHoverHolder = Instantiate(selectedTile, canvas.transform);
-                selectedTileHoverHolder.DeselectTile();
+                Vector3 position = (Vector2)tileInventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - tileInventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - tileInventory.TileGridSize.y / 2f)) + selectedTile.Offset;
+                hoverTile = Instantiate(selectedTile, position, selectedTile.rectTransform.rotation, canvas.transform);
+                hoverTile.DeselectTile();
             }
+           
+            hoverTile.rectTransform.position = (Vector2)tileInventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - tileInventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - tileInventory.TileGridSize.y / 2f)) + hoverTile.Offset;
 
-            selectedTileHoverHolder.rectTransform.position = (Vector2)tileInventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - tileInventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - tileInventory.TileGridSize.y / 2f)) + selectedTileHoverHolder.Offset;
-
-            selectedTileHoverHolder.Color = tileInventory.CanPlaceTile(selectedTileHoverHolder, mouseTilePositionInventory) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
+            hoverTile.Color = tileInventory.HoverTileCanPlace(hoverTile, selectedTile, mouseTilePositionInventory) ? Color.white.SetAlpha(0.5f) : invalidTilePlacementColor;
         }
-        else if (selectedTileHoverHolder != null)
+        else if (hoverTile != null)
         {
-            Destroy(selectedTileHoverHolder.gameObject);
-            selectedTileHoverHolder = null;
+            Destroy(hoverTile.gameObject);
+            hoverTile = null;
         }
-        /*else
-        {
-            selectedTile.rectTransform.position = Input.mousePosition;
-
-            selectedTile.Color = Color.white.SetAlpha(0.5f);
-        }*/
     }
 
     private void HandlePlaceTileOnPlayer()
@@ -270,21 +298,30 @@ public class UIManager : MonoBehaviour
 
         Vector2Int mouseTilePosition = GetMouseTilePositionOnPlayer();
 
-        Quaternion rotationHolder = selectedTile.rectTransform.rotation;
-        selectedTile.rectTransform.rotation = selectedTileHoverHolder.rectTransform.rotation;
+        if (tilePlayer.PointOutOfGrid(mouseTilePosition))
+            return;
+
+        float rotationHolder = selectedTile.rectTransform.rotation.eulerAngles.z;
+        selectedTile.RotateTo(hoverTile.rectTransform.rotation.eulerAngles.z);
 
         if (tilePlayer.TryPlaceTile(selectedTile, mouseTilePosition))
         {
             selectedTile.transform.SetParent(tilePlayer.transform, true);
             tileInventory.RemoveTile(selectedTile);
 
-            selectedTile.Color = Color.white;
-            selectedTile.DeselectTile();
+            selectedTile.rectTransform.position = hoverTile.rectTransform.position;
             selectedTile = null;
+
+            PrizeWindow.instance.TileTaken = true;
+
+            if (prizeTileSelected)
+               prizeTileSelected = false;
+
+            Destroy(hoverTile.gameObject);
         }
         else
         {
-            selectedTile.rectTransform.rotation = rotationHolder;
+            selectedTile.RotateTo(rotationHolder);
         }
     }
 
@@ -295,21 +332,30 @@ public class UIManager : MonoBehaviour
 
         Vector2Int mouseTilePosition = GetMouseTilePositionOnInventory();
 
-        Quaternion rotationHolder = selectedTile.rectTransform.rotation;
-        selectedTile.rectTransform.rotation = selectedTileHoverHolder.rectTransform.rotation;
+        if (tileInventory.PointOutOfGrid(mouseTilePosition))
+            return;
+
+        float rotationHolder = selectedTile.rectTransform.rotation.eulerAngles.z;
+        selectedTile.RotateTo(hoverTile.rectTransform.rotation.eulerAngles.z);
 
         if (tileInventory.TryPlaceTile(selectedTile, mouseTilePosition))
         {
             selectedTile.transform.SetParent(tileInventory.transform, true);
             tilePlayer.RemoveTile(selectedTile);
 
-            selectedTile.Color = Color.white;
-            selectedTile.DeselectTile();
+            selectedTile.rectTransform.position = hoverTile.rectTransform.position;
             selectedTile = null;
+
+            PrizeWindow.instance.TileTaken = true;
+
+            if (prizeTileSelected)
+                prizeTileSelected = false;
+
+            Destroy(hoverTile.gameObject);
         }
         else
         {
-            selectedTile.rectTransform.rotation = rotationHolder;
+            selectedTile.RotateTo(rotationHolder);
         }
     }
 

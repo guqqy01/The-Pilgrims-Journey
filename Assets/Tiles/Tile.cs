@@ -5,8 +5,21 @@ using UnityEngine.UI;
 using Units;
 
 [RequireComponent(typeof(TileStats))]
-public class Tile : TileImage
+public class Tile : MonoBehaviour
 {
+    [SerializeField]
+    private RectTransform unitUITransform;
+
+    public RectTransform rectTransform { private set; get; }
+
+    [SerializeField]
+    private Image tileGraphics;
+
+    public TileSO tileSO;
+
+    private static float multiplier = 210;
+    public Vector2 Offset => multiplier * GetOffset();
+
     public bool locked;
 
     public EquipmentSO equipment1;
@@ -38,10 +51,19 @@ public class Tile : TileImage
     public float TimeForNextSpawn = 0;
     public float SpawnRate(int positionTileSize) => Unit.BaseSpawnRate * tileStats.spawningMultiplier * positionTileSize;
 
-    protected override void Awake()
+    public Color Color
     {
-        base.Awake();
+        set
+        {
+            if (tileGraphics != null)
+                tileGraphics.color = value;
+        }
+    }
+
+    private void Awake()
+    {
         tileStats = GetComponent<TileStats>();
+        rectTransform = GetComponent<RectTransform>();
     }
 
     public void SelectTile()
@@ -56,36 +78,6 @@ public class Tile : TileImage
     public void DeselectTile()
     {
         highlight.SetActive(false);
-    }
-}
-
-public class TileImage : MonoBehaviour
-{
-    [SerializeField]
-    private RectTransform unitUITransform;
-
-    public RectTransform rectTransform { private set; get; }
-
-    [SerializeField]
-    private Image tileGraphics;
-
-    public TileSO tileSO;
-
-    private static float multiplier = 210;
-    public Vector2 Offset => multiplier * GetOffset();
-
-    public Color Color
-    {
-        set
-        {
-            if (tileGraphics != null)
-                tileGraphics.color = value;
-        }
-    }
-
-    protected virtual void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
     }
 
     public Vector2 GetOffset()
@@ -136,9 +128,17 @@ public class TileImage : MonoBehaviour
         unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
+    public void RotateTo(float angle)
+    {
+        Vector3 eulerAngles = rectTransform.rotation.eulerAngles;
+        eulerAngles.z = angle;
+        rectTransform.rotation = Quaternion.Euler(eulerAngles);
+        unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
+    }
+
     public void Init(TileSO tileSO)
     {
-        this.tileSO = tileSO; 
+        this.tileSO = tileSO;
 
         tileGraphics.sprite = tileSO.TileSprite;
         tileGraphics.SetNativeSize();
