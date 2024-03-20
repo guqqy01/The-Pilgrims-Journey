@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
 
     private InputManager inputManager;
 
+    private TileStatsUI tileStatsUI;
+
     [SerializeField]
     private GameObject inventoryGO;
 
@@ -18,13 +20,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private EquipmentContainer selectedContainer;
-
-    [SerializeField]
-    public EquipmentContainer SelectedTileEquipmentContainer1;
-    [SerializeField]
-    public EquipmentContainer SelectedTileEquipmentContainer2;
-    [SerializeField]
-    public EquipmentContainer SelectedTileEquipmentContainer3;
 
     [SerializeField]
     private Tile hoverTile;
@@ -50,15 +45,13 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         inputManager = InputManager.Instance;
-
-        SelectedTileEquipmentContainer1.Active = false;
-        SelectedTileEquipmentContainer2.Active = false;
-        SelectedTileEquipmentContainer3.Active = false;
+        tileStatsUI = GetComponentInChildren<TileStatsUI>();
     }
 
     private void Awake()
     {
         instance = this;
+
     }
 
     private void Update()
@@ -74,20 +67,14 @@ public class UIManager : MonoBehaviour
     private void SelectTile(Tile tile)
     {
         selectedTile = tile;
-        tile.SelectTile();
+        tile.Highlight(true);
 
         if (prizeTileSelected)
             return;
 
         lastSelectedTile = tile;
 
-        SelectedTileEquipmentContainer1.Active = true;
-        SelectedTileEquipmentContainer2.Active = tile.UnlockedEquipment >= 2;
-        SelectedTileEquipmentContainer3.Active = tile.UnlockedEquipment >= 3;
-
-        SelectedTileEquipmentContainer1.TryChangeEquipment(tile.equipment1);
-        SelectedTileEquipmentContainer2.TryChangeEquipment(tile.equipment2);
-        SelectedTileEquipmentContainer3.TryChangeEquipment(tile.equipment3);
+        tileStatsUI.TileSelected(tile);
     }
 
     private void HandleTiles()
@@ -173,25 +160,18 @@ public class UIManager : MonoBehaviour
         }
         else if (lastSelectedTile != null)
         {
-            lastSelectedTile.DeselectTile();
+            lastSelectedTile.Highlight(false);
             lastSelectedTile = null;
 
-            SelectedTileEquipmentContainer1.onEquipmentChange = null;
-            SelectedTileEquipmentContainer2.onEquipmentChange = null;
-            SelectedTileEquipmentContainer3.onEquipmentChange = null;
-
-            SelectedTileEquipmentContainer1.TryChangeEquipment(null);
-            SelectedTileEquipmentContainer2.TryChangeEquipment(null);
-            SelectedTileEquipmentContainer3.TryChangeEquipment(null);
-
-            SelectedTileEquipmentContainer1.Active = false;
-            SelectedTileEquipmentContainer2.Active = false;
-            SelectedTileEquipmentContainer3.Active = false;
+            tileStatsUI.DeselectTile();
         }
     }
 
     private void HandleTileRotation()
     {
+        if (hoverTile == null)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             hoverTile.Rotate(90);
@@ -264,7 +244,7 @@ public class UIManager : MonoBehaviour
             {
                 Vector3 position = (Vector2)tilePlayer.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - tilePlayer.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - tilePlayer.TileGridSize.y / 2f)) + selectedTile.Offset;
                 hoverTile = Instantiate(selectedTile, position, selectedTile.rectTransform.rotation, canvas.transform);
-                hoverTile.DeselectTile();
+                hoverTile.Highlight(false);
             }
             
             hoverTile.rectTransform.position = (Vector2)tilePlayer.GridTransform.position + canvas.scaleFactor * new Vector2(playerTileSizeX * (mouseTilePositionPlayer.x - 0.5f - tilePlayer.TileGridSize.x / 2f), playerTileSizeY * (mouseTilePositionPlayer.y - 0.5f - tilePlayer.TileGridSize.y / 2f)) + hoverTile.Offset;
@@ -277,7 +257,7 @@ public class UIManager : MonoBehaviour
             {
                 Vector3 position = (Vector2)tileInventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - tileInventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - tileInventory.TileGridSize.y / 2f)) + selectedTile.Offset;
                 hoverTile = Instantiate(selectedTile, position, selectedTile.rectTransform.rotation, canvas.transform);
-                hoverTile.DeselectTile();
+                hoverTile.Highlight(false);
             }
            
             hoverTile.rectTransform.position = (Vector2)tileInventory.GridTransform.position + canvas.scaleFactor * new Vector2(inventoryTileSizeX * (mouseTilePositionInventory.x - 0.5f - tileInventory.TileGridSize.x / 2f), inventoryTileSizeY * (mouseTilePositionInventory.y - 0.5f - tileInventory.TileGridSize.y / 2f)) + hoverTile.Offset;
@@ -312,10 +292,12 @@ public class UIManager : MonoBehaviour
             selectedTile.rectTransform.position = hoverTile.rectTransform.position;
             selectedTile = null;
 
-            PrizeWindow.instance.TileTaken = true;
-
+            
             if (prizeTileSelected)
-               prizeTileSelected = false;
+            {
+                PrizeWindow.instance.TileTaken = true;
+                prizeTileSelected = false;
+            }
 
             Destroy(hoverTile.gameObject);
         }
@@ -346,10 +328,11 @@ public class UIManager : MonoBehaviour
             selectedTile.rectTransform.position = hoverTile.rectTransform.position;
             selectedTile = null;
 
-            PrizeWindow.instance.TileTaken = true;
-
             if (prizeTileSelected)
+            {
+                PrizeWindow.instance.TileTaken = true;
                 prizeTileSelected = false;
+            }
 
             Destroy(hoverTile.gameObject);
         }

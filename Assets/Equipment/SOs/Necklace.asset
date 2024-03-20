@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Necklace
   m_EditorClassIdentifier: 
   sprite: {fileID: 1551434006, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  IntBuffs: []
-  FloatBuffs: []
+  IntBuffs:
+  - stat: 1
+    buffBaseAmount: 2
+    buffMultiplierAmount: 1.05
+  FloatBuffs:
+  - stat: 2
+    buffBaseAmount: 0
+    buffMultiplierAmount: 1.2

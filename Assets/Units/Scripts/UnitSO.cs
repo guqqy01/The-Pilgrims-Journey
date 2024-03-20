@@ -8,22 +8,19 @@ namespace Units
     [CreateAssetMenu()]
     public class UnitSO : ScriptableObject
     {
-        public int Tier;
-
         [Header("Spawning")]
         public float BaseSpawnRate = 1f;
 
         [Header("Movement")]
         public float MovementSpeed = 1f;
-        public float SlowResist = 0.2f;
 
         [Header("Health")]
         public int baseHealth = 5;
 
         [Header("Shield")]
-        public int Shield = 5;
+        public int Shield = 0;
         /// <summary>
-        /// Amount of time to regenerate one shield point
+        /// Amount of regeneration over 1 second
         /// </summary>
         public float ShieldRegeneration = 1f;
         /// <summary>

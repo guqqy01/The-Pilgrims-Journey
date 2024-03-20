@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Studded Shield
   m_EditorClassIdentifier: 
   sprite: {fileID: 1008300425, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  IntBuffs: []
+  IntBuffs:
+  - stat: 1
+    buffBaseAmount: 10
+    buffMultiplierAmount: 0
   FloatBuffs: []

@@ -13,6 +13,6 @@ public class MonsterSpawnSettings : ScriptableObject
 public struct MonsterSpawn
 {
     public int range;
-    public int spawnAmount;
+    public AnimationCurve spawnAmountVSLevel;
     public GameObject monster;
 }

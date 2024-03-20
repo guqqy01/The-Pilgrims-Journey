@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Peasant
   m_EditorClassIdentifier: 
-  Tier: 0
   BaseSpawnRate: 1
   MovementSpeed: 1
-  SlowResist: 0.2
   baseHealth: 5
   Shield: 5
   ShieldRegeneration: 1
   ShieldCooldown: 2.25
-  unitPrefab: {fileID: 0}
-  unitSprite: {fileID: 0}
-  unitLookups: []
+  unitPrefab: {fileID: -3200719875420227310, guid: 8f0f088186add0643aaf655b1872a3f8, type: 3}
+  unitSprite: {fileID: 1267838529, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
+  unitLookups:
+  - unitSO: {fileID: 0}
+    requiredEquipment: []

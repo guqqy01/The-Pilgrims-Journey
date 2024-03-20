@@ -87,6 +87,13 @@ public class EquipmentContainer : MonoBehaviour
         return true;
     }
 
+    public void Deactivate()
+    {
+        onEquipmentChange = null;
+        Active = false;
+        TryChangeEquipment(null);
+    }
+
     public bool CanChangeEquipment(EquipmentSO equipment)
     {
         if (!Active)

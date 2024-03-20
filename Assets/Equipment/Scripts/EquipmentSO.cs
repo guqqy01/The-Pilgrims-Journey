@@ -10,6 +10,8 @@ public class EquipmentSO : ScriptableObject
     public List<EquipmentIntBuff> IntBuffs;
     public List<EquipmentFloatBuff> FloatBuffs;
 
+
+
     public int IntBaseValue(UnitIntStats intStat)
     {
         foreach (EquipmentIntBuff intBuff in IntBuffs)
@@ -29,7 +31,7 @@ public class EquipmentSO : ScriptableObject
                 return intBuff.buffMultiplierAmount;
         }
 
-        return 0;
+        return 1;
     }
 
     public float FloatBaseValue(UnitFloatStats floatStat)
@@ -51,6 +53,6 @@ public class EquipmentSO : ScriptableObject
                 return floatBuff.buffMultiplierAmount;
         }
 
-        return 0;
+        return 1f;
     }
 }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public LocalMapGenerationSettings LocalMapSettings { get; private set; }
 
+    public int Level = 1;
 
     private void Awake()
     {

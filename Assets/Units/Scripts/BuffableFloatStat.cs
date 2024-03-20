@@ -141,7 +141,7 @@ namespace Units
                 baseBuff += kvp.Value;
             }
 
-            Value = Mathf.Max(baseStat * percentBuff + baseBuff, 0);
+            Value = Mathf.Max((baseStat + baseBuff) * percentBuff , 0);
         }
     }
 }

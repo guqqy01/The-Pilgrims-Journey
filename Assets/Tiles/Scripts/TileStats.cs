@@ -9,11 +9,11 @@ public class TileStats : MonoBehaviour
     public float movementMultiplier = 1f;
 
     [Header("Health")]
-    public int additionalHealth;
+    public int additionalHealth = 0;
     public float healthMultiplier = 1f;
 
     [Header("Shield")]
-    public int additionalShield;
+    public int additionalShield = 0;
     public float shieldMultiplier = 1f;
 
     public float shieldRegenerationMultiplier = 1f;

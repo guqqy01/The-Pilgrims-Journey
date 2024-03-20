@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using static UnityEngine.ParticleSystem;
+
 namespace Map
 {
     [CreateAssetMenu()]
@@ -18,8 +20,8 @@ namespace Map
 
         public Vector2Int mapSize;
 
-        public Vector2Int targetDirectionMinMax = new Vector2Int(2, 5);
-        public Vector2Int traverseDirectionMinMax = new Vector2Int(2, 10);
+        public MinMaxCurve targetDirectionVSLevelCurve;
+        public MinMaxCurve traverseDirectionVSLevelCurve;
 
         public void Setup()
         {

@@ -70,7 +70,7 @@ namespace Units
             if (Time.time >= timeToNextRegenPoint)
             {
                 RegenerateShield(1);
-                timeToNextRegenPoint += Regeneration;
+                timeToNextRegenPoint = Time.time + 1f / Regeneration;
             }
         }
 

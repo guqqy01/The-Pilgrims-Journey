@@ -9,8 +9,6 @@ namespace Map
 
         public Pathway pathway;
 
-        public Vector2Int start = new Vector2Int(10, 0);
-
         public List<Direction> targetDirections;
         public Direction startDirection;
 
@@ -34,10 +32,8 @@ namespace Map
         private int mapSizeX => generationSettings.mapSize.x;
         private int mapSizeY => generationSettings.mapSize.y;
 
-        private int targetDistanceMin => generationSettings.targetDirectionMinMax.x;
-        private int targetDistanceMax => generationSettings.targetDirectionMinMax.y;
-        private int traverseDistanceMin => generationSettings.traverseDirectionMinMax.x;
-        private int traverseDistanceMax => generationSettings.traverseDirectionMinMax.y;
+        private int randomTargetDirection => Mathf.RoundToInt(generationSettings.targetDirectionVSLevelCurve.Evaluate(GameManager.Instance.Level, Random.value));
+        private int randomTraverseDirection => Mathf.RoundToInt(generationSettings.traverseDirectionVSLevelCurve.Evaluate(GameManager.Instance.Level, Random.value));
 
         private void Awake()
         {
@@ -54,7 +50,7 @@ namespace Map
 
         public void CreateMap()
         {
-            CreatePath(start, startDirection, targetDirections);
+            CreatePath(startDirection, targetDirections);
 
             CreateEnemyWeightMap();
 
@@ -64,7 +60,7 @@ namespace Map
 
             SpawnMapObjects();
 
-            PathPicker.instance.Setup();
+            PathPicker.instance?.Setup();
         }
 
 
@@ -215,7 +211,7 @@ namespace Map
 
             foreach (MonsterSpawn spawn in monsterSettings.rangeAndMonster)
             {
-                for (int i = 0; i < spawn.spawnAmount; i++)
+                for (int i = 0; i < spawn.spawnAmountVSLevel.Evaluate(GameManager.Instance.Level); i++)
                 {
                     int spawnIndex = i;
 
@@ -283,20 +279,24 @@ namespace Map
                 switch (currentDirection)
                 {
                     case Direction.Up:
-                        position[1] = Mathf.Min(UnityEngine.Random.Range(position[1] + (isTargetDir ? targetDistanceMin : traverseDistanceMin), position[1] + (isTargetDir ? targetDistanceMax : traverseDistanceMax)), mapSizeY - additional);
+                        position[1] = Mathf.Min(position[1] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeY - additional);
                         break;
                     case Direction.Left:
-                        position[0] = Mathf.Max(UnityEngine.Random.Range(position[0] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[0] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
+                        position[0] = Mathf.Max(position[0] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
+                        //position[0] = Mathf.Max(UnityEngine.Random.Range(position[0] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[0] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
                         break;
                     case Direction.Right:
-                        position[0] = Mathf.Min(UnityEngine.Random.Range(position[0] + (isTargetDir ? targetDistanceMin : traverseDistanceMin), position[0] + (isTargetDir ? targetDistanceMax : traverseDistanceMax)), mapSizeX - additional);
+                        position[0] = Mathf.Min(position[0] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeX - additional);
+                        //position[0] = Mathf.Min(UnityEngine.Random.Range(position[0] + (isTargetDir ? targetDistanceMin : traverseDistanceMin), position[0] + (isTargetDir ? targetDistanceMax : traverseDistanceMax)), mapSizeX - additional);
                         break;
                     case Direction.Down:
-                        position[1] = Mathf.Max(UnityEngine.Random.Range(position[1] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[1] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
+                        position[1] = Mathf.Max(position[1] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
+                        //position[1] = Mathf.Max(UnityEngine.Random.Range(position[1] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[1] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
                         break;
                 }
 
                 distanceToTarget = GetDistanceToTarget();
+
 
                 Vector2Int point = new Vector2Int(position[0], position[1]);
 
@@ -421,13 +421,31 @@ namespace Map
 
         
 
-        public void CreatePath(Vector2Int start, Direction startDirection, List<Direction> targetDirections)
+        public void CreatePath(Direction startDirection, List<Direction> targetDirections)
         {
+            Vector2Int pathStart = new Vector2Int();
+
+            switch (startDirection)
+            {
+                case Direction.Down:
+                    pathStart = new Vector2Int(mapSizeX / 2, mapSizeY);
+                    break;
+                case Direction.Left:
+                    pathStart = new Vector2Int(mapSizeX, mapSizeY / 2);
+                    break;
+                case Direction.Right:
+                    pathStart = new Vector2Int(0, mapSizeY / 2);
+                    break;
+                case Direction.Up:
+                    pathStart = new Vector2Int(mapSizeX / 2, 0);
+                    break;
+            }
+
             pathway = new Pathway(targetDirections);
 
             for (int i = 0; i < targetDirections.Count; i++)
             {
-                Vector2Int startPoint = i == 0 ? start : GetClosestNodeToTargetDirection(targetDirections[i]);
+                Vector2Int startPoint = i == 0 ? pathStart : GetClosestNodeToTargetDirection(targetDirections[i]);
                 pathway[targetDirections[i]].Add(startPoint);
                 CreatePathFromStartToTargetDirection(pathway[targetDirections[i]], startPoint, i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
             }
