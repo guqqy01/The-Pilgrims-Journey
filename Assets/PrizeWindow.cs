@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Units;
+using System;
 
 public class PrizeWindow : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class PrizeWindow : MonoBehaviour
     private EquipmentContainer prizeContainerPrefab;
 
     [SerializeField]
-    private List<Tile> tilePrefabs;
+    private WeightedChanceList<Tile> tilePrefabs;
 
     [SerializeField]
     private List<EquipmentSO> equipment;
@@ -56,7 +57,7 @@ public class PrizeWindow : MonoBehaviour
 
     public void LoadPrize()
     {
-        SpawnPrizeContainers(Random.Range(1, 4));
+        SpawnPrizeContainers(UnityEngine.Random.Range(1, 4));
 
         foreach (EquipmentContainer container in prizeContainers)
         {
@@ -161,4 +162,42 @@ public enum PrizeType
 {
     Equipment,
     Tile,
+}
+
+[Serializable]
+public struct WeightedChanceObject<T>
+{
+    public T item;
+    public int weight;
+}
+
+[Serializable]
+public struct WeightedChanceList<T>
+{
+    public List<WeightedChanceObject<T>> list;
+
+    public T GetRandom()
+    {
+        if (list.Count <= 0)
+        {
+            throw new Exception("List not populated");
+        }
+
+        int total = 0;
+        foreach(WeightedChanceObject<T> obj in list)
+        {
+            total += obj.weight;
+        }
+
+        int index = UnityEngine.Random.Range(1, total);
+
+        foreach (WeightedChanceObject<T> obj in list)
+        {
+            index -= obj.weight;
+            if (index <= 0)
+                return obj.item;
+        }
+
+        return list[0].item;
+    }
 }

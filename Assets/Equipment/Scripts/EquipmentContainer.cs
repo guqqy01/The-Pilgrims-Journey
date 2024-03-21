@@ -96,10 +96,13 @@ public class EquipmentContainer : MonoBehaviour
 
     public bool CanChangeEquipment(EquipmentSO equipment)
     {
+        if (equipment == null)
+            return true;
+
         if (!Active)
             return false;
 
-        if (AllowedEquipment != null && equipment != null && AllowedEquipment != equipment)
+        if (AllowedEquipment != null && AllowedEquipment != equipment)
             return false;
 
         return true;

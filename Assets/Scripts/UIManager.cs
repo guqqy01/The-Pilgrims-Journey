@@ -290,14 +290,15 @@ public class UIManager : MonoBehaviour
             tileInventory.RemoveTile(selectedTile);
 
             selectedTile.rectTransform.position = hoverTile.rectTransform.position;
-            selectedTile = null;
-
             
             if (prizeTileSelected)
             {
                 PrizeWindow.instance.TileTaken = true;
                 prizeTileSelected = false;
+                SelectTile(selectedTile);
             }
+
+            selectedTile = null;
 
             Destroy(hoverTile.gameObject);
         }
@@ -326,13 +327,15 @@ public class UIManager : MonoBehaviour
             tilePlayer.RemoveTile(selectedTile);
 
             selectedTile.rectTransform.position = hoverTile.rectTransform.position;
-            selectedTile = null;
 
             if (prizeTileSelected)
             {
                 PrizeWindow.instance.TileTaken = true;
                 prizeTileSelected = false;
+                SelectTile(selectedTile);
             }
+
+            selectedTile = null;
 
             Destroy(hoverTile.gameObject);
         }

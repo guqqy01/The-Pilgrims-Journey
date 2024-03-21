@@ -2,6 +2,7 @@ using Map;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PathPicker : MonoBehaviour
 {
@@ -81,11 +82,29 @@ public class PathPicker : MonoBehaviour
     public void Setup()
     {
         pathEndPoints = MapGenerator.pathway.PathEndPoints;
+        SetPositions(new List<Vector2Int>());
+        foreach (KeyValuePair<Transform, Direction> kvp in pathPickerPoints)
+        {
+            Destroy(kvp.Key.gameObject);
+        }
+
+        pathPickerPoints.Clear();
 
         foreach (KeyValuePair<Direction, Vector2Int> endPoint in pathEndPoints)
         {
             GameObject pickerPoint = Instantiate(pathPickerPointPrefab, (Vector2)endPoint.Value, Quaternion.identity, transform);
             pathPickerPoints.Add(pickerPoint.transform, endPoint.Key);
+        }
+
+        if (pathPickerPoints.Count == 1)
+        {
+            Direction direction = pathPickerPoints.Values.ToList()[0];
+
+            List<Vector2Int> pathPoints = mapGenerator.pathway.PathNodes[direction];
+
+            SetPositions(pathPoints);
+
+            pickedDirection = direction;
         }
     }
 

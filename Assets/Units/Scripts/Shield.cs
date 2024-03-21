@@ -98,7 +98,7 @@ namespace Units
 
             onShieldChange?.Invoke(CurrentShield);
 
-            if (amount > 0) timeToNextRegenPoint = Time.time + Cooldown;
+            if (amount > 0) timeToNextRegenPoint = Regeneration != 0 ? Time.time + Cooldown : float.PositiveInfinity;
 
             if (CurrentShield == 0)
                 onDestroy?.Invoke();

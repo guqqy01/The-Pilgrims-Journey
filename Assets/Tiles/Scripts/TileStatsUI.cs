@@ -65,4 +65,9 @@ public class TileStatsUI : MonoBehaviour
         shieldRegen.text = "NA";
         shieldCooldown.text = "NA";
     }
+
+    private void Start()
+    {
+        DeselectTile();
+    }
 }
