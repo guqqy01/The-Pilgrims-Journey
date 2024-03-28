@@ -13,8 +13,22 @@ MonoBehaviour:
   m_Name: Studded Shield
   m_EditorClassIdentifier: 
   sprite: {fileID: 1008300425, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: 'Tier 1
+
+
+    Studded Shield
+
+
+    Shield base + 10
+
+    Shield multiplier
+    x 1.1'
   IntBuffs:
   - stat: 1
-    buffBaseAmount: 10
-    buffMultiplierAmount: 1
+    buffBaseAmount: 8
+    buffMultiplierAmount: 1.1
   FloatBuffs: []
+  equipmentSpecialClass: 
+  floatParameters: []
+  intParameters: 
+  boolParameters: 

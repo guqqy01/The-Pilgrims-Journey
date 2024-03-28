@@ -7,6 +7,7 @@ namespace Map
     [CustomEditor(typeof(LocalMapGenerator))]
     public class LocalMapGeneratorEditor : Editor 
     {
+
         public override void OnInspectorGUI()
         {
             LocalMapGenerator script = (LocalMapGenerator)target;

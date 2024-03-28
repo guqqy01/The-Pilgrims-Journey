@@ -13,5 +13,20 @@ MonoBehaviour:
   m_Name: Potion
   m_EditorClassIdentifier: 
   sprite: {fileID: -944022547, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: 'Tier 1
+
+
+    Health potion
+
+
+    After reaching 30% HP, consumes
+    the potion to heal 40% of max HP over 5 seconds'
   IntBuffs: []
   FloatBuffs: []
+  equipmentSpecialClass: HealthPotionSpecial
+  floatParameters:
+  - 0.3
+  - 1
+  - 10
+  intParameters: 
+  boolParameters: 

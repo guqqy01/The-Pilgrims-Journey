@@ -16,8 +16,8 @@ MonoBehaviour:
   MovementSpeed: 1.5
   baseHealth: 5
   Shield: 0
-  ShieldRegeneration: 0
-  ShieldCooldown: 5
+  ShieldRegeneration: 1
+  ShieldCooldown: 6
   unitPrefab: {fileID: -3200719875420227310, guid: 8f0f088186add0643aaf655b1872a3f8, type: 3}
   unitSprite: {fileID: 1267838529, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
   unitLookups:

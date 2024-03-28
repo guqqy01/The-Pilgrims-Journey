@@ -17,7 +17,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private AnimationCurve requiredUnits;
 
-
+    [SerializeField]
+    private Text levelText;
+    [SerializeField]
+    private Text requiredUnitsText;
 
     private void Awake()
     {
@@ -37,6 +40,9 @@ public class GameManager : MonoBehaviour
         LocalMapGenerator.Instance.CreateMap();
         PrizeWindow.instance.gameObject.SetActive(true);
         PrizeWindow.instance.LoadPrize();
+
+        levelText.text = "Level " + Level;
+        requiredUnitsText.text = unitsPassed + "/" + Mathf.CeilToInt(requiredUnits.Evaluate(Level));
     }
 
     public void SetLocalMapObject(LocalMapGenerationSettings settings)
@@ -66,7 +72,11 @@ public class GameManager : MonoBehaviour
             unitsPassed = 0;
 
             LocalMapGenerator.Instance.CreateMap();
+
+            levelText.text = "Level " + Level;
         }
+
+        requiredUnitsText.text = unitsPassed + "/" + Mathf.CeilToInt(requiredUnits.Evaluate(Level));
     }
 
 }

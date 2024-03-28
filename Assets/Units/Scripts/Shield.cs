@@ -27,6 +27,9 @@ namespace Units
         public delegate void OnShieldChange(int currentShield);
         public OnShieldChange onShieldChange;
 
+        [SerializeField]
+        private ParticleSystem shieldBrokenPS;
+
         public void Init(UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs)
         {
             shield = new BuffableIntStat(unitSO.Shield);
@@ -100,8 +103,11 @@ namespace Units
 
             if (amount > 0) timeToNextRegenPoint = Regeneration != 0 ? Time.time + Cooldown : float.PositiveInfinity;
 
-            if (CurrentShield == 0)
+            if (CurrentShield == 0 && amount != leftOverDmg)
+            {
                 onDestroy?.Invoke();
+                shieldBrokenPS?.Play();
+            }
 
             return leftOverDmg;
         }

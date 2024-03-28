@@ -13,8 +13,19 @@ MonoBehaviour:
   m_Name: Boots
   m_EditorClassIdentifier: 
   sprite: {fileID: -1953570176, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: 'Tier 1
+
+
+    Leather boots
+
+
+    Movement multiplier x 1.2'
   IntBuffs: []
   FloatBuffs:
   - stat: 1
     buffBaseAmount: 0
     buffMultiplierAmount: 1.2
+  equipmentSpecialClass: 
+  floatParameters: []
+  intParameters: 
+  boolParameters: 

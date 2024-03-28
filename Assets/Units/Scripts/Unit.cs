@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Units
 {
@@ -15,6 +16,8 @@ namespace Units
         public float CurrentHealth => health.currentHealth;
         public float MaxHealth => health.MaxHealth;
 
+        public ParticleSystem healthPotionParticleSystem;
+
         private void Awake()
         {
             movement = GetComponent<Movement>();
@@ -27,6 +30,17 @@ namespace Units
             movement.Init(path, unitSO, tileStats, equipmentSOs);
             health.Init(unitSO, tileStats, equipmentSOs);
             shield.Init(unitSO, tileStats, equipmentSOs);
+
+            foreach(EquipmentSO equipment in equipmentSOs)
+            {
+                if (equipment == null)
+                    continue;
+
+                if (equipment.equipmentSpecialClass == "")
+                    continue;
+
+                ((EquipmentSpecial)(MonoBehaviour)gameObject.AddComponent(Type.GetType(equipment.equipmentSpecialClass))).Init(equipment.Parameters);
+            }
         }
 
         public void Damage(int damage)

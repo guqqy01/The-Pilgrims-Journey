@@ -34,6 +34,10 @@ public class TileStatsUI : MonoBehaviour
         equipmentContainer2.onEquipmentChange = (EquipmentSO from, EquipmentSO to) => tile.equipment2 = to;
         equipmentContainer3.onEquipmentChange = (EquipmentSO from, EquipmentSO to) => tile.equipment3 = to;
 
+        equipmentContainer1.onEquipmentChange += OnEquipmentChanged;
+        equipmentContainer2.onEquipmentChange += OnEquipmentChanged;
+        equipmentContainer3.onEquipmentChange += OnEquipmentChanged;
+
         equipmentContainer1.Active = true;
         equipmentContainer2.Active = tile.UnlockedEquipment >= 2;
         equipmentContainer3.Active = tile.UnlockedEquipment >= 3;
@@ -42,6 +46,16 @@ public class TileStatsUI : MonoBehaviour
         equipmentContainer2.TryChangeEquipment(tile.equipment2);
         equipmentContainer3.TryChangeEquipment(tile.equipment3);
 
+        UpdateStats();
+    }
+
+    public void OnEquipmentChanged(EquipmentSO from, EquipmentSO to)
+    {
+        UpdateStats();
+    }
+
+    public void UpdateStats()
+    {
         spawnRateText.text = tile.SpawnRateValue.ToString();
         movement.text = tile.MovementValue.ToString();
         health.text = tile.HealthValue.ToString();
@@ -49,6 +63,8 @@ public class TileStatsUI : MonoBehaviour
         shieldRegen.text = tile.ShieldRegenerationValue.ToString();
         shieldCooldown.text = tile.ShieldCooldownValue.ToString();
     }
+
+
 
     public void DeselectTile()
     {

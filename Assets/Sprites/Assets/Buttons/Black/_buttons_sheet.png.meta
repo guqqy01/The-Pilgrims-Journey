@@ -176,7 +176,7 @@ TextureImporter:
         width: 24
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -184,6 +184,27 @@ TextureImporter:
       bones: []
       spriteID: c0ef04ce5fa874540b7fbcefabdaab17
       internalID: -577350117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: _buttons_sheet_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 060345b4cfca7964782658fb9a79b78a
+      internalID: -1638850874
       vertices: []
       indices: 
       edges: []
@@ -203,6 +224,7 @@ TextureImporter:
       Button2: -1485568971
       Button3: 1314714581
       _buttons_sheet_0: -577350117
+      _buttons_sheet_1: -1638850874
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -13,8 +13,22 @@ MonoBehaviour:
   m_Name: Belt
   m_EditorClassIdentifier: 
   sprite: {fileID: -1149349956, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: 'Tier 1
+
+
+    Worn Around the Waist
+
+
+    Health Base +12
+
+    Health
+    Multiplier x 1.1'
   IntBuffs:
   - stat: 0
     buffBaseAmount: 10
-    buffMultiplierAmount: 1.2
+    buffMultiplierAmount: 1.1
   FloatBuffs: []
+  equipmentSpecialClass: 
+  floatParameters: []
+  intParameters: 
+  boolParameters: 
