@@ -25,4 +25,26 @@ public static class Extensions
     {
         return list[Random.Range(0, list.Count)];
     }
+
+    public static int RandomSign(this int value)
+    {
+        float random = Random.Range(1, 3);
+        int randomSign = 1;
+
+        if (random == 2)
+            randomSign = -1;
+
+        return value * randomSign;
+    }
+
+    public static float RandomSign(this float value)
+    {
+        float random = Random.Range(1, 3);
+        int randomSign = 1;
+
+        if (random == 2)
+            randomSign = -1;
+
+        return value * randomSign;
+    }
 }

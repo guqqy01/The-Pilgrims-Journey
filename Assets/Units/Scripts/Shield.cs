@@ -106,7 +106,8 @@ namespace Units
             if (CurrentShield == 0 && amount != leftOverDmg)
             {
                 onDestroy?.Invoke();
-                shieldBrokenPS?.Play();
+                if(shieldBrokenPS != null)
+                    shieldBrokenPS?.Play();
             }
 
             return leftOverDmg;

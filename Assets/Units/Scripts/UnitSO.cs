@@ -28,49 +28,15 @@ namespace Units
         /// </summary>
         public float ShieldCooldown = 2.25f;
 
+        [Header("Drops")]
+        public float coin1Percent = 0.5f;
+        public float coin5Percent = 0.1f;
+        public float coint10Percent = 0.01f;
+
         [Header("Objects")]
         public Unit unitPrefab;
 
         public Sprite unitSprite;
-
-        public List<UnitLookup> unitLookups;
-
-        public UnitSO GetUnit(List<EquipmentSO> equipmentSOs)
-        {
-            List<UnitLookup> reversedLookups = unitLookups;
-            reversedLookups.Reverse();
-
-            foreach (UnitLookup unitLookup in reversedLookups)
-            {
-                if (unitLookup.unitSO == null)
-                    continue;
-
-                if (unitLookup.ContainsEquipment(equipmentSOs))
-                    return unitLookup.unitSO;
-            }
-
-            return this;
-        }
-    }
-
-    [Serializable]
-    public struct UnitLookup
-    {
-        public UnitSO unitSO;
-        public List<EquipmentSO> requiredEquipment;
-
-        public bool ContainsEquipment(List<EquipmentSO> equipmentSOs)
-        {
-            if (requiredEquipment.Count < 1)
-                return false;
-
-            foreach (EquipmentSO equipment in requiredEquipment)
-            {
-                if (!equipmentSOs.Contains(equipment))
-                    return false;
-            }
-            return true;
-        }
     }
 }
 

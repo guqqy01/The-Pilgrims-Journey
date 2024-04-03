@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField]
     public static InputManager Instance;
 
+    [SerializeField]
+    private Camera cam;
+
+    public Vector2 MousePosition => cam.ScreenToWorldPoint(Input.mousePosition);
 
     public bool LeftClick => Input.GetMouseButtonDown(0);
     public bool RightClick => Input.GetMouseButtonDown(1);
@@ -33,7 +38,7 @@ public class InputManager : MonoBehaviour
         if (!LeftClick)
             return;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
         Collider2D collider = Physics2D.OverlapPoint(ray.origin);
 

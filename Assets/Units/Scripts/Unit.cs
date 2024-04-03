@@ -6,11 +6,13 @@ using System;
 namespace Units
 {
     [RequireComponent(typeof(Movement), typeof(Health), typeof(Shield))]
+    [RequireComponent(typeof(CoinDrop))]
     public class Unit : MonoBehaviour
     {
         private Movement movement;
         private Health health;
         private Shield shield;
+        private CoinDrop coinDrop;
 
         public float MovementSpeed => movement.Speed;
         public float CurrentHealth => health.currentHealth;
@@ -23,6 +25,7 @@ namespace Units
             movement = GetComponent<Movement>();
             health = GetComponent<Health>();
             shield = GetComponent<Shield>();
+            coinDrop = GetComponent<CoinDrop>();
         }
 
         public void Init(UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs, List<Vector2Int> path)
@@ -30,8 +33,9 @@ namespace Units
             movement.Init(path, unitSO, tileStats, equipmentSOs);
             health.Init(unitSO, tileStats, equipmentSOs);
             shield.Init(unitSO, tileStats, equipmentSOs);
+            coinDrop.Init(unitSO);
 
-            foreach(EquipmentSO equipment in equipmentSOs)
+            foreach (EquipmentSO equipment in equipmentSOs)
             {
                 if (equipment == null)
                     continue;

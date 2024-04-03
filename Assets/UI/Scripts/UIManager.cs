@@ -194,6 +194,9 @@ public class UIManager : MonoBehaviour
         if (!InputManager.Instance.LeftClick)
             return;
 
+        if (!tilePlayer.GridTransform.gameObject.activeInHierarchy)
+            return;
+
         Vector2Int playerMousePos = GetMouseTilePositionOnPlayer();
         if (tilePlayer.TryGetTileAtPosition(playerMousePos, out Tile tile))
         {
@@ -211,6 +214,9 @@ public class UIManager : MonoBehaviour
     private void HandleSelectTileOnInventory()
     {
         if (!InputManager.Instance.LeftClick)
+            return;
+
+        if (!tileInventory.GridTransform.gameObject.activeInHierarchy)
             return;
 
         Vector2Int inventoryMousePos = GetMouseTilePositionOnInventory();

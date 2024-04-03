@@ -40,7 +40,7 @@ namespace Units
 
             onHealthChange?.Invoke(currentHealth);
 
-            if (currentHealth == 0)
+            if (currentHealth <= 0)
             {
                 onDie?.Invoke();
                 Destroy(gameObject);

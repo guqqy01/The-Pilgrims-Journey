@@ -31,6 +31,7 @@ public class PathPicker : MonoBehaviour
 
     private InputManager inputManager;
 
+    [SerializeField]
     public static PathPicker instance { private set; get; }
 
     [SerializeField]

@@ -40,7 +40,11 @@ public class PrizeWindow : MonoBehaviour
 
     public Tile prizeTile;
 
+    public bool EquipmentTaken { private set; get; } = false;
     public bool TileTaken = false;
+
+    [SerializeField]
+    private Text skipText;
 
     [SerializeField]
     private Button skipButton;
@@ -59,13 +63,27 @@ public class PrizeWindow : MonoBehaviour
     {
         SpawnPrizeContainers(UnityEngine.Random.Range(1, 4));
 
+        List<EquipmentSO> currentEquipment = new List<EquipmentSO>();
+
         foreach (EquipmentContainer container in prizeContainers)
         {
             if (equipment.Count == 0)
                 break;
 
-            container.TryChangeEquipment(equipment.GetRandom());
+            int breaker = 10;
+
+            EquipmentSO equip = equipment.GetRandom();
+
+            while (breaker > 0 && currentEquipment.Contains(equip))
+            {
+                equip = equipment.GetRandom();
+                breaker--;
+            }
+
+            container.TryChangeEquipment(equip);
             container.AllowedEquipment = container.EquipmentSO;
+
+            currentEquipment.Add(equip);
         }
 
         if (prizeTile != null && TileTaken == false)
@@ -111,6 +129,7 @@ public class PrizeWindow : MonoBehaviour
             {
                 equipmentContainer.Active = equipmentContainer.EquipmentSO == null;
             }
+            EquipmentTaken = true;
         }
         else
         {
@@ -118,6 +137,7 @@ public class PrizeWindow : MonoBehaviour
             {
                 equipmentContainer.Active = true;
             }
+            EquipmentTaken = false;
         }
     }
 
@@ -153,6 +173,8 @@ public class PrizeWindow : MonoBehaviour
                 tilePage.SetActive(true);
                 break;
         }
+
+        skipText.text = (currentPage == lastPage) ? "Exit X" : "Skip >>";
 
         backButton.interactable = currentPage != 0;
     }

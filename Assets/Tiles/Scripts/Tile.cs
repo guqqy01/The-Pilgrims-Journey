@@ -31,14 +31,6 @@ public class Tile : MonoBehaviour
 
     public UnitSO baseUnit;
 
-    public UnitSO Unit
-    {
-        get
-        {
-            return baseUnit.GetUnit(Equipment);
-        }
-    }
-
     public TileStats tileStats { private set; get; }
 
     public bool Selected { private set; get; } = false;
@@ -63,7 +55,7 @@ public class Tile : MonoBehaviour
             }
         }
 
-        return tileStats.spawningMultiplier * equipmentMultiplierValue * positionTileSize * (Unit.BaseSpawnRate + equipmentBaseValue);
+        return tileStats.spawningMultiplier * equipmentMultiplierValue * positionTileSize * (baseUnit.BaseSpawnRate + equipmentBaseValue);
     }
 
     public float SpawnRateValue
@@ -82,7 +74,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return tileStats.spawningMultiplier * equipmentMultiplierValue * (Unit.BaseSpawnRate + equipmentBaseValue);
+            return tileStats.spawningMultiplier * equipmentMultiplierValue * (baseUnit.BaseSpawnRate + equipmentBaseValue);
         }
     }
 
@@ -102,7 +94,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return (tileStats.movementMultiplier * equipmentMultiplierValue * (Unit.MovementSpeed + equipmentBaseValue));
+            return (tileStats.movementMultiplier * equipmentMultiplierValue * (baseUnit.MovementSpeed + equipmentBaseValue));
         }
     }
 
@@ -122,7 +114,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return Mathf.CeilToInt(tileStats.healthMultiplier * equipmentMultiplierValue * (Unit.baseHealth + equipmentBaseValue + tileStats.additionalHealth));
+            return Mathf.CeilToInt(tileStats.healthMultiplier * equipmentMultiplierValue * (baseUnit.baseHealth + equipmentBaseValue + tileStats.additionalHealth));
         }
     }
 
@@ -142,7 +134,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return Mathf.CeilToInt(tileStats.shieldMultiplier * equipmentMultiplierValue * (Unit.Shield + equipmentBaseValue + tileStats.additionalShield));
+            return Mathf.CeilToInt(tileStats.shieldMultiplier * equipmentMultiplierValue * (baseUnit.Shield + equipmentBaseValue + tileStats.additionalShield));
         }
     }
 
@@ -162,7 +154,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return (tileStats.shieldRegenerationMultiplier * equipmentMultiplierValue * (Unit.ShieldRegeneration + equipmentBaseValue));
+            return (tileStats.shieldRegenerationMultiplier * equipmentMultiplierValue * (baseUnit.ShieldRegeneration + equipmentBaseValue));
         }
     }
 
@@ -182,7 +174,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return (tileStats.shieldCooldownMultiplier * equipmentMultiplierValue * (Unit.ShieldCooldown + equipmentBaseValue));
+            return (tileStats.shieldCooldownMultiplier * equipmentMultiplierValue * (baseUnit.ShieldCooldown + equipmentBaseValue));
         }
     }
 
