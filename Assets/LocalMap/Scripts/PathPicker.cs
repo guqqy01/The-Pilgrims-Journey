@@ -86,7 +86,8 @@ public class PathPicker : MonoBehaviour
         SetPositions(new List<Vector2Int>());
         foreach (KeyValuePair<Transform, Direction> kvp in pathPickerPoints)
         {
-            Destroy(kvp.Key.gameObject);
+            if(kvp.Key != null)
+                Destroy(kvp.Key.gameObject);
         }
 
         pathPickerPoints.Clear();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public static class Extensions
 {
     public static Color SetAlpha(this Color color, float alpha)
@@ -24,6 +24,11 @@ public static class Extensions
     public static T GetRandom<T>(this List<T> list)
     {
         return list[Random.Range(0, list.Count)];
+    }
+
+    public static object GetRandom(this System.Array array)
+    {
+        return array.GetValue(Random.Range(0, array.Length));
     }
 
     public static int RandomSign(this int value)

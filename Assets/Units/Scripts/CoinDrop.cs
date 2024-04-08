@@ -32,8 +32,6 @@ namespace Units
         {
             float value = Random.value;
 
-            Debug.Log("Die");
-
             if(value <= coint10Percent.Value)
             {
                 Instantiate(resourceManager.coin10, transform.position, Quaternion.identity, resourceManager.transform);

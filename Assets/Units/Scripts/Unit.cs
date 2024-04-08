@@ -28,23 +28,39 @@ namespace Units
             coinDrop = GetComponent<CoinDrop>();
         }
 
-        public void Init(UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs, List<Vector2Int> path)
+        public void Init(Tile tile)
         {
-            movement.Init(path, unitSO, tileStats, equipmentSOs);
-            health.Init(unitSO, tileStats, equipmentSOs);
-            shield.Init(unitSO, tileStats, equipmentSOs);
+
+        }
+
+        public void Init(UnitSO unitSO, List<Vector2Int> path, int currentPathIndex)
+        {
+            movement.Init(path, currentPathIndex, unitSO);
+            health.Init(unitSO);
+            shield.Init(unitSO);
             coinDrop.Init(unitSO);
+        }
 
-            foreach (EquipmentSO equipment in equipmentSOs)
-            {
-                if (equipment == null)
-                    continue;
+        public void Init(Tile tile, List<Vector2Int> path, int currentPathIndex)
+        {
+            movement.Init(path, currentPathIndex, tile);
+            health.Init(tile);
+            shield.Init(tile);
+            coinDrop.Init(tile.Unit);
 
-                if (equipment.equipmentSpecialClass == "")
-                    continue;
+            List<EquipmentSO> equipmentSOs = tile.Equipment;
 
-                ((EquipmentSpecial)(MonoBehaviour)gameObject.AddComponent(Type.GetType(equipment.equipmentSpecialClass))).Init(equipment.Parameters);
-            }
+            if(equipmentSOs != null)
+                foreach (EquipmentSO equipment in equipmentSOs)
+                {
+                    if (equipment == null)
+                        continue;
+
+                    if (equipment.equipmentSpecialClass == "")
+                        continue;
+
+                    ((EquipmentSpecial)(MonoBehaviour)gameObject.AddComponent(Type.GetType(equipment.equipmentSpecialClass))).Init(equipment.Parameters);
+                }
         }
 
         public void Damage(int damage)

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
+  m_Name: Bandit
+  m_EditorClassIdentifier: 
+  BaseSpawnRate: 1.5
+  MovementSpeed: 1.5
+  baseHealth: 7
+  Shield: 2
+  ShieldRegeneration: 1
+  ShieldCooldown: 4
+  coin1Percent: 0.8
+  coin5Percent: 0.3
+  coint10Percent: 0.01
+  unitPrefab: {fileID: 1687830590960969776, guid: 79f3b8fd20e496c438371ceacfdc7c0c, type: 3}
+  sprite: {fileID: 1778899177, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
+  unitEquipmentRequirements: []

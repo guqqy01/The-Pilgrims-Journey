@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Units;
 
-[RequireComponent(typeof(TileStats))]
 public class Tile : MonoBehaviour
 {
     [SerializeField]
     private RectTransform unitUITransform;
+
+    private Image unitGraphics;
 
     public RectTransform rectTransform { private set; get; }
 
@@ -27,11 +28,45 @@ public class Tile : MonoBehaviour
     public EquipmentSO equipment3;
 
     public List<EquipmentSO> Equipment => new List<EquipmentSO>() { equipment1, equipment2, equipment3 };
-    public int UnlockedEquipment { private set; get; } = 3;
 
-    public UnitSO baseUnit;
+    public int Level = 1;
 
-    public TileStats tileStats { private set; get; }
+    public float spawningMultiplier => 1f + 0.1f * (Level - 1);
+
+    public float movementMultiplier => 1f + 0.1f * (Level - 1);
+
+    public float healthMultiplier => 1f + 0.1f * (Level - 1);
+
+    public float shieldMultiplier => 1f + 0.1f * (Level - 1);
+
+    public float shieldRegenerationMultiplier => 1f + 0.1f * (Level - 1);
+    public float shieldCooldownMultiplier => Mathf.Pow(0.9f, (Level - 1));
+
+    public int requiredGoldToLevel => Level * Level * Shape.Count * Shape.Count * 15;
+    public int requiredDiamondsToEvolve => Shape.Count;
+
+
+    public delegate void OnStatsChange();
+    public OnStatsChange onStatsChange;
+
+    
+
+    private UnitSO unit;
+    public UnitSO Unit
+    {
+        get
+        {
+            return unit;
+        }
+        set
+        {
+            unit = value;
+
+            unitGraphics.sprite = unit.sprite;
+
+            onStatsChange?.Invoke();
+        }
+    }
 
     public bool Selected { private set; get; } = false;
 
@@ -40,24 +75,7 @@ public class Tile : MonoBehaviour
 
     [HideInInspector]
     public float TimeForNextSpawn = 0;
-
-    public float SpawnRate(int positionTileSize) 
-    {
-        float equipmentBaseValue = 0;
-        float equipmentMultiplierValue = 1;
-
-        foreach (EquipmentSO equipment in Equipment)
-        {
-            if (equipment != null)
-            {
-                equipmentBaseValue += equipment.FloatBaseValue(UnitFloatStats.SpawnRate);
-                equipmentMultiplierValue *= equipment.FloatMultiplierValue(UnitFloatStats.SpawnRate);
-            }
-        }
-
-        return tileStats.spawningMultiplier * equipmentMultiplierValue * positionTileSize * (baseUnit.BaseSpawnRate + equipmentBaseValue);
-    }
-
+    
     public float SpawnRateValue
     {
         get
@@ -74,7 +92,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return tileStats.spawningMultiplier * equipmentMultiplierValue * (baseUnit.BaseSpawnRate + equipmentBaseValue);
+            return spawningMultiplier * equipmentMultiplierValue * (Unit.BaseSpawnRate + equipmentBaseValue);
         }
     }
 
@@ -94,7 +112,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return (tileStats.movementMultiplier * equipmentMultiplierValue * (baseUnit.MovementSpeed + equipmentBaseValue));
+            return (movementMultiplier * equipmentMultiplierValue * (Unit.MovementSpeed + equipmentBaseValue));
         }
     }
 
@@ -114,7 +132,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return Mathf.CeilToInt(tileStats.healthMultiplier * equipmentMultiplierValue * (baseUnit.baseHealth + equipmentBaseValue + tileStats.additionalHealth));
+            return Mathf.CeilToInt(healthMultiplier * equipmentMultiplierValue * (Unit.baseHealth + equipmentBaseValue));
         }
     }
 
@@ -134,7 +152,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return Mathf.CeilToInt(tileStats.shieldMultiplier * equipmentMultiplierValue * (baseUnit.Shield + equipmentBaseValue + tileStats.additionalShield));
+            return Mathf.CeilToInt(shieldMultiplier * equipmentMultiplierValue * (Unit.Shield + equipmentBaseValue));
         }
     }
 
@@ -154,7 +172,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return (tileStats.shieldRegenerationMultiplier * equipmentMultiplierValue * (baseUnit.ShieldRegeneration + equipmentBaseValue));
+            return (shieldRegenerationMultiplier * equipmentMultiplierValue * (Unit.ShieldRegeneration + equipmentBaseValue));
         }
     }
 
@@ -174,7 +192,7 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            return (tileStats.shieldCooldownMultiplier * equipmentMultiplierValue * (baseUnit.ShieldCooldown + equipmentBaseValue));
+            return (shieldCooldownMultiplier * equipmentMultiplierValue * (Unit.ShieldCooldown + equipmentBaseValue));
         }
     }
 
@@ -189,8 +207,20 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
-        tileStats = GetComponent<TileStats>();
         rectTransform = GetComponent<RectTransform>();
+        unitGraphics = unitUITransform.GetComponent<Image>();
+    }
+
+    public void Upgrade()
+    {
+        if (ResourceManager.Instance.Gold < requiredGoldToLevel)
+            return;
+
+        ResourceManager.Instance.ModifyGold(-requiredGoldToLevel);
+
+        Level++;
+
+        onStatsChange?.Invoke();
     }
 
     public void Highlight(bool highlighted)

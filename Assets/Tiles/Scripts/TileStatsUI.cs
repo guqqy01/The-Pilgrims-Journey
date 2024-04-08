@@ -26,9 +26,26 @@ public class TileStatsUI : MonoBehaviour
     [SerializeField]
     private Text shieldCooldown;
 
+    [SerializeField]
+    private Text upgradeGoldRequired;
+
+    [SerializeField]
+    private Text evolveDiamondsRequired;
+
+    [SerializeField]
+    private Button upgradeButton;
+
+    [SerializeField]
+    private Button evolveButton;
+
+    [SerializeField]
+    private Text levelText;
+
     public void TileSelected(Tile tile)
     {
         this.tile = tile;
+
+        tile.onStatsChange = UpdateStats;
 
         equipmentContainer1.onEquipmentChange = (EquipmentSO from, EquipmentSO to) => tile.equipment1 = to;
         equipmentContainer2.onEquipmentChange = (EquipmentSO from, EquipmentSO to) => tile.equipment2 = to;
@@ -39,8 +56,8 @@ public class TileStatsUI : MonoBehaviour
         equipmentContainer3.onEquipmentChange += OnEquipmentChanged;
 
         equipmentContainer1.Active = true;
-        equipmentContainer2.Active = tile.UnlockedEquipment >= 2;
-        equipmentContainer3.Active = tile.UnlockedEquipment >= 3;
+        equipmentContainer2.Active = true;
+        equipmentContainer3.Active = true;
 
         equipmentContainer1.TryChangeEquipment(tile.equipment1);
         equipmentContainer2.TryChangeEquipment(tile.equipment2);
@@ -56,15 +73,25 @@ public class TileStatsUI : MonoBehaviour
 
     public void UpdateStats()
     {
+        equipmentContainer1.Active = tile.Level >= 1;
+        equipmentContainer2.Active = tile.Level >= 3;
+        equipmentContainer3.Active = tile.Level >= 5;
+
         spawnRateText.text = tile.SpawnRateValue.ToString();
         movement.text = tile.MovementValue.ToString();
         health.text = tile.HealthValue.ToString();
         shield.text = tile.ShieldValue.ToString();
         shieldRegen.text = tile.ShieldRegenerationValue.ToString();
         shieldCooldown.text = tile.ShieldCooldownValue.ToString();
+
+        upgradeGoldRequired.text = tile.requiredGoldToLevel.ToString();
+        evolveDiamondsRequired.text = tile.requiredDiamondsToEvolve.ToString();
+
+        levelText.text = "Lvl " + tile.Level.ToString();
+
+        upgradeButton.interactable = tile.requiredGoldToLevel <= ResourceManager.Instance.Gold;
+        evolveButton.interactable = tile.requiredDiamondsToEvolve <= ResourceManager.Instance.Diamonds;
     }
-
-
 
     public void DeselectTile()
     {
@@ -80,6 +107,29 @@ public class TileStatsUI : MonoBehaviour
         shield.text = "NA";
         shieldRegen.text = "NA";
         shieldCooldown.text = "NA";
+
+        upgradeButton.interactable = false;
+        evolveButton.interactable = false;
+    }
+
+    public void UpgradeTile()
+    {
+        if (tile.requiredGoldToLevel <= ResourceManager.Instance.Gold)
+        {
+            UIManager.instance.DeselectContainer();
+
+            tile.Upgrade();
+        }
+    }
+
+    public void EvolveTile()
+    {
+        if (tile.requiredDiamondsToEvolve <= ResourceManager.Instance.Diamonds)
+        {
+            UIManager.instance.DeselectContainer();
+
+            tile.Upgrade();
+        }
     }
 
     private void Start()

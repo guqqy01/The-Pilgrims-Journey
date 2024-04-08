@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     private TileStatsUI tileStatsUI;
 
     [SerializeField]
+    private EvolutionWindow evolutionWindow;
+
+    [SerializeField]
     private GameObject inventoryGO;
 
     [SerializeField]
@@ -64,6 +67,12 @@ public class UIManager : MonoBehaviour
         HandleTiles();
     }
 
+    public void OpenEvolutionWindow()
+    {
+        evolutionWindow.gameObject.SetActive(true);
+        evolutionWindow.Init(selectedTile);
+    }
+
     private void MoveTile(Tile tile)
     {
         movingTile = tile;
@@ -111,8 +120,7 @@ public class UIManager : MonoBehaviour
         {
             if (container == selectedContainer)
             {
-                selectedContainer.Deselect();
-                selectedContainer = null;
+                DeselectContainer();
                 return;
             }
 
@@ -133,8 +141,7 @@ public class UIManager : MonoBehaviour
 
                 selectedContainer.TryChangeEquipment(holder);
 
-                selectedContainer.Deselect();
-                selectedContainer = null;
+                DeselectContainer();
             }
         }
         else
@@ -145,6 +152,15 @@ public class UIManager : MonoBehaviour
             selectedContainer = container;
             selectedContainer.Select();
         }
+    }
+
+    public void DeselectContainer()
+    {
+        if (selectedContainer == null)
+            return;
+
+        selectedContainer.Deselect();
+        selectedContainer = null;
     }
 
 
@@ -241,6 +257,8 @@ public class UIManager : MonoBehaviour
 
         prizeTileSelected = true;
         MoveTile(pw.prizeTile);
+
+        pw.prizeTile.Highlight(true);
     }
 
     private Vector2Int GetMouseTilePositionOnInventory()

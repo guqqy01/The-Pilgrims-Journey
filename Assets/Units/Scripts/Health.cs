@@ -15,20 +15,32 @@ namespace Units
         public delegate void OnHealthChange(int currentHealth);
         public OnHealthChange onHealthChange;
 
-        public void Init(UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs)
+        public void Init(UnitSO unitSO)
         {
             maxHealth = new BuffableIntStat(unitSO.baseHealth);
-            maxHealth.AddBaseBuff("Tile", tileStats.additionalHealth);
-            maxHealth.AddMultiplierBuff("Tile", tileStats.healthMultiplier);
 
-            for (int i = 0; i < equipmentSOs.Count; i++)
-            {
-                if (equipmentSOs[i] == null)
-                    continue;
+            currentHealth = MaxHealth;
+            onHealthChange?.Invoke(currentHealth);
+        }
 
-                maxHealth.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntBaseValue(UnitIntStats.Health));
-                maxHealth.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntMultiplierValue(UnitIntStats.Health));
-            }
+        public void Init(Tile tile)
+        {
+            maxHealth = new BuffableIntStat(tile.Unit.baseHealth);
+
+            if (tile != null)
+                maxHealth.AddMultiplierBuff("Tile", tile.healthMultiplier);
+
+            List<EquipmentSO> equipmentSOs = tile.Equipment;
+
+            if(equipmentSOs != null)
+                for (int i = 0; i < equipmentSOs.Count; i++)
+                {
+                    if (equipmentSOs[i] == null)
+                        continue;
+
+                    maxHealth.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntBaseValue(UnitIntStats.Health));
+                    maxHealth.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntMultiplierValue(UnitIntStats.Health));
+                }
                 
             currentHealth = MaxHealth;
             onHealthChange?.Invoke(currentHealth);

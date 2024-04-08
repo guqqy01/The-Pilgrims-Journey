@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
+  m_Name: Necromancer
+  m_EditorClassIdentifier: 
+  BaseSpawnRate: 0.6
+  MovementSpeed: 1.1
+  baseHealth: 5
+  Shield: 5
+  ShieldRegeneration: 1
+  ShieldCooldown: 3.5
+  coin1Percent: 0.5
+  coin5Percent: 0.1
+  coint10Percent: 0.01
+  unitPrefab: {fileID: 1687830590960969776, guid: e93854b0a3b571c419c30b6990af23b7, type: 3}
+  sprite: {fileID: 1267172144, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
+  unitEquipmentRequirements: []

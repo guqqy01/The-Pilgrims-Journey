@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 3485859280055410467}
   - component: {fileID: 3485859280055410469}
   - component: {fileID: 2305793393074606450}
-  - component: {fileID: 8229296077767568701}
   m_Layer: 5
   m_Name: 3x2LTile
   m_TagString: Untagged
@@ -145,29 +144,10 @@ MonoBehaviour:
   equipment1: {fileID: 0}
   equipment2: {fileID: 0}
   equipment3: {fileID: 0}
-  baseUnit: {fileID: 11400000, guid: 5462e31195e56de46a7a21e97f3a7dc2, type: 2}
+  Level: 1
+  unit: {fileID: 0}
   highlight: {fileID: 8588889783666370321}
   TimeForNextSpawn: 0
---- !u!114 &8229296077767568701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3485859280055410466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09fba22cf6ca7940af45a424840acc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawningMultiplier: 1
-  movementMultiplier: 1
-  additionalHealth: 0
-  healthMultiplier: 1
-  additionalShield: 0
-  shieldMultiplier: 1
-  shieldRegenerationMultiplier: 1
-  shieldCooldownMultiplier: 1
 --- !u!1 &4465320463218981804
 GameObject:
   m_ObjectHideFlags: 0

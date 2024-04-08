@@ -12,8 +12,8 @@ public class ResourceManager : MonoBehaviour
     public GameObject coin5;
     public GameObject coin10;
 
-    [SerializeField]
-    private int gold;
+    public int Gold { private set; get; } = 100;
+    public int Diamonds { private set; get; } = 1;
 
     [SerializeField]
     private float collectRange = 1f;
@@ -27,6 +27,9 @@ public class ResourceManager : MonoBehaviour
     [SerializeField]
     private LayerMask resourceLayerMask;
 
+    public delegate void OnGoldChange(int currentGold);
+    public OnGoldChange onGoldChange;
+
     private void Awake()
     {
         Instance = this;
@@ -35,6 +38,7 @@ public class ResourceManager : MonoBehaviour
     private void Start()
     {
         inputManager = InputManager.Instance;
+        onGoldChange?.Invoke(Gold);
     }
 
     private void Update()
@@ -48,7 +52,8 @@ public class ResourceManager : MonoBehaviour
         {
             if (collider.TryGetComponent(out Coin coin))
             {
-                gold += coin.Value;
+                Gold += coin.Value;
+                onGoldChange?.Invoke(Gold);
                 Destroy(coin.gameObject);
             }
         }
@@ -62,5 +67,12 @@ public class ResourceManager : MonoBehaviour
                 rb.AddForce(attractForce * (inputManager.MousePosition - rb.position), ForceMode2D.Force);
             }
         }
+    }
+
+    public void ModifyGold(int amount)
+    {
+        Gold += amount;
+
+        onGoldChange?.Invoke(Gold);
     }
 }

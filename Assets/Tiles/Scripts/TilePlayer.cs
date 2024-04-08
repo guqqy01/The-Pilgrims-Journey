@@ -76,10 +76,10 @@ public class TilePlayer : TileGrid
 
                 if (playerTime >= tile.TimeForNextSpawn)
                 {
-                    Unit unit = Instantiate(tile.baseUnit.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-                    unit.Init(tile.baseUnit, tile.tileStats, tile.Equipment, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection]);
+                    Unit unit = Instantiate(tile.Unit.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
+                    unit.Init(tile, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection], 0);
                     spawnedUnits.Add(unit);
-                    tile.TimeForNextSpawn = playerTime + 1f / tile.SpawnRate(size);
+                    tile.TimeForNextSpawn = playerTime + 1f / (tile.SpawnRateValue * size);
 
                 }
             } 
@@ -147,6 +147,9 @@ public class TilePlayer : TileGrid
     public Dictionary<Tile, int> GetTilesInPositionAndSize(int position)
     {
         Dictionary<Tile, int> returnTiles = new Dictionary<Tile, int>();
+
+        if (position >= tiles.GetLength(0))
+            return returnTiles;
 
         for (int i = 0; i < tiles.GetLength(1); i++)
         {

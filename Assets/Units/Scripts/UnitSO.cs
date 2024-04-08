@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Units
 {
@@ -12,7 +12,7 @@ namespace Units
         public float BaseSpawnRate = 1f;
 
         [Header("Movement")]
-        public float MovementSpeed = 1f;
+        public float MovementSpeed = 1.5f;
 
         [Header("Health")]
         public int baseHealth = 5;
@@ -26,7 +26,7 @@ namespace Units
         /// <summary>
         /// Amount of time since taken damage to start regeneration 
         /// </summary>
-        public float ShieldCooldown = 2.25f;
+        public float ShieldCooldown = 6f;
 
         [Header("Drops")]
         public float coin1Percent = 0.5f;
@@ -36,7 +36,32 @@ namespace Units
         [Header("Objects")]
         public Unit unitPrefab;
 
-        public Sprite unitSprite;
+        public Sprite sprite;
+
+        [SerializeField]
+        private List<UnitEquipmentRequirements> unitEquipmentRequirements;
+
+        public WeightedChanceList<UnitSO> GetEvolutionUnitsAndPercentage(List<EquipmentSO> equipment)
+        {
+            WeightedChanceList<UnitSO> returnList = new WeightedChanceList<UnitSO>();
+
+            foreach (UnitEquipmentRequirements req in unitEquipmentRequirements)
+            {
+                if (req.EquipmentMatches(equipment))
+                {
+                    returnList.Add(req.resultedUnit, 1);
+                    return returnList;
+                }
+
+            }
+
+            foreach (UnitEquipmentRequirements req in unitEquipmentRequirements)
+            {
+                returnList.Add(req.resultedUnit, req.GetChanceWeight(equipment));
+            }
+
+            return returnList;
+        }
     }
 }
 

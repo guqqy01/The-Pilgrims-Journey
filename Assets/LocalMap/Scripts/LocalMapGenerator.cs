@@ -29,11 +29,30 @@ namespace Map
 
         public LocalMapGenerationSettings generationSettings;
 
-        private int mapSizeX => generationSettings.mapSize.x;
-        private int mapSizeY => generationSettings.mapSize.y;
+        [SerializeField]
+        private Camera cam;
+
+        private int mapSizeX
+        {
+            get
+            {
+                int value = Mathf.RoundToInt(generationSettings.mapSize.Evaluate(GameManager.Instance.Level, randomTimeValueForMapSize)) * 16;
+                return value;
+            }
+        } 
+        private int mapSizeY
+        {
+            get
+            {
+                int value = Mathf.RoundToInt(generationSettings.mapSize.Evaluate(GameManager.Instance.Level, randomTimeValueForMapSize)) * 9;
+                return value;
+            }
+        }
 
         private int randomTargetDirection => Mathf.RoundToInt(generationSettings.targetDirectionVSLevelCurve.Evaluate(GameManager.Instance.Level, Random.value));
         private int randomTraverseDirection => Mathf.RoundToInt(generationSettings.traverseDirectionVSLevelCurve.Evaluate(GameManager.Instance.Level, Random.value));
+
+        private float randomTimeValueForMapSize;
 
         private void Awake()
         {
@@ -50,6 +69,10 @@ namespace Map
 
         public void CreateMap()
         {
+            randomTimeValueForMapSize = Random.value;
+
+            SetupCamera();
+
             CreatePath(startDirection, targetDirections);
 
             CreateEnemyWeightMap();
@@ -63,6 +86,11 @@ namespace Map
             PathPicker.instance?.Setup();
         }
 
+        private void SetupCamera()
+        {
+            cam.transform.position = new Vector3(mapSizeX / 2f - 0.5f, mapSizeY / 2f - 0.5f, -10f);
+            cam.orthographicSize = mapSizeY / 2f;
+        }
 
         public void DestroyMap()
         {
@@ -104,8 +132,8 @@ namespace Map
                         for (int y = 0; y < mapObject.size.y; y++)
                         {
                             if (occupiedSpots.Contains(new Vector2Int(i + x, j + y)) ||
-                                i + x > generationSettings.mapSize.x ||
-                                j + y > generationSettings.mapSize.y ||
+                                i + x > mapSizeX ||
+                                j + y > mapSizeY ||
                                 pathway.ContainsStep(new Vector2Int(i + x, j + y)))
                             {
                                 canPlace = false;
@@ -283,15 +311,12 @@ namespace Map
                         break;
                     case Direction.Left:
                         position[0] = Mathf.Max(position[0] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
-                        //position[0] = Mathf.Max(UnityEngine.Random.Range(position[0] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[0] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
                         break;
                     case Direction.Right:
                         position[0] = Mathf.Min(position[0] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeX - additional);
-                        //position[0] = Mathf.Min(UnityEngine.Random.Range(position[0] + (isTargetDir ? targetDistanceMin : traverseDistanceMin), position[0] + (isTargetDir ? targetDistanceMax : traverseDistanceMax)), mapSizeX - additional);
                         break;
                     case Direction.Down:
                         position[1] = Mathf.Max(position[1] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
-                        //position[1] = Mathf.Max(UnityEngine.Random.Range(position[1] - (isTargetDir ? targetDistanceMax : traverseDistanceMax), position[1] - (isTargetDir ? targetDistanceMin : traverseDistanceMin)), additional);
                         break;
                 }
 
@@ -397,15 +422,15 @@ namespace Map
             tiles.Clear();
         }
 
+
+
         private void PlaceTiles()
         {
             DestroyTiles();
 
-            generationSettings.Setup();
-
-            for (int i = 0; i < mapSizeX + 1; i++)
+            for (int i = 0; i < mapSizeX/* + 1*/; i++)
             {
-                for (int j = 0; j < mapSizeY + 1; j++)
+                for (int j = 0; j < mapSizeY/* + 1*/; j++)
                 {
                     if (pathway.ContainsStep(new Vector2Int(i, j)))
                     {

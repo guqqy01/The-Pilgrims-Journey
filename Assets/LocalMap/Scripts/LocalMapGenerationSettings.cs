@@ -8,83 +8,30 @@ namespace Map
     [CreateAssetMenu()]
     public class LocalMapGenerationSettings : ScriptableObject
     {
-        public List<MapTile> mapTiles;
-        [SerializeField, HideInInspector]
-        private int maxMapTileChance = 0;
+        [SerializeField]
+        private WeightedChanceList<GameObject> mapTiles;
 
-        public List<PathTile> pathTiles;
-        [SerializeField, HideInInspector]
-        private int maxPathTileChance = 0;
+        [SerializeField]
+        private WeightedChanceList<GameObject> pathTiles;
 
         public List<OverlayMapObject> mapObjects;
 
-        public Vector2Int mapSize;
+        public MinMaxCurve mapSize;
 
         public MinMaxCurve targetDirectionVSLevelCurve;
         public MinMaxCurve traverseDirectionVSLevelCurve;
 
-        public void Setup()
-        {
-            maxMapTileChance = 0;
-            maxPathTileChance = 0;
-
-            for (int i = 0; i < mapTiles.Count; i++)
-            {
-                maxMapTileChance += mapTiles[i].sharedChance;
-            }
-
-            for (int i = 0; i < pathTiles.Count; i++)
-            {
-                maxPathTileChance += pathTiles[i].sharedChance;
-            }
-        }
 
         public GameObject GetMapTile()
         {
-            int rnd = UnityEngine.Random.Range(1, maxMapTileChance);
-
-            for (int i = 0; i < mapTiles.Count; i++)
-            {
-                rnd -= mapTiles[i].sharedChance;
-
-                if (rnd <= 0)
-                    return mapTiles[i].tile;
-            }
-
-            return mapTiles[0].tile;
+            return mapTiles.GetRandom();
         }
 
         public GameObject GetPathTile()
         {
-            int rnd = UnityEngine.Random.Range(1, maxPathTileChance);
-
-            for (int i = 0; i < pathTiles.Count; i++)
-            {
-                rnd -= pathTiles[i].sharedChance;
-
-                if (rnd <= 0)
-                    return pathTiles[i].tile;
-            }
-
-            return pathTiles[0].tile;
+            return pathTiles.GetRandom();
         }
 
-    }
-
-    [Serializable]
-    public struct MapTile
-    {
-        public GameObject tile;
-
-        public int sharedChance;
-    }
-
-    [Serializable]
-    public struct PathTile
-    {
-        public GameObject tile;
-
-        public int sharedChance;
     }
 
     [Serializable]

@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text requiredUnitsText;
 
+
+
     private void Awake()
     {
         if(Instance == null)

@@ -431,6 +431,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ThrownHealthPotion
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 1456
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47eb3eb6e0d15e449b1c20d76d80c301
+      internalID: -1517049655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ThrownSpeedPotion
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1440
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16da2906317da284c9231ed812e17e40
+      internalID: -599304557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ThrownShieldPotion
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1440
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 915b4903335e07446a6d359b525eabc9
+      internalID: -1882747171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Diamond
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 1585
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b0e1d5ddc6bc3a439ad6af6b80dd723
+      internalID: -759168797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -448,11 +532,15 @@ TextureImporter:
       Belt: -1149349956
       Book: -112077345
       Boots: -1953570176
+      Diamond: -759168797
       Necklace: 1551434006
       Potion: -944022547
       Shield Shattered: -581693508
       StuddedShield: 1008300425
       Sword: -1368279086
+      ThrownHealthPotion: -1517049655
+      ThrownShieldPotion: -1882747171
+      ThrownSpeedPotion: -599304557
       Tile Card: 1776413987
       _sheet_0: -880476242
       _sheet_1: -908245687

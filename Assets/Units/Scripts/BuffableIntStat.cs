@@ -10,12 +10,13 @@ namespace Units
 
         private Dictionary<string, int> BaseStatBuff;
         private Dictionary<string, float> MultiplierStatBuff;
-
+        private Dictionary<string, int> AdditionalStatBuff;
         public BuffableIntStat(int baseStat)
         {
             this.baseStat = baseStat;
             BaseStatBuff = new Dictionary<string, int>();
             MultiplierStatBuff = new Dictionary<string, float>();
+            AdditionalStatBuff = new Dictionary<string, int>();
             Value = baseStat;
         }
 
@@ -38,6 +39,25 @@ namespace Units
             else
             {
                 BaseStatBuff.Add(reference, buff);
+            }
+
+            RefreshValue();
+
+            return Value - previous;
+        }
+
+        public int AddAdditionalBuff(string reference, int buff)
+        {
+            int previous = Value;
+
+            if (AdditionalStatBuff.ContainsKey(reference))
+            {
+                if (buff > AdditionalStatBuff[reference])
+                    AdditionalStatBuff[reference] = buff;
+            }
+            else
+            {
+                AdditionalStatBuff.Add(reference, buff);
             }
 
             RefreshValue();
@@ -87,6 +107,17 @@ namespace Units
             return Value - previous;
         }
 
+        public int RemoveAdditionalBuff(string reference)
+        {
+            int previous = Value;
+            if (AdditionalStatBuff.ContainsKey(reference))
+            {
+                AdditionalStatBuff.Remove(reference);
+                RefreshValue();
+            }
+            return Value - previous;
+        }
+
         /// <summary>
         /// Adds buff to stat with reference to what the buff is
         /// If the buff already exists it will use the large value
@@ -130,6 +161,7 @@ namespace Units
         {
             float percentBuff = 1;
             int baseBuff = 0;
+            int additionalBuff = 0;
 
             foreach (KeyValuePair<string, float> kvp in MultiplierStatBuff)
             {
@@ -141,7 +173,12 @@ namespace Units
                 baseBuff += kvp.Value;
             }
 
-            Value = Mathf.Max(Mathf.CeilToInt((baseStat + baseBuff) * percentBuff), 0);
+            foreach (KeyValuePair<string, int> kvp in AdditionalStatBuff)
+            {
+                additionalBuff += kvp.Value;
+            }
+
+            Value = Mathf.Max(Mathf.CeilToInt((baseStat + baseBuff) * percentBuff + additionalBuff), 0);
         }
     }
 }

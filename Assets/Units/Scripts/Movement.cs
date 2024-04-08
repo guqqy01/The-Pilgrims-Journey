@@ -12,7 +12,8 @@ namespace Units
 
         public List<Vector2Int> Path { private set; get; }
 
-        private int currentPathIndex = 0;
+        public int CurrentPathIndex { private set; get; } = 0;
+
 
         private bool finishedPath = false;
 
@@ -26,25 +27,47 @@ namespace Units
             initialXScale = visualTransform.localScale.x;
         }
 
-        public void Init(List<Vector2Int> path, UnitSO unitSO, TileStats tileStats, List<EquipmentSO> equipmentSOs)
+        public void Init(List<Vector2Int> path, int currentPathIndex, UnitSO unitSO)
         {
             speed = new BuffableFloatStat(unitSO.MovementSpeed);
-            speed.AddMultiplierBuff("Tile", tileStats.movementMultiplier);
 
-            for (int i = 0; i < equipmentSOs.Count; i++)
-            {
-                if (equipmentSOs[i] == null)
-                    continue;
+            CurrentPathIndex = currentPathIndex;
 
-                speed.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.Movement));
-                speed.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.Movement));
-            }
+            Path = path;
+            finishedPath = false;
+        }
+
+        public void Init(List<Vector2Int> path, int currentPathIndex, Tile tile)
+        {
+            speed = new BuffableFloatStat(tile.Unit.MovementSpeed);
+
+            CurrentPathIndex = currentPathIndex;
+
+            speed.AddMultiplierBuff("Tile", tile.movementMultiplier);
+
+            List<EquipmentSO> equipmentSOs = tile.Equipment;
+
+            if (equipmentSOs != null)
+                for (int i = 0; i < equipmentSOs.Count; i++)
+                {
+                    if (equipmentSOs[i] == null)
+                        continue;
+
+                    speed.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.Movement));
+                    speed.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.Movement));
+                }
 
             Path = path;
             finishedPath = false;
         }
 
         private void Update()
+        {
+            HandleMovement();
+            HandleAdditionalTimedShield();
+        }
+
+        private void HandleMovement()
         {
             if (finishedPath)
             {
@@ -56,7 +79,7 @@ namespace Units
             if (finishedPath || Path == null)
                 return;
 
-            Vector2 targetPos = Path[currentPathIndex];
+            Vector2 targetPos = Path[CurrentPathIndex];
 
             Vector2 toVector = targetPos - (Vector2)transform.position;
 
@@ -73,20 +96,62 @@ namespace Units
 
             if (distance < distanceToMove)
             {
-                transform.position = (Vector2)Path[currentPathIndex];
+                transform.position = (Vector2)Path[CurrentPathIndex];
 
-                if (currentPathIndex == Path.Count - 1)
+                if (CurrentPathIndex == Path.Count - 1)
                 {
                     finishedPath = true;
                     return;
                 }
 
-                currentPathIndex++;
+                CurrentPathIndex++;
 
                 distanceToMove = distanceToMove - distance;
             }
 
             transform.position += (Vector3)toVector.normalized * distanceToMove;
+        }
+
+        private Dictionary<string, float> referenceAndTimeToRemoveBuff = new Dictionary<string, float>();
+
+        public void ModifySpeedForTime(string reference, float amount, float time)
+        {
+            speed.AddMultiplierBuff(reference, amount);
+
+            if (referenceAndTimeToRemoveBuff.ContainsKey(reference))
+            {
+                referenceAndTimeToRemoveBuff[reference] = Time.time + time;
+            }
+            else
+            {
+                referenceAndTimeToRemoveBuff.Add(reference, Time.time + time);
+            }
+        }
+
+        private void HandleAdditionalTimedShield()
+        {
+            if (referenceAndTimeToRemoveBuff.Count <= 0)
+                return;
+
+            List<string> toRemove = new List<string>();
+
+            foreach (KeyValuePair<string, float> kvp in referenceAndTimeToRemoveBuff)
+            {
+                if (Time.time >= kvp.Value)
+                {
+                    speed.RemoveMultiplierBuff(kvp.Key);
+
+                    toRemove.Add(kvp.Key);
+                }
+            }
+
+            if (toRemove.Count <= 0)
+                return;
+
+            for (int i = 0; i < toRemove.Count; i++)
+            {
+                referenceAndTimeToRemoveBuff.Remove(toRemove[i]);
+            }
 
 
         }
