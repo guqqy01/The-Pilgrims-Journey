@@ -15,7 +15,7 @@ MonoBehaviour:
   mapTiles:
     list:
     - item: {fileID: 6352025090142854216, guid: 31eaa273aa6683540af2b7449845830f, type: 3}
-      weight: 6
+      weight: 100
     - item: {fileID: 4758840276322850762, guid: 8aa371edbb80122439568c54caa6bc35, type: 3}
       weight: 24
     - item: {fileID: 6830514988854125528, guid: e635d469d6241a34d9d062d982b1d748, type: 3}
@@ -75,7 +75,7 @@ MonoBehaviour:
   pathTiles:
     list:
     - item: {fileID: 1596115816999912026, guid: b9d224929fdc1a2408939c82d5e65c93, type: 3}
-      weight: 1
+      weight: 8
     - item: {fileID: 3387784312712183235, guid: 7bed8893e3411044e9cc012eeb332d6a, type: 3}
       weight: 1
     - item: {fileID: 958023121823418512, guid: acbeac484b11d424894857a9c8c5ed4a, type: 3}

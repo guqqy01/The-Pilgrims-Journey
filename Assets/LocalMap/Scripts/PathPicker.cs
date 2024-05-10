@@ -6,6 +6,7 @@ using System.Linq;
 
 public class PathPicker : MonoBehaviour
 {
+    private LocalMapGenerator mapGenerator;
     public LocalMapGenerator MapGenerator
     {
         get
@@ -16,8 +17,9 @@ public class PathPicker : MonoBehaviour
             return mapGenerator;
         }
     }
-    private LocalMapGenerator mapGenerator;
 
+
+    private InputManager inputManager;
     public InputManager InputManagerInstance
     {
         get
@@ -29,10 +31,9 @@ public class PathPicker : MonoBehaviour
         }
     }
 
-    private InputManager inputManager;
 
     [SerializeField]
-    public static PathPicker instance { private set; get; }
+    public static PathPicker Instance { private set; get; }
 
     [SerializeField]
     private LineRenderer lr;
@@ -47,14 +48,14 @@ public class PathPicker : MonoBehaviour
 
     private Dictionary<Transform, Direction> pathPickerPoints = new Dictionary<Transform, Direction>();
 
-    public Direction? pickedDirection = null;
+    public Direction? PickedDirection { get; private set; } = null;
 
     [SerializeField]
     private Camera cam;
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     private void Update()
@@ -68,16 +69,28 @@ public class PathPicker : MonoBehaviour
             {
                 if (pathPickerPoints.ContainsKey(collider.transform))
                 {
-                    Direction direction = pathPickerPoints[collider.transform];
+                    PickDirection(pathPickerPoints[collider.transform]);
+                }
+                else if(LocalMapGenerator.Instance.RoadSigns.ContainsKey(collider.gameObject))
+                {
+                    SignDirectionUI.Instance.gameObject.SetActive(true);
 
-                    List<Vector2Int> pathPoints = mapGenerator.pathway.PathNodes[direction];
-
-                    SetPositions(pathPoints);
-
-                    pickedDirection = direction;
+                    SignDirectionUI.Instance.Setup(LocalMapGenerator.Instance.RoadSigns[collider.gameObject]);
                 }
             }
         }
+    }
+
+    public void PickDirection(Direction direction)
+    {
+        if (!pathEndPoints.ContainsKey(direction))
+            return;
+
+        List<Vector2Int> pathPoints = mapGenerator.pathway.PathNodes[direction];
+
+        SetPositions(pathPoints);
+
+        PickedDirection = direction;
     }
 
     public void Setup()
@@ -94,7 +107,21 @@ public class PathPicker : MonoBehaviour
 
         foreach (KeyValuePair<Direction, Vector2Int> endPoint in pathEndPoints)
         {
-            GameObject pickerPoint = Instantiate(pathPickerPointPrefab, (Vector2)endPoint.Value, Quaternion.identity, transform);
+            Vector2 spawnPosition = endPoint.Value;
+
+            if (endPoint.Key == Direction.Right)
+                spawnPosition -= new Vector2(1, 0);
+
+            if (endPoint.Key == Direction.Up)
+                spawnPosition -= new Vector2(0, 1);
+
+            if (endPoint.Key == Direction.Left)
+                spawnPosition += new Vector2(1, 0);
+
+            if (endPoint.Key == Direction.Down)
+                spawnPosition += new Vector2(0, 1);
+
+            GameObject pickerPoint = Instantiate(pathPickerPointPrefab, spawnPosition, Quaternion.identity, transform);
             pathPickerPoints.Add(pickerPoint.transform, endPoint.Key);
         }
 
@@ -106,7 +133,7 @@ public class PathPicker : MonoBehaviour
 
             SetPositions(pathPoints);
 
-            pickedDirection = direction;
+            PickedDirection = direction;
         }
     }
 

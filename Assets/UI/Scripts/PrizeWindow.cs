@@ -32,6 +32,8 @@ public class PrizeWindow : MonoBehaviour
 
     private List<PrizeType> prizes = new List<PrizeType>();
 
+    private List<List<EquipmentSO>> equipments = new List<List<EquipmentSO>>();
+
     [SerializeField]
     private GameObject equipmentPage;
     [SerializeField]
@@ -58,7 +60,7 @@ public class PrizeWindow : MonoBehaviour
         instance = this;
     }
 
-    public void LoadPrize()
+    public void LoadPrize(int numOfEquipmentPages, int numOfTilePages)
     {
         SpawnPrizeContainers(UnityEngine.Random.Range(1, 4));
 

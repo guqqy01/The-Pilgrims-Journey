@@ -18,7 +18,8 @@ namespace Map
             {
                 script.CreateMap();
                 SceneView.RepaintAll();
-                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+                if(!Application.isPlaying)
+                    EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             }
         }
     }

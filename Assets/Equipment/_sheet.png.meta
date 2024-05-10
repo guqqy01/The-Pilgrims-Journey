@@ -503,7 +503,7 @@ TextureImporter:
         width: 16
         height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -511,6 +511,27 @@ TextureImporter:
       bones: []
       spriteID: 2b0e1d5ddc6bc3a439ad6af6b80dd723
       internalID: -759168797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GoodieBag
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 1072
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67c30b235cfa8e64b95e582204f686f2
+      internalID: 1482949076
       vertices: []
       indices: 
       edges: []
@@ -533,6 +554,7 @@ TextureImporter:
       Book: -112077345
       Boots: -1953570176
       Diamond: -759168797
+      GoodieBag: 1482949076
       Necklace: 1551434006
       Potion: -944022547
       Shield Shattered: -581693508

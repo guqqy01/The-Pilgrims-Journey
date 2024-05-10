@@ -9,8 +9,9 @@ namespace Map
 
         public Pathway pathway;
 
+        
         public List<Direction> targetDirections;
-        public Direction startDirection;
+        public Direction startWall;
 
         [SerializeField, HideInInspector]
         private List<GameObject> tiles;
@@ -18,6 +19,10 @@ namespace Map
         private List<GameObject> enemys;
         [SerializeField, HideInInspector]
         private List<GameObject> mapObjectGOs;
+
+        [SerializeField]
+        private GameObject roadSignPrefab;
+        public Dictionary<GameObject, Direction> RoadSigns { get; private set; } = new Dictionary<GameObject, Direction>();
 
         private Dictionary<string, int> mapObjects = new Dictionary<string, int>();
 
@@ -73,17 +78,17 @@ namespace Map
 
             SetupCamera();
 
-            CreatePath(startDirection, targetDirections);
+            occupiedSpots.Clear();
+
+            CreatePath();
 
             CreateEnemyWeightMap();
-
-            occupiedSpots.Clear();
 
             SpawnEnemys();
 
             SpawnMapObjects();
 
-            PathPicker.instance?.Setup();
+            PathPicker.Instance?.Setup();
         }
 
         private void SetupCamera()
@@ -92,7 +97,7 @@ namespace Map
             cam.orthographicSize = mapSizeY / 2f;
         }
 
-        public void DestroyMap()
+        private void DestroyMap()
         {
             for (int i = 0; i < mapObjectGOs.Count; i++)
             {
@@ -216,7 +221,7 @@ namespace Map
             weightMap.Sort();
         }
 
-        public void DestoryEnemys() 
+        private void DestoryEnemys() 
         {
             for (int i = 0; i < enemys.Count; i++)
             {
@@ -281,7 +286,7 @@ namespace Map
 
         
 
-        public void CreatePathFromStartToTargetDirection(List<Vector2Int> path, Vector2Int start, Direction startDirection, Direction targetDirection)
+        private void CreatePathFromStartToTargetDirection(List<Vector2Int> path, Vector2Int start, Direction startDirection, Direction targetDirection)
         {
             Direction currentDirection = startDirection;
             int[] position = new int[2];
@@ -289,7 +294,7 @@ namespace Map
             position[0] = start.x;
             position[1] = start.y;
 
-            int targetInt = (int)targetDirection > 0 ? (targetDirection == Direction.Right) ? mapSizeX : mapSizeY : 0;
+            int targetInt = (int)targetDirection > 0 ? ((targetDirection == Direction.Right) ? mapSizeX : mapSizeY) : -1;
 
             int GetDistanceToTarget()
             {
@@ -300,23 +305,32 @@ namespace Map
 
             while (distanceToTarget > 0)
             {
-                int additional = targetDirection == currentDirection ? 0 : 1;
-
                 bool isTargetDir = targetDirection == currentDirection;
+
+                int additional = isTargetDir ? 0 : 1;
+
 
                 switch (currentDirection)
                 {
                     case Direction.Up:
-                        position[1] = Mathf.Min(position[1] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeY - additional);
-                        break;
-                    case Direction.Left:
-                        position[0] = Mathf.Max(position[0] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
-                        break;
-                    case Direction.Right:
-                        position[0] = Mathf.Min(position[0] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeX - additional);
+                        position[1] = Mathf.Min(position[1] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeY - 1 - additional);
+                        if (isTargetDir && position[1] == mapSizeY - 1)
+                            position[1] = mapSizeY;
                         break;
                     case Direction.Down:
                         position[1] = Mathf.Max(position[1] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
+                        if (isTargetDir && position[1] <= 1)
+                            position[1] = -1;
+                        break;
+                    case Direction.Right:
+                        position[0] = Mathf.Min(position[0] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeX - 1 - additional);
+                        if (isTargetDir && position[0] == mapSizeX - 1)
+                            position[0] = mapSizeX;
+                        break;
+                    case Direction.Left:
+                        position[0] = Mathf.Max(position[0] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
+                        if (isTargetDir && position[0] <= 1)
+                            position[0] = -1;
                         break;
                 }
 
@@ -345,7 +359,7 @@ namespace Map
 
                 for (int i = 0; i < path.Count; i++)
                 {
-                    if (path[i].x == 0 || path[i].x == mapSizeX || path[i].y == 0 || path[i].y == mapSizeY)
+                    if (path[i].x <= 0 || path[i].x >= mapSizeX || path[i].y <= 0 || path[i].y >= mapSizeY)
                         continue;
 
                     switch (targetDirection)
@@ -402,10 +416,10 @@ namespace Map
                 }
             }
 
-            return closestPoints[UnityEngine.Random.Range(0, closestPoints.Count)];
+            return closestPoints.GetRandom();
         }
 
-        public void DestroyTiles()
+        private void DestroyTiles()
         {
             for (int i = 0; i < tiles.Count; i++)
             {
@@ -428,9 +442,9 @@ namespace Map
         {
             DestroyTiles();
 
-            for (int i = 0; i < mapSizeX/* + 1*/; i++)
+            for (int i = 0; i < mapSizeX; i++)
             {
-                for (int j = 0; j < mapSizeY/* + 1*/; j++)
+                for (int j = 0; j < mapSizeY; j++)
                 {
                     if (pathway.ContainsStep(new Vector2Int(i, j)))
                     {
@@ -444,40 +458,76 @@ namespace Map
             }
         }
 
-        
+        private void PlaceRoadSigns()
+        {
+            foreach(GameObject obj in RoadSigns.Keys)
+            {
+                Destroy(obj);
+            }
 
-        public void CreatePath(Direction startDirection, List<Direction> targetDirections)
+            RoadSigns.Clear();
+
+            Dictionary<Direction, Vector2Int> endPoints = pathway.PathEndPoints;
+
+            foreach(KeyValuePair<Direction, Vector2Int> kvp in endPoints)
+            {
+                Vector2 position = kvp.Value;
+
+                switch (kvp.Key)
+                {
+                    case Direction.Down:
+                        position += new Vector2(ExtensionsAndHelper.RandomSign(), 1);
+                        break;
+                    case Direction.Up:
+                        position += new Vector2(ExtensionsAndHelper.RandomSign(), -1);
+                        break;
+                    case Direction.Left:
+                        position += new Vector2(1, ExtensionsAndHelper.RandomSign());
+                        break;
+                    case Direction.Right:
+                        position += new Vector2(-1, ExtensionsAndHelper.RandomSign());
+                        break;
+                }
+
+                RoadSigns.Add(Instantiate(roadSignPrefab, position, Quaternion.identity, transform), kvp.Key);
+                occupiedSpots.Add(position.V2ToV2Int());
+            }
+        }
+
+        private void CreatePath()
         {
             Vector2Int pathStart = new Vector2Int();
 
-            switch (startDirection)
+            switch (startWall)
             {
                 case Direction.Down:
-                    pathStart = new Vector2Int(mapSizeX / 2, mapSizeY);
+                    pathStart = new Vector2Int(mapSizeX / 2, -1);
                     break;
                 case Direction.Left:
-                    pathStart = new Vector2Int(mapSizeX, mapSizeY / 2);
+                    pathStart = new Vector2Int(-1, mapSizeY / 2);
                     break;
                 case Direction.Right:
-                    pathStart = new Vector2Int(0, mapSizeY / 2);
+                    pathStart = new Vector2Int(mapSizeX, mapSizeY / 2);
                     break;
                 case Direction.Up:
-                    pathStart = new Vector2Int(mapSizeX / 2, 0);
+                    pathStart = new Vector2Int(mapSizeX / 2, mapSizeY);
                     break;
             }
 
-            pathway = new Pathway(targetDirections);
+            pathway = new Pathway(targetDirections); 
 
             for (int i = 0; i < targetDirections.Count; i++)
             {
                 Vector2Int startPoint = i == 0 ? pathStart : GetClosestNodeToTargetDirection(targetDirections[i]);
                 pathway[targetDirections[i]].Add(startPoint);
-                CreatePathFromStartToTargetDirection(pathway[targetDirections[i]], startPoint, i == 0 ? startDirection : targetDirections[i], targetDirections[i]);
+                CreatePathFromStartToTargetDirection(pathway[targetDirections[i]], startPoint, i == 0 ? (Direction)(-(int)startWall) : targetDirections[i], targetDirections[i]);
             }
 
             pathway.CreatePaths(targetDirections);
 
             PlaceTiles();
+
+            PlaceRoadSigns();
         }
     }
 

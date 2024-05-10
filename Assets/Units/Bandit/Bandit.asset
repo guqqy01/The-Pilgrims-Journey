@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Bandit
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 1.5
+  BaseSpawnRate: 2
   MovementSpeed: 1.5
-  baseHealth: 7
-  Shield: 2
+  baseHealth: 10
+  Shield: 0
   ShieldRegeneration: 1
   ShieldCooldown: 4
   coin1Percent: 0.8

@@ -38,30 +38,13 @@ namespace Units
 
         public Sprite sprite;
 
-        [SerializeField]
-        private List<UnitEquipmentRequirements> unitEquipmentRequirements;
+        public List<UnitEquipmentRequirements> unitEquipmentRequirements;
 
-        public WeightedChanceList<UnitSO> GetEvolutionUnitsAndPercentage(List<EquipmentSO> equipment)
+        public UnitSO GetEvolvedUnit(EquipmentSO equipment)
         {
-            WeightedChanceList<UnitSO> returnList = new WeightedChanceList<UnitSO>();
-
-            foreach (UnitEquipmentRequirements req in unitEquipmentRequirements)
-            {
-                if (req.EquipmentMatches(equipment))
-                {
-                    returnList.Add(req.resultedUnit, 1);
-                    return returnList;
-                }
-
-            }
-
-            foreach (UnitEquipmentRequirements req in unitEquipmentRequirements)
-            {
-                returnList.Add(req.resultedUnit, req.GetChanceWeight(equipment));
-            }
-
-            return returnList;
+            return this;
         }
+
     }
 }
 

@@ -65,9 +65,9 @@ public class TilePlayer : TileGrid
             onCurrentPlayingPositionChange?.Invoke();
         }
 
-        if (PathPicker.instance.pickedDirection != null)
+        if (PathPicker.Instance.PickedDirection != null)
         {
-            Direction pathDirection = (Direction)PathPicker.instance.pickedDirection;
+            Direction pathDirection = (Direction)PathPicker.Instance.PickedDirection;
 
             foreach (KeyValuePair<Tile, int> tileAndSize in spawningTilesAndSize)
             {

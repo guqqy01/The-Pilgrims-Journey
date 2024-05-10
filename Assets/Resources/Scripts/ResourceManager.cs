@@ -30,6 +30,9 @@ public class ResourceManager : MonoBehaviour
     public delegate void OnGoldChange(int currentGold);
     public OnGoldChange onGoldChange;
 
+    public delegate void OnDiamondChange(int currentDiamonds);
+    public OnDiamondChange onDiamondChange;
+
     private void Awake()
     {
         Instance = this;
@@ -74,5 +77,12 @@ public class ResourceManager : MonoBehaviour
         Gold += amount;
 
         onGoldChange?.Invoke(Gold);
+    }
+
+    public void ModifyDiamonds(int amount)
+    {
+        Diamonds += amount;
+
+        onDiamondChange?.Invoke(Diamonds);
     }
 }

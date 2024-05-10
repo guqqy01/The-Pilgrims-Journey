@@ -14,9 +14,6 @@ namespace Map
 
         public Dictionary<Direction, Vector2Int> PathEndPoints;
 
-        public List<Vector2Int> pathPoints = new List<Vector2Int>();
-
-        public int Count => pathPoints.Count;
         public int PathCount(Direction direction) => PathNodes[direction].Count;
 
         public bool ContainsNode(Vector2Int vector2Int)
@@ -79,17 +76,6 @@ namespace Map
             }
         }
 
-        public Vector2Int this[int i]
-        {
-            get
-            {
-                return pathPoints[i];
-            }
-            set
-            {
-                pathPoints[i] = value;
-            }
-        }
 
         private List<Vector2Int> GetPathFromNodes(List<Vector2Int> nodes)
         {
@@ -180,12 +166,6 @@ namespace Map
             for (int i = 0; i < targetDirections.Count; i++)
             {
                 List<Vector2Int> stepPath = GetPathFromNodes(PathNodes[targetDirections[i]]);
-            
-                for (int j = 0; j < stepPath.Count; j++)
-                {
-                    if (!pathPoints.Contains(stepPath[i]))
-                        pathPoints.Add(stepPath[i]);
-                }
 
                 StepPaths.Add(targetDirections[i], stepPath);
             }
