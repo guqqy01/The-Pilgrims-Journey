@@ -12,47 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Peasant
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 1
-  MovementSpeed: 1.5
-  baseHealth: 5
-  Shield: 0
-  ShieldRegeneration: 1
-  ShieldCooldown: 6
-  coin1Percent: 0.1
-  coin5Percent: 0.01
-  coint10Percent: 0
-  unitPrefab: {fileID: -3200719875420227310, guid: 8f0f088186add0643aaf655b1872a3f8, type: 3}
+  Description: A simple farmer, making their way to the promised land.
   sprite: {fileID: 1267838529, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
-  unitEquipmentRequirements:
-  - resultedUnit: {fileID: 11400000, guid: 91b9c7726eddb7f429aaecb7ba6d4fe5, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: 06949d16b058e8c41ac84afa4960f48b, type: 2}
-    - {fileID: 11400000, guid: 06949d16b058e8c41ac84afa4960f48b, type: 2}
-  - resultedUnit: {fileID: 11400000, guid: 11ce5637eefb61f4699fe79abcc3a775, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: 1fa01d505f4514448ad55483a70cebdd, type: 2}
-    - {fileID: 11400000, guid: 3509418198991664eaeb61f2d72b460a, type: 2}
-  - resultedUnit: {fileID: 11400000, guid: 6085d01e224934b4bac5993dce07a1fb, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: aa25ec0261b56904a8fa15def602693e, type: 2}
-    - {fileID: 11400000, guid: 2f11feac139acd949b0279d7918bc6f5, type: 2}
-  - resultedUnit: {fileID: 11400000, guid: 99b9e74b1cdaa90489725fb81f226ea5, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: 2f11feac139acd949b0279d7918bc6f5, type: 2}
-    - {fileID: 11400000, guid: 3509418198991664eaeb61f2d72b460a, type: 2}
-  - resultedUnit: {fileID: 11400000, guid: 25dd2e385c855cd4ab92145822f4eb0a, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: ed0859d5750782b4d898ede5290fd344, type: 2}
-    - {fileID: 11400000, guid: 06949d16b058e8c41ac84afa4960f48b, type: 2}
-  - resultedUnit: {fileID: 11400000, guid: 7e97bebaa1f208d4e83fb0611a3c2151, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: 8bcf04431c66d004197b56615d373d40, type: 2}
-    - {fileID: 11400000, guid: ed0859d5750782b4d898ede5290fd344, type: 2}
-  - resultedUnit: {fileID: 11400000, guid: a869fdf6a5e49754484f15fd1cd59d7d, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: aa25ec0261b56904a8fa15def602693e, type: 2}
-    - {fileID: 11400000, guid: aa25ec0261b56904a8fa15def602693e, type: 2}
-  - resultedUnit: {fileID: 11400000, guid: f5349cb593fc1ff44827527a7c863f08, type: 2}
-    requiredEquipment:
-    - {fileID: 11400000, guid: 1fa01d505f4514448ad55483a70cebdd, type: 2}
-    - {fileID: 11400000, guid: 8bcf04431c66d004197b56615d373d40, type: 2}
+  unitPrefab: {fileID: -3200719875420227310, guid: 8f0f088186add0643aaf655b1872a3f8, type: 3}
+  spawnRate: 0.5
+  movementSpeed: 1.5
+  health: 10
+  shield: 0
+  shieldRegeneration: 1
+  shieldCooldown: 6
+  Coin1Percent: 0.5
+  Coin5Percent: 0.1
+  Coin10Percent: 0.01

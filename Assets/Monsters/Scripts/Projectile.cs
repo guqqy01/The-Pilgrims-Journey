@@ -1,55 +1,70 @@
-﻿using UnityEngine;
+﻿using System;
+using Units;
+using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace Monsters
 {
-    public int damage;
-    public float speed;
-
-    public bool homing;
-
-    public Transform target;
-
-    public Vector2 direction;
-
-    public LayerMask layerMask;
-
-    public bool oneHit = true;
-
-    private bool hit = false;
-
-    public void Init(int damage, float speed, bool homing, Transform target, Vector2 direction, LayerMask layerMask)
+    [RequireComponent(typeof(Collider2D))]
+    public class Projectile : MonoBehaviour
     {
-        this.damage = damage;
-        this.speed = speed;
-        this.homing = homing;
-        this.target = target;
-        this.direction = direction;
-        this.layerMask = layerMask;
-    }
+        public int damage;
+        public float speed;
 
-    private void Update()
-    {
-        if (homing && target != null)
+        public bool homing;
+
+        public Transform target;
+
+        public Vector2 direction;
+
+        public LayerMask layerMask;
+
+        public bool oneHit = true;
+
+        private bool hit = false;
+
+        public delegate void OnHit(OnHitInfo hitInfo);
+        public OnHit onHit;
+
+        private Vector2 forwardDirection;
+
+        public void Init(int damage, float speed, bool homing, Transform target, Vector2 direction, LayerMask layerMask)
         {
-            direction = target.position - transform.position;
+            this.damage = damage;
+            this.speed = speed;
+            this.homing = homing;
+            this.target = target;
+            this.direction = direction;
+            this.layerMask = layerMask;
         }
 
-        transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!hit && 1 << collision.gameObject.layer == layerMask)
+        private void Update()
         {
-            if (collision.TryGetComponent(out Units.Unit unit))
+            if (homing && target != null)
             {
-                hit = true;
+                direction = target.position - transform.position;
+                
+                transform.right = direction;
+            }
 
-                unit.Damage(damage);
+            transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
+        }
 
-                Destroy(gameObject);
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!hit && 1 << collision.gameObject.layer == layerMask)
+            {
+                if (collision.TryGetComponent(out Units.Unit unit))
+                {
+                    hit = true;
+                    OnHitInfo info = unit.Damage(damage);
+
+                    onHit?.Invoke(info);
+
+                    Destroy(gameObject);
+                }
             }
         }
     }
 }
+
 

@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Monsters
 {
-    public class PlantMonster : MonoBehaviour
+    public class PlantMonster : Monster
     {
         [SerializeField]
-        private float range = 3f;
+        private AudioSource audioSource;
 
         [SerializeField]
         private float attackSpeed = 1f;
@@ -22,35 +22,11 @@ namespace Monsters
 
         public Transform target;
 
-        public LayerMask targetMask;
 
-        [SerializeField]
-        private Animator ani;
-
-        public Transform GetClosestTargetInRange()
+        protected override void Update()
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, range, targetMask);
+            base.Update();
 
-            float closestDistance = float.MaxValue;
-            Transform closestTarget = null;
-
-            foreach (Collider2D collider in colliders)
-            {
-                float distance = Vector2.Distance(collider.transform.position, transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestTarget = collider.transform;
-                }
-            }
-
-            return closestTarget;
-        }
-
-
-
-        private void Update()
-        {
             if (target == null || Vector2.Distance(target.position, transform.position) > range)
                 target = GetClosestTargetInRange();
 
@@ -62,13 +38,20 @@ namespace Monsters
 
                     Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
-                    project.Init(damage, projectileSpeed, false, target, target.position - transform.position, targetMask);  
+                    project.onHit += OnDamageUnit; 
+                    
+                    project.Init(damage, projectileSpeed, false, target, target.position - transform.position, targetMask);
+
+                    audioSource?.Play();
 
                     nextAttackTime = Time.time + 1f / attackSpeed;
                 }
             }
         }
-    }
 
-    
+        protected override void ShockEffect(float time)
+        {
+            nextAttackTime = Mathf.Max(Time.time, nextAttackTime) + time;
+        }
+    }
 }

@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &870617040597011295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 870617040597011292}
+  - component: {fileID: 870617040597011293}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &870617040597011292
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870617040597011295}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &870617040597011293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870617040597011295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a12408717f0bffa46b14c8586100eef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMusicThemeSource: {fileID: 0}
+  buttonClick:
+    clip: {fileID: 8300000, guid: 5a77fababc3d0be4b942abd7cb230423, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  openWindow:
+    clip: {fileID: 8300000, guid: 3b1f3710cdb2b1043a2421a3c4d8ad74, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  closeWindow:
+    clip: {fileID: 8300000, guid: 0887038f9c6679c4f83005d631fd0998, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  selectTile:
+    clip: {fileID: 8300000, guid: cdcb50a60efea9f409abb8dafc7a47f8, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  deselectTile:
+    clip: {fileID: 8300000, guid: f5c9c58a6c7aa3f4fb3020d5f98f2805, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  pickupTile:
+    clip: {fileID: 8300000, guid: 169ec60c21ddb03498d6999387a996da, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  moveTile:
+    clip: {fileID: 8300000, guid: be8f911f7ebc19a4bb749af3305cdc8f, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  cancelMoveTile:
+    clip: {fileID: 8300000, guid: ae8db38f7b186a54f97ed6ce13851821, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  placeTile:
+    clip: {fileID: 8300000, guid: 901364e93d7c523488e23bab1bcf8880, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  rotateTile:
+    clip: {fileID: 8300000, guid: 2f5f692aebec57344a4cd117cd5a7240, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  selectEquipment:
+    clip: {fileID: 8300000, guid: 1cdea95c482e18e41bb91a88fe4cdd92, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  UIVolume: 0.5
+  mainThemes: []

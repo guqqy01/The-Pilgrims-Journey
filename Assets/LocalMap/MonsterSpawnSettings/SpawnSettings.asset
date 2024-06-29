@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945d5f93844d9ab46baf73a6c9be6cf0, type: 3}
+  m_Name: SpawnSettings
+  m_EditorClassIdentifier: 
+  rangeAndMonster:
+  - range: 1
+    spawnAmountVSLevel:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 5
+        value: 0
+        inSlope: 0.0121899815
+        outSlope: 0.0121899815
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 20
+        value: 30
+        inSlope: -0.007282723
+        outSlope: -0.007282723
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.110011294
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    monster: {fileID: 11400000, guid: 5ca93a688e5b5ea4b9b68da0f96cd25e, type: 2}
+  - range: 2
+    spawnAmountVSLevel:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.0024108575
+        outSlope: 0.0024108575
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.9947829
+      - serializedVersion: 3
+        time: 20.04541
+        value: 20
+        inSlope: 0.033696596
+        outSlope: 0.033696596
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.10814469
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+  - range: 2
+    spawnAmountVSLevel:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 10
+        value: 0
+        inSlope: 0.0024108575
+        outSlope: 0.0024108575
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.9947829
+      - serializedVersion: 3
+        time: 20.04541
+        value: 50
+        inSlope: 0.033696596
+        outSlope: 0.033696596
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.10814469
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    monster: {fileID: 11400000, guid: de1bf26ec746fa747b51b6bcdf5990a9, type: 2}
+  bossMonsters:
+  - range: 6
+    boss: {fileID: 11400000, guid: fd2edaadc12841c41955b9d132cca146, type: 2}

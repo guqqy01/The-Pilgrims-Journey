@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: TestPrompt1
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: 'Test
+
+
+      1
+
+      2'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 6.880119
+        MixerGroup: {fileID: 0}
+      - Time: 29.227707
+        MixerGroup: {fileID: 0}
+      - Time: 15.467365
+        MixerGroup: {fileID: 0}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: af7c78d01d0fc8f4da8e36890a2609ed, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 0.9999999}
+        time: 2.6838713
+  - paragraph: 'Test
+
+
+      2'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 8.973679
+        MixerGroup: {fileID: 0}
+      - Time: 20.48675
+        MixerGroup: {fileID: 0}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 863a4f972380d4f42b299fbc1e3f3f39, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 0.5}
+        time: 0
+      - audioClip: {fileID: 8300000, guid: 863a4f972380d4f42b299fbc1e3f3f39, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.5, y: 1}
+        time: 15.37424
+  promptResponses: []
+  nextPrompt: {fileID: 0}

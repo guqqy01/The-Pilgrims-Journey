@@ -7,9 +7,6 @@ public class ResourceUI : MonoBehaviour
     [SerializeField]
     private Text goldText;
 
-    [SerializeField]
-    private Text diamondText;
-
     private void Start()
     {
         ResourceManager.Instance.onGoldChange += OnGoldChange;

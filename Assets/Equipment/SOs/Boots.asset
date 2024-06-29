@@ -12,20 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
   m_Name: Boots
   m_EditorClassIdentifier: 
-  sprite: {fileID: -1953570176, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: 'Tier 1
-
-
-    Leather boots
-
-
-    Movement multiplier x 1.2'
-  IntBuffs: []
-  FloatBuffs:
-  - stat: 1
-    buffBaseAmount: 0
-    buffMultiplierAmount: 1.2
-  equipmentSpecialClass: 
-  floatParameters: []
-  intParameters: 
-  boolParameters: 
+  sprite: {fileID: 1777408741, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: Leather boots, quick and sturdy
+  rarity: 1
+  goldCost: 100
+  equipmentBuffs:
+  - stat: 3
+    Multiplier: 1
+    BaseBuff:
+      intValue: 0
+      floatValue: 0.1
+      isInt: 0
+    AdditionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  EquipmentSpecial:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

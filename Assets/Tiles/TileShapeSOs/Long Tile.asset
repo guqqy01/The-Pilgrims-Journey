@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2713e4913df01468f96cd72c9a35fa, type: 3}
+  m_Name: Long Tile
+  m_EditorClassIdentifier: 
+  TileSprite: {fileID: 779340712, guid: f44c428271086ce4288c38c4f5784828, type: 3}
+  shape:
+    v2IntList:
+    - {x: -1, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  tilePrefab: {fileID: 5531338421801060110, guid: a274da8b1d467c648a93d1ec78224090, type: 3}

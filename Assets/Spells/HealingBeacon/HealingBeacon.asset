@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb6839c9bbd41b41bedcb00a3bd14aa, type: 3}
+  m_Name: HealingBeacon
+  m_EditorClassIdentifier: 
+  description: Creates a beacon that lasts for 10 seconds which heals three nearby
+    units
+  sprite: {fileID: -1306343309, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  highlightColor: {r: 0.12891364, g: 1, b: 0, a: 1}
+  invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
+  numberOfUses: 2
+  spellEffects:
+  - rid: 7077619678249222145
+  references:
+    version: 2
+    RefIds:
+    - rid: 7077619678249222145
+      type: {class: SpawnEffect, ns: , asm: Assembly-CSharp}
+      data:
+        Vector2ListWrapper:
+          v2IntList:
+          - {x: 0, y: 0}
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 0
+        effectFX: {fileID: 0}
+        fXGreyScaleFactor: 0
+        fXColor: {r: 0, g: 0, b: 0, a: 0}
+        effectSound:
+          clip: {fileID: 0}
+          loop: 0
+          volume: 0
+          pitch: 0
+        spawnedObject: {fileID: 5719743998101702667, guid: c7460dbe98b1ea74a838f68856bbd7d8, type: 3}

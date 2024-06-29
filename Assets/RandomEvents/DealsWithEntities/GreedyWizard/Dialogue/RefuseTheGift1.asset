@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: RefuseTheGift1
+  m_EditorClassIdentifier: 
+  prompt:
+  - promptText: The wizard regards you with a practiced look of disappointment. "This
+      item is a formidable ward against evil, and you would refuse it? How foolish.
+      I urge you to reconsider your decision."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+  promptResponses:
+  - response: Accept the gift
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: d6c05190c76f02442b85c60d8052fb57, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Refuse the gift
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: e28ba6537ca026c43b30f500fb529994, type: 2}
+    nextPromptSetupSettings: 1
+  nextPrompt: {fileID: 0}

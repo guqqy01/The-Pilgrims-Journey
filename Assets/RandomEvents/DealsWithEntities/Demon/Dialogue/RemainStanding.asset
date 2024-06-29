@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: RemainStanding
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: the creature's grin fades slightly, replaced by a look of calculated
+      irritation. "Ah, still standing, are you?" it says, its voice dripping with
+      disdain. "Very well. If you refuse to engage, then perhaps you lack the wisdom
+      to discern the value of my offer."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 6.3546576
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      - Time: 9.986723
+        MixerGroup: {fileID: 0}
+      - Time: 13.653927
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 43558f9e2dc172c4d826af0c3b11a042, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.018867925, y: 0.98742145}
+        time: 0
+  - paragraph: 'With a flick of its tail, the creature gestures toward the bag of
+      treasures. "But know this: dangers lie ahead, and my aid could have been your
+      safeguard. You may regret your stubbornness when you find yourself in dire
+      straits."'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 4.8261046
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: deedbc3273c55294c9e84e26d2c95bb6, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.018867925, y: 0.9685535}
+        time: 0
+  - paragraph: It watches you intently, waiting for any sign of hesitation or reconsideration,
+      ready to react based on your next move.
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups: []
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 2b09d2f7bf2a87745897c85ab3f119e9, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.02515721, y: 0.9622642}
+        time: 0
+  promptResponses:
+  - response: Openly question the creatures intentions
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: a626fcc3d9b607e4bab1e3267e71cddf, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Agree to sit and listen
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: b7a9ec7a3be7c3b4bb42f2e389d7e389, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Ignore the demon and leave
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 5b97059adbfc76e4b84f85f1f2042029, type: 2}
+    nextPromptSetupSettings: 1
+  nextPrompt: {fileID: 0}

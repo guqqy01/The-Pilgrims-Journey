@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -17,9 +17,9 @@ TagManager:
   - EquipmentUI
   - Background
   - Resource
-  - 
-  - 
-  - 
+  - Monster
+  - GlobalMap
+  - TileGridUI
   - 
   - 
   - 
@@ -44,9 +44,24 @@ TagManager:
   - name: Background
     uniqueID: 1069528663
     locked: 0
-  - name: VX
-    uniqueID: 2907397151
-    locked: 0
   - name: Units
     uniqueID: 3019910013
     locked: 0
+  - name: Monsters
+    uniqueID: 1034681899
+    locked: 0
+  - name: VX
+    uniqueID: 2907397151
+    locked: 0
+  - name: UI
+    uniqueID: 777387971
+    locked: 0
+  m_RenderingLayers:
+  - Default
+  - Light Layer 1
+  - Light Layer 2
+  - Light Layer 3
+  - Light Layer 4
+  - Light Layer 5
+  - Light Layer 6
+  - Light Layer 7

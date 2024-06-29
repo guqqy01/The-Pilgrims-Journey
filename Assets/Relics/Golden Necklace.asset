@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
+  m_Name: Golden Necklace
+  m_EditorClassIdentifier: 
+  summary: 
+  description: Gives a percentage of the gold difference between rounds.
+  sprite: {fileID: 444164149, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  baseValue: 200
+  spells: []
+  relicEffects:
+  - rid: 925506328635899917
+  references:
+    version: 2
+    RefIds:
+    - rid: 925506328635899917
+      type: {class: AddPercentageOfGoldGainedFloorCap, ns: Relics, asm: Assembly-CSharp}
+      data:
+        percentageOfGoldExtra: 0.33
+        numberOfRoundsToGainGold: 2
+        numberOfRoundsRemaining: 0
+        startGold: 0
+        goldGain: 1
+        TotalNumberOfGoldGained: 0

@@ -101,5 +101,8 @@ MonoBehaviour:
   unitLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  shieldAmount: 3
+  shieldBuff:
+    multiplier: 1
+    baseBuff: 0
+    additionalBuff: 3
   lastingTime: 4

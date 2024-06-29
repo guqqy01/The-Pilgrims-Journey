@@ -4,7 +4,7 @@ using Units;
 public class SpeedPotion : Potion
 {
     [SerializeField]
-    private float movementBuff = 1.5f;
+    private Buff movementBuff;
     [SerializeField]
     private float lastingTime = 3f;
     public override void Shatter()

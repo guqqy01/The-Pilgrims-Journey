@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: SitWithTheDemon
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: '"Ah, wise choice, traveler," the demon says, settling down beside
+      you. "Now, let us talk of the dangers you face and the aid I can provide."'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 0.00000014885079
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      - Time: 2.0463932
+        MixerGroup: {fileID: 0}
+      - Time: 5.3784466
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 0d64a824e0a5fa04db05a6cd4bdfcd52, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.13836476, y: 1}
+        time: 0
+  - paragraph: It gestures to the bag of gold and treasures. "Within this bag lies
+      an artifact of great power, one that can shield you from the evil lurking in
+      the shadows. This talisman is imbued with an ancient magic, capable of turning
+      the tide in your favor when all seems lost."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 3.0184681
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 9705382ffa8bfef4688abae99f6cfb8b, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.02515728, y: 0.9937108}
+        time: 0
+  - paragraph: The demon's eyes lock onto yours, its grin never wavering. "But remember,
+      such power comes with a price. Not every gift is free, and every boon carries
+      its own burden. In accepting this, you may find yourself indebted to forces
+      beyond your understanding."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 4.8299036
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: ec028a9ef4df45744b2e8f4ddbc19c61, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 0.99371064}
+        time: 0
+  - paragraph: It leans back, watching your reaction carefully. "So, traveler, will
+      you take this chance? Will you embrace the uncertainty and wield the power
+      I offer, or will you face the perils of the road ahead on your own? The decision
+      is yours, and it will shape the path you walk from this moment forward."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 3.3909175
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: e8c1d61192d4948438150da3b6b4c169, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.018867925, y: 0.9874213}
+        time: 0
+  promptResponses:
+  - response: Accept the gift
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 6b9c22282e25a41418f6557058b42851, type: 2}
+    nextPromptSetupSettings: 0
+  - response: Refuse the gift
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: e9b160dfbe6734f4ba971650e9bf1dc3, type: 2}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 0}

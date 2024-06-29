@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Traveller
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 1
-  MovementSpeed: 1.5
-  baseHealth: 8
-  Shield: 4
-  ShieldRegeneration: 1
-  ShieldCooldown: 4
-  coin1Percent: 0.6
-  coin5Percent: 0.2
-  coint10Percent: 0.01
-  unitPrefab: {fileID: 1687830590960969776, guid: 03713a7996ad73f4c8481ccbee1cef44, type: 3}
+  Description: The traveller, hardened and experieced from a life on the road. Equally
+    good at everything but amazing at nothing.
   sprite: {fileID: -236381194, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
-  unitEquipmentRequirements: []
+  unitPrefab: {fileID: 1343913634343281949, guid: cbdf4cc84892af8409adbbb0b6ca0d9a, type: 3}
+  spawnRate: 0.6
+  movementSpeed: 1.7
+  health: 12
+  shield: 2
+  shieldRegeneration: 2
+  shieldCooldown: 4
+  Coin1Percent: 0.5
+  Coin5Percent: 0.1
+  Coin10Percent: 0.01

@@ -2,40 +2,88 @@
 using System;
 using System.Collections.Generic;
 using static UnityEngine.ParticleSystem;
-
+using UnityEditor;
+using UnityEditorInternal;
+using UnityEngine.UIElements;
+using System.Linq;
 namespace Map
 {
     [CreateAssetMenu()]
     public class LocalMapGenerationSettings : ScriptableObject
     {
         [SerializeField]
-        private WeightedChanceList<GameObject> mapTiles;
+        public WeightedChanceList<Sprite> baseTiles;
 
         [SerializeField]
-        private WeightedChanceList<GameObject> pathTiles;
+        public WeightedChanceList<Sprite> pathTiles;
 
         public List<OverlayMapObject> mapObjects;
 
-        public MinMaxCurve mapSize;
 
-        public MinMaxCurve targetDirectionVSLevelCurve;
-        public MinMaxCurve traverseDirectionVSLevelCurve;
+        [SerializeField]
+        public List<TerrainNoise> terrainNoiseLists;
 
-
-        public GameObject GetMapTile()
+        public void SetupSeeds()
         {
-            return mapTiles.GetRandom();
+            foreach(TerrainNoise noise in terrainNoiseLists)
+            {
+                noise.SetupSeed();
+            }
         }
 
-        public GameObject GetPathTile()
+        public Sprite GetMapTileSprite(Vector2Int position)
         {
-            return pathTiles.GetRandom();
+            terrainNoiseLists.Sort(new Comparison<TerrainNoise>((x, y) => x.priority.CompareTo(y.priority)));
+
+            for (int i = 0; i < terrainNoiseLists.Count; i++)
+            {
+                Sprite sprite = terrainNoiseLists[i].GetTile(position);
+
+                if(sprite != null)
+                    return sprite;
+            }
+
+            return baseTiles.GetRandom(GameManager.Instance.Level);
+        }
+
+        public Sprite GetMapTileSpriteForPreview(Vector2Int position, MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
+        {
+            if (previewSettings.HasFlag(MapGenerationPreviewSettings.TerrainNoise) && terrainNoiseIndecies != null && terrainNoiseIndecies.Count > 0)
+            {
+                List<TerrainNoise> includedNoise = new List<TerrainNoise>();
+
+                foreach (int i in terrainNoiseIndecies)
+                {
+                    includedNoise.Add(terrainNoiseLists[i]);
+                }
+
+                includedNoise.Sort(new Comparison<TerrainNoise>((x, y) => x.priority.CompareTo(y.priority)));
+
+                for (int i = 0; i < includedNoise.Count; i++)
+                {
+                    Sprite sprite = includedNoise[i].GetTile(position);
+
+                    if (sprite != null)
+                        return sprite;
+                }
+            }
+
+            if(previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
+                return baseTiles.GetRandom();
+
+            return null;
+        }
+
+        public Sprite GetPathTileSprite()
+        {
+            return pathTiles.GetRandom(GameManager.Instance.Level);
         }
 
     }
 
+
     [Serializable]
-    public struct OverlayMapObject
+    public class OverlayMapObject
     {
         public string name;
 
@@ -45,6 +93,8 @@ namespace Map
 
         public AnimationCurve amountToSpawnCurve;
     }
+
+   
 }
 
 

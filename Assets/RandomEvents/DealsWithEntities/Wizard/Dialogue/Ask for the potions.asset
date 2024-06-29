@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: Ask for the potions
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: '"I see I''ve caught your interest," giggles the wizard proudly. "I
+      can offer you two potions." The wizard pulls out two small vessels from under
+      his coat. One flickers in fiery red. "Here we have a potion of strength, one
+      that will make you as powerful as ten men." The other one shines in ocean blue.
+      "And here, a potion to ward off evil spirits, ensuring your safety on dark
+      and treacherous nights."'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups: []
+      sectionalAudioClips: []
+  promptResponses:
+  - response: Take the blue Potion
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: f12a100bda2269441b98d407d9b062d5, type: 2}
+    nextPromptSetupSettings: 0
+  - response: Take the red Potion
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: f12a100bda2269441b98d407d9b062d5, type: 2}
+    nextPromptSetupSettings: 0
+  - response: Take both Potions
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: f12a100bda2269441b98d407d9b062d5, type: 2}
+    nextPromptSetupSettings: 0
+  - response: Continiue your Journey
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 5df92635d7dd8f940b7e04ba40370036, type: 2}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 11400000, guid: ade03ecdf81805a4e82d4199ade951e3, type: 2}

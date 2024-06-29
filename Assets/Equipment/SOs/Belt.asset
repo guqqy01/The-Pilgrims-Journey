@@ -12,23 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
   m_Name: Belt
   m_EditorClassIdentifier: 
-  sprite: {fileID: -1149349956, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: 'Tier 1
-
-
-    Worn Around the Waist
-
-
-    Health Base +12
-
-    Health
-    Multiplier x 1.1'
-  IntBuffs:
+  sprite: {fileID: -880476242, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: A sturdy leather belt
+  rarity: 1
+  goldCost: 100
+  equipmentBuffs:
   - stat: 0
-    buffBaseAmount: 10
-    buffMultiplierAmount: 1.1
-  FloatBuffs: []
-  equipmentSpecialClass: 
-  floatParameters: []
-  intParameters: 
-  boolParameters: 
+    Multiplier: 1
+    BaseBuff:
+      intValue: 5
+      floatValue: 0
+      isInt: 1
+    AdditionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  EquipmentSpecial:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

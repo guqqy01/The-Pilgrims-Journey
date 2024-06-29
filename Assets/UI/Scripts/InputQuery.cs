@@ -1,0 +1,32 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+public class InputQuery : MonoBehaviour
+{
+    [SerializeField]
+    private Text queryText;
+    [SerializeField]
+    private Text yesText;
+    [SerializeField]
+    private Text noText;
+
+    private Action<bool> action;
+
+    public void Setup(string queryString, Action<bool> action, string yesString = "yes", string noString = "no")
+    {
+        queryText.text = queryString;
+        yesText.text = yesString;
+        noText.text = noString;
+        this.action = action;
+    }
+
+
+
+    public void ButtonPress(bool value)
+    {
+        action(value);
+        gameObject.SetActive(false);
+    }
+}

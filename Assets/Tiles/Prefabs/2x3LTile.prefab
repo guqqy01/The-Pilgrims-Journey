@@ -142,7 +142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 977305770, guid: 6e65bf36e13718b49ae91de73dab786e, type: 3}
+  m_Sprite: {fileID: 1400311037, guid: 666597050bf7c104aaa6e52c1ef61424, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -353,6 +353,7 @@ GameObject:
   - component: {fileID: 5862625845935852252}
   - component: {fileID: 5862625845935852250}
   - component: {fileID: 9134332972081857677}
+  - component: {fileID: 5470110230690505024}
   m_Layer: 5
   m_Name: 2x3LTile
   m_TagString: Untagged
@@ -405,12 +406,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitUITransform: {fileID: 5862625845639175595}
   tileGraphics: {fileID: 2544885829124356986}
-  tileSO: {fileID: 11400000, guid: 47cf2c52c9a5afd479402902ac4f13d6, type: 2}
   locked: 0
-  equipment1: {fileID: 0}
-  equipment2: {fileID: 0}
-  equipment3: {fileID: 0}
+  Equipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Level: 1
-  unit: {fileID: 0}
+  tileGrid: {fileID: 0}
+  canvasGroup: {fileID: 5470110230690505024}
+  Dragging: 0
+  draggedTileGrid: {fileID: 0}
+  PlacedPosition: {x: 0, y: 0}
+  PlacedRotation: 0
   highlight: {fileID: 4581054701423722107}
-  TimeForNextSpawn: 0
+--- !u!225 &5470110230690505024
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862625845935852253}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

@@ -10,15 +10,15 @@ namespace Units
         [SerializeField, HideInInspector]
         private ResourceManager resourceManager;
 
-        public BuffableFloatStat coin1Percent;
-        public BuffableFloatStat coin5Percent;
-        public BuffableFloatStat coint10Percent;
+        public BuffableStat coin1Percent;
+        public BuffableStat coin5Percent;
+        public BuffableStat coint10Percent;
 
         public void Init(UnitSO unitSO)
         {
-            coin1Percent = new BuffableFloatStat(unitSO.coin1Percent);
-            coin5Percent = new BuffableFloatStat(unitSO.coin5Percent);
-            coint10Percent = new BuffableFloatStat(unitSO.coint10Percent);
+            coin1Percent = new BuffableStat(unitSO.Coin1Percent);
+            coin5Percent = new BuffableStat(unitSO.Coin5Percent);
+            coint10Percent = new BuffableStat(unitSO.Coin10Percent);
 
             GetComponent<Health>().onDie += OnDie;
         }
@@ -32,17 +32,17 @@ namespace Units
         {
             float value = Random.value;
 
-            if(value <= coint10Percent.Value)
+            if(value <= (float)coint10Percent.Value.Value)
             {
-                Instantiate(resourceManager.coin10, transform.position, Quaternion.identity, resourceManager.transform);
+                resourceManager.coins.Add(Instantiate(resourceManager.coin10, transform.position, Quaternion.identity, resourceManager.transform));
             }
-            else if (value <= coin5Percent.Value)
+            else if (value <= (float)coin5Percent.Value.Value)
             {
-                Instantiate(resourceManager.coin5, transform.position, Quaternion.identity, resourceManager.transform);
+                resourceManager.coins.Add(Instantiate(resourceManager.coin5, transform.position, Quaternion.identity, resourceManager.transform));
             }
-            else if (value <= coin1Percent.Value)
+            else if (value <= (float)coin1Percent.Value.Value)
             {
-                Instantiate(resourceManager.coin1, transform.position, Quaternion.identity, resourceManager.transform);
+                resourceManager.coins.Add(Instantiate(resourceManager.coin1, transform.position, Quaternion.identity, resourceManager.transform));
             }
         }
     }

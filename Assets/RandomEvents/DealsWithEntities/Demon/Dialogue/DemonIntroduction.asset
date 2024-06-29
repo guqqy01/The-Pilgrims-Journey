@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: DemonIntroduction
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: As you emerge from the forest clearing, you encounter a towering beast
+      with goat horns, black fur, a long, whiplike tail, and imposing wings. It greets
+      you with a wicked grin that reveals a row of ghastly teeth. Beside it sits
+      a large bag brimming with gold and treasure.
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups: []
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 4ecf1b43f889ced41940c8a3607b7de4, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.01257864, y: 0.9811321}
+        time: 0
+  - paragraph: '"Ah, a mortal... how delightful," the creature says, its grin widening
+      unnaturally. "You must be aware of the dangers that lie ahead. Why not sit
+      with me and allow me to offer you something that might aid you on your journey?"'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 0
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      - Time: 5.3756995
+        MixerGroup: {fileID: 0}
+      - Time: 9.514815
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 9683836568d9a824cbff4eaed4c1b99d, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.03773585, y: 0.98113215}
+        time: 0
+  promptResponses:
+  - response: Sit with the creature
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: b7a9ec7a3be7c3b4bb42f2e389d7e389, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Remain standing
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: de5342b49efa0c048ab7962c0a62487f, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Run for your life
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: c588c1f7400608f47bd82861ca69c202, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Ignore the demon and leave
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 5b97059adbfc76e4b84f85f1f2042029, type: 2}
+    nextPromptSetupSettings: 1
+  nextPrompt: {fileID: 0}

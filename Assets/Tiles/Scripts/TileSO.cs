@@ -1,9 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-[CreateAssetMenu()]
-public class TileSO : ScriptableObject
+namespace Tiles
 {
-    public Sprite TileSprite;
+    [CreateAssetMenu()]
+    public class TileSO : ScriptableObject
+    {
+        public Sprite TileSprite;
 
-    public Vector2ListWrapper shape;
+        [SerializeField]
+        private Vector2ListWrapper shape;
+        public List<Vector2Int> Shape => shape.v2IntList;
+
+        public Tile tilePrefab;
+
+        [SerializeField]
+        private Rarity rarity;
+        public Rarity Rarity => rarity;
+    }
 }
+

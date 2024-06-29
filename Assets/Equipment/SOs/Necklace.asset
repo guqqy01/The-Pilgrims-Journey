@@ -12,28 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
   m_Name: Necklace
   m_EditorClassIdentifier: 
-  sprite: {fileID: 1551434006, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: 'Tier 1
-
-
-    Necklace of regeneration
-
-
-    Shield Base + 2
-
-    Shield
-    Regeneration base + 0.5
-
-    Shield Regeneration multiplier x 1.2'
-  IntBuffs:
+  sprite: {fileID: 167613191, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: Necklace of regeneration
+  rarity: 1
+  goldCost: 100
+  equipmentBuffs:
+  - stat: 4
+    Multiplier: 1.5
+    BaseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    AdditionalBuff:
+      intValue: 0
+      floatValue: 0.5
+      isInt: 0
   - stat: 1
-    buffBaseAmount: 2
-    buffMultiplierAmount: 1
-  FloatBuffs:
-  - stat: 2
-    buffBaseAmount: 0.5
-    buffMultiplierAmount: 1.2
-  equipmentSpecialClass: 
-  floatParameters: []
-  intParameters: 
-  boolParameters: 
+    Multiplier: 1.1
+    BaseBuff:
+      intValue: 1
+      floatValue: 0
+      isInt: 1
+    AdditionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  EquipmentSpecial:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Necromancer
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 0.6
-  MovementSpeed: 1.1
-  baseHealth: 5
-  Shield: 5
-  ShieldRegeneration: 1
-  ShieldCooldown: 3
-  coin1Percent: 0.5
-  coin5Percent: 0.1
-  coint10Percent: 0.01
-  unitPrefab: {fileID: 1687830590960969776, guid: e93854b0a3b571c419c30b6990af23b7, type: 3}
+  Description: A master of the dead, summoning the souls of deceased travellers.
   sprite: {fileID: 1267172144, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
-  unitEquipmentRequirements: []
+  unitPrefab: {fileID: 8865756960322639230, guid: 9e77f8cb260085849bb63d3d625f871f, type: 3}
+  spawnRate: 0.5
+  movementSpeed: 1.25
+  health: 10
+  shield: 0
+  shieldRegeneration: 1
+  shieldCooldown: 6
+  Coin1Percent: 0.5
+  Coin5Percent: 0.1
+  Coin10Percent: 0.01

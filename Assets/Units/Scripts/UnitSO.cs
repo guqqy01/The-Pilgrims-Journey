@@ -1,50 +1,73 @@
 using System;
-using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Units
 {
     [CreateAssetMenu()]
     public class UnitSO : ScriptableObject
     {
-        [Header("Spawning")]
-        public float BaseSpawnRate = 1f;
+        [TextArea()]
+        public string Description;
 
-        [Header("Movement")]
-        public float MovementSpeed = 1.5f;
-
-        [Header("Health")]
-        public int baseHealth = 5;
-
-        [Header("Shield")]
-        public int Shield = 0;
-        /// <summary>
-        /// Amount of regeneration over 1 second
-        /// </summary>
-        public float ShieldRegeneration = 1f;
-        /// <summary>
-        /// Amount of time since taken damage to start regeneration 
-        /// </summary>
-        public float ShieldCooldown = 6f;
-
-        [Header("Drops")]
-        public float coin1Percent = 0.5f;
-        public float coin5Percent = 0.1f;
-        public float coint10Percent = 0.01f;
+        public Sprite sprite;
 
         [Header("Objects")]
         public Unit unitPrefab;
 
-        public Sprite sprite;
+        [SerializeField]
+        private Rarity rarity;
+        public Rarity Rarity => rarity;
 
-        public List<UnitEquipmentRequirements> unitEquipmentRequirements;
+        [Header("Stats")]
+        [SerializeField]
+        private float spawnRate = 0.5f;
+        public float SpawnRate => spawnRate;
+        [SerializeField]
+        private float movementSpeed = 0.5f;
+        public float MovementSpeed => movementSpeed;
+        [SerializeField]
+        private int health = 10;
+        public int Health => health;
+        [SerializeField]
+        private int shield = 0;
+        public int Shield => shield;
+        /// <summary>
+        /// Amount of regeneration over 1 second
+        /// </summary>
+        [SerializeField] private float shieldRegeneration = 1f;
+        public float ShieldRegeneration => shieldRegeneration;
+        /// <summary>
+        /// Amount of time since taken damage to start regeneration 
+        /// </summary>
+        [SerializeField] private float shieldCooldown = 6f;
+        public float ShieldCooldown => shieldCooldown;
 
-        public UnitSO GetEvolvedUnit(EquipmentSO equipment)
+        [Header("Drops")]
+        public float Coin1Percent = 0.5f;
+        public float Coin5Percent = 0.1f;
+        public float Coin10Percent = 0.01f;
+
+        public object GetStat(UnitStatsEnum unitStat)
         {
-            return this;
+            switch (unitStat)
+            {
+                case UnitStatsEnum.Health:
+                    return Health;
+                case UnitStatsEnum.Shield:
+                    return Shield;
+                case UnitStatsEnum.ShieldCooldown:
+                    return ShieldCooldown;
+                case UnitStatsEnum.ShieldRegeneration:
+                    return ShieldRegeneration;
+                case UnitStatsEnum.SpawnRate:
+                    return SpawnRate;
+                case UnitStatsEnum.MovementSpeed:
+                    return MovementSpeed;
+                default:
+                    throw new NotImplementedException();
+            }
         }
-
     }
 }
 

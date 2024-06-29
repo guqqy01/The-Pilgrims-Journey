@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: WizardIntroduction
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: After a long and exausting journey, your legs are heavy and your spirit
+      worn. You push forward through the thick forest. The air grows colder and the
+      shadows lengthen as the sun begins to set. Just as you feel you can go no further,
+      a blinding white light pierces the gloom, forcing you to shield your eyes.
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioClip: {fileID: 0}
+      audioDialogueItems: []
+      sectionalAudioClips: []
+  - paragraph: When the light fades enough for you to see. You find yourself standing
+      before a figure cloaked in radient white. the wizards robes seem to shiver
+      with an inner light, and his eyes, a piercing blue, hold a depth of wisdom
+      and power that takes your breath away. His presence exudes a calming aura,
+      soothing your weary soul.
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioClip: {fileID: 0}
+      audioDialogueItems: []
+      sectionalAudioClips: []
+  - paragraph: '"Greetings young lad, you are indeed a fortunate fellow. For you
+      have found me, the wisest of them all. You must be starving after such a long
+      journey. Here eat one of my Apples, and you shall never have to fear an empty
+      stomach again."'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioClip: {fileID: 0}
+      audioDialogueItems: []
+      sectionalAudioClips: []
+  promptResponses:
+  - response: Take the Apple
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: ade03ecdf81805a4e82d4199ade951e3, type: 2}
+    nextPromptSetupSettings: 0
+  - response: Refuse the Apple
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 82fd4ef2faa32da4ca56d922ecc03ba8, type: 2}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 0}

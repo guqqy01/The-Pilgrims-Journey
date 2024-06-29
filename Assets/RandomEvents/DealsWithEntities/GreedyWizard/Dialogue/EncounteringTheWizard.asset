@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: EncounteringTheWizard
+  m_EditorClassIdentifier: 
+  prompt:
+  - promptText: As you make your way through the forest, you encounter an old wizard,
+      his form nearly obscured by a jumble of items and trinkets. His backpack is
+      so overloaded that it's difficult to single out any one object.
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+  - promptText: '"Ah, a traveler!" the wizard exclaims, his eyes twinkling with a
+      knowing gleam. "You seem to be on the brink of exhaustion. You''ll need this
+      if you''re to face the challenges ahead."'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+  - promptText: Before you can protest, he produces an orb and presses it into your
+      hands. "This will offer you protection on your journey. Take it, and may it
+      serve you well."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+  promptResponses:
+  - response: Accpet the gift
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: d6c05190c76f02442b85c60d8052fb57, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Refuse the gift
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 2c6ed64bd161a5242808ce0c3773cd9b, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Probe the wizard for more information
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: b842cae522ad75345b51b85d19618cac, type: 2}
+    nextPromptSetupSettings: 1
+  nextPrompt: {fileID: 0}

@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Alchemist
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 0.7
-  MovementSpeed: 1.5
-  baseHealth: 10
-  Shield: 0
-  ShieldRegeneration: 1
-  ShieldCooldown: 4
-  coin1Percent: 0.5
-  coin5Percent: 0.1
-  coint10Percent: 0.01
-  unitPrefab: {fileID: 1687830590960969776, guid: 177e2f9d80058dc43b4a5519ed56128d, type: 3}
+  Description: A maker of potions, who also likes throwing them.
   sprite: {fileID: -2089437176, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
-  unitEquipmentRequirements: []
+  unitPrefab: {fileID: 6312563560682333884, guid: 7ef0f8e2771500a41b129380f79aea80, type: 3}
+  spawnRate: 0.5
+  movementSpeed: 1.5
+  health: 10
+  shield: 0
+  shieldRegeneration: 1
+  shieldCooldown: 6
+  Coin1Percent: 0.5
+  Coin5Percent: 0.1
+  Coin10Percent: 0.01

@@ -18,7 +18,14 @@ namespace Units
 
         private void OnShieldChange(int currentShield)
         {
-            shieldFill.fillAmount = (float)currentShield / shield.MaxShield;
+            if(shield.MaxShield == 0)
+            {
+                shieldFill.fillAmount = 0;
+            }
+            else
+            {
+                shieldFill.fillAmount = Mathf.Clamp01((float)currentShield / shield.MaxShield);
+            }
         }
     }
 }

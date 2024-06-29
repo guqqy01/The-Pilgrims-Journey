@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: TheMysticalCreature
+  m_EditorClassIdentifier: 
+  prompt:
+  - promptText: As you crest the horizon, a towering humanoid figure comes into view.
+      Draped in a long, flowing robe, its ashen skin contrasts sharply with its glowing,
+      faintly blue eyes. On its back, a basket brims with an array of magical items,
+      each emitting a subtle, enchanting light.
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+  - promptText: 'The figure lifts its head and fixes its gaze upon you.
+
+
+      "I
+      have awaited your arrival, traveler," it intones. "I hold a special item that
+      the gods wish to bestow upon you. It will undoubtedly aid you on your journey.
+      Please, accept it."'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+  - promptText: "Though the being\u2019s offer seems sincere, the true motives behind
+      its gift remain shrouded in mystery."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+  promptResponses:
+  - response: Accept the object
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 4129bada3752dbe4494b4092ed35d592, type: 2}
+  - response: Decline the object
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 5cf9fa8f84f807f4da5a00b5d619b018, type: 2}
+  - response: Probe the creature for more information
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 5e4e2297dffc1fa44ad35431efd5e72a, type: 2}
+  nextPrompt: {fileID: 0}

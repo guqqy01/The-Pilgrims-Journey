@@ -1,10 +1,14 @@
+using Map;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour, ISaveLoad
 {
-    public static ResourceManager Instance;
+    public string SaveFileName => "ResourceManagerSave";
+
+    public static ResourceManager Instance { private set; get; }
 
     private InputManager inputManager;
 
@@ -12,8 +16,13 @@ public class ResourceManager : MonoBehaviour
     public GameObject coin5;
     public GameObject coin10;
 
-    public int Gold { private set; get; } = 100;
-    public int Diamonds { private set; get; } = 1;
+    [SerializeField]
+    private int startGold = 100;
+
+    public int Gold { private set; get; }
+
+    public int Distance { private set; get; }
+    public int UpgradePoints {  private set; get; }
 
     [SerializeField]
     private float collectRange = 1f;
@@ -30,17 +39,52 @@ public class ResourceManager : MonoBehaviour
     public delegate void OnGoldChange(int currentGold);
     public OnGoldChange onGoldChange;
 
-    public delegate void OnDiamondChange(int currentDiamonds);
-    public OnDiamondChange onDiamondChange;
+    public List<GameObject> coins = new List<GameObject>();
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         inputManager = InputManager.Instance;
+        onGoldChange?.Invoke(Gold);
+        GameManager.onSave += Save;
+        GameManager.onLoad += Load;
+        GameManager.onSetup += Setup;
+        GameManager.onClear += Clear;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onSave -= Save;
+        GameManager.onLoad -= Load;
+        GameManager.onSetup -= Setup;
+        GameManager.onClear -= Clear;
+    }
+
+    private void Clear()
+    {
+        foreach(GameObject coin in coins)
+        {
+            Destroy(coin);
+        }
+        coins.Clear();
+    }
+
+
+    private void Setup()
+    {
+        Gold = startGold;
+
         onGoldChange?.Invoke(Gold);
     }
 
@@ -74,15 +118,38 @@ public class ResourceManager : MonoBehaviour
 
     public void ModifyGold(int amount)
     {
-        Gold += amount;
+        Gold = Mathf.Max(Gold + amount, 0);
 
         onGoldChange?.Invoke(Gold);
     }
 
-    public void ModifyDiamonds(int amount)
+    public void Save()
     {
-        Diamonds += amount;
+        SaveManager.IfFileExistsDelete(SaveFileName);
+        SaveData saveData = new SaveData(Gold, UpgradePoints);
+        SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
+        SaveManager.Save(saveProfile);
+    }
 
-        onDiamondChange?.Invoke(Diamonds);
+    public void Load()
+    {
+        SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
+
+        Gold = saveData.Gold;
+        UpgradePoints = saveData.UpgradePoints;
+
+        onGoldChange.Invoke(Gold);
+    }
+
+    [Serializable]
+    private record SaveData : SaveProfileData
+    {
+        public int Gold;
+        public int UpgradePoints;
+        public SaveData(int Gold, int UpgradePoints)
+        {
+            this.Gold = Gold;
+            this.UpgradePoints = UpgradePoints;
+        }
     }
 }

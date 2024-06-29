@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: Refuse the Apple
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: 'The wizard''s demeanor shifts. The warmth in his eyes vanishes, replaced
+      by a cold, calculating look. "Very well," he says, his tone now devoid of the
+      earlier kindness. "If you won''t take the apple, perhaps there are other ways
+      I can assist you on your journey."
+
+
+      He waves his hand, and a table laden
+      with various trinkets and potions appears. "How about a charm to protect you
+      from evil spirits? Or a potion to grant you incredible strength? These, too,
+      can be yours for a modest price."'
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioClip: {fileID: 0}
+      audioDialogueItems: []
+  promptResponses:
+  - response: Ask for more Information
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 507c8bf9115ba0645852adef70ae054b, type: 2}
+    nextPromptSetupSettings: 0
+  - response: Continue your Journey
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: 5df92635d7dd8f940b7e04ba40370036, type: 2}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 0}

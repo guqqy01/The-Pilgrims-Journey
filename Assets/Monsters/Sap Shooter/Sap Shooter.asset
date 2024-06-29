@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbadc714ae35dd64eb3dacc370bd2bc9, type: 3}
+  m_Name: Sap Shooter
+  m_EditorClassIdentifier: 
+  name: Sap Shooter
+  summary: A dangerous plant that grows in the grasslands of Estrania
+  description: Sap shooters, along with their ice and lava counterparts, have developed
+    aggressive defenses in the perilous lands of Estrania to protect their fragile
+    roots from being trampled by animals and humans.
+  sprite: {fileID: 1709180350, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
+  prefab: {fileID: -3937348490146185227, guid: f17ecc19c59195447a80c1f4f45b458c, type: 3}

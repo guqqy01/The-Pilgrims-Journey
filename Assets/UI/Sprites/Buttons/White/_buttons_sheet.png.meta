@@ -129,19 +129,40 @@ TextureImporter:
       name: _buttons_sheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 224
+        x: 96
+        y: 232
         width: 24
         height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 3, z: 1, w: 1}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: ac94fd9be4f9fe149a9d5acdc2531126
       internalID: -918731491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: _buttons_sheet_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 225
+        width: 24
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 1, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce970f843bc23964287c06572ed6e6ee
+      internalID: 1281610095
       vertices: []
       indices: 
       edges: []
@@ -159,6 +180,7 @@ TextureImporter:
     nameFileIdTable:
       InventoryButton: 2045173605
       _buttons_sheet_0: -918731491
+      _buttons_sheet_1: 1281610095
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -12,26 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
   m_Name: Book
   m_EditorClassIdentifier: 
-  sprite: {fileID: -112077345, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: 'Tier 1
-
-
-    Tome of knowledge
-
-
-    Shield Base + 2
-
-    Shield
-    Cooldown x 0.65'
-  IntBuffs:
+  sprite: {fileID: -1086184367, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: A book of knowledge
+  rarity: 1
+  goldCost: 100
+  equipmentBuffs:
+  - stat: 5
+    Multiplier: 0.9
+    BaseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    AdditionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   - stat: 1
-    buffBaseAmount: 2
-    buffMultiplierAmount: 1
-  FloatBuffs:
-  - stat: 3
-    buffBaseAmount: 0
-    buffMultiplierAmount: 0.65
-  equipmentSpecialClass: 
-  floatParameters: []
-  intParameters: 
-  boolParameters: 
+    Multiplier: 1.1
+    BaseBuff:
+      intValue: 1
+      floatValue: 0
+      isInt: 1
+    AdditionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  EquipmentSpecial:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

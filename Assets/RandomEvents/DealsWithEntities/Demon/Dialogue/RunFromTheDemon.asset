@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: RunFromTheDemon
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: As you begin running you hear a maniacal laugh behind you. "Running
+      away already?" it calls out, its voice echoing through the trees with a sinister
+      edge. "How delightful! You can flee, but you cannot escape the fate that awaits
+      you. The shadows are deep, and the dangers are many."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 3.555173
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      - Time: 7.1962194
+        MixerGroup: {fileID: 0}
+      - Time: 11.507082
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 65dda1706e302ce40b12967a41d6ab8a, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.02515721, y: 0.9874213}
+        time: 0
+  - paragraph: The demon's laughter follows you, cold and mocking. "Remember this,
+      mortal! You may outrun me now, but the perils ahead will drive you back into
+      my GRASP. When you find yourself lost and desperate, my offer will still stand,
+      and you will realize that your foolishness has only delayed the inevitable."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 2.9969923
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 1fed27a267f9b874cbc4e132931fa68d, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.018867925, y: 0.9748427}
+        time: 0
+  promptResponses:
+  - response: Continue on your journey
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 0}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 0}

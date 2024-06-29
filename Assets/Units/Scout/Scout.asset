@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Scout
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 1.2
-  MovementSpeed: 2.5
-  baseHealth: 10
-  Shield: 0
-  ShieldRegeneration: 1
-  ShieldCooldown: 4
-  coin1Percent: 0.8
-  coin5Percent: 0.1
-  coint10Percent: 0.01
-  unitPrefab: {fileID: 1687830590960969776, guid: 6e5e547af78e2224f8e119259d448673, type: 3}
+  Description: An agile scount who takes pride in their speed of travel.
   sprite: {fileID: -1364599221, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
-  unitEquipmentRequirements: []
+  unitPrefab: {fileID: 2975669875330795275, guid: ac6377107eda78145ae918fd02bf32eb, type: 3}
+  spawnRate: 0.5
+  movementSpeed: 2.25
+  health: 10
+  shield: 0
+  shieldRegeneration: 1
+  shieldCooldown: 6
+  Coin1Percent: 0.5
+  Coin5Percent: 0.1
+  Coin10Percent: 0.01

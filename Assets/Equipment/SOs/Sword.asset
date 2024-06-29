@@ -12,20 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  sprite: {fileID: -1368279086, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: 'Tier 1
-
-
-    Trusty steel sword
-
-
-    Spawn rate multiplier x 1.3'
-  IntBuffs: []
-  FloatBuffs:
-  - stat: 0
-    buffBaseAmount: 0
-    buffMultiplierAmount: 1.3
-  equipmentSpecialClass: 
-  floatParameters: []
-  intParameters: 
-  boolParameters: 
+  sprite: {fileID: -798225259, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: A solid sword.
+  rarity: 1
+  goldCost: 100
+  equipmentBuffs:
+  - stat: 2
+    Multiplier: 1.1
+    BaseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    AdditionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  EquipmentSpecial:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

@@ -3,46 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Units;
+using System;
+using Equipment;
+using Tiles;
 
-public class PrizeWindow : MonoBehaviour
+public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot
 {
-    public static PrizeWindow instance;
+    public static PrizeWindow Instance;
 
-    private List<EquipmentContainer> prizeContainers = new List<EquipmentContainer>();
-
-    [SerializeField]
-    private Transform prizeContainersHolder;
+    public string SaveFileName => "PrizeWindowSave";
 
     [SerializeField]
-    private EquipmentContainer prizeContainerPrefab;
-
-    [SerializeField]
-    private WeightedChanceList<Tile> tilePrefabs;
-
-    [SerializeField]
-    private List<EquipmentSO> equipment;
-
-    public int test = 3;
+    private DragableEquipmentUI dragableEquipmentUIPrefab;
 
     [SerializeField]
     private Text prizeText;
 
-    private int currentPage = 0;
-    private int lastPage;
-
-    private List<PrizeType> prizes = new List<PrizeType>();
-
-    private List<List<EquipmentSO>> equipments = new List<List<EquipmentSO>>();
+    private int currentPageIndex = 0;
+    private int LastPageIndex => PrizePages.Count - 1;
 
     [SerializeField]
-    private GameObject equipmentPage;
+    private TileGrid tileGrid;
+
     [SerializeField]
-    private GameObject tilePage;
+    private Transform equipmentPagesTransfrom;
 
-    public Tile prizeTile;
+    [SerializeField]
+    private EquipmentPage equipmentPagePrefab;
+    private readonly List<EquipmentPage> equipmentPages = new List<EquipmentPage>();
 
-    public bool EquipmentTaken { private set; get; } = false;
-    public bool TileTaken = false;
+    private List<List<ContainerSave>> containerSaves = new List<List<ContainerSave>>();
 
     [SerializeField]
     private Text skipText;
@@ -52,137 +42,214 @@ public class PrizeWindow : MonoBehaviour
     [SerializeField]
     private Button backButton;
 
-    [SerializeField]
-    private List<UnitSO> units;
 
-    private void Awake()
+
+    public void InitiateSingleton()
     {
-        instance = this;
-    }
-
-    public void LoadPrize(int numOfEquipmentPages, int numOfTilePages)
-    {
-        SpawnPrizeContainers(UnityEngine.Random.Range(1, 4));
-
-        List<EquipmentSO> currentEquipment = new List<EquipmentSO>();
-
-        foreach (EquipmentContainer container in prizeContainers)
+        if (Instance != null && Instance != this)
         {
-            if (equipment.Count == 0)
-                break;
-
-            int breaker = 10;
-
-            EquipmentSO equip = equipment.GetRandom();
-
-            while (breaker > 0 && currentEquipment.Contains(equip))
-            {
-                equip = equipment.GetRandom();
-                breaker--;
-            }
-
-            container.TryChangeEquipment(equip);
-            container.AllowedEquipment = container.EquipmentSO;
-
-            currentEquipment.Add(equip);
-        }
-
-        if (prizeTile != null && TileTaken == false)
-        {
-            Destroy(prizeTile.gameObject);
-        }
-
-        TileTaken = false;
-
-        prizeTile = Instantiate(tilePrefabs.GetRandom(), tilePage.transform);
-        prizeTile.Unit = units.GetRandom();
-
-        prizes = new List<PrizeType>() { PrizeType.Equipment, PrizeType.Tile };
-        currentPage = 0;
-        lastPage = prizes.Count - 1;
-
-        SetPages();
-    }
-
-    private void SpawnPrizeContainers(int numberOfPrizes)
-    {
-        for (int i = 0; i < prizeContainers.Count; i++)
-        {
-            Destroy(prizeContainers[i].gameObject);
-        }
-
-        prizeContainers.Clear();
-
-        for (int i = 0; i < numberOfPrizes; i++)
-        {
-            EquipmentContainer container = Instantiate(prizeContainerPrefab, prizeContainersHolder);
-            container.onEquipmentChange += OnEquipmentChanged;
-            prizeContainers.Add(container);
-        }
-        
-    }
-
-    private void OnEquipmentChanged(EquipmentSO from, EquipmentSO to)
-    {
-        if (to == null)
-        {
-            foreach (EquipmentContainer equipmentContainer in prizeContainers)
-            {
-                equipmentContainer.Active = equipmentContainer.EquipmentSO == null;
-            }
-            EquipmentTaken = true;
+            Destroy(this);
         }
         else
         {
-            foreach (EquipmentContainer equipmentContainer in prizeContainers)
-            {
-                equipmentContainer.Active = true;
-            }
-            EquipmentTaken = false;
+            Instance = this;
         }
     }
 
-    public void GoNext()
+    public void TileGridInit(List<TileAndUnit> tiles)
     {
-        if(currentPage == lastPage)
+        tileGrid.Clear();
+
+        tileGrid.PlaceTiles(tiles);
+    }
+
+    List<IPrizePage> PrizePages
+    {
+        get
         {
-            gameObject.SetActive(false);
+            List<IPrizePage> returnPages = new List<IPrizePage>();
+
+            returnPages.AddRange(equipmentPages);
+            return returnPages;
+        }
+    }
+
+    private IPrizePage currentPage 
+    {
+        get 
+        {
+            if(PrizePages.Count == 0 || currentPageIndex >= PrizePages.Count)
+                return null;
+
+            return PrizePages[currentPageIndex];
+        }
+    }
+
+    public void DestroyEquipmentPages()
+    {
+        foreach(EquipmentPage page in equipmentPages)
+        {
+            Destroy(page.gameObject);
         }
 
-        currentPage = Mathf.Clamp(currentPage + 1, 0, lastPage);
-        SetPages();
+        equipmentPages.Clear();
+    }
+
+    public void LoadPrize(List<List<EquipmentSO>> equipmentLists, List<TileAndUnit> tiles)
+    {
+        containerSaves = new List<List<ContainerSave>>();
+
+        foreach (List<EquipmentSO> equipmentList in equipmentLists)
+        {
+           List<ContainerSave> listOfContainerSaves = new List<ContainerSave>();
+
+            foreach (EquipmentSO equipmentSO in equipmentList)
+            {
+                ContainerSave save = new ContainerSave(equipmentSO, equipmentSO, true);
+                listOfContainerSaves.Add(save);
+            }
+
+            containerSaves.Add(listOfContainerSaves);
+        }
+
+        LoadEquipmentPrize();
+        LoadTilePrize(tiles);
+        
+        currentPageIndex = 0;
+
+        RefreshUI();
+    }
+
+
+    private void LoadEquipmentPrize()
+    {
+        DestroyEquipmentPages();
+
+        if (containerSaves == null)
+            return;
+
+        for (int i = 0; i < containerSaves.Count; i++)
+        {
+            EquipmentPage equipmentPage = Instantiate(equipmentPagePrefab, equipmentPagesTransfrom);
+            equipmentPage.Init(containerSaves[i], dragableEquipmentUIPrefab);
+            equipmentPages.Add(equipmentPage);
+        }
+
+        currentPageIndex = 0;
+
+        RefreshUI();
+    }
+
+    private void LoadTilePrize(List<TileAndUnit> tiles)
+    {
+        tileGrid.Clear();
+
+        TileGridInit(tiles);
+
+        RefreshUI();
+    }
+
+
+    public void GoNext()
+    {
+        currentPage?.Close();
+
+        currentPageIndex = Mathf.Clamp(currentPageIndex + 1, 0, LastPageIndex);
+
+        RefreshUI();
     }
 
     public void GoPrevious()
     {
-        currentPage = Mathf.Clamp(currentPage - 1, 0, lastPage);
-        SetPages();
+        currentPage?.Close();
+
+        currentPageIndex = Mathf.Clamp(currentPageIndex - 1, 0, LastPageIndex);
+
+        RefreshUI();
     }
 
-    private void SetPages()
+    private void RefreshUI()
     {
-        prizeText.text = "Prize " + (currentPage + 1) + "/" + (lastPage + 1);
+        currentPage?.Open();
 
-        switch (prizes[currentPage])
+        prizeText.text = "Prize" + ((LastPageIndex > 1) ? " " + (currentPageIndex + 1) + "/" + (LastPageIndex + 1) : "");
+
+        if (PrizePages.Count <= 0)
+            return;
+
+        backButton.interactable = currentPageIndex != 0;
+        skipButton.interactable = currentPageIndex != LastPageIndex;
+    }
+
+    public void Save()
+    {
+        SaveManager.IfFileExistsDelete(SaveFileName);
+
+        List<EquipmentInventorySave> saves = new List<EquipmentInventorySave>();
+
+        foreach(EquipmentPage page in equipmentPages)
         {
-            case PrizeType.Equipment:
-                equipmentPage.SetActive(true);
-                tilePage.SetActive(false);
-                break;
-            case PrizeType.Tile:
-                equipmentPage.SetActive(false);
-                tilePage.SetActive(true);
-                break;
+            saves.Add(page.GetEquipmentInventorySave());
         }
 
-        skipText.text = (currentPage == lastPage) ? "Exit X" : "Skip >>";
+        SaveData saveData = new SaveData(saves);
+        SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
+        SaveManager.SaveOver(saveProfile);
+    }
 
-        backButton.interactable = currentPage != 0;
+    public void Load()
+    {
+        SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
+
+        List<List<ContainerSave>> saves = new List<List<ContainerSave>>();
+
+        foreach (EquipmentInventorySave save in saveData.containerSaves)
+        {
+            saves.Add(save.equipmentSaves);
+        }
+
+        containerSaves = saves;
+
+        LoadEquipmentPrize();
+
+        foreach (IPrizePage page in PrizePages)
+        {
+            page.Close();
+        }
+
+        currentPageIndex = 0;
+
+        RefreshUI();
+    }
+
+    
+
+    [Serializable]
+    private record SaveData : SaveProfileData
+    {
+        public List<EquipmentInventorySave> containerSaves;
+        public SaveData(List<EquipmentInventorySave> containerSaves)
+        {
+            this.containerSaves = containerSaves;
+        }
     }
 }
 
-public enum PrizeType
+[Serializable]
+public class TileAndUnit: IComparable<TileAndUnit>
 {
-    Equipment,
-    Tile,
+    public TileSO tile;
+    public UnitSO unit;
+
+    public TileAndUnit(TileSO tile, UnitSO unit)
+    {
+        this.tile = tile;
+        this.unit = unit;
+    }
+    
+
+    public int CompareTo(TileAndUnit other)
+    {
+        return - tile.Shape.Count.CompareTo(other.tile.Shape.Count);
+    }
 }

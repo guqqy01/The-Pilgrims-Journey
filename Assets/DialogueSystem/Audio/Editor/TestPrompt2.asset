@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: TestPrompt2
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: 
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 17.192474
+        MixerGroup: {fileID: 0}
+      - Time: 22.749638
+        MixerGroup: {fileID: 0}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: af7c78d01d0fc8f4da8e36890a2609ed, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 1}
+        time: 4.376738
+  - paragraph: How Shalkjbasdciubasibdcm,bzskmdbckalsbdclkjnaskljndckjlnaskljdnclkjasndclkjnaslkjdnclkjnasdlkjuc
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 17.192474
+        MixerGroup: {fileID: 0}
+      - Time: 31.895803
+        MixerGroup: {fileID: 0}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 88a09a2d4039f26499ed49b3626fa38b, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 0.7672958}
+        time: 5.730827
+      - audioClip: {fileID: 8300000, guid: 88a09a2d4039f26499ed49b3626fa38b, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 0.6163523}
+        time: 26.396
+  - paragraph: Does
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 17.192474
+        MixerGroup: {fileID: 0}
+      - Time: 38.84226
+        MixerGroup: {fileID: 0}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: af7c78d01d0fc8f4da8e36890a2609ed, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 1}
+        time: 13.835023
+  promptResponses:
+  - response: 
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 0}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 0}

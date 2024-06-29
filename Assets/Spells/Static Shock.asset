@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb6839c9bbd41b41bedcb00a3bd14aa, type: 3}
+  m_Name: Static Shock
+  m_EditorClassIdentifier: 
+  description: Shocks Monsters, preventing them from attacking for a period of time.
+  sprite: {fileID: -1193349704, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  highlightColor: {r: 0.94138074, g: 1, b: 0, a: 1}
+  invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
+  numberOfUses: 2
+  spellEffects:
+  - rid: 7077619546095616001
+  references:
+    version: 2
+    RefIds:
+    - rid: 7077619546095616001
+      type: {class: StaticShockEffect, ns: , asm: Assembly-CSharp}
+      data:
+        Vector2ListWrapper:
+          v2IntList:
+          - {x: 0, y: 0}
+          - {x: 0, y: -1}
+          - {x: -1, y: 0}
+          - {x: 0, y: 1}
+          - {x: 1, y: 0}
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 4096
+        effectFX: {fileID: 1735419308, guid: 18d37c1d535c1b049859a6c83b7d829f, type: 3}
+        fXGreyScaleFactor: 0
+        fXColor: {r: 0, g: 0, b: 0, a: 0}
+        effectSound:
+          clip: {fileID: 8300000, guid: 90295b64edb9d834baabde4c3fb158f6, type: 3}
+          loop: 0
+          volume: 0.1
+          pitch: 1
+        shockTime: 4

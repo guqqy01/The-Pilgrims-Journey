@@ -1,0 +1,97 @@
+using Monsters;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Units;
+using Unity.VisualScripting;
+using UnityEngine;
+
+namespace Monsters
+{
+    public class Wasp : Monster
+    {
+        private static Dictionary<Wasp, Transform> targets = new Dictionary<Wasp, Transform>();
+
+        [SerializeField]
+        private AudioSource audioSource;
+
+        [SerializeField]
+        private float attackSpeed = 1f;
+
+        [SerializeField]
+        private float projectileSpeed = 5f;
+        private float nextAttackTime;
+        [SerializeField]
+        private int damage = 1;
+
+        [Header("Poison")]
+        [SerializeField]
+        private int poisonDamage;
+        [SerializeField]
+        private float poisonTime;
+
+
+        private Transform target;
+
+        [SerializeField]
+        private Projectile waspStinger;
+
+        protected override void ShockEffect(float shockTime)
+        {
+            nextAttackTime = Mathf.Max(Time.time, nextAttackTime) + shockTime;
+        }
+
+        protected override void OnDamageUnit(OnHitInfo hitInfo)
+        {
+            base.OnDamageUnit(hitInfo);
+
+            if(hitInfo.dmgToHealth > 0)
+            {
+                if(!hitInfo.unit.gameObject.TryGetComponent(out PoisonDebuff poisonDebuff))
+                    poisonDebuff = hitInfo.unit.gameObject.AddComponent<PoisonDebuff>();
+
+                poisonDebuff.Add(this, poisonDamage, poisonTime);
+            }
+
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (target == null || Vector2.Distance(target.position, transform.position) > range)
+            {
+                if(targets.ContainsKey(this))
+                {
+                    targets.Remove(this);
+                }
+
+                target = GetClosestTargetInRange(targets.Values.NotNull().ToList());
+
+                if(target != null)
+                {
+                    targets.Add(this, target);
+                }
+            }
+
+            if (target != null)
+            {
+                if (Time.time >= nextAttackTime)
+                {
+                    //ani.SetTrigger("Shoot");
+
+                    Projectile project = Instantiate(waspStinger, transform.position, Quaternion.identity, transform);
+
+                    project.onHit += OnDamageUnit;
+
+                    project.Init(damage, projectileSpeed, true, target, target.position - transform.position, targetMask);
+
+                    audioSource?.Play();
+
+                    nextAttackTime = Time.time + 1f / attackSpeed;
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: RefuseTheGift
+  m_EditorClassIdentifier: 
+  paragraphs:
+  - paragraph: The demon's expression darkens as you decline the offer. "So, you
+      choose to face the darkness alone," it says, a hint of disdain in its voice.
+      "Brave, or perhaps foolish. Time will tell."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 3.4692993
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      - Time: 8.707597
+        MixerGroup: {fileID: 0}
+      - Time: 12.245596
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: aa9666af40f91394bb848d70eb38a0d1, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.03773585, y: 0.99371064}
+        time: 0
+  - paragraph: It steps back, the grin returning but with a more sinister edge. "Very
+      well, traveler. Know that the road ahead will be fraught with dangers you can
+      scarcely imagine. When you find yourself in the clutches of despair, remember
+      this moment and the choices you made."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 4.8261046
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 8348ecec7268d3548a41c96d9a59c10f, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0.018867925, y: 0.9748427}
+        time: 0
+  - paragraph: The demon's eyes narrow, and it begins to fade into the shadows. "I
+      offered you power, but you chose to walk your path unaided. May fortune favor
+      you, for you will need it. Farewell, and may we meet again under more... interesting
+      circumstances."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups:
+      - Time: 4.5684843
+        MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
+      sectionalAudioClips:
+      - audioClip: {fileID: 8300000, guid: 8c77569ca07f4c94081f624569f0f0f4, type: 3}
+        slider:
+          MinLimit: 0
+          MaxLimit: 1
+          MinMaxValues: {x: 0, y: 0.98742145}
+        time: 0
+  promptResponses:
+  - response: Continue on your journey
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 0}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 0}

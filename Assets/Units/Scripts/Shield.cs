@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 using System.Collections.Generic;
+using Tiles;
+using Equipment;
+
 namespace Units
 {
-    internal class Shield : MonoBehaviour
+    public class Shield : MonoBehaviour
     {
-        private BuffableIntStat shield;
-        public int MaxShield => shield.Value;
+        private BuffableStat shield;
+        public int MaxShield => (int)shield.Value.Value;
         public int CurrentShield { private set; get; } = 5;
 
 
-        private BuffableFloatStat regeneration;
-        public float Regeneration => regeneration.Value;
+        private BuffableStat regeneration;
+        public float Regeneration => (float)regeneration.Value.Value;
 
 
-        private BuffableFloatStat cooldown;
-        public float Cooldown => cooldown.Value;
+        private BuffableStat cooldown;
+        public float Cooldown => (float)cooldown.Value.Value;
 
 
         private float timeToNextRegenPoint;
@@ -32,13 +35,13 @@ namespace Units
 
         public void Init(UnitSO unit)
         {
-            shield = new BuffableIntStat(unit.Shield);
+            shield = new BuffableStat(unit.Shield);
 
             CurrentShield = MaxShield;
 
-            regeneration = new BuffableFloatStat(unit.ShieldRegeneration);
+            regeneration = new BuffableStat(unit.ShieldRegeneration);
 
-            cooldown = new BuffableFloatStat(unit.ShieldCooldown);
+            cooldown = new BuffableStat(unit.ShieldCooldown);
 
             onShieldChange?.Invoke(CurrentShield);
         }
@@ -46,51 +49,68 @@ namespace Units
         public void Init(Tile tile)
         {
             UnitSO unitSO = tile.Unit;
-            List<EquipmentSO> equipmentSOs = tile.Equipment;
+            EquipmentSO[] equipmentSOs = tile.Equipment;
 
-            shield = new BuffableIntStat(unitSO.Shield);
+            shield = new BuffableStat(unitSO.Shield);
+
+            shield.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.Shield));
 
             if (tile != null)
-                shield.AddMultiplierBuff("Tile", tile.shieldMultiplier);
+                shield.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.Shield));
             
             if (equipmentSOs != null)
-                for (int i = 0; i < equipmentSOs.Count; i++)
+            {
+                for (int i = 0; i < equipmentSOs.Length; i++)
                 {
                     if (equipmentSOs[i] == null)
                         continue;
 
-                    shield.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntBaseValue(UnitIntStats.Shield));
-                    shield.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].IntMultiplierValue(UnitIntStats.Shield));
+                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.Shield, out Buff outBuff))
+                    {
+                        shield.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
+                    }
                 }
+            }
+                
 
             CurrentShield = MaxShield;
 
-            regeneration = new BuffableFloatStat(unitSO.ShieldRegeneration);
+            regeneration = new BuffableStat(unitSO.ShieldRegeneration);
+
+            regeneration.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.ShieldRegeneration));
+
             if (tile != null)
-                regeneration.AddMultiplierBuff("Tile", tile.shieldRegenerationMultiplier);
+                regeneration.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.ShieldRegeneration));
 
             if (equipmentSOs != null)
-                for (int i = 0; i < equipmentSOs.Count; i++)
+                for (int i = 0; i < equipmentSOs.Length; i++)
                 {
                     if (equipmentSOs[i] == null)
                         continue;
 
-                    regeneration.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.ShieldRegeneration));
-                    regeneration.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.ShieldRegeneration));
+                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.ShieldRegeneration, out Buff outBuff))
+                    {
+                        regeneration.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
+                    }
                 }
 
-            cooldown = new BuffableFloatStat(unitSO.ShieldCooldown);
+            cooldown = new BuffableStat(unitSO.ShieldCooldown);
+
+            cooldown.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.ShieldCooldown));
+
             if (tile != null)
-                cooldown.AddMultiplierBuff("Tile", tile.shieldCooldownMultiplier);
+                cooldown.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.ShieldCooldown));
 
             if (equipmentSOs != null)
-                for (int i = 0; i < equipmentSOs.Count; i++)
+                for (int i = 0; i < equipmentSOs.Length; i++)
                 {
                     if (equipmentSOs[i] == null)
                         continue;
 
-                    cooldown.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.ShieldCooldown));
-                    cooldown.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.ShieldCooldown));
+                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.ShieldCooldown, out Buff outBuff))
+                    {
+                        cooldown.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
+                    }
                 }
 
             onShieldChange?.Invoke(CurrentShield);
@@ -114,7 +134,7 @@ namespace Units
             {
                 if(Time.time >= kvp.Value)
                 {
-                    shield.RemoveAdditionalBuff(kvp.Key);
+                    shield.RemoveBuff(kvp.Key);
                     
                     toRemove.Add(kvp.Key);
                 }
@@ -136,6 +156,9 @@ namespace Units
 
         private void HandleRegeneration()
         {
+            if (shield.Value == null)
+                return;
+
             if (CurrentShield == MaxShield) return;
 
             if (Time.time >= timeToNextRegenPoint)
@@ -152,6 +175,11 @@ namespace Units
             onShieldChange?.Invoke(CurrentShield);
         }
 
+        /// <summary>
+        /// Deal damage to the shield
+        /// </summary>
+        /// <param name="amount">The amount of dmg dealt to the shield</param>
+        /// <returns>Returns the amount of damage left over</returns>
         public int DamageShield(int amount)
         {
             int leftOverDmg = Mathf.Max(amount - CurrentShield, 0);
@@ -174,10 +202,9 @@ namespace Units
 
         private Dictionary<string, float> referenceAndTimeToRemoveBuff = new Dictionary<string, float>();
 
-        public void ModifyShieldForTime(string reference, int amount, float time)
+        public void ModifyShieldForTime(string reference, Buff shieldBuff, float time)
         {
-            shield.AddAdditionalBuff(reference, amount);
-            RegenerateShield(amount);
+            RegenerateShield((int)shield.AddBuff(reference, shieldBuff));
 
             if (referenceAndTimeToRemoveBuff.ContainsKey(reference))
             {

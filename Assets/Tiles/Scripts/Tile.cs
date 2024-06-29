@@ -3,292 +3,455 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Units;
+using Equipment;
+using UnityEngine.EventSystems;
+using System;
 
-public class Tile : MonoBehaviour
+namespace Tiles
 {
-    [SerializeField]
-    private RectTransform unitUITransform;
-
-    private Image unitGraphics;
-
-    public RectTransform rectTransform { private set; get; }
-
-    [SerializeField]
-    private Image tileGraphics;
-
-    public TileSO tileSO;
-
-    private static float multiplier = 210;
-    public Vector2 Offset => multiplier * GetOffset();
-
-    public bool locked;
-
-    public EquipmentSO equipment1;
-    public EquipmentSO equipment2;
-    public EquipmentSO equipment3;
-
-    public List<EquipmentSO> Equipment => new List<EquipmentSO>() { equipment1, equipment2, equipment3 };
-
-    public int Level = 1;
-
-    public float spawningMultiplier => 1f + 0.1f * (Level - 1);
-
-    public float movementMultiplier => 1f + 0.1f * (Level - 1);
-
-    public float healthMultiplier => 1f + 0.1f * (Level - 1);
-
-    public float shieldMultiplier => 1f + 0.1f * (Level - 1);
-
-    public float shieldRegenerationMultiplier => 1f + 0.1f * (Level - 1);
-    public float shieldCooldownMultiplier => Mathf.Pow(0.9f, (Level - 1));
-
-    public int requiredGoldToLevel => Level * Level * Shape.Count * Shape.Count * 15;
-    public int requiredDiamondsToEvolve => Shape.Count;
-
-
-    public delegate void OnStatsChange();
-    public OnStatsChange onStatsChange;
-
-    
-
-    private UnitSO unit;
-    public UnitSO Unit
+    public class Tile : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable, IInfo
     {
-        get
-        {
-            return unit;
-        }
-        set
-        {
-            unit = value;
+        public RectTransform RectTransform { private set; get; }
+        public TileSO TileSO { private set; get; }
 
-            unitGraphics.sprite = unit.sprite;
+        [SerializeField]
+        private RectTransform unitUITransform;
+        private Image unitGraphics;
+
+        [SerializeField]
+        private Image tileGraphics;
+
+        public bool locked;
+
+        public EquipmentSO[] Equipment = new EquipmentSO[3];
+
+        public float Rotation
+        {
+            get
+            {
+                if(RectTransform == null)
+                    RectTransform = GetComponent<RectTransform>();
+
+                return RectTransform.rotation.eulerAngles.z;
+            }
+            set
+            {
+                RotateTo(value);
+            }
+        } 
+
+        
+
+        public int Level = 1;
+
+        public bool IsMaxLevel => Level == 5;
+
+        public int requiredGoldToLevel => Level * Level * Shape.Count * Mathf.CeilToInt(Shape.Count * 0.5f) * 15;
+
+        public Buff GetTileBuff(UnitStatsEnum stat) => TileManager.Instance.GetBuff(stat, Level);
+
+        private UnitSO unit;
+        public UnitSO Unit
+        {
+            get
+            {
+                return unit;
+            }
+            set
+            {
+                unit = value;
+
+                if(unitGraphics == null)
+                    unitGraphics = unitUITransform.GetComponent<Image>();
+
+                unitGraphics.sprite = unit.sprite;
+                onStatsChange?.Invoke();
+            }
+        }
+
+        public bool Selected { private set; get; } = false;
+
+        public delegate void OnStatsChange();
+        public OnStatsChange onStatsChange;
+
+        public TileGrid tileGrid;
+
+        public delegate void OnTileSelected(Tile tile);
+        public static OnTileSelected onTileSelected;
+
+        private void Start()
+        {
+            onTileSelected += Highlight;
+            tileGraphics.alphaHitTestMinimumThreshold = 0.2f;
+        }
+
+        private void Highlight(Tile tile)
+        {
+            Highlight(tile == this);
+        }
+
+        private void OnDestroy()
+        {
+            onTileSelected -= Highlight;
+        }
+
+        #region Dragging
+
+        [SerializeField]
+        private CanvasGroup canvasGroup;
+        public bool Dragging;
+        public TileGrid draggedTileGrid;
+
+        public Vector2Int PlacedPosition;
+        public float PlacedRotation;
+
+        private void Update()
+        {
+            HandleCancelMoveTile();
+
+            if (Dragging)
+            {
+                HandleTileRotation();
+                HandlePosition();
+            }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            onTileSelected?.Invoke(this);
+            IInfo.onInfoSelected?.Invoke(this);
+
+            AudioManager.Instance.PlaySelectTile();
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (!Dragging)
+                return;
+
+            if (draggedTileGrid != null && !draggedTileGrid.IsWorldPositionInGrid(eventData.position))
+            {
+                draggedTileGrid = null;
+            }
+
+            if (draggedTileGrid == null)
+            {
+                foreach (GameObject obj in eventData.hovered)
+                {
+                    if (eventData.pointerDrag == obj)
+                        continue;
+
+                    if (obj.TryGetComponent(out draggedTileGrid))
+                    {
+                        if (draggedTileGrid.GridTransform.gameObject.activeInHierarchy && draggedTileGrid.IsWorldPositionInGrid(eventData.position))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            draggedTileGrid = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void HandleCancelMoveTile()
+        {
+            if (!Input.GetKeyDown(KeyCode.Escape))
+                return;
+
+            onTileSelected?.Invoke(null);
+
+            AudioManager.Instance.PlayCancelMoveTile();
+        }
+
+        private void HandleTileRotation()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Rotate(90);
+                AudioManager.Instance.PlayRotateTile();
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                Rotate(-90);
+                AudioManager.Instance.PlayRotateTile();
+            }
+        }
+
+        private Vector2Int currentTilePosition;
+        private TileGrid currentTileGrid;
+
+        private void HandlePosition()
+        {
+            if (draggedTileGrid != null)
+            {
+                Vector2Int gridPosition = draggedTileGrid.GetGridPositon(Input.mousePosition);
+                RectTransform.position = draggedTileGrid.Position(this, gridPosition);
+                Color = (draggedTileGrid.CanPlaceTile(this, gridPosition)) ? Color.white : Color.red;
+
+                if (currentTileGrid != draggedTileGrid)
+                {
+                    AudioManager.Instance.PlayMoveTile();
+                    currentTileGrid = draggedTileGrid;
+                    currentTilePosition = gridPosition;
+                }
+                else if(currentTilePosition  != gridPosition)
+                {
+                    AudioManager.Instance.PlayMoveTile();
+                    currentTilePosition = gridPosition;
+                }
+            }
+            else
+            {
+                RectTransform.position = (Vector2)Input.mousePosition + (GetOffset() * 43.75f) * TileUIManager.Canvas.scaleFactor;
+                Color = Color.white;
+                currentTileGrid = null;
+            }
+        }
+
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (locked)
+                return;
+            
+            Dragging = true;
+            RectTransform.SetParent(TileUIManager.Canvas.transform, true);
+            canvasGroup.blocksRaycasts = false;
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (!Dragging)
+                return;
+
+            Dragging = false;
+            canvasGroup.blocksRaycasts = true;
+
+            if(draggedTileGrid != null && draggedTileGrid.GridTransform.gameObject.activeInHierarchy && draggedTileGrid.CanPlaceTileFromWorldPosition(this, eventData.position))
+            { 
+                tileGrid.RemoveTile(this);
+                draggedTileGrid.TryPlaceTileFromWorldPosition(this, eventData.position);
+                tileGrid = draggedTileGrid;
+                AudioManager.Instance.PlayPlaceTile();
+            }
+            else
+            {
+                Rotation = PlacedRotation;
+                RectTransform.position = tileGrid.Position(this, PlacedPosition);
+                transform.parent = tileGrid.transform;
+                Color = Color.white;
+                AudioManager.Instance.PlayCancelMoveTile();
+            }
+        }
+
+
+        #endregion
+
+        #region Stats
+
+        [SerializeField]
+        private GameObject highlight;
+
+        private IntOrFloatObject GetStat(UnitStatsEnum stat)
+        {
+            Buff buff = new Buff(stat);
+
+            buff += GetTileBuff(stat);
+            buff += UpgradeManager.Instance.GetBuff(stat);
+
+            foreach (EquipmentSO equipment in Equipment)
+            {
+                if (equipment == null) continue;
+
+                if (equipment.TryGetBuff(stat, out Buff outBuff))
+                {
+                    buff += outBuff;
+                }
+            }
+
+            return buff.Value(new IntOrFloatObject(unit.GetStat(stat)));
+        }
+
+
+
+        /// <summary>
+        /// The amount of spawns per second
+        /// </summary>
+        public float SpawnRateValue
+        {
+            get
+            {
+                return (float)GetStat(UnitStatsEnum.SpawnRate).Value;
+            }
+        }
+
+        public float MovementValue
+        {
+            get
+            {
+                return (float)GetStat(UnitStatsEnum.MovementSpeed).Value;
+            }
+        }
+
+        public int HealthValue
+        {
+            get
+            {
+                return (int)GetStat(UnitStatsEnum.Health).Value;
+            }
+        }
+
+        public int ShieldValue
+        {
+            get
+            {
+                return (int)GetStat(UnitStatsEnum.Shield).Value;
+            }
+        }
+
+        public float ShieldRegenerationValue
+        {
+            get
+            {
+                return (float)GetStat(UnitStatsEnum.ShieldRegeneration).Value;
+            }
+        }
+
+        public float ShieldCooldownValue
+        {
+            get
+            {
+                return (float)GetStat(UnitStatsEnum.ShieldCooldown).Value;
+            }
+        }
+
+        #endregion
+
+        public Color Color
+        {
+            set
+            {
+                if (tileGraphics != null)
+                    tileGraphics.color = value;
+            }
+        }
+
+        private void Awake()
+        {
+            RectTransform = GetComponent<RectTransform>();
+            unitGraphics = unitUITransform.GetComponent<Image>();
+        }
+
+
+        public void Upgrade()
+        {
+            if (ResourceManager.Instance.Gold < requiredGoldToLevel)
+                return;
+
+            ResourceManager.Instance.ModifyGold(-requiredGoldToLevel);
+
+            Level = Mathf.Clamp(Level + 1, 1, 5);
 
             onStatsChange?.Invoke();
         }
-    }
 
-    public bool Selected { private set; get; } = false;
-
-    [SerializeField]
-    private GameObject highlight;
-
-    [HideInInspector]
-    public float TimeForNextSpawn = 0;
-    
-    public float SpawnRateValue
-    {
-        get
+        public void Highlight(bool highlighted)
         {
-            float equipmentBaseValue = 0;
-            float equipmentMultiplierValue = 1;
+            highlight.SetActive(highlighted);
+        }
 
-            foreach (EquipmentSO equipment in Equipment)
+        public Vector2 GetOffset()
+        {
+            int xMin = int.MaxValue, xMax = int.MinValue, yMin = int.MaxValue, yMax = int.MinValue;
+
+            foreach (Vector2Int v2int in Shape)
             {
-                if (equipment != null)
-                {
-                    equipmentBaseValue += equipment.FloatBaseValue(UnitFloatStats.SpawnRate);
-                    equipmentMultiplierValue *= equipment.FloatMultiplierValue(UnitFloatStats.SpawnRate);
-                }
+                if (v2int.x > xMax)
+                    xMax = v2int.x;
+
+                if (v2int.x < xMin)
+                    xMin = v2int.x;
+
+                if (v2int.y > yMax)
+                    yMax = v2int.y;
+
+                if (v2int.y < yMin)
+                    yMin = v2int.y;
             }
-
-            return spawningMultiplier * equipmentMultiplierValue * (Unit.BaseSpawnRate + equipmentBaseValue);
+            Vector2 v2 = new Vector2((xMax + xMin) / 2f, (yMax + yMin) / 2f);
+            return v2;
         }
-    }
 
-    public float MovementValue
-    {
-        get
+        public List<Vector2Int> Shape
         {
-            float equipmentBaseValue = 0;
-            float equipmentMultiplierValue = 1;
-
-            foreach (EquipmentSO equipment in Equipment)
+            get
             {
-                if (equipment != null)
-                {
-                    equipmentBaseValue += equipment.FloatBaseValue(UnitFloatStats.Movement);
-                    equipmentMultiplierValue *= equipment.FloatMultiplierValue(UnitFloatStats.Movement);
-                }
+                return TileSO.Shape.Rotate(Rotation);
             }
-
-            return (movementMultiplier * equipmentMultiplierValue * (Unit.MovementSpeed + equipmentBaseValue));
         }
-    }
 
-    public int HealthValue
-    {
-        get
+        public string Title => $"{Unit.name} {TileSO.name}";
+
+        public string Description => Unit.Description;
+
+        public string GoldAmount => (Shape.Count * 100).ToString();
+
+        public void Rotate(int angle)
         {
-            int equipmentBaseValue = 0;
-            float equipmentMultiplierValue = 1;
-
-            foreach (EquipmentSO equipment in Equipment)
-            {
-                if (equipment != null)
-                {
-                    equipmentBaseValue += equipment.IntBaseValue(UnitIntStats.Health);
-                    equipmentMultiplierValue *= equipment.IntMultiplierValue(UnitIntStats.Health);
-                }
-            }
-
-            return Mathf.CeilToInt(healthMultiplier * equipmentMultiplierValue * (Unit.baseHealth + equipmentBaseValue));
+            RectTransform.Rotate(new Vector3(0, 0, angle));
+            unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
         }
-    }
 
-    public int ShieldValue
-    {
-        get
+        public void RotateTo(float angle)
         {
-            int equipmentBaseValue = 0;
-            float equipmentMultiplierValue = 1;
+            if (RectTransform == null)
+                RectTransform = GetComponent<RectTransform>();
 
-            foreach (EquipmentSO equipment in Equipment)
-            {
-                if (equipment != null)
-                {
-                    equipmentBaseValue += equipment.IntBaseValue(UnitIntStats.Shield);
-                    equipmentMultiplierValue *= equipment.IntMultiplierValue(UnitIntStats.Shield);
-                }
-            }
-
-            return Mathf.CeilToInt(shieldMultiplier * equipmentMultiplierValue * (Unit.Shield + equipmentBaseValue));
+            Vector3 eulerAngles = RectTransform.rotation.eulerAngles;
+            eulerAngles.z = angle;
+            RectTransform.rotation = Quaternion.Euler(eulerAngles);
+            unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
         }
-    }
 
-    public float ShieldRegenerationValue
-    {
-        get
+        
+
+        #region Init
+
+        public void Init(TileSO tileSO, UnitSO unit)
         {
-            float equipmentBaseValue = 0;
-            float equipmentMultiplierValue = 1;
-
-            foreach (EquipmentSO equipment in Equipment)
-            {
-                if (equipment != null)
-                {
-                    equipmentBaseValue += equipment.FloatBaseValue(UnitFloatStats.ShieldRegeneration);
-                    equipmentMultiplierValue *= equipment.FloatMultiplierValue(UnitFloatStats.ShieldRegeneration);
-                }
-            }
-
-            return (shieldRegenerationMultiplier * equipmentMultiplierValue * (Unit.ShieldRegeneration + equipmentBaseValue));
+            TileSO = tileSO;
+            Unit = unit;
+            tileGraphics.sprite = tileSO.TileSprite;
+            tileGraphics.SetNativeSize();
         }
-    }
 
-    public float ShieldCooldownValue
-    {
-        get
+        public void Init(Tile tile)
         {
-            float equipmentBaseValue = 0;
-            float equipmentMultiplierValue = 1;
-
-            foreach (EquipmentSO equipment in Equipment)
-            {
-                if (equipment != null)
-                {
-                    equipmentBaseValue += equipment.FloatBaseValue(UnitFloatStats.ShieldCooldown);
-                    equipmentMultiplierValue *= equipment.FloatMultiplierValue(UnitFloatStats.ShieldCooldown);
-                }
-            }
-
-            return (shieldCooldownMultiplier * equipmentMultiplierValue * (Unit.ShieldCooldown + equipmentBaseValue));
+            TileSO = tile.TileSO;
+            tileGraphics.sprite = tile.tileGraphics.sprite;
+            tileGraphics.SetNativeSize();
         }
-    }
 
-    public Color Color
-    {
-        set
+        public void Init(TileSave tileSave)
         {
-            if (tileGraphics != null)
-                tileGraphics.color = value;
+            TileSO = tileSave.tile;
+            Unit = tileSave.unit;
+            tileGraphics.sprite = TileSO.TileSprite;
+            tileGraphics.SetNativeSize();
+
+            RotateTo(tileSave.rotation);
+            Level = tileSave.level;
+            Equipment = tileSave.equipment;
         }
-    }
 
-    private void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-        unitGraphics = unitUITransform.GetComponent<Image>();
-    }
+        #endregion
 
-    public void Upgrade()
-    {
-        if (ResourceManager.Instance.Gold < requiredGoldToLevel)
-            return;
-
-        ResourceManager.Instance.ModifyGold(-requiredGoldToLevel);
-
-        Level++;
-
-        onStatsChange?.Invoke();
-    }
-
-    public void Highlight(bool highlighted)
-    {
-        highlight.SetActive(highlighted);
-    }
-
-    public Vector2 GetOffset()
-    {
-        int xMin = int.MaxValue, xMax = int.MinValue, yMin = int.MaxValue, yMax = int.MinValue;
-
-        foreach (Vector2Int v2int in Shape)
+        public int CompareTo(object obj)
         {
-            if (v2int.x > xMax)
-                xMax = v2int.x;
-
-            if (v2int.x < xMin)
-                xMin = v2int.x;
-
-            if (v2int.y > yMax)
-                yMax = v2int.y;
-
-            if (v2int.y < yMin)
-                yMin = v2int.y;
+            return Shape.Count.CompareTo(obj);
         }
-        Vector2 v2 = new Vector2((xMax + xMin) / 2f, (yMax + yMin) / 2f);
-        return v2;
-    }
-
-    public List<Vector2Int> Shape
-    {
-        get
-        {
-            float rotation = rectTransform.rotation.eulerAngles.z;
-
-            List<Vector2Int> returnShape = new List<Vector2Int>();
-
-            for (int i = 0; i < tileSO.shape.v2IntList.Count; i++)
-            {
-                int x = Mathf.RoundToInt(tileSO.shape.v2IntList[i].x * Mathf.Cos(rotation * Mathf.Deg2Rad) - tileSO.shape.v2IntList[i].y * Mathf.Sin(rotation * Mathf.Deg2Rad));
-                int y = Mathf.RoundToInt(tileSO.shape.v2IntList[i].x * Mathf.Sin(rotation * Mathf.Deg2Rad) + tileSO.shape.v2IntList[i].y * Mathf.Cos(rotation * Mathf.Deg2Rad));
-                returnShape.Add(new Vector2Int(x, y));
-            }
-
-
-            return returnShape;
-        }
-    }
-
-    public void Rotate(int angle)
-    {
-        rectTransform.Rotate(new Vector3(0, 0, angle));
-        unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
-    }
-
-    public void RotateTo(float angle)
-    {
-        Vector3 eulerAngles = rectTransform.rotation.eulerAngles;
-        eulerAngles.z = angle;
-        rectTransform.rotation = Quaternion.Euler(eulerAngles);
-        unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
-    }
-
-    public void Init(TileSO tileSO)
-    {
-        this.tileSO = tileSO;
-
-        tileGraphics.sprite = tileSO.TileSprite;
-        tileGraphics.SetNativeSize();
     }
 }

@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu()]
+public class SpellSO : ScriptableObject
+{
+    [TextArea]
+    public string description;
+
+    public Sprite sprite;
+
+    public Color highlightColor = Color.white;
+    public Color invalidUseColor = Color.red;
+
+    public int numberOfUses;
+
+    [SerializeReference]
+    [AbstractSelector]
+    public List<SpellEffect> spellEffects;
+
+    public bool CanUseSpell(Vector2Int position)
+    {
+        foreach (SpellEffect effect in spellEffects)
+        {
+            if (!effect.CanUseEffect(position))
+                return false;
+        }
+
+        return true;
+    }
+}

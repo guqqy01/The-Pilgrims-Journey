@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5367798938299370722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5367798938299370721}
+  - component: {fileID: 5367798938299370720}
+  m_Layer: 0
+  m_Name: TileManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5367798938299370721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367798938299370722}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5367798938299370720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367798938299370722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03681fe0f53591948a2d4de3b873b0b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgrades:
+  - stat: 0
+    buffType: 0
+    intValues: 
+    floatValues:
+    - 1
+    - 1.1
+    - 1.2
+    - 1.3
+    - 1.4
+  - stat: 0
+    buffType: 1
+    intValues: 0100000002000000030000000400000005000000
+    floatValues:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - stat: 1
+    buffType: 0
+    intValues: 
+    floatValues:
+    - 1
+    - 1.1
+    - 1.2
+    - 1.3
+    - 1.4
+  - stat: 2
+    buffType: 0
+    intValues: 
+    floatValues:
+    - 1
+    - 1.1
+    - 1.2
+    - 1.3
+    - 1.4
+  - stat: 3
+    buffType: 2
+    intValues: 
+    floatValues:
+    - 0
+    - 0.15
+    - 0.3
+    - 0.45
+    - 0.6
+  - stat: 4
+    buffType: 0
+    intValues: 
+    floatValues:
+    - 1
+    - 1.2
+    - 1.4
+    - 1.6
+    - 1.8
+  - stat: 4
+    buffType: 2
+    intValues: 
+    floatValues:
+    - 0
+    - 0.5
+    - 1
+    - 1.5
+    - 2
+  - stat: 5
+    buffType: 0
+    intValues: 
+    floatValues:
+    - 1
+    - 0.9
+    - 0.81
+    - 0.729
+    - 0.6561

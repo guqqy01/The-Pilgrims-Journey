@@ -51,7 +51,7 @@ public class Bounce : MonoBehaviour
             if (num - 1 >= numberOfBounces)
             {
                 Destroy(this);
-                rb.velocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 rb.gravityScale = 0;
             }
         }
@@ -59,7 +59,7 @@ public class Bounce : MonoBehaviour
 
     private void DoBounce()
     {
-        rb.velocity = new Vector2();
+        rb.linearVelocity = new Vector2();
         rb.AddForce(new Vector2(xForce * Mathf.Cos(Mathf.Deg2Rad * angle), yForce * (numberOfBounces - (num - 1))), ForceMode2D.Impulse);
         num++;
         timeToNextBounce = Time.time + timeMultiplier * (numberOfBounces - (num - 1));

@@ -2826,13 +2826,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: outside_129
+      name: Tent
       rect:
         serializedVersion: 2
         x: 16
-        y: 125
-        width: 64
-        height: 64
+        y: 128
+        width: 48
+        height: 56
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3272,7 +3272,7 @@ TextureImporter:
         serializedVersion: 2
         x: 64
         y: 97
-        width: 64
+        width: 33
         height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -3623,6 +3623,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: outside_129
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 97
+        width: 31
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53a61bb7386c3a042970d12a4d83ae87
+      internalID: 1548044396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -3634,6 +3655,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Tent: -1781545187
       outside_0: 1101658012
       outside_1: 756693521
       outside_10: -598343726
@@ -3668,7 +3690,7 @@ TextureImporter:
       outside_126: 1012560655
       outside_127: -1261551480
       outside_128: 738906737
-      outside_129: -1781545187
+      outside_129: 1548044396
       outside_13: -2049545837
       outside_130: 2117834867
       outside_131: 1507922502

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Equipment;
+using Tiles;
 
 namespace Units
 {
     public class Movement : MonoBehaviour
     {
-        public BuffableFloatStat speed;
-        public float Speed => speed.Value;
+        public BuffableStat speed;
+        public float Speed => (float)speed.Value.Value;
 
         public Animator ani;
 
@@ -29,7 +31,9 @@ namespace Units
 
         public void Init(List<Vector2Int> path, int currentPathIndex, UnitSO unitSO)
         {
-            speed = new BuffableFloatStat(unitSO.MovementSpeed);
+            speed = new BuffableStat(unitSO.MovementSpeed);
+
+            speed.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.MovementSpeed));
 
             CurrentPathIndex = currentPathIndex;
 
@@ -39,23 +43,30 @@ namespace Units
 
         public void Init(List<Vector2Int> path, int currentPathIndex, Tile tile)
         {
-            speed = new BuffableFloatStat(tile.Unit.MovementSpeed);
+            speed = new BuffableStat(tile.Unit.MovementSpeed);
+
+            speed.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.MovementSpeed));
 
             CurrentPathIndex = currentPathIndex;
 
-            speed.AddMultiplierBuff("Tile", tile.movementMultiplier);
+            speed.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.MovementSpeed));
 
-            List<EquipmentSO> equipmentSOs = tile.Equipment;
+            EquipmentSO[] equipmentSOs = tile.Equipment;
 
             if (equipmentSOs != null)
-                for (int i = 0; i < equipmentSOs.Count; i++)
+            {
+                for (int i = 0; i < equipmentSOs.Length; i++)
                 {
                     if (equipmentSOs[i] == null)
                         continue;
 
-                    speed.AddBaseBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatBaseValue(UnitFloatStats.Movement));
-                    speed.AddMultiplierBuff("Equipment" + (i + 1).ToString(), equipmentSOs[i].FloatMultiplierValue(UnitFloatStats.Movement));
+                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.MovementSpeed, out Buff outBuff))
+                    {
+                        speed.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
+                    }
                 }
+            }
+                
 
             Path = path;
             finishedPath = false;
@@ -72,6 +83,7 @@ namespace Units
             if (finishedPath)
             {
                 GameManager.Instance.UnitPassed();
+                SpawningManager.Instance.SpawnedUnits.Remove(GetComponent<Unit>());
                 Destroy(gameObject);
                 return;
             }
@@ -114,9 +126,9 @@ namespace Units
 
         private Dictionary<string, float> referenceAndTimeToRemoveBuff = new Dictionary<string, float>();
 
-        public void ModifySpeedForTime(string reference, float amount, float time)
+        public void ModifySpeedForTime(string reference, Buff movementBuff, float time)
         {
-            speed.AddMultiplierBuff(reference, amount);
+            speed.AddBuff(reference, movementBuff);
 
             if (referenceAndTimeToRemoveBuff.ContainsKey(reference))
             {
@@ -139,7 +151,7 @@ namespace Units
             {
                 if (Time.time >= kvp.Value)
                 {
-                    speed.RemoveMultiplierBuff(kvp.Key);
+                    speed.RemoveBuff(kvp.Key);
 
                     toRemove.Add(kvp.Key);
                 }

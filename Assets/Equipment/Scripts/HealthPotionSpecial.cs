@@ -1,70 +1,75 @@
 ﻿using UnityEngine;
 using Units;
+using System;
 
-public class HealthPotionSpecial : MonoBehaviour, EquipmentSpecial
+namespace Equipment
 {
-    private Health health;
-    private Unit unit;
-
-    private float healthPercentageToStartRecovery;
-
-    private bool started;
-
-    private float timeToNextHeal = 0;
-
-    private float recoveryRate;
-
-    private int amountOfHealthToRecover;
-
-    
-
-    private void Awake()
+    [Serializable]
+    public class HealthPotionSpecial : EquipmentSpecial
     {
-        unit = GetComponent<Unit>();
-        health = GetComponent<Health>();
-        health.onHealthChange += OnHealthChange;
-    }
+        private Health health;
+        private Unit unit;
 
-    public void Init(params object[] parameters)
-    {
-        healthPercentageToStartRecovery = (float)parameters[0];
-        amountOfHealthToRecover = Mathf.CeilToInt(health.MaxHealth * (float)parameters[1]);
-        recoveryRate = (float)parameters[2] / amountOfHealthToRecover; ;
-    }
+        [SerializeField]
+        private float healthPercentageToStartRecovery;
 
-    private void OnHealthChange(int currentHealth)
-    {
-        if ((float)currentHealth / health.MaxHealth < healthPercentageToStartRecovery)
-            started = true;
-    }
+        private bool started;
 
-    private void Update()
-    {
-        if (!started)
-            return;
+        private float timeToNextHeal = 0;
 
-        if (timeToNextHeal > Time.time)
-            return;
+        private float recoveryRate;
 
-        if (!unit.healthPotionParticleSystem.isPlaying)
-            unit.healthPotionParticleSystem.Play();
+        [SerializeField]
+        private float percentOfHealthToRecover;
 
-        timeToNextHeal = Time.time + recoveryRate;
+        private int amountOfMaxHealthToRecover;
 
-        health.ModifyHealth(1);
+        [SerializeField]
+        private float periodOfTimeToHeal;
 
-        amountOfHealthToRecover--;
-
-        if (amountOfHealthToRecover <= 0)
+        public void Init(Unit unit)
         {
-            unit.healthPotionParticleSystem.Stop();
-            Destroy(this);
+            this.unit = unit;
+            health = unit.Health;
+            health.onHealthChange += OnHealthChange;
+            amountOfMaxHealthToRecover = Mathf.CeilToInt(health.MaxHealth * percentOfHealthToRecover);
+            recoveryRate = periodOfTimeToHeal / amountOfMaxHealthToRecover; ;
+        }
+
+        private void OnHealthChange(int currentHealth)
+        {
+            if ((float)currentHealth / health.MaxHealth < healthPercentageToStartRecovery)
+                started = true;
+        }
+
+        public void Update()
+        {
+            if (!started)
+                return;
+
+            if (timeToNextHeal > Time.time)
+                return;
+
+            if (!unit.HealingPS.isPlaying)
+                unit.HealingPS.Play();
+
+            timeToNextHeal = Time.time + recoveryRate;
+
+            health.ModifyHealth(1);
+
+            amountOfMaxHealthToRecover--;
+
+            if (amountOfMaxHealthToRecover <= 0)
+            {
+                unit.HealingPS.Stop();
+            }
         }
     }
-}
 
+    public interface EquipmentSpecial
+    {
+        public void Init(Unit unit);
 
-public interface EquipmentSpecial
-{
-    public void Init(params object[] parameters);
+        public void Update();
+    }
 }

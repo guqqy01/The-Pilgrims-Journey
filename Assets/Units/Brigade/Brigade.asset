@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Brigade
   m_EditorClassIdentifier: 
-  BaseSpawnRate: 1
-  MovementSpeed: 1.5
-  baseHealth: 20
-  Shield: 0
-  ShieldRegeneration: 1
-  ShieldCooldown: 4
-  coin1Percent: 0.3
-  coin5Percent: 0.1
-  coint10Percent: 0.01
-  unitPrefab: {fileID: 1687830590960969776, guid: 4736fbb344cb8e14eba7cd9f17e54fe1, type: 3}
+  Description: A simple soldier, more tenatious than the standard farmer.
   sprite: {fileID: -480314773, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
-  unitEquipmentRequirements: []
+  unitPrefab: {fileID: 143867548974590714, guid: de75716561d03b04e87f597bb6a1fb97, type: 3}
+  spawnRate: 0.5
+  movementSpeed: 1.5
+  health: 25
+  shield: 0
+  shieldRegeneration: 1
+  shieldCooldown: 6
+  Coin1Percent: 0.5
+  Coin5Percent: 0.1
+  Coin10Percent: 0.01

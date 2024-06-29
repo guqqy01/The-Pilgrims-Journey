@@ -1,29 +1,36 @@
+using Monsters;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
+using static UnityEngine.ParticleSystem;
 
 namespace Map
 {
-    public class LocalMapGenerator : MonoBehaviour
+    public class LocalMapGenerator : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     {
         public static LocalMapGenerator Instance { private set; get; }
 
         public Pathway pathway;
 
-        
-        public List<Direction> targetDirections;
-        public Direction startWall;
+        [SerializeField]
+        private MapTile mapTilePrefab;
 
+        public MinMaxCurve targetDirectionVSLevelCurve;
+        public MinMaxCurve traverseDirectionVSLevelCurve;
+
+        public MapTile[,] Tiles { private set; get; }
         [SerializeField, HideInInspector]
-        private List<GameObject> tiles;
+        private List<Monster> enemys;
         [SerializeField, HideInInspector]
-        private List<GameObject> enemys;
-        [SerializeField, HideInInspector]
-        private List<GameObject> mapObjectGOs;
+        public List<GameObject> mapObjectGOs;
 
         [SerializeField]
         private GameObject roadSignPrefab;
         public Dictionary<GameObject, Direction> RoadSigns { get; private set; } = new Dictionary<GameObject, Direction>();
 
+        [SerializeField]
         private Dictionary<string, int> mapObjects = new Dictionary<string, int>();
 
         private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
@@ -37,67 +44,221 @@ namespace Map
         [SerializeField]
         private Camera cam;
 
-        private int mapSizeX
+        public List<Direction> TargetDirections => pathway.ToDirections;
+
+        public Direction StartWall { get; private set; }
+
+        [SerializeField]
+        private int mapSizeX = 32;
+
+        private const int mapSizeY = 18;
+
+        private int randomTargetDirection 
         {
             get
             {
-                int value = Mathf.RoundToInt(generationSettings.mapSize.Evaluate(GameManager.Instance.Level, randomTimeValueForMapSize)) * 16;
-                return value;
-            }
-        } 
-        private int mapSizeY
-        {
-            get
-            {
-                int value = Mathf.RoundToInt(generationSettings.mapSize.Evaluate(GameManager.Instance.Level, randomTimeValueForMapSize)) * 9;
-                return value;
+                float time;
+                if (GameManager.Instance != null)
+                    time = GameManager.Instance.Level;
+                else
+                    time = 1;
+
+                return Mathf.RoundToInt(targetDirectionVSLevelCurve.Evaluate(time, UnityEngine.Random.value));
             }
         }
+        private int randomTraverseDirection
+        {
+            get
+            {
+                float time;
+                if (GameManager.Instance != null)
+                    time = GameManager.Instance.Level;
+                else
+                    time = 1;
 
-        private int randomTargetDirection => Mathf.RoundToInt(generationSettings.targetDirectionVSLevelCurve.Evaluate(GameManager.Instance.Level, Random.value));
-        private int randomTraverseDirection => Mathf.RoundToInt(generationSettings.traverseDirectionVSLevelCurve.Evaluate(GameManager.Instance.Level, Random.value));
-
-        private float randomTimeValueForMapSize;
+                return Mathf.RoundToInt(traverseDirectionVSLevelCurve.Evaluate(time, UnityEngine.Random.value));
+            }
+        }
 
         private void Awake()
         {
-            if(Instance == null)
-            {
-                Instance = this;
-            }
-            else
+            if (Instance != null && Instance != this)
             {
                 Destroy(this);
             }
+            else
+            {
+                Instance = this;
+            }
+        }
+
+        public void InitiateSingleton()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
+
+        private void OnEnable()
+        {
+            GameManager.onClear += Clear;
+            GameManager.onCreateLocalMap += SetupNewLevel;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.onClear -= Clear;
+            GameManager.onCreateLocalMap -= SetupNewLevel;
+        }
+
+        #region Preview Settings
+        #if UNITY_EDITOR
+        
+        public void ShowMapPreview(Camera previewCamera, LocalMapGenerationSettings generationSettings, MapGenerationPreviewSettings previewSettings, List<int> terrainIndecies = null)
+        {
+            Clear();
+
+            StartWall = Direction.West;
+
+            if (previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
+            {
+                CreatePath(StartWall, new List<Direction>() { Direction.East }, new List<Direction>());
+                pathway.CreatePaths();
+            }
+
+            GeneratePreviewMap(generationSettings, previewSettings, terrainIndecies);
+
+            if(previewSettings.HasFlag(MapGenerationPreviewSettings.MapObjects))
+            {
+                SpawnMapObjects(generationSettings);
+            }
+
+            SetupCamera(previewCamera);
         }
 
 
-        public void CreateMap()
+        private void GeneratePreviewMap(LocalMapGenerationSettings generationSettings, MapGenerationPreviewSettings previewSettings, List<int> terrainIndecies)
         {
-            randomTimeValueForMapSize = Random.value;
+            DestroyTiles();
 
-            SetupCamera();
+            Tiles = new MapTile[mapSizeX, mapSizeY];
+
+            generationSettings.SetupSeeds();
+
+            for (int i = 0; i < mapSizeX; i++)
+            {
+                for (int j = 0; j < mapSizeY; j++)
+                {
+                    Vector2Int position = new Vector2Int(i, j);
+
+                    MapTile mapTile = null;
+
+                    if (pathway != null && pathway.ContainsStep(position) && previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
+                    {
+                        mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, transform);
+                        mapTile.Init(generationSettings.pathTiles.GetRandom(), position);
+                    }
+                    else
+                    {
+                        Sprite sprite = generationSettings.GetMapTileSpriteForPreview(position, previewSettings, terrainIndecies);
+
+                        if (sprite != null)
+                        {
+                            mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, transform);
+                            mapTile.Init(sprite, position);
+                        }
+                    }
+
+                    Tiles[i, j] = mapTile;
+                }
+            }
+        }
+
+        #endif
+        #endregion
+
+        public void Clear()
+        {
+            occupiedSpots.Clear();
+
+            DestroyMapObjects();
+
+            DestoryEnemys();
+
+            DestroyTiles();
+
+            DestoryRoadSigns();
+        }
+
+        private void SetupNewLevel()
+        {
+            GlobalMapGenerator generator = GlobalMapGenerator.Instance;
+
+            Direction startWall = Direction.West;
+
+            if(generator.takenPath.Count > 1)
+            {
+                foreach (var dirAndPoint in generator.CurrentMapPoint.connectedFromPoints)
+                {
+                    if (dirAndPoint.Value == generator.takenPath[generator.takenPath.Count - 2])
+                    {
+                        startWall = dirAndPoint.Key;
+                        break;
+                    }
+                }
+            }
+
+            CreateMap(startWall);
+        }
+
+        public void CreateMap(Direction startWall)
+        {
+            Clear();
+
+            StartWall = startWall;
+
+            UnityEngine.Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
+
+            SetupCamera(cam);
 
             occupiedSpots.Clear();
 
-            CreatePath();
+            CreatePath(startWall, GlobalMapGenerator.Instance.CurrentMapPoint.GetOtherToDirections(startWall), GlobalMapGenerator.Instance.CurrentMapPoint.GetOtherFromDirections(startWall));
 
-            CreateEnemyWeightMap();
+            pathway.CreatePaths();
 
-            SpawnEnemys();
+            PlaceTiles();
 
-            SpawnMapObjects();
+            PlaceRoadSigns();
 
-            PathPicker.Instance?.Setup();
+            BossMonsterSpawn? bossSpawn = null;
+
+            if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Relic)
+                bossSpawn = monsterSettings.bossMonsters.GetRandom();
+
+            CreateEnemyWeightMap(bossSpawn);
+
+            SpawnEnemys(bossSpawn);
+
+            SpawnMapObjects(generationSettings);
+
+            PathPicker.Instance.Setup();
         }
 
-        private void SetupCamera()
+
+
+        private void SetupCamera(Camera camera)
         {
-            cam.transform.position = new Vector3(mapSizeX / 2f - 0.5f, mapSizeY / 2f - 0.5f, -10f);
-            cam.orthographicSize = mapSizeY / 2f;
+            camera.transform.position = new Vector3(mapSizeX / 2f - 0.5f, mapSizeY / 2f - 0.5f, -10f);
+            camera.orthographicSize = mapSizeY / 1.6f;
         }
 
-        private void DestroyMap()
+        private void DestroyMapObjects()
         {
             for (int i = 0; i < mapObjectGOs.Count; i++)
             {
@@ -114,9 +275,14 @@ namespace Map
             mapObjectGOs.Clear();
         }
 
-        private void SpawnMapObjects()
+        private void SpawnMapObjects(LocalMapGenerationSettings generationSettings)
         {
-            DestroyMap();
+            DestroyMapObjects();
+
+            if (occupiedSpots == null)
+            {
+                occupiedSpots = new List<Vector2Int>();
+            }
 
 
             foreach (OverlayMapObject mapObject in generationSettings.mapObjects)
@@ -139,7 +305,7 @@ namespace Map
                             if (occupiedSpots.Contains(new Vector2Int(i + x, j + y)) ||
                                 i + x > mapSizeX ||
                                 j + y > mapSizeY ||
-                                pathway.ContainsStep(new Vector2Int(i + x, j + y)))
+                                (pathway != null && pathway.ContainsStep(new Vector2Int(i + x, j + y))))
                             {
                                 canPlace = false;
                             }
@@ -178,7 +344,8 @@ namespace Map
             }
         }
 
-        private void CreateEnemyWeightMap()
+
+        private void CreateEnemyWeightMap(BossMonsterSpawn? bossMonsterSpawn)
         {
             int maxRange = 0;
 
@@ -186,6 +353,12 @@ namespace Map
             {
                 if (monsterSettings.rangeAndMonster[i].range > maxRange)
                     maxRange = monsterSettings.rangeAndMonster[i].range;
+            }
+
+            if(bossMonsterSpawn.HasValue)
+            {
+                if (bossMonsterSpawn.Value.range > maxRange)
+                    maxRange = bossMonsterSpawn.Value.range;
             }
 
             weightMap = new WeightMap(maxRange, mapSizeX, mapSizeY);
@@ -227,20 +400,78 @@ namespace Map
             {
                 if (Application.isPlaying)
                 {
-                    Destroy(enemys[i]);
+                    if(enemys[i] != null)
+                        Destroy(enemys[i].gameObject);
                 }
                 else
                 {
-                    DestroyImmediate(enemys[i]);
+                    if (enemys[i] != null)
+                        DestroyImmediate(enemys[i].gameObject);
                 }
             }
 
             enemys.Clear();
         }
 
-        private void SpawnEnemys()
+        private void SpawnBoss(BossMonsterSpawn bossMonsterSpawn)
+        {
+            int spawnIndex = 0;
+
+            Vector2Int point = weightMap[bossMonsterSpawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
+
+            int breaker = mapSizeX * mapSizeY;
+
+            Vector2 spawnPosition;
+
+            while (SpotOccupied(point, bossMonsterSpawn.boss.size, out spawnPosition) && breaker > 0)
+            {
+                point = weightMap[bossMonsterSpawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
+
+                spawnIndex++;
+                breaker--;
+            }
+
+            Monster monster = Instantiate(bossMonsterSpawn.boss.prefab, spawnPosition, Quaternion.identity, transform);
+            monster.Init(bossMonsterSpawn.boss);
+            enemys.Add(monster);
+            BeastaryManager.Instance.BufferMonster(bossMonsterSpawn.boss);
+
+            for (int i = 0; i < bossMonsterSpawn.boss.size.x; i++)
+            {
+                for (int j = 0; j < bossMonsterSpawn.boss.size.y; j++)
+                {
+                    occupiedSpots.Add(point + new Vector2Int(i, j));
+                }
+            }
+        }
+
+        private bool SpotOccupied(Vector2Int point, Vector2Int size, out Vector2 spawnPosition)
+        {
+            spawnPosition = point;
+
+            for (int i = 0; i < size.x; i++)
+            {
+                for (int j = 0; j < size.y; j++)
+                {
+                    if (occupiedSpots.Contains(point + new Vector2Int(i, j)) || pathway.ContainsStep(point + new Vector2Int(i, j)))
+                        return true;
+
+                    if (point.x + i > mapSizeX || point.y + j > mapSizeY)
+                        return true;
+                }
+            }
+
+            spawnPosition = (Vector2)point + ((Vector2)size / 2f);
+
+            return false;
+        }
+
+        private void SpawnEnemys(BossMonsterSpawn? boss)
         {
             DestoryEnemys();
+
+            if (boss.HasValue)
+                SpawnBoss(boss.Value);
 
             foreach (MonsterSpawn spawn in monsterSettings.rangeAndMonster)
             {
@@ -252,16 +483,19 @@ namespace Map
 
                     int breaker = mapSizeX * mapSizeY;
 
-                    while (occupiedSpots.Contains(point) && breaker > 0)
+                    Vector2 spawnPosition;
+
+                    while (SpotOccupied(point, spawn.monster.size, out spawnPosition) && breaker > 0)
                     {
                         point = weightMap[spawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
 
                         spawnIndex++;
                         breaker--;
                     }
-
-                    enemys.Add(Instantiate(spawn.monster, new Vector3(point.x, point.y), Quaternion.identity, transform));
-
+                    Monster monster = Instantiate(spawn.monster.prefab, new Vector3(point.x, point.y), Quaternion.identity, transform);
+                    monster.Init(spawn.monster);
+                    enemys.Add(monster);
+                    BeastaryManager.Instance.BufferMonster(spawn.monster);
                     occupiedSpots.Add(point);
                 }
             }
@@ -275,16 +509,14 @@ namespace Map
             if (Mathf.Abs((int)currentDirection) == 2)
             {
                 float dirRan = UnityEngine.Random.Range(1f / mapSizeX, 1f - 1f / mapSizeX);
-                return (dirRan > (float)position.x / mapSizeX) ? Direction.Right : Direction.Left;
+                return (dirRan > (float)position.x / mapSizeX) ? Direction.East : Direction.West;
             }
             else
             {
                 float dirRan = UnityEngine.Random.Range(1f / mapSizeY, 1f - 1f / mapSizeY);
-                return (dirRan > (float)position.y / mapSizeY) ? Direction.Up : Direction.Down;
+                return (dirRan > (float)position.y / mapSizeY) ? Direction.North : Direction.South;
             }
         }
-
-        
 
         private void CreatePathFromStartToTargetDirection(List<Vector2Int> path, Vector2Int start, Direction startDirection, Direction targetDirection)
         {
@@ -294,7 +526,7 @@ namespace Map
             position[0] = start.x;
             position[1] = start.y;
 
-            int targetInt = (int)targetDirection > 0 ? ((targetDirection == Direction.Right) ? mapSizeX : mapSizeY) : -1;
+            int targetInt = (int)targetDirection > 0 ? ((targetDirection == Direction.East) ? mapSizeX : mapSizeY) : -1;
 
             int GetDistanceToTarget()
             {
@@ -312,22 +544,22 @@ namespace Map
 
                 switch (currentDirection)
                 {
-                    case Direction.Up:
+                    case Direction.North:
                         position[1] = Mathf.Min(position[1] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeY - 1 - additional);
                         if (isTargetDir && position[1] == mapSizeY - 1)
                             position[1] = mapSizeY;
                         break;
-                    case Direction.Down:
+                    case Direction.South:
                         position[1] = Mathf.Max(position[1] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
                         if (isTargetDir && position[1] <= 1)
                             position[1] = -1;
                         break;
-                    case Direction.Right:
+                    case Direction.East:
                         position[0] = Mathf.Min(position[0] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeX - 1 - additional);
                         if (isTargetDir && position[0] == mapSizeX - 1)
                             position[0] = mapSizeX;
                         break;
-                    case Direction.Left:
+                    case Direction.West:
                         position[0] = Mathf.Max(position[0] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
                         if (isTargetDir && position[0] <= 1)
                             position[0] = -1;
@@ -364,7 +596,7 @@ namespace Map
 
                     switch (targetDirection)
                     {
-                        case Direction.Up:
+                        case Direction.North:
                             if (mapSizeY - path[i].y < closestDistance)
                             {
                                 closestPoints.Clear();
@@ -376,7 +608,7 @@ namespace Map
                                 closestPoints.Add(path[i]);
                             }
                             break;
-                        case Direction.Down:
+                        case Direction.South:
                             if (path[i].y < closestDistance)
                             {
                                 closestPoints.Clear();
@@ -388,7 +620,7 @@ namespace Map
                                 closestPoints.Add(path[i]);
                             }
                             break;
-                        case Direction.Left:
+                        case Direction.West:
                             if (path[i].x < closestDistance)
                             {
                                 closestPoints.Clear();
@@ -400,7 +632,7 @@ namespace Map
                                 closestPoints.Add(path[i]);
                             }
                             break;
-                        case Direction.Right:
+                        case Direction.East:
                             if (mapSizeX - path[i].x < closestDistance)
                             {
                                 closestPoints.Clear();
@@ -421,53 +653,69 @@ namespace Map
 
         private void DestroyTiles()
         {
-            for (int i = 0; i < tiles.Count; i++)
+            if (Tiles == null)
+                return;
+
+            for (int i = 0; i < Tiles.GetLength(0); i++)
             {
-                if (Application.isPlaying)
+                for (int j = 0; j < Tiles.GetLength(1); j++)
                 {
-                    Destroy(tiles[i]);
-                }
-                else
-                {
-                    DestroyImmediate(tiles[i]);
+                    if (Application.isPlaying)
+                    {
+                        if (Tiles[i, j] != null)
+                            Destroy(Tiles[i, j].gameObject);
+                    }
+                    else
+                    {
+                        if (Tiles[i, j] != null)
+                            DestroyImmediate(Tiles[i, j].gameObject);
+                    }
                 }
             }
-
-            tiles.Clear();
         }
-
-
 
         private void PlaceTiles()
         {
             DestroyTiles();
 
+            Tiles = new MapTile[mapSizeX, mapSizeY];
+
+            generationSettings.SetupSeeds();
+
             for (int i = 0; i < mapSizeX; i++)
             {
                 for (int j = 0; j < mapSizeY; j++)
                 {
+                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, transform);
+
                     if (pathway.ContainsStep(new Vector2Int(i, j)))
                     {
-                        tiles.Add(Instantiate(generationSettings.GetPathTile(), new Vector3(i, j), Quaternion.identity, transform));
+                        mapTile.Init(generationSettings.GetPathTileSprite(), new Vector2Int(i, j));
                     }
                     else
                     {
-                        tiles.Add(Instantiate(generationSettings.GetMapTile(), new Vector3(i, j), Quaternion.identity, transform));
+                        mapTile.Init(generationSettings.GetMapTileSprite(new Vector2Int(i, j)), new Vector2Int(i, j));
                     }
+
+                    Tiles[i, j] = mapTile;
                 }
             }
         }
 
-        private void PlaceRoadSigns()
+        private void DestoryRoadSigns()
         {
-            foreach(GameObject obj in RoadSigns.Keys)
+            foreach (GameObject obj in RoadSigns.Keys)
             {
                 Destroy(obj);
             }
-
             RoadSigns.Clear();
+        }
 
-            Dictionary<Direction, Vector2Int> endPoints = pathway.PathEndPoints;
+        private void PlaceRoadSigns()
+        {
+            DestoryRoadSigns();
+            
+            Dictionary<Direction, Vector2Int> endPoints = pathway.ToEndPoints;
 
             foreach(KeyValuePair<Direction, Vector2Int> kvp in endPoints)
             {
@@ -475,16 +723,16 @@ namespace Map
 
                 switch (kvp.Key)
                 {
-                    case Direction.Down:
+                    case Direction.South:
                         position += new Vector2(ExtensionsAndHelper.RandomSign(), 1);
                         break;
-                    case Direction.Up:
+                    case Direction.North:
                         position += new Vector2(ExtensionsAndHelper.RandomSign(), -1);
                         break;
-                    case Direction.Left:
+                    case Direction.West:
                         position += new Vector2(1, ExtensionsAndHelper.RandomSign());
                         break;
-                    case Direction.Right:
+                    case Direction.East:
                         position += new Vector2(-1, ExtensionsAndHelper.RandomSign());
                         break;
                 }
@@ -494,51 +742,66 @@ namespace Map
             }
         }
 
-        private void CreatePath()
+        private void CreatePath(Direction startWall, List<Direction> toDirections, List<Direction> otherFromDirections)
         {
+            foreach(Direction dir in toDirections)
+            {
+                if(otherFromDirections.Contains(dir))
+                    otherFromDirections.Remove(dir);
+            }
+
             Vector2Int pathStart = new Vector2Int();
 
             switch (startWall)
             {
-                case Direction.Down:
+                case Direction.South:
                     pathStart = new Vector2Int(mapSizeX / 2, -1);
                     break;
-                case Direction.Left:
+                case Direction.West:
                     pathStart = new Vector2Int(-1, mapSizeY / 2);
                     break;
-                case Direction.Right:
+                case Direction.East:
                     pathStart = new Vector2Int(mapSizeX, mapSizeY / 2);
                     break;
-                case Direction.Up:
+                case Direction.North:
                     pathStart = new Vector2Int(mapSizeX / 2, mapSizeY);
                     break;
             }
 
-            pathway = new Pathway(targetDirections); 
+            pathway = new Pathway(toDirections, otherFromDirections);
 
-            for (int i = 0; i < targetDirections.Count; i++)
+            for (int i = 0; i < toDirections.Count; i++)
             {
-                Vector2Int startPoint = i == 0 ? pathStart : GetClosestNodeToTargetDirection(targetDirections[i]);
-                pathway[targetDirections[i]].Add(startPoint);
-                CreatePathFromStartToTargetDirection(pathway[targetDirections[i]], startPoint, i == 0 ? (Direction)(-(int)startWall) : targetDirections[i], targetDirections[i]);
+                Vector2Int startPoint = i == 0 ? pathStart : GetClosestNodeToTargetDirection(toDirections[i]);
+                pathway[toDirections[i]].Add(startPoint);
+                CreatePathFromStartToTargetDirection(pathway[toDirections[i]], startPoint, i == 0 ? startWall.OppositeDirection() : toDirections[i], toDirections[i]);
             }
 
-            pathway.CreatePaths(targetDirections);
+            for (int i = 0; i < otherFromDirections.Count; i++)
+            {
+                Vector2Int startPoint = GetClosestNodeToTargetDirection(otherFromDirections[i]);
+                pathway[otherFromDirections[i]].Add(startPoint);
+                CreatePathFromStartToTargetDirection(pathway[otherFromDirections[i]], startPoint, otherFromDirections[i], otherFromDirections[i]);
+            }
 
-            PlaceTiles();
-
-            PlaceRoadSigns();
+            
         }
     }
 
-
+    [Flags]
+    public enum MapGenerationPreviewSettings
+    {
+        BaseTiles = 1,
+        MapObjects = 2,
+        TerrainNoise = 4,
+    }
 
     public enum Direction
     {
-        Up = 2,
-        Down = -2,
-        Left = -1,
-        Right = 1,
+        North = 2,
+        South = -2,
+        West = -1,
+        East = 1,
     }
 }
 

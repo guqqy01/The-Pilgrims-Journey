@@ -14,95 +14,504 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapTiles:
     list:
-    - item: {fileID: 6352025090142854216, guid: 31eaa273aa6683540af2b7449845830f, type: 3}
-      weight: 100
-    - item: {fileID: 4758840276322850762, guid: 8aa371edbb80122439568c54caa6bc35, type: 3}
-      weight: 24
-    - item: {fileID: 6830514988854125528, guid: e635d469d6241a34d9d062d982b1d748, type: 3}
-      weight: 24
-    - item: {fileID: 5157747875694028808, guid: 1e27ae5aa3b6bb044ab8681470d53b02, type: 3}
-      weight: 24
-    - item: {fileID: 3289682122071575841, guid: 16e181145e7af2240a4e96b6286bb818, type: 3}
-      weight: 24
-    - item: {fileID: 4318821303234628062, guid: 6d58e234ed63dfb40a118c283ee2900a, type: 3}
-      weight: 24
-    - item: {fileID: 658419333966650515, guid: afb92d31e626926459e3598615a48132, type: 3}
-      weight: 24
-    - item: {fileID: 3052984222683625497, guid: e07a06560e67e0d4ca7116c99ed6b61d, type: 3}
-      weight: 6
-    - item: {fileID: 4819957317947190749, guid: fb42013165d8ac34f83868264b512ae8, type: 3}
-      weight: 6
-    - item: {fileID: 3259227172451949769, guid: f78ec27a144d6c045bb9602c0b0fb294, type: 3}
-      weight: 2
-    - item: {fileID: 9097302817670440086, guid: 882fc6c6a0e439143a8bcc993835fd21, type: 3}
-      weight: 2
-    - item: {fileID: 1024664851424752262, guid: 3b1a9d75bc37c9c48a3d5a32a96b0f62, type: 3}
-      weight: 2
-    - item: {fileID: 282811563572708513, guid: 104c30bdcce31d442af638d0ae54addb, type: 3}
-      weight: 2
-    - item: {fileID: 3169636549079373912, guid: 9625dc25edfffb24e942141697f933a6, type: 3}
-      weight: 2
-    - item: {fileID: 8546911320101408982, guid: 1922cf526a9a1a24a90b3f04fb49bfd9, type: 3}
-      weight: 2
-    - item: {fileID: 5609014770795249376, guid: e1bc7458fa2456e45b6aebbca6700618, type: 3}
-      weight: 2
-    - item: {fileID: 1153282978964292528, guid: 4ac5e8300f6c38c459101215a5522c96, type: 3}
-      weight: 2
-    - item: {fileID: 3650009098782883109, guid: 207bf54ce43c2ac4db25d2ac0418e93e, type: 3}
-      weight: 1
-    - item: {fileID: 3436256824548692019, guid: 77456d4c0d8672d4cbcdde95bdd799f7, type: 3}
-      weight: 1
-    - item: {fileID: 2960242371423582272, guid: 1647e312374a387409a42791bff0cb03, type: 3}
-      weight: 1
-    - item: {fileID: 734464922582204006, guid: 05384ed33940f144eb3c73bdba40c1e5, type: 3}
-      weight: 1
-    - item: {fileID: 3242723922059833568, guid: b73c29b25f6cd1544ae35e4980a72998, type: 3}
-      weight: 1
-    - item: {fileID: 6300768596459895653, guid: 526f58a9f1c141148b58bd47416f0cff, type: 3}
-      weight: 1
-    - item: {fileID: 3416110420849078566, guid: aca536fbea2492045993ef614801eb8f, type: 3}
-      weight: 1
-    - item: {fileID: 7902123992195106236, guid: 7f87a6698211bdf428890434f7c6c5fc, type: 3}
-      weight: 1
-    - item: {fileID: 4629218172579123531, guid: 192d5558869aafe4392480d5f4373d9d, type: 3}
-      weight: 1
-    - item: {fileID: 8329723742357233577, guid: d091488e8fdf91045bbca3ce63b52ae2, type: 3}
-      weight: 1
-    - item: {fileID: 3801341910619065368, guid: 60ac40bebb3852849989317c84c8d76d, type: 3}
-      weight: 1
-    - item: {fileID: 5990563538785831989, guid: 1764d044b408d6244b9277991fcb9260, type: 3}
-      weight: 1
+    - item: {fileID: 104971944, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 30
+    - item: {fileID: -898463107, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1662535437, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -826868787, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -1816528647, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1887740450, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -1837273519, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -2052003121, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1830192241, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -2052003121, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 518821306, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -582284037, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 523315417, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -832100134, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -438809010, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 214870765, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -659925621, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -573964703, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
   pathTiles:
     list:
-    - item: {fileID: 1596115816999912026, guid: b9d224929fdc1a2408939c82d5e65c93, type: 3}
-      weight: 8
-    - item: {fileID: 3387784312712183235, guid: 7bed8893e3411044e9cc012eeb332d6a, type: 3}
-      weight: 1
-    - item: {fileID: 958023121823418512, guid: acbeac484b11d424894857a9c8c5ed4a, type: 3}
-      weight: 1
-    - item: {fileID: 3857919226679902376, guid: 9850464b23c31394d81474501873f54e, type: 3}
-      weight: 1
-    - item: {fileID: 7796768589505652392, guid: 05a980a16f48688429b441380e78fe59, type: 3}
-      weight: 1
-    - item: {fileID: 5480412094516383233, guid: dfe5eb33a38acf147b688104ca767a07, type: 3}
-      weight: 1
-    - item: {fileID: 7945385909782981211, guid: 5224419ca892cae478f6f6d5898a0c70, type: 3}
-      weight: 1
-    - item: {fileID: 6872970302308266187, guid: 0952f28aa7383d341b17982896df761b, type: 3}
-      weight: 1
-    - item: {fileID: 7604212333740556025, guid: 762a9a42b51615f41ac464928a3719b5, type: 3}
-      weight: 1
-    - item: {fileID: 6597630574690353843, guid: 1e166ba343fdf7945875dcf6e04af3f3, type: 3}
-      weight: 1
-    - item: {fileID: 5984676613135229506, guid: 99cbe24818e575d44adde1fe204b45fe, type: 3}
-      weight: 1
-    - item: {fileID: 5355549561709476350, guid: c55245ffbbd3d864bb42c3527e0e10a8, type: 3}
-      weight: 1
-    - item: {fileID: 1292071801480723489, guid: b654c3d901d05f84394035d0c80453e5, type: 3}
-      weight: 1
-    - item: {fileID: 7379493635108910639, guid: d5c11fd057de96f448e7a0977934f0eb, type: 3}
-      weight: 1
-  mapObjects: []
+    - item: {fileID: 993973676, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1988396242, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+  mapObjects:
+  - name: Tent
+    overlay: {fileID: 8242683995244539426, guid: a450f8bff03132a44a1b000dec0e7977, type: 3}
+    size: {x: 3, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   mapSize:
     m_Mode: 0
     m_CurveMultiplier: 0
@@ -119,7 +528,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_ConstantMin: 0
-    m_ConstantMax: 2
+    m_ConstantMax: 1
   targetDirectionVSLevelCurve:
     m_Mode: 3
     m_CurveMultiplier: 0

@@ -3,99 +3,66 @@ using UnityEngine;
 using Units;
 using System;
 using UnityEditor;
-[CreateAssetMenu()]
-public class EquipmentSO : ScriptableObject
+using System.Linq;
+
+namespace Equipment
 {
-    public Sprite sprite;
-
-    [TextArea()]
-    public string description;
-
-    public List<EquipmentIntBuff> IntBuffs;
-    public List<EquipmentFloatBuff> FloatBuffs;
-
-    public string equipmentSpecialClass;
-
-    [SerializeField]
-    private float[] floatParameters;
-
-    [SerializeField]
-    private int[] intParameters;
-
-    [SerializeField]
-    private bool[] boolParameters;
-
-    public object[] Parameters
+    [CreateAssetMenu()]
+    public class EquipmentSO : ScriptableObject
     {
-        get
+        public Sprite sprite;
+
+        [TextArea(4, 10)]
+        public string description;
+
+        [SerializeField]
+        private Rarity rarity;
+        public Rarity Rarity => rarity;
+        public int goldCost = 100;
+
+        public List<Buff> equipmentBuffs;
+
+        [SerializeReference]
+        [AbstractSelector]
+        public EquipmentSpecial EquipmentSpecial;
+
+
+        private Dictionary<UnitStatsEnum, Buff> equipmentStats;
+
+        public Dictionary<UnitStatsEnum, Buff> EquipmentStatsDictionary
         {
-            object[] returnArray = new object[floatParameters.Length + intParameters.Length + boolParameters.Length];
-
-            int index = 0;
-
-            foreach (var parameter in floatParameters)
+            get
             {
-                returnArray[index] = parameter;
-                index++;
+                if (equipmentStats != null)
+                    return equipmentStats;
+
+                equipmentStats = new Dictionary<UnitStatsEnum, Buff>();
+
+                foreach (Buff equipmentBuff in equipmentBuffs)
+                {
+                    if (!equipmentStats.ContainsKey(equipmentBuff.Stat))
+                        equipmentStats.Add(equipmentBuff.Stat, equipmentBuff);
+                    else
+                        throw new Exception("two or more of the same stat type buffs on one equipment");
+                }
+
+                return equipmentStats;
             }
-
-            foreach (var parameter in intParameters)
-            {
-                returnArray[index] = parameter;
-                index++;
-            }
-
-            foreach (var parameter in boolParameters)
-            {
-                returnArray[index] = parameter;
-                index++;
-            }
-
-            return returnArray;
         }
-    }
 
-    public int IntBaseValue(UnitIntStats intStat)
-    {
-        foreach (EquipmentIntBuff intBuff in IntBuffs)
+        public bool TryGetBuff(UnitStatsEnum stat, out Buff outBuff)
         {
-            if (intBuff.stat == intStat)
-                return intBuff.buffBaseAmount;
-        }
+            outBuff = null;
 
-        return 0;
+            if (!EquipmentStatsDictionary.ContainsKey(stat))
+                return false;
+
+
+            outBuff = EquipmentStatsDictionary[stat];
+
+            return true;
+        }
     }
 
-    public float IntMultiplierValue(UnitIntStats intStat)
-    {
-        foreach (EquipmentIntBuff intBuff in IntBuffs)
-        {
-            if (intBuff.stat == intStat)
-                return intBuff.buffMultiplierAmount;
-        }
-
-        return 1;
-    }
-
-    public float FloatBaseValue(UnitFloatStats floatStat)
-    {
-        foreach (EquipmentFloatBuff floatBuff in FloatBuffs)
-        {
-            if (floatBuff.stat == floatStat)
-                return floatBuff.buffBaseAmount;
-        }
-
-        return 0;
-    }
-
-    public float FloatMultiplierValue(UnitFloatStats floatStat)
-    {
-        foreach (EquipmentFloatBuff floatBuff in FloatBuffs)
-        {
-            if (floatBuff.stat == floatStat)
-                return floatBuff.buffMultiplierAmount;
-        }
-
-        return 1f;
-    }
 }
+
