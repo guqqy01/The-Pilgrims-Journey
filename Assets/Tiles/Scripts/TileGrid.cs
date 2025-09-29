@@ -264,7 +264,7 @@ namespace Tiles
         public void PlaceTiles(List<TileAndUnit> tiles)
         {
             tiles.Sort();
-
+            
             List<Tile> instantiatedTiles = new List<Tile>();
 
             foreach (TileAndUnit tileAndUnit in tiles)
