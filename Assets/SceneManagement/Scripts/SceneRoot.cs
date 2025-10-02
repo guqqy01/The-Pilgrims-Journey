@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
@@ -13,7 +12,7 @@ public class SceneRoot : MonoBehaviour
     private static List<Action> waitForCommonSceneToLoadActions = new List<Action>();
 
     [SerializeField]
-    private SceneAsset commonScene;
+    private SceneReference commonScene;
     public static bool CommonSceneLoaded { set; get; } = false;
 
     [SerializeField]
@@ -37,6 +36,12 @@ public class SceneRoot : MonoBehaviour
             StartCoroutine(LoadCommonSceneIfNotLoaded());
             gameObject.SetActive(false);
         }
+    }
+
+    private void OnValidate()
+    {
+        if (commonScene != null)
+            commonScene.OnValidate();
     }
 
     public static Scene[] GetAllScenes()
@@ -65,7 +70,7 @@ public class SceneRoot : MonoBehaviour
 
             foreach (Scene scene in GetAllScenes())
             {
-                if (scene.name == commonScene.name)
+                if (scene.name == commonScene.sceneName)
                 {
                     loadCommonScene = false;
                 }
@@ -73,7 +78,7 @@ public class SceneRoot : MonoBehaviour
 
             if (loadCommonScene)
             {
-                yield return StartCoroutine(LoadSceneAdditive(commonScene.name));
+                yield return StartCoroutine(LoadSceneAdditive(commonScene.sceneName));
 
                 yield return null;
 

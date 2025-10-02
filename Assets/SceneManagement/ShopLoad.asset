@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ecee1d9ce261d4d9cb70e00fe9ee98, type: 3}
   m_Name: ShopLoad
   m_EditorClassIdentifier: 
-  activeScene: {fileID: 102900000, guid: cf5526407efc955439170c58431646e6, type: 3}
+  activeScene:
+    sceneAsset: {fileID: 102900000, guid: cf5526407efc955439170c58431646e6, type: 3}
+    sceneName: Shop
   otherScenesToBeLoaded:
-  - {fileID: 102900000, guid: 62a5bd497b79e7b418ae834891771cda, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: 62a5bd497b79e7b418ae834891771cda, type: 3}
+    sceneName: InGameUI
   UseLoadingScreen: 1

@@ -333,6 +333,14 @@ public static class ExtensionsAndHelper
         return SerializedProperty.EqualContents(serializedProperty1, serializedProperty2);
     }
 
+    public static bool Between(this int interger, int minInclusive, int maxInclusive)
+    {
+        if (interger < minInclusive || interger > maxInclusive)
+            return false;
+
+        return true;
+    }
+
     public static object GetTargetObjectOfProperty(this SerializedProperty prop)
     {
         if (prop == null) return null;
@@ -410,6 +418,8 @@ public static class ExtensionsAndHelper
     }
     public static void DestroyAndClearList<T>(this List<T> list) where T : MonoBehaviour
     {
+        if(list == null) return;
+
         foreach (T item in list)
         {
             if (item == null)
@@ -589,6 +599,15 @@ public static class ExtensionsAndHelper
     public static void ScaleToSize(this Image image, float size)
     {
         image.rectTransform.ScaleToSize(size);
+    }
+
+    /// <summary>
+    /// Scales the image to fit a size with the native ratio of the sprite.
+    /// </summary>
+    public static void NativeRatioScaleToSize(this Image image, float size)
+    {
+        image.SetNativeSize();
+        image.ScaleToSize(size);
     }
 
     public static void AddOrUpdateByOne<T>(this Dictionary<T, int> dictionary, T toAdd)

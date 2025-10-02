@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ecee1d9ce261d4d9cb70e00fe9ee98, type: 3}
   m_Name: LoadingScreen
   m_EditorClassIdentifier: 
-  activeScene: {fileID: 102900000, guid: 5c5bda88f6a4f184ea832ea50541d6a3, type: 3}
+  activeScene:
+    sceneAsset: {fileID: 102900000, guid: 5c5bda88f6a4f184ea832ea50541d6a3, type: 3}
+    sceneName: LoadingScene
   otherScenesToBeLoaded: []
+  UseLoadingScreen: 0

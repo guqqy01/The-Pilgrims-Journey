@@ -59,7 +59,7 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
         }
     }
 
-    private void OnEquipmentChanged(EquipmentSO from, EquipmentSO to)
+    private new void OnEquipmentChanged(EquipmentSO from, EquipmentSO to)
     {
         if (to == null)
         {

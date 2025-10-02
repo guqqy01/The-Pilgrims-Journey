@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Static Shock
   m_EditorClassIdentifier: 
   description: Shocks Monsters, preventing them from attacking for a period of time.
-  sprite: {fileID: -1193349704, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  sprite: {fileID: -482280527, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   highlightColor: {r: 0.94138074, g: 1, b: 0, a: 1}
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
   numberOfUses: 2
@@ -32,6 +32,14 @@ MonoBehaviour:
           - {x: -1, y: 0}
           - {x: 0, y: 1}
           - {x: 1, y: 0}
+          - {x: 0, y: 2}
+          - {x: -1, y: 1}
+          - {x: -2, y: 0}
+          - {x: -1, y: -1}
+          - {x: 0, y: -2}
+          - {x: 1, y: -1}
+          - {x: 2, y: 0}
+          - {x: 1, y: 1}
         layerMask:
           serializedVersion: 2
           m_Bits: 4096

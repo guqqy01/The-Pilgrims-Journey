@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: 
   description: Heals all units in an area.
-  sprite: {fileID: 1553091861, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  highlightColor: {r: 1, g: 0, b: 0.7685399, a: 1}
+  sprite: {fileID: 2047762710, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  highlightColor: {r: 0.110405564, g: 1, b: 0, a: 1}
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
   numberOfUses: 1
   spellEffects:
@@ -29,43 +29,43 @@ MonoBehaviour:
           v2IntList:
           - {x: 0, y: 0}
           - {x: -1, y: 0}
-          - {x: -1, y: -1}
           - {x: 0, y: -1}
-          - {x: 1, y: -1}
           - {x: 1, y: 0}
-          - {x: 1, y: 1}
           - {x: 0, y: 1}
+          - {x: 0, y: 2}
+          - {x: 2, y: 0}
+          - {x: -2, y: 0}
+          - {x: 1, y: 1}
           - {x: -1, y: 1}
+          - {x: -1, y: -1}
+          - {x: 1, y: -1}
+          - {x: -2, y: 1}
+          - {x: -2, y: -1}
+          - {x: 2, y: 1}
+          - {x: 2, y: -1}
           - {x: -1, y: 2}
           - {x: 1, y: 2}
-          - {x: 0, y: 2}
-          - {x: 2, y: 1}
-          - {x: 2, y: 0}
-          - {x: 2, y: -1}
-          - {x: -2, y: 1}
-          - {x: -2, y: 0}
-          - {x: -2, y: -1}
-          - {x: -3, y: -1}
-          - {x: -3, y: 0}
-          - {x: -3, y: 1}
+          - {x: -1, y: -2}
+          - {x: 1, y: -2}
+          - {x: 0, y: -2}
           - {x: -1, y: 3}
-          - {x: 0, y: 3}
           - {x: 1, y: 3}
+          - {x: 0, y: 3}
           - {x: 3, y: 1}
           - {x: 3, y: 0}
           - {x: 3, y: -1}
-          - {x: -1, y: -2}
-          - {x: 0, y: -2}
-          - {x: 1, y: -2}
           - {x: 1, y: -3}
           - {x: 0, y: -3}
           - {x: -1, y: -3}
+          - {x: -3, y: -1}
+          - {x: -3, y: 0}
+          - {x: -3, y: 1}
         layerMask:
           serializedVersion: 2
           m_Bits: 64
         effectFX: {fileID: 8142153103306113790, guid: 3a57f6a4b73470f4999d5984ee8fe34f, type: 3}
         fXGreyScaleFactor: 1
-        fXColor: {r: 1, g: 0, b: 0.8377342, a: 0}
+        fXColor: {r: 1, g: 1, b: 1, a: 1}
         effectSound:
           clip: {fileID: 8300000, guid: 7f97db172853e174197cb944831ff8b9, type: 3}
           loop: 0

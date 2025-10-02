@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ecee1d9ce261d4d9cb70e00fe9ee98, type: 3}
   m_Name: MainMenuLoad
   m_EditorClassIdentifier: 
-  activeScene: {fileID: 102900000, guid: 7761aa43643dbca4499977b9b0bca18d, type: 3}
+  activeScene:
+    sceneAsset: {fileID: 102900000, guid: 7761aa43643dbca4499977b9b0bca18d, type: 3}
+    sceneName: MainMenu
   otherScenesToBeLoaded: []
+  UseLoadingScreen: 0

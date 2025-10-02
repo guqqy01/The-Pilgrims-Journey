@@ -55,6 +55,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -76,6 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
   m_SortingLayer: 3
   m_SortingOrder: 2
@@ -112,7 +115,7 @@ MonoBehaviour:
   projectile: {fileID: 2067198908419732263, guid: f8b4233d2ec11014c969b3d153a08be2, type: 3}
   target: {fileID: 0}
   stateChance:
-    list:
+    weightedList:
     - item: 1
       weightCurve:
         m_Mode: 0
@@ -148,7 +151,7 @@ MonoBehaviour:
           m_PostInfinity: 0
           m_RotationOrder: 0
         m_ConstantMin: 0
-        m_ConstantMax: 5
+        m_ConstantMax: 3
     - item: 3
       weightCurve:
         m_Mode: 0
@@ -166,7 +169,7 @@ MonoBehaviour:
           m_PostInfinity: 0
           m_RotationOrder: 0
         m_ConstantMin: 0
-        m_ConstantMax: 2
+        m_ConstantMax: 1
   rapidAttackDamage: 1
   minAndMaxTimeToDoRapidAttack: {x: 3, y: 5}
   multishotAttackDamage: 1
@@ -207,7 +210,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3db78b71e7e9bd4409f8b78d7134009a, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 3db78b71e7e9bd4409f8b78d7134009a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1

@@ -33,7 +33,7 @@ public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFrom
 
             UnityEvent unityEvent = new UnityEvent();
             unityEvent.AddListener(() => ChooseDirection(direction));
-            PromptResponse response = new PromptResponse() { response = direction.ToString(), responseAction = unityEvent };
+            PromptResponse response = new PromptResponse() { response = direction.ToString()};
             directionChoicePrompt.promptResponses.Add(response);
         }
     }

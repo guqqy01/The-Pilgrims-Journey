@@ -6,8 +6,8 @@ using System.Linq;
 [CreateAssetMenu()]
 public class SceneLoadItem : ScriptableObject
 {
-    public SceneAsset activeScene;
-    public List<SceneAsset> otherScenesToBeLoaded;
+    public SceneReference activeScene;
+    public List<SceneReference> otherScenesToBeLoaded;
 
     public bool UseLoadingScreen = false;
 
@@ -15,12 +15,12 @@ public class SceneLoadItem : ScriptableObject
     {
         get
         {
-            List<string> returnList = new List<string>() { activeScene.name};
+            List<string> returnList = new List<string>() { activeScene.sceneName};
 
             for (int i = 0; i < otherScenesToBeLoaded.Count; i++)
             {
-                if (!returnList.Contains(otherScenesToBeLoaded[i].name))
-                    returnList.Add(otherScenesToBeLoaded[i].name);
+                if (!returnList.Contains(otherScenesToBeLoaded[i].sceneName))
+                    returnList.Add(otherScenesToBeLoaded[i].sceneName);
             }
 
             return returnList;

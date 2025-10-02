@@ -101,19 +101,6 @@ namespace Tiles
             GameManager.onLoad += Load;
             GameManager.onClear += Clear;
         }
-        /*protected virtual void OnEnable()
-        {
-            GameManager.onSave += Save;
-            GameManager.onLoad += Load;
-            GameManager.onClear += Clear;
-        }
-
-        protected virtual void OnDisable()
-        {
-            GameManager.onSave -= Save;
-            GameManager.onLoad -= Load;
-            GameManager.onClear -= Clear;
-        }*/
 
         private void OnValidate()
         {
@@ -190,7 +177,6 @@ namespace Tiles
 
         public Vector2 Position(Tile tile, Vector2Int position)
         {
-            //Debug.Log($"GridTransform.position: {GridTransform.position}, TileSize: {TileSize}, position: {position}, GridSize: {GridSize}, tile Offset: {tile.Offset}, Tile.GetOffset(): {tile.GetOffset()}, ScaleFactor: {TileUIManager.Instance.canvas.scaleFactor}");
             return (Vector2)GridTransform.position + TileUIManager.Instance.canvas.scaleFactor * (TileSize * (position - ((Vector2)GridSize - Vector2.one) / 2f) + tile.GetOffset() * TileSize);
         }
 
@@ -225,8 +211,6 @@ namespace Tiles
 
         public bool IsWorldPositionInGrid(Vector2 position)
         {
-            //Debug.Log(GetGridPositon(position));
-
             return !PointOutOfGrid(GetGridPositon(position));
         }
 
@@ -270,6 +254,9 @@ namespace Tiles
             foreach (TileAndUnit tileAndUnit in tiles)
             {
                 TileSO tileSO = tileAndUnit.tile;
+                Debug.Log(tileSO == null);
+                Debug.Log(tileSO.tilePrefab == null);
+                Debug.Log(GridTransform == null);
                 Tile tile = Instantiate(tileSO.tilePrefab, GridTransform);
                 tile.Init(tileSO, tileAndUnit.unit);
                 instantiatedTiles.Add(tile);

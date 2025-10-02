@@ -4,18 +4,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
-using UnityEditor.SearchService;
 using System;
 using Scene = UnityEngine.SceneManagement.Scene;
-using Unity.VisualScripting;
 using System.Linq;
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
 
     [SerializeField]
-    private List<SceneAsset> dontUnloadScenes;
+    private List<SceneReference> dontUnloadScenes;
 
     [SerializeField]
     private SceneLoadItem inGameAsset;
@@ -36,7 +33,6 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     private SceneLoadItem globalMapLoadItem;
 
-
     public static bool InitialSetupDone { private set; get; } = false;
 
     private Dictionary<Scene, SceneRoot> scenesAndTheirRoots = new Dictionary<Scene, SceneRoot>();
@@ -48,7 +44,16 @@ public class SceneLoader : MonoBehaviour
         if (!InitialSetupDone)
             InitialSetup();
     }
-    
+
+    private void OnValidate()
+    {
+        foreach(SceneReference sceneReference in dontUnloadScenes)
+        {
+            if(sceneReference != null)
+                sceneReference.OnValidate();
+        }
+    }
+
     public void InitialSetup()
     {
         if (!InitialSetupDone)
@@ -204,7 +209,7 @@ public class SceneLoader : MonoBehaviour
 
         foreach (Scene scene in GetAllScenes())
         {
-            if (!sceneLoadItem.SceneNames.Contains(scene.name) && !dontUnloadScenes.Select(x => x.name).Contains(scene.name))
+            if (!sceneLoadItem.SceneNames.Contains(scene.name) && !dontUnloadScenes.Select(x => x.sceneName).Contains(scene.name))
             {
                 scenesToRemove.Add(scene);
             }
@@ -212,7 +217,7 @@ public class SceneLoader : MonoBehaviour
 
         yield return StartCoroutine(DeactivateRootsOrUnloadScenes(scenesToRemove));
 
-        string loadingSceneName = loadingSceneLoadItem.activeScene.name;
+        string loadingSceneName = loadingSceneLoadItem.activeScene.sceneName;
 
         yield return StartCoroutine(LoadSceneAdditiveWithRootsDeactivated(loadingSceneName));
         Scene loadingScene = GetScene(loadingSceneName);
@@ -235,7 +240,7 @@ public class SceneLoader : MonoBehaviour
 
         ActivateSceneRoots(GetScenesFromSceneLoadItem(sceneLoadItem));
 
-        SceneManager.SetActiveScene(GetScene(sceneLoadItem.activeScene.name));
+        SceneManager.SetActiveScene(GetScene(sceneLoadItem.activeScene.sceneName));
 
         yield return null;
 
@@ -252,7 +257,7 @@ public class SceneLoader : MonoBehaviour
 
         foreach (Scene scene in GetAllScenes())
         {
-            if (!sceneLoadItem.SceneNames.Contains(scene.name) && !dontUnloadScenes.Select(x => x.name).Contains(scene.name))
+            if (!sceneLoadItem.SceneNames.Contains(scene.name) && !dontUnloadScenes.Select(x => x.sceneName).Contains(scene.name))
             {
                 scenesToRemove.Add(scene);
             }
@@ -267,7 +272,7 @@ public class SceneLoader : MonoBehaviour
 
         ActivateSceneRoots(GetScenesFromSceneLoadItem(sceneLoadItem));
 
-        SceneManager.SetActiveScene(GetScene(sceneLoadItem.activeScene.name));
+        SceneManager.SetActiveScene(GetScene(sceneLoadItem.activeScene.sceneName));
 
         yield return null;
 
@@ -297,7 +302,7 @@ public class SceneLoader : MonoBehaviour
     {
         foreach (Scene scene in scenesToRemove)
         {
-            if (dontUnloadScenes.Select(x => x.name).Contains(scene.name))
+            if (dontUnloadScenes.Select(x => x.sceneName).Contains(scene.name))
                 continue;
 
             if (scenesAndTheirRoots.ContainsKey(scene))

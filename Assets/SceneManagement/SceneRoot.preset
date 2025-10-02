@@ -25,11 +25,20 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: commonScene
+    propertyPath: commonScene.sceneAsset
     value: 
     objectReference: {fileID: 102900000, guid: 1685e8583991d0d468d9c48eef969888, type: 3}
   - target: {fileID: 0}
-    propertyPath: mainMenu
-    value: 
-    objectReference: {fileID: 11400000, guid: 2965d66a0d8f0da4f8ac3cc09a3c996e, type: 2}
+    propertyPath: commonScene.sceneName
+    value: Common
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: singletons.Array.size
+    value: 0
+    objectReference: {fileID: 0}
   m_ExcludedProperties: []
+  m_CoupledType:
+    m_NativeTypeID: 0
+    m_ManagedTypePPtr: {fileID: 0}
+    m_ManagedTypeFallback: 
+  m_CoupledProperties: []

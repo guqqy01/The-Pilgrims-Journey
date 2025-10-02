@@ -15,6 +15,12 @@ namespace DialogueSystem
 
         public Prompt nextPrompt;
 
+        public bool OnLastPrompt => currentIndex == paragraphs.Count - 1;
+
+        public delegate void OnPageChange(Paragraph item);
+        public OnPageChange onPageChange;
+
+
         private int currentIndex = -1;
         public int CurrentIndex
         {
@@ -33,6 +39,8 @@ namespace DialogueSystem
                 return currentIndex;
             }
         }
+
+
 
         public Paragraph CurrentPromptParagraph
         {
@@ -56,11 +64,9 @@ namespace DialogueSystem
             }
         }
 
-        public bool OnLastPrompt => currentIndex == paragraphs.Count - 1;
+        
 
-        public delegate void OnPageChange(Paragraph item);
-        public OnPageChange onPageChange;
-
+        
         public void Next()
         {
             CurrentIndex++;

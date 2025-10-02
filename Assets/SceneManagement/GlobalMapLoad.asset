@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ecee1d9ce261d4d9cb70e00fe9ee98, type: 3}
   m_Name: GlobalMapLoad
   m_EditorClassIdentifier: 
-  activeScene: {fileID: 102900000, guid: 9156f9eb5c2536846beb8128f9a7f7a8, type: 3}
+  activeScene:
+    sceneAsset: {fileID: 102900000, guid: 9156f9eb5c2536846beb8128f9a7f7a8, type: 3}
+    sceneName: GlobalMap
   otherScenesToBeLoaded: []
   UseLoadingScreen: 0
