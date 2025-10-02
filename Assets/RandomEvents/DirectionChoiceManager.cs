@@ -8,6 +8,9 @@ public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFrom
 {
     public static DirectionChoiceManager Instance;
 
+    [SerializeField]
+    private DialogueEventListener directionChoiceListener;
+
     public Prompt directionChoicePrompt;
 
     public void InitiateSingleton()
@@ -36,6 +39,12 @@ public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFrom
             PromptResponse response = new PromptResponse() { response = direction.ToString()};
             directionChoicePrompt.promptResponses.Add(response);
         }
+    }
+
+    public void RegisterDirerctionChoicePrompt(Dialogue dialogue)
+    {
+        directionChoiceListener.dialogue = dialogue;
+        directionChoiceListener.Register();
     }
 
     public void ChooseDirection(Direction direction)

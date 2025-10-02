@@ -7,7 +7,7 @@ public static class PropertyInLineDrawer
     private static readonly TextGenerationSettings textGenerationSettings = new TextGenerationSettings
     {
         textAnchor = TextAnchor.UpperLeft,
-        font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"), // Use the Arial font (or another font in your project)
+        font = Resources.GetBuiltinResource<Font>("Arial.ttf"), // Use the Arial font (or another font in your project)
         fontSize = 14, // Set the font size
         color = Color.black,
         richText = false,

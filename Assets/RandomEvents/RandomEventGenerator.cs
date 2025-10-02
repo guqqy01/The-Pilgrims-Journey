@@ -33,7 +33,7 @@ public class RandomEventGenerator : MonoBehaviour
 
         backgroundImage.sprite = randomEvent.backgroundSprite;
         Dialogue dialogue = randomEvent.dialogue;
-        dialogue.endDialogueAction.AddListener(() => DirectionChoiceManager.Instance.SetupDirectionChoicePrompt());
+        DirectionChoiceManager.Instance.RegisterDirerctionChoicePrompt(dialogue);
 
         dialogueManager.SetupDialogue(randomEvent.dialogue);
     }

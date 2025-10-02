@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 223250560}
   - component: {fileID: 223250561}
   - component: {fileID: 223250562}
+  - component: {fileID: 223250563}
   m_Layer: 0
   m_Name: DirectionChoiceManager
   m_TagString: Untagged
@@ -197,8 +198,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe74267e40555214691cf2be2494bb0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionChoiceListener: {fileID: 223250562}
   directionChoicePrompt: {fileID: 11400000, guid: c1fa4c078ecbc324c9e3f92f39ea82e9, type: 2}
 --- !u!114 &223250562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223250559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21ca368ccc3ea345b1836c310a99311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSystem.DialogueEventListener
+  dialogue: {fileID: 11400000, guid: e91557565e252534a9961eeb96465af8, type: 2}
+  StartEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  EndEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 223250561}
+        m_TargetAssemblyTypeName: DirectionChoiceManager, Assembly-CSharp
+        m_MethodName: SetupDirectionChoicePrompt
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &223250563
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
