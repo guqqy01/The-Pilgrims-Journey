@@ -11,7 +11,7 @@ namespace DialogueSystem
         [TextArea(5, 10)]
         [FormerlySerializedAs("promptText")]
         public string paragraph;
-        public UnityEvent action;
+        public DialogueEvent paragraphEvent;
         public AudioDialogue audioDialogue;
     }
 }

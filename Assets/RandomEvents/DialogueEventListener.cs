@@ -1,42 +1,133 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 namespace DialogueSystem
 {
-    public class DialogueEventListener : MonoBehaviour
+    [Serializable]
+    public class DialogueEventListener
     {
+        public DialogueEventType eventType;
+
         public Dialogue dialogue;
-        public UnityEvent StartEvents;
-        public UnityEvent EndEvents;
+        public Prompt prompt;
+        public int promptResponseIndex;
+        public int promptParagraphIndex;
 
-        private void OnEnable()
+        public UnityEvent Event = new UnityEvent();
+
+        private DialogueEvent DialogueEvent
         {
-            Register();
+            get
+            {
+                switch (eventType) 
+                {
+                    case DialogueEventType.StartDialogue:
+                        return dialogue.startDialogueEvent;
+                    case DialogueEventType.EndDialogue:
+                        return dialogue.endDialogueEvent;
+                    case DialogueEventType.PromptParagraph:
+                        return prompt.paragraphs[promptParagraphIndex].paragraphEvent;
+                    case DialogueEventType.PromptResponse:
+                        return prompt.promptResponses[promptResponseIndex].responseEvent;
+                    default:
+                        return null;
+                }
+            }
         }
 
-        private void OnDisable()
+        public void SetDialogueEvent(Dialogue dialogue, DialogueEventType dialogueEventType)
         {
-            Unregister();
+            if(dialogueEventType != DialogueEventType.StartDialogue && dialogueEventType != DialogueEventType.EndDialogue)
+            {
+                Debug.LogError("DialogueEventType must be StartDialogue or EndDialogue when setting DialogueEvent from Dialogue");
+                return;
+            }
+
+            this.dialogue = dialogue;
+            eventType = dialogueEventType;
         }
+
+        public void SetDialogueEvent(Prompt prompt, int index, DialogueEventType dialogueEventType)
+        {
+            if (dialogueEventType == DialogueEventType.StartDialogue && dialogueEventType == DialogueEventType.EndDialogue)
+            {
+                Debug.LogError("DialogueEventType must be PromptParagraph or PromptResponse when setting DialogueEvent from Prompt");
+                return;
+            }
+
+            
+            switch (dialogueEventType)
+            {
+                case DialogueEventType.PromptParagraph:
+                    if (index < 0 || index >= prompt.paragraphs.Count)
+                    {
+                        Debug.LogError("Index out of range for PromptParagraph");
+                        return;
+                    }
+                    promptParagraphIndex = index;
+                    break;
+                case DialogueEventType.PromptResponse:
+                    if (index < 0 || index >= prompt.promptResponses.Count)
+                    {
+                        Debug.LogError("Index out of range for PromptResponse");
+                        return;
+                    }
+                    promptResponseIndex = index;
+                    break;
+            }
+
+            this.prompt = prompt;
+            eventType = dialogueEventType;
+        }
+
+
 
         public void Register()
         {
-            dialogue?.RegisterListener(this);
+            DialogueEvent.RegisterListener(this);
         }
 
         public void Unregister()
         {
-            dialogue?.UnregisterListener(this);
+            DialogueEvent.UnregisterListener(this);
         }   
 
-        public void OnStartEventRaised()
+        public void OnEventRaised()
         {
-            StartEvents?.Invoke();
+            Event?.Invoke();
+        }
+    }
+
+    [Serializable]
+    public class DialogueEvent
+    {
+        public delegate void OnRaised();
+        private event OnRaised Raised;
+
+        public void Raise()
+        {
+            Raised?.Invoke();
         }
 
-        public void OnEndEventRaised()
+        public void RegisterListener(DialogueEventListener listener)
         {
-            EndEvents?.Invoke();
+            Raised += listener.OnEventRaised;
         }
+
+        public void UnregisterListener(DialogueEventListener listener)
+        {
+            Raised -= listener.OnEventRaised;
+        }
+    }
+
+    public enum DialogueEventType
+    {
+        StartDialogue,
+        EndDialogue,
+        PromptParagraph,
+        PromptResponse,
+
     }
 }
 

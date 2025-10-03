@@ -61,7 +61,7 @@ namespace DialogueSystem
 
         private void CloseDialogue()
         {
-            Debug.Log("Dialogue finished");
+            currentDialogue = null;
         }
 
         private void Update()
@@ -102,9 +102,9 @@ namespace DialogueSystem
 
         public void CompleteCurrentDialogue()
         {
-            currentDialogue?.RaiseEndEvents();
+            currentDialogue?.endDialogueEvent.Raise();
 
-            if (currentDialogue.nextDialogue != null)
+            if (currentDialogue != null && currentDialogue.nextDialogue != null)
             {
                 SetupDialogue(currentDialogue.nextDialogue);
             }
@@ -120,7 +120,7 @@ namespace DialogueSystem
 
             currentDialogue.initialPrompt.Initialize();
 
-            currentDialogue.RaiseEndEvents();
+            currentDialogue?.startDialogueEvent.Raise();
 
             StartNewPrompt(dialogue.initialPrompt, dialogue.settings);
         }
@@ -224,5 +224,4 @@ namespace DialogueSystem
             history.AddHistory(text);
         }
     }
-
 }

@@ -31,7 +31,7 @@ namespace DialogueSystem
                 if (currentIndex != previous)
                 {
                     onPageChange?.Invoke(paragraphs[currentIndex]);
-                    CurrentPromptParagraph.action?.Invoke();
+                    CurrentPromptParagraph.paragraphEvent.Raise();
                 }
             }
             get

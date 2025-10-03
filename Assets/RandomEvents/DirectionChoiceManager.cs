@@ -7,11 +7,12 @@ using System.Linq;
 public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
     public static DirectionChoiceManager Instance;
+    public Prompt directionChoicePrompt;
 
     [SerializeField]
-    private DialogueEventListener directionChoiceListener;
+    private DialogueEventListener directionChoiceListener = new DialogueEventListener();
 
-    public Prompt directionChoicePrompt;
+    private List<DialogueEventListener> promptDirectionListeners = new List<DialogueEventListener>();
 
     public void InitiateSingleton()
     {
@@ -28,24 +29,33 @@ public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFrom
     public void SetupDirectionChoicePrompt()
     {
         directionChoicePrompt.promptResponses = new List<PromptResponse>();
-        
+        promptDirectionListeners.Clear();
+
         foreach (Direction direction in GlobalMapGenerator.Instance.CurrentMapPoint.connectedToPoints.Keys) 
         {
             if (GlobalMapGenerator.Instance.takenPath.Contains(GlobalMapGenerator.Instance.CurrentMapPoint.connectedToPoints[direction]))
                 continue;
 
-            UnityEvent unityEvent = new UnityEvent();
-            unityEvent.AddListener(() => ChooseDirection(direction));
             PromptResponse response = new PromptResponse() { response = direction.ToString()};
             directionChoicePrompt.promptResponses.Add(response);
+            DialogueEventListener promptEventListener = new DialogueEventListener();
+
+            promptEventListener.Event.AddListener(() => ChooseDirection(direction));
+            promptEventListener.SetDialogueEvent(directionChoicePrompt, directionChoicePrompt.promptResponses.Count - 1, DialogueEventType.PromptResponse);
+            promptEventListener.Register();
         }
     }
 
-    public void RegisterDirerctionChoicePrompt(Dialogue dialogue)
+    private void OnEnable()
     {
-        directionChoiceListener.dialogue = dialogue;
         directionChoiceListener.Register();
     }
+
+    private void OnDisable()
+    {
+        directionChoiceListener.Unregister();
+    }
+
 
     public void ChooseDirection(Direction direction)
     {

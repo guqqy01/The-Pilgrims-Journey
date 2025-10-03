@@ -254,9 +254,6 @@ namespace Tiles
             foreach (TileAndUnit tileAndUnit in tiles)
             {
                 TileSO tileSO = tileAndUnit.tile;
-                Debug.Log(tileSO == null);
-                Debug.Log(tileSO.tilePrefab == null);
-                Debug.Log(GridTransform == null);
                 Tile tile = Instantiate(tileSO.tilePrefab, GridTransform);
                 tile.Init(tileSO, tileAndUnit.unit);
                 instantiatedTiles.Add(tile);

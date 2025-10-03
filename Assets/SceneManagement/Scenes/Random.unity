@@ -162,8 +162,6 @@ GameObject:
   m_Component:
   - component: {fileID: 223250560}
   - component: {fileID: 223250561}
-  - component: {fileID: 223250562}
-  - component: {fileID: 223250563}
   m_Layer: 0
   m_Name: DirectionChoiceManager
   m_TagString: Untagged
@@ -198,56 +196,114 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe74267e40555214691cf2be2494bb0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionChoiceListener: {fileID: 223250562}
   directionChoicePrompt: {fileID: 11400000, guid: c1fa4c078ecbc324c9e3f92f39ea82e9, type: 2}
---- !u!114 &223250562
+  directionChoiceListener:
+    eventType: 1
+    dialogue: {fileID: 11400000, guid: 4fb1cc44bf8f9894ea186f92954296e3, type: 2}
+    prompt: {fileID: 11400000, guid: 6b9c22282e25a41418f6557058b42851, type: 2}
+    promptResponseIndex: 0
+    promptParagraphIndex: 0
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 223250561}
+          m_TargetAssemblyTypeName: DirectionChoiceManager, Assembly-CSharp
+          m_MethodName: SetupDirectionChoicePrompt
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!1 &446451287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446451288}
+  - component: {fileID: 446451289}
+  m_Layer: 0
+  m_Name: DemonEventListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446451288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446451287}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035869798}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &446451289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 223250559}
+  m_GameObject: {fileID: 446451287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b21ca368ccc3ea345b1836c310a99311, type: 3}
+  m_Script: {fileID: 11500000, guid: 6be77c1b749cb7649a8c95c67c56b2da, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueSystem.DialogueEventListener
-  dialogue: {fileID: 11400000, guid: e91557565e252534a9961eeb96465af8, type: 2}
-  StartEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  EndEvents:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 223250561}
-        m_TargetAssemblyTypeName: DirectionChoiceManager, Assembly-CSharp
-        m_MethodName: SetupDirectionChoicePrompt
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &223250563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 223250559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338e0d200aacb84429d9a9266af54a55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueSystem.PromptEventListener
-  prompt: {fileID: 11400000, guid: c1fa4c078ecbc324c9e3f92f39ea82e9, type: 2}
-  promptResponseIndex: 0
-  Event:
-    m_PersistentCalls:
-      m_Calls: []
+  m_EditorClassIdentifier: Assembly-CSharp::DemonPromptListener
+  acceptTheGiftListener:
+    eventType: 3
+    dialogue: {fileID: 0}
+    prompt: {fileID: 11400000, guid: 6b9c22282e25a41418f6557058b42851, type: 2}
+    promptResponseIndex: 0
+    promptParagraphIndex: 0
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 446451289}
+          m_TargetAssemblyTypeName: DemonPromptListener, Assembly-CSharp
+          m_MethodName: AcceptTheGift
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  refuseTheGiftListener:
+    eventType: 3
+    dialogue: {fileID: 0}
+    prompt: {fileID: 11400000, guid: e9b160dfbe6734f4ba971650e9bf1dc3, type: 2}
+    promptResponseIndex: 0
+    promptParagraphIndex: 0
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 446451289}
+          m_TargetAssemblyTypeName: DemonPromptListener, Assembly-CSharp
+          m_MethodName: RefuseTheGift
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &480572643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,9 +1062,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2035869798}
-  - component: {fileID: 2035869799}
   m_Layer: 0
-  m_Name: RandomEventResultsListener
+  m_Name: RandomEventResultsListeners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1026,38 +1081,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 446451288}
   m_Father: {fileID: 210718116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2035869799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035869797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338e0d200aacb84429d9a9266af54a55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RandomEventResultsListener
-  prompt: {fileID: 11400000, guid: 6b9c22282e25a41418f6557058b42851, type: 2}
-  promptResponseIndex: 0
-  Event:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &164163630346485032
 MonoBehaviour:
   m_ObjectHideFlags: 0

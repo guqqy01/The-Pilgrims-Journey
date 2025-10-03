@@ -10,71 +10,65 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
-  m_Name: RefuseTheGift
+  m_Name: AcceptTheGift
   m_EditorClassIdentifier: 
   paragraphs:
-  - paragraph: The demon's expression darkens as you decline the offer. "So, you
-      choose to face the darkness alone," it says, a hint of disdain in its voice.
-      "Brave, or perhaps foolish. Time will tell."
+  - paragraph: The demon's grin widens as you reach for the artifact. "Ah, a wise
+      decision," it purrs. "You have chosen strength. With this talisman, you will
+      find the shadows less threatening, and the perils ahead more manageable."
     action:
       m_PersistentCalls:
         m_Calls: []
     audioDialogue:
       audioDialogueMixerGroups:
-      - Time: 3.4692993
+      - Time: 4.0564313
         MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
-      - Time: 8.707597
+      - Time: 7.555298
         MixerGroup: {fileID: 0}
-      - Time: 12.245596
+      - Time: 8.907812
         MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
       sectionalAudioClips:
-      - audioClip: {fileID: 8300000, guid: aa9666af40f91394bb848d70eb38a0d1, type: 3}
+      - audioClip: {fileID: 8300000, guid: 863a4f972380d4f42b299fbc1e3f3f39, type: 3}
         slider:
           MinLimit: 0
           MaxLimit: 1
-          MinMaxValues: {x: 0.03773585, y: 0.99371064}
+          MinMaxValues: {x: 0, y: 1}
         time: 0
-  - paragraph: It steps back, the grin returning but with a more sinister edge. "Very
-      well, traveler. Know that the road ahead will be fraught with dangers you can
-      scarcely imagine. When you find yourself in the clutches of despair, remember
-      this moment and the choices you made."
+  - paragraph: It hands you the artifact, its eyes gleaming with satisfaction. "Remember,
+      traveler, use it wisely. It will aid you, but do not forget the price of power."
     action:
       m_PersistentCalls:
         m_Calls: []
     audioDialogue:
       audioDialogueMixerGroups:
-      - Time: 4.8261046
+      - Time: 5.822243
         MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
       sectionalAudioClips:
-      - audioClip: {fileID: 8300000, guid: 8348ecec7268d3548a41c96d9a59c10f, type: 3}
+      - audioClip: {fileID: 8300000, guid: 88a09a2d4039f26499ed49b3626fa38b, type: 3}
         slider:
           MinLimit: 0
           MaxLimit: 1
-          MinMaxValues: {x: 0.018867925, y: 0.9748427}
+          MinMaxValues: {x: 0, y: 0.97484255}
         time: 0
-  - paragraph: The demon's eyes narrow, and it begins to fade into the shadows. "I
-      offered you power, but you chose to walk your path unaided. May fortune favor
-      you, for you will need it. Farewell, and may we meet again under more... interesting
-      circumstances."
+  - paragraph: The demon then stands, its form seeming to blur at the edges. "Farewell,
+      for now. Our paths will cross again, and I will be watching with great interest."
     action:
       m_PersistentCalls:
         m_Calls: []
     audioDialogue:
       audioDialogueMixerGroups:
-      - Time: 4.5684843
+      - Time: 4.6887093
         MixerGroup: {fileID: 24300002, guid: 75eb9796b90238647ba4efa707e9793c, type: 2}
       sectionalAudioClips:
-      - audioClip: {fileID: 8300000, guid: 8c77569ca07f4c94081f624569f0f0f4, type: 3}
+      - audioClip: {fileID: 8300000, guid: 8e85537b67c98074085042482300611a, type: 3}
         slider:
           MinLimit: 0
           MaxLimit: 1
-          MinMaxValues: {x: 0, y: 0.98742145}
+          MinMaxValues: {x: 0.05031442, y: 0.9622642}
         time: 0
   promptResponses:
   - response: Continue on your journey
-    responseAction:
-      m_PersistentCalls:
-        m_Calls: []
+    listeners: []
     nextPrompt: {fileID: 0}
     nextPromptSetupSettings: 0
   nextPrompt: {fileID: 0}

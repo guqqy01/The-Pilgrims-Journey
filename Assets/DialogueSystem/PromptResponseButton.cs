@@ -23,7 +23,7 @@ namespace DialogueSystem
         {
             response.GoneDownPromptPath = true;
             DialogueManager.AddDialogueHistory(response.response);
-            response.Raise();
+            response.responseEvent.Raise();
 
             if (response.nextPrompt != null)
             {
@@ -33,7 +33,7 @@ namespace DialogueSystem
             {
                 DialogueManager.StartNewPrompt(DialogueManager.CurrentPrompt.nextPrompt, NextPromptSetupSettings.Reset);
             }
-            else if (response.NumberOfListeners <= 0)
+            else
             {
                 DialogueManager.CompleteCurrentDialogue();
             }
