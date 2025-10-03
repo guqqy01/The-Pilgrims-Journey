@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionChoicePrompt: {fileID: 11400000, guid: c1fa4c078ecbc324c9e3f92f39ea82e9, type: 2}
   directionChoiceListener:
-    eventType: 1
+    eventType: 0
     dialogue: {fileID: 11400000, guid: 4fb1cc44bf8f9894ea186f92954296e3, type: 2}
     prompt: {fileID: 11400000, guid: 6b9c22282e25a41418f6557058b42851, type: 2}
     promptResponseIndex: 0
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DemonPromptListener
   acceptTheGiftListener:
-    eventType: 3
+    eventType: 2
     dialogue: {fileID: 0}
     prompt: {fileID: 11400000, guid: 6b9c22282e25a41418f6557058b42851, type: 2}
     promptResponseIndex: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   refuseTheGiftListener:
-    eventType: 3
+    eventType: 2
     dialogue: {fileID: 0}
     prompt: {fileID: 11400000, guid: e9b160dfbe6734f4ba971650e9bf1dc3, type: 2}
     promptResponseIndex: 0
