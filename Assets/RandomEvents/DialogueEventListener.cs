@@ -103,10 +103,15 @@ namespace DialogueSystem
     public class DialogueEvent
     {
         public delegate void OnRaised();
+        [SerializeField]
         private event OnRaised Raised;
 
-        public void Raise()
+        private const bool debugEvents = false;
+
+        public void Raise(string eventName)
         {
+            if(debugEvents)
+                Debug.Log($"Raise Event: {eventName}");
             Raised?.Invoke();
         }
 

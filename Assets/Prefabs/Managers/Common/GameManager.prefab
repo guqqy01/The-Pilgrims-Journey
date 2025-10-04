@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4046295283481631009}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4046295283481631011
 MonoBehaviour:
@@ -104,7 +104,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3509418198991664eaeb61f2d72b460a, type: 2}
   - {fileID: 11400000, guid: 1fa01d505f4514448ad55483a70cebdd, type: 2}
   Tiles:
-    list:
+    weightedList:
     - item: {fileID: 11400000, guid: 350564c8ec85d794f8ad106459032041, type: 2}
       weightCurve:
         m_Mode: 0
@@ -112,15 +112,15 @@ MonoBehaviour:
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
         m_ConstantMin: 0
         m_ConstantMax: 1
     - item: {fileID: 11400000, guid: 523ef3e135f1ae84184a4d678bc795f6, type: 2}
@@ -130,104 +130,15 @@ MonoBehaviour:
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
         m_ConstantMin: 0
         m_ConstantMax: 1
-    - item: {fileID: 11400000, guid: 66665728d186fa34c97aebb2a33baf12, type: 2}
-      weightCurve:
-        m_Mode: 0
-        m_CurveMultiplier: 0
-        m_CurveMin:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_CurveMax:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_ConstantMin: 0
-        m_ConstantMax: 1
-    - item: {fileID: 11400000, guid: 47cf2c52c9a5afd479402902ac4f13d6, type: 2}
-      weightCurve:
-        m_Mode: 0
-        m_CurveMultiplier: 0
-        m_CurveMin:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_CurveMax:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_ConstantMin: 0
-        m_ConstantMax: 1
-    - item: {fileID: 11400000, guid: 0b1240e4d954898489a522e3577a6508, type: 2}
-      weightCurve:
-        m_Mode: 0
-        m_CurveMultiplier: 0
-        m_CurveMin:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_CurveMax:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_ConstantMin: 0
-        m_ConstantMax: 1
-    - item: {fileID: 11400000, guid: cf89aca80b4c68d47a3b29dcbc195e2d, type: 2}
-      weightCurve:
-        m_Mode: 0
-        m_CurveMultiplier: 0
-        m_CurveMin:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_CurveMax:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_ConstantMin: 0
-        m_ConstantMax: 1
-    - item: {fileID: 11400000, guid: 4c711d92f573d3442bbd6d4dec61bc5e, type: 2}
-      weightCurve:
-        m_Mode: 0
-        m_CurveMultiplier: 0
-        m_CurveMin:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_CurveMax:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_ConstantMin: 0
-        m_ConstantMax: 1
+  LocalMapPlaying: 0

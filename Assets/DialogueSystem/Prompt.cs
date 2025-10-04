@@ -31,7 +31,7 @@ namespace DialogueSystem
                 if (currentIndex != previous)
                 {
                     onPageChange?.Invoke(paragraphs[currentIndex]);
-                    CurrentPromptParagraph.paragraphEvent.Raise();
+                    CurrentPromptParagraph.paragraphEvent.Raise("Paragraph");
                 }
             }
             get
@@ -84,12 +84,13 @@ namespace DialogueSystem
 
         public void GoToStart()
         {
-            currentIndex = 0;
+            CurrentIndex = 0;
+            CurrentPromptParagraph.paragraphEvent.Raise("Paragraph");
         }
 
         public void GoToEnd()
         {
-            currentIndex = paragraphs.Count - 1;
+            CurrentIndex = paragraphs.Count - 1;
         }
     }
 

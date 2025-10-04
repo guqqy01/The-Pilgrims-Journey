@@ -26,6 +26,7 @@ public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFrom
         }
     }
 
+
     public void SetupDirectionChoicePrompt()
     {
         directionChoicePrompt.promptResponses = new List<PromptResponse>();
@@ -45,6 +46,7 @@ public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFrom
             promptEventListener.Register();
         }
     }
+
 
     private void OnEnable()
     {

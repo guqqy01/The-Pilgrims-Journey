@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
+  m_Name: UnsafeBridgeIntro
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSystem.Prompt
+  paragraphs:
+  - paragraph: You come across a weathered deteriorating bridge. You could take the
+      time and resources to fix it, or you could take the risk and possibly lose
+      some of your fellow pilgrims to the collapsing bridge. The choice is yours.
+    audioDialogue:
+      audioDialogueMixerGroups: []
+      sectionalAudioClips: []
+  promptResponses:
+  - response: Spend 1000 gold to fix the bridge
+    nextPrompt: {fileID: 11400000, guid: 6372c4ef33c65b84294e13fa339e86b8, type: 2}
+    nextPromptSetupSettings: 0
+  - response: Risk it and attempt to cross the damaged bridge
+    nextPrompt: {fileID: 11400000, guid: 5cc0f2f8a3d134e4585fbe47f1241d42, type: 2}
+    nextPromptSetupSettings: 0
+  nextPrompt: {fileID: 0}

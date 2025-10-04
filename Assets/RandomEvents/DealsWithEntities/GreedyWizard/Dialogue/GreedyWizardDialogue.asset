@@ -13,10 +13,5 @@ MonoBehaviour:
   m_Name: GreedyWizardDialogue
   m_EditorClassIdentifier: 
   initialPrompt: {fileID: 11400000, guid: cf8281d4af2ff924682222db85cbf8bc, type: 2}
-  startDialogueAction:
-    m_PersistentCalls:
-      m_Calls: []
-  endDialogueAction:
-    m_PersistentCalls:
-      m_Calls: []
-  nextDialogue: {fileID: 0}
+  settings: 0
+  nextDialogue: {fileID: 11400000, guid: 4fb1cc44bf8f9894ea186f92954296e3, type: 2}

@@ -102,7 +102,7 @@ namespace DialogueSystem
 
         public void CompleteCurrentDialogue()
         {
-            currentDialogue?.endDialogueEvent.Raise();
+            currentDialogue?.endDialogueEvent.Raise("End Dialogue");
 
             if (currentDialogue != null && currentDialogue.nextDialogue != null)
             {
@@ -120,7 +120,7 @@ namespace DialogueSystem
 
             currentDialogue.initialPrompt.Initialize();
 
-            currentDialogue?.startDialogueEvent.Raise();
+            currentDialogue?.startDialogueEvent.Raise("Start Dialogue");
 
             StartNewPrompt(dialogue.initialPrompt, dialogue.settings);
         }

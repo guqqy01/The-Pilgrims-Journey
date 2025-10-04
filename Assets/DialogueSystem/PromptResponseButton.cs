@@ -23,7 +23,7 @@ namespace DialogueSystem
         {
             response.GoneDownPromptPath = true;
             DialogueManager.AddDialogueHistory(response.response);
-            response.responseEvent.Raise();
+            response.responseEvent.Raise("Response");
 
             if (response.nextPrompt != null)
             {

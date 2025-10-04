@@ -10,15 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
-  m_Name: RefuseTheGift1
+  m_Name: ProbeGreedyWizardForMoreInfo
   m_EditorClassIdentifier: 
-  prompt:
-  - promptText: The wizard regards you with a practiced look of disappointment. "This
-      item is a formidable ward against evil, and you would refuse it? How foolish.
-      I urge you to reconsider your decision."
+  paragraphs:
+  - paragraph: '"Ah, wise of you to inquire, traveler. This item is imbued with an
+      aura of protection, designed to guard against great evil."'
     action:
       m_PersistentCalls:
         m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups: []
+      sectionalAudioClips: []
+  - paragraph: "The wizard\u2019s words seem truthful enough, yet there's an undercurrent
+      of ambiguity, as if he's withholding some crucial detail."
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    audioDialogue:
+      audioDialogueMixerGroups: []
+      sectionalAudioClips: []
   promptResponses:
   - response: Accept the gift
     responseAction:
@@ -30,6 +40,6 @@ MonoBehaviour:
     responseAction:
       m_PersistentCalls:
         m_Calls: []
-    nextPrompt: {fileID: 11400000, guid: e28ba6537ca026c43b30f500fb529994, type: 2}
+    nextPrompt: {fileID: 11400000, guid: 2c6ed64bd161a5242808ce0c3773cd9b, type: 2}
     nextPromptSetupSettings: 1
   nextPrompt: {fileID: 0}

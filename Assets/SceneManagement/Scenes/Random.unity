@@ -368,6 +368,60 @@ MonoBehaviour:
           m_RotationOrder: 0
         m_ConstantMin: 0
         m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: b0109fec567806642b2934c78b895ce1, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: 2c725a7ad790326438d4f4e757acde25, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: 472a213468af19b46bd00802a84584ea, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
   backgroundImage: {fileID: 1361202756}
   dialogueManager: {fileID: 5322706137052155073}
 --- !u!1 &957015294
@@ -507,6 +561,117 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1044285771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1044285772}
+  - component: {fileID: 1044285773}
+  m_Layer: 0
+  m_Name: BridgeEventListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1044285772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044285771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035869798}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1044285773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044285771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5ffd150fc842047b79b1a32752bf19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BridgeEventListener
+  repairTheBridgeListener:
+    eventType: 2
+    dialogue: {fileID: 0}
+    prompt: {fileID: 11400000, guid: 6372c4ef33c65b84294e13fa339e86b8, type: 2}
+    promptResponseIndex: 0
+    promptParagraphIndex: 0
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1044285773}
+          m_TargetAssemblyTypeName: BridgeEventListener, Assembly-CSharp
+          m_MethodName: RepairTheBridge
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  riskItSafeListener:
+    eventType: 2
+    dialogue: {fileID: 0}
+    prompt: {fileID: 11400000, guid: 88e8b97b05c608646898916d50c65f1f, type: 2}
+    promptResponseIndex: 0
+    promptParagraphIndex: 0
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1044285773}
+          m_TargetAssemblyTypeName: BridgeEventListener, Assembly-CSharp
+          m_MethodName: RiskItSafe
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  riskItUnsafeListener:
+    eventType: 2
+    dialogue: {fileID: 0}
+    prompt: {fileID: 11400000, guid: 5cc0f2f8a3d134e4585fbe47f1241d42, type: 2}
+    promptResponseIndex: 0
+    promptParagraphIndex: 0
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1044285773}
+          m_TargetAssemblyTypeName: BridgeEventListener, Assembly-CSharp
+          m_MethodName: RiskItUnsafe
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  backgroundImage: {fileID: 1361202756}
+  repairTheBridgeSprite: {fileID: 8915274278860512964, guid: 1bd211a2cec9b3f44938dc24941fb92c, type: 3}
+  riskItSafeSprite: {fileID: -1330467628355352478, guid: d6af6b4f4e7cf0844bc66218fd6f592d, type: 3}
+  riskItUnsafeSprite: {fileID: -6356338936223949258, guid: aa82112a01890c243990957d4dac4406, type: 3}
 --- !u!1 &1216737640
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,13 +683,15 @@ GameObject:
   - component: {fileID: 1216737641}
   - component: {fileID: 1216737643}
   - component: {fileID: 1216737642}
+  - component: {fileID: 1216737644}
+  - component: {fileID: 1216737645}
   m_Layer: 0
-  m_Name: Background (1)
+  m_Name: FadeToBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1216737641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -539,10 +706,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1551349361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 793.7501, y: 359.3749}
+  m_SizeDelta: {x: -0.000015258789, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1216737642
 MonoBehaviour:
@@ -557,7 +724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.68235296, g: 0.42352945, b: 0.21568629, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -582,6 +749,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216737640}
   m_CullTransparentMesh: 1
+--- !u!95 &1216737644
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216737640}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d0794876ca4c9224c90398bfae94e4ef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1216737645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216737640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107be10720c6eb34284b5a3e5cc7115e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChangeRandomBackgroundImage
+  fadeAnimator: {fileID: 1216737644}
+  backgroundImage: {fileID: 1361202756}
 --- !u!1 &1275487721
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +838,7 @@ MonoBehaviour:
     sceneName: Common
   singletons:
   - singleton: {fileID: 223250561}
+  - singleton: {fileID: 1216737645}
 --- !u!1 &1361202754
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,7 +851,7 @@ GameObject:
   - component: {fileID: 1361202757}
   - component: {fileID: 1361202756}
   m_Layer: 0
-  m_Name: Background
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -824,8 +1028,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1216737641}
   - {fileID: 1361202755}
+  - {fileID: 1216737641}
   - {fileID: 1987731508}
   - {fileID: 5322706137206943039}
   - {fileID: 1977566102032320703}
@@ -990,7 +1194,7 @@ GameObject:
   - component: {fileID: 1987731510}
   - component: {fileID: 1987731509}
   m_Layer: 0
-  m_Name: Background (2)
+  m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1083,6 +1287,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 446451288}
+  - {fileID: 1044285772}
   m_Father: {fileID: 210718116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &164163630346485032

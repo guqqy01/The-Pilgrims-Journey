@@ -10,24 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fa5db35ac5d81d49b0eff06f993ad07, type: 3}
-  m_Name: RefuseTheGift2
+  m_Name: GreedyWizardRefuseTheGift1
   m_EditorClassIdentifier: 
   prompt:
-  - promptText: '"You refuse this gift once more? Only death awaits you, traveler!"
-      the wizard snaps as he aggresively snatches the object from your hand.'
-    action:
-      m_PersistentCalls:
-        m_Calls: []
-  - promptText: Before you can react, he chants an incantation and disappears before
-      your eyes.
+  - promptText: The wizard regards you with a practiced look of disappointment. "This
+      item is a formidable ward against evil, and you would refuse it? How foolish.
+      I urge you to reconsider your decision."
     action:
       m_PersistentCalls:
         m_Calls: []
   promptResponses:
-  - response: Continue on your journey
+  - response: Accept the gift
     responseAction:
       m_PersistentCalls:
         m_Calls: []
-    nextPrompt: {fileID: 11400000, guid: cf8281d4af2ff924682222db85cbf8bc, type: 2}
+    nextPrompt: {fileID: 11400000, guid: d6c05190c76f02442b85c60d8052fb57, type: 2}
+    nextPromptSetupSettings: 1
+  - response: Refuse the gift
+    responseAction:
+      m_PersistentCalls:
+        m_Calls: []
+    nextPrompt: {fileID: 11400000, guid: e28ba6537ca026c43b30f500fb529994, type: 2}
     nextPromptSetupSettings: 1
   nextPrompt: {fileID: 0}

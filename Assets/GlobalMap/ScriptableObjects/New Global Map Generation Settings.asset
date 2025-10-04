@@ -18,8 +18,8 @@ MonoBehaviour:
   EndRoadLength: 1
   PathSettings:
   - NumberOfPaths: 2
-    NumberOfRelics: 5
-    NumberOfRandomEncounters: 5
+    NumberOfRelics: 1
+    NumberOfRandomEncounters: 10
     NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
@@ -148,8 +148,8 @@ MonoBehaviour:
       m_RotationOrder: 4
     reverseDirectionChance: 0
   - NumberOfPaths: 1
-    NumberOfRelics: 5
-    NumberOfRandomEncounters: 5
+    NumberOfRelics: 1
+    NumberOfRandomEncounters: 10
     NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
@@ -287,8 +287,8 @@ MonoBehaviour:
       m_RotationOrder: 4
     reverseDirectionChance: 0
   - NumberOfPaths: 1
-    NumberOfRelics: 5
-    NumberOfRandomEncounters: 5
+    NumberOfRelics: 1
+    NumberOfRandomEncounters: 10
     NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
@@ -426,8 +426,8 @@ MonoBehaviour:
       m_RotationOrder: 4
     reverseDirectionChance: 0
   - NumberOfPaths: 2
-    NumberOfRelics: 5
-    NumberOfRandomEncounters: 3
+    NumberOfRelics: 0
+    NumberOfRandomEncounters: 5
     NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
@@ -619,8 +619,8 @@ MonoBehaviour:
       m_RotationOrder: 4
     reverseDirectionChance: 0
   - NumberOfPaths: 2
-    NumberOfRelics: 5
-    NumberOfRandomEncounters: 3
+    NumberOfRelics: 0
+    NumberOfRandomEncounters: 5
     NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
