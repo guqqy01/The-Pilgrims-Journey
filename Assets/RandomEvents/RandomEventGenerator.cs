@@ -7,10 +7,10 @@ using Random = UnityEngine.Random;
 using AYellowpaper.SerializedCollections;
 using UnityEditor;
 using DialogueSystem;
+using Unity.VisualScripting;
 public class RandomEventGenerator : MonoBehaviour
 {
     public static RandomEventGenerator Instance;
-
     [SerializeField]
     private WeightedChanceList<RandomEvent> randomEvents;
 
@@ -30,6 +30,9 @@ public class RandomEventGenerator : MonoBehaviour
         Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
         RandomEvent randomEvent = randomEvents.GetRandom();
+
+        if (randomEvent.isRepeatable == false)
+            randomEvents.Remove(randomEvent);
 
         backgroundImage.sprite = randomEvent.backgroundSprite;
         Dialogue dialogue = randomEvent.dialogue;

@@ -25,7 +25,6 @@ public class DemonPromptListener : MonoBehaviour
     public void AcceptTheGift()
     {
         Debug.Log("Accepted the gift");
-        //Screen shake
     }
 
     public void RefuseTheGift()

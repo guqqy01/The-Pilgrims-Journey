@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+
 namespace DialogueSystem
 {
     [Serializable]
@@ -14,5 +15,23 @@ namespace DialogueSystem
         public Prompt nextPrompt;
         public NextPromptSetupSettings nextPromptSetupSettings = NextPromptSetupSettings.GoToStart;
         public bool GoneDownPromptPath { get; set; }
+
+        public PromptResponseConditionCallback conditionCallback = new PromptResponseConditionCallback();
     }
+
+    public class PromptResponseConditionCallback
+    {
+        public readonly List<Func<bool>> conditions = new List<Func<bool>>();
+
+        public bool CanShow()
+        {
+            foreach (var condition in conditions)
+            {
+                if (!condition())
+                    return false;
+            }
+            return true;
+        }
+    }
+
 }

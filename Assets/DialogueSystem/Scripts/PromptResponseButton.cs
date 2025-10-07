@@ -19,6 +19,9 @@ namespace DialogueSystem
         [SerializeField]
         private Color goneDownPathColor = Color.grey;
 
+        [SerializeField]
+        private Button button;
+
         public void OnClick()
         {
             response.GoneDownPromptPath = true;
@@ -45,7 +48,17 @@ namespace DialogueSystem
             DialogueManager = dialogueManager;
             responseText.text = response.response;
 
-            responseText.color = response.GoneDownPromptPath ? goneDownPathColor : Color.white;
+            button.interactable = response.conditionCallback.CanShow();
+
+            if (response.conditionCallback.CanShow())
+            {
+                responseText.color = response.GoneDownPromptPath ? goneDownPathColor : Color.white;
+            }
+            else
+            {
+                responseText.color = Color.red;
+            }
+            
         }
     }
 

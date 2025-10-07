@@ -99,33 +99,6 @@ namespace DialogueSystem
         }
     }
 
-    [Serializable]
-    public class DialogueEvent
-    {
-        public delegate void OnRaised();
-        [SerializeField]
-        private event OnRaised Raised;
-
-        private const bool debugEvents = false;
-
-        public void Raise(string eventName)
-        {
-            if(debugEvents)
-                Debug.Log($"Raise Event: {eventName}");
-            Raised?.Invoke();
-        }
-
-        public void RegisterListener(DialogueEventListener listener)
-        {
-            Raised += listener.OnEventRaised;
-        }
-
-        public void UnregisterListener(DialogueEventListener listener)
-        {
-            Raised -= listener.OnEventRaised;
-        }
-    }
-
     public enum DialogueEventType
     {
         StartDialogue,

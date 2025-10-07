@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 446451288}
   - component: {fileID: 446451289}
   m_Layer: 0
-  m_Name: DemonEventListener
+  m_Name: DemonEvent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -571,8 +571,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1044285772}
   - component: {fileID: 1044285773}
+  - component: {fileID: 1044285775}
   m_Layer: 0
-  m_Name: BridgeEventListener
+  m_Name: BridgeEvent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -672,6 +673,30 @@ MonoBehaviour:
   repairTheBridgeSprite: {fileID: 8915274278860512964, guid: 1bd211a2cec9b3f44938dc24941fb92c, type: 3}
   riskItSafeSprite: {fileID: -1330467628355352478, guid: d6af6b4f4e7cf0844bc66218fd6f592d, type: 3}
   riskItUnsafeSprite: {fileID: -6356338936223949258, guid: aa82112a01890c243990957d4dac4406, type: 3}
+--- !u!114 &1044285775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044285771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434e45869ccd0b0499b4cb60f5cb2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BridgeConditionSender
+  safeBridgeConditionSender:
+    prompt: {fileID: 11400000, guid: b45f3bfaa312f044aa2f0e26c30aef3f, type: 2}
+    responseIndex: 0
+    boolFunctionReference:
+      target: {fileID: 1044285775}
+      methodName: Has1000GoldOrMore
+  unsafeBridgeConditionSender:
+    prompt: {fileID: 11400000, guid: 18a0684ad7478314aae84f98b4c2a8e1, type: 2}
+    responseIndex: 0
+    boolFunctionReference:
+      target: {fileID: 1044285775}
+      methodName: Has1000GoldOrMore
 --- !u!1 &1216737640
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,6 +1129,72 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1684262902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1684262903}
+  - component: {fileID: 1684262904}
+  m_Layer: 0
+  m_Name: HoardingWizardEvent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1684262903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684262902}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035869798}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1684262904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684262902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7daba6066ace49f4f8c3611a7edd5bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoardingWizardEventListernerAndConditions
+  acceptTheHoardingWizardsItemListener:
+    eventType: 2
+    dialogue: {fileID: 0}
+    prompt: {fileID: 11400000, guid: d6c05190c76f02442b85c60d8052fb57, type: 2}
+    promptResponseIndex: 0
+    promptParagraphIndex: 0
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1684262904}
+          m_TargetAssemblyTypeName: HoardingWizardEventListernerAndConditions, Assembly-CSharp
+          m_MethodName: AcceptTheHoardingWizardsItem
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  hoardingWizardRelic: {fileID: 11400000, guid: c9fe09f2ea950834b99be0f8e3199d36, type: 2}
 --- !u!1 &1724827967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,7 +1358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2035869798}
   m_Layer: 0
-  m_Name: RandomEventResultsListeners
+  m_Name: RandomEventResultsListenersAndConditions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1288,6 +1379,7 @@ Transform:
   m_Children:
   - {fileID: 446451288}
   - {fileID: 1044285772}
+  - {fileID: 1684262903}
   m_Father: {fileID: 210718116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &164163630346485032

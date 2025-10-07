@@ -2,6 +2,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using System.Collections;
 
 [Serializable]
 public class WeightedChanceList<T>
@@ -140,6 +141,23 @@ public class WeightedChanceList<T>
             weightedList = new List<WeightedChanceObject<T>>();
 
         weightedList.Add(new WeightedChanceObject<T>() { item = item, weight = weight});
+    }
+
+    public void Clear()
+    {
+        if (weightedList != null)
+            weightedList.Clear();
+    }
+
+    public void Remove(T item)
+    {
+        weightedList.RemoveAll(w => Equals(w.item, item));
+    }
+
+    private IEnumerator RemoveNextFrame(T item)
+    {
+        yield return null;
+        weightedList.RemoveAll(w => Equals(w.item, item));
     }
 
     public void RemoveZeros()
