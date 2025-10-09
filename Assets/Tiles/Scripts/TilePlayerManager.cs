@@ -102,7 +102,7 @@ namespace Tiles
             }
 
             Tile tile = Instantiate(startingTile.tilePrefab, playerTileGrid.GridTransform);
-            tile.Init(startingTile, startingUnit);
+            tile.BaseInit(startingTile, startingUnit);
             tile.RotateTo(startTileRotation);
 
             if(!playerTileGrid.TryPlaceTile(tile, startTilePosition))

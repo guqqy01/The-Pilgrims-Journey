@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
+  m_Name: Leather Armor
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 1552759026, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: Leather Armor, offering a small amount of protection
+  equipmentBuffs:
+  - stat: 0
+    Multiplier: 1.1
+    BaseBuff:
+      intValue: 5
+      floatValue: 0
+      isInt: 1
+    AdditionalBuff:
+      intValue: 5
+      floatValue: 0
+      isInt: 1
+  - stat: 1
+    Multiplier: 1
+    BaseBuff:
+      intValue: 5
+      floatValue: 0
+      isInt: 1
+    AdditionalBuff:
+      intValue: 5
+      floatValue: 0
+      isInt: 1
+  EquipmentSpecial:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

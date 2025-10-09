@@ -10,23 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
-  m_Name: Test
-  m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  description: 
-  rarity: 4
-  goldCost: 100
+  m_Name: Leather Cloak
+  m_EditorClassIdentifier: Assembly-CSharp::Equipment.EquipmentSO
+  sprite: {fileID: 1361141179, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: a leather cloak
   equipmentBuffs:
   - stat: 0
-    Multiplier: 0
+    Multiplier: 1
+    BaseBuff:
+      intValue: 0
+      floatValue: 2
+      isInt: 1
+    AdditionalBuff:
+      intValue: 5
+      floatValue: 2
+      isInt: 1
+  - stat: 3
+    Multiplier: 1
     BaseBuff:
       intValue: 0
       floatValue: 0
-      isInt: 1
+      isInt: 0
     AdditionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 1
+      intValue: 5
+      floatValue: 0.2
+      isInt: 0
   EquipmentSpecial:
     rid: -2
   references:

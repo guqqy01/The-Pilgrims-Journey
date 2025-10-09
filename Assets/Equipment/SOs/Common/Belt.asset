@@ -10,23 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
-  m_Name: Boots
+  m_Name: Belt
   m_EditorClassIdentifier: 
-  sprite: {fileID: 1777408741, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: Leather boots, quick and sturdy
-  rarity: 1
-  goldCost: 100
+  sprite: {fileID: -880476242, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: A sturdy leather belt
   equipmentBuffs:
-  - stat: 3
+  - stat: 0
     Multiplier: 1
     BaseBuff:
-      intValue: 0
-      floatValue: 0.1
-      isInt: 0
+      intValue: 10
+      floatValue: 0
+      isInt: 1
     AdditionalBuff:
       intValue: 0
       floatValue: 0
-      isInt: 0
+      isInt: 1
   EquipmentSpecial:
     rid: -2
   references:

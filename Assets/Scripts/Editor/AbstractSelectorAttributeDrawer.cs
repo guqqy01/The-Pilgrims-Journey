@@ -37,7 +37,7 @@ public class AbstractSelectorAttributeDrawer : PropertyDrawer
             property.isExpanded = EditorGUI.Foldout(dropDownRect, property.isExpanded, GUIContent.none);
         }
 
-        dropDownRect = EditorGUI.PrefixLabel(dropDownRect, new GUIContent(property.name == "data" ? " " : property.displayName), property.prefabOverride ? EditorStyles.boldLabel : EditorStyles.label);
+        dropDownRect = EditorGUI.PrefixLabel(dropDownRect, /*new GUIContent(property.name == "data" ? " " : property.displayName)*/new GUIContent(" "), property.prefabOverride ? EditorStyles.boldLabel : EditorStyles.label);
 
         string[] baseTypeAndAssemblyName = property.managedReferenceFieldTypename.Split(' ');
         string baseTypeString = $"{baseTypeAndAssemblyName[1]}, {baseTypeAndAssemblyName[0]}";

@@ -14,6 +14,8 @@ namespace Tiles
 
         public Tile tilePrefab;
 
+        public static float amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier = 10;
+
         [SerializeField]
         private Rarity rarity;
         public Rarity Rarity => rarity;

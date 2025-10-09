@@ -15,7 +15,10 @@ MonoBehaviour:
   Description: An agile scount who takes pride in their speed of travel.
   sprite: {fileID: -1364599221, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
   unitPrefab: {fileID: 2975669875330795275, guid: ac6377107eda78145ae918fd02bf32eb, type: 3}
-  spawnRate: 0.5
+  rarity: 0
+  numberOfUnitsEscapedToLevelUp: 5
+  numberOfUnitsAbleToSpawn: 15
+  spawnRate: 1
   movementSpeed: 2.25
   health: 10
   shield: 0

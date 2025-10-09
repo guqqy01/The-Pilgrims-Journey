@@ -12,7 +12,9 @@ public class RandomEventGenerator : MonoBehaviour
 {
     public static RandomEventGenerator Instance;
     [SerializeField]
-    private WeightedChanceList<RandomEvent> randomEvents;
+    private WeightedChanceList<RandomEvent> initialRandomEvents;
+
+    private WeightedChanceList<RandomEvent> dynamicRandomEvents = new WeightedChanceList<RandomEvent>();
 
     [SerializeField]
     private Image backgroundImage;
@@ -24,15 +26,19 @@ public class RandomEventGenerator : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        dynamicRandomEvents = new WeightedChanceList<RandomEvent>(initialRandomEvents);
+    }
 
     public void GenerateRandomEvent()
     {
         Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
-        RandomEvent randomEvent = randomEvents.GetRandom();
+        RandomEvent randomEvent = dynamicRandomEvents.GetRandom();
 
         if (randomEvent.isRepeatable == false)
-            randomEvents.Remove(randomEvent);
+            dynamicRandomEvents.Remove(randomEvent);
 
         backgroundImage.sprite = randomEvent.backgroundSprite;
         Dialogue dialogue = randomEvent.dialogue;

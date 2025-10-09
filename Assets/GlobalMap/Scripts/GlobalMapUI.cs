@@ -239,6 +239,9 @@ namespace Map
                 }
             }
 
+            if (linesOnPath.Count <= 0)
+                return;
+
             MapLineUI lastLine = linesOnPath[linesOnPath.Count - 1];
 
             foreach (KeyValuePair<GlobalMapPoint, Dictionary<GlobalMapPoint, MapLineUI>> toPointAndItsfromPointsAndLines in toPointFromPointLine)

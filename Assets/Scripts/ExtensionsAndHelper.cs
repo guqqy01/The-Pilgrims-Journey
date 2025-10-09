@@ -52,6 +52,16 @@ public static class ExtensionsAndHelper
         return value * randomSign;
     }
 
+    public static int RoundToNearedInt(this int value, int nearestInterger)
+    {
+        int remainder = value % nearestInterger;
+
+        if (remainder >= nearestInterger / 2f)
+            return value + (nearestInterger - remainder);
+        else
+            return value - remainder;
+    }
+
     public static float RandomSign(this float value)
     {
         float random = Random.Range(1, 3);

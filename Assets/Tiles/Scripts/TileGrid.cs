@@ -255,7 +255,7 @@ namespace Tiles
             {
                 TileSO tileSO = tileAndUnit.tile;
                 Tile tile = Instantiate(tileSO.tilePrefab, GridTransform);
-                tile.Init(tileSO, tileAndUnit.unit);
+                tile.BaseInit(tileSO, tileAndUnit.unit);
                 instantiatedTiles.Add(tile);
             }
 
@@ -289,7 +289,7 @@ namespace Tiles
 
             foreach (Tile tile in ListOfTiles)
             {
-                TileSave tileSave = new TileSave(tile.Level, tile.Rotation, tile.PlacedPosition, tile.TileSO, tile.Unit, tile.Equipment);
+                TileSave tileSave = new TileSave(tile.Level, tile.Rotation, tile.PlacedPosition, tile.TileSO, tile.UnitSO, tile.Equipment);
                 tileSaves.Add(tileSave);
             }
 
@@ -319,7 +319,7 @@ namespace Tiles
                     return;
 
                 Tile tile = Instantiate(tileSO.tilePrefab, GridTransform);
-                tile.Init(tileSave);
+                tile.TileSaveInit(tileSave);
 
                 TryPlaceTile(tile, position);
             }

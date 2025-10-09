@@ -14,6 +14,25 @@ namespace Tiles
         public RectTransform RectTransform { private set; get; }
         public TileSO TileSO { private set; get; }
 
+        private UnitSO unitSO;
+        public UnitSO UnitSO
+        {
+            get
+            {
+                return unitSO;
+            }
+            set
+            {
+                unitSO = value;
+
+                if (unitGraphics == null)
+                    unitGraphics = unitUITransform.GetComponent<Image>();
+
+                unitGraphics.sprite = unitSO.sprite;
+                onUpdateUI?.Invoke();
+            }
+        }
+
         [SerializeField]
         private RectTransform unitUITransform;
         private Image unitGraphics;
@@ -23,7 +42,17 @@ namespace Tiles
 
         public bool locked;
 
-        public EquipmentSO[] Equipment = new EquipmentSO[3];
+        public EquipmentSO[] Equipment = new EquipmentSO[4];
+
+        public delegate void OnUpdateUI();
+        public OnUpdateUI onUpdateUI;
+        
+
+
+        public TileGrid tileGrid;
+
+        public delegate void OnTileSelected(Tile tile);
+        public static OnTileSelected onTileSelected;
 
         public float Rotation
         {
@@ -38,51 +67,52 @@ namespace Tiles
             {
                 RotateTo(value);
             }
-        } 
+        }
 
-        
-
-        public int Level = 1;
-
-        public bool IsMaxLevel => Level == 5;
-
-        public int requiredGoldToLevel => Level * Level * Shape.Count * Mathf.CeilToInt(Shape.Count * 0.5f) * 15;
-
-        public Buff GetTileBuff(UnitStatsEnum stat) => TileManager.Instance.GetBuff(stat, Level);
-
-        private UnitSO unit;
-        public UnitSO Unit
+        public List<Vector2Int> Shape
         {
             get
             {
-                return unit;
-            }
-            set
-            {
-                unit = value;
-
-                if(unitGraphics == null)
-                    unitGraphics = unitUITransform.GetComponent<Image>();
-
-                unitGraphics.sprite = unit.sprite;
-                onStatsChange?.Invoke();
+                return TileSO.Shape.Rotate(Rotation);
             }
         }
 
+        public Color Color
+        {
+            set
+            {
+                if (tileGraphics != null)
+                    tileGraphics.color = value;
+            }
+        }
+
+        
+
+        public Buff GetTileBuff(UnitStatsEnum stat) => TileManager.Instance.GetBuff(stat, Level);
+
         public bool Selected { private set; get; } = false;
 
-        public delegate void OnStatsChange();
-        public OnStatsChange onStatsChange;
-
-        public TileGrid tileGrid;
-
-        public delegate void OnTileSelected(Tile tile);
-        public static OnTileSelected onTileSelected;
+        private void Awake()
+        {
+            RectTransform = GetComponent<RectTransform>();
+            unitGraphics = unitUITransform.GetComponent<Image>();
+        }
 
         private void Start()
         {
             onTileSelected += Highlight;
             tileGraphics.alphaHitTestMinimumThreshold = 0.2f;
+        }
+
+        private void Update()
+        {
+            HandleCancelMoveTile();
+
+            if (Dragging)
+            {
+                HandleTileRotation();
+                HandlePosition();
+            }
         }
 
         private void Highlight(Tile tile)
@@ -95,6 +125,69 @@ namespace Tiles
             onTileSelected -= Highlight;
         }
 
+        #region Leveling and health
+
+        [Header("Leveling and Tile Health")]
+        public int Level { private set; get; } = 1;
+        public bool IsMaxLevel => Level == 5;
+
+        public int currentHealth;
+        public int MaxHealth;
+
+        public int AmountOfUnitsEscapedNeededToLevel { private set; get; }
+        public int CurrentAmountOfUnitsEscaped { private set; get; }
+
+        public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
+
+        public static float AmountOfAdditionalUnitsPerLevelFunction(int Level)
+        {
+            return Level * Level * 0.2f + 1f;
+        }
+
+        public void OnUnitDie()
+        {
+            currentHealth = Mathf.Clamp(currentHealth - 1, 0, MaxHealth);
+
+            onUpdateLevelUnitsAndHealthUI?.Invoke();
+
+            if (currentHealth <= 0)
+            {
+                DestroyTile();
+            }
+        }
+
+        public void OnUnitEscape()
+        {
+            CurrentAmountOfUnitsEscaped = Mathf.Clamp(CurrentAmountOfUnitsEscaped + 1, 0, AmountOfUnitsEscapedNeededToLevel);
+
+            onUpdateLevelUnitsAndHealthUI?.Invoke();
+
+            if (CurrentAmountOfUnitsEscaped >= AmountOfUnitsEscapedNeededToLevel)
+            {
+                LevelUp();
+            }
+        }
+
+        public void DestroyTile()
+        {
+            Destroy(gameObject);
+        }
+
+        public void LevelUp()
+        {
+            Level = Mathf.Clamp(Level + 1, 1, 5);
+
+            CurrentAmountOfUnitsEscaped = 0;
+            AmountOfUnitsEscapedNeededToLevel = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * UnitSO.numberOfUnitsEscapedToLevelUp * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
+            MaxHealth = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * UnitSO.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
+            currentHealth = MaxHealth;
+            onUpdateLevelUnitsAndHealthUI?.Invoke();
+
+            onUpdateUI?.Invoke();
+        }
+
+        #endregion
+
         #region Dragging
 
         [SerializeField]
@@ -105,15 +198,24 @@ namespace Tiles
         public Vector2Int PlacedPosition;
         public float PlacedRotation;
 
-        private void Update()
-        {
-            HandleCancelMoveTile();
+        private Vector2Int currentTilePosition;
+        private TileGrid currentTileGrid;
 
-            if (Dragging)
-            {
-                HandleTileRotation();
-                HandlePosition();
-            }
+        public void Rotate(int angle)
+        {
+            RectTransform.Rotate(new Vector3(0, 0, angle));
+            unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+
+        public void RotateTo(float angle)
+        {
+            if (RectTransform == null)
+                RectTransform = GetComponent<RectTransform>();
+
+            Vector3 eulerAngles = RectTransform.rotation.eulerAngles;
+            eulerAngles.z = angle;
+            RectTransform.rotation = Quaternion.Euler(eulerAngles);
+            unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -180,8 +282,28 @@ namespace Tiles
             }
         }
 
-        private Vector2Int currentTilePosition;
-        private TileGrid currentTileGrid;
+        
+        public Vector2 GetOffset()
+        {
+            int xMin = int.MaxValue, xMax = int.MinValue, yMin = int.MaxValue, yMax = int.MinValue;
+
+            foreach (Vector2Int v2int in Shape)
+            {
+                if (v2int.x > xMax)
+                    xMax = v2int.x;
+
+                if (v2int.x < xMin)
+                    xMin = v2int.x;
+
+                if (v2int.y > yMax)
+                    yMax = v2int.y;
+
+                if (v2int.y < yMin)
+                    yMin = v2int.y;
+            }
+            Vector2 v2 = new Vector2((xMax + xMin) / 2f, (yMax + yMin) / 2f);
+            return v2;
+        }
 
         private void HandlePosition()
         {
@@ -272,7 +394,7 @@ namespace Tiles
                 }
             }
 
-            return buff.Value(new IntOrFloatObject(unit.GetStat(stat)));
+            return buff.Value(new IntOrFloatObject(unitSO.GetStat(stat)));
         }
 
 
@@ -330,120 +452,42 @@ namespace Tiles
 
         #endregion
 
-        public Color Color
-        {
-            set
-            {
-                if (tileGraphics != null)
-                    tileGraphics.color = value;
-            }
-        }
-
-        private void Awake()
-        {
-            RectTransform = GetComponent<RectTransform>();
-            unitGraphics = unitUITransform.GetComponent<Image>();
-        }
-
-
-        public void Upgrade()
-        {
-            if (ResourceManager.Instance.Gold < requiredGoldToLevel)
-                return;
-
-            ResourceManager.Instance.ModifyGold(-requiredGoldToLevel);
-
-            Level = Mathf.Clamp(Level + 1, 1, 5);
-
-            onStatsChange?.Invoke();
-        }
+        
 
         public void Highlight(bool highlighted)
         {
             highlight.SetActive(highlighted);
         }
 
-        public Vector2 GetOffset()
-        {
-            int xMin = int.MaxValue, xMax = int.MinValue, yMin = int.MaxValue, yMax = int.MinValue;
+        
+        public string Title => $"{UnitSO.name} {TileSO.name}";
 
-            foreach (Vector2Int v2int in Shape)
-            {
-                if (v2int.x > xMax)
-                    xMax = v2int.x;
-
-                if (v2int.x < xMin)
-                    xMin = v2int.x;
-
-                if (v2int.y > yMax)
-                    yMax = v2int.y;
-
-                if (v2int.y < yMin)
-                    yMin = v2int.y;
-            }
-            Vector2 v2 = new Vector2((xMax + xMin) / 2f, (yMax + yMin) / 2f);
-            return v2;
-        }
-
-        public List<Vector2Int> Shape
-        {
-            get
-            {
-                return TileSO.Shape.Rotate(Rotation);
-            }
-        }
-
-        public string Title => $"{Unit.name} {TileSO.name}";
-
-        public string Description => Unit.Description;
+        public string Description => UnitSO.Description;
 
         public string GoldAmount => (Shape.Count * 100).ToString();
 
-        public void Rotate(int angle)
-        {
-            RectTransform.Rotate(new Vector3(0, 0, angle));
-            unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
-        }
-
-        public void RotateTo(float angle)
-        {
-            if (RectTransform == null)
-                RectTransform = GetComponent<RectTransform>();
-
-            Vector3 eulerAngles = RectTransform.rotation.eulerAngles;
-            eulerAngles.z = angle;
-            RectTransform.rotation = Quaternion.Euler(eulerAngles);
-            unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
-        }
-
-        
 
         #region Init
 
-        public void Init(TileSO tileSO, UnitSO unit)
+        public void BaseInit(TileSO tileSO, UnitSO unit)
         {
             TileSO = tileSO;
-            Unit = unit;
+            UnitSO = unit;
             tileGraphics.sprite = tileSO.TileSprite;
+
+            AmountOfUnitsEscapedNeededToLevel = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * unit.numberOfUnitsEscapedToLevelUp * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
+            MaxHealth = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * unit.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
+            currentHealth = MaxHealth;
             tileGraphics.SetNativeSize();
         }
 
-        public void Init(Tile tile)
+        public void TileSaveInit(TileSave tileSave)
         {
-            TileSO = tile.TileSO;
-            tileGraphics.sprite = tile.tileGraphics.sprite;
-            tileGraphics.SetNativeSize();
-        }
+            Level = tileSave.level;
 
-        public void Init(TileSave tileSave)
-        {
-            TileSO = tileSave.tile;
-            Unit = tileSave.unit;
-            tileGraphics.sprite = TileSO.TileSprite;
-            tileGraphics.SetNativeSize();
+            BaseInit(tileSave.tile, tileSave.unit);
 
             RotateTo(tileSave.rotation);
-            Level = tileSave.level;
             Equipment = tileSave.equipment;
         }
 

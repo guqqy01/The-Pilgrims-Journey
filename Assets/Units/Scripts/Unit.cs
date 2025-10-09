@@ -57,11 +57,11 @@ namespace Units
 
         public void Init(Tile tile, List<Vector2Int> path, int currentPathIndex)
         {
-            UnitSO = tile.Unit;
+            UnitSO = tile.UnitSO;
             Movement.Init(path, currentPathIndex, tile);
             Health.Init(tile);
             Shield.Init(tile);
-            CoinDrop.Init(tile.Unit);
+            CoinDrop.Init(tile.UnitSO);
 
             EquipmentSO[] equipmentSOs = tile.Equipment;
 
@@ -123,9 +123,9 @@ namespace Units
                 Flicker();
             }
 
-            foreach(EquipmentSpecial equipmenSpecial in EquipmentSpecials)
+            foreach(EquipmentSpecial equipmentSpecial in EquipmentSpecials)
             {
-                equipmenSpecial.Update();
+                equipmentSpecial.Update();
             }
         }
 

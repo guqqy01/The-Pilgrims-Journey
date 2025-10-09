@@ -2,6 +2,7 @@
 using UnityEngine;
 using Equipment;
 using Tiles;
+using static Units.Movement;
 
 namespace Units
 {
@@ -24,6 +25,10 @@ namespace Units
 
         private float initialXScale;
 
+        public delegate void OnPathCompleted();
+        public OnPathCompleted onPathCompleted;
+
+
         private void Awake()
         {
             initialXScale = visualTransform.localScale.x;
@@ -43,7 +48,7 @@ namespace Units
 
         public void Init(List<Vector2Int> path, int currentPathIndex, Tile tile)
         {
-            speed = new BuffableStat(tile.Unit.MovementSpeed);
+            speed = new BuffableStat(tile.UnitSO.MovementSpeed);
 
             speed.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.MovementSpeed));
 
@@ -75,13 +80,15 @@ namespace Units
         private void Update()
         {
             HandleMovement();
-            HandleAdditionalTimedShield();
+            HandleAdditionalTimedBuff();
         }
 
         private void HandleMovement()
         {
             if (finishedPath)
             {
+                onPathCompleted?.Invoke();
+
                 GameManager.Instance.UnitPassed();
                 SpawningManager.Instance.SpawnedUnits.Remove(GetComponent<Unit>());
                 Destroy(gameObject);
@@ -140,7 +147,7 @@ namespace Units
             }
         }
 
-        private void HandleAdditionalTimedShield()
+        private void HandleAdditionalTimedBuff()
         {
             if (referenceAndTimeToRemoveBuff.Count <= 0)
                 return;

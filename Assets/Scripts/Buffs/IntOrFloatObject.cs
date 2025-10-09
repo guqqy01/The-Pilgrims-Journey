@@ -132,6 +132,20 @@ public struct IntOrFloatObject
         throw new Exception("Null");
     }
 
+    public static IntOrFloatObject operator * (float f, IntOrFloatObject obj)
+    {
+        if (obj.IsInt)
+        {
+            return new IntOrFloatObject(Mathf.RoundToInt(obj.IntValue * f));
+        }
+        else if (obj.IsFloat)
+        {
+            return new IntOrFloatObject(obj.FloatValue * f);
+        }
+
+        throw new Exception("Null");
+    }
+
     public static IntOrFloatObject operator *(IntOrFloatObject obj1, IntOrFloatObject obj2)
     {
         if (obj1.IsInt && obj2.IsInt)

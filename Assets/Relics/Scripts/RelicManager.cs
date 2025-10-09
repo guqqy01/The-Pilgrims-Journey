@@ -7,7 +7,7 @@ using static GameManager;
 
 namespace Relics
 {
-    public class RelicManager : MonoBehaviour, ISaveLoad
+    public class RelicManager : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot
     {
         public string SaveFileName => "RelicManagerSave";
 
@@ -24,15 +24,18 @@ namespace Relics
         public delegate void UpdateUI();
         public UpdateUI updateUI;
 
-        private void Awake()
+        public void InitiateSingleton()
         {
-            Instance = this;
-        }
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
 
-
-        private void Start()
-        {
-            if(TilePlayerManager.Instance != null)
+            if (TilePlayerManager.Instance != null)
                 TilePlayerManager.Instance.onPlay += OnPlayRelicEffects;
 
             onCompleteLevel += AfterPlayRelicEffects;
@@ -41,7 +44,7 @@ namespace Relics
             onDelete += Delete;
             onSetup += Setup;
             onClear += Clear;
-        } 
+        }
 
         public void AfterPlayRelicEffects()
         {
@@ -140,6 +143,8 @@ namespace Relics
 
             updateUI?.Invoke();
         }
+
+        
 
         [Serializable]
         private record SaveData : SaveProfileData

@@ -18,19 +18,9 @@ public class GameOverScreen : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         {
             Instance = this;
         }
-    }
 
-    private void OnEnable()
-    {
         GameManager.onSetup += Setup;
         GameManager.onGameEnd += GameOver;
-        gameObject.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        GameManager.onSetup -= Setup;
-        GameManager.onGameEnd -= GameOver;
         gameObject.SetActive(false);
     }
 

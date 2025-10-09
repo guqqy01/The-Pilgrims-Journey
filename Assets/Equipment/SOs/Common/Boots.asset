@@ -10,23 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
-  m_Name: Studded Shield
+  m_Name: Boots
   m_EditorClassIdentifier: 
-  sprite: {fileID: -1991877668, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: Studded Shield
-  rarity: 1
-  goldCost: 100
+  sprite: {fileID: 1777408741, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: Leather boots, quick and sturdy
   equipmentBuffs:
-  - stat: 1
-    Multiplier: 0.8
+  - stat: 3
+    Multiplier: 1.1
     BaseBuff:
       intValue: 0
-      floatValue: 0
-      isInt: 1
+      floatValue: 0.1
+      isInt: 0
     AdditionalBuff:
-      intValue: 10
+      intValue: 0
       floatValue: 0
-      isInt: 1
+      isInt: 0
   EquipmentSpecial:
     rid: -2
   references:

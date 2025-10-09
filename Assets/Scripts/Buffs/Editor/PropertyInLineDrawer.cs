@@ -7,13 +7,14 @@ public static class PropertyInLineDrawer
     private static readonly TextGenerationSettings textGenerationSettings = new TextGenerationSettings
     {
         textAnchor = TextAnchor.UpperLeft,
-        font = Resources.GetBuiltinResource<Font>("Arial.ttf"), // Use the Arial font (or another font in your project)
+        font = EditorStyles.label.font,
         fontSize = 14, // Set the font size
         color = Color.black,
         richText = false,
         lineSpacing = 1,
         generateOutOfBounds = true
     };
+
 
     public static void DrawPropertiesInText(Rect rect, SerializedProperty property, string text, GUIContent label, char propertySeperationCharacter)
     {
@@ -62,19 +63,26 @@ public static class PropertyInLineDrawer
 
         float xMin = rect.xMin;
 
+        Rect upperRect = new Rect(rect) { yMin = rect.yMin, height = EditorGUIUtility.singleLineHeight };
+        Rect lowerRect = new Rect(rect) { yMin = upperRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
+
         for (int i = 0; i < stringInfos.Count; i++)
         {
             float width = stringInfos[i].isProperty ? propertyRectWidth : stringInfos[i].stringTotalSize;
 
-            Rect position = new Rect(rect) { xMin = xMin, width = width };
+            Rect upperPosition = new Rect(upperRect) { xMin = xMin, width = width };
+            Rect lowerPosition = new Rect(lowerRect) { xMin = xMin, width = width };
 
             if (stringInfos[i].isProperty)
             {
-                EditorGUI.PropertyField(position, property.FindPropertyRelative(stringInfos[i].str), GUIContent.none);
+                SerializedProperty relativeProperty = property.FindPropertyRelative(stringInfos[i].str);
+
+                EditorGUI.LabelField(upperPosition, stringInfos[i].str);
+                EditorGUI.PropertyField(lowerPosition, relativeProperty, GUIContent.none);
             }
             else
             {
-                EditorGUI.LabelField(position, stringInfos[i].str);
+                EditorGUI.LabelField(new Rect(rect) { xMin = xMin, width = width }, stringInfos[i].str);
             }
 
             xMin += width;

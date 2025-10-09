@@ -48,7 +48,7 @@ namespace Units
 
         public void Init(Tile tile)
         {
-            UnitSO unitSO = tile.Unit;
+            UnitSO unitSO = tile.UnitSO;
             EquipmentSO[] equipmentSOs = tile.Equipment;
 
             shield = new BuffableStat(unitSO.Shield);

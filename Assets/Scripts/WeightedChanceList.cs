@@ -14,6 +14,11 @@ public class WeightedChanceList<T>
         weightedList = new List<WeightedChanceObject<T>>();
     }
 
+    public WeightedChanceList(WeightedChanceList<T> other)
+    {
+        weightedList = new List<WeightedChanceObject<T>>(other.weightedList);
+    }
+
     public float GetChance(T item)
     {
         if (weightedList.Count <= 0)

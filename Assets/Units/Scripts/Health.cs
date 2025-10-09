@@ -41,8 +41,6 @@ namespace Units
         {
             buffableStat.AddBuff(buffName, buff);
         }
-
-
     }
 
     public class Health : MonoBehaviour
@@ -67,7 +65,7 @@ namespace Units
 
         public void Init(Tile tile)
         {
-            maxHealth = new BuffableStat(tile.Unit.Health);
+            maxHealth = new BuffableStat(tile.UnitSO.Health);
 
             Buff buff = UpgradeManager.Instance.GetBuff(UnitStatsEnum.Health);
 

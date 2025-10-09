@@ -27,6 +27,9 @@ namespace Equipment
         [SerializeField]
         private float periodOfTimeToHeal;
 
+        [SerializeField]
+        private int goldValue = 100;
+
         public void Init(Unit unit)
         {
             this.unit = unit;
@@ -64,6 +67,11 @@ namespace Equipment
                 unit.HealingPS.Stop();
             }
         }
+
+        public int GoldValue()
+        {
+            return goldValue;
+        }
     }
 
     public interface EquipmentSpecial
@@ -71,5 +79,8 @@ namespace Equipment
         public void Init(Unit unit);
 
         public void Update();
+
+
+        public int GoldValue();
     }
 }

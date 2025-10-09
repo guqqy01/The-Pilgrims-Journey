@@ -223,12 +223,12 @@ public class Shop : MonoBehaviour
 
 public enum Rarity
 {
-    Common = 1,
-    Uncommon = 2,
-    Rare = 3,
-    Epic = 4,
-    Legendary = 5,
-    Unique = 6,
+    Common = 200,
+    Uncommon = 500,
+    Rare = 1000,
+    Epic = 5000,
+    Legendary = 20000,
+    Unique = 1000000,
 }
 
 

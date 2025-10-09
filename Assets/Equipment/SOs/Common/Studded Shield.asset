@@ -10,21 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 516f27dee81a3e74483132d085ff33da, type: 3}
-  m_Name: Belt
+  m_Name: Studded Shield
   m_EditorClassIdentifier: 
-  sprite: {fileID: -880476242, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: A sturdy leather belt
-  rarity: 1
-  goldCost: 100
+  sprite: {fileID: -1991877668, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  description: Studded Shield
   equipmentBuffs:
-  - stat: 0
-    Multiplier: 1
+  - stat: 1
+    Multiplier: 0.8
     BaseBuff:
-      intValue: 5
+      intValue: 0
       floatValue: 0
       isInt: 1
     AdditionalBuff:
-      intValue: 0
+      intValue: 20
       floatValue: 0
       isInt: 1
   EquipmentSpecial:

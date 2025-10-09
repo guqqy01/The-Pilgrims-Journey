@@ -2,6 +2,7 @@ using Equipment;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,14 @@ namespace Tiles
         [SerializeField]
         private Text shieldCooldown;
 
+
+        [SerializeField]
+        private Text levelText;
+        [SerializeField]
+        private Text totalNumberOfUnits;
+        [SerializeField]
+        private Text numberOfUnitsToNextLevel;
+
         public void TileSelected(Tile tile)
         {
             if(tile == null)
@@ -41,7 +50,9 @@ namespace Tiles
 
             this.tile = tile;
             UpdateStats();
-            tile.onStatsChange = UpdateStats;
+            UpdateLevelUnitsAndHealth();
+            tile.onUpdateUI = UpdateStats;
+            tile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
 
             containers[0].onEquipmentChange = (EquipmentSO from, EquipmentSO to) =>
             {
@@ -58,16 +69,22 @@ namespace Tiles
                 tile.Equipment[2] = to;
                 UpdateStats();
             };
-            
+            containers[3].onEquipmentChange = (EquipmentSO from, EquipmentSO to) =>
+            {
+                tile.Equipment[3] = to;
+                UpdateStats();
+            };
+
             Setup(tile.Equipment);
         }
 
 
         public void UpdateStats()
         {
-            containers[0].Active = tile.Level >= 1;
-            containers[1].Active = tile.Level >= 3;
-            containers[2].Active = tile.Level >= 5;
+            for (int i = 0; i < containers.Count; i++)
+            {
+                containers[i].Active = tile.Level > i;
+            }
 
             spawnRateText.text = tile.SpawnRateValue.ToString();
             movement.text = tile.MovementValue.ToString();
@@ -78,13 +95,30 @@ namespace Tiles
 
         }
 
+        public void UpdateLevelUnitsAndHealth()
+        {
+            totalNumberOfUnits.text = $"Total Number of units: {tile.currentHealth}/{tile.MaxHealth}";
+
+            if (tile.IsMaxLevel)
+            {
+                levelText.text = "Level: Max";
+                numberOfUnitsToNextLevel.text = "Units to upgrade: NA Max Level";
+            }
+            else
+            {
+                levelText.text = $"Level: {tile.Level}";
+                numberOfUnitsToNextLevel.text = $"Units to upgrade: {tile.CurrentAmountOfUnitsEscaped}/{tile.AmountOfUnitsEscapedNeededToLevel}";
+            }
+        }
+
         public void DeselectTile()
         {
             tile = null;
 
-            containers[0].Deactivate();
-            containers[1].Deactivate();
-            containers[2].Deactivate();
+            for (int i = 0; i < containers.Count; i++)
+            {
+                containers[i].Deactivate();
+            }
             
             spawnRateText.text = "NA";
             movement.text = "NA";
@@ -92,16 +126,6 @@ namespace Tiles
             shield.text = "NA";
             shieldRegen.text = "NA";
             shieldCooldown.text = "NA";
-        }
-
-        public void UpgradeTile()
-        {
-            if (tile.requiredGoldToLevel <= ResourceManager.Instance.Gold)
-            {
-                tile.Upgrade();
-
-                AudioManager.Instance.PlayButtonClick();
-            }
         }
 
         protected override void Awake()
@@ -115,6 +139,7 @@ namespace Tiles
             DeselectTile();
 
             Tile.onTileSelected += TileSelected;
+            
         }
 
         /*protected override void OnDisable()

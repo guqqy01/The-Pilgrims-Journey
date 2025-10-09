@@ -34,7 +34,7 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         }
     }
 
-    Coroutine waitCoroutine;
+    private Coroutine waitCoroutine;
 
     private void OnEnable()
     {
@@ -116,18 +116,26 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
             if (Time.time < nextSpawnTime)
                 continue;
 
-            Unit unit = Instantiate(tile.Unit.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-            unit.Init(tile, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection], 0);
-            SpawnedUnits.Add(unit);
-
-            tileAndNextSpawnTime[tile] = tileAndNextSpawnTime[tile] + 1f / TileAndSpawnRate[tile];
-
-            nextTotalSpawnTime = Time.time + 1f / totalSpawnRate;
-
-            onUnitSpawned?.Invoke(unit);
+            SpawnUnit(tile, pathDirection);
 
             break;
         }
+    }
+
+    private void SpawnUnit(Tile tile, Direction pathDirection)
+    {
+        Unit unit = Instantiate(tile.UnitSO.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
+        unit.Init(tile, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection], 0);
+        SpawnedUnits.Add(unit);
+
+        unit.Health.onDie += tile.OnUnitDie;
+        unit.Movement.onPathCompleted += tile.OnUnitEscape;
+
+        tileAndNextSpawnTime[tile] = tileAndNextSpawnTime[tile] + 1f / TileAndSpawnRate[tile];
+
+        nextTotalSpawnTime = Time.time + 1f / totalSpawnRate;
+
+        onUnitSpawned?.Invoke(unit);
     }
 
     private void OnPositionChange(Dictionary<Tile, int> spawningTilesAndSize)

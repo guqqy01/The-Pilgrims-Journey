@@ -19,6 +19,10 @@ namespace Units
         private Rarity rarity;
         public Rarity Rarity => rarity;
 
+        [Header("Leveling and Health")]
+        public int numberOfUnitsEscapedToLevelUp = 5;
+        public int numberOfUnitsAbleToSpawn = 15 ;
+
         [Header("Stats")]
         [SerializeField]
         private float spawnRate = 0.5f;
