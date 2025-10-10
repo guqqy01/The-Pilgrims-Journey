@@ -17,9 +17,9 @@ public class EquipmentBuffItemUI : MonoBehaviour
         {
             textString += "\r\nBase: +" + equipmentBuff.BaseBuff;
         }
-        if (equipmentBuff.Multiplier != 1f)
+        if (equipmentBuff.Multiplier != 0f)
         {
-            textString += "\r\nMultiplier: x" + equipmentBuff.Multiplier;
+            textString += "\r\nMultiplier: +" + equipmentBuff.Multiplier + "%";
         }
         if(equipmentBuff.AdditionalBuff.IsInt && equipmentBuff.AdditionalBuff != 0f)
         {

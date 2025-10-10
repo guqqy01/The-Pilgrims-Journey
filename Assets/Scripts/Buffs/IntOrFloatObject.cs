@@ -90,6 +90,154 @@ public struct IntOrFloatObject
         throw new Exception();
     }
 
+    public static bool operator >(IntOrFloatObject obj1, IntOrFloatObject obj2)
+    {
+        if (obj1.IsInt && obj2.IsInt)
+        {
+            return obj1.IntValue > obj2.IntValue;
+        }
+        else if (obj1.IsFloat && obj2.IsFloat)
+        {
+            return obj1.FloatValue > obj2.FloatValue;
+        }
+
+        throw new Exception("Null");
+    }
+
+    public static bool operator <(IntOrFloatObject obj1, IntOrFloatObject obj2)
+    {
+        if (obj1.IsInt && obj2.IsInt)
+        {
+            return obj1.IntValue < obj2.IntValue;
+        }
+        else if (obj1.IsFloat && obj2.IsFloat)
+        {
+            return obj1.FloatValue < obj2.FloatValue;
+        }
+
+        throw new Exception("Null");
+    }
+
+    public static bool operator >=(IntOrFloatObject obj1, float f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue >= f;
+        }
+        else
+        {
+            return obj1.floatValue >= f;
+        }
+    }
+
+    public static bool operator <=(IntOrFloatObject obj1, float f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue <= f;
+        }
+        else
+        {
+            return obj1.floatValue <= f;
+        }
+    }
+
+    public static bool operator >=(float f, IntOrFloatObject obj1)
+    {
+        if (obj1.IsInt)
+        {
+            return f >= obj1.intValue;
+        }
+        else
+        {
+            return f >= obj1.floatValue;
+        }
+    }
+
+    public static bool operator <=(float f, IntOrFloatObject obj1)
+    {
+        if (obj1.IsInt)
+        {
+            return f <= obj1.intValue;
+        }
+        else
+        {
+            return f <= obj1.floatValue;
+        }
+    }
+
+    public static bool operator >(IntOrFloatObject obj1, int f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue > f;
+        }
+        else
+        {
+            return obj1.floatValue > f;
+        }
+    }
+
+    public static bool operator <(IntOrFloatObject obj1, int f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue < f;
+        }
+        else
+        {
+            return obj1.floatValue < f;
+        }
+    }
+
+    public static bool operator >=(IntOrFloatObject obj1, int f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue >= f;
+        }
+        else
+        {
+            return obj1.floatValue >= f;
+        }
+    }
+
+    public static bool operator <=(IntOrFloatObject obj1, int f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue <= f;
+        }
+        else
+        {
+            return obj1.floatValue <= f;
+        }
+    }
+
+    public static bool operator ==(IntOrFloatObject obj1, int f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue == f;
+        }
+        else
+        {
+            return obj1.floatValue == f;
+        }
+    }
+
+    public static bool operator !=(IntOrFloatObject obj1, int f)
+    {
+        if (obj1.IsInt)
+        {
+            return obj1.intValue != f;
+        }
+        else
+        {
+            return obj1.floatValue != f;
+        }
+    }
+
     public static IntOrFloatObject operator +(IntOrFloatObject obj1, IntOrFloatObject obj2)
     {
         if(obj1.IsInt && obj2.IsInt)

@@ -25,6 +25,8 @@ namespace Tiles
         [SerializeField]
         private Text shieldCooldown;
 
+        [SerializeField]
+        private Text tileInfoText;
 
         [SerializeField]
         private Text levelText;
@@ -49,6 +51,9 @@ namespace Tiles
             Clear();
 
             this.tile = tile;
+
+            tileInfoText.text = tile.Title;
+
             UpdateStats();
             UpdateLevelUnitsAndHealth();
             tile.onUpdateUI = UpdateStats;
@@ -102,7 +107,7 @@ namespace Tiles
             if (tile.IsMaxLevel)
             {
                 levelText.text = "Level: Max";
-                numberOfUnitsToNextLevel.text = "Units to upgrade: NA Max Level";
+                numberOfUnitsToNextLevel.text = "Units to upgrade: Max Level";
             }
             else
             {
@@ -126,6 +131,10 @@ namespace Tiles
             shield.text = "NA";
             shieldRegen.text = "NA";
             shieldCooldown.text = "NA";
+            totalNumberOfUnits.text = "Total Number of units: NA";
+            levelText.text = "Level: NA";
+            numberOfUnitsToNextLevel.text = "Units to upgrade: NA";
+            tileInfoText.text = "Select a tile";
         }
 
         protected override void Awake()

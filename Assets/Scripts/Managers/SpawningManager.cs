@@ -40,7 +40,7 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     {
         if (TilePlayerManager.Instance != null)
         {
-            TilePlayerManager.Instance.onPositionChange += OnPositionChange;
+            TilePlayerManager.Instance.onPositionChangeCurrentSpawning += OnPositionChange;
         }
         else
         {
@@ -59,14 +59,14 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         {
             yield return null;
         }
-        TilePlayerManager.Instance.onPositionChange += OnPositionChange;
+        TilePlayerManager.Instance.onPositionChangeCurrentSpawning += OnPositionChange;
     }
 
     private void OnDisable()
     {
         if (TilePlayerManager.Instance != null)
         {
-            TilePlayerManager.Instance.onPositionChange -= OnPositionChange;
+            TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= OnPositionChange;
             if(waitCoroutine != null) StopCoroutine(waitCoroutine);
         }
 

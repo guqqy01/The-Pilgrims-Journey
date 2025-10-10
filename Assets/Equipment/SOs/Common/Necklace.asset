@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 167613191, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: Necklace of regeneration
-  rarity: 1
-  goldCost: 100
   equipmentBuffs:
   - stat: 4
-    Multiplier: 1.5
+    Multiplier: 50
     BaseBuff:
       intValue: 0
       floatValue: 0
@@ -28,7 +26,7 @@ MonoBehaviour:
       floatValue: 0.5
       isInt: 0
   - stat: 1
-    Multiplier: 1.1
+    Multiplier: 10
     BaseBuff:
       intValue: 1
       floatValue: 0

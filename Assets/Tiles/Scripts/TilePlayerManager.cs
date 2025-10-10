@@ -12,7 +12,8 @@ namespace Tiles
         public float CurrentPlayingPosition { private set; get; }
 
         public delegate void OnCurrentPlayingPositionChange(Dictionary<Tile, int> spawningTilesAndSize);
-        public OnCurrentPlayingPositionChange onPositionChange;
+        public OnCurrentPlayingPositionChange onPositionChangeNextSpawning;
+        public OnCurrentPlayingPositionChange onPositionChangeCurrentSpawning;
 
         public delegate void NoRemainingTilesToPlay();
         public NoRemainingTilesToPlay noRemainingTilesToPlay;
@@ -34,6 +35,7 @@ namespace Tiles
         private float playerUIPointYOffset;
 
         public Dictionary<Tile, int> SpawningTilesAndSize { private set; get; } = new Dictionary<Tile, int>();
+        public Dictionary<Tile, int> NextSpawningTilesAndSize { private set; get; } = new Dictionary<Tile, int>();
 
         [Header("Starting Tile")]
         [SerializeField]
@@ -154,7 +156,11 @@ namespace Tiles
             int newPosition = Mathf.FloorToInt(CurrentPlayingPosition);
             
             SpawningTilesAndSize = GetTilesInPositionAndSize(newPosition);
-            onPositionChange?.Invoke(SpawningTilesAndSize);
+            NextSpawningTilesAndSize = GetTilesInPositionAndSize(newPosition + 1);
+
+            onPositionChangeCurrentSpawning?.Invoke(SpawningTilesAndSize);
+            onPositionChangeNextSpawning?.Invoke(NextSpawningTilesAndSize);
+
 
             if (!IsPlaying || SpawningTilesAndSize.Count > 0)
                 return;

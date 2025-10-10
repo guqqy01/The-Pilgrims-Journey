@@ -59,12 +59,6 @@ namespace Equipment
             }
         }
 
-        public string Title => EquipmentSO != null ? EquipmentSO.name : "N/A";
-
-        public string Description => EquipmentSO != null ? EquipmentSO.description : "N/A";
-
-        public string GoldAmount => EquipmentSO != null ? EquipmentSO.goldCost.ToString() : "N/A";
-
         public EquipmentInventory EquipmentInventory;
 
         [SerializeField]

@@ -52,6 +52,18 @@ public static class ExtensionsAndHelper
         return value * randomSign;
     }
 
+    public static string AddSpacesBeforeCapsRegex(this string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return string.Empty;
+        }
+
+        // This regex finds a lowercase letter followed by an uppercase letter
+        // and inserts a space between them.
+        return Regex.Replace(text, "([a-z])([A-Z])", "$1 $2");
+    }
+
     public static int RoundToNearedInt(this int value, int nearestInterger)
     {
         int remainder = value % nearestInterger;

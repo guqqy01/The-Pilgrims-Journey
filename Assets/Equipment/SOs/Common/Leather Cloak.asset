@@ -16,7 +16,7 @@ MonoBehaviour:
   description: a leather cloak
   equipmentBuffs:
   - stat: 0
-    Multiplier: 1
+    Multiplier: 0
     BaseBuff:
       intValue: 0
       floatValue: 2
@@ -26,7 +26,7 @@ MonoBehaviour:
       floatValue: 2
       isInt: 1
   - stat: 3
-    Multiplier: 1
+    Multiplier: 0
     BaseBuff:
       intValue: 0
       floatValue: 0

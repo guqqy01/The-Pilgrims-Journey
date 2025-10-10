@@ -42,7 +42,7 @@ namespace Tiles
 
         public bool locked;
 
-        public EquipmentSO[] Equipment = new EquipmentSO[4];
+        public EquipmentSO[] Equipment { private set; get; } = new EquipmentSO[4];
 
         public delegate void OnUpdateUI();
         public OnUpdateUI onUpdateUI;

@@ -47,20 +47,20 @@ public class Upgrade
             case BuffType.Base:
                 if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
                 {
-                    return new Buff(stat, 1f, (int)value, 0);
+                    return new Buff(stat, 0f, (int)value, 0);
                 }
                 else
                 {
-                    return new Buff(stat, 1f, (float)value, 0f);
+                    return new Buff(stat, 0f, (float)value, 0f);
                 }
             case BuffType.Additional:
                 if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
                 {
-                    return new Buff(stat, 1f, 0, (int)value);
+                    return new Buff(stat, 0f, 0, (int)value);
                 }
                 else
                 {
-                    return new Buff(stat, 1f, 0f, (float)value);
+                    return new Buff(stat, 0f, 0f, (float)value);
                 }
             default:
                 break;
@@ -103,7 +103,7 @@ public class Upgrade
             {
                 if(buffType == BuffType.Multiplier)
                 {
-                    return 1f;
+                    return 0f;
                 }
                 else
                 {
@@ -146,7 +146,7 @@ public class Upgrade
         {
             if (buffType == BuffType.Multiplier)
             {
-                return 1f;
+                return 0f;
             }
             else
             {

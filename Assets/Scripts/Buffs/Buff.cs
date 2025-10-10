@@ -9,9 +9,9 @@ public class Buff
     private UnitStatsEnum stat;
     public UnitStatsEnum Stat => stat;
     /// <summary>
-    /// Multiplies the base buff: BaseBuff * Multiplier + AdditionalBuff
+    /// Multiplies the base buff: BaseBuff * MultiplierPercentage + AdditionalBuff, in percentages, e.g a value of 100 multiplies the base value by +100%
     /// </summary>
-    public float Multiplier = 1f;
+    public float Multiplier = 0f;
 
     /// <summary>
     /// Is the base buffs, get multiplied by the Multiplier: BaseBuff * Multiplier + AdditionalBuff
@@ -50,13 +50,13 @@ public class Buff
         if (buff1.Stat != buff2.Stat)
             throw new ArgumentException("Can only add same buffs, Buff1: " + buff1.Stat + ", Buff2: " + buff2.Stat);
 
-        return new Buff(buff1.Stat, buff1.Multiplier * buff2.Multiplier, buff1.BaseBuff + buff2.BaseBuff, buff1.AdditionalBuff + buff2.AdditionalBuff);
+        return new Buff(buff1.Stat, buff1.Multiplier + buff2.Multiplier, buff1.BaseBuff + buff2.BaseBuff, buff1.AdditionalBuff + buff2.AdditionalBuff);
     }
 
     public Buff(UnitStatsEnum stat)
     {
         this.stat = stat;
-        Multiplier = 1f;
+        Multiplier = 0f;
 
         if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
         {
@@ -107,7 +107,7 @@ public class Buff
 
     public virtual IntOrFloatObject Value(IntOrFloatObject baseValue)
     {
-        return ((baseValue + BaseBuff) * Multiplier) + AdditionalBuff;
+        return ((baseValue + BaseBuff) * (1 + (Multiplier / 100f))) + AdditionalBuff;
     }
 }
 
@@ -195,7 +195,7 @@ public static class BuffValueCalculator
 
     private const int valuePerBaseHealthPoint = 10;
 
-    private const float healthMultiplierA = 250f;
+    private const float healthMultiplierA = 10f;
 
     public static int CalculateHealthBaseBuffValue(int baseValue)
     {
@@ -204,7 +204,7 @@ public static class BuffValueCalculator
 
     public static int CalculateHealthMultiplierBuffValue(float multiplier)
     {
-        return LinearCenterAt1(multiplier, healthMultiplierA);
+        return Linear(multiplier, healthMultiplierA);
     }
 
     public static int CalculateHealthAdditionalBuffValue(int additionalValue)
@@ -218,7 +218,7 @@ public static class BuffValueCalculator
 
     private const int valuePerBaseShieldPoint = 10;
 
-    private const float shieldMultiplierA = 250f;
+    private const float shieldMultiplierA = 10f;
 
     public static int CalculateShieldBaseBuffValue(int baseValue)
     {
@@ -227,7 +227,7 @@ public static class BuffValueCalculator
 
     public static int CalculateShieldMultiplierBuffValue(float multiplier)
     {
-        return LinearCenterAt1(multiplier, shieldMultiplierA);
+        return Linear(multiplier, shieldMultiplierA);
     }
 
     public static int CalculateShieldAdditionalBuffValue(int additionalValue)
@@ -241,7 +241,7 @@ public static class BuffValueCalculator
 
     private const int valuePerBaseShieldCooldownPoint = -200;
 
-    private const float shieldCooldownMultiplierA = 250f;
+    private const float shieldCooldownMultiplierA = 10f;
 
     public static int CalculateShieldCooldownBaseBuffValue(float baseValue)
     {
@@ -250,7 +250,7 @@ public static class BuffValueCalculator
 
     public static int CalculateShieldCooldownMultiplierBuffValue(float multiplier)
     {
-        return Quadratic(multiplier, shieldCooldownMultiplierA, 1);
+        return Linear(-multiplier, shieldCooldownMultiplierA);
     }
 
     public static int CalculateShieldCooldownAdditionalBuffValue(float additionalValue)
@@ -264,7 +264,7 @@ public static class BuffValueCalculator
 
     private const int valuePerBaseShieldRegenerationPoint = 100;
 
-    private const float shieldRegenerationMultiplierA = 150f;
+    private const float shieldRegenerationMultiplierA = 10f;
 
     public static int CalculateShieldRegenerationBaseBuffValue(float baseValue)
     {
@@ -273,7 +273,7 @@ public static class BuffValueCalculator
 
     public static int CalculateShieldRegenerationMultiplierBuffValue(float multiplier)
     {
-        return LinearCenterAt1(multiplier, shieldRegenerationMultiplierA);
+        return Linear(multiplier, shieldRegenerationMultiplierA);
     }
 
     public static int CalculateShieldRegenerationAdditionalBuffValue(float additionalValue)
@@ -287,7 +287,7 @@ public static class BuffValueCalculator
 
     private const int valuePerBaseMovementSpeedPoint = 500;
 
-    private const float movementSpeedMultiplierA = -250f;
+    private const float movementSpeedMultiplierA = 10f;
 
     public static int CalculateMovementSpeedBaseBuffValue(float baseValue)
     {
@@ -296,7 +296,7 @@ public static class BuffValueCalculator
 
     public static int CalculateMovementSpeedMultiplierBuffValue(float multiplier)
     {
-        return Quadratic(multiplier, movementSpeedMultiplierA, 1);
+        return Linear(multiplier, movementSpeedMultiplierA);
     }
 
     public static int CalculateMovementSpeedAdditionalBuffValue(float additionalValue)
@@ -310,7 +310,7 @@ public static class BuffValueCalculator
 
     private const int valuePerBaseSpawnRatePoint = 500;
 
-    private const float spawnRateMultiplierA = -250f;
+    private const float spawnRateMultiplierA = 10f;
 
     public static int CalculateSpawnRateBaseBuffValue(float baseValue)
     {
@@ -319,7 +319,7 @@ public static class BuffValueCalculator
 
     public static int CalculateSpawnRateMultiplierBuffValue(float multiplier)
     {
-        return Quadratic(multiplier, spawnRateMultiplierA, 1);
+        return Linear(multiplier, spawnRateMultiplierA);
     }
 
     public static int CalculateSpawnRateAdditionalBuffValue(float additionalValue)

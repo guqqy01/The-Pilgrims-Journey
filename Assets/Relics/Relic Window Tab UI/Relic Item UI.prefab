@@ -166,6 +166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelicItemUI
   _relicImage: {fileID: 9083314031174197477}
+  backgroundImage: {fileID: 3089434376808420556}
+  selectedBackgroundSprite: {fileID: -1094014579, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
+  unselectedBackgroundSprite: {fileID: -1520193651, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
 --- !u!114 &163685624100686210
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,29 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Equipment.EquipmentSO
   sprite: {fileID: 699746608, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: a Chain vest offering a decent amount of protection
-  rarity: 2
-  goldCost: 200
   equipmentBuffs:
   - stat: 1
-    Multiplier: 1
+    Multiplier: 0
     BaseBuff:
       intValue: 0
       floatValue: 10
-      isInt: 0
+      isInt: 1
     AdditionalBuff:
       intValue: 0
       floatValue: 10
-      isInt: 0
+      isInt: 1
   - stat: 0
-    Multiplier: 1
+    Multiplier: 0
     BaseBuff:
       intValue: 0
       floatValue: 5
-      isInt: 0
+      isInt: 1
     AdditionalBuff:
       intValue: 0
       floatValue: 5
-      isInt: 0
+      isInt: 1
   EquipmentSpecial:
     rid: -2
   references:

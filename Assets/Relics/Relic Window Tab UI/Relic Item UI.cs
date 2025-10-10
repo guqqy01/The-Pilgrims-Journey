@@ -4,24 +4,38 @@ namespace Relics
 {
     public class RelicItemUI : MonoBehaviour
     {
-        private Relic _relic;
+        public Relic Relic { private set; get; }
 
         [SerializeField]
         private Image _relicImage;
+
+        [SerializeField]
+        private Image backgroundImage;
+
+        [SerializeField]
+        private Sprite selectedBackgroundSprite;
+        [SerializeField]
+        private Sprite unselectedBackgroundSprite;
 
         public delegate void OnSelect(Relic relic);
         public event OnSelect onSelect;
 
         public void Setup(Relic relic)
         {
-            _relic = relic;
-            _relicImage.sprite = _relic.relicSO.sprite;
+            Relic = relic;
+            _relicImage.sprite = Relic.relicSO.sprite;
             _relicImage.NativeRatioScaleToSize(40f);
         }
 
         public void Select()
         {
-            onSelect?.Invoke(_relic);
+            backgroundImage.sprite = selectedBackgroundSprite;
+            onSelect?.Invoke(Relic);
+        }
+
+        public void Unselect()
+        {
+            backgroundImage.sprite = unselectedBackgroundSprite;
         }
     }
 

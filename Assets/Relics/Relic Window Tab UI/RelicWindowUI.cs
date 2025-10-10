@@ -24,6 +24,12 @@ namespace Relics
         {
             relicManager = RelicManager.Instance;
             relicManager.updateUI += UpdateUI;
+            UpdateUI();
+
+            if (relicItemsUIs.Count > 0)
+            {
+                relicItemsUIs[0].Select();
+            }
         }
 
         public void UpdateUI()
@@ -48,6 +54,12 @@ namespace Relics
         {
             relicTitleText.text = relicSelected.relicSO.name;
             relicDescriptionText.text = relicSelected.relicSO.description;
+
+            foreach(RelicItemUI itemUI in relicItemsUIs)
+            {
+                if(itemUI.Relic != relicSelected)
+                    itemUI.Unselect();
+            }
         }
     }
 

@@ -8,7 +8,7 @@ using System.Linq;
 namespace Equipment
 {
     [CreateAssetMenu()]
-    public class EquipmentSO : ScriptableObject
+    public class EquipmentSO : ScriptableObject, IInfo
     {
         public Sprite sprite;
 
@@ -77,6 +77,12 @@ namespace Equipment
                 return equipmentStats;
             }
         }
+
+        public string Title => name;
+
+        public string Description => description;
+
+        public string GoldAmount => goldCost.ToString();
 
         public bool TryGetBuff(UnitStatsEnum stat, out Buff outBuff)
         {

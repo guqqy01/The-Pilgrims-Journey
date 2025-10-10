@@ -1,22 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class InfoDisplay : MonoBehaviour
 {
     [SerializeField]
-    private Text title;
+    protected Text title;
     [SerializeField]
-    private Text description;
+    protected Text description;
     [SerializeField]
-    private Text goldAmount;
+    protected Text goldAmount;
 
     private void Awake()
     {
         IInfo.onInfoSelected += UpdateUI;
     }
 
-    private void UpdateUI(IInfo selectedInfo)
+    protected virtual void UpdateUI(IInfo selectedInfo)
     {
         if (title != null)
             title.text = selectedInfo.Title;

@@ -16,7 +16,7 @@ MonoBehaviour:
   description: 
   equipmentBuffs:
   - stat: 1
-    Multiplier: 1.1
+    Multiplier: 10
     BaseBuff:
       intValue: 10
       floatValue: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
       floatValue: 0
       isInt: 1
   - stat: 2
-    Multiplier: 1.5
+    Multiplier: 50
     BaseBuff:
       intValue: 12
       floatValue: 100

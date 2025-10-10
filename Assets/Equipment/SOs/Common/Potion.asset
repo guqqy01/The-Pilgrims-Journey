@@ -15,11 +15,9 @@ MonoBehaviour:
   sprite: {fileID: 1352161438, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: After reaching 40% HP, consume the potion to heal 50% of max HP over
     5 seconds
-  rarity: 1
-  goldCost: 100
   equipmentBuffs:
   - stat: 0
-    Multiplier: 1.1
+    Multiplier: 10
     BaseBuff:
       intValue: 0
       floatValue: 0
@@ -39,3 +37,4 @@ MonoBehaviour:
         healthPercentageToStartRecovery: 0.4
         percentOfHealthToRecover: 0.5
         periodOfTimeToHeal: 5
+        goldValue: 100

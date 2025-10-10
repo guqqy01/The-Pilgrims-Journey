@@ -15,10 +15,6 @@ public class Shop : MonoBehaviour
 {
     private EquipmentInventory equipmentInventory;
 
-
-    [SerializeField]
-    private SerializedDictionary<EquipmentSO, int> startEquipmentAndStock = new SerializedDictionary<EquipmentSO, int>();
-
     private Dictionary<EquipmentSO, int> equipmentAndStock = new Dictionary<EquipmentSO, int>();
 
     private Dictionary<EquipmentSO, int> boughtEquipment = new Dictionary<EquipmentSO, int>();
@@ -32,10 +28,6 @@ public class Shop : MonoBehaviour
     [SerializeField]
     private Transform shopItemsContentTransform;
 
-    [SerializeField]
-    private Text title;
-    [SerializeField]
-    private Text description;
     [SerializeField]
     private Text purchaseGoldAmount;
 
@@ -53,20 +45,31 @@ public class Shop : MonoBehaviour
     private void Awake()
     {
         equipmentInventory = GetComponent<EquipmentInventory>();
-    }
-    
-    private void Start()
-    {
-        equipmentAndStock = new Dictionary<EquipmentSO, int>();
-        equipmentAndStock.AddRange(startEquipmentAndStock);
-
-        Setup();
-
         equipmentInventory.onEquipmentChanged += OnEquipmentChanged;
     }
 
-    private void Setup()
+    private void Start()
     {
+        ShopManager.Instance.onSetupShop += Setup;
+    }
+
+    private void Clear()
+    {
+       foreach(ShopItem item in shopItems.Values)
+        {
+            Destroy(item.gameObject);
+        }
+
+        shopItems.Clear();
+        equipmentAndStock.Clear();
+        boughtEquipment.Clear();
+        soldEquipment.Clear();
+    }
+
+    private void Setup(Dictionary<EquipmentSO, int> equipmentAndStock)
+    {
+        Clear();
+
         foreach (KeyValuePair<EquipmentSO, int> equipment in equipmentAndStock)
         {
             ShopItem item = Instantiate(ShopItemPrefab, shopItemsContentTransform);
@@ -78,11 +81,11 @@ public class Shop : MonoBehaviour
 
     private void ShopItemButtonPress(EquipmentSO equipment)
     {
-        selectedEquipment = equipment;
-        title.text = equipment.name;
-        description.text = equipment.description;
+        IInfo.onInfoSelected?.Invoke(equipment);
 
         UpdatePuchaseGoldAmount();
+
+        selectedEquipment = equipment;
 
         buyButton.interactable = equipmentAndStock[selectedEquipment] > 0;
     }

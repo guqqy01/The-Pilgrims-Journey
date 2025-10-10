@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Leather Armor, offering a small amount of protection
   equipmentBuffs:
   - stat: 0
-    Multiplier: 1.1
+    Multiplier: 10
     BaseBuff:
       intValue: 5
       floatValue: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
       floatValue: 0
       isInt: 1
   - stat: 1
-    Multiplier: 1
+    Multiplier: 0
     BaseBuff:
       intValue: 5
       floatValue: 0
