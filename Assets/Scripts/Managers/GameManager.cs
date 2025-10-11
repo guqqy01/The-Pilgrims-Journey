@@ -223,11 +223,17 @@ public class GameManager : MonoBehaviour, ISaveLoad
                 action += CreateLocalMap;
                 break;
             case GlobalMapPointType.Shop:
+                action += SetupShop;
                 break;
         }
         
         action += () => onCreateCurrentMapPoint?.Invoke();
         GlobalMapGenerator.Instance.CurrentMapPoint.LoadScene(action);
+    }
+
+    void SetupShop()
+    {
+        ShopManager.Instance.SetupShop();
     }
 
     void GenerateRandomEvent()

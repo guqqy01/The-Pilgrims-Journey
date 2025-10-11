@@ -13,7 +13,10 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     public static ShopManager Instance;
 
     [SerializeField]
-    private Dictionary<EquipmentSO, float> equipmentAbleToBePurchasedAndChanceToAppear;
+    private int minAmountOfDifferentItems = 3;
+
+    [SerializeField]
+    private List<ShopItemSetting> shopItemSettings;
 
     public void InitiateSingleton()
     {
@@ -27,14 +30,50 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         }
     }
 
-
-    public delegate void OnSetupShop(Dictionary<EquipmentSO, int> equipmentAndStock);
-    public OnSetupShop onSetupShop;
-
     public void SetupShop()
     {
         Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
+        Dictionary<EquipmentSO, int> equipmentAndStock = new Dictionary<EquipmentSO, int>();
 
+        while(equipmentAndStock.Count < minAmountOfDifferentItems)
+        {
+            equipmentAndStock.Clear();
+
+            foreach (var item in shopItemSettings)
+            {
+                float evaluateTime = GlobalMapGenerator.Instance.CurrentPosition.x / GlobalMapGenerator.Instance.GenerationSettings.MapSize.x;
+                float lerpFactor = Random.Range(0.0f, 1.0f);
+
+                if (Random.Range(0f, 1f) <= item.ChanceOfBeginInShopAtXMapPosition.Evaluate(evaluateTime, lerpFactor))
+                {
+                    //Item Is in shop
+
+                    int amountOfItems = item.IfInShopHowManyRange.RandomBetweenTwoValuesInclusive();
+
+                    if(equipmentAndStock.ContainsKey(item.EquipmentSO))
+                    {
+                        equipmentAndStock[item.EquipmentSO] += amountOfItems;
+                    }
+                    else
+                    {
+                        equipmentAndStock.Add(item.EquipmentSO, amountOfItems);
+                    }
+                }
+            }
+        }
+
+        ShopUI.Instance.Setup(equipmentAndStock);
     }
+}
+
+[Serializable]
+public class ShopItemSetting
+{
+    public EquipmentSO EquipmentSO;
+
+    // X position is normalized to 0-1 so end of the map will be at t = 1
+    public MinMaxCurve ChanceOfBeginInShopAtXMapPosition;
+
+    public Vector2Int IfInShopHowManyRange;
 }

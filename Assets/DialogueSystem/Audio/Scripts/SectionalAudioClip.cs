@@ -11,7 +11,7 @@ namespace DialogueSystem
     {
         public AudioClip audioClip;
 
-        public RangeSlider slider;
+        public FloatRangeSlider slider;
 
         [SerializeField]
         private float time;
@@ -115,7 +115,7 @@ namespace DialogueSystem
         public SectionalAudioClip(AudioClip audioClip, float startT, float endT)
         {
             this.audioClip = audioClip;
-            slider = new RangeSlider();
+            slider = new FloatRangeSlider();
             slider.MinValue = startT;
             slider.MaxValue = endT;
         }
@@ -123,7 +123,7 @@ namespace DialogueSystem
         public SectionalAudioClip(AudioClip audioClip, float startT, float endT, float time)
         {
             this.audioClip = audioClip;
-            slider = new RangeSlider();
+            slider = new FloatRangeSlider();
             slider.MinValue = startT;
             slider.MaxValue = endT;
 

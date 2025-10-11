@@ -11,8 +11,10 @@ using AYellowpaper.SerializedCollections;
 using Unity.VisualScripting;
 using System.Linq;
 [RequireComponent(typeof(EquipmentInventory))]
-public class Shop : MonoBehaviour
+public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
+    public static ShopUI Instance { get; private set; }
+
     private EquipmentInventory equipmentInventory;
 
     private Dictionary<EquipmentSO, int> equipmentAndStock = new Dictionary<EquipmentSO, int>();
@@ -48,9 +50,16 @@ public class Shop : MonoBehaviour
         equipmentInventory.onEquipmentChanged += OnEquipmentChanged;
     }
 
-    private void Start()
+    public void InitiateSingleton()
     {
-        ShopManager.Instance.onSetupShop += Setup;
+        if(Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else 
+        {
+            Instance = this;
+        }
     }
 
     private void Clear()
@@ -66,9 +75,11 @@ public class Shop : MonoBehaviour
         soldEquipment.Clear();
     }
 
-    private void Setup(Dictionary<EquipmentSO, int> equipmentAndStock)
+    public void Setup(Dictionary<EquipmentSO, int> equipmentAndStock)
     {
         Clear();
+
+        this.equipmentAndStock = equipmentAndStock;
 
         foreach (KeyValuePair<EquipmentSO, int> equipment in equipmentAndStock)
         {
@@ -222,6 +233,8 @@ public class Shop : MonoBehaviour
 
         sellGoldAmount.text = Mathf.RoundToInt(sellGold).ToString();
     }
+
+    
 }
 
 public enum Rarity

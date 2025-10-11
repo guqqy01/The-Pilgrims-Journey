@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CustomEditorGUI
 {
-    public static void DrawRangeSlider(RangeSlider rangeSlider, Rect position, GUIContent label)
+    public static void DrawRangeSlider(FloatRangeSlider rangeSlider, Rect position, GUIContent label)
     {
         float max = rangeSlider.MaxValue;
         float min = rangeSlider.MinValue;

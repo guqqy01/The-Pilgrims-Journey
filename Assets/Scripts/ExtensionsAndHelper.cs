@@ -663,6 +663,11 @@ public static class ExtensionsAndHelper
         return Random.Range(Mathf.Min(v2.x, v2.y), Mathf.Max(v2.x, v2.y));
     }
 
+    public static int RandomBetweenTwoValuesInclusive(this Vector2Int v2)
+    {
+        return Random.Range(Mathf.Min(v2.x, v2.y), Mathf.Max(v2.x, v2.y) + 1);
+    }
+
     public static Vector2 RotateCounterClockwise(this Vector2 v2, float angleRad)
     {
         float x = v2.x * Mathf.Cos(angleRad) - v2.y * Mathf.Sin(angleRad);

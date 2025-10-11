@@ -397,14 +397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: accf7f561ee872742b434c0aa09c0f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startEquipmentAndStock:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 2f11feac139acd949b0279d7918bc6f5, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: ed0859d5750782b4d898ede5290fd344, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: aa25ec0261b56904a8fa15def602693e, type: 2}
-      Value: 3
   ShopItemPrefab: {fileID: 3937993469788281014, guid: dc94670edd9ed834790b5510cb837aec, type: 3}
   shopItemsContentTransform: {fileID: 1096533679}
   purchaseGoldAmount: {fileID: 1524282633}
@@ -3217,9 +3209,9 @@ RectTransform:
   - {fileID: 1608780786}
   m_Father: {fileID: 1899131051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 33.75163, y: -10.8695}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20.025, y: 21.739}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &371261870
@@ -14105,7 +14097,6 @@ MonoBehaviour:
   - mapPointType: 2
     requiredObjects:
     - {fileID: 991965983}
-    - {fileID: 2116193721}
     controlTopBarMovement: 0
   - mapPointType: 3
     requiredObjects:
@@ -17751,9 +17742,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1899131051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10.869565, y: -10.869565}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 21.73913, y: 21.73913}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1450735494
@@ -20779,6 +20770,7 @@ MonoBehaviour:
   - singleton: {fileID: 1163183306}
   - singleton: {fileID: 787407077}
   - singleton: {fileID: 2119765721}
+  - singleton: {fileID: 50941354}
 --- !u!1001 &1729471431
 PrefabInstance:
   m_ObjectHideFlags: 0
