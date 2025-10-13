@@ -6,10 +6,10 @@ using Equipment;
 using System.Linq;
 using UnityEngine.UIElements;
 
-public class EquipmentPage : EquipmentInventory, IPrizePage
+public class EquipmentPage : EquipmentInventoryUI, IPrizePage
 {
     [SerializeField]
-    private EquipmentContainer prizeContainerPrefab;
+    private EquipmentContainerUI prizeContainerPrefab;
 
     [SerializeField]
     private Transform prizeContainersHolder;
@@ -18,10 +18,8 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
 
     private const int maxNumOfEquipment = 3;
 
-    public void Init(List<ContainerSave> saves, DragableEquipmentUI dragableEquipmentUIPrefab)
+    public void Init(List<ContainerSave> saves)
     {
-        this.dragableEquipmentUIPrefab = dragableEquipmentUIPrefab;
-
         SpawnPrizeContainers(saves);
 
         gameObject.SetActive(false);
@@ -29,15 +27,15 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
 
     private void DestroyPrizeContainers()
     {
-        if (containers == null)
-            containers = new List<EquipmentContainer>();
+        if (containerUIs == null)
+            containerUIs = new List<EquipmentContainerUI>();
 
-        for (int i = 0; i < containers.Count; i++)
+        for (int i = 0; i < containerUIs.Count; i++)
         {
-            Destroy(containers[i].gameObject);
+            Destroy(containerUIs[i].gameObject);
         }
 
-        containers.Clear();
+        containerUIs.Clear();
     }
 
 
@@ -47,15 +45,15 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
 
         foreach (ContainerSave save in containerSaves)
         {
-            EquipmentContainer container = Instantiate(prizeContainerPrefab, prizeContainersHolder);
-            containers.Add(container);
+            EquipmentContainerUI container = Instantiate(prizeContainerPrefab, prizeContainersHolder);
+            containerUIs.Add(container);
         }
 
         Setup(containerSaves);
 
-        foreach (EquipmentContainer container in containers)
+        foreach (EquipmentContainer container in equipmentInventory.Containers)
         {
-            container.onEquipmentChange += OnEquipmentChanged;
+            container.onEquipmentChanged += OnEquipmentChanged;
         }
     }
 
@@ -65,11 +63,11 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
         {
             int? index = null;
 
-            for (int i = 0; i < containers.Count; i++)
+            for (int i = 0; i < equipmentInventory.Containers.Length; i++)
             {
-                containers[i].Active = containers[i].EquipmentSO == null;
+                equipmentInventory.Containers[i].Active = equipmentInventory.Containers[i].EquipmentSO == null;
 
-                if (containers[i].EquipmentSO == null)
+                if (equipmentInventory.Containers[i].EquipmentSO == null)
                 {
                     index = i;
                 }
@@ -77,7 +75,7 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
         }
         else
         {
-            foreach (EquipmentContainer equipmentContainer in containers)
+            foreach (EquipmentContainer equipmentContainer in equipmentInventory.Containers)
             {
                 equipmentContainer.Active = true;
             }

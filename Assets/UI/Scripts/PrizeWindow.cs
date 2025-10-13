@@ -131,7 +131,7 @@ public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFrom
         for (int i = 0; i < containerSaves.Count; i++)
         {
             EquipmentPage equipmentPage = Instantiate(equipmentPagePrefab, equipmentPagesTransfrom);
-            equipmentPage.Init(containerSaves[i], dragableEquipmentUIPrefab);
+            equipmentPage.Init(containerSaves[i]);
             equipmentPages.Add(equipmentPage);
         }
 

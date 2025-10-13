@@ -10,22 +10,18 @@ using UnityEngine.UI;
 using AYellowpaper.SerializedCollections;
 using Unity.VisualScripting;
 using System.Linq;
+
+
+
 [RequireComponent(typeof(EquipmentInventory))]
 public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
     public static ShopUI Instance { get; private set; }
 
-    private EquipmentInventory equipmentInventory;
-
-    private Dictionary<EquipmentSO, int> equipmentAndStock = new Dictionary<EquipmentSO, int>();
-
-    private Dictionary<EquipmentSO, int> boughtEquipment = new Dictionary<EquipmentSO, int>();
-    private Dictionary<EquipmentSO, int> soldEquipment = new Dictionary<EquipmentSO, int>();
-
     [SerializeField]
-    private ShopItem ShopItemPrefab;
+    private ShopItemUI ShopItemPrefab;
 
-    private Dictionary<EquipmentSO, ShopItem> shopItems = new Dictionary<EquipmentSO, ShopItem>();
+    private Dictionary<EquipmentSO, ShopItemUI> shopItems = new Dictionary<EquipmentSO, ShopItemUI>();
 
     [SerializeField]
     private Transform shopItemsContentTransform;
@@ -36,19 +32,13 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     [SerializeField]
     private Text sellGoldAmount;
 
-    private EquipmentSO selectedEquipment;
+    private ShopItemUI selectedShopItem;
 
     [SerializeField]
     private Button buyButton;
 
     [SerializeField]
     private Button sellButton;
-
-    private void Awake()
-    {
-        equipmentInventory = GetComponent<EquipmentInventory>();
-        equipmentInventory.onEquipmentChanged += OnEquipmentChanged;
-    }
 
     public void InitiateSingleton()
     {
@@ -64,174 +54,71 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     private void Clear()
     {
-       foreach(ShopItem item in shopItems.Values)
+        foreach(ShopItemUI item in shopItems.Values)
         {
             Destroy(item.gameObject);
         }
 
         shopItems.Clear();
-        equipmentAndStock.Clear();
-        boughtEquipment.Clear();
-        soldEquipment.Clear();
     }
 
     public void Setup(Dictionary<EquipmentSO, int> equipmentAndStock)
     {
         Clear();
 
-        this.equipmentAndStock = equipmentAndStock;
-
         foreach (KeyValuePair<EquipmentSO, int> equipment in equipmentAndStock)
         {
-            ShopItem item = Instantiate(ShopItemPrefab, shopItemsContentTransform);
-            item.Setup(equipment.Key, equipment.Value);
+            ShopItemUI item = Instantiate(ShopItemPrefab, shopItemsContentTransform);
+            item.Setup(equipment.Key, equipment.Value, equipment.Key.discounts.GetRandom());
             shopItems.Add(equipment.Key, item);
             item.onButtonPress += ShopItemButtonPress;
         }
     }
 
-    private void ShopItemButtonPress(EquipmentSO equipment)
+    private void ShopItemButtonPress(ShopItemUI shopItem)
     {
-        IInfo.onInfoSelected?.Invoke(equipment);
+        IInfo.onInfoSelected?.Invoke(shopItem.Equipment);
+
+        selectedShopItem = shopItem;
 
         UpdatePuchaseGoldAmount();
 
-        selectedEquipment = equipment;
-
-        buyButton.interactable = equipmentAndStock[selectedEquipment] > 0;
+        buyButton.interactable = ShopManager.Instance.EquipmentAndTheirShopItems[shopItem.Equipment].StockAmount > 0;
     }
 
     private void UpdatePuchaseGoldAmount()
     {
-        if (selectedEquipment == null)
+        if (selectedShopItem == null)
         {
             purchaseGoldAmount.text = "NA";
             return;
         }
 
-        if (soldEquipment.ContainsKey(selectedEquipment))
+        if (ShopManager.Instance.SoldEquipment.ContainsKey(selectedShopItem.Equipment))
         {
-            purchaseGoldAmount.text = Mathf.RoundToInt(selectedEquipment.goldCost / 2f).ToString();
+            purchaseGoldAmount.text = Mathf.RoundToInt(selectedShopItem.FinalGoldCost / 2f).ToString();
         }
         else
         {
-            purchaseGoldAmount.text = selectedEquipment.goldCost.ToString();
+            purchaseGoldAmount.text = selectedShopItem.FinalGoldCost.ToString();
         }
     }
 
     public void PurchaseButton()
     {
-        if (selectedEquipment == null || ResourceManager.Instance.Gold < selectedEquipment.goldCost || equipmentAndStock[selectedEquipment] <= 0)
-            return;
+        ShopManager.Instance.Purchase(selectedShopItem.Equipment);
 
-        if (!equipmentInventory.CanAddEquipment(selectedEquipment))
-            return;
-
-        if (soldEquipment.ContainsKey(selectedEquipment))
-        {
-            ResourceManager.Instance.ModifyGold(-Mathf.RoundToInt(selectedEquipment.goldCost / 2f));
-            soldEquipment[selectedEquipment]--;
-
-            if (soldEquipment[selectedEquipment] <= 0)
-                soldEquipment.Remove(selectedEquipment);
-
-            UpdatePuchaseGoldAmount();
-        }
-        else
-        {
-            ResourceManager.Instance.ModifyGold(-selectedEquipment.goldCost);
-
-            boughtEquipment.AddOrUpdateByOne(selectedEquipment);
-        }
-
-        if (equipmentInventory.TryAddEquipment(selectedEquipment))
-        {
-            equipmentAndStock[selectedEquipment]--;
-
-            shopItems[selectedEquipment].SetStockAmount(equipmentAndStock[selectedEquipment]);
-
-            buyButton.interactable = equipmentAndStock[selectedEquipment] > 0;
-        }
+        UpdatePuchaseGoldAmount();
     }
 
     public void SellButton()
     {
-        float sellGold = 0f;
-
-        foreach (EquipmentSO equipment in equipmentInventory.Equipment)
-        {
-            if (equipmentAndStock.ContainsKey(equipment))
-            {
-                equipmentAndStock[equipment]++;
-
-                shopItems[equipment].SetStockAmount(equipmentAndStock[equipment]);
-            }
-            else
-            {
-                equipmentAndStock.Add(equipment, 1);
-
-                ShopItem item = Instantiate(ShopItemPrefab, shopItemsContentTransform);
-                item.Setup(equipment, 1);
-                shopItems.Add(equipment, item);
-                item.onButtonPress += ShopItemButtonPress;
-            }
-
-            if (boughtEquipment.ContainsKey(equipment))
-            {
-                sellGold += equipment.goldCost;
-
-                boughtEquipment[equipment]--;
-
-                if (boughtEquipment[equipment] <= 0)
-                    boughtEquipment.Remove(equipment);
-            }
-            else
-            {
-                sellGold += equipment.goldCost / 2f;
-
-                soldEquipment.AddOrUpdateByOne(equipment);
-            }
-        }
+        ShopManager.Instance.Sell();
 
         UpdatePuchaseGoldAmount();
 
-        equipmentInventory.Clear();
-
-        ResourceManager.Instance.ModifyGold(Mathf.RoundToInt(sellGold));
-
-        if(selectedEquipment != null)
-            buyButton.interactable = equipmentAndStock[selectedEquipment] > 0;
-    }
-
-    private void OnEquipmentChanged()
-    {
-        float sellGold = 0f;
-
-        Dictionary<EquipmentSO, int> copyOfBoughtEquipment = new Dictionary<EquipmentSO, int>();
-
-        foreach(KeyValuePair<EquipmentSO, int> pair in boughtEquipment)
-        {
-            copyOfBoughtEquipment.Add(pair);
-        }
-
-        foreach(EquipmentSO equipment in equipmentInventory.Equipment)
-        {
-            if (copyOfBoughtEquipment.ContainsKey(equipment))
-            {
-                sellGold += equipment.goldCost;
-
-                copyOfBoughtEquipment[equipment]--;
-
-                if (copyOfBoughtEquipment[equipment] <= 0)
-                    copyOfBoughtEquipment.Remove(equipment);
-            }
-            else
-            {
-                sellGold += equipment.goldCost / 2f;
-            }
-        }
-
-        sellGoldAmount.text = Mathf.RoundToInt(sellGold).ToString();
+        if(selectedShopItem != null && selectedShopItem.Equipment != null)
+            buyButton.interactable = ShopManager.Instance.EquipmentAndTheirShopItems[selectedShopItem.Equipment].StockAmount > 0;
     }
 
     

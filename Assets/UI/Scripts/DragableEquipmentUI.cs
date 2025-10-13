@@ -18,7 +18,7 @@ namespace Equipment
 
         public EquipmentSO EquipmentSO { private set; get; }
         [HideInInspector]
-        public EquipmentContainer Container;
+        public EquipmentContainerUI ContainerUI;
 
         [SerializeField]
         private Image graphics;
@@ -38,10 +38,10 @@ namespace Equipment
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public void Init(EquipmentSO equipment, EquipmentContainer container)
+        public void Init(EquipmentSO equipment, EquipmentContainerUI container)
         {
             EquipmentSO = equipment;
-            this.Container = container;
+            this.ContainerUI = container;
 
             if(RectTransform == null)
                 RectTransform = GetComponent<RectTransform>();
@@ -63,7 +63,7 @@ namespace Equipment
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (!Container.Active)
+            if (!ContainerUI.Active)
                 return;
             Dragging = true;
             RectTransform.SetParent(canvas.transform, true);
@@ -77,16 +77,8 @@ namespace Equipment
             canvasGroup.blocksRaycasts = true;
             canvasGroup.alpha = 1f;
 
-            RectTransform.SetParent(Container.RectTransform, false);
-            RectTransform.position = Container.RectTransform.position;
-        }
-         
-        public void SetContainer(EquipmentContainer equipmentContainer)
-        {
-            Container = equipmentContainer;
-
-            RectTransform.SetParent(Container.RectTransform, false);
-            RectTransform.position = Container.RectTransform.position;
+            RectTransform.SetParent(ContainerUI.RectTransform, false);
+            RectTransform.position = ContainerUI.RectTransform.position;
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -95,13 +87,13 @@ namespace Equipment
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                EquipmentInventory priorityInventory = EquipmentManager.Instance.GetPriorityInventory(Container.EquipmentInventory, EquipmentSO);
+                EquipmentInventory priorityInventory = EquipmentManager.Instance.GetPriorityInventory(ContainerUI.Container.ParentInventory, EquipmentSO);
 
                 if(priorityInventory != null)
                 {
                     if(priorityInventory.GetFreeSpot(this.EquipmentSO, out EquipmentContainer returnContainer))
                     {
-                        returnContainer.SwapEquipment(Container);
+                        returnContainer.TrySwapEquipment(ContainerUI.Container);
                     }
                 }
             }

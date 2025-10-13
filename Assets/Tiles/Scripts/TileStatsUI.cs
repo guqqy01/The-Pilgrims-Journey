@@ -43,9 +43,9 @@ namespace Tiles
                 return;
             }
 
-            foreach(EquipmentContainer container in containers)
+            foreach(EquipmentContainer container in Containers)
             {
-                container.onEquipmentChange = null;
+                container.onEquipmentChanged = null;
             }
 
             Clear();
@@ -59,22 +59,22 @@ namespace Tiles
             tile.onUpdateUI = UpdateStats;
             tile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
 
-            containers[0].onEquipmentChange = (EquipmentSO from, EquipmentSO to) =>
+            Containers[0].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
             {
                 tile.Equipment[0] = to;
                 UpdateStats();
             };
-            containers[1].onEquipmentChange = (EquipmentSO from, EquipmentSO to) =>
+            Containers[1].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
             {
                 tile.Equipment[1] = to;
                 UpdateStats();
             };
-            containers[2].onEquipmentChange = (EquipmentSO from, EquipmentSO to) =>
+            Containers[2].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
             {
                 tile.Equipment[2] = to;
                 UpdateStats();
             };
-            containers[3].onEquipmentChange = (EquipmentSO from, EquipmentSO to) =>
+            Containers[3].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
             {
                 tile.Equipment[3] = to;
                 UpdateStats();
@@ -86,9 +86,9 @@ namespace Tiles
 
         public void UpdateStats()
         {
-            for (int i = 0; i < containers.Count; i++)
+            for (int i = 0; i < Containers.Length; i++)
             {
-                containers[i].Active = tile.Level > i;
+                Containers[i].Active = tile.Level > i;
             }
 
             spawnRateText.text = tile.SpawnRateValue.ToString();
@@ -120,9 +120,9 @@ namespace Tiles
         {
             tile = null;
 
-            for (int i = 0; i < containers.Count; i++)
+            for (int i = 0; i < Containers.Length; i++)
             {
-                containers[i].Deactivate();
+                Containers[i].Deactivate();
             }
             
             spawnRateText.text = "NA";
@@ -142,8 +142,6 @@ namespace Tiles
             GameManager.onSetup += Setup;
             GameManager.onClear += DeselectTile;
             GameManager.onClear += Clear;
-
-            containers = GetComponentsInChildren<EquipmentContainer>().ToList();
 
             DeselectTile();
 

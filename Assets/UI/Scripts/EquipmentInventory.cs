@@ -5,12 +5,28 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Equipment.EquipmentInventory;
 
 namespace Equipment
 {
     public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, ISetup
     {
-        protected List<EquipmentContainer> containers;
+        private int inventorySize = 6;
+
+        private EquipmentContainer[] containers;
+
+        public EquipmentContainer[] Containers
+        {
+            get
+            {
+                if (containers == null)
+                {
+                    containers = new EquipmentContainer[inventorySize];
+                }
+
+                return containers;
+            }
+        }
 
         [SerializeField]
         private List<EquipmentSO> startEquipment;
@@ -20,22 +36,19 @@ namespace Equipment
 
         public string SaveFileName => $"EquipmentInventory_{name}_Save";
 
-        [SerializeField]
-        protected DragableEquipmentUI dragableEquipmentUIPrefab;
-
         public delegate void OnEquipmentChanged();
         public OnEquipmentChanged onEquipmentChanged;
 
-        public List<EquipmentSO> Equipment
+        public List<EquipmentSO> NonNullEquipment
         {
             get
             {
                 List<EquipmentSO> returnList = new List<EquipmentSO>();
 
-                foreach (EquipmentContainer container in containers)
+                foreach (EquipmentContainer equipmentItem in Containers)
                 {
-                    if(container.EquipmentSO != null)
-                        returnList.Add(container.EquipmentSO);
+                    if(equipmentItem != null && equipmentItem.EquipmentSO != null)
+                        returnList.Add(equipmentItem.EquipmentSO);
                 }
 
                 return returnList;
@@ -62,22 +75,11 @@ namespace Equipment
 
         private void Start()
         {
-            StartSetup();
+            AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded();
         }
 
-        private void StartSetup()
+        private void AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded()
         {
-            if (containers != null)
-                return;
-
-            containers = GetComponentsInChildren<EquipmentContainer>().ToList();
-
-            foreach (EquipmentContainer container in containers)
-            {
-                container.onEquipmentChange += (EquipmentSO from, EquipmentSO to) => onEquipmentChanged?.Invoke();
-                container.EquipmentInventory = this;
-            }
-
             SceneRoot.DoActionAfterCommonSceneLoaded(AddToEquipmentManagerInventories);
         }
 
@@ -86,22 +88,14 @@ namespace Equipment
             EquipmentManager.Instance.EquipmentInventories.Add(this);
         }
 
-        /*protected virtual void OnDisable()
-        {
-            GameManager.onSave -= Save;
-            GameManager.onLoad -= Load;
-            GameManager.onSetup -= Setup;
-            GameManager.onClear -= Clear;
-        }*/
-
         public void Clear()
         {
-            if (containers == null)
+            if (Containers == null)
                 return;
 
-            for (int i = 0; i < containers.Count; i++)
+            for (int i = 0; i < Containers.Length; i++)
             {
-                containers[i].Clear();
+                Containers[i] = null;
             }
 
             onEquipmentChanged?.Invoke();
@@ -109,7 +103,7 @@ namespace Equipment
 
         public void Setup()
         {
-            StartSetup();
+            AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded();
 
             Setup(startEquipment);
 
@@ -120,9 +114,9 @@ namespace Equipment
         {
             List<ContainerSave> saves = new List<ContainerSave>();
 
-            for (int i = 0; i < containers.Count; i++)
+            for (int i = 0; i < Containers.Length; i++)
             {
-                saves.Add(containers[i].GetSave());
+                saves.Add(Containers[i].GetSave());
             }
 
             SaveData saveData = new SaveData(saves);
@@ -141,24 +135,9 @@ namespace Equipment
         {
             for (int i = 0; i < containerSaves.Count; i++)
             {
-                containers[i].AllowedEquipment = containerSaves[i].allowedEquipment;
+                Containers[i].AllowedEquipment = containerSaves[i].allowedEquipment;
 
-                if (containerSaves[i].equipment != null)
-                {
-                    DragableEquipmentUI dragableEquipmentUI = Instantiate(dragableEquipmentUIPrefab);
-
-                    if (containers[i].CanChangeEquipment(containerSaves[i].equipment))
-                    {
-                        dragableEquipmentUI.Init(containerSaves[i].equipment, containers[i]);
-                    }
-
-                    if (!containers[i].TryChangeEquipment(dragableEquipmentUI))
-                    {
-                        Destroy(dragableEquipmentUI.gameObject);
-                        Debug.LogWarning("Dragable equipment not able to be placed in container");
-                    }
-                }
-                containers[i].Active = containerSaves[i].active;
+                Containers[i].Active = containerSaves[i].active;
             }
 
             onEquipmentChanged?.Invoke();
@@ -178,18 +157,7 @@ namespace Equipment
                 if (equipmentToSetup[i] == null)
                     continue;
                 
-                DragableEquipmentUI dragableEquipmentUI = Instantiate(dragableEquipmentUIPrefab);
-                
-                if (containers[i].CanChangeEquipment(equipmentToSetup[i]))
-                {
-                    dragableEquipmentUI.Init(equipmentToSetup[i], containers[i]);
-                }
 
-                if (!containers[i].TryChangeEquipment(dragableEquipmentUI))
-                {
-                    Destroy(dragableEquipmentUI.gameObject);
-                    Debug.LogWarning("Dragable equipment not able to be placed in container");
-                }
             }
 
             onEquipmentChanged?.Invoke();
@@ -200,9 +168,9 @@ namespace Equipment
             if (equipmentToAdd == null)
                 return false;
 
-            for (int i = 0; i < containers.Count; i++)
+            for (int i = 0; i < Containers.Length; i++)
             {
-                if (containers[i].EquipmentSO == null && containers[i].CanChangeEquipment(equipmentToAdd))
+                if (Containers[i].EquipmentSO == null && Containers[i].CanChangeEquipment(equipmentToAdd))
                 {
                     return true;
                 }
@@ -213,7 +181,7 @@ namespace Equipment
 
         public bool HasFreeSpot()
         {
-            foreach(EquipmentContainer container in containers)
+            foreach(EquipmentContainer container in Containers)
             {
                 if (container.AllowedEquipment == null && container.EquipmentSO == null && container.Active)
                     return true;
@@ -224,7 +192,7 @@ namespace Equipment
 
         public bool HasFreeSpot(EquipmentSO equipment)
         {
-            foreach (EquipmentContainer container in containers)
+            foreach (EquipmentContainer container in Containers)
             {
                 if ((container.AllowedEquipment == null || container.AllowedEquipment == equipment) && container.EquipmentSO == null && container.Active)
                     return true;
@@ -237,7 +205,7 @@ namespace Equipment
         {
             returnContainer = null;
 
-            foreach (EquipmentContainer container in containers)
+            foreach (EquipmentContainer container in Containers)
             {
                 if ((container.AllowedEquipment == null || container.AllowedEquipment == equipment) && container.EquipmentSO == null && container.Active)
                 {
@@ -254,26 +222,22 @@ namespace Equipment
             if (equipmentToAdd == null)
                 return false;
 
-            DragableEquipmentUI dragableEquipmentUI = Instantiate(dragableEquipmentUIPrefab);
-
-            for (int i = 0; i < containers.Count; i++)
+            if (CanAddEquipment(equipmentToAdd))
             {
-                if (containers[i].EquipmentSO == null && containers[i].CanChangeEquipment(equipmentToAdd))
+                GetFreeSpot(equipmentToAdd, out EquipmentContainer container);
+
+                if (container.TryChangeEquipment(equipmentToAdd))
                 {
-                    dragableEquipmentUI.Init(equipmentToAdd, containers[i]);
-
-                    if (containers[i].TryChangeEquipment(dragableEquipmentUI))
-                    {
-                        onEquipmentChanged?.Invoke();
-                        return true;
-                    }
-
+                    onEquipmentChanged?.Invoke();
+                    return true;
                 }
+
+                return false;
             }
-
-            Destroy(dragableEquipmentUI.gameObject);
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -291,7 +255,7 @@ namespace Equipment
         {
             List<ContainerSave> containerSaves = new List<ContainerSave>();
 
-            foreach(EquipmentContainer container in containers)
+            foreach(EquipmentContainer container in Containers)
             {
                 containerSaves.Add(container.GetSave());
             }
@@ -304,6 +268,7 @@ namespace Equipment
             return - priority.CompareTo(other.priority);
         }
     }
+
 
     [Serializable]
     public class EquipmentInventorySave
@@ -330,4 +295,6 @@ namespace Equipment
             this.active = active;
         }
     }
+
+    
 }

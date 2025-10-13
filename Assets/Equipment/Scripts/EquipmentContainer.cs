@@ -1,131 +1,82 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using static Equipment.EquipmentContainerUI;
 
 namespace Equipment
 {
-    public class EquipmentContainer : MonoBehaviour, IDropHandler
+    public class EquipmentContainer
     {
-        public RectTransform RectTransform;
+        public EquipmentInventory ParentInventory { get; private set; }
 
-        private EquipmentSO allowedEquipment;
+        private EquipmentSO equipmentSO = null;
+        public EquipmentSO EquipmentSO
+        {
+            get { return equipmentSO; }
+            set
+            {
+                EquipmentSO previousEquipment = equipmentSO;
+                equipmentSO = value;
+                onEquipmentChanged?.Invoke(previousEquipment, value);
+            }
+        }
+
+        private EquipmentSO allowedEquipment = null;
         public EquipmentSO AllowedEquipment
         {
-            get
-            {
-                return allowedEquipment;
-            }
+            get { return allowedEquipment; }
             set
             {
                 allowedEquipment = value;
 
-                if (allowedEquipment != null)
+                if (EquipmentSO != null && EquipmentSO != allowedEquipment)
                 {
-                    if(EquipmentSO != null && EquipmentSO != allowedEquipment)
-                    {
-                        Clear();
-                    }
-                    else
-                    {
-                        equipmentBackImage.sprite = allowedEquipment.sprite;
-                        equipmentBackImage.color = Color.grey.SetAlpha(0.3f);
-                    }
+                    EquipmentSO = null;
                 }
 
-                equipmentBackImage.gameObject.SetActive(EquipmentUI != null || AllowedEquipment != null);
-                equipmentBackImage.SetNativeSize();
+                onAllowedEquipmentChange?.Invoke();
             }
         }
-
-        private DragableEquipmentUI EquipmentUI;
-
-        public EquipmentSO EquipmentSO => EquipmentUI != null ? EquipmentUI.EquipmentSO : null;
-
 
         private bool active = true;
         public bool Active
         {
-            get
-            {
-                return active;
-            }
+            get { return active; }
             set
             {
                 active = value;
-                cross.SetActive(!value);
+                onActiveChange?.Invoke();
             }
         }
 
-        public EquipmentInventory EquipmentInventory;
+        public delegate void OnEquipmentChanged(EquipmentSO fromEquipment, EquipmentSO toEquipment);
+        public OnEquipmentChanged onEquipmentChanged;
 
-        [SerializeField]
-        private Image equipmentBackImage;
+        public delegate void OnUIUpdate();
+        public OnUIUpdate onActiveChange;
+        public OnUIUpdate onAllowedEquipmentChange;
 
-        [SerializeField]
-        private GameObject cross;
-
-        public delegate void OnEquipmentChange(EquipmentSO fromEquipment, EquipmentSO toEquipment);
-        public OnEquipmentChange onEquipmentChange;
-
-        private void Awake()
+        public void SetupEquipment(EquipmentSO equipment)
         {
-            RectTransform = GetComponent<RectTransform>();
+            EquipmentSO = equipment;
+
+            onEquipmentChanged?.Invoke(null, equipment);
         }
 
-        public void Clear()
+        public bool TryChangeEquipment(EquipmentSO equipment)
         {
-            if (EquipmentUI == null)
-                return;
+            if (CanChangeEquipment(equipment))
+            {
+                EquipmentSO previousEquipment = EquipmentSO;
 
-            Destroy(EquipmentUI.gameObject);
+                EquipmentSO = equipment;
 
-            TryChangeEquipment(null);
-        }
+                onEquipmentChanged?.Invoke(previousEquipment, equipment);
 
-        public bool TryChangeEquipment(DragableEquipmentUI equipment)
-        {
-            if (!CanChangeEquipment( equipment != null ? equipment.EquipmentSO : null))
+                return true;
+            }
+            else
+            {
                 return false;
-
-            Sprite sprite = null;
-
-           
-            if(equipment != null && equipment.EquipmentSO != null)
-            {
-                sprite = equipment.EquipmentSO.sprite;
             }
-            else if(allowedEquipment != null)
-            {
-                 sprite = allowedEquipment.sprite;
-            }
-
-            equipmentBackImage.sprite = sprite;
-            equipmentBackImage.color = Color.grey.SetAlpha(0.3f);
-            equipmentBackImage.SetNativeSize();
-            equipmentBackImage.gameObject.SetActive(equipment != null || AllowedEquipment != null);
-
-            if (equipment != null)
-            {
-                equipment.SetContainer(this);
-            }
-
-            EquipmentSO holder = EquipmentSO;
-            EquipmentUI = equipment;
-            
-            onEquipmentChange?.Invoke(holder, EquipmentSO);
-
-            return true;
-        }
-
-        public void Deactivate()
-        {
-            onEquipmentChange = null;
-            Active = false;
-            Clear();
-            TryChangeEquipment(null);
         }
 
         public bool CanChangeEquipment(EquipmentSO equipment)
@@ -142,44 +93,34 @@ namespace Equipment
             return true;
         }
 
-        public bool CanChangeEquipment(DragableEquipmentUI equipment)
+        public void Deactivate()
         {
-            return CanChangeEquipment(equipment != null ? equipment.EquipmentSO : null);
+            onEquipmentChanged = null;
+            Active = false;
+            Clear();
+            TryChangeEquipment(null);
         }
 
-        public void OnDrop(PointerEventData eventData)
+        public void Clear()
         {
-            if (eventData.pointerDrag == null)
-                return;
-
-            if (!eventData.pointerDrag.TryGetComponent(out DragableEquipmentUI droppedEquipmentUI))
-                return;
-
-            if (!droppedEquipmentUI.Dragging)
-                return;
-
-            SwapEquipment(droppedEquipmentUI.Container);
+            TryChangeEquipment(null);
         }
 
-        public void SwapEquipment(EquipmentContainer otherContainer)
+        public bool TrySwapEquipment(EquipmentContainer otherContainer)
         {
-            DragableEquipmentUI otherEquipment = otherContainer.EquipmentUI;
-            DragableEquipmentUI previousEquipmentUI = EquipmentUI;
+            EquipmentSO otherEquipment = otherContainer.EquipmentSO;
+            EquipmentSO previousEquipment = EquipmentSO;
 
-            if (CanChangeEquipment(otherEquipment) && otherContainer.CanChangeEquipment(previousEquipmentUI))
+            if (CanChangeEquipment(otherEquipment) && otherContainer.CanChangeEquipment(previousEquipment))
             {
                 TryChangeEquipment(otherEquipment);
-                otherContainer.TryChangeEquipment(previousEquipmentUI);
-                AudioManager.Instance.PlaySelectEquipment();
-            }
-            else
-            {
-                otherEquipment.RectTransform.position = otherEquipment.Container.RectTransform.position;
-                otherEquipment.RectTransform.SetParent(otherEquipment.Container.RectTransform, true);
-                Debug.Log("Fail to place equipment, Sound");
-            }
-        }
+                otherContainer.TryChangeEquipment(previousEquipment);
 
+                return true;
+            }
+
+            return false;
+        }
 
         public ContainerSave GetSave()
         {
