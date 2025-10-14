@@ -37,6 +37,7 @@ namespace Equipment
             
             canvasGroup = GetComponent<CanvasGroup>();
         }
+        
 
         public void Init(EquipmentSO equipment, EquipmentContainerUI container)
         {

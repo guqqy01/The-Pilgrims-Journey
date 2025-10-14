@@ -11,7 +11,22 @@ namespace Equipment
 {
     public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, ISetup
     {
+        [SerializeField]
         private int inventorySize = 6;
+
+        public int InventorySize
+        {
+            get { return inventorySize; }
+            set
+            {
+                if (value < 0)
+                    inventorySize = 0;
+                else
+                    inventorySize = value;
+
+                SetupAmountOfContainers();
+            }
+        }
 
         private EquipmentContainer[] containers;
 
@@ -19,10 +34,7 @@ namespace Equipment
         {
             get
             {
-                if (containers == null)
-                {
-                    containers = new EquipmentContainer[inventorySize];
-                }
+                SetupAmountOfContainers();
 
                 return containers;
             }
@@ -36,42 +48,104 @@ namespace Equipment
 
         public string SaveFileName => $"EquipmentInventory_{name}_Save";
 
-        public delegate void OnEquipmentChanged();
+        public delegate void OnContainerSizeChanged(int size);
+        public OnContainerSizeChanged onContainerSizeChanged;
+
+        public List<EquipmentSO> NonNullEquipment =>
+                Containers.Where(c => c?.EquipmentSO != null)
+                            .Select(c => c.EquipmentSO)
+                            .ToList();
+
+        public delegate void OnEquipmentChanged(EquipmentContainer container, EquipmentSO from, EquipmentSO to);
         public OnEquipmentChanged onEquipmentChanged;
-
-        public List<EquipmentSO> NonNullEquipment
-        {
-            get
-            {
-                List<EquipmentSO> returnList = new List<EquipmentSO>();
-
-                foreach (EquipmentContainer equipmentItem in Containers)
-                {
-                    if(equipmentItem != null && equipmentItem.EquipmentSO != null)
-                        returnList.Add(equipmentItem.EquipmentSO);
-                }
-
-                return returnList;
-            }
-        }
 
         protected virtual void Awake()
         {
             GameManager.onSave += Save;
             GameManager.onLoad += Load;
-            GameManager.onSetup += Setup;
             GameManager.onClear += Clear;
         }
+
+
 
         protected virtual void OnDestroy()
         {
             GameManager.onSave -= Save;
             GameManager.onLoad -= Load;
-            GameManager.onSetup -= Setup;
             GameManager.onClear -= Clear;
+
+            foreach (var kvp in containerChangeHandlers)
+            {
+                if (kvp.Key != null)
+                    kvp.Key.onEquipmentChanged -= kvp.Value;
+            }
+            containerChangeHandlers.Clear();
         }
 
 
+        private Dictionary<EquipmentContainer, EquipmentContainer.OnEquipmentChanged> containerChangeHandlers = new Dictionary<EquipmentContainer, EquipmentContainer.OnEquipmentChanged>();
+
+        private void SetupAmountOfContainers()
+        {
+            bool containersSizeChanged = false;
+
+            if (containers == null)
+            {
+                containers = new EquipmentContainer[inventorySize];
+
+                for (int i = 0; i < inventorySize; i++)
+                {
+                    containers[i] = new EquipmentContainer(this);
+                    RegisterContainer(containers[i]);
+                }
+
+                containersSizeChanged = true;
+            }
+
+            if (containers.Length != inventorySize)
+            {
+                if (containers.Length > inventorySize)
+                {
+                    for (int i = inventorySize; i < containers.Length; i++)
+                    {
+                        if (containers[i] != null && containerChangeHandlers.TryGetValue(containers[i], out var handler))
+                        {
+                            containers[i].onEquipmentChanged -= handler;
+                            containerChangeHandlers.Remove(containers[i]);
+                        }
+                    }
+                }
+
+                Array.Resize(ref containers, inventorySize);
+
+                for (int i = 0; i < inventorySize; i++)
+                {
+                    if (containers[i] == null)
+                    {
+                        containers[i] = new EquipmentContainer(this);
+                        RegisterContainer(containers[i]);
+                    }
+                }
+
+                containersSizeChanged = true;
+            }
+            
+
+            if (containersSizeChanged)
+                onContainerSizeChanged?.Invoke(containers.Length);
+        }
+
+        private void RegisterContainer(EquipmentContainer container)
+        {
+            if (container == null || containerChangeHandlers.ContainsKey(container))
+                return;
+
+            EquipmentContainer.OnEquipmentChanged handler = (from, to) =>
+                onEquipmentChanged?.Invoke(container, from, to);
+
+            containerChangeHandlers[container] = handler;
+            container.onEquipmentChanged += handler;
+        }
 
         private void Start()
         {
@@ -95,10 +169,8 @@ namespace Equipment
 
             for (int i = 0; i < Containers.Length; i++)
             {
-                Containers[i] = null;
+                Containers[i]?.Clear();
             }
-
-            onEquipmentChanged?.Invoke();
         }
 
         public void Setup()
@@ -106,8 +178,6 @@ namespace Equipment
             AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded();
 
             Setup(startEquipment);
-
-            onEquipmentChanged?.Invoke();
         }
 
         public void Save()
@@ -126,21 +196,23 @@ namespace Equipment
 
         public void Load()
         {
-            SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
-
-            Setup(saveData.equipment);
+            var loadedProfile = SaveManager.Load<SaveData>(SaveFileName);
+            if (loadedProfile?.saveData == null)
+            {
+                Debug.LogWarning($"No save data found for {SaveFileName}");
+                return;
+            }
+            Setup(loadedProfile.saveData.equipment);
         }
 
         public void Setup(List<ContainerSave> containerSaves)
         {
+            InventorySize = containerSaves.Count;
+
             for (int i = 0; i < containerSaves.Count; i++)
             {
-                Containers[i].AllowedEquipment = containerSaves[i].allowedEquipment;
-
-                Containers[i].Active = containerSaves[i].active;
+                Containers[i] = new EquipmentContainer(containerSaves[i], this);
             }
-
-            onEquipmentChanged?.Invoke();
         }
 
         public void Setup(List<EquipmentSO> equipmentToSetup)
@@ -150,17 +222,16 @@ namespace Equipment
 
         public void Setup(EquipmentSO[] equipmentToSetup)
         {
-            Clear();
-
             for (int i = 0; i < equipmentToSetup.Length; i++)
             {
                 if (equipmentToSetup[i] == null)
                     continue;
-                
 
+                if (!TryAddEquipment(equipmentToSetup[i]))
+                {
+                    Debug.Log("Attempted to add equipment failed: " + equipmentToSetup[i]);
+                }
             }
-
-            onEquipmentChanged?.Invoke();
         }
 
         public bool CanAddEquipment(EquipmentSO equipmentToAdd)
@@ -228,7 +299,6 @@ namespace Equipment
 
                 if (container.TryChangeEquipment(equipmentToAdd))
                 {
-                    onEquipmentChanged?.Invoke();
                     return true;
                 }
 
@@ -265,7 +335,7 @@ namespace Equipment
 
         public int CompareTo(EquipmentInventory other)
         {
-            return - priority.CompareTo(other.priority);
+            return other.priority.CompareTo(priority);
         }
     }
 

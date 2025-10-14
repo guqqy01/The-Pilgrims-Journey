@@ -110,7 +110,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4523475718239415045
 CanvasRenderer:
@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2904566264893245220}
   - component: {fileID: 1564297668879832166}
-  - component: {fileID: 1334595351911125056}
+  - component: {fileID: 2617307041353785141}
   m_Layer: 5
   m_Name: Equipment Container
   m_TagString: Untagged
@@ -189,7 +189,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000030517578, y: 81.2}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1564297668879832166
 CanvasRenderer:
@@ -199,7 +199,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5624003905463544921}
   m_CullTransparentMesh: 1
---- !u!114 &1334595351911125056
+--- !u!114 &2617307041353785141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,11 +208,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5624003905463544921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 655db5232a7c9ea42ba739b4847d8236, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d8aea0e11af86a4fa76801be87c6ded, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::Equipment.EquipmentContainerUI
   RectTransform: {fileID: 2904566264893245220}
-  EquipmentInventory: {fileID: 0}
+  dragableEquipmentUIPrefab: {fileID: 4500994405855716175, guid: 8011e03d1cc9c5848a8610622e2129ef, type: 3}
   equipmentBackImage: {fileID: 6139546953217516729}
   cross: {fileID: 2803941206482272558}
 --- !u!1 &6264970890345022547

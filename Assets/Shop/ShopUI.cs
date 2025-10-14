@@ -52,27 +52,66 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         }
     }
 
+    private void Start()
+    {
+        ShopManager.Instance.onShopSetup -= Setup;
+        ShopManager.Instance.onUpdateSellGold -= UpdateSellGold;
+
+        ShopManager.Instance.onShopSetup += Setup;
+        ShopManager.Instance.onUpdateSellGold += UpdateSellGold;
+        Setup(ShopManager.Instance.EquipmentAndTheirShopItems);
+    }
+
+    private void OnDestroy()
+    {
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.onShopSetup -= Setup;
+            ShopManager.Instance.onUpdateSellGold -= UpdateSellGold;
+        }
+    }
+
+    private void RefreshUI()
+    {
+        UpdatePurchaseGoldAmount();
+        UpdateSellGold();
+        UpdateButtonStates();
+    }
+
     private void Clear()
     {
-        foreach(ShopItemUI item in shopItems.Values)
+        foreach (var item in shopItems.Values)
         {
+            item.OnButtonPress -= ShopItemButtonPress;
             Destroy(item.gameObject);
         }
-
         shopItems.Clear();
     }
 
-    public void Setup(Dictionary<EquipmentSO, int> equipmentAndStock)
+    public void Setup(Dictionary<EquipmentSO, ShopItem> equipmentAndStock)
     {
         Clear();
 
-        foreach (KeyValuePair<EquipmentSO, int> equipment in equipmentAndStock)
+        foreach (KeyValuePair<EquipmentSO, ShopItem> equipment in equipmentAndStock)
         {
             ShopItemUI item = Instantiate(ShopItemPrefab, shopItemsContentTransform);
-            item.Setup(equipment.Key, equipment.Value, equipment.Key.discounts.GetRandom());
+            item.Setup(equipment.Value);
             shopItems.Add(equipment.Key, item);
-            item.onButtonPress += ShopItemButtonPress;
+            item.OnButtonPress += ShopItemButtonPress;
         }
+    }
+
+    private void UpdateSellGold()
+    {
+        if (selectedShopItem == null)
+        {
+            sellGoldAmount.text = "NA";
+            return;
+        }
+
+        sellGoldAmount.text = ShopManager.Instance.GetSellGoldAmount().ToString();
+
+        UpdateButtonStates();
     }
 
     private void ShopItemButtonPress(ShopItemUI shopItem)
@@ -81,12 +120,12 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
         selectedShopItem = shopItem;
 
-        UpdatePuchaseGoldAmount();
-
         buyButton.interactable = ShopManager.Instance.EquipmentAndTheirShopItems[shopItem.Equipment].StockAmount > 0;
+
+        RefreshUI();
     }
 
-    private void UpdatePuchaseGoldAmount()
+    private void UpdatePurchaseGoldAmount()
     {
         if (selectedShopItem == null)
         {
@@ -94,34 +133,34 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
             return;
         }
 
-        if (ShopManager.Instance.SoldEquipment.ContainsKey(selectedShopItem.Equipment))
-        {
-            purchaseGoldAmount.text = Mathf.RoundToInt(selectedShopItem.FinalGoldCost / 2f).ToString();
-        }
-        else
-        {
-            purchaseGoldAmount.text = selectedShopItem.FinalGoldCost.ToString();
-        }
+        purchaseGoldAmount.text = selectedShopItem.ShopItem.GetPurchaseGoldAmount().ToString();
     }
 
     public void PurchaseButton()
     {
-        ShopManager.Instance.Purchase(selectedShopItem.Equipment);
+        ShopManager.Instance.Purchase(selectedShopItem.ShopItem);
 
-        UpdatePuchaseGoldAmount();
+        RefreshUI();
     }
 
     public void SellButton()
     {
         ShopManager.Instance.Sell();
 
-        UpdatePuchaseGoldAmount();
-
         if(selectedShopItem != null && selectedShopItem.Equipment != null)
             buyButton.interactable = ShopManager.Instance.EquipmentAndTheirShopItems[selectedShopItem.Equipment].StockAmount > 0;
+
+        RefreshUI();
     }
 
-    
+    private void UpdateButtonStates()
+    {
+        buyButton.interactable = selectedShopItem != null
+            && ShopManager.Instance.CanPurchase(selectedShopItem.ShopItem);
+
+        sellButton.interactable =
+            ShopManager.Instance.EquipmentInventory.NonNullEquipment.Any();
+    }
 }
 
 public enum Rarity

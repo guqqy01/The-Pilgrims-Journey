@@ -10,35 +10,46 @@ namespace Equipment
         [SerializeField]
         protected EquipmentInventory equipmentInventory;
 
+        [SerializeField]
         private EquipmentContainerUI containerUIPrefab;
 
         protected List<EquipmentContainerUI> containerUIs;
 
+        [SerializeField]
+        private Transform manualContainerParentTransform;
+
+        public Transform containerParentTransform => manualContainerParentTransform != null ? manualContainerParentTransform : transform;
+
         private void Start()
         {
-            SetupNumberOfContainers();
+            equipmentInventory.onContainerSizeChanged += SetupNumberOfContainers;
+
+            SetupNumberOfContainers(equipmentInventory.Containers.Length);
         }
 
-        private void SetupNumberOfContainers()
+        private void SetupNumberOfContainers(int numberOfContainers)
         {
-            containerUIs = GetComponentsInChildren<EquipmentContainerUI>().ToList();
+            containerUIs = containerParentTransform.GetComponentsInChildren<EquipmentContainerUI>().ToList();
 
-            if(containerUIs.Count > equipmentInventory.Containers.Length)
+            if(containerUIs.Count > numberOfContainers)
             {
-                for (int i = equipmentInventory.Containers.Length; i < containerUIs.Count; i++)
+                for (int i = numberOfContainers; i < containerUIs.Count; i++)
                 {
                     Destroy(containerUIs[i].gameObject);
                 }
             }
-            else if(containerUIs.Count < equipmentInventory.Containers.Length)
+            else if(containerUIs.Count < numberOfContainers)
             {
-                EquipmentContainerUI containerUI = Instantiate(containerUIPrefab, transform);
-                containerUIs.Add(containerUI);
+                for (int i = containerUIs.Count; i < numberOfContainers; i++)
+                {
+                    EquipmentContainerUI containerUI = Instantiate(containerUIPrefab, containerParentTransform);
+                    containerUIs.Add(containerUI);
+                }
             }
 
             containerUIs = containerUIs.Where(x => x != null).ToList();
 
-            for (int i = 0; i < equipmentInventory.Containers.Length; i++)
+            for (int i = 0; i < numberOfContainers; i++)
             {
                 EquipmentContainer equipmentContainer = equipmentInventory.Containers[i];
                 EquipmentContainerUI containerUI = containerUIs[i];

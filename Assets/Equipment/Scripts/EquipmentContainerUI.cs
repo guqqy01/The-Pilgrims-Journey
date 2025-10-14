@@ -40,16 +40,31 @@ namespace Equipment
         public void Init(EquipmentContainer container, EquipmentInventoryUI parentInventoryUI)
         {
             Container = container;
-            Container.onEquipmentChanged += UpdateEquipmentChanged;
-            Container.onActiveChange += UpdateActiveUI;
-            Container.onAllowedEquipmentChange += UpdateAllowedEquipmentUI;
+            Container.onEquipmentChangeUI += UpdateEquipmentChanged;
+            Container.onActiveChangeUI += UpdateActiveUI;
+            Container.onAllowedEquipmentChangeUI += UpdateAllowedEquipmentUI;
 
             ParentInventoryUI = parentInventoryUI;
+
+            UpdateAllowedEquipmentUI();
+            UpdateActiveUI();
+
+            UpdateEquipmentChanged();
+        }
+
+        private void OnDestroy()
+        {
+            if (Container == null)
+                return;
+
+            Container.onEquipmentChangeUI -= UpdateEquipmentChanged;
+            Container.onActiveChangeUI -= UpdateActiveUI;
+            Container.onAllowedEquipmentChangeUI -= UpdateAllowedEquipmentUI;
         }
 
         private void UpdateActiveUI()
         {
-            cross.SetActive(Container.Active);
+            cross.SetActive(!Container.Active);
         }
 
         private void UpdateAllowedEquipmentUI()
@@ -62,13 +77,18 @@ namespace Equipment
                 equipmentBackImage.sprite = Container.AllowedEquipment.sprite;
                 equipmentBackImage.color = Color.grey.SetAlpha(0.3f);
             }
+            else
+            {
+                equipmentBackImage.sprite = null;
+            }
+
             equipmentBackImage.gameObject.SetActive(dragableEquipmentUI != null || Container.AllowedEquipment != null);
             equipmentBackImage.SetNativeSize();
         }
 
-        private void UpdateEquipmentChanged(EquipmentSO fromEquipment, EquipmentSO toEquipment)
+        private void UpdateEquipmentChanged()
         {
-            if(toEquipment == null)
+            if(Container.EquipmentSO == null)
             {
                 Clear();
                 UpdateAllowedEquipmentUI();
@@ -76,9 +96,9 @@ namespace Equipment
             }
 
             if(dragableEquipmentUI == null)
-                dragableEquipmentUI = Instantiate(dragableEquipmentUIPrefab);
+                dragableEquipmentUI = Instantiate(dragableEquipmentUIPrefab, transform);
 
-            dragableEquipmentUI.Init(toEquipment, this);
+            dragableEquipmentUI.Init(Container.EquipmentSO, this);
         }
 
         
@@ -88,6 +108,7 @@ namespace Equipment
                 return;
 
             Destroy(dragableEquipmentUI.gameObject);
+            dragableEquipmentUI = null;
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -107,7 +128,7 @@ namespace Equipment
             }
             else
             {
-
+                Debug.Log("swap failed");
             }
         }
     }

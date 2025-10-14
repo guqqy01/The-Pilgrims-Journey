@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     [SerializeField]
     private EquipmentInventory equipmentInventory;
+    public EquipmentInventory EquipmentInventory => equipmentInventory;
 
     [SerializeField]
     private int minAmountOfDifferentItems = 3;
@@ -21,12 +22,7 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     [SerializeField]
     private List<EquipmentSO> equipmentAbleToBeSold;
 
-    private ShopItem selectedShopItem;
-
     public Dictionary<EquipmentSO, ShopItem> EquipmentAndTheirShopItems { private set; get; } = new Dictionary<EquipmentSO, ShopItem>();
-
-    public Dictionary<EquipmentSO, int> BoughtEquipment { private set; get; } = new Dictionary<EquipmentSO, int>();
-    public Dictionary<EquipmentSO, int> SoldEquipment { private set; get; } = new Dictionary<EquipmentSO, int>();
 
     
     public delegate void OnShopSetup(Dictionary<EquipmentSO, ShopItem> equipmentAndTheirShopItems);
@@ -35,6 +31,9 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     public delegate void OnPurchaseOrSell(ShopItem selectedShopItem);
     public OnPurchaseOrSell onPurchase;
     public OnPurchaseOrSell onSell;
+
+    public delegate void OnUpdateSellGold();
+    public OnUpdateSellGold onUpdateSellGold;
 
     public void InitiateSingleton()
     {
@@ -48,14 +47,29 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         }
     }
 
+    private void Start()
+    {
+        equipmentInventory.onEquipmentChanged -= UpdateSellGoldAmount;
+        equipmentInventory.onEquipmentChanged += UpdateSellGoldAmount;
+    }
+
+    private void UpdateSellGoldAmount(EquipmentContainer equipmentContainer, EquipmentSO from, EquipmentSO to)
+    {
+        onUpdateSellGold?.Invoke();
+    }
+
     public void SetupShop()
     {
         Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
         Dictionary<EquipmentSO, ShopItem> equipmentAndTheirShopItems = new Dictionary<EquipmentSO, ShopItem>();
 
-        while (equipmentAndTheirShopItems.Count < minAmountOfDifferentItems)
+        int attempts = 0;
+        const int maxAttempts = 50;
+
+        while (equipmentAndTheirShopItems.Count < minAmountOfDifferentItems && attempts < maxAttempts)
         {
+            attempts++;
             equipmentAndTheirShopItems.Clear();
 
             foreach (EquipmentSO equipment in equipmentAbleToBeSold)
@@ -69,17 +83,16 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
                     int amountOfItems = equipment.IfInShopHowManyRange.RandomBetweenTwoValuesInclusive();
 
-                    if (equipmentAndTheirShopItems.ContainsKey(equipment))
-                    {
-                        equipmentAndTheirShopItems[equipment].StockAmount += amountOfItems;
-                    }
+                    if (equipmentAndTheirShopItems.TryGetValue(equipment, out var item))
+                        item.StockAmount += amountOfItems;
                     else
-                    {
-                        equipmentAndTheirShopItems.Add(equipment, new ShopItem(equipment, amountOfItems));
-                    }
+                        equipmentAndTheirShopItems[equipment] = new ShopItem(equipment, amountOfItems);
                 }
             }
         }
+
+        if (equipmentAndTheirShopItems.Count == 0)
+            Debug.LogWarning("Shop generation failed to populate any items.");
 
         Clear();
 
@@ -91,48 +104,44 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     private void Clear()
     {
         EquipmentAndTheirShopItems.Clear();
-        BoughtEquipment.Clear();
-        SoldEquipment.Clear();
     }
 
-    public void Purchase(EquipmentSO equipment)
+    public void Purchase(ShopItem shopItem)
     {
-        if (equipment == null)
+        if (shopItem?.Equipment == null)
             return;
 
-        if (!EquipmentAndTheirShopItems.ContainsKey(equipment))
+        if (!EquipmentAndTheirShopItems.TryGetValue(shopItem.Equipment, out var item))
             return;
 
-        if (EquipmentAndTheirShopItems[equipment].StockAmount <= 0)
+        if (item.StockAmount <= 0)
             return;
 
-        if (ResourceManager.Instance.Gold < EquipmentAndTheirShopItems[equipment].FinalGoldCost)
+        int cost = item.GetPurchaseGoldAmount();
+        if (ResourceManager.Instance.Gold < cost)
             return;
 
-        if (!equipmentInventory.CanAddEquipment(equipment))
+        if (!equipmentInventory.TryAddEquipment(shopItem.Equipment))
             return;
 
-        if (SoldEquipment.ContainsKey(equipment))
-        {
-            ResourceManager.Instance.ModifyGold(-Mathf.RoundToInt(selectedShopItem.FinalGoldCost / 2f));
-            SoldEquipment[equipment]--;
+        ResourceManager.Instance.ModifyGold(-cost);
 
-            if (SoldEquipment[equipment] <= 0)
-                SoldEquipment.Remove(equipment);
-        }
-        else
-        {
-            ResourceManager.Instance.ModifyGold(-selectedShopItem.FinalGoldCost);
+        item.StockAmount--;
+        item.FromOriginalStockDifference--;
+        onPurchase?.Invoke(item);
+    }
 
-            BoughtEquipment.AddOrUpdateByOne(equipment);
-        }
+    public bool CanPurchase(ShopItem item)
+    {
+        if (item == null || item.Equipment == null)
+            return false;
 
-        if (equipmentInventory.TryAddEquipment(equipment))
-        {
-            EquipmentAndTheirShopItems[equipment].StockAmount--;
-        }
+        if (!EquipmentAndTheirShopItems.TryGetValue(item.Equipment, out var shop))
+            return false;
 
-        onPurchase?.Invoke(selectedShopItem);
+        return shop.StockAmount > 0 &&
+               ResourceManager.Instance.Gold >= shop.GetPurchaseGoldAmount() &&
+               equipmentInventory.HasFreeSpot();
     }
 
     public void Sell()
@@ -141,50 +150,20 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
         foreach (EquipmentSO equipment in equipmentInventory.NonNullEquipment)
         {
-            ShopItem shopItem;
-
-            if (EquipmentAndTheirShopItems.ContainsKey(equipment))
+            if (EquipmentAndTheirShopItems.TryGetValue(equipment, out ShopItem shopItem))
             {
-                shopItem = EquipmentAndTheirShopItems[equipment];
-
                 shopItem.StockAmount++;
             }
             else
             {
-                shopItem = new ShopItem(equipment, 1); 
+                shopItem = new ShopItem(equipment, 1);
 
                 EquipmentAndTheirShopItems.Add(equipment, shopItem);
             }
 
-            if (BoughtEquipment.ContainsKey(equipment))
-            {
-                if (EquipmentAndTheirShopItems.ContainsKey(equipment))
-                {
-                    sellGold += EquipmentAndTheirShopItems[equipment].FinalGoldCost;
-                }
-                else
-                {
-                    sellGold += equipment.goldCost;
-                }
+            sellGold += shopItem.GetSellGoldAmount();
 
-                BoughtEquipment[equipment]--;
-
-                if (BoughtEquipment[equipment] <= 0)
-                    BoughtEquipment.Remove(equipment);
-            }
-            else
-            {
-                if (EquipmentAndTheirShopItems.ContainsKey(equipment))
-                {
-                    sellGold += EquipmentAndTheirShopItems[equipment].FinalGoldCost / 2f;
-                }
-                else
-                {
-                    sellGold += equipment.goldCost / 2f;
-                }
-
-                SoldEquipment.AddOrUpdateByOne(equipment);
-            }
+            shopItem.FromOriginalStockDifference++;
 
             onSell?.Invoke(shopItem);
         }
@@ -194,52 +173,37 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         ResourceManager.Instance.ModifyGold(Mathf.RoundToInt(sellGold));
     }
 
-    private int GetSellGoldAmount()
+    public int GetSellGoldAmount()
     {
-        float sellGold = 0f;
+        float sellGoldTotal = 0f;
 
-        Dictionary<EquipmentSO, int> copyOfBoughtEquipment = new Dictionary<EquipmentSO, int>();
+        Dictionary<EquipmentSO, int> equipmentAndSold = new Dictionary<EquipmentSO, int>();
 
-        foreach (KeyValuePair<EquipmentSO, int> pair in BoughtEquipment)
+        foreach (KeyValuePair<EquipmentSO, ShopItem> equipmentAndShopItem in EquipmentAndTheirShopItems)
         {
-            copyOfBoughtEquipment.Add(pair);
+            equipmentAndSold.Add(equipmentAndShopItem.Key, equipmentAndShopItem.Value.FromOriginalStockDifference);
         }
 
         foreach (EquipmentSO equipment in equipmentInventory.NonNullEquipment)
         {
-            if (copyOfBoughtEquipment.ContainsKey(equipment))
+            if (!EquipmentAndTheirShopItems.TryGetValue(equipment, out ShopItem shopItem))
             {
-                if (EquipmentAndTheirShopItems.ContainsKey(equipment))
-                {
-                    sellGold += EquipmentAndTheirShopItems[equipment].FinalGoldCost;
-                }
-                else
-                {
-                    sellGold += equipment.goldCost;
-                }
-
-                copyOfBoughtEquipment[equipment]--;
-
-                if (copyOfBoughtEquipment[equipment] <= 0)
-                    copyOfBoughtEquipment.Remove(equipment);
+                sellGoldTotal += equipment.goldCost / 2f;
+                continue;
             }
-            else
-            {
-                if (EquipmentAndTheirShopItems.ContainsKey(equipment))
-                {
-                    sellGold += EquipmentAndTheirShopItems[equipment].FinalGoldCost / 2f;
-                }
-                else
-                {
-                    sellGold += equipment.goldCost / 2f;
-                }
-            }
+
+            bool wasRecentlyBought = equipmentAndSold.TryGetValue(equipment, out int diff) && diff < 0;
+
+            sellGoldTotal += wasRecentlyBought
+                ? shopItem.GetSellGoldAmount()
+                : shopItem.GetNormalPriceWithoutMultiplier() / 2f;
+
+            if (wasRecentlyBought)
+                equipmentAndSold[equipment]++;
         }
 
-        return Mathf.RoundToInt(sellGold);
+        return Mathf.RoundToInt(sellGoldTotal);
     }
-    
-
 
 }
 

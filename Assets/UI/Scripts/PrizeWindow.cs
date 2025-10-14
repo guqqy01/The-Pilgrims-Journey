@@ -12,10 +12,7 @@ public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFrom
     public static PrizeWindow Instance;
 
     public string SaveFileName => "PrizeWindowSave";
-
-    [SerializeField]
-    private DragableEquipmentUI dragableEquipmentUIPrefab;
-
+    
     [SerializeField]
     private Text prizeText;
 

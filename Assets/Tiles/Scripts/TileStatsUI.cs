@@ -37,15 +37,15 @@ namespace Tiles
 
         public void TileSelected(Tile tile)
         {
-            if(tile == null)
+            Containers[0].onEquipmentChanged -= OnContainer0Change;
+            Containers[1].onEquipmentChanged -= OnContainer1Change;
+            Containers[2].onEquipmentChanged -= OnContainer2Change;
+            Containers[3].onEquipmentChanged -= OnContainer3Change;
+
+            if (tile == null)
             {
                 DeselectTile();
                 return;
-            }
-
-            foreach(EquipmentContainer container in Containers)
-            {
-                container.onEquipmentChanged = null;
             }
 
             Clear();
@@ -59,30 +59,35 @@ namespace Tiles
             tile.onUpdateUI = UpdateStats;
             tile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
 
-            Containers[0].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
-            {
-                tile.Equipment[0] = to;
-                UpdateStats();
-            };
-            Containers[1].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
-            {
-                tile.Equipment[1] = to;
-                UpdateStats();
-            };
-            Containers[2].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
-            {
-                tile.Equipment[2] = to;
-                UpdateStats();
-            };
-            Containers[3].onEquipmentChanged = (EquipmentSO from, EquipmentSO to) =>
-            {
-                tile.Equipment[3] = to;
-                UpdateStats();
-            };
+            Containers[0].onEquipmentChanged += OnContainer0Change;
+            Containers[1].onEquipmentChanged += OnContainer1Change;
+            Containers[2].onEquipmentChanged += OnContainer2Change;
+            Containers[3].onEquipmentChanged += OnContainer3Change;
 
             Setup(tile.Equipment);
         }
 
+        private void OnContainer0Change(EquipmentSO from, EquipmentSO to)
+        {
+            tile.Equipment[0] = to;
+            UpdateStats();
+        }
+
+        private void OnContainer1Change(EquipmentSO from, EquipmentSO to)
+        {
+            tile.Equipment[1] = to;
+            UpdateStats();
+        }
+        private void OnContainer2Change(EquipmentSO from, EquipmentSO to)
+        {
+            tile.Equipment[2] = to;
+            UpdateStats();
+        }
+        private void OnContainer3Change(EquipmentSO from, EquipmentSO to)
+        {
+            tile.Equipment[3] = to;
+            UpdateStats();
+        }
 
         public void UpdateStats()
         {

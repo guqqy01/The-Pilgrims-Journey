@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using static Equipment.EquipmentContainerUI;
 
 namespace Equipment
 {
+    [Serializable]
     public class EquipmentContainer
     {
         public EquipmentInventory ParentInventory { get; private set; }
@@ -16,6 +18,7 @@ namespace Equipment
                 EquipmentSO previousEquipment = equipmentSO;
                 equipmentSO = value;
                 onEquipmentChanged?.Invoke(previousEquipment, value);
+                onEquipmentChangeUI?.Invoke();
             }
         }
 
@@ -32,7 +35,7 @@ namespace Equipment
                     EquipmentSO = null;
                 }
 
-                onAllowedEquipmentChange?.Invoke();
+                onAllowedEquipmentChangeUI?.Invoke();
             }
         }
 
@@ -43,7 +46,7 @@ namespace Equipment
             set
             {
                 active = value;
-                onActiveChange?.Invoke();
+                onActiveChangeUI?.Invoke();
             }
         }
 
@@ -51,8 +54,25 @@ namespace Equipment
         public OnEquipmentChanged onEquipmentChanged;
 
         public delegate void OnUIUpdate();
-        public OnUIUpdate onActiveChange;
-        public OnUIUpdate onAllowedEquipmentChange;
+        public OnUIUpdate onActiveChangeUI;
+        public OnUIUpdate onAllowedEquipmentChangeUI;
+        public OnUIUpdate onEquipmentChangeUI;
+
+        public EquipmentContainer(ContainerSave containerSave, EquipmentInventory parentInventory)
+        {
+            ParentInventory = parentInventory;
+            EquipmentSO = containerSave.equipment;
+            AllowedEquipment = containerSave.allowedEquipment;
+            Active = containerSave.active;
+        }
+
+        public EquipmentContainer(EquipmentInventory parentInventory)
+        {
+            ParentInventory = parentInventory;
+            EquipmentSO = null;
+            AllowedEquipment = null;
+            Active = true;
+        }
 
         public void SetupEquipment(EquipmentSO equipment)
         {
@@ -95,10 +115,8 @@ namespace Equipment
 
         public void Deactivate()
         {
-            onEquipmentChanged = null;
             Active = false;
             Clear();
-            TryChangeEquipment(null);
         }
 
         public void Clear()
@@ -111,10 +129,17 @@ namespace Equipment
             EquipmentSO otherEquipment = otherContainer.EquipmentSO;
             EquipmentSO previousEquipment = EquipmentSO;
 
+
             if (CanChangeEquipment(otherEquipment) && otherContainer.CanChangeEquipment(previousEquipment))
             {
-                TryChangeEquipment(otherEquipment);
-                otherContainer.TryChangeEquipment(previousEquipment);
+                if (!TryChangeEquipment(otherEquipment))
+                {
+                    return false;
+                }
+                if (!otherContainer.TryChangeEquipment(previousEquipment))
+                {
+                    return false;
+                }
 
                 return true;
             }

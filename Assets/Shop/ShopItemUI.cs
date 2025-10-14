@@ -5,6 +5,8 @@ using Equipment;
 using UnityEngine.UI;
 public class ShopItemUI : MonoBehaviour
 {
+    public ShopItem ShopItem;
+
     public EquipmentSO Equipment { private set; get; }
 
     [SerializeField]
@@ -22,8 +24,7 @@ public class ShopItemUI : MonoBehaviour
 
     private Button button;
 
-    public delegate void OnButtonPress(ShopItemUI shopItem);
-    public OnButtonPress onButtonPress;
+    public event System.Action<ShopItemUI> OnButtonPress;
 
     [SerializeField]
     private Color inactiveColor = Color.grey.SetAlpha(0.3f);
@@ -33,40 +34,70 @@ public class ShopItemUI : MonoBehaviour
 
     public float DiscountAmount { private set; get; } = 0;
 
-    public int FinalGoldCost => Mathf.RoundToInt(Equipment.goldCost - (Equipment.goldCost * DiscountAmount));
+    private Color activeColor = Color.white;
 
     private void Awake()
     {
         button = GetComponent<Button>();
     }
 
-    public void Setup(EquipmentSO equipment, int stockAmount, float discountAmount = 0)
+    private void OnDestroy()
     {
-        Equipment = equipment;
-        equipmentGraphics.sprite = equipment.sprite;
+        if (ShopItem != null)
+        {
+            ShopItem.onStockAmountChange -= SetStockAmountText;
+
+        }
+    }
+
+    public void Setup(ShopItem shopItem)
+    {
+        if (shopItem == null)
+        {
+            Debug.LogError($"{nameof(ShopItemUI)}: Tried to setup with a null ShopItem.");
+            return;
+        }
+
+        ShopItem = shopItem;
+
+        Equipment = shopItem.Equipment;
+        equipmentGraphics.sprite = Equipment.sprite;
         equipmentGraphics.SetNativeSize();
         equipmentGraphics.ScaleToSize(graphicsSize);
 
-        equipmentName.text = equipment.name;
+        equipmentName.text = Equipment.name;
 
-        SetStockAmount(stockAmount);
+        SetStockAmountText(shopItem.StockAmount);
 
-        DiscountAmount = discountAmount;
-        discountText.SetDiscount(discountAmount);
+        DiscountAmount = shopItem.DiscountAmount;
 
-        goldText.text = $"{FinalGoldCost.ToString()}";
+        discountText.SetDiscount(DiscountAmount);
+
+        goldText.text = $"{shopItem.GetPurchaseGoldAmount().ToString()}";
+
+        shopItem.onStockAmountChange += SetStockAmountText;
     }
 
-    public void SetStockAmount(int stockAmount)
+    public void RefreshPurchasePrice()
     {
-        equipmentGraphics.color = (stockAmount > 0) ? Color.white : inactiveColor;
-        equipmentName.color = (stockAmount > 0) ? Color.white : inactiveColor;
+        goldText.text = $"{ShopItem.GetPurchaseGoldAmount().ToString()}";
+    }
+
+    public void SetStockAmountText(int stockAmount)
+    {
+        bool isActive = stockAmount > 0;
+        Color color = isActive ? activeColor : inactiveColor;
+
+        equipmentGraphics.color = color;
+        equipmentName.color = color;
+        stockText.color = color;
+
         stockText.text = $"Qty: {stockAmount.ToString()}";
-        stockText.color = (stockAmount > 0) ? Color.white : inactiveColor;
+        RefreshPurchasePrice();
     }
 
     public void ButtonPress()
     {
-        onButtonPress?.Invoke(this);
+        OnButtonPress?.Invoke(this);
     }
 }

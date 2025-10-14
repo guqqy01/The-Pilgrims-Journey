@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7633141778348275639}
   - component: {fileID: 7618883301817058786}
+  - component: {fileID: 1479859206400824174}
   m_Layer: 5
   m_Name: EquipmentPage
   m_TagString: Untagged
@@ -112,11 +113,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c7e01f2597026d498a4092414f4571b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventorySize: 6
   startEquipment: []
   priority: 0
-  dragableEquipmentUIPrefab: {fileID: 4500994405855716175, guid: 8011e03d1cc9c5848a8610622e2129ef, type: 3}
-  prizeContainerPrefab: {fileID: 1334595351911125056, guid: 6a5caa1aad74d34449e2e12e201985f0, type: 3}
-  prizeContainersHolder: {fileID: 7633141777980539291}
+--- !u!114 &1479859206400824174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7633141778348275636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c3b56568cb84942ada785bed567672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Equipment.EquipmentInventoryUI
+  equipmentInventory: {fileID: 7618883301817058786}
+  containerUIPrefab: {fileID: 2617307041353785141, guid: 6a5caa1aad74d34449e2e12e201985f0, type: 3}
+  manualContainerParentTransform: {fileID: 7633141777980539291}
 --- !u!1 &7633141778787189263
 GameObject:
   m_ObjectHideFlags: 0
