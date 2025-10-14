@@ -46,7 +46,7 @@ public class ShopItemUI : MonoBehaviour
         if (ShopItem != null)
         {
             ShopItem.onStockAmountChange -= SetStockAmountText;
-
+            ShopItem.onRefreshPurchasePrice -= RefreshPurchasePrice;
         }
     }
 
@@ -76,6 +76,7 @@ public class ShopItemUI : MonoBehaviour
         goldText.text = $"{shopItem.GetPurchaseGoldAmount().ToString()}";
 
         shopItem.onStockAmountChange += SetStockAmountText;
+        shopItem.onRefreshPurchasePrice += RefreshPurchasePrice;
     }
 
     public void RefreshPurchasePrice()

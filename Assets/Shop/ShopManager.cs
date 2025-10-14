@@ -35,6 +35,7 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     public delegate void OnUpdateSellGold();
     public OnUpdateSellGold onUpdateSellGold;
 
+
     public void InitiateSingleton()
     {
         if(Instance != null && Instance != this)
@@ -86,7 +87,11 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
                     if (equipmentAndTheirShopItems.TryGetValue(equipment, out var item))
                         item.StockAmount += amountOfItems;
                     else
-                        equipmentAndTheirShopItems[equipment] = new ShopItem(equipment, amountOfItems);
+                    {
+                        float discount = equipment.discounts.GetRandom();
+                        ShopItem shopItem = new ShopItem(equipment, amountOfItems, discount);
+                        equipmentAndTheirShopItems[equipment] = shopItem;
+                    }
                 }
             }
         }
@@ -126,8 +131,8 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
         ResourceManager.Instance.ModifyGold(-cost);
 
-        item.StockAmount--;
         item.FromOriginalStockDifference--;
+        item.StockAmount--;
         onPurchase?.Invoke(item);
     }
 
@@ -148,6 +153,8 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     {
         float sellGold = 0f;
 
+        bool updateShopItems = false;
+
         foreach (EquipmentSO equipment in equipmentInventory.NonNullEquipment)
         {
             if (EquipmentAndTheirShopItems.TryGetValue(equipment, out ShopItem shopItem))
@@ -159,6 +166,8 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
                 shopItem = new ShopItem(equipment, 1);
 
                 EquipmentAndTheirShopItems.Add(equipment, shopItem);
+
+                updateShopItems = true;
             }
 
             sellGold += shopItem.GetSellGoldAmount();
@@ -167,6 +176,9 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
             onSell?.Invoke(shopItem);
         }
+
+        if(updateShopItems)
+            onShopSetup?.Invoke(EquipmentAndTheirShopItems);
 
         equipmentInventory.Clear();
 

@@ -21,7 +21,7 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     [SerializeField]
     private ShopItemUI ShopItemPrefab;
 
-    private Dictionary<EquipmentSO, ShopItemUI> shopItems = new Dictionary<EquipmentSO, ShopItemUI>();
+    private Dictionary<EquipmentSO, ShopItemUI> shopItemsUIs = new Dictionary<EquipmentSO, ShopItemUI>();
 
     [SerializeField]
     private Transform shopItemsContentTransform;
@@ -59,6 +59,7 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
         ShopManager.Instance.onShopSetup += Setup;
         ShopManager.Instance.onUpdateSellGold += UpdateSellGold;
+        Clear();
         Setup(ShopManager.Instance.EquipmentAndTheirShopItems);
     }
 
@@ -80,26 +81,51 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     private void Clear()
     {
-        foreach (var item in shopItems.Values)
+        foreach (var item in shopItemsUIs.Values)
         {
             item.OnButtonPress -= ShopItemButtonPress;
             Destroy(item.gameObject);
         }
-        shopItems.Clear();
+        shopItemsUIs.Clear();
     }
 
     public void Setup(Dictionary<EquipmentSO, ShopItem> equipmentAndStock)
     {
-        Clear();
-
-        foreach (KeyValuePair<EquipmentSO, ShopItem> equipment in equipmentAndStock)
+        // Remove UI for items no longer in the shop
+        var keysToRemove = shopItemsUIs.Keys.Except(equipmentAndStock.Keys).ToList();
+        foreach (var key in keysToRemove)
         {
-            ShopItemUI item = Instantiate(ShopItemPrefab, shopItemsContentTransform);
-            item.Setup(equipment.Value);
-            shopItems.Add(equipment.Key, item);
-            item.OnButtonPress += ShopItemButtonPress;
+            var shopItemUI = shopItemsUIs[key];
+            shopItemUI.OnButtonPress -= ShopItemButtonPress;
+            Destroy(shopItemUI.gameObject);
+            shopItemsUIs.Remove(key);
         }
+
+        // Add or update UI for current shop items
+        foreach (KeyValuePair<EquipmentSO, ShopItem> kvp in equipmentAndStock)
+        {
+            EquipmentSO equipment = kvp.Key;
+            ShopItem shopItem = kvp.Value;  
+
+            if (!shopItemsUIs.ContainsKey(equipment))
+            {
+                ShopItemUI item = Instantiate(ShopItemPrefab, shopItemsContentTransform);
+                item.Setup(shopItem);
+                shopItemsUIs.Add(equipment, item);
+                item.OnButtonPress += ShopItemButtonPress;
+                continue;
+            }
+
+            if (shopItemsUIs[equipment].ShopItem == shopItem)
+                continue;
+
+            shopItemsUIs[equipment].OnButtonPress -= ShopItemButtonPress;
+            shopItemsUIs[equipment].Setup(shopItem);
+        }
+
+        RefreshUI();
     }
+
 
     private void UpdateSellGold()
     {

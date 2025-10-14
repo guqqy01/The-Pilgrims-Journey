@@ -28,7 +28,11 @@ public class ShopItem
     public int FromOriginalStockDifference
     {
         get => stockDifference;
-        set => stockDifference = value;
+        set
+        {
+            stockDifference = value;
+            onRefreshPurchasePrice?.Invoke();
+        }
     }
 
     public bool HasPurchasedItems => stockDifference < 0;
@@ -48,6 +52,9 @@ public class ShopItem
 
     public delegate void OnStockAmountChange(int newStockAmount);
     public OnStockAmountChange onStockAmountChange;
+
+    public delegate void OnRefreshPurchasePrice();
+    public OnRefreshPurchasePrice onRefreshPurchasePrice;
 
     public ShopItem(EquipmentSO equipment, int stockAmount, float discountAmount = 0f)
     {
