@@ -1,3 +1,4 @@
+using Equipment;
 using GameManagerCalls;
 using System;
 using System.Collections;
@@ -338,20 +339,28 @@ namespace Map
 
         public void Load()
         {
-            SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
-
-            GenerateMap(saveData.Seed);
-
-            CurrentPosition = saveData.CurrentPosition;
-
-            takenPath = new List<GlobalMapPoint>();
-
-            foreach(Vector2Int position in saveData.takenPath)
+            if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
             {
-                takenPath.Add(mapPoints[position.x, position.y]);
-            }
+                SaveData saveData = outSaveProfile.saveData;
 
-            updateUI?.Invoke();
+                GenerateMap(saveData.Seed);
+
+                CurrentPosition = saveData.CurrentPosition;
+
+                takenPath = new List<GlobalMapPoint>();
+
+                foreach (Vector2Int position in saveData.takenPath)
+                {
+                    takenPath.Add(mapPoints[position.x, position.y]);
+                }
+
+                updateUI?.Invoke();
+            }
+            else
+            {
+                Debug.LogWarning($"No save data found for {SaveFileName}");
+                return;
+            }
         }
 
         [Serializable]

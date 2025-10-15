@@ -22,13 +22,15 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
 
         Setup(containerSaves);
 
-        foreach (EquipmentContainer container in Containers)
+        for (int i = 0; i < Containers.Length; i++)
         {
-            container.onEquipmentChanged += EquipmentChanged;
+            Containers[i].AllowedEquipment = Containers[i].EquipmentSO;
         }
+
+        onEquipmentChanged += EquipmentChanged;
     }
 
-    private void EquipmentChanged(EquipmentSO from, EquipmentSO to)
+    private void EquipmentChanged(EquipmentContainer container, EquipmentSO from, EquipmentSO to)
     {
         if (to == null)
         {

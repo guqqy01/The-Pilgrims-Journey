@@ -85,7 +85,7 @@ namespace Tiles
             }
         }
 
-        public void Setup()
+        public void SetupNewGame()
         {
             StopPlaying();
 

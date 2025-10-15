@@ -109,12 +109,17 @@ namespace Relics
             updateUI?.Invoke();
         }
 
-        public void Setup()
+        public void SetupNewGame()
         {
             foreach(RelicSO relicSO in startRelics)
             {
                 AddRelic(relicSO);
             }
+        }
+
+        public void SetupContinueGameAfterMapPointLoad()
+        {
+            
         }
 
         public void Delete()
@@ -132,13 +137,17 @@ namespace Relics
 
         public void Load()
         {
-            SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
-            relics = saveData.relics;
+            if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+            {
+                SaveData saveData = outSaveProfile.saveData;
 
-            updateUI?.Invoke();
+                relics = saveData.relics;
+
+                updateUI?.Invoke();
+            }
         }
 
-        
+       
 
         [Serializable]
         private record SaveData : SaveProfileData

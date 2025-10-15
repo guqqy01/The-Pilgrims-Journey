@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
     {
         if(TilePlayerManager.Instance != null)
         {
-            TilePlayerManager.Instance.noRemainingTilesToPlay += () => beginCheckingGameEndCondition = true;
+            TilePlayerManager.Instance.noRemainingTilesToPlay += StartCheck;
         }
     }
 
@@ -75,6 +75,16 @@ public class GameManager : MonoBehaviour, ISaveLoad
         }
 
         GameEnd();
+    }
+
+    private void OnDestroy()
+    {
+        TilePlayerManager.Instance.noRemainingTilesToPlay -= StartCheck;
+    }
+
+    private void StartCheck()
+    {
+        beginCheckingGameEndCondition = true;
     }
 
     #region Start New Journey
@@ -110,7 +120,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
     {
         Level = 1;
 
-        InterfaceCaller.CallInterfaces<IOnSetup>(x => x.Setup());
+        InterfaceCaller.CallInterfaces<IOnSetup>(x => x.SetupNewGame());
     } 
 
 
@@ -125,7 +135,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
         Load();
 
-        LoadCurrentMapPoint();
+        LoadCurrentMapPoint(null, true);
     }
 
     #endregion
@@ -163,7 +173,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         Save();
     }
 
-    public void LoadCurrentMapPoint(Action action = null)
+    public void LoadCurrentMapPoint(Action action = null, bool fromContinueingGame = false)
     {
         GlobalMapPointType type = GlobalMapGenerator.Instance.CurrentMapPoint.Type;
 
@@ -179,10 +189,14 @@ public class GameManager : MonoBehaviour, ISaveLoad
                 action += CreateLocalMap;
                 break;
             case GlobalMapPointType.Shop:
-                action += SetupShop;
+                if (fromContinueingGame)
+                    action += () => InterfaceCaller.CallInterfaces<IOnLoadAfterMapPointSceneLoad>(x => x.LoadAfterMapPointSceneLoad());
+                else
+                    action += SetupShop;
                 break;
         }
         action += () => InterfaceCaller.CallInterfaces<IOnCreateCurrentMapPoint>(x => x.OnCreateCurrentMapPoint());
+
         GlobalMapGenerator.Instance.CurrentMapPoint.LoadScene(action);
     }
 
@@ -236,12 +250,20 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     public void Load()
     {
-        SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
+        if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+        {
+            SaveData saveData = outSaveProfile.saveData;
 
-        Level = saveData.Level;
-        currentSeed = saveData.Seed;
+            Level = saveData.Level;
+            currentSeed = saveData.Seed;
 
-        InterfaceCaller.CallInterfaces<IOnLoad>(x => x.Load());
+            InterfaceCaller.CallInterfaces<IOnLoad>(x => x.Load());
+        }
+        else
+        {
+            Debug.LogWarning($"No save data found for {SaveFileName}");
+            return;
+        }
     }
 
     [Serializable]

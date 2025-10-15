@@ -48,10 +48,14 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
         Spells.Clear();
     }
 
-    public void Setup()
+    public void SetupNewGame()
     {
         for (int i = 0; i < startSpells.Count; i++)
         {
+            Spell spell = new Spell(startSpells[i]);
+
+            spell.spellSO.spellEffects.ForEach(x => x.Reset());
+
             Spells.Add(new Spell(startSpells[i]));
         }
 
@@ -104,18 +108,22 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
         }
     }
 
-    public void AddSpell(SpellSO spell)
+    public void AddSpell(SpellSO spellSO)
     {
         for (int i = 0; i < Spells.Count; i++)
         {
-            if (Spells[i].spellSO == spell)
+            if (Spells[i].spellSO == spellSO)
             {
-                Spells[i].MaxUses += spell.numberOfUses;
+                Spells[i].MaxUses += spellSO.numberOfUses;
                 return;
             }
         }
 
-        Spells.Add(new Spell(spell));
+        Spell spell = new Spell(spellSO);
+
+        spell.spellSO.spellEffects.ForEach(x => x.Reset());
+
+        Spells.Add(spell);
 
         updateUI?.Invoke();
     }
@@ -184,7 +192,8 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
 
         foreach (SpellEffect spellEffect in activeSpell.spellSO.spellEffects)
         {
-            spellEffect.Effect(position);
+            if(spellEffect != null)
+                spellEffect.Effect(position);
         }
 
         activeSpell.numberOfUses--;
@@ -211,15 +220,26 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
 
     public void Load()
     {
-        SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
-        Spells = saveData.Spells;
-        updateUI?.Invoke();
+        if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+        {
+            SaveData saveData = outSaveProfile.saveData;
+
+            Spells = saveData.Spells;
+            updateUI?.Invoke();
+        }
+        else
+        {
+            Debug.LogWarning($"No save data found for {SaveFileName}");
+            return;
+        }
     }
 
     public void OnLevelCompleted()
     {
         RefreshSpells();
     }
+
+    
 
     [Serializable]
     private record SaveData : SaveProfileData

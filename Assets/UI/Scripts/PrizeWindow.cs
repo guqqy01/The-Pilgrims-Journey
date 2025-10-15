@@ -196,27 +196,35 @@ public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFrom
 
     public void Load()
     {
-        SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
-
-        List<List<ContainerSave>> saves = new List<List<ContainerSave>>();
-
-        foreach (EquipmentInventorySave save in saveData.containerSaves)
+        if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
         {
-            saves.Add(save.equipmentSaves);
+            SaveData saveData = outSaveProfile.saveData;
+
+            List<List<ContainerSave>> saves = new List<List<ContainerSave>>();
+
+            foreach (EquipmentInventorySave save in saveData.containerSaves)
+            {
+                saves.Add(save.equipmentSaves);
+            }
+
+            containerSaves = saves;
+
+            LoadEquipmentPrize();
+
+            foreach (IPrizePage page in PrizePages)
+            {
+                page.Close();
+            }
+
+            currentPageIndex = 0;
+
+            RefreshUI();
         }
-
-        containerSaves = saves;
-
-        LoadEquipmentPrize();
-
-        foreach (IPrizePage page in PrizePages)
+        else
         {
-            page.Close();
+            Debug.LogWarning($"No save data found for {SaveFileName}");
+            return;
         }
-
-        currentPageIndex = 0;
-
-        RefreshUI();
     }
 
     

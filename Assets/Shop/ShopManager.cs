@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 using static UnityEngine.ParticleSystem;
 using GameManagerCalls;
 using System.Linq;
-public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, ISaveLoad, IOnLoad, IOnSave
+
+public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad
 {
     public static ShopManager Instance;
 
@@ -228,9 +229,9 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, ISave
         SaveManager.Save(saveProfile);
     }
 
-    public void Load()
+    public void LoadAfterMapPointSceneLoad()
     {
-        if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> saveProfile))
+        if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> saveProfile))
         {
             SaveData saveData = saveProfile.saveData;
 

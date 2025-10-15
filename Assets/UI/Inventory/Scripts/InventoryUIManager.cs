@@ -29,13 +29,16 @@ public class InventoryUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         }
     }
 
-    public void Setup()
+    public void SetupContinueGameAfterMapPointLoad()
+    {
+        
+    }
+
+    public void SetupNewGame()
     {
         foreach(var button in optionalButtons)
         {
             List<Button> requiredButtons = new List<Button>();
-
-
         }
     }
 

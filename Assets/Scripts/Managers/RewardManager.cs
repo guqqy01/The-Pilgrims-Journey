@@ -264,15 +264,26 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
 
     public void Load()
     {
-        SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
-        if (saveData.LevelRewards == null)
-            LevelRewards = new SerializableDictionary<Direction, SerializableDictionary<Reward, int>>();
+        if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+        {
+            SaveData saveData = outSaveProfile.saveData;
+
+            if (saveData.LevelRewards == null)
+            {
+                LevelRewards = new SerializableDictionary<Direction, SerializableDictionary<Reward, int>>();
+            }
+            else
+            {
+                LevelRewards = saveData.LevelRewards;
+                SignUI.Instance.Setup(LevelRewards.Keys.ToList());
+            }
+            PrizeWindow.Load();
+        }
         else
         {
-            LevelRewards = saveData.LevelRewards;
-            SignUI.Instance.Setup(LevelRewards.Keys.ToList());
+            Debug.LogWarning($"No save data found for {SaveFileName}");
+            return;
         }
-        PrizeWindow.Load();
     }
 
     public void AfterCreateLocalMap()

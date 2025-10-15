@@ -49,7 +49,12 @@ namespace GameManagerCalls
 
     public interface IOnSetup : IGameManagerCallInterface
     {
-        public void Setup();
+        public void SetupNewGame();
+    }
+
+    public interface IOnLoadAfterMapPointSceneLoad : IGameManagerCallInterface
+    {
+        public void LoadAfterMapPointSceneLoad();
     }
 
     public interface IOnLoad : IGameManagerCallInterface

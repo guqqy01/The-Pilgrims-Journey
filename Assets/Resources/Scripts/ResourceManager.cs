@@ -70,7 +70,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnSe
     }
 
 
-    public void Setup()
+    public void SetupNewGame()
     {
         Gold = startGold;
 
@@ -122,12 +122,15 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnSe
 
     public void Load()
     {
-        SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
+        if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+        {
+            SaveData saveData = outSaveProfile.saveData;
 
-        Gold = saveData.Gold;
-        UpgradePoints = saveData.UpgradePoints;
+            Gold = saveData.Gold;
+            UpgradePoints = saveData.UpgradePoints;
 
-        onGoldChange?.Invoke(Gold);
+            onGoldChange?.Invoke(Gold);
+        }
     }
 
     [Serializable]

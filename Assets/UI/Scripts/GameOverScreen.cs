@@ -27,7 +27,12 @@ public class GameOverScreen : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IO
         gameObject.SetActive(true);
     }
 
-    public void Setup()
+    public void SetupNewGame()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void SetupContinueGameAfterMapPointLoad()
     {
         gameObject.SetActive(false);
     }
@@ -46,4 +51,6 @@ public class GameOverScreen : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IO
     {
         Application.Quit();
     }
+
+    
 }

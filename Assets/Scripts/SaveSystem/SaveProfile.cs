@@ -26,6 +26,6 @@ public interface ISaveLoad
 {
     public string SaveFileName { get; }
 
-    public void Load();
+    public virtual void Load() { }
     public void Save();
 }

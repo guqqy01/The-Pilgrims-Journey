@@ -23,5 +23,6 @@ public class Spell
     public void Reset()
     {
         numberOfUses = MaxUses;
+
     }
 }

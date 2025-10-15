@@ -12,7 +12,7 @@ public static class SaveManager
         return File.Exists($"{saveFolder}/{profileName}");
     }
 
-    public static void Delete(string profileName)
+    private static void Delete(string profileName)
     {
         if (!FileExists(profileName))
             throw new System.Exception($"Save Profile {profileName} does not exist.");
@@ -28,7 +28,7 @@ public static class SaveManager
         }
     }
 
-    public static SaveProfile<T> Load<T>(string profileName) where T : SaveProfileData
+    private static SaveProfile<T> Load<T>(string profileName) where T : SaveProfileData
     {
         if(!FileExists(profileName))
             throw new System.Exception($"Save Profile {profileName} does not exist.");

@@ -87,7 +87,7 @@ namespace Monsters
 
         public void Save()
         {
-            SaveManager.Delete(SaveFileName);
+            SaveManager.IfFileExistsDelete(SaveFileName);
             SaveData saveData = new SaveData(beastaryItems);
             SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
             SaveManager.Save(saveProfile);

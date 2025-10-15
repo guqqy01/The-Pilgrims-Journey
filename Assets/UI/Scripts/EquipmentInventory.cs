@@ -165,7 +165,7 @@ namespace Equipment
             }
         }
 
-        public void Setup()
+        public void SetupNewGame()
         {
             AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded();
 
@@ -188,15 +188,17 @@ namespace Equipment
 
         public void Load()
         {
-            var loadedProfile = SaveManager.Load<SaveData>(SaveFileName);
-            if (loadedProfile?.saveData == null)
+            if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+            {
+                SaveData saveData = outSaveProfile.saveData;
+
+                Setup(saveData.equipment);
+            }
+            else
             {
                 Debug.LogWarning($"No save data found for {SaveFileName}");
                 return;
             }
-
-
-            Setup(loadedProfile.saveData.equipment);
         }
 
         public void Setup(List<ContainerSave> containerSaves)
