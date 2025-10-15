@@ -24,11 +24,11 @@ public class EquipmentPage : EquipmentInventory, IPrizePage
 
         foreach (EquipmentContainer container in Containers)
         {
-            container.onEquipmentChanged += OnEquipmentChanged;
+            container.onEquipmentChanged += EquipmentChanged;
         }
     }
 
-    private void OnEquipmentChanged(EquipmentSO from, EquipmentSO to)
+    private void EquipmentChanged(EquipmentSO from, EquipmentSO to)
     {
         if (to == null)
         {

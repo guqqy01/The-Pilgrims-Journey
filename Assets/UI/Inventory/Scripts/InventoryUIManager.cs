@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AYellowpaper.SerializedCollections;
+using GameManagerCalls;
 
-public class InventoryUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class InventoryUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnSetup
 {
     public static InventoryUIManager Instance;
 
@@ -26,10 +27,6 @@ public class InventoryUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         {
             Instance = this;
         }
-    }
-    private void Start()
-    {
-        GameManager.onCreateCurrentMapPoint += Setup;
     }
 
     public void Setup()

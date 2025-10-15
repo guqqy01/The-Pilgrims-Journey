@@ -1,10 +1,11 @@
+using GameManagerCalls;
 using Map;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : MonoBehaviour, ISaveLoad
+public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnSetup, IOnClear
 {
     public string SaveFileName => "ResourceManagerSave";
 
@@ -57,21 +58,9 @@ public class ResourceManager : MonoBehaviour, ISaveLoad
     {
         inputManager = InputManager.Instance;
         onGoldChange?.Invoke(Gold);
-        GameManager.onSave += Save;
-        GameManager.onLoad += Load;
-        GameManager.onSetup += Setup;
-        GameManager.onClear += Clear;
     }
 
-    private void OnDisable()
-    {
-        GameManager.onSave -= Save;
-        GameManager.onLoad -= Load;
-        GameManager.onSetup -= Setup;
-        GameManager.onClear -= Clear;
-    }
-
-    private void Clear()
+    public void Clear()
     {
         foreach(GameObject coin in coins)
         {
@@ -81,7 +70,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad
     }
 
 
-    private void Setup()
+    public void Setup()
     {
         Gold = startGold;
 
@@ -138,7 +127,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad
         Gold = saveData.Gold;
         UpgradePoints = saveData.UpgradePoints;
 
-        onGoldChange.Invoke(Gold);
+        onGoldChange?.Invoke(Gold);
     }
 
     [Serializable]

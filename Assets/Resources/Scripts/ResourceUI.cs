@@ -10,6 +10,8 @@ public class ResourceUI : MonoBehaviour
     private void Start()
     {
         ResourceManager.Instance.onGoldChange += OnGoldChange;
+
+        goldText.text = ResourceManager.Instance.Gold.ToString();
     }
 
     private void OnGoldChange(int currentGold)

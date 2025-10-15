@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Map;
-public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+using GameManagerCalls;
+public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCreateCurrentMapPoint
 {
     public static InventoryToolbar Instance;
 
@@ -35,11 +36,6 @@ public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     private void Awake()
     {
         Setup();
-    }
-
-    private void Start()
-    {
-        GameManager.onCreateCurrentMapPoint += SetupLevelUI;
     }
 
     public void SetupLevelUI()
@@ -179,6 +175,11 @@ public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot
                     iterationButton.Tab.Close();
             }
         }
+    }
+
+    public void OnCreateCurrentMapPoint()
+    {
+        SetupLevelUI();
     }
 
     [Serializable]

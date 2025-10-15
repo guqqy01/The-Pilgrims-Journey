@@ -8,8 +8,9 @@ using System;
 using Units;
 using Equipment;
 using UnityEngine.UI;
+using GameManagerCalls;
 
-public class RewardManager : MonoBehaviour, ISaveLoad
+public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfterCreateLocalMap
 {
     public string SaveFileName => $"RewardManagerSave";
 
@@ -76,20 +77,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad
         {
             Destroy(this);
         }
-    }
-
-    private void OnEnable()
-    {
-        GameManager.onSave += Save;
-        GameManager.onLoad += Load;
-        GameManager.onAfterCreateLocalMap += SetupRewards;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.onSave -= Save;
-        GameManager.onLoad -= Load;
-        GameManager.onAfterCreateLocalMap -= SetupRewards;
     }
 
     public void Clear()
@@ -286,6 +273,11 @@ public class RewardManager : MonoBehaviour, ISaveLoad
             SignUI.Instance.Setup(LevelRewards.Keys.ToList());
         }
         PrizeWindow.Load();
+    }
+
+    public void AfterCreateLocalMap()
+    {
+        SetupRewards();
     }
 
     [Serializable]

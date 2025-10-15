@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tiles;
 using Unity.VisualScripting;
+using GameManagerCalls;
 
-public class SpellManager : MonoBehaviour, ISaveLoad
+public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad, IOnClear, IOnSetup
 {
     public static SpellManager Instance {  get; private set; }
 
@@ -38,24 +39,9 @@ public class SpellManager : MonoBehaviour, ISaveLoad
         cam = Camera.main;
 
         localMapGenerator = LocalMapGenerator.Instance;
-
-        GameManager.onCompleteLevel += RefreshSpells;
-        GameManager.onSave += Save;
-        GameManager.onLoad += Load;
-        GameManager.onClear += Clear;
-        GameManager.onSetup += Setup;
     }
 
-    private void OnDisable()
-    {
-        GameManager.onCompleteLevel -= RefreshSpells;
-        GameManager.onSave -= Save;
-        GameManager.onLoad -= Load;
-        GameManager.onClear -= Clear;
-        GameManager.onSetup -= Setup;
-    }
-
-    private void Clear()
+    public void Clear()
     {
         DestorySpawnedObjects();
 
@@ -228,6 +214,11 @@ public class SpellManager : MonoBehaviour, ISaveLoad
         SaveData saveData = SaveManager.Load<SaveData>(SaveFileName).saveData;
         Spells = saveData.Spells;
         updateUI?.Invoke();
+    }
+
+    public void OnLevelCompleted()
+    {
+        RefreshSpells();
     }
 
     [Serializable]

@@ -2,7 +2,8 @@ using Map;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-public class MapPointRequiredUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+using GameManagerCalls;
+public class MapPointRequiredUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCreateCurrentMapPoint
 {
     public List<GameObject> optionalUIs;
 
@@ -10,12 +11,7 @@ public class MapPointRequiredUIManager : MonoBehaviour, ISingletonToBeInitiatedF
 
     public static MapPointRequiredUIManager Instance;
 
-    private void Start()
-    {
-        GameManager.onCreateCurrentMapPoint += Setup;
-    }
-
-    public void Setup()
+    public void OnCreateCurrentMapPoint()
     {
         MapPointTypeAndRequiredUI currentNeeded = null;
 

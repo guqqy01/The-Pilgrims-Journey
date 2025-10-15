@@ -146,6 +146,9 @@ namespace Tiles
 
         public void OnUnitDie()
         {
+            if (gameObject == null)
+                return;
+
             currentHealth = Mathf.Clamp(currentHealth - 1, 0, MaxHealth);
 
             onUpdateLevelUnitsAndHealthUI?.Invoke();
@@ -486,6 +489,11 @@ namespace Tiles
             Level = tileSave.level;
 
             BaseInit(tileSave.tile, tileSave.unit);
+
+            currentHealth = tileSave.tileHealth;
+
+            CurrentAmountOfUnitsEscaped = tileSave.tileExp;
+
 
             RotateTo(tileSave.rotation);
             Equipment = tileSave.equipment;

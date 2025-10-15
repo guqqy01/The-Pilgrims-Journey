@@ -1,3 +1,4 @@
+using GameManagerCalls;
 using Map;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LocalMapPlayContinueButton : MonoBehaviour
+public class LocalMapPlayContinueButton : MonoBehaviour, IOnCompletedLevel, IOnCreateLocalMap
 {
     [SerializeField]
     private Button button;
@@ -18,19 +19,7 @@ public class LocalMapPlayContinueButton : MonoBehaviour
 
     private bool completedLevel = false;
 
-    private void OnEnable()
-    {
-        GameManager.onCompleteLevel += OnCompleteLevel;
-        GameManager.onCreateLocalMap += OnCreateLocalMap;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.onCompleteLevel -= OnCompleteLevel;
-        GameManager.onCreateLocalMap -= OnCreateLocalMap;
-    }
-
-    private void OnCompleteLevel() 
+    public void OnLevelCompleted() 
     {
         text.text = "Continue";
         secondArrow.SetActive(true);
@@ -38,7 +27,7 @@ public class LocalMapPlayContinueButton : MonoBehaviour
         completedLevel = true;
     }
 
-    private void OnCreateLocalMap()
+    public void OnCreateLocalMap()
     {
         text.text = "Play";
         secondArrow.SetActive(false);

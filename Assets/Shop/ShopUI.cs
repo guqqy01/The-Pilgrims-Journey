@@ -121,6 +121,7 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
             shopItemsUIs[equipment].OnButtonPress -= ShopItemButtonPress;
             shopItemsUIs[equipment].Setup(shopItem);
+            shopItemsUIs[equipment].OnButtonPress += ShopItemButtonPress;
         }
 
         RefreshUI();
@@ -129,12 +130,6 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     private void UpdateSellGold()
     {
-        if (selectedShopItem == null)
-        {
-            sellGoldAmount.text = "NA";
-            return;
-        }
-
         sellGoldAmount.text = ShopManager.Instance.GetSellGoldAmount().ToString();
 
         UpdateButtonStates();
@@ -142,9 +137,22 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     private void ShopItemButtonPress(ShopItemUI shopItem)
     {
+        if (shopItem == selectedShopItem)
+            return;
+
         IInfo.onInfoSelected?.Invoke(shopItem.Equipment);
 
+        if(selectedShopItem != null)
+        {
+            selectedShopItem.Deselect();
+        }
+
         selectedShopItem = shopItem;
+
+        if (selectedShopItem != null)
+        {
+            selectedShopItem.Select();
+        }
 
         buyButton.interactable = ShopManager.Instance.EquipmentAndTheirShopItems[shopItem.Equipment].StockAmount > 0;
 

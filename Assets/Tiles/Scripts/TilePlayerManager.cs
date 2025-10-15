@@ -1,4 +1,5 @@
-﻿using Map;
+﻿using GameManagerCalls;
+using Map;
 using System.Collections.Generic;
 using Units;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.UIElements;
 
 namespace Tiles
 {
-    public class TilePlayerManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class TilePlayerManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCompletedLevel, IOnSetup
     {
         public static TilePlayerManager Instance { private set; get; }
         public float CurrentPlayingPosition { private set; get; }
@@ -64,16 +65,7 @@ namespace Tiles
 
         public void OnEnable()
         {
-            GameManager.onCompleteLevel += StopPlaying;
-            GameManager.onSetup += Setup;
-
             playerUIPoint.position = playerTileGrid.GridTransform.position + new Vector3(-playerTileGrid.GridTransform.sizeDelta.x, playerTileGrid.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
-        }
-
-        public void OnDisable()
-        {
-            GameManager.onCompleteLevel -= StopPlaying;
-            GameManager.onSetup -= Setup;
         }
 
         private void Update()
@@ -93,7 +85,7 @@ namespace Tiles
             }
         }
 
-        private void Setup()
+        public void Setup()
         {
             StopPlaying();
 
@@ -205,7 +197,10 @@ namespace Tiles
             return returnTiles;
         }
 
-        
+        public void OnLevelCompleted()
+        {
+            StopPlaying();
+        }
     }
 }
 

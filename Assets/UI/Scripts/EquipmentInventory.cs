@@ -9,7 +9,7 @@ using static Equipment.EquipmentInventory;
 
 namespace Equipment
 {
-    public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, ISetup
+    public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, IOnSetup, IOnSave, IOnLoad, IOnClear
     {
         [SerializeField]
         private int inventorySize = 6;
@@ -59,21 +59,8 @@ namespace Equipment
         public delegate void OnEquipmentChanged(EquipmentContainer container, EquipmentSO from, EquipmentSO to);
         public OnEquipmentChanged onEquipmentChanged;
 
-        protected virtual void Awake()
-        {
-            GameManager.onSave += Save;
-            GameManager.onLoad += Load;
-            GameManager.onClear += Clear;
-        }
-
-
-
         protected virtual void OnDestroy()
         {
-            GameManager.onSave -= Save;
-            GameManager.onLoad -= Load;
-            GameManager.onClear -= Clear;
-
             foreach (var kvp in containerChangeHandlers)
             {
                 if (kvp.Key != null)
@@ -162,7 +149,12 @@ namespace Equipment
             EquipmentManager.Instance.EquipmentInventories.Add(this);
         }
 
-        public void Clear()
+        void IOnClear.Clear()
+        {
+            Clear();
+        }
+
+        public virtual void Clear()
         {
             if (Containers == null)
                 return;
@@ -202,6 +194,8 @@ namespace Equipment
                 Debug.LogWarning($"No save data found for {SaveFileName}");
                 return;
             }
+
+
             Setup(loadedProfile.saveData.equipment);
         }
 
@@ -209,10 +203,7 @@ namespace Equipment
         {
             InventorySize = containerSaves.Count;
 
-            for (int i = 0; i < containerSaves.Count; i++)
-            {
-                Containers[i] = new EquipmentContainer(containerSaves[i], this);
-            }
+            Setup(containerSaves.Select(x => x.equipment).ToArray());
         }
 
         public void Setup(List<EquipmentSO> equipmentToSetup)

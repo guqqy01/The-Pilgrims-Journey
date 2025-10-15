@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Units;
+using GameManagerCalls;
 
-public class LevelUI : MonoBehaviour
+public class LevelUI : MonoBehaviour, IOnAfterCreateLocalMap
 {
     [SerializeField]
     private Text requiredUnitsText;
 
     private void OnEnable()
     {
-        GameManager.onAfterCreateLocalMap += LevelChange;
         GameManager.onUnitPassed += OnUnitPassed;
     }
+
     private void OnDisable()
     {
-        GameManager.onAfterCreateLocalMap -= LevelChange;
         GameManager.onUnitPassed -= OnUnitPassed;
     }
 
@@ -28,5 +28,10 @@ public class LevelUI : MonoBehaviour
     public void OnUnitPassed(int totalPassed, int requiredToPass)
     {
         requiredUnitsText.text = totalPassed + "/" + requiredToPass;
+    }
+
+    public void AfterCreateLocalMap()
+    {
+        LevelChange();
     }
 }

@@ -1,27 +1,22 @@
+using GameManagerCalls;
 using Map;
 using Tiles;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayButton : MonoBehaviour
+public class PlayButton : MonoBehaviour, IOnCompletedLevel, IOnCreateLocalMap
 {
     [SerializeField]
     private Button button;
 
     private bool completedLevel = false;
 
-    private void Awake()
-    {
-        GameManager.onCompleteLevel += OnCompleteLevel;
-        GameManager.onCreateLocalMap += OnCreateLocalMap;
-    }
-
-    private void OnCompleteLevel()
+    public void OnLevelCompleted()
     {
         completedLevel = true;
     }
 
-    private void OnCreateLocalMap()
+    public void OnCreateLocalMap()
     {
         button.interactable = true;
         completedLevel = false;
@@ -34,11 +29,5 @@ public class PlayButton : MonoBehaviour
             TilePlayerManager.Instance.Play();
             button.interactable = false;
         }
-        /*else
-        {
-            SceneLoader.Instance.LoadGlobalMapScene();
-            //GameManager.Instance.LoadCurrentMapPoint();
-            GlobalMapUI.FirstSeen = true;
-        }*/
     }
 }

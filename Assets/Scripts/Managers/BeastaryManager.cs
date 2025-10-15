@@ -1,3 +1,4 @@
+using GameManagerCalls;
 using Map;
 using SimpleAudioManager;
 using System;
@@ -11,7 +12,7 @@ using UnityEngine.UIElements;
 
 namespace Monsters
 {
-    public class BeastaryManager : MonoBehaviour, ISaveLoad
+    public class BeastaryManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel
     {
         public static BeastaryManager Instance { private set; get; }
 
@@ -40,11 +41,6 @@ namespace Monsters
             {
                 beastaryItems.Add(monsters[i], new BeastaryItem(monsters[i]));
             }
-        }
-
-        private void Start()
-        {
-            GameManager.onCompleteLevel += CommitBuffer;
         }
 
         public BeastaryItem GetBeasaryItemFromMonstersIndex(int index)
@@ -84,16 +80,6 @@ namespace Monsters
             }
         }
 
-        public void CommitBuffer()
-        {
-            foreach (KeyValuePair<MonsterSO, int> kvp in monstersInLevelBuffer)
-            {
-                beastaryItems[kvp.Key].encountered += kvp.Value;
-            }
-
-            updateUI?.Invoke();
-        }
-
         public void ReleaseBuffer()
         {
             monstersInLevelBuffer.Clear();
@@ -117,6 +103,15 @@ namespace Monsters
             }
         }
 
+        public void OnLevelCompleted()
+        {
+            foreach (KeyValuePair<MonsterSO, int> kvp in monstersInLevelBuffer)
+            {
+                beastaryItems[kvp.Key].encountered += kvp.Value;
+            }
+
+            updateUI?.Invoke();
+        }
 
         [Serializable]
         private record SaveData : SaveProfileData

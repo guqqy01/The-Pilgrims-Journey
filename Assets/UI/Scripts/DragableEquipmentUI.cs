@@ -12,6 +12,17 @@ namespace Equipment
     public class DragableEquipmentUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IInfo
     {
         private Canvas canvas;
+        private Canvas Canvas
+        {
+            get
+            {
+                if(canvas == null)
+                    canvas = GetComponentInParent<Canvas>();
+
+                return canvas;
+            }
+        }
+
         private CanvasGroup canvasGroup;
 
         public RectTransform RectTransform { private set; get; }
@@ -50,7 +61,6 @@ namespace Equipment
             graphics.sprite = equipment.sprite;
             transform.SetParent(container.transform, false);
             RectTransform.position = container.GetComponent<RectTransform>().position;
-            canvas = GetComponentInParent<Canvas>();
             graphics.SetNativeSize();
         }
 
@@ -58,7 +68,7 @@ namespace Equipment
         {
             if (Dragging)
             {
-                RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+                RectTransform.anchoredPosition += eventData.delta / Canvas.scaleFactor;
             }
         }
 
@@ -67,7 +77,7 @@ namespace Equipment
             if (!ContainerUI.Active)
                 return;
             Dragging = true;
-            RectTransform.SetParent(canvas.transform, true);
+            RectTransform.SetParent(Canvas.transform, true);
             canvasGroup.blocksRaycasts = false;
             canvasGroup.alpha = 0.5f;
         }

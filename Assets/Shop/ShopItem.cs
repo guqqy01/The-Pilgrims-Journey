@@ -85,5 +85,32 @@ public class ShopItem
         return Mathf.RoundToInt(basePrice * multiplier);
     }
 
+    [Serializable]
+    public class ShopItemSave
+    {
+        public EquipmentSO equipment;
+
+        public int stockAmount;
+
+        public float discountAmount;
+
+        public int stockDifference;
+
+        public ShopItemSave(ShopItem shopItem)
+        {
+            equipment = shopItem.Equipment;
+            stockAmount = shopItem.StockAmount;
+            discountAmount = shopItem.DiscountAmount;
+            stockDifference = shopItem.FromOriginalStockDifference;
+        }
+
+        public ShopItem GetShopItem()
+        {
+            return new ShopItem(equipment, stockAmount, discountAmount)
+            {
+                FromOriginalStockDifference = stockDifference
+            };
+        }
+    }
 }
 

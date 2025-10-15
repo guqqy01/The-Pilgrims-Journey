@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tiles;
 using static GameManager;
+using GameManagerCalls;
 
 namespace Relics
 {
-    public class RelicManager : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot
+    public class RelicManager : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot, IOnCompletedLevel, IOnSave, IOnLoad, IOnDelete, IOnSetup, IOnClear
     {
         public string SaveFileName => "RelicManagerSave";
 
@@ -37,16 +38,9 @@ namespace Relics
 
             if (TilePlayerManager.Instance != null)
                 TilePlayerManager.Instance.onPlay += OnPlayRelicEffects;
-
-            onCompleteLevel += AfterPlayRelicEffects;
-            onSave += Save;
-            onLoad += Load;
-            onDelete += Delete;
-            onSetup += Setup;
-            onClear += Clear;
         }
 
-        public void AfterPlayRelicEffects()
+        public void OnLevelCompleted ()
         {
             foreach (Relic relic in relics)
             {
@@ -123,7 +117,7 @@ namespace Relics
             }
         }
 
-        private void Delete()
+        public void Delete()
         {
             SaveManager.IfFileExistsDelete(SaveFileName);
         }

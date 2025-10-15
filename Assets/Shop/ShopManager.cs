@@ -7,8 +7,9 @@ using UnityEditorInternal;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static UnityEngine.ParticleSystem;
-
-public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+using GameManagerCalls;
+using System.Linq;
+public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, ISaveLoad, IOnLoad, IOnSave
 {
     public static ShopManager Instance;
 
@@ -24,7 +25,8 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     public Dictionary<EquipmentSO, ShopItem> EquipmentAndTheirShopItems { private set; get; } = new Dictionary<EquipmentSO, ShopItem>();
 
-    
+    public string SaveFileName => "ShopManager";
+
     public delegate void OnShopSetup(Dictionary<EquipmentSO, ShopItem> equipmentAndTheirShopItems);
     public OnShopSetup onShopSetup;
 
@@ -217,5 +219,54 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         return Mathf.RoundToInt(sellGoldTotal);
     }
 
+
+    public void Save()
+    {
+        SaveManager.IfFileExistsDelete(SaveFileName);
+        SaveData saveData = new SaveData(EquipmentAndTheirShopItems.Values.ToList());
+        SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
+        SaveManager.Save(saveProfile);
+    }
+
+    public void Load()
+    {
+        if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> saveProfile))
+        {
+            SaveData saveData = saveProfile.saveData;
+
+            List<ShopItem.ShopItemSave> shopItemSaves = saveData.shopItemSaves;
+
+            Dictionary<EquipmentSO, ShopItem> shopItems = new Dictionary<EquipmentSO, ShopItem>();
+
+            foreach (var shopItemSave in shopItemSaves)
+            {
+                ShopItem shopItem = shopItemSave.GetShopItem();
+                if (shopItem.Equipment != null && !shopItems.ContainsKey(shopItem.Equipment))
+                    shopItems.Add(shopItem.Equipment, shopItem);
+            }
+
+            EquipmentAndTheirShopItems = shopItems;
+
+            onShopSetup?.Invoke(EquipmentAndTheirShopItems);
+        }
+    }
+
+    [Serializable]
+    private record SaveData : SaveProfileData
+    {
+        public List<ShopItem.ShopItemSave> shopItemSaves;
+
+        public SaveData(List<ShopItem> shopItems)
+        {
+            List<ShopItem.ShopItemSave> shopItemSaves = new List<ShopItem.ShopItemSave>();
+
+            foreach (ShopItem shopItem in shopItems)
+            {
+                shopItemSaves.Add(new ShopItem.ShopItemSave(shopItem));
+            }
+
+            this.shopItemSaves = shopItemSaves;
+        }
+    }
 }
 

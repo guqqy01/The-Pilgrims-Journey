@@ -1,3 +1,4 @@
+using GameManagerCalls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace Map
 {
-    public class GlobalMapGenerator : MonoBehaviour, ISaveLoad
+    public class GlobalMapGenerator : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad
     {
         public static GlobalMapGenerator Instance;
 
@@ -58,20 +59,6 @@ namespace Map
         private void Awake()
         {
             Instance = this;
-        }
-
-        private void OnEnable()
-        {
-            GameManager.onSave += Save;
-            GameManager.onLoad += Load;
-            GameManager.onCompleteLevel += CompleteLevel;
-        }
-
-        private void OnDisable()
-        {
-            GameManager.onSave -= Save;
-            GameManager.onLoad -= Load;
-            GameManager.onCompleteLevel -= CompleteLevel;
         }
 
         #region Map Generation
@@ -292,7 +279,7 @@ namespace Map
             return true;
         }
 
-        private void CompleteLevel()
+        public void OnLevelCompleted()
         {
             CurrentMapPoint = CurrentMapPoint.connectedToPoints[nextDirection];
             

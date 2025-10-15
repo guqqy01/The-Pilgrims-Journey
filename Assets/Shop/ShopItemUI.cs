@@ -36,6 +36,11 @@ public class ShopItemUI : MonoBehaviour
 
     private Color activeColor = Color.white;
 
+    [SerializeField]
+    private Image backgroundImage;
+    [SerializeField]
+    private Sprite unselectedSprite, selectedSprite;
+
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -100,5 +105,15 @@ public class ShopItemUI : MonoBehaviour
     public void ButtonPress()
     {
         OnButtonPress?.Invoke(this);
+    }
+
+    public void Select()
+    {
+        backgroundImage.sprite = selectedSprite;
+    }
+
+    public void Deselect()
+    {
+        backgroundImage.sprite = unselectedSprite;
     }
 }

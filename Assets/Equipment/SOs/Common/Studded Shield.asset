@@ -16,15 +16,25 @@ MonoBehaviour:
   description: Studded Shield
   equipmentBuffs:
   - stat: 1
-    Multiplier: -20
+    Multiplier: 0
     BaseBuff:
       intValue: 0
       floatValue: 0
       isInt: 1
     AdditionalBuff:
-      intValue: 20
+      intValue: 30
       floatValue: 0
       isInt: 1
+  - stat: 5
+    Multiplier: 0
+    BaseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    AdditionalBuff:
+      intValue: 20
+      floatValue: 1
+      isInt: 0
   EquipmentSpecial:
     rid: -2
   ChanceOfBeginInShopAtXMapPosition:

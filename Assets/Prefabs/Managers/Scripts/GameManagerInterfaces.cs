@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System;
 namespace GameManagerCalls
 {
-    public interface IGameManagerCallInterface { }
-
-    public interface ISetup : IGameManagerCallInterface
+    public interface IGameManagerCallInterface 
     {
-        public void Setup();
     }
 
-    public interface IOnLevelCompleted : IGameManagerCallInterface
+    public interface IOnCompletedLevel : IGameManagerCallInterface
     {
         public void OnLevelCompleted();
     }
@@ -20,19 +17,9 @@ namespace GameManagerCalls
         public void OnGameEnd();
     }
 
-    public interface IUnitPassed : IGameManagerCallInterface
+    public interface IOnBeforeCreateLocalMap : IGameManagerCallInterface
     {
-        public void OnUnitPassed(int totalPassed, int requiredToPass);
-    }
-
-    public interface IClear : IGameManagerCallInterface
-    {
-        public void Clear();
-    }
-
-    public interface IAfterCreateLocalMap : IGameManagerCallInterface
-    {
-        public void AfterCreateLocalMap();
+        public void OnBeforeCreateLocalMap();
     }
 
     public interface IOnCreateLocalMap : IGameManagerCallInterface
@@ -40,9 +27,49 @@ namespace GameManagerCalls
         public void OnCreateLocalMap();
     }
 
-    public interface IOnBeforeCreateLocalMap : IGameManagerCallInterface
+    public interface IOnAfterCreateLocalMap : IGameManagerCallInterface
     {
-        public void OnBeforeCreateLocalMap();
+        public void AfterCreateLocalMap();
+    }
+
+    public interface IOnCreateCurrentMapPoint : IGameManagerCallInterface
+    {
+        public void OnCreateCurrentMapPoint();
+    }
+
+    public interface IOnCompleteLocalMapLevel : IGameManagerCallInterface
+    {
+        public void OnCompleteLocalMapLevel();
+    }
+
+    public interface IOnClear : IGameManagerCallInterface
+    {
+        public void Clear();
+    }
+
+    public interface IOnSetup : IGameManagerCallInterface
+    {
+        public void Setup();
+    }
+
+    public interface IOnLoad : IGameManagerCallInterface
+    {
+        public void Load();
+    }
+
+    public interface IOnSave : IGameManagerCallInterface
+    {
+        public void Save();
+    }
+
+    public interface IOnDelete : IGameManagerCallInterface
+    {
+        public void Delete();
+    }
+
+    public interface IOnUnitPassed : IGameManagerCallInterface
+    {
+        public void OnUnitPassed(int totalPassed, int requiredToPass);
     }
 
     public static class InterfaceFinder
@@ -52,13 +79,25 @@ namespace GameManagerCalls
             List<T> returnList = new List<T>();
             foreach (var mono in UnityEngine.Object.FindObjectsByType(typeof(MonoBehaviour), FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
-                if (mono is IGameManagerCallInterface gameManagerCallInterface)
+                if (mono is IGameManagerCallInterface gameManagerCallInterface && gameManagerCallInterface is T obj)
                 {
-                    returnList.Add((T)gameManagerCallInterface);
+                    returnList.Add(obj);
                 }
             }
 
             return returnList;
+        }
+    }
+
+    public static class InterfaceCaller
+    {
+        public static void CallInterfaces<T>(Action<T> action) where T : IGameManagerCallInterface
+        {
+            List<T> interfaces = InterfaceFinder.FindInterfaces<T>();
+            foreach (T interfaceInstance in interfaces)
+            {
+                action(interfaceInstance);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using Equipment;
+using GameManagerCalls;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Tiles
 {
-    public class TileStatsUI : EquipmentInventory
+    public class TileStatsUI : EquipmentInventory, IOnSetup, IOnClear
     {
         private Tile tile;
 
@@ -69,22 +70,30 @@ namespace Tiles
 
         private void OnContainer0Change(EquipmentSO from, EquipmentSO to)
         {
+            if (tile == null) return;
+
             tile.Equipment[0] = to;
             UpdateStats();
         }
 
         private void OnContainer1Change(EquipmentSO from, EquipmentSO to)
         {
+            if (tile == null) return;
+
             tile.Equipment[1] = to;
             UpdateStats();
         }
         private void OnContainer2Change(EquipmentSO from, EquipmentSO to)
         {
+            if (tile == null) return;
+
             tile.Equipment[2] = to;
             UpdateStats();
         }
         private void OnContainer3Change(EquipmentSO from, EquipmentSO to)
         {
+            if (tile == null) return;
+
             tile.Equipment[3] = to;
             UpdateStats();
         }
@@ -107,6 +116,9 @@ namespace Tiles
 
         public void UpdateLevelUnitsAndHealth()
         {
+            if (tile == null)
+                return;
+
             totalNumberOfUnits.text = $"Total Number of units: {tile.currentHealth}/{tile.MaxHealth}";
 
             if (tile.IsMaxLevel)
@@ -125,11 +137,18 @@ namespace Tiles
         {
             tile = null;
 
+            Containers[0].onEquipmentChanged -= OnContainer0Change;
+            Containers[1].onEquipmentChanged -= OnContainer1Change;
+            Containers[2].onEquipmentChanged -= OnContainer2Change;
+            Containers[3].onEquipmentChanged -= OnContainer3Change;
+
             for (int i = 0; i < Containers.Length; i++)
             {
                 Containers[i].Deactivate();
             }
+
             
+
             spawnRateText.text = "NA";
             movement.text = "NA";
             health.text = "NA";
@@ -142,25 +161,27 @@ namespace Tiles
             tileInfoText.text = "Select a tile";
         }
 
-        protected override void Awake()
+        public override void Clear()
         {
-            GameManager.onSetup += Setup;
-            GameManager.onClear += DeselectTile;
-            GameManager.onClear += Clear;
+            base.Clear();
 
+            DeselectTile();
+        }
+
+        protected void Awake()
+        {
             DeselectTile();
 
             Tile.onTileSelected += TileSelected;
             
         }
 
-        /*protected override void OnDisable()
+        protected override void OnDestroy()
         {
-            GameManager.onSetup -= Setup;
-            GameManager.onClear -= DeselectTile;
-            GameManager.onClear -= Clear;
+            base.OnDestroy();
+
             Tile.onTileSelected -= TileSelected;
-        }*/
+        }
     }
 
 }

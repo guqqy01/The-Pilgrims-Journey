@@ -17,7 +17,7 @@ namespace Equipment
         public RectTransform RectTransform;
 
         [SerializeField]
-        protected DragableEquipmentUI dragableEquipmentUIPrefab;
+        private DragableEquipmentUI dragableEquipmentUIPrefab;
 
         private DragableEquipmentUI dragableEquipmentUI;
 
@@ -56,6 +56,9 @@ namespace Equipment
         {
             if (Container == null)
                 return;
+
+            if(dragableEquipmentUI != null)
+                Destroy(dragableEquipmentUI.gameObject);
 
             Container.onEquipmentChangeUI -= UpdateEquipmentChanged;
             Container.onActiveChangeUI -= UpdateActiveUI;
@@ -96,7 +99,9 @@ namespace Equipment
             }
 
             if(dragableEquipmentUI == null)
+            {
                 dragableEquipmentUI = Instantiate(dragableEquipmentUIPrefab, transform);
+            }
 
             dragableEquipmentUI.Init(Container.EquipmentSO, this);
         }

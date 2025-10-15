@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverScreen : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class GameOverScreen : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnSetup, IOnGameEnd
 {
     public static GameOverScreen Instance;
 
@@ -19,17 +19,15 @@ public class GameOverScreen : MonoBehaviour, ISingletonToBeInitiatedFromRoot
             Instance = this;
         }
 
-        GameManager.onSetup += Setup;
-        GameManager.onGameEnd += GameOver;
         gameObject.SetActive(false);
     }
 
-    private void GameOver()
+    public void OnGameEnd()
     {
         gameObject.SetActive(true);
     }
 
-    private void Setup()
+    public void Setup()
     {
         gameObject.SetActive(false);
     }

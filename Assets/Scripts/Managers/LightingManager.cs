@@ -1,10 +1,11 @@
+using GameManagerCalls;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.ParticleSystem;
-public class LightingManager : MonoBehaviour
+public class LightingManager : MonoBehaviour, IOnAfterCreateLocalMap, IOnClear
 {
     [SerializeField]
     private Light2D light2D;
@@ -18,19 +19,8 @@ public class LightingManager : MonoBehaviour
 
     [SerializeField]
     private MinMaxCurve numberOfFireflys;
-    private void OnEnable()
-    {
-        GameManager.onAfterCreateLocalMap += LightIntensity;
-        GameManager.onAfterCreateLocalMap += AddOrRemoveFireFlys;
-        GameManager.onClear += Clear;
-    }
-    private void OnDisable()
-    {
-        GameManager.onAfterCreateLocalMap -= LightIntensity;
-        GameManager.onAfterCreateLocalMap -= AddOrRemoveFireFlys;
-        GameManager.onClear -= Clear;
-    }
-    private void Clear()
+
+    public void Clear()
     {
         foreach(var firefly in fireflys)
         {
@@ -39,6 +29,8 @@ public class LightingManager : MonoBehaviour
 
         fireflys.Clear();
     }
+
+    
 
     private void LightIntensity()
     {
@@ -77,4 +69,9 @@ public class LightingManager : MonoBehaviour
         }
     }
 
+    public void AfterCreateLocalMap()
+    {
+        LightIntensity();
+        AddOrRemoveFireFlys();
+    }
 }

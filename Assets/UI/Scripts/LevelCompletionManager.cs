@@ -3,7 +3,8 @@ using UnityEngine;
 using Map;
 using UnityEngine.UI;
 using UnityEditor.UIElements;
-public class LevelCompletionManager : MonoBehaviour
+using GameManagerCalls;
+public class LevelCompletionManager : MonoBehaviour, IOnCompleteLocalMapLevel, IOnCreateLocalMap
 {
     [SerializeField]
     private GameObject LevelCompleteScreen;
@@ -18,13 +19,8 @@ public class LevelCompletionManager : MonoBehaviour
     [SerializeField]
     private InventoryToolbar toolbar;
 
-    public void Awake()
-    {
-        GameManager.onCompleteLocalMapLevel += OnCompleteLevel;
-        GameManager.onCreateLocalMap += OnCreateLocalMap;
-    }
 
-    private void OnCompleteLevel()
+    public void OnCompleteLocalMapLevel()
     {
         LevelCompleteScreen.SetActive(true);
 
@@ -40,7 +36,7 @@ public class LevelCompletionManager : MonoBehaviour
         }
     }
 
-    private void OnCreateLocalMap()
+    public void OnCreateLocalMap()
     {
         LevelCompleteScreen.SetActive(false);
     }

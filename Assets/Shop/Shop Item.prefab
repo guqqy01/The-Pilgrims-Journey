@@ -146,7 +146,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1008300425, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  m_Sprite: {fileID: -1991877668, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -311,6 +311,9 @@ MonoBehaviour:
   stockText: {fileID: 4994436225869142789}
   inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.3}
   discountText: {fileID: 5682342872873274464}
+  backgroundImage: {fileID: 1612243107163250053}
+  unselectedSprite: {fileID: -222353418, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
+  selectedSprite: {fileID: -1094014579, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
 --- !u!1 &2278881899801725294
 GameObject:
   m_ObjectHideFlags: 0

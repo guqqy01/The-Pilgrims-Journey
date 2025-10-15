@@ -6,10 +6,11 @@ using System;
 using Equipment;
 using Units;
 using UnityEngine.UI;
+using GameManagerCalls;
 
 namespace Tiles
 {
-    public class TileGrid : MonoBehaviour, ISaveLoad
+    public class TileGrid : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnClear
     {
         public string SaveFileName => $"TileGrid_{name}_{GetHashCode()}_Save";
 
@@ -95,12 +96,6 @@ namespace Tiles
         public Vector2Int GridSize => gridSize;
 
         private Image gridImageForValidation;
-        protected virtual void Awake()
-        {
-            GameManager.onSave += Save;
-            GameManager.onLoad += Load;
-            GameManager.onClear += Clear;
-        }
 
         private void OnValidate()
         {
@@ -163,6 +158,7 @@ namespace Tiles
             selectedTile.PlacedPosition = position;
             selectedTile.PlacedRotation = selectedTile.Rotation;
             selectedTile.RectTransform.position = Position(selectedTile, position);
+
             selectedTile.tileGrid = this;
             selectedTile.transform.SetParent(GridTransform, true);
 
@@ -177,7 +173,7 @@ namespace Tiles
 
         public Vector2 Position(Tile tile, Vector2Int position)
         {
-            return (Vector2)GridTransform.position + TileUIManager.Instance.canvas.scaleFactor * (TileSize * (position - ((Vector2)GridSize - Vector2.one) / 2f) + tile.GetOffset() * TileSize);
+            return (Vector2)GridTransform.position + GridTransform.lossyScale * (TileSize * (position - ((Vector2)GridSize - Vector2.one) / 2f) + tile.GetOffset() * TileSize);
         }
 
 
@@ -289,7 +285,7 @@ namespace Tiles
 
             foreach (Tile tile in ListOfTiles)
             {
-                TileSave tileSave = new TileSave(tile.Level, tile.Rotation, tile.PlacedPosition, tile.TileSO, tile.UnitSO, tile.Equipment);
+                TileSave tileSave = new TileSave(tile.Level, tile.currentHealth, tile.CurrentAmountOfUnitsEscaped ,tile.Rotation, tile.PlacedPosition, tile.TileSO, tile.UnitSO, tile.Equipment);
                 tileSaves.Add(tileSave);
             }
 
@@ -321,7 +317,10 @@ namespace Tiles
                 Tile tile = Instantiate(tileSO.tilePrefab, GridTransform);
                 tile.TileSaveInit(tileSave);
 
-                TryPlaceTile(tile, position);
+                if(!TryPlaceTile(tile, position))
+                {
+                    Debug.Log("Tile placement failed");
+                }
             }
         }
 
@@ -341,23 +340,26 @@ namespace Tiles
     public class TileSave
     {
         public int level;
+        public int tileHealth;
+        public int tileExp;
+
         public float rotation;
         public Vector2Int position;
         public TileSO tile;
         public UnitSO unit;
         public EquipmentSO[] equipment;
 
-        public TileSave(int level, float rotation, Vector2Int position, TileSO tile, UnitSO unit, EquipmentSO[] equipment)
+        public TileSave(int level, int tileHealth, int tileExp, float rotation, Vector2Int position, TileSO tile, UnitSO unit, EquipmentSO[] equipment)
         {
             this.level = level;
             this.rotation = rotation;
+            this.tileHealth = tileHealth;
+            this.tileExp = tileExp;
             this.position = position;
             this.tile = tile;
             this.unit = unit;
             this.equipment = equipment;
         }
-
-        public TileAndUnit TileAndUnit => new TileAndUnit(tile, unit);
     }
 
 }

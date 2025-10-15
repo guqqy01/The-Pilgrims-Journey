@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4087b59669de13498b40f8d973e896d, type: 3}
   m_Name: New Global Map Generation Settings
   m_EditorClassIdentifier: 
-  InnerMapLength: 25
+  InnerMapLength: 20
   MapWidth: 7
   StartRoadLength: 1
   EndRoadLength: 1
   PathSettings:
   - NumberOfPaths: 2
     NumberOfRelics: 1
-    NumberOfRandomEncounters: 3
-    NumberOfShops: 4
+    NumberOfRandomEncounters: 4
+    NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -149,8 +149,8 @@ MonoBehaviour:
     reverseDirectionChance: 0
   - NumberOfPaths: 1
     NumberOfRelics: 1
-    NumberOfRandomEncounters: 3
-    NumberOfShops: 4
+    NumberOfRandomEncounters: 4
+    NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -288,8 +288,8 @@ MonoBehaviour:
     reverseDirectionChance: 0
   - NumberOfPaths: 1
     NumberOfRelics: 1
-    NumberOfRandomEncounters: 3
-    NumberOfShops: 4
+    NumberOfRandomEncounters: 4
+    NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -428,7 +428,7 @@ MonoBehaviour:
   - NumberOfPaths: 2
     NumberOfRelics: 0
     NumberOfRandomEncounters: 2
-    NumberOfShops: 4
+    NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -621,7 +621,7 @@ MonoBehaviour:
   - NumberOfPaths: 2
     NumberOfRelics: 0
     NumberOfRandomEncounters: 2
-    NumberOfShops: 4
+    NumberOfShops: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Units;
 using Tiles;
+using GameManagerCalls;
 
-public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnGameEnd, IOnCompletedLevel, IOnAfterCreateLocalMap, IOnClear
 {
     public static SpawningManager Instance { private set; get; }
 
@@ -46,11 +47,6 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         {
             waitCoroutine = StartCoroutine(WaitForTilePlayerManagerToNotBeNull());
         }
-
-        GameManager.onGameEnd += DestoryUnits;
-        GameManager.onCompleteLevel += DestoryUnits;
-        GameManager.onAfterCreateLocalMap += SetupNewLevel;
-        GameManager.onClear += DestoryUnits;
     }
 
     private IEnumerator WaitForTilePlayerManagerToNotBeNull()
@@ -69,11 +65,6 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
             TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= OnPositionChange;
             if(waitCoroutine != null) StopCoroutine(waitCoroutine);
         }
-
-        GameManager.onGameEnd -= DestoryUnits;
-        GameManager.onCompleteLevel -= DestoryUnits;
-        GameManager.onAfterCreateLocalMap -= SetupNewLevel;
-        GameManager.onClear -= DestoryUnits;
     }
 
     private void Update()
@@ -189,5 +180,25 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         }
 
         SpawnedUnits.Clear();
+    }
+
+    public void OnGameEnd()
+    {
+        DestoryUnits();
+    }
+
+    public void OnLevelCompleted()
+    {
+        DestoryUnits();
+    }
+
+    public void AfterCreateLocalMap()
+    {
+        SetupNewLevel();
+    }
+
+    public void Clear()
+    {
+        DestoryUnits();
     }
 }

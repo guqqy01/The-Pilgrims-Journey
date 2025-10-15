@@ -1,3 +1,4 @@
+using GameManagerCalls;
 using Monsters;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using static UnityEngine.ParticleSystem;
 
 namespace Map
 {
-    public class LocalMapGenerator : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class LocalMapGenerator : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnClear, IOnCreateLocalMap
     {
         public static LocalMapGenerator Instance { private set; get; }
 
@@ -102,18 +103,6 @@ namespace Map
             {
                 Instance = this;
             }
-        }
-
-        private void OnEnable()
-        {
-            GameManager.onClear += Clear;
-            GameManager.onCreateLocalMap += SetupNewLevel;
-        }
-
-        private void OnDisable()
-        {
-            GameManager.onClear -= Clear;
-            GameManager.onCreateLocalMap -= SetupNewLevel;
         }
 
         #region Preview Settings
@@ -785,6 +774,11 @@ namespace Map
             }
 
             
+        }
+
+        public void OnCreateLocalMap()
+        {
+            SetupNewLevel();
         }
     }
 
