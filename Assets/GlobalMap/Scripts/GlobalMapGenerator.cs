@@ -27,8 +27,8 @@ namespace Map
 
         public GlobalMapPoint[,] mapPoints;
         public List<GlobalMapPoint> takenPath = new List<GlobalMapPoint>();
-        
-        public Vector2Int CurrentPosition {  get; private set; }
+
+        public Vector2Int CurrentPosition { get; private set; }
         public GlobalMapPoint CurrentMapPoint
         {
             get
@@ -46,7 +46,7 @@ namespace Map
             {
                 CurrentPosition = value.Position;
 
-                if(!takenPath.Contains(value))
+                if (!takenPath.Contains(value))
                     takenPath.Add(value);
             }
         }
@@ -67,50 +67,84 @@ namespace Map
         public void GenerateMap(int seed)
         {
             Seed = seed;
-
             Random.InitState(Seed);
 
             mapPoints = new GlobalMapPoint[GenerationSettings.MapSize.x, GenerationSettings.MapSize.y];
 
-            //Start Point
+            // Start Point
             Vector2Int currentPosition = new Vector2Int(0, Mathf.FloorToInt(GenerationSettings.MapSize.y / 2f));
             Direction currentDirection = Direction.East;
 
-            GlobalMapPoint previousMapPoint = new GlobalMapPoint(currentPosition);
-            previousMapPoint.Seed = Random.Range(int.MinValue, int.MaxValue);
-            mapPoints[currentPosition.x, currentPosition.y] = previousMapPoint;
+            GlobalMapPoint previousMapPoint = CreateOrGetMapPoint(currentPosition, null);
             CurrentMapPoint = previousMapPoint;
-            
-            List<GlobalMapPoint> pathPoints = new List<GlobalMapPoint>();
 
-            //Start Road
-            for (int i = 0; i < GenerationSettings.StartRoadLength; i++)
-            {
-                currentPosition += Vector2Int.right;
-
-                SetupPoint();
-            }
+            // Start road
+            GenerateStartRoad(ref currentPosition, ref previousMapPoint);
 
             GlobalMapPoint startMapPoint = previousMapPoint;
             Vector2Int innerMapStartPosition = currentPosition;
-            List<GlobalMapPoint> usedPoints = new List<GlobalMapPoint>();
 
+            // Generate inner paths and assign special points
+            List<GlobalMapPoint> usedPoints = new List<GlobalMapPoint>();
+            GeneratePaths(startMapPoint, innerMapStartPosition, ref currentDirection, usedPoints);
+
+            // End road
+            currentDirection = Direction.East;
+            GenerateEndRoad(ref currentPosition, ref previousMapPoint);
+
+            updateUI?.Invoke();
+            OnMapGenerated?.Invoke();
+        }
+
+        // Create or return existing map point at position. If pathPoints provided, the point is added there.
+        private GlobalMapPoint CreateOrGetMapPoint(Vector2Int position, List<GlobalMapPoint>? pathPoints)
+        {
+            GlobalMapPoint mapPoint;
+            if (mapPoints[position.x, position.y] == null)
+            {
+                mapPoint = new GlobalMapPoint(position);
+                mapPoints[position.x, position.y] = mapPoint;
+                mapPoint.Seed = Random.Range(int.MinValue, int.MaxValue);
+            }
+            else
+            {
+                mapPoint = mapPoints[position.x, position.y];
+            }
+
+            if (pathPoints != null && !pathPoints.Contains(mapPoint))
+                pathPoints.Add(mapPoint);
+
+            return mapPoint;
+        }
+
+        private void GenerateStartRoad(ref Vector2Int currentPosition, ref GlobalMapPoint previousMapPoint)
+        {
+            for (int i = 0; i < GenerationSettings.StartRoadLength; i++)
+            {
+                currentPosition += Vector2Int.right;
+                var mapPoint = CreateOrGetMapPoint(currentPosition, null);
+                ConnectMapPoints(previousMapPoint, mapPoint);
+                previousMapPoint = mapPoint;
+            }
+        }
+
+        private void GeneratePaths(GlobalMapPoint startMapPoint, Vector2Int innerMapStartPosition, ref Direction currentDirection, List<GlobalMapPoint> usedPoints)
+        {
             foreach (GlobalPathSettings pathSettings in GenerationSettings.PathSettings)
             {
-                pathPoints = new List<GlobalMapPoint>();
+                List<GlobalMapPoint> pathPoints = new List<GlobalMapPoint>();
 
                 for (int i = 0; i < pathSettings.NumberOfPaths; i++)
                 {
-                    previousMapPoint = startMapPoint;
-                    currentPosition = innerMapStartPosition;
+                    GlobalMapPoint previousMapPoint = startMapPoint;
+                    Vector2Int currentPosition = innerMapStartPosition;
 
                     int breaker = 100;
 
-                    //Inner Map
+                    // Inner Map traversal
                     while (currentPosition != GenerationSettings.EndOfInnerMapPosition && breaker > 0)
                     {
                         currentDirection = GenerationSettings.GetNextDirection(pathSettings, currentDirection, currentPosition);
-                        
 
                         switch (currentDirection)
                         {
@@ -127,7 +161,10 @@ namespace Map
                                 currentPosition += Vector2Int.left;
                                 break;
                         }
-                        SetupPoint();
+
+                        var mapPoint = CreateOrGetMapPoint(currentPosition, pathPoints);
+                        ConnectMapPoints(previousMapPoint, mapPoint);
+                        previousMapPoint = mapPoint;
 
                         breaker--;
                     }
@@ -136,102 +173,71 @@ namespace Map
                 if (pathPoints.Count <= 0)
                     continue;
 
-                for (int i = 0; i < pathSettings.NumberOfRandomEncounters; i++)
+                AssignSpecialMapPoints(pathSettings, pathPoints, usedPoints);
+            }
+        }
+
+        private void AssignSpecialMapPoints(GlobalPathSettings pathSettings, List<GlobalMapPoint> pathPoints, List<GlobalMapPoint> usedPoints)
+        {
+            // Random encounters
+            for (int i = 0; i < pathSettings.NumberOfRandomEncounters; i++)
+            {
+                GlobalMapPoint point = pathPoints.GetRandom();
+                int breaker = 100;
+                while (usedPoints.Contains(point) && breaker > 0)
                 {
-                    GlobalMapPoint point = pathPoints.GetRandom();
-
-                    int breaker = 100;
-
-                    while (usedPoints.Contains(point) && breaker > 0)
-                    {
-                        point = pathPoints.GetRandom();
-                        breaker--;
-                    }
-
-                    point.Type = GlobalMapPointType.Random;
-                    usedPoints.Add(point);
+                    point = pathPoints.GetRandom();
+                    breaker--;
                 }
-
-                for (int i = 0; i < pathSettings.NumberOfRelics; i++)
-                {
-                    GlobalMapPoint point = pathPoints.GetRandom();
-
-                    int breaker = 100;
-
-                    while (usedPoints.Contains(point) && breaker > 0)
-                    {
-                        point = pathPoints.GetRandom();
-                        breaker--;
-                    }
-
-                    point.Type = GlobalMapPointType.Relic;
-                    usedPoints.Add(point);
-                }
-
-                for (int i = 0; i < pathSettings.NumberOfShops; i++)
-                {
-                    GlobalMapPoint point = pathPoints.GetRandom();
-
-                    int breaker = 100;
-
-                    while (usedPoints.Contains(point) && breaker > 0)
-                    {
-                        point = pathPoints.GetRandom();
-                        breaker--;
-                    }
-
-                    point.Type = GlobalMapPointType.Shop;
-                    usedPoints.Add(point);
-                }
+                point.Type = GlobalMapPointType.Random;
+                usedPoints.Add(point);
             }
 
-            currentDirection = Direction.East;
+            // Relics
+            for (int i = 0; i < pathSettings.NumberOfRelics; i++)
+            {
+                GlobalMapPoint point = pathPoints.GetRandom();
+                int breaker = 100;
+                while (usedPoints.Contains(point) && breaker > 0)
+                {
+                    point = pathPoints.GetRandom();
+                    breaker--;
+                }
+                point.Type = GlobalMapPointType.Relic;
+                usedPoints.Add(point);
+            }
 
-            //End Road
+            // Shops
+            for (int i = 0; i < pathSettings.NumberOfShops; i++)
+            {
+                GlobalMapPoint point = pathPoints.GetRandom();
+                int breaker = 100;
+                while (usedPoints.Contains(point) && breaker > 0)
+                {
+                    point = pathPoints.GetRandom();
+                    breaker--;
+                }
+                point.Type = GlobalMapPointType.Shop;
+                usedPoints.Add(point);
+            }
+        }
+
+        private void GenerateEndRoad(ref Vector2Int currentPosition, ref GlobalMapPoint previousMapPoint)
+        {
             for (int i = 0; i < GenerationSettings.EndRoadLength; i++)
             {
                 currentPosition += Vector2Int.right;
-                SetupPoint();
-            }
-
-            //Helper Methods
-
-
-            void SetupPoint()
-            {
-                GlobalMapPoint mapPoint;
-
-                if (mapPoints[currentPosition.x, currentPosition.y] == null)
-                {
-                    mapPoint = new GlobalMapPoint(currentPosition);
-
-                    mapPoints[currentPosition.x, currentPosition.y] = mapPoint;
-
-                    mapPoint.Seed = Random.Range(int.MinValue, int.MaxValue);
-                }
-                else
-                {
-                    mapPoint = mapPoints[currentPosition.x, currentPosition.y];
-                }
-
-                if(!pathPoints.Contains(mapPoint))
-                    pathPoints.Add(mapPoint);
-
+                var mapPoint = CreateOrGetMapPoint(currentPosition, null);
                 ConnectMapPoints(previousMapPoint, mapPoint);
-
                 previousMapPoint = mapPoint;
             }
-
-            updateUI?.Invoke();
-
-            OnMapGenerated?.Invoke();
         }
 
         private void ConnectMapPoints(GlobalMapPoint from, GlobalMapPoint to)
         {
             Vector2Int direction = to.Position - from.Position;
 
-            if(direction == Vector2Int.right)
+            if (direction == Vector2Int.right)
             {
                 if (!from.connectedToPoints.ContainsValue(to))
                     from.connectedToPoints.Add(Direction.East, to);
@@ -239,7 +245,7 @@ namespace Map
                 if (!to.connectedFromPoints.ContainsValue(from))
                     to.connectedFromPoints.Add(Direction.West, from);
             }
-            else if(direction == Vector2Int.left)
+            else if (direction == Vector2Int.left)
             {
                 if (!from.connectedToPoints.ContainsValue(to))
                     from.connectedToPoints.Add(Direction.West, to);
@@ -283,7 +289,7 @@ namespace Map
         public void OnLevelCompleted()
         {
             CurrentMapPoint = CurrentMapPoint.connectedToPoints[nextDirection];
-            
+
             updateUI?.Invoke();
         }
 
@@ -298,7 +304,7 @@ namespace Map
         private float sphereRadius;
         [SerializeField]
         private float arrowLength;
-        
+
 
         private void OnDrawGizmosSelected()
         {
@@ -308,14 +314,14 @@ namespace Map
             if (mapPoints == null)
                 return;
 
-            foreach(GlobalMapPoint mapPoint in mapPoints)
+            foreach (GlobalMapPoint mapPoint in mapPoints)
             {
                 if (mapPoint == null)
                     continue;
 
                 Gizmos.DrawSphere((Vector2)mapPoint.Position, sphereRadius);
 
-                foreach(GlobalMapPoint toPoint in mapPoint.connectedToPoints.Values)
+                foreach (GlobalMapPoint toPoint in mapPoint.connectedToPoints.Values)
                 {
                     Gizmos.DrawLine((Vector2)mapPoint.Position, (Vector2)toPoint.Position);
                     Vector2 halfway = ((Vector2)toPoint.Position + (Vector2)mapPoint.Position) / 2f;
@@ -376,7 +382,7 @@ namespace Map
 
                 takenPath = new List<Vector2Int>();
 
-                foreach(GlobalMapPoint point in takenPathPoints)
+                foreach (GlobalMapPoint point in takenPathPoints)
                 {
                     takenPath.Add(point.Position);
                 }
