@@ -36,6 +36,8 @@ public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot, 
     private void Awake()
     {
         Setup();
+
+        Close();
     }
 
     public void SetupLevelUI()

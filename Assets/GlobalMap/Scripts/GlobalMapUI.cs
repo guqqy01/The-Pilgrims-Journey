@@ -75,34 +75,16 @@ namespace Map
 
         private void Start()
         {
-            // keep Start minimal — subscriptions happen in OnEnable to better match enable/disable lifecycle
-        }
-
-        private void OnEnable()
-        {
             // Subscribe safely (remove then add to avoid double-subscribe)
             GlobalMapGenerator.OnMapGenerated -= UpdateUI;
             GlobalMapGenerator.OnMapGenerated += UpdateUI;
-
+            GlobalMapGenerator.OnMapGenerated.GetInvocationList();
             if (Generator != null)
             {
                 Generator.updateUI -= UpdateUI;
                 Generator.updateUI += UpdateUI;
                 UpdateUI();
             }
-        }
-
-        private void OnDisable()
-        {
-            // Unsubscribe instance event
-            if (Generator != null)
-            {
-                Generator.updateUI -= UpdateUI;
-            }
-
-            // Do NOT unsubscribe static OnMapGenerated here if you rely on it throughout editor lifetime,
-            // but it's safer to remove it to keep balanced subscriptions:
-            GlobalMapGenerator.OnMapGenerated -= UpdateUI;
         }
 
         private void OnDestroy()
