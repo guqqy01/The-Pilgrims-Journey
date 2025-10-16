@@ -100,6 +100,9 @@ namespace Tiles
 
         public void UpdateStats()
         {
+            if (tile == null)
+                DeselectTile();
+
             for (int i = 0; i < Containers.Length; i++)
             {
                 Containers[i].Active = tile.Level > i;

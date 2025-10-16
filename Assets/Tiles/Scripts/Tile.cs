@@ -54,6 +54,9 @@ namespace Tiles
         public delegate void OnTileSelected(Tile tile);
         public static OnTileSelected onTileSelected;
 
+        public delegate void OnDragTile(Tile tile);
+        public static OnDragTile onDragTile;
+
         public float Rotation
         {
             get
@@ -345,12 +348,16 @@ namespace Tiles
             Dragging = true;
             RectTransform.SetParent(TileUIManager.Canvas.transform, true);
             canvasGroup.blocksRaycasts = false;
+
+            onDragTile?.Invoke(this);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             if (!Dragging)
                 return;
+
+            onDragTile?.Invoke(null);
 
             Dragging = false;
             canvasGroup.blocksRaycasts = true;
@@ -366,7 +373,7 @@ namespace Tiles
             {
                 Rotation = PlacedRotation;
                 RectTransform.position = tileGrid.Position(this, PlacedPosition);
-                transform.parent = tileGrid.transform;
+                transform.SetParent(tileGrid.transform);
                 Color = Color.white;
                 AudioManager.Instance.PlayCancelMoveTile();
             }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Units;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static Tiles.Tile;
 
 namespace Tiles
 {
@@ -18,6 +19,12 @@ namespace Tiles
         [SerializeField]
         public Canvas canvas;
         public static Canvas Canvas => Instance.canvas;
+
+        private TileRotationHelper rotationHelper;
+        [SerializeField]
+        private TileRotationHelper rotationHelperPrefab;
+
+        private Tile draggingTile;
 
         private void Start()
         {
@@ -34,6 +41,43 @@ namespace Tiles
             {
                 Instance = this;
             }
+        }
+
+
+        protected void Awake()
+        {
+            Tile.onDragTile += DraggingTile;
+
+        }
+
+        protected void OnDestroy()
+        {
+            Tile.onDragTile -= DraggingTile;
+        }
+
+        private void Update()
+        {
+            if(draggingTile != null)
+                rotationHelper.Follow(draggingTile);
+        }
+
+
+        private void DraggingTile(Tile tile)
+        {
+            if(rotationHelper == null && tile != null)
+            {
+                rotationHelper = Instantiate(rotationHelperPrefab, canvas.transform);
+            }
+
+            draggingTile = tile;
+
+            if (tile == null)
+            {
+                rotationHelper.gameObject.SetActive(false);
+                return;
+            }
+
+            rotationHelper.gameObject.SetActive(true);
         }
     }
 }

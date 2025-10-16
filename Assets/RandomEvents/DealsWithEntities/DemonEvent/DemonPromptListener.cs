@@ -1,4 +1,5 @@
 using DialogueSystem;
+using Relics;
 using UnityEngine;
 
 public class DemonPromptListener : MonoBehaviour
@@ -9,11 +10,13 @@ public class DemonPromptListener : MonoBehaviour
     [SerializeField]
     private DialogueEventListener refuseTheGiftListener;
 
+    [SerializeField]
+    private RelicSO demonRelic;
+
     private void OnEnable()
     {
         acceptTheGiftListener.Register();
         refuseTheGiftListener.Register();
-    
     }
 
     private void OnDisable()
@@ -24,11 +27,11 @@ public class DemonPromptListener : MonoBehaviour
 
     public void AcceptTheGift()
     {
-        Debug.Log("Accepted the gift");
+        RelicManager.Instance.AddRelic(demonRelic);
     }
 
     public void RefuseTheGift()
     {
-        Debug.Log("Refused the gift");
+        // Nothing happens
     }
 }

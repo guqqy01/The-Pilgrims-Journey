@@ -52,8 +52,13 @@ public abstract class SpellEffect
         return returnMapTiles;
     }
 
-    protected List<Collider2D> GetColliders2D(Vector2Int origin)
+    protected List<Collider2D> GetColliders2D(Vector2Int origin, LayerMask layerMask = default(LayerMask))
     {
+        if(layerMask == default(LayerMask))
+        {
+            layerMask = this.layerMask;
+        }
+
         List<Collider2D> colliders = new List<Collider2D>();
 
         foreach (BoxVector2IntDimensions box in Vector2Ints.AddToAll(origin).GetVector2IntBoxDimensions())

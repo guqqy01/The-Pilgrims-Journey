@@ -10,6 +10,9 @@ public class LevelUI : MonoBehaviour, IOnAfterCreateLocalMap
     [SerializeField]
     private Text requiredUnitsText;
 
+    [SerializeField]
+    private Image progressBarFill;
+
     private void OnEnable()
     {
         GameManager.onUnitPassed += OnUnitPassed;
@@ -22,12 +25,16 @@ public class LevelUI : MonoBehaviour, IOnAfterCreateLocalMap
 
     public void LevelChange()
     {
-        requiredUnitsText.text =  "0/" + GameManager.Instance.RequiredNumberOfUnitsToPass;
+        int requiredToPass = GameManager.Instance.RequiredNumberOfUnitsToPass;  
+
+        requiredUnitsText.text =  "0/" + requiredToPass;
+        progressBarFill.fillAmount = Mathf.Clamp01(0 / requiredToPass);
     }
 
     public void OnUnitPassed(int totalPassed, int requiredToPass)
     {
         requiredUnitsText.text = totalPassed + "/" + requiredToPass;
+        progressBarFill.fillAmount = Mathf.Clamp01((float)totalPassed / requiredToPass);
     }
 
     public void AfterCreateLocalMap()

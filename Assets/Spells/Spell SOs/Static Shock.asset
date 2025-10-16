@@ -18,37 +18,29 @@ MonoBehaviour:
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
   numberOfUses: 2
   spellEffects:
-  - rid: 7077619546095616001
+  - rid: 8036269261673988224
   references:
     version: 2
     RefIds:
-    - rid: 7077619546095616001
-      type: {class: StaticShockEffect, ns: , asm: Assembly-CSharp}
+    - rid: 8036269261673988224
+      type: {class: DemonShockEffect, ns: , asm: Assembly-CSharp}
       data:
         Vector2ListWrapper:
-          v2IntList:
-          - {x: 0, y: 0}
-          - {x: 0, y: -1}
-          - {x: -1, y: 0}
-          - {x: 0, y: 1}
-          - {x: 1, y: 0}
-          - {x: 0, y: 2}
-          - {x: -1, y: 1}
-          - {x: -2, y: 0}
-          - {x: -1, y: -1}
-          - {x: 0, y: -2}
-          - {x: 1, y: -1}
-          - {x: 2, y: 0}
-          - {x: 1, y: 1}
+          v2IntList: []
         layerMask:
           serializedVersion: 2
           m_Bits: 4096
-        effectFX: {fileID: 1735419308, guid: 18d37c1d535c1b049859a6c83b7d829f, type: 3}
+        effectFX: {fileID: 0}
         fXGreyScaleFactor: 0
         fXColor: {r: 0, g: 0, b: 0, a: 0}
         effectSound:
-          clip: {fileID: 8300000, guid: 90295b64edb9d834baabde4c3fb158f6, type: 3}
+          clip: {fileID: 0}
           loop: 0
-          volume: 0.1
-          pitch: 1
+          volume: 0
+          pitch: 0
         shockTime: 4
+        initalPowerLevel: 0
+        amountOfUsesToLevelUp: 1
+        playerLayerMask:
+          serializedVersion: 2
+          m_Bits: 64
