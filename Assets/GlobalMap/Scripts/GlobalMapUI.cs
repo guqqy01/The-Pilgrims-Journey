@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Drawing;
-using UnityEngine.UIElements;
 using Color = UnityEngine.Color;
 using AYellowpaper.SerializedCollections;
-using UnityEngine.Rendering.Universal;
 using System;
 using System.Linq;
-using System.Reflection;
-using Unity.VisualScripting;
-using System.Security.Cryptography;
+
 namespace Map
 {
     public class GlobalMapUI : MonoBehaviour
@@ -20,70 +15,45 @@ namespace Map
         {
             get
             {
-                if(generator == null)
+                if (generator == null)
                     generator = GlobalMapGenerator.Instance;
-
                 return generator;
             }
         }
 
         [Header("Settings")]
-
-        [SerializeField]
-        private RectTransform contentTransform;
-        [SerializeField]
-        private Vector2 Padding = Vector2.one;
-
-        [SerializeField]
-        private RectTransform backgroundRect;
-        [SerializeField]
-        private bool playAnimationAndUseFirstSeenTrigger;
+        [SerializeField] private RectTransform contentTransform;
+        [SerializeField] private Vector2 Padding = Vector2.one;
+        [SerializeField] private RectTransform backgroundRect;
+        [SerializeField] private bool playAnimationAndUseFirstSeenTrigger;
         public static bool FirstSeen;
-
-        [SerializeField]
-        private GameObject LegendTable;
-
-        [SerializeField]
-        private RectTransform canvasTransform;
+        [SerializeField] private GameObject LegendTable;
+        [SerializeField] private RectTransform canvasTransform;
 
         [Header("Map Point UI")]
-        [SerializeField]
-        private GlobalMapPointUI mapPointPrefab;
-
+        [SerializeField] private GlobalMapPointUI mapPointPrefab;
         private readonly List<GlobalMapPointUI> globalMapPoints = new ();
-
         public float mapPointSize = 3;
         public SerializedDictionary<GlobalMapPointType, GlobalMapPointUISettings> typeAndSettings;
-        [SerializeField]
-        private Color takenPointColor;
-        [SerializeField]
-        private float minXDistance = 100f;
+        [SerializeField] private Color takenPointColor;
+        [SerializeField] private float minXDistance = 100f;
 
         [Header("Line UI")]
-        [SerializeField]
-        private Transform lineParentTransform;
-        [SerializeField]
-        private MapLineUI MapLinePrefab;
-        [SerializeField]
-        private float lineColorChangeSpeed = 1;
+        [SerializeField] private Transform lineParentTransform;
+        [SerializeField] private MapLineUI MapLinePrefab;
+        [SerializeField] private float lineColorChangeSpeed = 1;
         private Dictionary<GlobalMapPoint, Dictionary<GlobalMapPoint, MapLineUI>> toPointFromPointLine = new ();
-        [SerializeField]
-        private float lineWidth;
-        [SerializeField]
-        private Color defaultPathColor;
-        [SerializeField]
-        private Color takenPathColor;
+        [SerializeField] private float lineWidth;
+        [SerializeField] private Color defaultPathColor;
+        [SerializeField] private Color takenPathColor;
+        [SerializeField] private float bothDirectionLineOffset = 5f;
+
 
         [Header("Arrows")]
-        [SerializeField]
-        private Transform arrowsParentTransform;
-        [SerializeField]
-        private GlobalMapArrow globalMapArrowPrefab;
+        [SerializeField] private Transform arrowsParentTransform;
+        [SerializeField] private GlobalMapArrow globalMapArrowPrefab;
         private readonly List<GlobalMapArrow> arrows = new ();
-        [SerializeField]
-        private float arrowSize;
-
-        
+        [SerializeField] private float arrowSize;
 
         private Vector2 BottomLeft => (Vector2)backgroundRect.position + (new Vector2(backgroundRect.rect.xMin, backgroundRect.rect.yMin) + Padding) * canvasTransform.localScale;
         private Vector2 TopRight => (Vector2)backgroundRect.position + (new Vector2(backgroundRect.rect.xMax, backgroundRect.rect.yMax) - Padding) * canvasTransform.localScale;
@@ -101,17 +71,22 @@ namespace Map
                 return multiplier;
             }
         }
-        private Vector3 ModifiedPosition(Vector2 Position) => Multiplier * (Position + Vector2.one / 2f) + BottomLeft;
+        private Vector3 ModifiedPosition(Vector2 Position) => (Vector3)(Multiplier * (Position + Vector2.one / 2f) + BottomLeft);
 
         private void Start()
         {
-            GlobalMapGenerator.OnMapGenerated += UpdateUI;
+            // keep Start minimal — subscriptions happen in OnEnable to better match enable/disable lifecycle
         }
 
         private void OnEnable()
         {
+            // Subscribe safely (remove then add to avoid double-subscribe)
+            GlobalMapGenerator.OnMapGenerated -= UpdateUI;
+            GlobalMapGenerator.OnMapGenerated += UpdateUI;
+
             if (Generator != null)
             {
+                Generator.updateUI -= UpdateUI;
                 Generator.updateUI += UpdateUI;
                 UpdateUI();
             }
@@ -119,53 +94,102 @@ namespace Map
 
         private void OnDisable()
         {
+            // Unsubscribe instance event
             if (Generator != null)
             {
                 Generator.updateUI -= UpdateUI;
             }
+
+            // Do NOT unsubscribe static OnMapGenerated here if you rely on it throughout editor lifetime,
+            // but it's safer to remove it to keep balanced subscriptions:
+            GlobalMapGenerator.OnMapGenerated -= UpdateUI;
+        }
+
+        private void OnDestroy()
+        {
+            // Ensure everything is unsubscribed when this object is destroyed
+            try
+            {
+                GlobalMapGenerator.OnMapGenerated -= UpdateUI;
+                if (Generator != null)
+                    Generator.updateUI -= UpdateUI;
+            }
+            catch { /* defensive: generator may be destroyed first during shutdown */ }
+        }
+
+        private void OnValidate()
+        {
+            // Editor-time quick checks to fail fast if someone forgets to set references
+            if (contentTransform == null) Debug.LogWarning("GlobalMapUI.contentTransform is not assigned.", this);
+            if (backgroundRect == null) Debug.LogWarning("GlobalMapUI.backgroundRect is not assigned.", this);
+            if (canvasTransform == null) Debug.LogWarning("GlobalMapUI.canvasTransform is not assigned.", this);
+            if (mapPointPrefab == null) Debug.LogWarning("GlobalMapUI.mapPointPrefab is not assigned.", this);
+            if (MapLinePrefab == null) Debug.LogWarning("GlobalMapUI.MapLinePrefab is not assigned.", this);
+            if (lineParentTransform == null) Debug.LogWarning("GlobalMapUI.lineParentTransform is not assigned.", this);
+            if (globalMapArrowPrefab == null) Debug.LogWarning("GlobalMapUI.globalMapArrowPrefab is not assigned.", this);
+            if (arrowsParentTransform == null) Debug.LogWarning("GlobalMapUI.arrowsParentTransform is not assigned.", this);
         }
 
         public void ChangeLegendTableActive()
         {
-            LegendTable.SetActive(!LegendTable.activeInHierarchy);
+            if (LegendTable != null)
+                LegendTable.SetActive(!LegendTable.activeInHierarchy);
         }
 
         public void UpdateUI()
         {
+            // Basic safety checks (fail fast and log to make inspector issues obvious)
+            if (backgroundRect == null || canvasTransform == null || contentTransform == null)
+            {
+                Debug.LogError("GlobalMapUI: backgroundRect, canvasTransform or contentTransform is not assigned.", this);
+                return;
+            }
+            if (mapPointPrefab == null || MapLinePrefab == null || lineParentTransform == null || globalMapArrowPrefab == null || arrowsParentTransform == null)
+            {
+                Debug.LogError("GlobalMapUI: One or more required prefabs / parents are not assigned in the inspector.", this);
+                return;
+            }
+
+            // Clear previous UI
             globalMapPoints.DestroyAndClearList();
             arrows.DestroyAndClearList();
-            foreach(Dictionary<GlobalMapPoint, MapLineUI> dictionary in toPointFromPointLine.Values)
+            foreach (var dictionary in toPointFromPointLine.Values)
             {
-                foreach(KeyValuePair<GlobalMapPoint, MapLineUI> kvp in dictionary)
+                foreach (var kvp in dictionary)
                 {
-                    Destroy(kvp.Value.gameObject);
+                    if (kvp.Value != null)
+                        Destroy(kvp.Value.gameObject);
                 }
             }
-            toPointFromPointLine = new Dictionary<GlobalMapPoint, Dictionary<GlobalMapPoint, MapLineUI>>();
+            toPointFromPointLine.Clear();
 
-            if (Generator == null)
+            var gen = Generator;
+            if (gen == null || gen.mapPoints == null)
                 return;
-            
-            foreach (GlobalMapPoint point in Generator.mapPoints)
+
+            // cache commonly used values per update
+            float canvasScaleX = canvasTransform.localScale.x;
+
+            // Create new UI for points
+            foreach (GlobalMapPoint point in gen.mapPoints)
             {
                 if (point == null)
                     continue;
 
-                GlobalMapPointUI pointUI = Instantiate(mapPointPrefab, ModifiedPosition(point.Position), Quaternion.identity, backgroundRect);
+                Vector3 worldPos = ModifiedPosition(point.Position);
+                GlobalMapPointUI pointUI = Instantiate(mapPointPrefab, worldPos, Quaternion.identity, backgroundRect);
                 pointUI.UpdateUI(point, this);
                 globalMapPoints.Add(pointUI);
-                SetupLinesMainUI(point);
+                SetupLinesMainUI(point, canvasScaleX);
                 SetupArrows(point);
-
-                if (Generator.takenPath.Contains(point))
+                if (gen.takenPath.Contains(point))
                 {
                     pointUI.Color = takenPointColor;
                 }
             }
 
-            float width = (ModifiedPosition(new Vector2(Generator.GenerationSettings.MapSize.x, 0)).x - ModifiedPosition(new Vector2(0, 0)).x) / canvasTransform.localScale.x + Padding.x;
+            float width = (ModifiedPosition(new Vector2(gen.GenerationSettings.MapSize.x, 0)).x - ModifiedPosition(new Vector2(0, 0)).x) / canvasScaleX + Padding.x;
             contentTransform.sizeDelta = new Vector2(Mathf.Max(width, 490), contentTransform.sizeDelta.y);
-
 
             if (playAnimationAndUseFirstSeenTrigger)
                 ColorLinesScene();
@@ -175,84 +199,64 @@ namespace Map
 
         private void CenterViewPlacement()
         {
-
         }
 
         private void ColorLines()
         {
-            List<MapLineUI> linesOnPath = new List<MapLineUI>();
+            if (Generator == null) return;
 
+            List<MapLineUI> linesOnPath = new List<MapLineUI>();
             for (int i = 1; i < Generator.takenPath.Count; i++)
             {
                 GlobalMapPoint point = Generator.takenPath[i];
-
-                if (!toPointFromPointLine.ContainsKey(point))
-                    continue;
-
-                Dictionary<GlobalMapPoint, MapLineUI> fromPointsAndTheirLineToThePoint = toPointFromPointLine[point];
-                foreach (KeyValuePair<GlobalMapPoint, MapLineUI> fromPointAndItsLine in fromPointsAndTheirLineToThePoint)
+                if (!toPointFromPointLine.ContainsKey(point)) continue;
+                var fromDict = toPointFromPointLine[point];
+                foreach (var fromPointAndItsLine in fromDict)
                 {
                     GlobalMapPoint fromPoint = fromPointAndItsLine.Key;
                     MapLineUI lineToPoint = fromPointAndItsLine.Value;
-
                     if (Generator.takenPath[i - 1] == fromPoint)
-                    {
                         linesOnPath.Add(lineToPoint);
-                    }
                 }
             }
 
-            foreach (KeyValuePair<GlobalMapPoint, Dictionary<GlobalMapPoint, MapLineUI>> toPointAndItsfromPointsAndLines in toPointFromPointLine)
+            foreach (var toPointAndDict in toPointFromPointLine)
             {
-                GlobalMapPoint toPoint = toPointAndItsfromPointsAndLines.Key;
-
-                foreach (KeyValuePair<GlobalMapPoint, MapLineUI> fromPointAndLine in toPointAndItsfromPointsAndLines.Value)
+                foreach (var fromPointAndLine in toPointAndDict.Value)
                 {
                     MapLineUI line = fromPointAndLine.Value;
-                    Color lineColor = linesOnPath.Contains(line) ? takenPathColor : defaultPathColor;
-                    line.Color = lineColor;
+                    line.Color = linesOnPath.Contains(line) ? takenPathColor : defaultPathColor;
                 }
             }
         }
 
         private void ColorLinesScene()
         {
-            List<MapLineUI> linesOnPath = new List<MapLineUI>();
+            if (Generator == null) return;
 
+            List<MapLineUI> linesOnPath = new List<MapLineUI>();
             for (int i = 1; i < Generator.takenPath.Count; i++)
             {
                 GlobalMapPoint point = Generator.takenPath[i];
-
-                if (!toPointFromPointLine.ContainsKey(point))
-                    continue;
-
-                Dictionary<GlobalMapPoint, MapLineUI> fromPointsAndTheirLineToThePoint = toPointFromPointLine[point];
-                foreach (KeyValuePair<GlobalMapPoint, MapLineUI> fromPointAndItsLine in fromPointsAndTheirLineToThePoint)
+                if (!toPointFromPointLine.ContainsKey(point)) continue;
+                var fromDict = toPointFromPointLine[point];
+                foreach (var fromPointAndItsLine in fromDict)
                 {
                     GlobalMapPoint fromPoint = fromPointAndItsLine.Key;
                     MapLineUI lineToPoint = fromPointAndItsLine.Value;
-
                     if (Generator.takenPath[i - 1] == fromPoint)
-                    {
                         linesOnPath.Add(lineToPoint);
-                    }
                 }
             }
 
-            if (linesOnPath.Count <= 0)
-                return;
-
+            if (linesOnPath.Count <= 0) return;
             MapLineUI lastLine = linesOnPath[linesOnPath.Count - 1];
 
-            foreach (KeyValuePair<GlobalMapPoint, Dictionary<GlobalMapPoint, MapLineUI>> toPointAndItsfromPointsAndLines in toPointFromPointLine)
+            foreach (var toPointAndDict in toPointFromPointLine)
             {
-                GlobalMapPoint toPoint = toPointAndItsfromPointsAndLines.Key;
-
-                foreach (KeyValuePair<GlobalMapPoint, MapLineUI> fromPointAndLine in toPointAndItsfromPointsAndLines.Value)
+                foreach (var fromPointAndLine in toPointAndDict.Value)
                 {
-                    GlobalMapPoint fromPoint = fromPointAndLine.Key;
                     MapLineUI line = fromPointAndLine.Value;
-
                     if (lastLine == line && FirstSeen)
                     {
                         line.PlayColorChange(takenPathColor);
@@ -260,14 +264,13 @@ namespace Map
                     }
                     else
                     {
-                        Color lineColor = linesOnPath.Contains(line) ? takenPathColor : defaultPathColor;
-                        line.Color = lineColor;
+                        line.Color = linesOnPath.Contains(line) ? takenPathColor : defaultPathColor;
                     }
                 }
             }
         }
 
-        private void SetupLinesMainUI(GlobalMapPoint mapPoint)
+        private void SetupLinesMainUI(GlobalMapPoint mapPoint, float canvasScaleX)
         {
             foreach (GlobalMapPoint toMapPoint in mapPoint.connectedToPoints.Values)
             {
@@ -278,41 +281,78 @@ namespace Map
                 {
                     Vector2 direction = toPos - fromPos;
 
-                    toPos = fromPos + direction / 2f;
+                    Vector2 offsetDirection = bothDirectionLineOffset * direction.RotateClockwise(90f * Mathf.Deg2Rad).normalized;
+
+                    fromPos += offsetDirection;
+                    toPos += offsetDirection;
                 }
 
-                MapLineUI line = Instantiate(MapLinePrefab, transform);
-
-                if (toPointFromPointLine.ContainsKey(toMapPoint))
+                MapLineUI line = Instantiate(MapLinePrefab, lineParentTransform);
+                if (toPointFromPointLine.TryGetValue(toMapPoint, out var dict))
                 {
-                    toPointFromPointLine[toMapPoint].Add(mapPoint, line);
+                    dict[mapPoint] = line;
                 }
                 else
                 {
-                    toPointFromPointLine.Add(toMapPoint, new Dictionary<GlobalMapPoint, MapLineUI>()
-                    {
-                        { mapPoint, line }
-                    });
+                    toPointFromPointLine[toMapPoint] = new Dictionary<GlobalMapPoint, MapLineUI>() { { mapPoint, line } };
                 }
 
-                line.Setup(fromPos, toPos, lineWidth, canvasTransform.localScale.x);
-                line.transform.SetParent(lineParentTransform);
+                line.Setup(fromPos, toPos, lineWidth, canvasScaleX);
             }
         }
 
         private void SetupArrows(GlobalMapPoint mapPoint)
         {
-            foreach(GlobalMapPoint toMapPoint in mapPoint.connectedToPoints.Values)
+            foreach (GlobalMapPoint toMapPoint in mapPoint.connectedToPoints.Values)
             {
                 Vector2 fromPos = ModifiedPosition(mapPoint.Position);
                 Vector2 toPos = ModifiedPosition(toMapPoint.Position);
-                Vector2 direction = (toPos - fromPos).normalized;
+                Vector2 dir = toPos - fromPos;
+                if (dir.sqrMagnitude <= Mathf.Epsilon)
+                    continue;
 
-                Vector2 middle = toPos.Middle(fromPos);
+                if (toMapPoint.HasPointsConnectedBothWays(mapPoint))
+                {
+                    Vector2 direction = toPos - fromPos;
 
-                GlobalMapArrow arrow = Instantiate(globalMapArrowPrefab, middle, Quaternion.LookRotation(Vector3.forward, toPos - fromPos), arrowsParentTransform);
+                    Vector2 offsetDirection = bothDirectionLineOffset * direction.RotateClockwise(90f * Mathf.Deg2Rad).normalized;
+
+                    fromPos -= offsetDirection;
+                    toPos -= offsetDirection;
+                }
+
+                // angle in degrees (0 = +X)
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                Vector2 middle = (toPos + fromPos) * 0.5f;
+
+               
+
+                // Instantiate as child first (keeps hierarchy correct)
+                GlobalMapArrow arrow = Instantiate(globalMapArrowPrefab, arrowsParentTransform);
+
+                // If this arrow is a UI element (RectTransform), place using local coordinates
+                var rt = arrow.GetComponent<RectTransform>();
+                if (rt != null)
+                {
+                    // Convert world-space middle into backgroundRect local space
+                    Vector3 localPos = backgroundRect.InverseTransformPoint(middle);
+
+                    // anchoredPosition expects Vector2; localPos uses same units if parent is the backgroundRect
+                    rt.anchoredPosition = new Vector2(localPos.x, localPos.y);
+
+                    // Apply rotation around Z: rotate 90° clockwise (subtract 90)
+                    rt.localRotation = Quaternion.Euler(0f, 0f, angle - 90f);
+                }
+                else
+                {
+                    // Non-UI world object: set world position/rotation, 90° clockwise adjustment
+                    arrow.transform.position = middle;
+                    arrow.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+                }
+
                 arrow.Size = arrowSize;
-                arrows.Add(arrow); 
+                arrows.Add(arrow);
             }
         }
     }

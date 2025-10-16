@@ -79,7 +79,8 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     private void OnDestroy()
     {
-        TilePlayerManager.Instance.noRemainingTilesToPlay -= StartCheck;
+        if(TilePlayerManager.Instance != null)
+            TilePlayerManager.Instance.noRemainingTilesToPlay -= StartCheck;
     }
 
     private void StartCheck()

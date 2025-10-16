@@ -14,7 +14,7 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
 {
     public string SaveFileName => $"RewardManagerSave";
 
-    public static RewardManager Instance { private set; get; }
+    public static RewardManager Instance { get; private set; }
 
     private SignUI signUI;
     public SignUI SignUI
@@ -27,6 +27,7 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
         }
     }
 
+    // Direction -> (Reward -> amount)
     public SerializableDictionary<Direction, SerializableDictionary<Reward, int>> LevelRewards { private set; get; } = new SerializableDictionary<Direction, SerializableDictionary<Reward, int>>();
 
     private PrizeWindow prizeWindow;
@@ -39,8 +40,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
             return prizeWindow;
         }
     }
-
-    
 
     [SerializeField]
     private MinMaxCurve rewardWorth;
@@ -65,6 +64,7 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
     [SerializeField]
     private float equipmentChanceIncreasePerTile = 5f;
 
+    // keep name for serialization compatibility; consider renaming later
     public bool TilesOrEquipmentAvailiable = false;
 
     private void Awake()
@@ -72,9 +72,12 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
         if (Instance == null)
         {
             Instance = this;
+            return;
         }
-        else
+
+        if (Instance != this)
         {
+            // prefer to destroy duplicate component, preserve GameObject
             Destroy(this);
         }
     }
@@ -86,62 +89,94 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
 
     public void GiveRewards()
     {
-        UnityEngine.Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
+        var mapGen = GlobalMapGenerator.Instance;
+        if (mapGen == null)
+        {
+            Debug.LogWarning("GiveRewards: GlobalMapGenerator.Instance is null.");
+            return;
+        }
 
-        List<List<EquipmentSO>>  prizeEquipment = new List<List<EquipmentSO>>();
-        List<TileAndUnit>  prizeTiles = new List<TileAndUnit>();
+        if (mapGen.CurrentMapPoint == null)
+        {
+            Debug.LogWarning("GiveRewards: CurrentMapPoint is null.");
+            return;
+        }
+
+        UnityEngine.Random.InitState(mapGen.CurrentMapPoint.Seed);
+
+        var prizeEquipment = new List<List<EquipmentSO>>();
+        var prizeTiles = new List<TileAndUnit>();
+
+        if (PathPicker.Instance == null)
+        {
+            Debug.LogWarning("GiveRewards: PathPicker.Instance is null.");
+            return;
+        }
+
+        if (!Enum.IsDefined(typeof(Direction), PathPicker.Instance.PickedDirection))
+        {
+            Debug.LogWarning("GiveRewards: PickedDirection is not a valid Direction value.");
+            return;
+        }
 
         Direction pickedDirection = (Direction)PathPicker.Instance.PickedDirection;
 
-        foreach (KeyValuePair<Reward, int> reward in LevelRewards[pickedDirection])
+        if (!LevelRewards.TryGetValue(pickedDirection, out var rewardsForDirection) || rewardsForDirection == null)
+        {
+            Debug.LogWarning($"GiveRewards: No rewards configured for direction {pickedDirection}.");
+            TilesOrEquipmentAvailiable = false;
+            return;
+        }
+
+        foreach (KeyValuePair<Reward, int> reward in rewardsForDirection)
         {
             switch (reward.Key)
             {
                 case Reward.Gold:
-                    ResourceManager.Instance.ModifyGold(reward.Value);
+                    ResourceManager.Instance?.ModifyGold(reward.Value);
                     break;
                 case Reward.Tile:
                     for (int i = 0; i < reward.Value; i++)
                     {
-                        prizeTiles.Add(new TileAndUnit(GameManager.Instance.Tiles.GetRandom(), UnitManager.Instance.unlockedUnits.GetRandom()));
+                        var tile = GameManager.Instance?.Tiles?.GetRandom();
+                        var unit = UnitManager.Instance?.unlockedUnits?.GetRandom();
+                        if (tile != null && unit != null)
+                            prizeTiles.Add(new TileAndUnit(tile, unit));
                     }
                     break;
                 case Reward.Equipment:
                     for (int i = 0; i < reward.Value; i++)
                     {
                         int numOfEquipment = UnityEngine.Random.Range(1, 4);
+                        List<EquipmentSO> availableEquipment = GameManager.Instance?.AvaliableEquipment;
+                        if (availableEquipment == null || availableEquipment.Count == 0)
+                            continue;
 
-                        List<EquipmentSO> avaliableEquipment = GameManager.Instance.AvaliableEquipment;
-
-                        List<EquipmentSO> equipment = new List<EquipmentSO>();
-
+                        var equipmentList = new List<EquipmentSO>();
                         for (int j = 0; j < numOfEquipment; j++)
                         {
                             int breaker = 10;
-
-                            EquipmentSO equip = avaliableEquipment.GetRandom();
-
-                            while (breaker > 0 && equipment.Contains(equip))
+                            EquipmentSO equip = availableEquipment.GetRandom();
+                            while (breaker > 0 && equipmentList.Contains(equip))
                             {
-                                equip = avaliableEquipment.GetRandom();
+                                equip = availableEquipment.GetRandom();
                                 breaker--;
                             }
-
-                            equipment.Add(equip);
+                            if (equip != null)
+                                equipmentList.Add(equip);
                         }
 
-                        prizeEquipment.Add(equipment);
+                        if (equipmentList.Count > 0)
+                            prizeEquipment.Add(equipmentList);
                     }
-                    
                     break;
             }
         }
 
-        TilesOrEquipmentAvailiable = false;
-        if (prizeEquipment.Count != 0 || prizeTiles.Count != 0)
+        TilesOrEquipmentAvailiable = prizeEquipment.Count != 0 || prizeTiles.Count != 0;
+        if (TilesOrEquipmentAvailiable)
         {
-            TilesOrEquipmentAvailiable = true;
-            PrizeWindow.LoadPrize(prizeEquipment, prizeTiles);
+            PrizeWindow?.LoadPrize(prizeEquipment, prizeTiles);
         }
     }
 
@@ -149,28 +184,66 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
     {
         LevelRewards.Clear();
 
-        int Level = GameManager.Instance.Level;
-
-        float max = 0;
-
-        Pathway pathway = LocalMapGenerator.Instance.pathway;
-
-        foreach (Direction direction in LocalMapGenerator.Instance.TargetDirections)
+        if (GameManager.Instance == null)
         {
-            if (pathway.StepPaths[direction].Count > max)
+            Debug.LogWarning("SetupRewards: GameManager.Instance is null.");
+            return;
+        }
+
+        int level = GameManager.Instance.Level;
+
+        float max = 0f;
+
+        var localMapGen = LocalMapGenerator.Instance;
+        if (localMapGen == null)
+        {
+            Debug.LogWarning("SetupRewards: LocalMapGenerator.Instance is null.");
+            return;
+        }
+
+        var pathway = localMapGen.pathway;
+        if (pathway == null)
+        {
+            Debug.LogWarning("SetupRewards: pathway is null.");
+            return;
+        }
+
+        var targetDirections = localMapGen.TargetDirections;
+        if (targetDirections == null || targetDirections.Count == 0)
+        {
+            Debug.LogWarning("SetupRewards: No target directions found.");
+            return;
+        }
+
+        foreach (Direction direction in targetDirections)
+        {
+            if (pathway.StepPaths.TryGetValue(direction, out var list) && list != null)
             {
-                max = pathway.StepPaths[direction].Count;
+                if (list.Count > max)
+                    max = list.Count;
             }
         }
 
-        foreach (Direction direction in LocalMapGenerator.Instance.TargetDirections)
-        {
-            SerializableDictionary<Reward, int> rewards = new SerializableDictionary<Reward, int>();
+        if (max <= 0)
+            max = 1f;
 
-            int currentRewardWorth = Mathf.CeilToInt(rewardWorth.Evaluate(Level, UnityEngine.Random.value) * pathway.StepPaths[direction].Count / max);
+        foreach (Direction direction in targetDirections)
+        {
+            var rewards = new SerializableDictionary<Reward, int>();
+
+            float eval = 0f;
+            try
+            {
+                eval = rewardWorth.Evaluate(level, UnityEngine.Random.value);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"SetupRewards: failed to evaluate rewardWorth: {ex.Message}");
+            }
+
+            int currentRewardWorth = Mathf.CeilToInt(eval * (pathway.StepPaths.TryGetValue(direction, out var dlist) && dlist != null ? dlist.Count : 1) / max);
 
             int worth = 0;
-
             int breaker = 200;
 
             while (worth < currentRewardWorth && breaker > 0)
@@ -179,7 +252,7 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
 
                 if (remaining >= tileWorth || remaining >= equipmentWorth)
                 {
-                    WeightedChanceList<Reward> random = new WeightedChanceList<Reward>();
+                    var random = new WeightedChanceList<Reward>();
 
                     random.Add(Reward.Gold, 1);
                     if (rewards.ContainsKey(Reward.Equipment))
@@ -197,37 +270,28 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                     {
                         case Reward.Gold:
                             if (rewards.ContainsKey(Reward.Gold))
-                            {
                                 rewards[Reward.Gold] += goldAmountPerReward;
-                            }
                             else
-                            {
                                 rewards.Add(Reward.Gold, goldAmountPerReward);
-                            }
 
                             worth += goldAmountPerReward;
                             break;
+
                         case Reward.Tile:
                             if (rewards.ContainsKey(Reward.Tile))
-                            {
                                 rewards[Reward.Tile] += 1;
-                            }
                             else
-                            {
                                 rewards.Add(Reward.Tile, 1);
-                            }
 
                             worth += tileWorth;
                             break;
+
                         case Reward.Equipment:
                             if (rewards.ContainsKey(Reward.Equipment))
-                            {
                                 rewards[Reward.Equipment] += 1;
-                            }
                             else
-                            {
                                 rewards.Add(Reward.Equipment, 1);
-                            }
+
                             worth += equipmentWorth;
                             break;
                     }
@@ -235,38 +299,40 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                 else
                 {
                     if (rewards.ContainsKey(Reward.Gold))
-                    {
                         rewards[Reward.Gold] += remaining;
-                    }
                     else
-                    {
                         rewards.Add(Reward.Gold, remaining);
-                    }
+
                     worth += remaining;
                 }
 
                 breaker--;
             }
 
+            if (breaker <= 0)
+                Debug.LogWarning($"SetupRewards: breaker reached limit while filling rewards for direction {direction}.");
+
             LevelRewards.Add(direction, rewards);
         }
 
-        SignUI.Instance.Setup(LevelRewards.Keys.ToList());
+        SignUI?.Setup(LevelRewards.Keys.ToList());
     }
 
     public void Save()
     {
-        SaveData saveData = new SaveData() { LevelRewards = LevelRewards };
-        SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
+        var saveData = new SaveData() { LevelRewards = LevelRewards };
+        var saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
         SaveManager.SaveOver(saveProfile);
-        ExtensionsAndHelper.WaitForObjectNotNullThenPerformAction(PrizeWindow.Instance, () => PrizeWindow.Save());
+
+        // wait for PrizeWindow instance then save it; helper handles null internally
+        ExtensionsAndHelper.WaitForObjectNotNullThenPerformAction(PrizeWindow.Instance, () => PrizeWindow?.Save());
     }
 
     public void Load()
     {
         if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
         {
-            SaveData saveData = outSaveProfile.saveData;
+            var saveData = outSaveProfile.saveData;
 
             if (saveData.LevelRewards == null)
             {
@@ -275,9 +341,9 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
             else
             {
                 LevelRewards = saveData.LevelRewards;
-                SignUI.Instance.Setup(LevelRewards.Keys.ToList());
+                SignUI?.Setup(LevelRewards.Keys.ToList());
             }
-            PrizeWindow.Load();
+            PrizeWindow?.Load();
         }
         else
         {
