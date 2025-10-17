@@ -26,6 +26,9 @@ namespace Tiles
 
         private Tile draggingTile;
 
+        [SerializeField]
+        private List<TileSO> tilesNotToShowHelper = new List<TileSO>();
+
         private void Start()
         {
             inputManager = InputManager.Instance;
@@ -64,12 +67,20 @@ namespace Tiles
 
         private void DraggingTile(Tile tile)
         {
+            if (tile != null && tilesNotToShowHelper.Contains(tile.TileSO))
+            {
+                tile = null;
+            }
+
             if(rotationHelper == null && tile != null)
             {
                 rotationHelper = Instantiate(rotationHelperPrefab, canvas.transform);
             }
 
             draggingTile = tile;
+
+            if (rotationHelper == null)
+                return;
 
             if (tile == null)
             {

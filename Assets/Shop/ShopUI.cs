@@ -140,7 +140,7 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         if (shopItem == selectedShopItem)
             return;
 
-        IInfo.onInfoSelected?.Invoke(shopItem.Equipment);
+        Info.Select(shopItem.Equipment);
 
         if(selectedShopItem != null)
         {

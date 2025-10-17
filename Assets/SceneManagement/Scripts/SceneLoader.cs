@@ -147,6 +147,8 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadGlobalMapScene(Action onSceneLoaded = null)
     {
+        onSceneLoaded += () => GlobalMapGenerator.Instance.updateUI?.Invoke();
+
         LoadScene(globalMapLoadItem, onSceneLoaded);
     }
 

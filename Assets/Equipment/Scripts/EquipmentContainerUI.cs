@@ -129,7 +129,17 @@ namespace Equipment
 
             if (Container.TrySwapEquipment(droppedEquipmentUI.ContainerUI.Container))
             {
+                if(Info.CurrentlySelected is DragableEquipmentUI selectedDragableEquipmentUI && selectedDragableEquipmentUI == droppedEquipmentUI)
+                {
+                    if (dragableEquipmentUI == null)
+                    {
+                        dragableEquipmentUI = Instantiate(dragableEquipmentUIPrefab, transform);
+                    }
 
+                    dragableEquipmentUI.Init(Container.EquipmentSO, this);
+
+                    Info.Select(dragableEquipmentUI);
+                }
             }
             else
             {

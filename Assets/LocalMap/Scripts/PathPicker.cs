@@ -91,6 +91,9 @@ namespace Map
             if (TilePlayerManager.Instance.IsPlaying)
                 return;
 
+            if(LocalMapLevelCompletedManager.Instance.CurrentLevelCompleted)
+                return;
+
             if (!pathEndPoints.ContainsKey(direction))
                 return;
 

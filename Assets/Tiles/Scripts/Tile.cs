@@ -227,8 +227,7 @@ namespace Tiles
         public void OnPointerClick(PointerEventData eventData)
         {
             onTileSelected?.Invoke(this);
-            IInfo.onInfoSelected?.Invoke(this);
-
+            Info.Select(this);
             AudioManager.Instance.PlaySelectTile();
         }
 

@@ -15,17 +15,17 @@ public class LevelUI : MonoBehaviour, IOnAfterCreateLocalMap
 
     private void OnEnable()
     {
-        GameManager.onUnitPassed += OnUnitPassed;
+        LocalMapLevelCompletedManager.onUnitPassed += OnUnitPassed;
     }
 
     private void OnDisable()
     {
-        GameManager.onUnitPassed -= OnUnitPassed;
+        LocalMapLevelCompletedManager.onUnitPassed -= OnUnitPassed;
     }
 
     public void LevelChange()
     {
-        int requiredToPass = GameManager.Instance.RequiredNumberOfUnitsToPass;  
+        int requiredToPass = LocalMapLevelCompletedManager.Instance.RequiredNumberOfUnitsToPass;  
 
         requiredUnitsText.text =  "0/" + requiredToPass;
         progressBarFill.fillAmount = Mathf.Clamp01(0 / requiredToPass);

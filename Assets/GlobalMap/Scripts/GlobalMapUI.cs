@@ -75,10 +75,6 @@ namespace Map
 
         private void Start()
         {
-            // Subscribe safely (remove then add to avoid double-subscribe)
-            GlobalMapGenerator.OnMapGenerated -= UpdateUI;
-            GlobalMapGenerator.OnMapGenerated += UpdateUI;
-            GlobalMapGenerator.OnMapGenerated.GetInvocationList();
             if (Generator != null)
             {
                 Generator.updateUI -= UpdateUI;
@@ -92,7 +88,6 @@ namespace Map
             // Ensure everything is unsubscribed when this object is destroyed
             try
             {
-                GlobalMapGenerator.OnMapGenerated -= UpdateUI;
                 if (Generator != null)
                     Generator.updateUI -= UpdateUI;
             }
@@ -173,80 +168,55 @@ namespace Map
             float width = (ModifiedPosition(new Vector2(gen.GenerationSettings.MapSize.x, 0)).x - ModifiedPosition(new Vector2(0, 0)).x) / canvasScaleX + Padding.x;
             contentTransform.sizeDelta = new Vector2(Mathf.Max(width, 490), contentTransform.sizeDelta.y);
 
-            if (playAnimationAndUseFirstSeenTrigger)
-                ColorLinesScene();
-            else
-                ColorLines();
+            ColorPathLines(playAnimationAndUseFirstSeenTrigger);
         }
 
         private void CenterViewPlacement()
         {
         }
 
-        private void ColorLines()
+        private List<MapLineUI> GetTakenPathLines()
         {
-            if (Generator == null) return;
+            var linesOnPath = new List<MapLineUI>();
+            var path = Generator?.takenPath;
+            if (path == null)
+                return linesOnPath;
 
-            List<MapLineUI> linesOnPath = new List<MapLineUI>();
-            for (int i = 1; i < Generator.takenPath.Count; i++)
+            for (int i = 1; i < path.Count; i++)
             {
-                GlobalMapPoint point = Generator.takenPath[i];
-                if (!toPointFromPointLine.ContainsKey(point)) continue;
-                var fromDict = toPointFromPointLine[point];
-                foreach (var fromPointAndItsLine in fromDict)
-                {
-                    GlobalMapPoint fromPoint = fromPointAndItsLine.Key;
-                    MapLineUI lineToPoint = fromPointAndItsLine.Value;
-                    if (Generator.takenPath[i - 1] == fromPoint)
-                        linesOnPath.Add(lineToPoint);
-                }
+                var toPoint = path[i];
+                if (!toPointFromPointLine.TryGetValue(toPoint, out var fromDict))
+                    continue;
+
+                var prev = path[i - 1];
+                if (fromDict.TryGetValue(prev, out var line))
+                    linesOnPath.Add(line);
             }
 
-            foreach (var toPointAndDict in toPointFromPointLine)
-            {
-                foreach (var fromPointAndLine in toPointAndDict.Value)
-                {
-                    MapLineUI line = fromPointAndLine.Value;
-                    line.Color = linesOnPath.Contains(line) ? takenPathColor : defaultPathColor;
-                }
-            }
+            return linesOnPath;
         }
 
-        private void ColorLinesScene()
+
+        public void ColorPathLines(bool animateLastNewLine = false)
         {
-            if (Generator == null) return;
+            if (Generator == null)
+                return;
 
-            List<MapLineUI> linesOnPath = new List<MapLineUI>();
-            for (int i = 1; i < Generator.takenPath.Count; i++)
+            var linesOnPath = GetTakenPathLines();
+            foreach (var kv in toPointFromPointLine)
             {
-                GlobalMapPoint point = Generator.takenPath[i];
-                if (!toPointFromPointLine.ContainsKey(point)) continue;
-                var fromDict = toPointFromPointLine[point];
-                foreach (var fromPointAndItsLine in fromDict)
+                foreach (var line in kv.Value.Values)
                 {
-                    GlobalMapPoint fromPoint = fromPointAndItsLine.Key;
-                    MapLineUI lineToPoint = fromPointAndItsLine.Value;
-                    if (Generator.takenPath[i - 1] == fromPoint)
-                        linesOnPath.Add(lineToPoint);
-                }
-            }
-
-            if (linesOnPath.Count <= 0) return;
-            MapLineUI lastLine = linesOnPath[linesOnPath.Count - 1];
-
-            foreach (var toPointAndDict in toPointFromPointLine)
-            {
-                foreach (var fromPointAndLine in toPointAndDict.Value)
-                {
-                    MapLineUI line = fromPointAndLine.Value;
-                    if (lastLine == line && FirstSeen)
+                    if (animateLastNewLine && FirstSeen && line == linesOnPath.LastOrDefault() && line.isActiveAndEnabled)
                     {
-                        line.PlayColorChange(takenPathColor);
+                        line.PlayColorChange(takenPathColor, defaultPathColor);
                         FirstSeen = false;
                     }
                     else
                     {
-                        line.Color = linesOnPath.Contains(line) ? takenPathColor : defaultPathColor;
+                        line.Color = linesOnPath.Contains(line)
+                            ? takenPathColor
+                            : defaultPathColor;
                     }
                 }
             }

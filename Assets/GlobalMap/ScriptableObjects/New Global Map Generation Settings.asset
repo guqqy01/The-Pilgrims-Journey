@@ -17,7 +17,7 @@ MonoBehaviour:
   StartRoadLength: 1
   EndRoadLength: 1
   PathSettings:
-  - NumberOfPaths: 2
+  - NumberOfPaths: 1
     NumberOfRelics: 1
     NumberOfRandomEncounters: 4
     NumberOfShops: 1
@@ -425,7 +425,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     reverseDirectionChance: 0
-  - NumberOfPaths: 2
+  - NumberOfPaths: 1
     NumberOfRelics: 0
     NumberOfRandomEncounters: 2
     NumberOfShops: 1
@@ -503,7 +503,7 @@ MonoBehaviour:
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-      m_RotationOrder: 0
+      m_RotationOrder: 4
     directionTendency:
       m_Mode: 2
       m_CurveMultiplier: 1
@@ -618,7 +618,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     reverseDirectionChance: 0
-  - NumberOfPaths: 2
+  - NumberOfPaths: 1
     NumberOfRelics: 0
     NumberOfRandomEncounters: 2
     NumberOfShops: 1

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -33,7 +32,10 @@ namespace Equipment
 
         [SerializeField]
         private Image graphics;
-        
+
+        [SerializeField]
+        private DragableEquipmentHighlight highlight;
+
         public bool Dragging {  get; private set; }
 
         public string Title => EquipmentSO.name;
@@ -76,17 +78,17 @@ namespace Equipment
         {
             if (!ContainerUI.Active)
                 return;
+
+            Info.Select(this);
             Dragging = true;
             RectTransform.SetParent(Canvas.transform, true);
             canvasGroup.blocksRaycasts = false;
-            canvasGroup.alpha = 0.5f;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             Dragging = false;
             canvasGroup.blocksRaycasts = true;
-            canvasGroup.alpha = 1f;
 
             RectTransform.SetParent(ContainerUI.RectTransform, false);
             RectTransform.position = ContainerUI.RectTransform.position;
@@ -94,7 +96,7 @@ namespace Equipment
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            IInfo.onInfoSelected?.Invoke(this);
+            Info.Select(this);
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -109,6 +111,21 @@ namespace Equipment
                 }
             }
         }
-    }
 
+        void IInfo.Select()
+        {
+            if (highlight == null)
+                return;
+
+            highlight.SetActive(true, EquipmentSO);
+        }
+
+        void IInfo.Deselect()
+        {
+            if(highlight != null)
+                highlight.SetActive(false);
+        }
+    }
 }
+
+

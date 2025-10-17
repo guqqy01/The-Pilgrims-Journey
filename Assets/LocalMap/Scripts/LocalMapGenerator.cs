@@ -64,7 +64,7 @@ namespace Map
                 else
                     time = 1;
 
-                return Mathf.RoundToInt(targetDirectionVSLevelCurve.Evaluate(time, UnityEngine.Random.value));
+                return Mathf.Max(Mathf.RoundToInt(targetDirectionVSLevelCurve.Evaluate(time, UnityEngine.Random.value)), 1);
             }
         }
         private int randomTraverseDirection
@@ -77,7 +77,7 @@ namespace Map
                 else
                     time = 1;
 
-                return Mathf.RoundToInt(traverseDirectionVSLevelCurve.Evaluate(time, UnityEngine.Random.value));
+                return Mathf.Max(Mathf.RoundToInt(traverseDirectionVSLevelCurve.Evaluate(time, UnityEngine.Random.value)), 1);
             }
         }
 
@@ -524,7 +524,9 @@ namespace Map
 
             int distanceToTarget = GetDistanceToTarget();
 
-            while (distanceToTarget > 0)
+            int safetyBreaker = 1000;
+
+            while (distanceToTarget > 0 && safetyBreaker > 0)
             {
                 bool isTargetDir = targetDirection == currentDirection;
 
@@ -562,6 +564,8 @@ namespace Map
 
                 currentDirection = GetNextDirection(currentDirection, targetDirection, point);
                 path.Add(point);
+
+                safetyBreaker--;
             }
         }
 

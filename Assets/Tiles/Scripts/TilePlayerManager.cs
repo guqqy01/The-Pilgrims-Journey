@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 namespace Tiles
 {
-    public class TilePlayerManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCompletedLevel, IOnSetup
+    public class TilePlayerManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCompleteLocalMapLevel, IOnSetup
     {
         public static TilePlayerManager Instance { private set; get; }
         public float CurrentPlayingPosition { private set; get; }
@@ -197,7 +197,7 @@ namespace Tiles
             return returnTiles;
         }
 
-        public void OnLevelCompleted()
+        public void OnCompleteLocalMapLevel()
         {
             StopPlaying();
         }

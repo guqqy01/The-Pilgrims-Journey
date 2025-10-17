@@ -53,7 +53,7 @@ namespace Equipment
             if (timeToNextHeal > Time.time)
                 return;
 
-            if (!unit.HealingPS.isPlaying)
+            if (unit != null && unit.HealingPS != null && !unit.HealingPS.isPlaying)
                 unit.HealingPS.Play();
 
             timeToNextHeal = Time.time + recoveryRate;
@@ -62,7 +62,7 @@ namespace Equipment
 
             amountOfMaxHealthToRecover--;
 
-            if (amountOfMaxHealthToRecover <= 0)
+            if (unit != null && unit.HealingPS != null && amountOfMaxHealthToRecover <= 0)
             {
                 unit.HealingPS.Stop();
             }

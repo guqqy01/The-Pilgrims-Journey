@@ -27,6 +27,9 @@ public class MapLineUI : MonoBehaviour
         }
         set
         {
+            if (colorChangeCoroutine != null)
+                return;
+
             mainLine.color = value;
         }
     }
@@ -46,14 +49,15 @@ public class MapLineUI : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(Vector2.Distance(fromPos, toPos) / canvasScale, lineWidth);
     }
 
-    
 
-    public void PlayColorChange(Color newColor)
+
+    public void PlayColorChange(Color newColor, Color oldColor)
     {
-        if(colorChangeCoroutine != null)
+        if (colorChangeCoroutine != null)
             StopCoroutine(colorChangeCoroutine);
 
-        colorChangeCoroutine = StartCoroutine(ChangeColor(newColor));
+
+        colorChangeCoroutine = StartCoroutine(ChangeColorMovingLeftToRight(newColor, oldColor));
     }
 
     private IEnumerator ChangeColor(Color newColor)
@@ -67,7 +71,7 @@ public class MapLineUI : MonoBehaviour
 
         float startTime = Time.time;
 
-        while(t < 1)
+        while (t < 1)
         {
             SetColorGradient(leftColor, rightColor, t);
             t = Mathf.InverseLerp(startTime, startTime + timeitTakesToChangeColor, Time.time);
@@ -76,6 +80,7 @@ public class MapLineUI : MonoBehaviour
         SetColorGradient(leftColor, rightColor, 1);
         secondaryLine.gameObject.SetActive(false);
         Color = leftColor;
+        colorChangeCoroutine = null;
     }
 
 
@@ -87,28 +92,12 @@ public class MapLineUI : MonoBehaviour
     public void SetColorGradient(Color leftColor, Color rightColor, float t)
     {
         mainLine.color = leftColor;
-        if(!secondaryLine.isActiveAndEnabled) secondaryLine.gameObject.SetActive(true);
+        if (!secondaryLine.isActiveAndEnabled) secondaryLine.gameObject.SetActive(true);
         secondaryLine.color = rightColor;
 
         float width = rectTransform.sizeDelta.x;
 
         mainLine.rectTransform.offsetMax = new Vector2(-Mathf.Lerp(width, 0, t), 0);
         secondaryLine.rectTransform.offsetMin = new Vector2(Mathf.Lerp(0, width, t), 0);
-    }
-}
-
-[CustomEditor(typeof(MapLineUI))]
-public class MapLineUIEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        MapLineUI script = (MapLineUI)target;
-
-        if(GUILayout.Button("Test Line UI Color Gradient"))
-        {
-            script.PlayColorChange(script.newColor);
-        }
     }
 }

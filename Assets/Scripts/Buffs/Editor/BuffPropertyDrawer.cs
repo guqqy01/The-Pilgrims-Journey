@@ -84,7 +84,7 @@ public class BuffPropertyDrawer : PropertyDrawer
         }
         catch (Exception e)
         {
-
+            Debug.LogError(e);
         }
         
     }

@@ -12,7 +12,7 @@ public class InfoDisplay : MonoBehaviour
 
     private void Awake()
     {
-        IInfo.onInfoSelected += UpdateUI;
+        Info.onInfoSelected += UpdateUI;
     }
 
     protected virtual void UpdateUI(IInfo selectedInfo)
@@ -26,12 +26,31 @@ public class InfoDisplay : MonoBehaviour
     }
 }
 
+public static class Info
+{
+    public static IInfo CurrentlySelected;
+
+    public delegate void OnInfoSelected(IInfo info);
+    public static OnInfoSelected onInfoSelected { get; set; }
+
+    public static void Select(IInfo info)
+    {
+        CurrentlySelected?.Deselect();
+
+        CurrentlySelected = info;
+
+        CurrentlySelected.Select();
+
+        onInfoSelected?.Invoke(CurrentlySelected);
+    }
+}
+
 public interface IInfo
 {
     public string Title { get; }
     public string Description { get; }
     public string GoldAmount { get; }
 
-    public delegate void OnInfoSelected(IInfo info);
-    public static OnInfoSelected onInfoSelected { get; set; }
+    public virtual void Select() { }
+    public virtual void Deselect() { }
 }

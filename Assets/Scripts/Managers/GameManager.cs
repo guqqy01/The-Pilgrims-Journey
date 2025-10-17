@@ -21,22 +21,15 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     public int Level { private set; get; } = 1;
 
-    private int unitsPassed = 0;
-
-    [SerializeField]
-    private AnimationCurve requiredUnits;
-    public int RequiredNumberOfUnitsToPass => Mathf.CeilToInt(requiredUnits.Evaluate(Level));
-
     public string SaveFileName => "GameManagerSave";
 
     public List<EquipmentSO> AvaliableEquipment;
 
     public WeightedChanceList<TileSO> Tiles;
 
-    private bool beginCheckingGameEndCondition;
+    
 
-    public delegate void OnUnitPassed(int totalPassed, int requiredToPass);
-    public static OnUnitPassed onUnitPassed;
+    
 
 
     public bool LocalMapPlaying;
@@ -55,38 +48,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         }
     }
 
-    private void Start()
-    {
-        if(TilePlayerManager.Instance != null)
-        {
-            TilePlayerManager.Instance.noRemainingTilesToPlay += StartCheck;
-        }
-    }
-
-    private void Update()
-    {
-        if (!beginCheckingGameEndCondition)
-            return;
-
-        //Units on map
-        if (SpawningManager.Instance.SpawnedUnits.NotNull().Count() > 0)
-        {
-            return;
-        }
-
-        GameEnd();
-    }
-
-    private void OnDestroy()
-    {
-        if(TilePlayerManager.Instance != null)
-            TilePlayerManager.Instance.noRemainingTilesToPlay -= StartCheck;
-    }
-
-    private void StartCheck()
-    {
-        beginCheckingGameEndCondition = true;
-    }
+    
 
     #region Start New Journey
 
@@ -141,32 +103,10 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     #endregion
 
-    public void UnitPassed()
-    {
-        unitsPassed++;
-        onUnitPassed?.Invoke(unitsPassed, Mathf.CeilToInt(requiredUnits.Evaluate(Level)));
-
-        if (unitsPassed >= requiredUnits.Evaluate(Level))
-        {
-            CompleteLevel();
-        }
-
-    }
+    
 
     public void CompleteLevel()
     {
-        beginCheckingGameEndCondition = false;
-
-        if(GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Normal)
-            RewardManager.Instance.GiveRewards();
-
-
-        if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Normal ||
-            GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Relic)
-        {
-            InterfaceCaller.CallInterfaces<IOnCompleteLocalMapLevel>(x => x.OnCompleteLocalMapLevel());
-        }
-
         InterfaceCaller.CallInterfaces<IOnCompletedLevel>(x => x.OnLevelCompleted());
 
         Level++;
@@ -213,8 +153,6 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     private void CreateLocalMap()
     {
-        unitsPassed = 0;
-
         InterfaceCaller.CallInterfaces<IOnBeforeCreateLocalMap>(x => x.OnBeforeCreateLocalMap());
         InterfaceCaller.CallInterfaces<IOnCreateLocalMap>(x => x.OnCreateLocalMap());
         InterfaceCaller.CallInterfaces<IOnAfterCreateLocalMap>(x => x.AfterCreateLocalMap());
@@ -222,10 +160,8 @@ public class GameManager : MonoBehaviour, ISaveLoad
         Save();
     }
 
-    private void GameEnd()
+    public void EndGame()
     {
-        beginCheckingGameEndCondition = false;
-
         InterfaceCaller.CallInterfaces<IOnGameEnd>(x => x.OnGameEnd());
         InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
 

@@ -6,7 +6,7 @@ using Units;
 using Tiles;
 using GameManagerCalls;
 
-public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnGameEnd, IOnCompletedLevel, IOnAfterCreateLocalMap, IOnClear
+public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
 {
     public static SpawningManager Instance { private set; get; }
 
@@ -35,36 +35,15 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, I
         }
     }
 
-    private Coroutine waitCoroutine;
-
     private void OnEnable()
     {
-        if (TilePlayerManager.Instance != null)
-        {
-            TilePlayerManager.Instance.onPositionChangeCurrentSpawning += OnPositionChange;
-        }
-        else
-        {
-            waitCoroutine = StartCoroutine(WaitForTilePlayerManagerToNotBeNull());
-        }
+        StartCoroutine(WaitForObjectHelper.WaitForObject(() => TilePlayerManager.Instance, Subscribe));
     }
 
-    private IEnumerator WaitForTilePlayerManagerToNotBeNull()
+    private void Subscribe()
     {
-        while (TilePlayerManager.Instance == null)
-        {
-            yield return null;
-        }
+        TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= OnPositionChange;
         TilePlayerManager.Instance.onPositionChangeCurrentSpawning += OnPositionChange;
-    }
-
-    private void OnDisable()
-    {
-        if (TilePlayerManager.Instance != null)
-        {
-            TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= OnPositionChange;
-            if(waitCoroutine != null) StopCoroutine(waitCoroutine);
-        }
     }
 
     private void Update()
@@ -187,7 +166,7 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, I
         DestoryUnits();
     }
 
-    public void OnLevelCompleted()
+    public void OnCompleteLocalMapLevel()
     {
         DestoryUnits();
     }

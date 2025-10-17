@@ -65,7 +65,10 @@ public class AudioManager : MonoBehaviour
         {
             if (!mainMusicThemeSource.isPlaying)
             {
-                SetUpAudioSource(mainMusicThemeSource, mainThemes[currentIndex]);
+                AudioClipAndSettings audioClipAndSettings = new AudioClipAndSettings(mainThemes[currentIndex]) { loop = false };
+
+                SetUpAudioSource(mainMusicThemeSource, audioClipAndSettings);
+
                 mainMusicThemeSource.Play();
                 currentIndex = (currentIndex + 1) % mainThemes.Count;
             }

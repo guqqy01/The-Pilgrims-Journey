@@ -14,8 +14,6 @@ namespace Map
     {
         public static GlobalMapGenerator Instance;
 
-        public GlobalMapUI GlobalMapUI;
-
         public int Seed { get; private set; }
 
         public string SaveFileName => "GlobalMapSave";
@@ -54,9 +52,6 @@ namespace Map
         public delegate void UpdateUI();
         public UpdateUI updateUI;
 
-        public delegate void WaitForMapGenerated();
-        public static WaitForMapGenerated OnMapGenerated;
-
         private void Awake()
         {
             Instance = this;
@@ -86,14 +81,13 @@ namespace Map
 
             // Generate inner paths and assign special points
             List<GlobalMapPoint> usedPoints = new List<GlobalMapPoint>();
-            GeneratePaths(startMapPoint, innerMapStartPosition, ref currentDirection, usedPoints);
+            GeneratePaths(startMapPoint, innerMapStartPosition, ref currentDirection, usedPoints, out Vector2Int endPosition, out GlobalMapPoint endPoint);
 
             // End road
             currentDirection = Direction.East;
-            GenerateEndRoad(ref currentPosition, ref previousMapPoint);
+            GenerateEndRoad(ref endPosition, ref endPoint);
 
             updateUI?.Invoke();
-            OnMapGenerated?.Invoke();
         }
 
         // Create or return existing map point at position. If pathPoints provided, the point is added there.
@@ -128,8 +122,11 @@ namespace Map
             }
         }
 
-        private void GeneratePaths(GlobalMapPoint startMapPoint, Vector2Int innerMapStartPosition, ref Direction currentDirection, List<GlobalMapPoint> usedPoints)
+        private void GeneratePaths(GlobalMapPoint startMapPoint, Vector2Int innerMapStartPosition, ref Direction currentDirection, List<GlobalMapPoint> usedPoints, out Vector2Int currentPosition, out GlobalMapPoint endPoint)
         {
+            currentPosition = innerMapStartPosition;
+            endPoint = startMapPoint;
+
             foreach (GlobalPathSettings pathSettings in GenerationSettings.PathSettings)
             {
                 List<GlobalMapPoint> pathPoints = new List<GlobalMapPoint>();
@@ -137,7 +134,7 @@ namespace Map
                 for (int i = 0; i < pathSettings.NumberOfPaths; i++)
                 {
                     GlobalMapPoint previousMapPoint = startMapPoint;
-                    Vector2Int currentPosition = innerMapStartPosition;
+                    currentPosition = innerMapStartPosition;
 
                     int breaker = 100;
 
@@ -168,7 +165,11 @@ namespace Map
 
                         breaker--;
                     }
+
+                    endPoint = previousMapPoint;
                 }
+
+                
 
                 if (pathPoints.Count <= 0)
                     continue;

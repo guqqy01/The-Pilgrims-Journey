@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System;
-using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using static UnityEngine.ParticleSystem;
 namespace Map
 {
     [CreateAssetMenu()]
@@ -378,59 +375,5 @@ namespace Map
                 return -1;
             }
         }
-    }
-
-    [Serializable]
-    public class GlobalPathSettings
-    {
-        public int NumberOfPaths = 3;
-        public int NumberOfRelics;
-        public int NumberOfRandomEncounters;
-        public int NumberOfShops;
-
-        /// <summary>
-        /// Chance to traverse North and South
-        /// </summary>
-        public AnimationCurve TraverseChanceAtPointOnMap;
-
-        /// <summary>
-        /// Time 0 is the chance at startOfInnerMap
-        /// Time 1 is the chance at endOfInnerMap
-        /// </summary>
-        
-
-        public bool Traverse(float time) => Random.value <= TraverseChanceAtPointOnMap.Evaluate(time);
-
-        /// <summary>
-        /// Chance to converge to center of map
-        /// </summary>
-        public AnimationCurve ConvergeToCenterOfMapChance;
-        public bool Converge(float time) => Random.value <= ConvergeToCenterOfMapChance.Evaluate(time);
-
-        /// <summary>
-        /// Additional chance to go in tended direction if already traversing and not converging
-        /// </summary>
-        public MinMaxCurve directionTendency;
-
-        public AnimationCurve chanceToTend;
-        public bool TendTowardsDirection(float time, out float value)
-        {
-            value = 0;
-
-            if (Random.value > chanceToTend.Evaluate(time))
-                return false;
-            
-            value = directionTendency.Evaluate(time, Random.value);
-
-            return true;
-        }
-
-        [Range(0f, 0.5f)]
-        public float reverseDirectionChance = 0f;
-        public bool Reverse => Random.value <= reverseDirectionChance;
-
-        
-
-        
     }
 }

@@ -4,7 +4,7 @@ using Map;
 using UnityEngine.UI;
 using UnityEditor.UIElements;
 using GameManagerCalls;
-public class LevelCompletionManager : MonoBehaviour, IOnCompleteLocalMapLevel, IOnCreateLocalMap
+public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnCompleteLocalMapLevel, IOnCreateLocalMap
 {
     [SerializeField]
     private GameObject LevelCompleteScreen;
@@ -45,8 +45,11 @@ public class LevelCompletionManager : MonoBehaviour, IOnCompleteLocalMapLevel, I
     {
         if (continueToNextLevel)
         {
-            SceneLoader.Instance.LoadGlobalMapScene();
+            GameManager.Instance.CompleteLevel();
+
             GlobalMapUI.FirstSeen = true;
+            SceneLoader.Instance.LoadGlobalMapScene();
+            
 
             LevelCompleteScreen.SetActive(false);
         }

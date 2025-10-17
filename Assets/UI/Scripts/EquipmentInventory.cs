@@ -59,6 +59,9 @@ namespace Equipment
         public delegate void OnEquipmentChanged(EquipmentContainer container, EquipmentSO from, EquipmentSO to);
         public OnEquipmentChanged onEquipmentChanged;
 
+        [SerializeField]
+        private bool saveLoadInventory = true;
+
         protected virtual void OnDestroy()
         {
             foreach (var kvp in containerChangeHandlers)
@@ -174,6 +177,9 @@ namespace Equipment
 
         public void Save()
         {
+            if (!saveLoadInventory)
+                return;
+
             List<ContainerSave> saves = new List<ContainerSave>();
 
             for (int i = 0; i < Containers.Length; i++)
@@ -188,6 +194,9 @@ namespace Equipment
 
         public void Load()
         {
+            if (!saveLoadInventory)
+                return;
+
             if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
             {
                 SaveData saveData = outSaveProfile.saveData;

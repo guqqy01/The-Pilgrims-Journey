@@ -89,7 +89,7 @@ namespace Units
             {
                 onPathCompleted?.Invoke();
 
-                GameManager.Instance.UnitPassed();
+                LocalMapLevelCompletedManager.Instance.UnitPassed();
                 SpawningManager.Instance.SpawnedUnits.Remove(GetComponent<Unit>());
                 Destroy(gameObject);
                 return;
