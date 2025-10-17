@@ -10,9 +10,9 @@ using GameManagerCalls;
 
 namespace Tiles
 {
-    public class TileGrid : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnClear
+    public class TileGrid : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnClear
     {
-        public string SaveFileName => $"TileGrid_{name}_{GetHashCode()}_Save";
+        public string SaveFileName => $"TileGrid_{name}_Save";
 
         [SerializeField]
         private RectTransform gridTransform;
@@ -292,16 +292,6 @@ namespace Tiles
             return tileSaves;
         }
 
-        public void Load()
-        {
-            if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> saveProfile))
-            {
-                SaveData inventorySaveProfile = saveProfile.saveData;
-
-                PlaceTileSaves(inventorySaveProfile.tileSaveDatas);
-            }
-        }
-
         public void PlaceTileSaves(List<TileSave> tileSaveData)
         {
             Clear();
@@ -321,6 +311,20 @@ namespace Tiles
                 {
                     Debug.Log("Tile placement failed");
                 }
+            }
+        }
+
+        public void LoadAfterMapPointSceneLoad()
+        {
+            if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> saveProfile))
+            {
+                SaveData inventorySaveProfile = saveProfile.saveData;
+
+                PlaceTileSaves(inventorySaveProfile.tileSaveDatas);
+            }
+            else
+            {
+                Debug.LogWarning($"In TileGrid {this}: There was no save file found, SaveFileName: {SaveFileName}");
             }
         }
 

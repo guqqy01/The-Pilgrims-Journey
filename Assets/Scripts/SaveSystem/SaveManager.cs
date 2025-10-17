@@ -5,19 +5,20 @@ using UnityEngine;
 
 public static class SaveManager
 {
-    private static readonly string saveFolder = Application.persistentDataPath + "/GameData";
+    private static readonly string gameData = Application.persistentDataPath + "/GameData";
+
+    private static readonly string saveFolder = gameData + "/SaveFolder";
+
+    private static readonly string saveFileForMe = "C:/Users/Dale Gush/AppData/LocalLow/DefaultCompany/ReverseTowerDefense/GameData/SaveFolder";
+
+    public static void DeleteSaveFile()
+    {
+        IfFileExistsDelete(saveFolder);
+    }
 
     public static bool FileExists(string profileName)
     {
         return File.Exists($"{saveFolder}/{profileName}");
-    }
-
-    private static void Delete(string profileName)
-    {
-        if (!FileExists(profileName))
-            throw new System.Exception($"Save Profile {profileName} does not exist.");
-
-        File.Delete($"{saveFolder}/{profileName}");
     }
 
     public static void IfFileExistsDelete(string profileName)
@@ -26,18 +27,6 @@ public static class SaveManager
         {
             File.Delete($"{saveFolder}/{profileName}");
         }
-    }
-
-    private static SaveProfile<T> Load<T>(string profileName) where T : SaveProfileData
-    {
-        if(!FileExists(profileName))
-            throw new System.Exception($"Save Profile {profileName} does not exist.");
-
-        var fileContents = File.ReadAllText($"{saveFolder}/{profileName}");
-
-        //decrypt
-
-        return JsonUtility.FromJson<SaveProfile<T>>(fileContents);
     }
 
     public static bool TryLoad<T>(string profileName, out SaveProfile<T> outSaveProfile) where T : SaveProfileData

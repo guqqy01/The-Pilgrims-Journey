@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnSetup, IOnClear
+public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnSetup, IOnClear
 {
     public string SaveFileName => "ResourceManagerSave";
 
@@ -120,7 +120,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnSe
         SaveManager.Save(saveProfile);
     }
 
-    public void Load()
+    public void LoadAfterMapPointSceneLoad()
     {
         if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
         {

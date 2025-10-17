@@ -26,9 +26,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private Button continueJourneyButton;
 
+    public bool Deactivated = false;
+
     private void Awake()
     {
         Instance = this;
+
+        Deactivated = false;
     }
 
     private void Start()
@@ -36,6 +40,8 @@ public class MainMenu : MonoBehaviour
         BeastaryManager.Instance.Load();
 
         Setup();
+
+        Deactivated = false;
     }
 
     public void Setup()
@@ -62,6 +68,11 @@ public class MainMenu : MonoBehaviour
     {
         if (value)
         {
+            if (Deactivated)
+                return;
+
+            Deactivated = true;
+
             GameManager.Instance.StartNewJourney();
             Time.timeScale = 1.0f;
         }
@@ -69,37 +80,60 @@ public class MainMenu : MonoBehaviour
 
     public void ContinueJourneyButton()
     {
+        if (Deactivated)
+            return;
+
+        Deactivated = true;
+
         GameManager.Instance.ContinueJourney();
         Time.timeScale = 1.0f;
     }
 
     public void UpgradeButton()
     {
+        if (Deactivated)
+            return;
+
         OpenPage(Pages.Upgrade);
     }
 
     public void BeastaryButton()
     {
+        if (Deactivated)
+            return;
+
         OpenPage(Pages.Beastary);
     }
 
     public void OpenOptions()
     {
+        if (Deactivated)
+            return;
+
         OpenPage(Pages.Options);
     }
 
     public void RelicButton()
     {
+        if (Deactivated)
+            return;
+
         OpenPage(Pages.Relic);
     }
 
     public void OpenEquipmentCatalogue()
     {
+        if (Deactivated)
+            return;
+
         OpenPage(Pages.Equipment);
     }
 
     public void OpenUnitCatalogue()
     {
+        if (Deactivated)
+            return;
+
         OpenPage(Pages.Units);
     }
 

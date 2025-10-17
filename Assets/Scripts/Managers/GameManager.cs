@@ -118,6 +118,9 @@ public class GameManager : MonoBehaviour, ISaveLoad
     {
         GlobalMapPointType type = GlobalMapGenerator.Instance.CurrentMapPoint.Type;
 
+        if(fromContinueingGame)
+            action += () => InterfaceCaller.CallInterfaces<IOnLoadAfterMapPointSceneLoad>(x => x.LoadAfterMapPointSceneLoad());
+
         switch (type)
         {
             case GlobalMapPointType.Normal:
@@ -130,9 +133,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
                 action += CreateLocalMap;
                 break;
             case GlobalMapPointType.Shop:
-                if (fromContinueingGame)
-                    action += () => InterfaceCaller.CallInterfaces<IOnLoadAfterMapPointSceneLoad>(x => x.LoadAfterMapPointSceneLoad());
-                else
+                if (!fromContinueingGame)
                     action += SetupShop;
                 break;
         }
@@ -170,8 +171,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     private void Delete()
     {
-        SaveManager.IfFileExistsDelete(SaveFileName);
-
+        SaveManager.DeleteSaveFile();
         InterfaceCaller.CallInterfaces<IOnDelete>(x => x.Delete());
     }
 

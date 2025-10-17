@@ -6,8 +6,9 @@ using Units;
 using System;
 using Equipment;
 using Tiles;
+using GameManagerCalls;
 
-public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot
+public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot, IOnSave
 {
     public static PrizeWindow Instance;
 
@@ -226,8 +227,6 @@ public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFrom
             return;
         }
     }
-
-    
 
     [Serializable]
     private record SaveData : SaveProfileData

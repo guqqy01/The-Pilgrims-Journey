@@ -132,6 +132,8 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadMainMenuScene(Action onSceneLoaded = null)
     {
+        onSceneLoaded += () => MainMenu.Instance.Deactivated = false;
+
         LoadScene(mainMenuSceneLoad, onSceneLoaded);
     }
 

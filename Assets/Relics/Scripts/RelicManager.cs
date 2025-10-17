@@ -8,7 +8,7 @@ using GameManagerCalls;
 
 namespace Relics
 {
-    public class RelicManager : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot, IOnCompletedLevel, IOnSave, IOnLoad, IOnDelete, IOnSetup, IOnClear
+    public class RelicManager : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot, IOnCompletedLevel, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnDelete, IOnSetup, IOnClear
     {
         public string SaveFileName => "RelicManagerSave";
 
@@ -135,7 +135,7 @@ namespace Relics
             SaveManager.Save(saveProfile);
         }
 
-        public void Load()
+        public void LoadAfterMapPointSceneLoad()
         {
             if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
             {

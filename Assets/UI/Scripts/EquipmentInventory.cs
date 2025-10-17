@@ -9,7 +9,7 @@ using static Equipment.EquipmentInventory;
 
 namespace Equipment
 {
-    public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, IOnSetup, IOnSave, IOnLoad, IOnClear
+    public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, IOnSetup, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnClear
     {
         [SerializeField]
         private int inventorySize = 6;
@@ -192,10 +192,12 @@ namespace Equipment
             SaveManager.SaveOver(saveProfile);
         }
 
-        public void Load()
+        public void LoadAfterMapPointSceneLoad()
         {
             if (!saveLoadInventory)
                 return;
+
+            Clear();
 
             if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
             {

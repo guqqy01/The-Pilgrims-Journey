@@ -63,7 +63,7 @@ public class AudioManager : MonoBehaviour
         int currentIndex = 0;
         while (true)
         {
-            if (!mainMusicThemeSource.isPlaying)
+            if (mainMusicThemeSource.clip == null ||( mainMusicThemeSource.time >= mainMusicThemeSource.clip.length && !mainMusicThemeSource.isPlaying))
             {
                 AudioClipAndSettings audioClipAndSettings = new AudioClipAndSettings(mainThemes[currentIndex]) { loop = false };
 
