@@ -1,74 +1,206 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using UnityEngine;
 
 public static class SaveManager
 {
-    private static readonly string gameData = Application.persistentDataPath + "/GameData";
+    // Paths built with Path.Combine to be cross-platform.
+    private static readonly string gameData = Path.Combine(Application.persistentDataPath, "GameData");
+    private static readonly string saveFolder = Path.Combine(gameData, "SaveFolder");
+    private static readonly string fileExtension = ".json";
 
-    private static readonly string saveFolder = gameData + "/SaveFolder";
+    // Simple lock for thread-safety (prevents concurrent writes).
+    private static readonly object fileLock = new object();
 
-    private static readonly string saveFileForMe = "C:/Users/Dale Gush/AppData/LocalLow/DefaultCompany/ReverseTowerDefense/GameData/SaveFolder";
+    // Encryption password (if set, encryption/decryption is used).
+    private static string encryptionPassword = null;
+    public static bool EncryptionEnabled => !string.IsNullOrEmpty(encryptionPassword);
 
-    public static void DeleteSaveFile()
+    public static void EnableEncryption(string password)
     {
-        IfFileExistsDelete(saveFolder);
+        if (string.IsNullOrWhiteSpace(password))
+            throw new ArgumentException("Password cannot be null or whitespace.", nameof(password));
+
+        encryptionPassword = password;
     }
 
+    public static void DisableEncryption() => encryptionPassword = null;
+
+    // True if save folder exists (and can contain saves).
+    public static bool SaveFolderExists => Directory.Exists(saveFolder);
+
+    // True if a specific profile file exists.
     public static bool FileExists(string profileName)
-    {
-        return File.Exists($"{saveFolder}/{profileName}");
-    }
+        => File.Exists(GetFilePath(profileName));
 
-    public static void IfFileExistsDelete(string profileName)
+    // Delete all saves (original DeleteSaveFile had ambiguous behavior).
+    public static void DeleteAllSaves()
     {
-        if (FileExists(profileName))
+        lock (fileLock)
         {
-            File.Delete($"{saveFolder}/{profileName}");
+            try
+            {
+                if (Directory.Exists(saveFolder))
+                    Directory.Delete(saveFolder, true);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to delete save folder '{saveFolder}': {ex}");
+            }
         }
     }
 
+    // Delete a specific profile file if it exists.
+    public static void IfFileExistsDelete(string profileName)
+    {
+        lock (fileLock)
+        {
+            var path = GetFilePath(profileName);
+            try
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to delete save file '{path}': {ex}");
+            }
+        }
+    }
+
+    // Try to load a save; returns false on any error (safe for callers).
     public static bool TryLoad<T>(string profileName, out SaveProfile<T> outSaveProfile) where T : SaveProfileData
     {
         outSaveProfile = null;
+        var path = GetFilePath(profileName);
 
-        if (!FileExists(profileName))
+        if (!File.Exists(path))
             return false;
 
-        var fileContents = File.ReadAllText($"{saveFolder}/{profileName}");
-        //decrypt
-        outSaveProfile = JsonUtility.FromJson<SaveProfile<T>>(fileContents);
+        try
+        {
+            string fileContents;
+            // Keep file read under lock to avoid concurrent write/read races.
+            lock (fileLock)
+            {
+                fileContents = File.ReadAllText(path);
+            }
 
-        return true;
+            if (EncryptionEnabled)
+            {
+                try
+                {
+                    fileContents = AesEncryption.DecryptStringFromBase64(fileContents, encryptionPassword);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Decryption failed for '{path}': {ex}");
+                    return false;
+                }
+            }
+
+            outSaveProfile = JsonUtility.FromJson<SaveProfile<T>>(fileContents);
+            return outSaveProfile != null;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to load save '{path}': {ex}");
+            outSaveProfile = null;
+            return false;
+        }
     }
 
-    public static void Save<T>(SaveProfile<T> save) where T : SaveProfileData
+    // Try saving. Returns true on success. If overwrite is false and file exists, returns false.
+    public static bool TrySave<T>(SaveProfile<T> save, bool overwrite = false) where T : SaveProfileData
     {
-        if (FileExists(save.profileName))
-            throw new System.Exception($"Save Profile {save.profileName} already exists!");
+        if (save == null)
+            throw new ArgumentNullException(nameof(save));
+
+        var path = GetFilePath(save.profileName);
 
         var jsonString = JsonUtility.ToJson(save, true);
+        string outputText = jsonString;
 
-        //encrypt
+        if (EncryptionEnabled)
+        {
+            try
+            {
+                outputText = AesEncryption.EncryptStringToBase64(jsonString, encryptionPassword);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Encryption failed for profile '{save.profileName}': {ex}");
+                return false;
+            }
+        }
 
-        if(!Directory.Exists(saveFolder)) //create / GameData if it's not already there.
-            Directory.CreateDirectory(saveFolder);
+        lock (fileLock)
+        {
+            if (!overwrite && File.Exists(path))
+            {
+                Debug.LogWarning($"Save profile '{save.profileName}' already exists. Use overwrite to replace it.");
+                return false;
+            }
 
-        File.WriteAllText($"{saveFolder}/{save.profileName}", jsonString);
+            try
+            {
+                if (!Directory.Exists(saveFolder))
+                    Directory.CreateDirectory(saveFolder);
+
+                var tempPath = path + ".tmp";
+
+                // Write to temp file first, then atomically replace.
+                File.WriteAllText(tempPath, outputText);
+
+                if (File.Exists(path))
+                {
+                    // Use File.Replace on .NET Framework to replace atomically when possible.
+                    try
+                    {
+                        File.Replace(tempPath, path, null);
+                    }
+                    catch
+                    {
+                        // If Replace fails for any reason, fallback to overwrite via Delete+Move.
+                        if (File.Exists(path))
+                            File.Delete(path);
+                        File.Move(tempPath, path);
+                    }
+                }
+                else
+                {
+                    File.Move(tempPath, path);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to save profile '{save.profileName}' to '{path}': {ex}");
+                return false;
+            }
+        }
     }
 
-    public static void SaveOver<T>(SaveProfile<T> save) where T : SaveProfileData
+    // Convenience wrapper to force overwrite.
+    public static bool SaveOver<T>(SaveProfile<T> save) where T : SaveProfileData
+        => TrySave(save, overwrite: true);
+
+    // Helpers
+    private static string GetFilePath(string profileName)
+        => Path.Combine(saveFolder, SanitizeProfileName(profileName) + fileExtension);
+
+    // Removes path components to avoid path traversal and invalid characters.
+    private static string SanitizeProfileName(string name)
     {
-        IfFileExistsDelete($"{saveFolder}/{save.profileName}");
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Profile name cannot be null or whitespace.", nameof(name));
 
-        var jsonString = JsonUtility.ToJson(save, true);
+        // Keep only file name portion and remove any invalid filename chars.
+        var fileName = Path.GetFileName(name);
+        foreach (var c in Path.GetInvalidFileNameChars())
+            fileName = fileName.Replace(c.ToString(), string.Empty);
 
-        //encrypt
-
-        if (!Directory.Exists(saveFolder)) //create / GameData if it's not already there.
-            Directory.CreateDirectory(saveFolder);
-
-        File.WriteAllText($"{saveFolder}/{save.profileName}", jsonString);
+        return fileName;
     }
 }

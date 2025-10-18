@@ -117,7 +117,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMa
         SaveManager.IfFileExistsDelete(SaveFileName);
         SaveData saveData = new SaveData(Gold, UpgradePoints);
         SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
-        SaveManager.Save(saveProfile);
+        SaveManager.SaveOver(saveProfile);
     }
 
     public void LoadAfterMapPointSceneLoad()

@@ -132,7 +132,7 @@ namespace Relics
             SaveManager.IfFileExistsDelete(SaveFileName);
             SaveData saveData = new SaveData(relics);
             SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
-            SaveManager.Save(saveProfile);
+            SaveManager.SaveOver(saveProfile);
         }
 
         public void LoadAfterMapPointSceneLoad()

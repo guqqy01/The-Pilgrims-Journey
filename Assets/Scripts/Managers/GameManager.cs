@@ -27,11 +27,6 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     public WeightedChanceList<TileSO> Tiles;
 
-    
-
-    
-
-
     public bool LocalMapPlaying;
 
     private int currentSeed;
@@ -171,7 +166,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     private void Delete()
     {
-        SaveManager.DeleteSaveFile();
+        SaveManager.DeleteAllSaves();
         InterfaceCaller.CallInterfaces<IOnDelete>(x => x.Delete());
     }
 
@@ -180,7 +175,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         SaveManager.IfFileExistsDelete(SaveFileName);
         SaveData saveData = new SaveData(Level, currentSeed);
         SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
-        SaveManager.Save(saveProfile);
+        SaveManager.SaveOver(saveProfile);
 
         InterfaceCaller.CallInterfaces<IOnSave>(x => x.Save());
     }

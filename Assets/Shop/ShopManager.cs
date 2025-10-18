@@ -226,7 +226,7 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, ISave
         SaveManager.IfFileExistsDelete(SaveFileName);
         SaveData saveData = new SaveData(EquipmentAndTheirShopItems.Values.ToList());
         SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
-        SaveManager.Save(saveProfile);
+        SaveManager.SaveOver(saveProfile);
     }
 
     public void LoadAfterMapPointSceneLoad()

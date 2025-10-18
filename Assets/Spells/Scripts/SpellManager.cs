@@ -215,7 +215,7 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
         SaveManager.IfFileExistsDelete(SaveFileName);
         SaveData saveData = new SaveData(Spells);
         SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
-        SaveManager.Save(saveProfile);
+        SaveManager.SaveOver(saveProfile);
     }
 
     public void Load()

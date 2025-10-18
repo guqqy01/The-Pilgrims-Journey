@@ -15,21 +15,17 @@ public class SceneRoot : MonoBehaviour
     private SceneReference commonScene;
     public static bool CommonSceneLoaded { set; get; } = false;
 
-    [SerializeField]
-    private List<Singleton> singletons = new List<Singleton>();
-
-    
     void Awake()
     {
         loader = SceneLoader.Instance;
 
-        foreach(var singleton in singletons)
+        ISingletonToBeInitiatedFromRoot[] singletonsFromChildren = GetComponentsInChildren<ISingletonToBeInitiatedFromRoot>(true);
+
+        foreach (var singleton in singletonsFromChildren)
         {
-            if (singleton.singleton is ISingletonToBeInitiatedFromRoot singletonToBeInitiated)
-                singletonToBeInitiated.InitiateSingleton();
-            else
-                Debug.LogWarning($"object: {singleton.singleton},  not inheriting from ISingletonToBeInitiatedFromRoot, Singleton not initialized");
+            singleton.InitiateSingleton();
         }
+
 
         if (!CommonSceneLoaded)
         {
@@ -117,11 +113,4 @@ public class SceneRoot : MonoBehaviour
         if (!sceneAlreadyLoaded)
             yield return SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
     }
-}
-
-
-[Serializable]
-public class Singleton
-{
-    public MonoBehaviour singleton;
 }
