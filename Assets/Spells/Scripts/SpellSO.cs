@@ -13,8 +13,6 @@ public class SpellSO : ScriptableObject
     public Color highlightColor = Color.white;
     public Color invalidUseColor = Color.red;
 
-    public int numberOfUses;
-
     [SerializeReference]
     [AbstractSelector]
     public List<SpellEffect> spellEffects;

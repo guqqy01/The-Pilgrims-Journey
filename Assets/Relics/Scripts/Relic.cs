@@ -70,9 +70,9 @@ namespace Relics
                 relicEffects.Add(clonedEffect);
             }
 
-            foreach(SpellSO spell in relicSO.spells)
+            foreach(RelicSpell spell in relicSO.spells)
             {
-                SpellManager.Instance.AddSpell(spell);
+                SpellManager.Instance.AddSpell(spell.spell, spell.amountOfUses);
             }
         }
     }

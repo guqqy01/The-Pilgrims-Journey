@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb6839c9bbd41b41bedcb00a3bd14aa, type: 3}
+  m_Name: Knights Protection
+  m_EditorClassIdentifier: Assembly-CSharp::SpellSO
+  description: Knights protective vow
+  sprite: {fileID: -452116483, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  highlightColor: {r: 0, g: 0.595603, b: 1, a: 1}
+  invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
+  spellEffects:
+  - rid: 8036269340738453601
+  references:
+    version: 2
+    RefIds:
+    - rid: 8036269340738453601
+      type: {class: InvunrabilityEffect, ns: , asm: Assembly-CSharp}
+      data:
+        Vector2ListWrapper:
+          v2IntList:
+          - {x: 0, y: 0}
+          - {x: 0, y: 1}
+          - {x: -1, y: 1}
+          - {x: -1, y: 0}
+          - {x: -1, y: -1}
+          - {x: 0, y: -1}
+          - {x: 1, y: -1}
+          - {x: 1, y: 0}
+          - {x: 1, y: 1}
+          - {x: -2, y: 2}
+          - {x: -2, y: 1}
+          - {x: -3, y: 1}
+          - {x: -3, y: 0}
+          - {x: -2, y: 0}
+          - {x: -2, y: -1}
+          - {x: -3, y: -1}
+          - {x: -2, y: -2}
+          - {x: -1, y: -2}
+          - {x: 0, y: -2}
+          - {x: 1, y: -2}
+          - {x: 2, y: -1}
+          - {x: 2, y: 0}
+          - {x: 2, y: 1}
+          - {x: 1, y: 2}
+          - {x: 0, y: 2}
+          - {x: -1, y: 2}
+          - {x: 2, y: -2}
+          - {x: 3, y: 1}
+          - {x: 3, y: 0}
+          - {x: 3, y: -1}
+          - {x: -1, y: 3}
+          - {x: 0, y: 3}
+          - {x: 1, y: 3}
+          - {x: -1, y: -3}
+          - {x: 0, y: -3}
+          - {x: 1, y: -3}
+          - {x: -3, y: 2}
+          - {x: -2, y: 3}
+          - {x: 2, y: 3}
+          - {x: 3, y: 2}
+          - {x: 2, y: 2}
+          - {x: 3, y: -2}
+          - {x: 2, y: -3}
+          - {x: -3, y: -2}
+          - {x: -2, y: -3}
+          - {x: -4, y: 1}
+          - {x: -4, y: 0}
+          - {x: -1, y: 4}
+          - {x: -4, y: 2}
+          - {x: -4, y: 3}
+          - {x: -3, y: 3}
+          - {x: -3, y: 4}
+          - {x: -2, y: 4}
+          - {x: 0, y: 4}
+          - {x: 1, y: 4}
+          - {x: 2, y: 4}
+          - {x: 3, y: 3}
+          - {x: 4, y: 3}
+          - {x: 3, y: 4}
+          - {x: 4, y: 1}
+          - {x: 4, y: 0}
+          - {x: 4, y: 2}
+          - {x: 4, y: -1}
+          - {x: 4, y: -2}
+          - {x: 3, y: -3}
+          - {x: -3, y: -3}
+          - {x: -4, y: -2}
+          - {x: -4, y: -1}
+          - {x: -3, y: -4}
+          - {x: -2, y: -4}
+          - {x: -1, y: -4}
+          - {x: 0, y: -4}
+          - {x: 1, y: -4}
+          - {x: 2, y: -4}
+          - {x: 3, y: -4}
+          - {x: 4, y: -3}
+          - {x: -4, y: -3}
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 64
+        effectFX: {fileID: 0}
+        fXGreyScaleFactor: 0
+        fXColor: {r: 0, g: 0, b: 0, a: 0}
+        effectSound:
+          clip: {fileID: 0}
+          loop: 0
+          volume: 0
+          pitch: 0
+        invunrabilityTime: 4

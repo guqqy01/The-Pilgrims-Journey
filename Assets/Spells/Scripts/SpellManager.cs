@@ -7,11 +7,10 @@ using Tiles;
 using Unity.VisualScripting;
 using GameManagerCalls;
 
-public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad, IOnClear, IOnSetup
+public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad, IOnClear
 {
     public static SpellManager Instance {  get; private set; }
 
-    public List<SpellSO> startSpells;
     public List<Spell> Spells { private set; get; } = new List<Spell>();
 
     public string SaveFileName => "SpellManagerSave";
@@ -46,20 +45,6 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
         DestorySpawnedObjects();
 
         Spells.Clear();
-    }
-
-    public void SetupNewGame()
-    {
-        for (int i = 0; i < startSpells.Count; i++)
-        {
-            Spell spell = new Spell(startSpells[i]);
-
-            spell.spellSO.spellEffects.ForEach(x => x.Reset());
-
-            Spells.Add(new Spell(startSpells[i]));
-        }
-
-        updateUI?.Invoke();
     }
 
     private void RefreshSpells()
@@ -108,24 +93,41 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
         }
     }
 
-    public void AddSpell(SpellSO spellSO)
+    public void AddSpell(SpellSO spellSO, int amountOfUses)
     {
         for (int i = 0; i < Spells.Count; i++)
         {
             if (Spells[i].spellSO == spellSO)
             {
-                Spells[i].MaxUses += spellSO.numberOfUses;
+                Spells[i].MaxUses += amountOfUses;
                 return;
             }
         }
 
-        Spell spell = new Spell(spellSO);
+        Spell spell = new Spell(spellSO, amountOfUses);
 
         spell.spellSO.spellEffects.ForEach(x => x.Reset());
 
         Spells.Add(spell);
 
         updateUI?.Invoke();
+    }
+
+    public void RemoveSpell(SpellSO spellSO, int amountOfUses)
+    {
+        foreach(Spell spell in Spells)
+        {
+            if(spell.spellSO == spellSO)
+            {
+                spell.MaxUses -= amountOfUses;
+
+                if(spell.MaxUses <= 0)
+                    Spells.Remove(spell);
+
+                updateUI?.Invoke();
+                return;
+            }
+        }
     }
 
     private void HideHighlight()

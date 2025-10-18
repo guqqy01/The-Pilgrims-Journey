@@ -13,10 +13,10 @@ public class Spell
 
     public int MaxUses;
 
-    public Spell(SpellSO spellSO)
+    public Spell(SpellSO spellSO, int amountOfUses)
     {
         this.spellSO = spellSO;
-        MaxUses = spellSO.numberOfUses;
+        MaxUses = amountOfUses;
         numberOfUses = MaxUses;
     }
 

@@ -47,6 +47,8 @@ namespace Units
         [SerializeField] private float shieldCooldown = 6f;
         public float ShieldCooldown => shieldCooldown;
 
+        public SpellSO unitsSpecialSpell; 
+
         [Header("Drops")]
         public float Coin1Percent = 0.5f;
         public float Coin5Percent = 0.1f;

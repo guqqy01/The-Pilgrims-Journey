@@ -63,9 +63,43 @@ namespace Tiles
             }
         }
 
+        private void Awake()
+        {
+            if (playerTileGrid != null)
+            {
+                playerTileGrid.onTileAdded += OnTileAdded;
+                playerTileGrid.onTileRemoved += OnTileRemoved;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if(playerTileGrid != null)
+            {
+                playerTileGrid.onTileAdded -= OnTileAdded;
+                playerTileGrid.onTileRemoved -= OnTileRemoved;
+            }
+        }
+
         public void OnEnable()
         {
             playerUIPoint.position = playerTileGrid.GridTransform.position + new Vector3(-playerTileGrid.GridTransform.sizeDelta.x, playerTileGrid.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
+        }
+
+        private void OnTileAdded(Tile tile)
+        {
+            if (tile == null || tile.UnitSO == null || tile.UnitSO.unitsSpecialSpell == null)
+                return;
+
+            SpellManager.Instance.AddSpell(tile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
+        }
+
+        private void OnTileRemoved(Tile tile)
+        {
+            if (tile == null || tile.UnitSO == null || tile.UnitSO.unitsSpecialSpell == null)
+                return;
+
+            SpellManager.Instance.RemoveSpell(tile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
         }
 
         private void Update()

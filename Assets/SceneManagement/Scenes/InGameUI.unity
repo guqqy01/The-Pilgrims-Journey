@@ -2640,11 +2640,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7948b72dca45d224780926c92c23fc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oneTileTime: 15
+  oneTileTime: 7
   canvas: {fileID: 787407075}
   playerUIPoint: {fileID: 1216069796}
   playerUIPointYOffset: -10
-  startingTile: {fileID: 11400000, guid: 350564c8ec85d794f8ad106459032041, type: 2}
+  startingTile: {fileID: 11400000, guid: 47cf2c52c9a5afd479402902ac4f13d6, type: 2}
   startTilePosition: {x: 0, y: 0}
   startTileRotation: 0
   startingUnit: {fileID: 11400000, guid: 5462e31195e56de46a7a21e97f3a7dc2, type: 2}
@@ -16788,19 +16788,6 @@ MonoBehaviour:
   commonScene:
     sceneAsset: {fileID: 102900000, guid: 1685e8583991d0d468d9c48eef969888, type: 3}
     sceneName: Common
-  singletons:
-  - singleton: {fileID: 371261872}
-  - singleton: {fileID: 1105391980}
-  - singleton: {fileID: 238776879}
-  - singleton: {fileID: 1268905597}
-  - singleton: {fileID: 1268905596}
-  - singleton: {fileID: 869233887}
-  - singleton: {fileID: 1961957526}
-  - singleton: {fileID: 1163183306}
-  - singleton: {fileID: 787407077}
-  - singleton: {fileID: 2119765721}
-  - singleton: {fileID: 50941354}
-  - singleton: {fileID: 1718404809}
 --- !u!1001 &1729471431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20725,17 +20712,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7864624853657125762, guid: 42171f37a9b055a4fb6e88ea30737335, type: 3}
   m_PrefabInstance: {fileID: 2119765719}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2119765721 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7864624853657125763, guid: 42171f37a9b055a4fb6e88ea30737335, type: 3}
-  m_PrefabInstance: {fileID: 2119765719}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26c5adb16ee3fa54e8f82797888cbe2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2124111582
 GameObject:
   m_ObjectHideFlags: 0

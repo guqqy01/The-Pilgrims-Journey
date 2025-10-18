@@ -172,9 +172,33 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
       propertyPath: requiredUnits.m_Curve.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[2].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 66665728d186fa34c97aebb2a33baf12, type: 2}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[3].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 47cf2c52c9a5afd479402902ac4f13d6, type: 2}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[4].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b1240e4d954898489a522e3577a6508, type: 2}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[5].item
+      value: 
+      objectReference: {fileID: 11400000, guid: cf89aca80b4c68d47a3b29dcbc195e2d, type: 2}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[6].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c711d92f573d3442bbd6d4dec61bc5e, type: 2}
     - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
       propertyPath: requiredUnits.m_Curve.Array.data[1].time
       value: 9.409774
@@ -218,6 +242,26 @@ PrefabInstance:
     - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
       propertyPath: Tiles.weightedList.Array.data[0].weightCurve.m_Mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[2].weightCurve.m_ConstantMax
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[3].weightCurve.m_ConstantMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[4].weightCurve.m_ConstantMax
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[5].weightCurve.m_ConstantMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4046295283481631011, guid: 6d8653eac7cdba4428627569f371f9af, type: 3}
+      propertyPath: Tiles.weightedList.Array.data[6].weightCurve.m_ConstantMax
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

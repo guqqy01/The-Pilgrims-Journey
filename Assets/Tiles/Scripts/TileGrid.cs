@@ -82,9 +82,6 @@ namespace Tiles
             }
         }
 
-        public delegate void OnTileChange();
-        public OnTileChange onTileChange;
-
         public delegate void OnTileAdded(Tile tile);
         public OnTileAdded onTileAdded;
 
@@ -162,7 +159,7 @@ namespace Tiles
             selectedTile.tileGrid = this;
             selectedTile.transform.SetParent(GridTransform, true);
 
-            onTileChange?.Invoke();
+            onTileAdded?.Invoke(selectedTile);
             return true;
         }
 
@@ -227,7 +224,7 @@ namespace Tiles
             }
 
             if (haveRemovedTile)
-                onTileChange?.Invoke();
+                onTileRemoved?.Invoke(tile);
 
             return haveRemovedTile;
         }

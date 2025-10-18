@@ -20,11 +20,12 @@ MonoBehaviour:
   numberOfUnitsEscapedToLevelUp: 2
   numberOfUnitsAbleToSpawn: 15
   spawnRate: 1.2
-  movementSpeed: 3.4
+  movementSpeed: 2.5
   health: 12
   shield: 2
   shieldRegeneration: 2
   shieldCooldown: 4
+  unitsSpecialSpell: {fileID: 0}
   Coin1Percent: 0.5
   Coin5Percent: 0.1
   Coin10Percent: 0.01

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -26,10 +27,18 @@ namespace Relics
         public Sprite sprite;
         public int baseValue;
 
-        public List<SpellSO> spells;
+        public List<RelicSpell> spells;
+
         [SerializeReference]
         [AbstractSelector]
         public List<RelicEffect> relicEffects;
+    }
+
+    [Serializable]
+    public class RelicSpell
+    {
+        public SpellSO spell;
+        public int amountOfUses = 1;
     }
 }
 
