@@ -20,7 +20,8 @@ MonoBehaviour:
   sprite: {fileID: 1734294462, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 500
   spells:
-  - {fileID: 11400000, guid: 49a18ea4067b0704b89d22daf6bbf1de, type: 2}
+  - spell: {fileID: 0}
+    amountOfUses: 1
   relicEffects: []
   references:
     version: 2

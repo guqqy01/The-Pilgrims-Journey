@@ -36,8 +36,11 @@ public class InvunrabilityEffect : SpellEffect
             if (collider.TryGetComponent(out Unit unit))
             {
                 Transform tf = unit.transform;
-                FX fx = GameObject.Instantiate(effectFX, tf.position, Quaternion.identity, tf);
-                fx.Init(fXGreyScaleFactor, fXColor);
+                if(effectFX != null)
+                {
+                    FX fx = GameObject.Instantiate(effectFX, tf.position, Quaternion.identity, tf);
+                    fx.Init(fXGreyScaleFactor, fXColor);
+                }
                 unit.MakeInvunrableForTime(invunrabilityTime);
             }
         }

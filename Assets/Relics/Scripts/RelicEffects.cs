@@ -8,11 +8,9 @@ namespace Relics
     public class StartShieldEffect : RelicEffect
     {
         [SerializeField]
-        private int shieldAmount;
+        private int shieldAmountPerLevel;
         [SerializeField]
         private float unitTime;
-        [SerializeField]
-        private float shieldTime;
 
         private float timeToStop;
 
@@ -31,7 +29,12 @@ namespace Relics
                 return;
             }
 
-            unit.Shield.ModifyShieldForTime("StartShieldEffect" + GetHashCode(), new Buff(UnitStatsEnum.Shield) { AdditionalBuff = new IntOrFloatObject(shieldAmount) }, shieldTime);
+            Buff shieldBuff = new Buff(UnitStatsEnum.Shield) 
+            { 
+                AdditionalBuff = new IntOrFloatObject(shieldAmountPerLevel * Relic.Level) 
+            };
+
+            unit.Shield.ModifyShield("StartShieldEffect" + GetHashCode(), shieldBuff);
         }
     }
 

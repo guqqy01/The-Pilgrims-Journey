@@ -19,7 +19,7 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
 
     public int RequiredNumberOfUnitsToPass => Mathf.CeilToInt(requiredUnits.Evaluate(GameManager.Instance.Level));
 
-    private bool beginCheckingGameEndCondition;
+    private bool tilePlayerFinishedPlaying;
 
 
     public delegate void OnUnitPassed(int totalPassed, int requiredToPass);
@@ -55,12 +55,12 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
 
     private void StartEndOfGameCheck()
     {
-        beginCheckingGameEndCondition = true;
+        tilePlayerFinishedPlaying = true;
     }
 
     private void Update()
     {
-        if (!beginCheckingGameEndCondition)
+        if (!tilePlayerFinishedPlaying)
             return;
 
         //Units on map
@@ -69,7 +69,14 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
             return;
         }
 
-        GameManager.Instance.EndGame();
+        if(unitsPassed >= RequiredNumberOfUnitsToPass)
+        {
+            CompleteLevel();
+        }
+        else
+        {
+            GameManager.Instance.EndGame();
+        }
     }
 
     public void UnitPassed()
@@ -79,13 +86,18 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
 
         if (unitsPassed >= RequiredNumberOfUnitsToPass)
         {
-            CompleteLevel();
+            GotEnoughUnitsToCompleteLevel();
         }
+    }
+
+    private void GotEnoughUnitsToCompleteLevel()
+    {
+
     }
 
     public void CompleteLevel()
     {
-        beginCheckingGameEndCondition = false;
+        tilePlayerFinishedPlaying = false;
         CurrentLevelCompleted = true;
         if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Normal)
             RewardManager.Instance.GiveRewards();
@@ -97,6 +109,6 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
     {
         unitsPassed = 0;
         CurrentLevelCompleted = false;
-        beginCheckingGameEndCondition = false;
+        tilePlayerFinishedPlaying = false;
     }
 }

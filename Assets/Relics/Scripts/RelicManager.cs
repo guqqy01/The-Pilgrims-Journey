@@ -84,9 +84,23 @@ namespace Relics
 
         public void AddRelic(RelicSO relicSO)
         {
-            Relic relic = new Relic(relicSO);
-            relics.Add(relic);
-
+            bool relicAlreadyInManager = false;
+            foreach(Relic relic in Relics)
+            {
+                if(relic.relicSO == relicSO)
+                {
+                    relic.Level++;
+                    relicAlreadyInManager = true;
+                    break;
+                }
+            }
+            
+            if (!relicAlreadyInManager)
+            {
+                Relic newRelic = new Relic(relicSO);
+                relics.Add(newRelic);
+            }
+            
             updateUI?.Invoke();
         }
 

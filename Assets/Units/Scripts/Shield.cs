@@ -216,6 +216,10 @@ namespace Units
             }
         }
 
+        public void ModifyShield(string reference, Buff shieldBuff)
+        {
+            RegenerateShield((int)shield.AddBuff(reference, shieldBuff));
+        }
     }
 }
 

@@ -133,9 +133,10 @@ namespace Tiles
             tile.BaseInit(startingTile, startingUnit);
             tile.RotateTo(startTileRotation);
 
+
+
             if(!playerTileGrid.TryPlaceTile(tile, startTilePosition))
             {
-                Debug.LogWarning($"Could not place tile make sure placement and size of tile fits on the tile grid, Placing anywhere thats possible");
                 playerTileGrid.PlaceTiles(new List<TileAndUnit>() { new TileAndUnit(startingTile, startingUnit)});
                 Destroy(tile.gameObject);
             }

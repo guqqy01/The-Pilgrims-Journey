@@ -19,6 +19,8 @@ namespace Relics
     {
         public RelicSO relicSO;
 
+        public int Level = 1;
+
         public bool Active;
 
         public int baseValue;

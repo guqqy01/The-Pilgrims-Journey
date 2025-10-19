@@ -17,7 +17,8 @@ MonoBehaviour:
   sprite: {fileID: 958778337, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 100
   spells:
-  - {fileID: 11400000, guid: bc4eb43082cae214db8b10aa0c9ee92f, type: 2}
+  - spell: {fileID: 11400000, guid: bc4eb43082cae214db8b10aa0c9ee92f, type: 2}
+    amountOfUses: 3
   relicEffects: []
   references:
     version: 2

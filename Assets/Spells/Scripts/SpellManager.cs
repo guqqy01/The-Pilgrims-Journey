@@ -95,6 +95,9 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
 
     public void AddSpell(SpellSO spellSO, int amountOfUses)
     {
+        if (spellSO == null)
+            return;
+
         for (int i = 0; i < Spells.Count; i++)
         {
             if (Spells[i].spellSO == spellSO)
@@ -106,7 +109,8 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
 
         Spell spell = new Spell(spellSO, amountOfUses);
 
-        spell.spellSO.spellEffects.ForEach(x => x.Reset());
+        if(spell.spellSO.spellEffects != null)
+            spell.spellSO.spellEffects.ForEach(x => x.Reset());
 
         Spells.Add(spell);
 
