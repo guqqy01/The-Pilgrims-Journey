@@ -51,8 +51,11 @@ namespace Map
 
         [SerializeField]
         private int mapSizeX = 32;
+        public int MapSizeX => mapSizeX;
 
-        private const int mapSizeY = 18;
+        [SerializeField]
+        private int mapSizeY = 18;
+        public int MapSizeY => mapSizeY;
 
         private int randomTargetDirection 
         {
@@ -130,6 +133,11 @@ namespace Map
             SetupCamera(previewCamera);
         }
 
+        private void SetupCamera(Camera camera)
+        {
+            camera.transform.position = new Vector3(MapSizeX / 2f - 0.5f, MapSizeY / 2f - 0.5f, -10f);
+            camera.orthographicSize = MapSizeY / 1.6f;
+        }
 
         private void GeneratePreviewMap(LocalMapGenerationSettings generationSettings, MapGenerationPreviewSettings previewSettings, List<int> terrainIndecies)
         {
@@ -213,7 +221,7 @@ namespace Map
 
             UnityEngine.Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
-            SetupCamera(cam);
+            LocalCameraMovementManager.Instance.FullZoomCamera();
 
             occupiedSpots.Clear();
 
@@ -241,11 +249,7 @@ namespace Map
 
 
 
-        private void SetupCamera(Camera camera)
-        {
-            camera.transform.position = new Vector3(mapSizeX / 2f - 0.5f, mapSizeY / 2f - 0.5f, -10f);
-            camera.orthographicSize = mapSizeY / 1.6f;
-        }
+       
 
         private void DestroyMapObjects()
         {

@@ -2,389 +2,61 @@
 using UnityEngine;
 
 [Serializable]
-public struct IntOrFloatObject
+public struct IntOrFloatObject : IEquatable<IntOrFloatObject>
 {
-    [SerializeField]
-    private int intValue;
-    [SerializeField]
-    private float floatValue;
+    [SerializeField] private int intValue;
+    [SerializeField] private float floatValue;
+    [SerializeField] private bool isInt;
 
-    [SerializeField]
-    private bool isInt;
+    public bool IsInt => isInt;
+    public bool IsFloat => !isInt;
 
-    public bool IsInt
+    public int IntValue => isInt ? intValue : Mathf.RoundToInt(floatValue);
+    public float FloatValue => isInt ? intValue : floatValue;
+
+    public object Value => isInt ? intValue : floatValue;
+
+    // Constructors
+    public IntOrFloatObject(int value)
     {
-        get
-        {
-            return isInt;
-        }
-        set
-        {
-            isInt = value;
-        }
-    }
-    public bool IsFloat
-    {
-        get
-        {
-            return !isInt;
-        }
-        set
-        {
-            isInt = !value;
-        }
-    }
-
-    public int IntValue => IsInt ? (int)intValue : throw new Exception("object is not an int");
-    public float FloatValue =>  IsFloat ? (float)floatValue : throw new Exception("object is not a float");
-
-    public object Value
-    {
-        get
-        {
-            if(IsInt)
-            {
-                return IntValue;
-            }
-            else if(IsFloat)
-            {
-                return FloatValue;
-            }
-
-            return null;
-        }
-    }
-
-    public IntOrFloatObject(int intValue)
-    {
+        intValue = value;
+        floatValue = value;
         isInt = true;
-        this.intValue = intValue;
-        floatValue = 0;
     }
 
-    public IntOrFloatObject(float floatValue)
+    public IntOrFloatObject(float value)
     {
+        intValue = Mathf.RoundToInt(value);
+        floatValue = value;
         isInt = false;
-        intValue = 0;
-        this.floatValue = floatValue;
     }
 
-    public IntOrFloatObject(object value)
-    {
-        
-        if(value is float)
-        {
-            isInt = false;
-            intValue = 0;
-            this.floatValue = (float)value;
-            return;
-        }
-        else if(value is int)
-        {
-            isInt = true;
-            this.intValue = (int)value;
-            floatValue = 0;
-            return;
-        }
+    // Implicit conversions
+    public static implicit operator IntOrFloatObject(int value) => new IntOrFloatObject(value);
+    public static implicit operator IntOrFloatObject(float value) => new IntOrFloatObject(value);
 
-        throw new Exception();
-    }
+    public static implicit operator float(IntOrFloatObject obj) => obj.FloatValue;
+    public static explicit operator int(IntOrFloatObject obj) => obj.IntValue;
 
-    public static bool operator >(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if (obj1.IsInt && obj2.IsInt)
-        {
-            return obj1.IntValue > obj2.IntValue;
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return obj1.FloatValue > obj2.FloatValue;
-        }
+    // Equality
+    public bool Equals(IntOrFloatObject other) => Mathf.Approximately(FloatValue, other.FloatValue);
+    public override bool Equals(object obj) => obj is IntOrFloatObject other && Equals(other);
+    public override int GetHashCode() => FloatValue.GetHashCode();
 
-        throw new Exception("Null");
-    }
+    public static bool operator ==(IntOrFloatObject a, IntOrFloatObject b) => a.Equals(b);
+    public static bool operator !=(IntOrFloatObject a, IntOrFloatObject b) => !a.Equals(b);
 
-    public static bool operator <(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if (obj1.IsInt && obj2.IsInt)
-        {
-            return obj1.IntValue < obj2.IntValue;
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return obj1.FloatValue < obj2.FloatValue;
-        }
+    // Comparisons
+    public static bool operator >(IntOrFloatObject a, IntOrFloatObject b) => a.FloatValue > b.FloatValue;
+    public static bool operator <(IntOrFloatObject a, IntOrFloatObject b) => a.FloatValue < b.FloatValue;
+    public static bool operator >=(IntOrFloatObject a, IntOrFloatObject b) => a.FloatValue >= b.FloatValue;
+    public static bool operator <=(IntOrFloatObject a, IntOrFloatObject b) => a.FloatValue <= b.FloatValue;
 
-        throw new Exception("Null");
-    }
+    // Arithmetic
+    public static IntOrFloatObject operator +(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue + b.FloatValue);
+    public static IntOrFloatObject operator -(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue - b.FloatValue);
+    public static IntOrFloatObject operator *(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue * b.FloatValue);
+    public static IntOrFloatObject operator /(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue / b.FloatValue);
 
-    public static bool operator >=(IntOrFloatObject obj1, float f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue >= f;
-        }
-        else
-        {
-            return obj1.floatValue >= f;
-        }
-    }
-
-    public static bool operator <=(IntOrFloatObject obj1, float f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue <= f;
-        }
-        else
-        {
-            return obj1.floatValue <= f;
-        }
-    }
-
-    public static bool operator >=(float f, IntOrFloatObject obj1)
-    {
-        if (obj1.IsInt)
-        {
-            return f >= obj1.intValue;
-        }
-        else
-        {
-            return f >= obj1.floatValue;
-        }
-    }
-
-    public static bool operator <=(float f, IntOrFloatObject obj1)
-    {
-        if (obj1.IsInt)
-        {
-            return f <= obj1.intValue;
-        }
-        else
-        {
-            return f <= obj1.floatValue;
-        }
-    }
-
-    public static bool operator >(IntOrFloatObject obj1, int f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue > f;
-        }
-        else
-        {
-            return obj1.floatValue > f;
-        }
-    }
-
-    public static bool operator <(IntOrFloatObject obj1, int f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue < f;
-        }
-        else
-        {
-            return obj1.floatValue < f;
-        }
-    }
-
-    public static bool operator >=(IntOrFloatObject obj1, int f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue >= f;
-        }
-        else
-        {
-            return obj1.floatValue >= f;
-        }
-    }
-
-    public static bool operator <=(IntOrFloatObject obj1, int f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue <= f;
-        }
-        else
-        {
-            return obj1.floatValue <= f;
-        }
-    }
-
-    public static bool operator ==(IntOrFloatObject obj1, int f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue == f;
-        }
-        else
-        {
-            return obj1.floatValue == f;
-        }
-    }
-
-    public static bool operator !=(IntOrFloatObject obj1, int f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.intValue != f;
-        }
-        else
-        {
-            return obj1.floatValue != f;
-        }
-    }
-
-    public static IntOrFloatObject operator +(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if(obj1.IsInt && obj2.IsInt)
-        {
-            return new IntOrFloatObject(obj1.IntValue + obj2.IntValue);
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return new IntOrFloatObject(obj1.FloatValue + obj2.FloatValue);
-        }
-
-        throw new Exception();
-    }
-
-    public static IntOrFloatObject operator -(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if (obj1.IsInt && obj2.IsInt)
-        {
-            return new IntOrFloatObject(obj1.IntValue - obj2.IntValue);
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return new IntOrFloatObject(obj1.FloatValue - obj2.FloatValue);
-        }
-
-        throw new Exception("Null");
-    }
-
-    public static IntOrFloatObject operator /(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if (obj1.IsInt && obj2.IsInt)
-        {
-            return new IntOrFloatObject(obj1.IntValue / obj2.IntValue);
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return new IntOrFloatObject(obj1.FloatValue / obj2.FloatValue);
-        }
-
-        throw new Exception("Null");
-    }
-
-    public static IntOrFloatObject operator * (float f, IntOrFloatObject obj)
-    {
-        if (obj.IsInt)
-        {
-            return new IntOrFloatObject(Mathf.RoundToInt(obj.IntValue * f));
-        }
-        else if (obj.IsFloat)
-        {
-            return new IntOrFloatObject(obj.FloatValue * f);
-        }
-
-        throw new Exception("Null");
-    }
-
-    public static IntOrFloatObject operator *(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if (obj1.IsInt && obj2.IsInt)
-        {
-            return new IntOrFloatObject(obj1.IntValue * obj2.IntValue);
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return new IntOrFloatObject(obj1.FloatValue * obj2.FloatValue);
-        }
-
-        throw new Exception("Null");
-    }
-
-    public static IntOrFloatObject operator *(IntOrFloatObject obj, float f)
-    {
-        if (obj.IsInt)
-        {
-            return new IntOrFloatObject(Mathf.CeilToInt(obj.IntValue * f));
-        }
-        else if (obj.IsFloat)
-        {
-            return new IntOrFloatObject(obj.FloatValue * f);
-        }
-
-        throw new Exception("Null");
-    }
-
-    public static bool operator !=(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if (obj1.IsInt && obj2.IsInt)
-        {
-            return obj1.IntValue != obj2.IntValue;
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return obj1.FloatValue != obj2.FloatValue;
-        }
-
-        throw new Exception("Null");
-    }
-
-    public override bool Equals(object obj)
-    {
-        return base.Equals(obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
-
-    public static bool operator ==(IntOrFloatObject obj1, IntOrFloatObject obj2)
-    {
-        if (obj1.IsInt && obj2.IsInt)
-        {
-            return obj1.IntValue == obj2.IntValue;
-        }
-        else if (obj1.IsFloat && obj2.IsFloat)
-        {
-            return obj1.FloatValue == obj2.FloatValue;
-        }
-
-        throw new Exception("Null");
-    }
-
-    public static bool operator !=(IntOrFloatObject obj1, float f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.IntValue != f;
-        }
-        else if (obj1.IsFloat)
-        {
-            return obj1.FloatValue != f;
-        }
-
-        throw new Exception("Null");
-    }
-
-    public static bool operator ==(IntOrFloatObject obj1, float f)
-    {
-        if (obj1.IsInt)
-        {
-            return obj1.IntValue == f;
-        }
-        else if (obj1.IsFloat)
-        {
-            return obj1.FloatValue == f;
-        }
-
-        throw new Exception("Null");
-    }
+    public override string ToString() => isInt ? intValue.ToString() : floatValue.ToString("0.###");
 }

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 [Serializable]
 public class Upgrade
 {
-    public int Level { private set; get; } = 0;
+    public int Level { get; private set; } = 0;
 
     public delegate void OnLevelUp(int level);
     public OnLevelUp onLevelUp;
@@ -14,159 +12,78 @@ public class Upgrade
     public UnitStatsEnum stat;
     public BuffType buffType;
 
-    [SerializeField]
-    private int[] intValues = new int[5];
-    [SerializeField]
-    private float[] floatValues = new float[5];
+    [SerializeField] private int[] intValues = new int[5];
+    [SerializeField] private float[] floatValues = new float[5];
 
-    public Buff GetBuffAtLevel(int Level)
+    private bool IsIntStat => stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield;
+
+    public Buff GetBuffAtLevel(int level) => GetBuff(GetValueAtLevel(level));
+
+    public Buff GetBuff() => GetBuff(Value);
+
+    private Buff GetBuff(IntOrFloatObject value)
     {
-        object value = GetValueAtLevel(Level);
-
-        return GetBuff(value);
-    }
-
-    public Buff GetBuff()
-    {
-        return GetBuff(Value);
-    }
-
-    public Buff GetBuff(object value)
-    {
-        switch (buffType)
+        return buffType switch
         {
-            case BuffType.Multiplier:
-                if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
-                {
-                    return new Buff(stat, (float)value, 0, 0);
-                }
-                else
-                {
-                    return new Buff(stat, (float)value, 0f, 0f);
-                }
-            case BuffType.Base:
-                if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
-                {
-                    return new Buff(stat, 0f, (int)value, 0);
-                }
-                else
-                {
-                    return new Buff(stat, 0f, (float)value, 0f);
-                }
-            case BuffType.Additional:
-                if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
-                {
-                    return new Buff(stat, 0f, 0, (int)value);
-                }
-                else
-                {
-                    return new Buff(stat, 0f, 0f, (float)value);
-                }
-            default:
-                break;
-        }
-
-
-        throw new NotImplementedException();
+            BuffType.Multiplier => new Buff(stat, (float)value, 0, 0),
+            BuffType.Base => new Buff(stat, 0f, value, 0),
+            BuffType.Additional => new Buff(stat, 0f, 0, value),
+            _ => throw new NotImplementedException()
+        };
     }
 
-    public object[] Values
+    public IntOrFloatObject[] Values
     {
         get
         {
-            object[] objs = new object[5];
-
-            if (buffType != BuffType.Multiplier && (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield))
+            if (IsIntStat && buffType != BuffType.Multiplier)
             {
+                var objs = new IntOrFloatObject[intValues.Length];
                 for (int i = 0; i < intValues.Length; i++)
-                {
-                    objs[i] = intValues[i];
-                }
+                    objs[i] = new IntOrFloatObject(intValues[i]);
+                return objs;
             }
             else
             {
-                for (int i = 0; i < intValues.Length; i++)
-                {
-                    objs[i] = floatValues[i];
-                }
+                var objs = new IntOrFloatObject[floatValues.Length];
+                for (int i = 0; i < floatValues.Length; i++)
+                    objs[i] = new IntOrFloatObject(floatValues[i]);
+                return objs;
             }
-
-            return objs;
         }
     }
 
-    public object Value
+    public IntOrFloatObject Value => GetValueAtLevel(Level);
+
+    public IntOrFloatObject NextValue
     {
         get
         {
-            if(Level == 0)
-            {
-                if(buffType == BuffType.Multiplier)
-                {
-                    return 0f;
-                }
-                else
-                {
-                    if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
-                        return 0;
-
-                    return 0f;
-                }
-            }
-
-            if(buffType != BuffType.Multiplier && (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield))
-                return intValues[Level - 1];
-
-            return floatValues[Level - 1];
+            int max = IsIntStat && buffType != BuffType.Multiplier ? intValues.Length : floatValues.Length;
+            int nextLevel = Mathf.Clamp(Level + 1, 0, max);
+            return GetValueAtLevel(nextLevel);
         }
     }
 
-    public object NextValue
-    {
-        get
-        {
-            if (buffType != BuffType.Multiplier && (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield))
-            {
-                if(Level == 5)
-                    return intValues[Level - 1];
-
-                return intValues[Level];
-            }
-
-            if (Level == 5)
-                return floatValues[Level - 1];
-
-            return floatValues[Level];
-        } 
-    }
-
-    public object GetValueAtLevel(int level)
+    public IntOrFloatObject GetValueAtLevel(int level)
     {
         if (level == 0)
         {
             if (buffType == BuffType.Multiplier)
-            {
-                return 0f;
-            }
-            else
-            {
-                if (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield)
-                    return 0;
-
-                return 0f;
-            }
+                return new IntOrFloatObject(0f);
+            return IsIntStat ? new IntOrFloatObject(0) : new IntOrFloatObject(0f);
         }
 
-        if (buffType != BuffType.Multiplier && (stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield))
-            return intValues[level - 1];
+        if (IsIntStat && buffType != BuffType.Multiplier)
+            return new IntOrFloatObject(intValues[level - 1]);
 
-        return floatValues[level - 1];
+        return new IntOrFloatObject(floatValues[level - 1]);
     }
 
     public void TryLevelUp()
     {
-        Level = Mathf.Clamp(Level + 1, 0, intValues.Length);
-
+        int max = IsIntStat && buffType != BuffType.Multiplier ? intValues.Length : floatValues.Length;
+        Level = Mathf.Clamp(Level + 1, 0, max);
         onLevelUp?.Invoke(Level);
     }
 }

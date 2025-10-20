@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,83 +6,81 @@ public class UpgradeMenuItem : MonoBehaviour
 {
     private Upgrade upgrade;
 
-    public Text upgradeNameText;
-    public Text upgradeDescription;
+    [Header("UI References")]
+    [SerializeField] private Text upgradeNameText;
+    [SerializeField] private Text upgradeDescription;
+    [SerializeField] private Transform levelSquaresHolder;
+    [SerializeField] private Image squareImagePrefab;
+    [SerializeField] private Sprite emptySquare;
+    [SerializeField] private Sprite filledSquare;
+    [SerializeField] private Button button;
+    [SerializeField] private Text buttonText;
 
-    public Transform levelSquaresHolder;
-    public Sprite emptySquare;
-    public Sprite filledSquare;
-
-    private List<Image> levelSquares = new List<Image>();
-
-    [SerializeField]
-    private Image squareImagePrefab;
-
-    [SerializeField]
-    private Button button;
-    [SerializeField]
-    private Text buttonText;
+    private readonly List<Image> levelSquares = new();
 
     public void Init(Upgrade upgrade)
     {
         this.upgrade = upgrade;
-        upgradeNameText.text = upgrade.stat + " " + upgrade.buffType;
 
-        string currentSign = "";
+        upgradeNameText.text = $"{upgrade.stat} {upgrade.buffType}";
+        UpdateDescription();
+        UpdateSquares();
+        UpdateButton();
+    }
 
-        if(upgrade.buffType == BuffType.Multiplier)
+    private void UpdateDescription()
+    {
+        string currentSign = GetSign(upgrade.Value);
+        string nextSign = GetSign(upgrade.NextValue);
+
+        if (upgrade.Level < upgrade.Values.Length)
         {
-            currentSign = "x";
+            upgradeDescription.text = $"Current {currentSign}{upgrade.Value} -> {nextSign}{upgrade.NextValue}";
         }
-        else if((upgrade.Value is float floatValue && floatValue >= 0f) || (upgrade.Value is int intValue && intValue >= 0))
-        {
-            currentSign = "+";
-        }
-
-        string nextSign = "";
-
-        if (upgrade.buffType == BuffType.Multiplier)
-        {
-            nextSign = "x";
-        }
-        else if((upgrade.NextValue is float floatValue && floatValue >= 0f) || (upgrade.NextValue is int intValue && intValue >= 0))
-        {
-            nextSign = "+";
-        }
-
-        string upgradeDescriptionString = "";
-        if (upgrade.Level < 5)
-            upgradeDescriptionString = "Current " + currentSign + upgrade.Value.ToString() + " -> " + nextSign + upgrade.NextValue.ToString();
         else
-            upgradeDescriptionString = currentSign + upgrade.Value.ToString() + " Max";
-
-        upgradeDescription.text = upgradeDescriptionString;
-
-        for (int i = 0; i < levelSquares.Count; i++)
         {
-            if (levelSquares[i] != null)
-                Destroy(levelSquares[i].gameObject);
+            upgradeDescription.text = $"{currentSign}{upgrade.Value} Max";
         }
+    }
 
+    private void UpdateSquares()
+    {
+        // Clear old squares
+        foreach (var square in levelSquares)
+        {
+            if (square != null) Destroy(square.gameObject);
+        }
         levelSquares.Clear();
 
-        for (int i = 0; i <  upgrade.Values.Length; i++)
+        // Create new squares
+        for (int i = 0; i < upgrade.Values.Length; i++)
         {
-            Image squareImage = Instantiate(squareImagePrefab, levelSquaresHolder);
-
+            var squareImage = Instantiate(squareImagePrefab, levelSquaresHolder);
             squareImage.sprite = upgrade.Level > i ? filledSquare : emptySquare;
-
             levelSquares.Add(squareImage);
         }
+    }
 
-        button.interactable = upgrade.Level < 5 && ResourceManager.Instance.UpgradePoints > 0;
-        buttonText.text = (upgrade.Level < 5) ? "Upgrade" : "Max";
+    private void UpdateButton()
+    {
+        bool canUpgrade = upgrade.Level < upgrade.Values.Length && ResourceManager.Instance.UpgradePoints > 0;
+        button.interactable = canUpgrade;
+        buttonText.text = canUpgrade ? "Upgrade" : "Max";
+    }
+
+    private string GetSign(object value)
+    {
+        if (upgrade.buffType == BuffType.Multiplier) return "x";
+
+        if (value is float f && f >= 0f) return "+";
+        if (value is int i && i >= 0) return "+";
+
+        return string.Empty;
     }
 
     public void UpgradeButtonPress()
     {
         upgrade.TryLevelUp();
-        
         Init(upgrade);
     }
 }

@@ -22,8 +22,6 @@ public class ExperienceAndLevelingManager : MonoBehaviour, ISingletonToBeInitiat
         {
             Instance = this;
         }
-
-        
     }
 
     private void Awake()

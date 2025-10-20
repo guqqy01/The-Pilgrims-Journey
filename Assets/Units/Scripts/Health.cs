@@ -6,47 +6,24 @@ using Equipment;
 
 namespace Units
 {
-    public class UnitBuffableStat : MonoBehaviour
-    {
-        private BuffableStat buffableStat;
-
-        public object Stat => buffableStat.Value;
-
-        public void Init(UnitSO unitSO, UnitStatsEnum unitStat)
-        {
-            switch (unitStat)
-            {
-                case UnitStatsEnum.Health:
-                    buffableStat = new BuffableStat();
-                    break;
-                case UnitStatsEnum.Shield:
-                    buffableStat = new BuffableStat();
-                    break;
-                case UnitStatsEnum.ShieldRegeneration:
-                    buffableStat = new BuffableStat();
-                    break;
-                case UnitStatsEnum.ShieldCooldown:
-                    buffableStat = new BuffableStat();
-                    break;
-                case UnitStatsEnum.MovementSpeed:
-                    buffableStat = new BuffableStat();
-                    break;
-                case UnitStatsEnum.SpawnRate:
-                    buffableStat = new BuffableStat();
-                    break;
-            }
-        }
-
-        public void Buff(string buffName, Buff buff)
-        {
-            buffableStat.AddBuff(buffName, buff);
-        }
-    }
-
     public class Health : MonoBehaviour
     {
         private BuffableStat maxHealth;
-        public int MaxHealth => (int)maxHealth.Value.Value;
+        public int MaxHealth
+        {
+            get
+            {
+                var stat = maxHealth.Value;
+
+                // If this stat is int-based, use IntValue
+                if (stat.IsInt)
+                    return stat.IntValue;
+
+                // If it’s float-based (because of buffs), round it
+                return Mathf.RoundToInt(stat.FloatValue);
+            }
+        }
+
         public int currentHealth { private set; get; } = 5;
 
         public delegate void OnDie();
@@ -58,6 +35,8 @@ namespace Units
         public void Init(UnitSO unitSO)
         {
             maxHealth = new BuffableStat(unitSO.Health);
+
+            Debug.Log(maxHealth.Value.IsInt);
 
             currentHealth = MaxHealth;
             onHealthChange?.Invoke(currentHealth);
@@ -92,8 +71,7 @@ namespace Units
                     }
                 }
             }
-                
-                
+
             currentHealth = MaxHealth;
             onHealthChange?.Invoke(currentHealth);
         }

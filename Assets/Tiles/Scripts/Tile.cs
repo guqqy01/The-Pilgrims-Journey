@@ -388,22 +388,36 @@ namespace Tiles
 
         private IntOrFloatObject GetStat(UnitStatsEnum stat)
         {
-            Buff buff = new Buff(stat);
+            // Start with base stat
+            var baseValue = new IntOrFloatObject(unitSO.GetStat(stat));
 
-            buff += GetTileBuff(stat);
-            buff += UpgradeManager.Instance.GetBuff(stat);
-
-            foreach (EquipmentSO equipment in Equipment)
+            // Collect buffs
+            List<Buff> allBuffs = new List<Buff>
             {
-                if (equipment == null) continue;
+                GetTileBuff(stat),
+                UpgradeManager.Instance.GetBuff(stat)
+            };
 
-                if (equipment.TryGetBuff(stat, out Buff outBuff))
+            foreach (var equipment in Equipment)
+            {
+                if (equipment != null && equipment.TryGetBuff(stat, out Buff outBuff))
                 {
-                    buff += outBuff;
+                    allBuffs.Add(outBuff);
                 }
             }
 
-            return buff.Value(new IntOrFloatObject(unitSO.GetStat(stat)));
+            // Combine buffs if any
+            if (allBuffs.Count == 0)
+                return baseValue;
+
+            Buff combined = allBuffs[0];
+            for (int i = 1; i < allBuffs.Count; i++)
+            {
+                combined += allBuffs[i];
+            }
+
+            // Apply buffs to base value
+            return combined.Value(baseValue);
         }
 
 
@@ -431,7 +445,8 @@ namespace Tiles
         {
             get
             {
-                return (int)GetStat(UnitStatsEnum.Health).Value;
+                var stat = GetStat(UnitStatsEnum.Health);
+                return stat.IsInt ? stat.IntValue : Mathf.RoundToInt(stat.FloatValue);
             }
         }
 
@@ -439,9 +454,11 @@ namespace Tiles
         {
             get
             {
-                return (int)GetStat(UnitStatsEnum.Shield).Value;
+                var stat = GetStat(UnitStatsEnum.Shield);
+                return stat.IsInt ? stat.IntValue : Mathf.RoundToInt(stat.FloatValue);
             }
         }
+
 
         public float ShieldRegenerationValue
         {

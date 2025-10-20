@@ -9,7 +9,20 @@ namespace Units
     public class Shield : MonoBehaviour
     {
         private BuffableStat shield;
-        public int MaxShield => (int)shield.Value.Value;
+        public int MaxShield
+        {
+            get
+            {
+                var stat = shield.Value;
+
+                // If this stat is int-based, use IntValue
+                if (stat.IsInt)
+                    return stat.IntValue;
+
+                // If it’s float-based (because of buffs), round it
+                return Mathf.RoundToInt(stat.FloatValue);
+            }
+        }
         public int CurrentShield { private set; get; } = 5;
 
 
@@ -156,7 +169,7 @@ namespace Units
 
         private void HandleRegeneration()
         {
-            if (shield.Value == null)
+            if (shield == null || shield.Value == null)
                 return;
 
             if (CurrentShield == MaxShield) return;

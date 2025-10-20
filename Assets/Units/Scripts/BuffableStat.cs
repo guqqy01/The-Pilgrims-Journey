@@ -1,87 +1,61 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Units
 {
-    public struct BuffableStat
+    [Serializable]
+    public class BuffableStat
     {
-        private object baseStat;
-        public IntOrFloatObject Value { private set; get; }
+        private readonly IntOrFloatObject baseStat;
+        public IntOrFloatObject Value { get; private set; }
 
-        private Dictionary<string, Buff> buffs;
+        private readonly Dictionary<string, Buff> buffs = new();
 
-        public BuffableStat(object baseStat)
+        public BuffableStat(int baseStat)
         {
-            if (baseStat is not int && baseStat is not float)
-            {
-                throw new System.Exception("Buffable stat needs to be either an int or float");
-            }
-
-            this.baseStat = baseStat;
-            buffs = new Dictionary<string, Buff>();
-            Value = new IntOrFloatObject(baseStat);
+            this.baseStat = new IntOrFloatObject(baseStat);
+            Value = this.baseStat;
         }
 
-        public object AddBuff(string reference, Buff intBuff)
+        public BuffableStat(float baseStat)
         {
-            IntOrFloatObject previous = Value;
-
-            if (buffs.ContainsKey(reference))
-            {
-                buffs[reference] = intBuff;
-            }
-            else
-            {
-                buffs.Add(reference, intBuff);
-            }
-
-            RefreshValue();
-
-            if(baseStat is int)
-            {
-                return (int)Value.Value - (int)previous.Value;
-            }
-            else
-            {
-                return (float)Value.Value - (float)previous.Value;
-            }
+            this.baseStat = new IntOrFloatObject(baseStat);
+            Value = this.baseStat;
         }
 
-        public object RemoveBuff(string reference)
+        public IntOrFloatObject AddBuff(string reference, Buff buff)
         {
-            IntOrFloatObject previous = Value;
-
-            if (buffs.ContainsKey(reference))
-            {
-                buffs.Remove(reference);
-            }
-
+            var previous = Value;
+            buffs[reference] = buff; // add or replace
             RefreshValue();
+            return Value - previous;
+        }
 
-            if(baseStat is int)
-            {
-                return (int)Value.Value - (int)previous.Value;
-            }
-            else
-            {
-                return (float)Value.Value - (float)previous.Value;
-            }
+        public IntOrFloatObject RemoveBuff(string reference)
+        {
+            var previous = Value;
+            buffs.Remove(reference);
+            RefreshValue();
+            return Value - previous;
         }
 
         private void RefreshValue()
         {
-            Buff buff = buffs.First().Value;
-
-            foreach (KeyValuePair<string, Buff> kvp in buffs)
+            if (buffs.Count == 0)
             {
-                if (buff == kvp.Value) continue;
-
-                buff += kvp.Value;
+                Value = baseStat;
+                return;
             }
 
-            Value = buff.Value(new IntOrFloatObject(baseStat));
+            // Combine all buffs
+            Buff combined = null;
+            foreach (var buff in buffs.Values)
+            {
+                combined = combined == null ? buff : combined + buff;
+            }
+
+            Value = combined.Value(baseStat);
         }
     }
 }
-

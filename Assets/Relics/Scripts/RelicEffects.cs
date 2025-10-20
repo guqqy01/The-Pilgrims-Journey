@@ -29,10 +29,13 @@ namespace Relics
                 return;
             }
 
-            Buff shieldBuff = new Buff(UnitStatsEnum.Shield) 
-            { 
-                AdditionalBuff = new IntOrFloatObject(shieldAmountPerLevel * Relic.Level) 
-            };
+            Buff shieldBuff = new Buff(
+                UnitStatsEnum.Shield,
+                0f,
+                new IntOrFloatObject(0),
+                new IntOrFloatObject(shieldAmountPerLevel * Relic.Level)
+            );
+
 
             unit.Shield.ModifyShield("StartShieldEffect" + GetHashCode(), shieldBuff);
         }
@@ -64,7 +67,13 @@ namespace Relics
                 return;
             }
 
-            unit.Movement.ModifySpeedForTime("StartMovementBuffEffect" + GetHashCode(), new Buff(UnitStatsEnum.MovementSpeed) { AdditionalBuff = new IntOrFloatObject(shieldAmount) }, movementBuffTime);
+            Buff moveBuff = new Buff(
+                UnitStatsEnum.MovementSpeed,
+                0f,
+                new IntOrFloatObject(0f),
+                new IntOrFloatObject(shieldAmount) // consider renaming shieldAmount ? movementAmount
+            );
+            unit.Movement.ModifySpeedForTime("StartMovementBuffEffect" + GetHashCode(), moveBuff, movementBuffTime);
         }
     }
 
