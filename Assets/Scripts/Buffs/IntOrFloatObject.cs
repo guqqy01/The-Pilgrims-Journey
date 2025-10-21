@@ -53,10 +53,38 @@ public struct IntOrFloatObject : IEquatable<IntOrFloatObject>
     public static bool operator <=(IntOrFloatObject a, IntOrFloatObject b) => a.FloatValue <= b.FloatValue;
 
     // Arithmetic
-    public static IntOrFloatObject operator +(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue + b.FloatValue);
-    public static IntOrFloatObject operator -(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue - b.FloatValue);
-    public static IntOrFloatObject operator *(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue * b.FloatValue);
-    public static IntOrFloatObject operator /(IntOrFloatObject a, IntOrFloatObject b) => new IntOrFloatObject(a.FloatValue / b.FloatValue);
+    public static IntOrFloatObject operator +(IntOrFloatObject a, IntOrFloatObject b) 
+    {
+        if (a.isInt || b.isInt)
+        {
+            return new IntOrFloatObject(a.IntValue + b.IntValue);
+        }
+        return new IntOrFloatObject(a.FloatValue + b.FloatValue);
+    } 
+    public static IntOrFloatObject operator -(IntOrFloatObject a, IntOrFloatObject b)
+    {
+        if (a.isInt || b.isInt)
+        {
+            return new IntOrFloatObject(a.IntValue - b.IntValue);
+        }
+        return new IntOrFloatObject(a.FloatValue - b.FloatValue);
+    }
+    public static IntOrFloatObject operator *(IntOrFloatObject a, IntOrFloatObject b)
+    {
+        if (a.isInt || b.isInt)
+        {
+            return new IntOrFloatObject(a.IntValue * b.IntValue);
+        }
+        return new IntOrFloatObject(a.FloatValue * b.FloatValue);
+    }
+    public static IntOrFloatObject operator /(IntOrFloatObject a, IntOrFloatObject b)
+    {
+        if (a.isInt || b.isInt)
+        {
+            return new IntOrFloatObject(a.IntValue / b.IntValue);
+        }
+        return new IntOrFloatObject(a.FloatValue / b.FloatValue);
+    }
 
     public override string ToString() => isInt ? intValue.ToString() : floatValue.ToString("0.###");
 }

@@ -14,29 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 1552759026, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: Leather Armor, offering a small amount of protection
-  equipmentBuffs:
-  - stat: 0
-    Multiplier: 10
-    BaseBuff:
-      intValue: 5
-      floatValue: 0
-      isInt: 1
-    AdditionalBuff:
-      intValue: 5
-      floatValue: 0
-      isInt: 1
-  - stat: 1
-    Multiplier: 0
-    BaseBuff:
-      intValue: 5
-      floatValue: 0
-      isInt: 1
-    AdditionalBuff:
-      intValue: 5
-      floatValue: 0
-      isInt: 1
   EquipmentSpecial:
     rid: -2
+  equipmentStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        Multiplier: 10
+        baseBuff:
+          intValue: 0
+          floatValue: 5
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 5
+          isInt: 0
+    - Key: 1
+      Value:
+        Multiplier: 10
+        baseBuff:
+          intValue: 0
+          floatValue: 5
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 5
+          isInt: 0
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

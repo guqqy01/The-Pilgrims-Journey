@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 /*
 Incease gold generation
 Start units get a certain buff
@@ -11,7 +12,6 @@ Buff certain stats, Health, Healing, Shield, etc
 Stun monsters for a short period of time for the beginning of the game
  */
 
-
 namespace Relics
 {
     [Serializable]
@@ -19,7 +19,7 @@ namespace Relics
     {
         public RelicSO relicSO;
 
-        public int Level = 1;
+        public int Level;
 
         public bool Active;
 
@@ -60,10 +60,12 @@ namespace Relics
         [SerializeReference]
         public List<RelicEffect> relicEffects = new List<RelicEffect>();
 
-        public Relic(RelicSO relicSO)
+        public Relic(RelicSO relicSO, int level = 1)
         {
             this.relicSO = relicSO;
             baseValue = relicSO.baseValue;
+
+            Level = level;
 
             foreach(RelicEffect effect in relicSO.relicEffects)
             {

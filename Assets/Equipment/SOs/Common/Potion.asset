@@ -15,19 +15,21 @@ MonoBehaviour:
   sprite: {fileID: 1352161438, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: After reaching 40% HP, consume the potion to heal 50% of max HP over
     5 seconds
-  equipmentBuffs:
-  - stat: 0
-    Multiplier: 10
-    BaseBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 1
-    AdditionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 1
   EquipmentSpecial:
     rid: 925506379846778884
+  equipmentStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        Multiplier: 20
+        baseBuff:
+          intValue: 0
+          floatValue: 5
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

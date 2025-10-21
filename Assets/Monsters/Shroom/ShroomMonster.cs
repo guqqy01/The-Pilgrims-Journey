@@ -25,8 +25,6 @@ namespace Monsters
         {
             base.Update();
 
-            /*HandleBloomAudio();*/
-
             if (Time.time >= nextAttackTime)
             {
                 Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, range, targetMask);
@@ -45,10 +43,6 @@ namespace Monsters
             ps.Play();
 
             popSource.Play();
-            /*bloomSource.Play();
-            timeToFallOff = Time.time + playLength * fallOffTimePercent;
-            endTime = Time.time + playLength;
-            playing = true;*/
 
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, range, targetMask);
 
@@ -58,36 +52,13 @@ namespace Monsters
                 {
                     if (colliders[i].TryGetComponent(out Units.Unit unit))
                     {
-                        OnHitInfo hitInfo = unit.Damage(damage);
+                        OnHitInfo hitInfo = unit.Damage(damage, (unit.transform.position - transform.position).normalized);
 
                         OnDamageUnit(hitInfo);
                     }
                 }
             }
         }
-
-        /*private void HandleBloomAudio()
-        {
-            if (!playing)
-                return;
-
-            if (bloomSource.pitch != pitch)
-                bloomSource.pitch = pitch;
-
-            bloomSource.volume = (Time.time <= timeToFallOff) ?
-                volume :
-                ((timeToFallOff == endTime) ?
-                    0 :
-                    volume * (1 - (timeToFallOff / (timeToFallOff - endTime)) + (Time.time / (timeToFallOff - endTime))));
-
-            if (Time.time > endTime)
-            {
-                bloomSource.Stop();
-                playing = false;
-            }
-
-        }*/
-
         protected override void ShockEffect(float time)
         {
             nextAttackTime = Mathf.Max(Time.time, nextAttackTime) + time;

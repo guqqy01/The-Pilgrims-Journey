@@ -14,29 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Equipment.EquipmentSO
   sprite: {fileID: 1361141179, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: a leather cloak
-  equipmentBuffs:
-  - stat: 0
-    Multiplier: 0
-    BaseBuff:
-      intValue: 0
-      floatValue: 2
-      isInt: 1
-    AdditionalBuff:
-      intValue: 5
-      floatValue: 2
-      isInt: 1
-  - stat: 3
-    Multiplier: 0
-    BaseBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
-    AdditionalBuff:
-      intValue: 5
-      floatValue: 0.2
-      isInt: 0
   EquipmentSpecial:
     rid: -2
+  equipmentStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        Multiplier: 0
+        baseBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 5
+          isInt: 0
+    - Key: 3
+      Value:
+        Multiplier: 10
+        baseBuff:
+          intValue: 0
+          floatValue: 0.2
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

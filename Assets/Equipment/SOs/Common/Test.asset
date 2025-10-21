@@ -17,22 +17,22 @@ MonoBehaviour:
   equipmentBuffs:
   - stat: 1
     Multiplier: 10
-    BaseBuff:
-      intValue: 10
+    baseBuff:
+      intValue: 0
+      floatValue: 500
+      isInt: 0
+    additionalBuff:
+      intValue: 0
       floatValue: 0
-      isInt: 1
-    AdditionalBuff:
-      intValue: 10
-      floatValue: 0
-      isInt: 1
+      isInt: 0
   - stat: 2
     Multiplier: 50
-    BaseBuff:
-      intValue: 12
-      floatValue: 100
+    baseBuff:
+      intValue: 0
+      floatValue: 0
       isInt: 0
-    AdditionalBuff:
-      intValue: 10
+    additionalBuff:
+      intValue: 0
       floatValue: 0
       isInt: 0
   EquipmentSpecial:

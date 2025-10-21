@@ -10,6 +10,9 @@ public class RelicCatalogue : MonoBehaviour
     public RelicManager manager;
 
     [SerializeField]
+    private List<RelicSO> allRelics;
+
+    [SerializeField]
     private Image spriteImage;
     [SerializeField]
     private Text nameText;
@@ -26,21 +29,21 @@ public class RelicCatalogue : MonoBehaviour
     {
         manager = RelicManager.Instance;
 
-        UpdateUI(manager.allRelics[index]);
+        UpdateUI(allRelics[index]);
     }
 
     public void LeftButtonClick()
     {
-        index = Mathf.Clamp(index - 1, 0, manager.allRelics.Count - 1);
+        index = Mathf.Clamp(index - 1, 0, allRelics.Count - 1);
 
-        UpdateUI(manager.allRelics[index]);
+        UpdateUI(allRelics[index]);
     }
 
     public void RightButtonClick()
     {
-        index = Mathf.Clamp(index + 1, 0, manager.allRelics.Count - 1);
+        index = Mathf.Clamp(index + 1, 0, allRelics.Count - 1);
 
-        UpdateUI(manager.allRelics[index]);
+        UpdateUI(allRelics[index]);
     }
 
     private void UpdateUI(RelicSO relic)

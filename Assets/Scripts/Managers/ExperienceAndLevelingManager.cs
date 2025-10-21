@@ -38,6 +38,7 @@ public class ExperienceAndLevelingManager : MonoBehaviour, ISingletonToBeInitiat
     {
         Level++;
         CurrentExperience = 0;
+        LevelingUpRewardManager.Instance.SetupRelicsChoices();
     }
 
     private void OnUnitPassed(int x, int y)

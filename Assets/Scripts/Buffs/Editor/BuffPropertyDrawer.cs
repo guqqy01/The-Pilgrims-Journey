@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-[CustomPropertyDrawer(typeof(Buff))]
+/*[CustomPropertyDrawer(typeof(Buff))]
 public class BuffPropertyDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -13,9 +13,9 @@ public class BuffPropertyDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         SerializedProperty statProperty = property.FindPropertyRelative("stat");
-        SerializedProperty baseBuffProp = property.FindPropertyRelative("BaseBuff");
+        SerializedProperty baseBuffProp = property.FindPropertyRelative("baseBuff");
         SerializedProperty multiplierProp = property.FindPropertyRelative("Multiplier");
-        SerializedProperty additionalBuffProp = property.FindPropertyRelative("AdditionalBuff");
+        SerializedProperty additionalBuffProp = property.FindPropertyRelative("additionalBuff");
 
         Rect statRect = new Rect(position) { height = EditorGUIUtility.singleLineHeight };
         Rect formulaRect = new Rect(position) { yMin = statRect.yMax + 2f, height = 2f * EditorGUIUtility.singleLineHeight + 2f };
@@ -35,7 +35,7 @@ public class BuffPropertyDrawer : PropertyDrawer
         PropertyInLineDrawer.DrawPropertiesInText(
             formulaRect,
             property,
-            "(^BaseBuff^ + Base Value) * ^Multiplier^ + ^AdditionalBuff^",
+            "(^baseBuff^ + Base Value) * ^Multiplier^ + ^additionalBuff^",
             new GUIContent("Total Buff"),
             '^'
         );
@@ -57,22 +57,15 @@ public class BuffPropertyDrawer : PropertyDrawer
                 : new IntOrFloatObject(additionalBuffProp.FindPropertyRelative("floatValue").floatValue);
 
             Buff buff = new Buff(
-                (UnitStatsEnum)statProperty.enumValueIndex,
                 multiplierProp.floatValue,
                 baseBuffValue,
                 additionalBuffValue
             );
-
-
-            int totalValue = BuffValueCalculator.GetValue(buff, out int baseGold, out int multiplierGold, out int additionalGold);
-
-            EditorGUI.LabelField(new Rect(goldValuesRect) { width = width }, $"{baseGold}g");
-            EditorGUI.LabelField(new Rect(goldValuesRect) { xMin = goldValuesRect.xMin + width + 2f, width = width }, $"{multiplierGold}g");
-            EditorGUI.LabelField(new Rect(goldValuesRect) { xMin = goldValuesRect.xMin + 2f * width + 4f, width = width }, $"{additionalGold}g");
         }
         catch (Exception e)
         {
             EditorGUI.HelpBox(goldValuesRect, $"Error calculating buff: {e.Message}", MessageType.Error);
+            Debug.LogError(e);
         }
     }
-}
+}*/

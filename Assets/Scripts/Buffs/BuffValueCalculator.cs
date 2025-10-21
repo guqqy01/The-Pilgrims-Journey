@@ -6,19 +6,19 @@ public static class BuffValueCalculator
 
     public static float additionalReducedValueToBase = 0.8f;
 
-    public static int GetValue(Buff buff, out int baseBuffValue, out int multiplierBuffValue, out int additionalBuffValue)
+    public static int GetValue(Buff buff, UnitStatsEnum Stat ,out int baseBuffValue, out int multiplierBuffValue, out int additionalBuffValue)
     {
-        switch (buff.Stat)
+        switch (Stat)
         {
             case UnitStatsEnum.Health:
-                baseBuffValue = CalculateHealthBaseBuffValue((int)buff.BaseBuff.Value);
+                baseBuffValue = CalculateHealthBaseBuffValue(buff.BaseBuff.IntValue);
                 multiplierBuffValue = CalculateHealthMultiplierBuffValue(buff.Multiplier);
-                additionalBuffValue = CalculateHealthAdditionalBuffValue((int)buff.AdditionalBuff.Value);
+                additionalBuffValue = CalculateHealthAdditionalBuffValue(buff.AdditionalBuff.IntValue);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
             case UnitStatsEnum.Shield:
-                baseBuffValue = CalculateShieldBaseBuffValue((int)buff.BaseBuff.Value);
+                baseBuffValue = CalculateShieldBaseBuffValue(buff.BaseBuff.IntValue);
                 multiplierBuffValue = CalculateShieldMultiplierBuffValue(buff.Multiplier);
-                additionalBuffValue = CalculateShieldAdditionalBuffValue((int)buff.AdditionalBuff.Value);
+                additionalBuffValue = CalculateShieldAdditionalBuffValue(buff.AdditionalBuff.IntValue);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
             case UnitStatsEnum.ShieldCooldown:
                 baseBuffValue = CalculateShieldCooldownBaseBuffValue((float)buff.BaseBuff.Value);

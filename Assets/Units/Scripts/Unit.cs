@@ -8,7 +8,7 @@ using Equipment;
 namespace Units
 {
     [RequireComponent(typeof(Movement), typeof(Health), typeof(Shield))]
-    [RequireComponent(typeof(CoinDrop))]
+    [RequireComponent(typeof(CoinDrop), typeof(HitEffects))]
     public class Unit : MonoBehaviour
     {
         public UnitSO UnitSO { private set; get; }
@@ -17,6 +17,8 @@ namespace Units
         public Shield Shield { private set; get; }
         public CoinDrop CoinDrop { private set; get; }
         public Material UnitMat { get; private set; }
+
+        public HitEffects HitEffects { private set; get; }
 
         public List<EquipmentSpecial> EquipmentSpecials { private set; get; } = new List<EquipmentSpecial>();
 
@@ -44,6 +46,7 @@ namespace Units
             Shield = GetComponent<Shield>();
             CoinDrop = GetComponent<CoinDrop>();
             UnitMat = GetComponentInChildren<Renderer>().material;
+            HitEffects = GetComponent<HitEffects>();
         }
 
         public void Init(UnitSO unitSO, List<Vector2Int> path, int currentPathIndex)
@@ -53,6 +56,7 @@ namespace Units
             Health.Init(unitSO);
             Shield.Init(unitSO);
             CoinDrop.Init(unitSO);
+            HitEffects.Init(UnitMat);
         }
 
         public void Init(Tile tile, List<Vector2Int> path, int currentPathIndex)
@@ -62,6 +66,7 @@ namespace Units
             Health.Init(tile);
             Shield.Init(tile);
             CoinDrop.Init(tile.UnitSO);
+            HitEffects.Init(UnitMat);
 
             EquipmentSO[] equipmentSOs = tile.Equipment;
 
@@ -82,7 +87,7 @@ namespace Units
                 }
         }
 
-        public OnHitInfo Damage(int damage)
+        public OnHitInfo Damage(int damage, Vector3 damageDirection)
         {
             if (Invunrable)
                 return new OnHitInfo();
@@ -92,12 +97,17 @@ namespace Units
             int leftDmg = Shield.DamageShield(damage);
 
             hitInfo.dmgToShield = damage - leftDmg;
+            HitEffects.HitShield(hitInfo.dmgToShield, damageDirection);
+
             hitInfo.dmgToHealth = Mathf.Min(Health.currentHealth, leftDmg);
             hitInfo.killed = leftDmg >= Health.currentHealth;
             hitInfo.unit = this;
 
             if (leftDmg > 0)
+            {
                 Health.ModifyHealth(-leftDmg);
+                HitEffects.HitHealth(hitInfo.dmgToHealth, 1f, damageDirection);
+            }
 
             return hitInfo;
         }
@@ -114,11 +124,11 @@ namespace Units
 
         protected virtual void Update()
         {
-            if (Time.time >= removeInvunrabilityTime)
+            if (Invunrable && Time.time >= removeInvunrabilityTime)
             {
                 RemoveShock();
             }
-            else if (Time.time >= removeInvunrabilityTime - timeToStartFlickering)
+            else if (Invunrable && Time.time >= removeInvunrabilityTime - timeToStartFlickering)
             {
                 Flicker();
             }

@@ -1,0 +1,52 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+using Relics;
+
+public class LevelingUpRewardUIManager : MonoBehaviour
+{
+    [SerializeField]
+    private LevelingUpRelicUIItem levelingUpRelicUIItemPrefab;
+
+    private List<LevelingUpRelicUIItem> uIItems = new List<LevelingUpRelicUIItem>();
+
+    [SerializeField]
+    private Transform uIItemsHolder;
+
+    [SerializeField]
+    private GameObject window;
+
+    private void Awake()
+    {
+        LevelingUpRewardManager.Instance.onShowUI += ShowUI;
+    }
+
+    private void OnDestroy()
+    {
+        LevelingUpRewardManager.Instance.onShowUI -= ShowUI;
+    }
+
+    public void ShowUI(Dictionary<RelicSO, int> relicSOs)
+    {
+        uIItems.DestroyAndClearList();
+
+        foreach (var relic in relicSOs)
+        {
+            LevelingUpRelicUIItem uiItem = Instantiate(levelingUpRelicUIItemPrefab, uIItemsHolder);
+
+            uiItem.Setup(relic.Key, relic.Value);
+
+            uiItem.onButtonClick += OnButtonClick;
+
+            uIItems.Add(uiItem);
+        }
+
+        window.SetActive(true);
+    }
+
+    private void OnButtonClick(RelicSO relic, int amountOfLevels)
+    {
+        LevelingUpRewardManager.Instance.SelectRelic(relic);
+
+        window.SetActive(false);
+    }
+}

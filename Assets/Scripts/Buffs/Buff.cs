@@ -4,9 +4,6 @@ using UnityEngine;
 [Serializable]
 public class Buff
 {
-    [SerializeField] private UnitStatsEnum stat;
-    public UnitStatsEnum Stat => stat;
-
     [Tooltip("Percentage multiplier. Example: 100 = +100% (doubles the base).")]
     public float Multiplier = 0f;
 
@@ -19,12 +16,11 @@ public class Buff
     private static bool IsIntStat(UnitStatsEnum stat) =>
         stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield;
 
-    public Buff(UnitStatsEnum stat)
+    public Buff(bool isInt)
     {
-        this.stat = stat;
         Multiplier = 0f;
 
-        if (IsIntStat(stat))
+        if (isInt)
         {
             baseBuff = new IntOrFloatObject(0);
             additionalBuff = new IntOrFloatObject(0);
@@ -36,9 +32,8 @@ public class Buff
         }
     }
 
-    public Buff(UnitStatsEnum stat, float multiplier, IntOrFloatObject baseBuff, IntOrFloatObject additionalBuff)
+    public Buff(float multiplier, IntOrFloatObject baseBuff, IntOrFloatObject additionalBuff)
     {
-        this.stat = stat;
         Multiplier = multiplier;
         this.baseBuff = baseBuff;
         this.additionalBuff = additionalBuff;
@@ -46,7 +41,6 @@ public class Buff
 
     public Buff(UnitStatsEnum stat, Buff other)
     {
-        this.stat = stat;
         Multiplier = other.Multiplier;
         baseBuff = other.BaseBuff;
         additionalBuff = other.AdditionalBuff;
@@ -59,21 +53,17 @@ public class Buff
     {
         float result = ((baseValue + baseBuff) * (1 + Multiplier / 100f) + additionalBuff).FloatValue;
 
-        return IsIntStat(stat)
+        return baseBuff.IsInt
             ? new IntOrFloatObject(Mathf.RoundToInt(result))
             : new IntOrFloatObject(result);
     }
 
-    public int GetBuffGoldValue() =>
-        BuffValueCalculator.GetValue(this, out _, out _, out _);
+    public int GetBuffGoldValue(UnitStatsEnum Stat) =>
+        BuffValueCalculator.GetValue(this, Stat, out _, out _, out _);
 
     public static Buff operator +(Buff a, Buff b)
     {
-        if (a.Stat != b.Stat)
-            throw new ArgumentException($"Cannot add buffs of different stats: {a.Stat} vs {b.Stat}");
-
         return new Buff(
-            a.Stat,
             a.Multiplier + b.Multiplier,
             a.BaseBuff + b.BaseBuff,
             a.AdditionalBuff + b.AdditionalBuff
@@ -81,5 +71,5 @@ public class Buff
     }
 
     public override string ToString() =>
-        $"{Stat}: Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
+        $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
 }

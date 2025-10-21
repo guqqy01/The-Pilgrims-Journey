@@ -14,19 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: -880476242, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: A sturdy leather belt
-  equipmentBuffs:
-  - stat: 0
-    Multiplier: 10
-    BaseBuff:
-      intValue: 10
-      floatValue: 0
-      isInt: 1
-    AdditionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 1
   EquipmentSpecial:
     rid: -2
+  equipmentStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        Multiplier: 20
+        baseBuff:
+          intValue: 0
+          floatValue: 10
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

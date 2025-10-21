@@ -10,7 +10,8 @@ public class TileManager : MonoBehaviour
 
     public Buff GetBuff(UnitStatsEnum stat, int level)
     {
-        Buff buff = new Buff(stat);
+        bool isBuffInt = stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield;
+        Buff buff = new Buff(isBuffInt);
 
         foreach (var upgrade in upgrades)
         {
@@ -24,11 +25,9 @@ public class TileManager : MonoBehaviour
                 }
                 catch(Exception e)
                 {
-                    Debug.Log(buff.Stat);
                     Debug.Log(buff.BaseBuff.IsInt);
                     Debug.Log(buff.AdditionalBuff.IsInt);
 
-                    Debug.Log(addBuff.Stat);
                     Debug.Log(addBuff.BaseBuff.IsInt);
                     Debug.Log(addBuff.AdditionalBuff.IsInt);
                     throw e.InnerException;

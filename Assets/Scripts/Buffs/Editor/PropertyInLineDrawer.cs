@@ -76,7 +76,6 @@ public static class PropertyInLineDrawer
             if (stringInfos[i].isProperty)
             {
                 SerializedProperty relativeProperty = property.FindPropertyRelative(stringInfos[i].str);
-
                 EditorGUI.LabelField(upperPosition, stringInfos[i].str);
                 EditorGUI.PropertyField(lowerPosition, relativeProperty, GUIContent.none);
             }

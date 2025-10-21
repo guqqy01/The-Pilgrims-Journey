@@ -6,6 +6,7 @@ using Equipment;
 
 namespace Units
 {
+    
     public class Health : MonoBehaviour
     {
         private BuffableStat maxHealth;

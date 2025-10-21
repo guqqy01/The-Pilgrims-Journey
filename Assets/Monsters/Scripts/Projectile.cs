@@ -22,10 +22,13 @@ namespace Monsters
 
         private bool hit = false;
 
+        [SerializeField]
+        private bool pointInTravelDirection;
+
         public delegate void OnHit(OnHitInfo hitInfo);
         public OnHit onHit;
 
-        private Vector2 forwardDirection;
+
 
         public void Init(int damage, float speed, bool homing, Transform target, Vector2 direction, LayerMask layerMask)
         {
@@ -35,6 +38,13 @@ namespace Monsters
             this.target = target;
             this.direction = direction;
             this.layerMask = layerMask;
+
+            if (pointInTravelDirection)
+            {
+                direction = target.position - transform.position;
+
+                transform.right = direction;
+            }
         }
 
         private void Update()
@@ -56,7 +66,7 @@ namespace Monsters
                 if (collision.TryGetComponent(out Units.Unit unit))
                 {
                     hit = true;
-                    OnHitInfo info = unit.Damage(damage);
+                    OnHitInfo info = unit.Damage(damage, (unit.transform.position - transform.position).normalized);
 
                     onHit?.Invoke(info);
 

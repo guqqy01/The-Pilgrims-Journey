@@ -4,12 +4,12 @@ using System;
 [Serializable]
 public class TileBuffAtLevel
 {
-    public Buff spawnRateBuff = new Buff(UnitStatsEnum.SpawnRate);
-    public Buff movementBuff = new Buff(UnitStatsEnum.MovementSpeed);
-    public Buff healthBuff = new Buff(UnitStatsEnum.Health);
-    public Buff shieldBuff = new Buff(UnitStatsEnum.Shield);
-    public Buff shieldCooldownBuff = new Buff(UnitStatsEnum.ShieldCooldown);
-    public Buff shieldRegenerationBuff = new Buff(UnitStatsEnum.ShieldRegeneration);
+    public Buff spawnRateBuff = new Buff(false);
+    public Buff movementBuff = new Buff(false);
+    public Buff healthBuff = new Buff(true);
+    public Buff shieldBuff = new Buff(true);
+    public Buff shieldCooldownBuff = new Buff(false);
+    public Buff shieldRegenerationBuff = new Buff(false);
 
     public Buff GetBuff(UnitStatsEnum stat)
     {

@@ -25,6 +25,13 @@ namespace Units
             }
         }
 
+        private void OnDestroy()
+        {
+            health.onHealthChange -= OnHealthChange;
+            poisonDebuff.onCured -= OnCured;
+            poisonDebuff.onPoisoned -= OnPoisoned;
+        }
+
         private void OnHealthChange(int currentHealth)
         {
             healthFill.fillAmount = Mathf.Clamp01((float)currentHealth / health.MaxHealth);

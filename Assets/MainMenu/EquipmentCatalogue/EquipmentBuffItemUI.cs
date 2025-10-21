@@ -6,9 +6,9 @@ public class EquipmentBuffItemUI : MonoBehaviour
 {
     public Text text;
 
-    public void Init(Buff equipmentBuff)
+    public void Init(Buff equipmentBuff, UnitStatsEnum Stat)
     {
-        string textString = equipmentBuff.Stat.ToString() + ":";
+        string textString = Stat.ToString() + ":";
         if(equipmentBuff.BaseBuff.IsInt && equipmentBuff.BaseBuff != 0)
         {
             textString += "\r\nBase: +" + equipmentBuff.BaseBuff;

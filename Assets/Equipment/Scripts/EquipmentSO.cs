@@ -4,6 +4,7 @@ using Units;
 using System;
 using System.Linq;
 using static UnityEngine.ParticleSystem;
+using AYellowpaper.SerializedCollections;
 
 namespace Equipment
 {
@@ -37,10 +38,10 @@ namespace Equipment
             {
                 int value = 0;
 
-                if (equipmentBuffs != null)
-                    foreach (Buff buff in equipmentBuffs)
+                if (equipmentStats != null)
+                    foreach (var kvp in equipmentStats)
                     {
-                        value += buff.GetBuffGoldValue();
+                        value += kvp.Value.GetBuffGoldValue(kvp.Key);
                     }
                 int specialValue = (EquipmentSpecial != null) ? EquipmentSpecial.GoldValue() : 0;
                 value += specialValue;
@@ -49,7 +50,6 @@ namespace Equipment
             }
         }
 
-        public List<Buff> equipmentBuffs;
         public bool TryGetBuff(UnitStatsEnum stat, out Buff outBuff)
         {
             outBuff = null;
@@ -67,7 +67,8 @@ namespace Equipment
         [AbstractSelector]
         public EquipmentSpecial EquipmentSpecial;
 
-        private Dictionary<UnitStatsEnum, Buff> equipmentStats;
+        [SerializeField]
+        private SerializedDictionary<UnitStatsEnum, Buff> equipmentStats;
 
         public Dictionary<UnitStatsEnum, Buff> EquipmentStatsDictionary
         {
@@ -76,15 +77,7 @@ namespace Equipment
                 if (equipmentStats != null)
                     return equipmentStats;
 
-                equipmentStats = new Dictionary<UnitStatsEnum, Buff>();
-
-                foreach (Buff equipmentBuff in equipmentBuffs)
-                {
-                    if (!equipmentStats.ContainsKey(equipmentBuff.Stat))
-                        equipmentStats.Add(equipmentBuff.Stat, equipmentBuff);
-                    else
-                        throw new Exception("two or more of the same stat type buffs on one equipment");
-                }
+                equipmentStats = new SerializedDictionary<UnitStatsEnum, Buff>();
 
                 return equipmentStats;
             }

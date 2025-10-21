@@ -56,10 +56,10 @@ namespace Equipment
             }
             equipmentBuffUIItems.Clear();
 
-            foreach (Buff equipmentBuff in equipment.equipmentBuffs)
+            foreach (var equipmentBuff in equipment.EquipmentStatsDictionary)
             {
                 EquipmentBuffItemUI buffUI = Instantiate(equipmentBuffUIPrefab, equipmentBuffHolder);
-                buffUI.Init(equipmentBuff);
+                buffUI.Init(equipmentBuff.Value, equipmentBuff.Key);
                 equipmentBuffUIItems.Add(buffUI);
             }
 

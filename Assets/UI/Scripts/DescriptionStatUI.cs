@@ -7,7 +7,7 @@ public class DescriptionStatUI : MonoBehaviour
     [SerializeField]
     private Text buffText;
 
-    public void Setup(Buff buff)
+    public void Setup(Buff buff, UnitStatsEnum Stat)
     {
         string baseBuffPositiveOrNegative = buff.BaseBuff > 0 ? "+" : "";
         string multiplierBuffPositiveOrNegative = buff.Multiplier > 0 ? "+" : "";
@@ -18,7 +18,7 @@ public class DescriptionStatUI : MonoBehaviour
 
 
 
-        string totalBuffString = buff.Stat.ToString().AddSpacesBeforeCapsRegex()
+        string totalBuffString = Stat.ToString().AddSpacesBeforeCapsRegex()
             + BaseBuffString
             + MultiplierBuffString
             + AdditionalBuffString;

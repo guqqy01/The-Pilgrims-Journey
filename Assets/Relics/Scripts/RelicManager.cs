@@ -16,9 +16,8 @@ namespace Relics
 
         private List<Relic> relics = new List<Relic>();
         public List<Relic> Relics => relics;
-        private List<Relic> relicsToRemove = new List<Relic>();
+        private readonly List<Relic> relicsToRemove = new List<Relic>();
 
-        public List<RelicSO> allRelics;
         [SerializeField]
         private List<RelicSO> startRelics;
 
@@ -38,6 +37,21 @@ namespace Relics
 
             if (TilePlayerManager.Instance != null)
                 TilePlayerManager.Instance.onPlay += OnPlayRelicEffects;
+        }
+
+        public bool TryGetRelic(RelicSO relicSO, out Relic relic)
+        {
+            foreach(Relic iteratingRelic in Relics)
+            {
+                if(iteratingRelic.relicSO == relicSO)
+                {
+                    relic = iteratingRelic;
+                    return true;
+                }
+            }
+
+            relic = null;
+            return false;
         }
 
         public void OnLevelCompleted ()
@@ -82,14 +96,14 @@ namespace Relics
             }
         }
 
-        public void AddRelic(RelicSO relicSO)
+        public void AddRelic(RelicSO relicSO, int level = 1)
         {
             bool relicAlreadyInManager = false;
             foreach(Relic relic in Relics)
             {
                 if(relic.relicSO == relicSO)
                 {
-                    relic.Level++;
+                    relic.Level += level;
                     relicAlreadyInManager = true;
                     break;
                 }
@@ -97,7 +111,7 @@ namespace Relics
             
             if (!relicAlreadyInManager)
             {
-                Relic newRelic = new Relic(relicSO);
+                Relic newRelic = new Relic(relicSO, level);
                 relics.Add(newRelic);
             }
             

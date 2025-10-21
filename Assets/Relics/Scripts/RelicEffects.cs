@@ -30,7 +30,6 @@ namespace Relics
             }
 
             Buff shieldBuff = new Buff(
-                UnitStatsEnum.Shield,
                 0f,
                 new IntOrFloatObject(0),
                 new IntOrFloatObject(shieldAmountPerLevel * Relic.Level)
@@ -44,7 +43,7 @@ namespace Relics
     public class StartMovementEffect : RelicEffect
     {
         [SerializeField]
-        private int shieldAmount;
+        private int movementAmount;
         [SerializeField]
         private float unitTime;
         [SerializeField]
@@ -68,10 +67,9 @@ namespace Relics
             }
 
             Buff moveBuff = new Buff(
-                UnitStatsEnum.MovementSpeed,
                 0f,
                 new IntOrFloatObject(0f),
-                new IntOrFloatObject(shieldAmount) // consider renaming shieldAmount ? movementAmount
+                new IntOrFloatObject(movementAmount) // consider renaming shieldAmount ? movementAmount
             );
             unit.Movement.ModifySpeedForTime("StartMovementBuffEffect" + GetHashCode(), moveBuff, movementBuffTime);
         }

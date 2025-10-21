@@ -4,7 +4,7 @@ using Units;
 public class ShieldPotion : Potion
 {
     [SerializeField]
-    private Buff shieldBuff = new Buff(UnitStatsEnum.Shield);
+    private Buff shieldBuff = new Buff(true);
     [SerializeField]
     private float lastingTime = 4f;
     public override void Shatter()

@@ -57,5 +57,12 @@ namespace Units
 
             Value = combined.Value(baseStat);
         }
+
+        public static implicit operator BuffableStat(int value) => new BuffableStat(value);
+        public static implicit operator BuffableStat(float value) => new BuffableStat(value);
+
+        public static implicit operator int(BuffableStat obj) => obj.Value.IntValue;
+        public static implicit operator float(BuffableStat obj) => obj.Value.FloatValue;
+
     }
 }

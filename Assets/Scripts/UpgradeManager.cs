@@ -28,7 +28,8 @@ public class UpgradeManager : MonoBehaviour
 
     public Buff GetBuff(UnitStatsEnum stat)
     {
-        Buff buff = new Buff(stat);  
+        bool isBuffInt = stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield;
+        Buff buff = new Buff(isBuffInt);  
 
         foreach (var upgrade in upgrades)
         {

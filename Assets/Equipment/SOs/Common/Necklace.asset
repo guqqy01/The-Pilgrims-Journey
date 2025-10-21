@@ -14,29 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 167613191, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: Necklace of regeneration
-  equipmentBuffs:
-  - stat: 4
-    Multiplier: 50
-    BaseBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
-    AdditionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
-  - stat: 1
-    Multiplier: 10
-    BaseBuff:
-      intValue: 5
-      floatValue: 0
-      isInt: 1
-    AdditionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 1
   EquipmentSpecial:
     rid: -2
+  equipmentStats:
+    _serializedList:
+    - Key: 4
+      Value:
+        Multiplier: 25
+        baseBuff:
+          intValue: 0
+          floatValue: 2
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
+    - Key: 1
+      Value:
+        Multiplier: 20
+        baseBuff:
+          intValue: 0
+          floatValue: 5
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

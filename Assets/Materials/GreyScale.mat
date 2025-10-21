@@ -55,9 +55,12 @@ Material:
     m_Floats:
     - _EffectAmount: 0
     - _EnableExternalAlpha: 0
+    - _OneColorEffect: 0
+    - _OneColorEffectAmount: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _OneColor: {r: 0.7672955, g: 0.1134053, b: 0.1134053, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tint: {r: 0.62352943, g: 0.6039216, b: 0.56078434, a: 1}
   m_BuildTextureStacks: []

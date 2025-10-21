@@ -25,10 +25,10 @@ public class EquipmentInfoDisplay : InfoDisplay
         {
             EquipmentSO equipmentSO = equipmentUI.EquipmentSO;
 
-            foreach(Buff buff in equipmentSO.equipmentBuffs)
+            foreach(var buff in equipmentSO.EquipmentStatsDictionary)
             {
                 DescriptionStatUI descriptionStatUI = Instantiate(StatDecriptionPrefab, statDescriptionParent);
-                descriptionStatUI.Setup(buff);
+                descriptionStatUI.Setup(buff.Value, buff.Key);
                 statDescriptions.Add(descriptionStatUI);
             }
 
@@ -37,10 +37,10 @@ public class EquipmentInfoDisplay : InfoDisplay
 
         if(selectedInfo is Equipment.EquipmentSO equipmentSO2)
         {
-            foreach (Buff buff in equipmentSO2.equipmentBuffs)
+            foreach (var buff in equipmentSO2.EquipmentStatsDictionary)
             {
                 DescriptionStatUI descriptionStatUI = Instantiate(StatDecriptionPrefab, statDescriptionParent);
-                descriptionStatUI.Setup(buff);
+                descriptionStatUI.Setup(buff.Value, buff.Key);
                 statDescriptions.Add(descriptionStatUI);
             }
         }

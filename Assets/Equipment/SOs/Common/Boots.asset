@@ -14,19 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 1777408741, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: Leather boots, quick and sturdy
-  equipmentBuffs:
-  - stat: 3
-    Multiplier: 10
-    BaseBuff:
-      intValue: 0
-      floatValue: 0.5
-      isInt: 0
-    AdditionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
   EquipmentSpecial:
     rid: -2
+  equipmentStats:
+    _serializedList:
+    - Key: 3
+      Value:
+        Multiplier: 25
+        baseBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0
