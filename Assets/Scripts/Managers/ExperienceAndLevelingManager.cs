@@ -7,7 +7,7 @@ public class ExperienceAndLevelingManager : MonoBehaviour, ISingletonToBeInitiat
 
     public int Level { private set; get; } = 0;
     public float CurrentExperience { private set; get; }
-    public float ExperienceNeededToLevel => (Level * Level) * 10f + 10f;
+    public float ExperienceNeededToLevel => Level * 10f + 10f;
 
     public delegate void OnUpdateUI();
     public OnUpdateUI onUpdateUI;

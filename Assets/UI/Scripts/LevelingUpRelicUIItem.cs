@@ -44,6 +44,16 @@ public class LevelingUpRelicUIItem : MonoBehaviour
         if (RelicManager.Instance.TryGetRelic(relicSO, out Relic relic))
         {
             LevelIncrease.text = $"Level: {relic.Level} -> {relic.Level + levelsIncrease}";
+
+            string statIncreaseString = "";
+
+            foreach(RelicEffect effect in relic.relicEffects)
+            {
+                if(effect is UnitStatIncreaseRelicEffect statEffect)
+                {
+
+                }
+            }
             StatIncrease.text = "";
         }
         else
