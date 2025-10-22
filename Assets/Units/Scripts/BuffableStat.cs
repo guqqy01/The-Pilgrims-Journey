@@ -58,11 +58,29 @@ namespace Units
             Value = combined.Value(baseStat);
         }
 
+        private Buff ConvertToBuff()
+        {
+            IntOrFloatObject baseBuff = baseStat;
+            IntOrFloatObject additionalBuff = 0;
+            float multiplier = 0;
+
+            foreach(var buff in buffs)
+            {
+                baseBuff += buff.Value.BaseBuff;
+                multiplier += buff.Value.Multiplier;
+                additionalBuff += buff.Value.AdditionalBuff;
+            }
+
+            return new Buff(multiplier, baseBuff, additionalBuff);
+        }
+
         public static implicit operator BuffableStat(int value) => new BuffableStat(value);
         public static implicit operator BuffableStat(float value) => new BuffableStat(value);
 
         public static implicit operator int(BuffableStat obj) => obj.Value.IntValue;
         public static implicit operator float(BuffableStat obj) => obj.Value.FloatValue;
 
+
+        public static implicit operator Buff(BuffableStat obj) => obj.ConvertToBuff();
     }
 }

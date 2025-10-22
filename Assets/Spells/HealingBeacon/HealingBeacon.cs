@@ -101,7 +101,7 @@ public class HealingBeacon : MonoBehaviour
             }
 
             if ((target.Transform.position - transform.position).sqrMagnitude > range * range ||
-                target.Health.currentHealth >= target.Health.MaxHealth)
+                target.Health.CurrentHealth >= target.Health.MaxHealth)
             {
                 targets.Remove(target);
                 beams.MakeAvaliable(target.Beam);
@@ -139,7 +139,7 @@ public class HealingBeacon : MonoBehaviour
             if (!collider.TryGetComponent(out Health health))
                 continue;
 
-            if (health.currentHealth >= health.MaxHealth)
+            if (health.CurrentHealth >= health.MaxHealth)
                 continue;
 
             float distance = Vector2.Distance(collider.transform.position, transform.position);

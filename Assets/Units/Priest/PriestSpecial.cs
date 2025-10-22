@@ -30,7 +30,7 @@ namespace Units
             if (timeToNextHeal > Time.time)
                 return;
 
-            if (targetHealth == null || targetHealth.currentHealth == targetHealth.MaxHealth)
+            if (targetHealth == null || targetHealth.CurrentHealth == targetHealth.MaxHealth)
                 targetHealth = FindTarget();
 
             if(targetHealth != null)
@@ -57,7 +57,7 @@ namespace Units
                     if (health == ourHealth)
                         continue;
 
-                    if (health.currentHealth >= health.MaxHealth)
+                    if (health.CurrentHealth >= health.MaxHealth)
                         continue;
 
                     healths.Add(health);

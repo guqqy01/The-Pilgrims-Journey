@@ -6,7 +6,7 @@ using static Units.Movement;
 
 namespace Units
 {
-    public class Movement : MonoBehaviour
+    public class Movement : UnitStatBase
     {
         public BuffableStat speed;
         public float Speed => (float)speed.Value.Value;
@@ -48,30 +48,9 @@ namespace Units
 
         public void Init(List<Vector2Int> path, int currentPathIndex, Tile tile)
         {
-            speed = new BuffableStat(tile.UnitSO.MovementSpeed);
-
-            speed.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.MovementSpeed));
+            speed = CreateBuffableStat(tile, tile.UnitSO.MovementSpeed, UnitStatsEnum.MovementSpeed);
 
             CurrentPathIndex = currentPathIndex;
-
-            speed.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.MovementSpeed));
-
-            EquipmentSO[] equipmentSOs = tile.Equipment;
-
-            if (equipmentSOs != null)
-            {
-                for (int i = 0; i < equipmentSOs.Length; i++)
-                {
-                    if (equipmentSOs[i] == null)
-                        continue;
-
-                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.MovementSpeed, out Buff outBuff))
-                    {
-                        speed.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
-                    }
-                }
-            }
-                
 
             Path = path;
             finishedPath = false;

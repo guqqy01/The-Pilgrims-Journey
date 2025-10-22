@@ -45,7 +45,7 @@ public class PoisonDebuff : MonoBehaviour
             unit.Health.ModifyHealth(-amountToDamage);
             damageAmount -= amountToDamage;
 
-            if(unit.Health.currentHealth <= 0)
+            if(unit.Health.CurrentHealth <= 0)
             {
                 MonsterSO returnMonster;
                 WeightedChanceList<MonsterSO> weightedChanceList = new WeightedChanceList<MonsterSO>();

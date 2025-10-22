@@ -5,7 +5,7 @@ using Units;
 
 namespace Relics
 {
-    public class StartShieldEffect : RelicEffect
+    public class StartShieldRelicEffect : RelicEffect
     {
         [SerializeField]
         private int shieldAmountPerLevel;
@@ -19,6 +19,11 @@ namespace Relics
             timeToStop = Time.time + unitTime;
 
             SpawningManager.Instance.onUnitSpawned += AddShieldToUnit;
+        }
+
+        public override void Reset()
+        {
+            SpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;
         }
 
         private void AddShieldToUnit(Unit unit)
@@ -117,9 +122,8 @@ namespace Relics
             return goldGained.ToString();
         }
 
-        public override void Init(Relic relic)
+        public override void OnGainRelic()
         {
-            base.Init(relic);
             startGold = ResourceManager.Instance.Gold;
             numberOfRoundsRemaining = numberOfRoundsToGainGold;
             ResourceManager.Instance.onGoldChange += UpdateUITest;
@@ -186,9 +190,8 @@ namespace Relics
         [SerializeField, HideInInspector]
         private bool countingDown = false;
 
-        public override void Init(Relic relic)
+        public override void OnGainRelic()
         {
-            base.Init(relic);
             RemainingNumberOfRounds = numberOfRounds;
         }
 
@@ -225,9 +228,9 @@ namespace Relics
     {
 
 
-        public override void Init(Relic relic)
+        public override void OnGainRelic()
         {
-            base.Init(relic);
+
         }
 
         private void AddBuffsToUnit(Unit unit)

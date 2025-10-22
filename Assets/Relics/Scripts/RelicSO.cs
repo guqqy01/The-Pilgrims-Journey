@@ -6,16 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-/*
-Incease gold generation
-Start units get a certain buff
-Certain tiles get a boost
-Spells
-Buff certain stats, Health, Healing, Shield, etc
-Stun monsters for a short period of time for the beginning of the game
- */
-
-
+using UnityEditor;
 namespace Relics
 {
     [CreateAssetMenu()]
@@ -33,6 +24,8 @@ namespace Relics
         [SerializeReference]
         [AbstractSelector]
         public List<RelicEffect> relicEffects;
+
+        private Sprite previousSprite;
     }
 
     [Serializable]
@@ -42,4 +35,3 @@ namespace Relics
         public int amountOfUses = 1;
     }
 }
-

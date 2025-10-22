@@ -99,8 +99,8 @@ namespace Units
             hitInfo.dmgToShield = damage - leftDmg;
             HitEffects.HitShield(hitInfo.dmgToShield, damageDirection);
 
-            hitInfo.dmgToHealth = Mathf.Min(Health.currentHealth, leftDmg);
-            hitInfo.killed = leftDmg >= Health.currentHealth;
+            hitInfo.dmgToHealth = Mathf.Min(Health.CurrentHealth, leftDmg);
+            hitInfo.killed = leftDmg >= Health.CurrentHealth;
             hitInfo.unit = this;
 
             if (leftDmg > 0)

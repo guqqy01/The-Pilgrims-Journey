@@ -19,7 +19,24 @@ namespace Relics
     {
         public RelicSO relicSO;
 
-        public int Level;
+        private int level;
+        public int Level
+        {
+            set
+            {
+                level = value;
+
+                if (relicEffects == null)
+                    return;
+
+                foreach(RelicEffect relicEffect in relicEffects)
+                {
+                    if(relicEffect != null)
+                        relicEffect.OnLevelChangeRelic();
+                }
+            }
+            get => level;
+        }
 
         public bool Active;
 
@@ -65,10 +82,13 @@ namespace Relics
             this.relicSO = relicSO;
             baseValue = relicSO.baseValue;
 
-            Level = level;
+            this.level = level;
 
             foreach(RelicEffect effect in relicSO.relicEffects)
             {
+                if (effect == null)
+                    continue;
+
                 RelicEffect clonedEffect = effect.Clone;
                 clonedEffect.Init(this);
                 relicEffects.Add(clonedEffect);

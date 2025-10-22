@@ -17,14 +17,7 @@ MonoBehaviour:
   sprite: {fileID: -479873264, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 152
   spells: []
-  relicEffects:
-  - rid: 925506261166850049
+  relicEffects: []
   references:
     version: 2
-    RefIds:
-    - rid: 925506261166850049
-      type: {class: StartShieldEffect, ns: Relics, asm: Assembly-CSharp}
-      data:
-        shieldAmount: 10
-        unitTime: 10
-        shieldTime: 10
+    RefIds: []

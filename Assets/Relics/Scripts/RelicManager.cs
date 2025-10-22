@@ -60,7 +60,8 @@ namespace Relics
             {
                 foreach (RelicEffect effect in relic.relicEffects)
                 {
-                    effect.AfterPlayEffect();
+                    if(effect != null)
+                        effect.AfterPlayEffect();
                 }
             }
 

@@ -7,7 +7,42 @@ using Equipment;
 namespace Units
 {
     
-    public class Health : MonoBehaviour
+    public abstract class UnitStatBase : MonoBehaviour
+    {
+        protected BuffableStat CreateBuffableStat(Tile tile, IntOrFloatObject value, UnitStatsEnum stat)
+        {
+            BuffableStat buffableStat = new BuffableStat(value);
+
+            Buff buff = UpgradeManager.Instance.GetBuff(stat);
+
+            buffableStat.AddBuff("UpgradeManager", buff);
+
+            if (tile != null)
+            {
+                buffableStat.AddBuff("Tile", tile.GetTileBuff(stat));
+            }
+
+            EquipmentSO[] equipmentSOs = tile.Equipment;
+
+            if (equipmentSOs != null)
+            {
+                for (int i = 0; i < equipmentSOs.Length; i++)
+                {
+                    if (equipmentSOs[i] == null)
+                        continue;
+
+                    if (equipmentSOs[i].TryGetBuff(stat, out Buff outBuff))
+                    {
+                        buffableStat.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
+                    }
+                }
+            }
+
+            return buffableStat;
+        }
+    }
+
+    public class Health : UnitStatBase
     {
         private BuffableStat maxHealth;
         public int MaxHealth
@@ -25,7 +60,7 @@ namespace Units
             }
         }
 
-        public int currentHealth { private set; get; } = 5;
+        public int CurrentHealth { private set; get; } = 5;
 
         public delegate void OnDie();
         public OnDie onDie;
@@ -37,53 +72,25 @@ namespace Units
         {
             maxHealth = new BuffableStat(unitSO.Health);
 
-            Debug.Log(maxHealth.Value.IsInt);
-
-            currentHealth = MaxHealth;
-            onHealthChange?.Invoke(currentHealth);
+            CurrentHealth = MaxHealth;
+            onHealthChange?.Invoke(CurrentHealth);
         }
 
         public void Init(Tile tile)
         {
-            maxHealth = new BuffableStat(tile.UnitSO.Health);
+            maxHealth = CreateBuffableStat(tile, tile.UnitSO.Health, UnitStatsEnum.Health);
 
-            Buff buff = UpgradeManager.Instance.GetBuff(UnitStatsEnum.Health);
-
-            maxHealth.AddBuff("UpgradeManager", buff);
-
-            if (tile != null)
-            {
-                maxHealth.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.Health));
-            }
-
-
-            EquipmentSO[] equipmentSOs = tile.Equipment;
-
-            if(equipmentSOs != null)
-            {
-                for (int i = 0; i < equipmentSOs.Length; i++)
-                {
-                    if (equipmentSOs[i] == null)
-                        continue;
-
-                    if(equipmentSOs[i].TryGetBuff(UnitStatsEnum.Health, out Buff outBuff))
-                    {
-                        maxHealth.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
-                    }
-                }
-            }
-
-            currentHealth = MaxHealth;
-            onHealthChange?.Invoke(currentHealth);
+            CurrentHealth = MaxHealth;
+            onHealthChange?.Invoke(CurrentHealth);
         }
 
         public void ModifyHealth(int amount)
         {
-            currentHealth = Mathf.Clamp(amount + currentHealth, 0, MaxHealth);
+            CurrentHealth = Mathf.Clamp(amount + CurrentHealth, 0, MaxHealth);
 
-            onHealthChange?.Invoke(currentHealth);
+            onHealthChange?.Invoke(CurrentHealth);
 
-            if (currentHealth <= 0)
+            if (CurrentHealth <= 0)
             {
                 onDie?.Invoke();
                 SpawningManager.Instance.SpawnedUnits.Remove(GetComponent<Unit>());

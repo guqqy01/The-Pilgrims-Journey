@@ -70,6 +70,25 @@ public class Buff
         );
     }
 
+    public static Buff operator *(Buff a, float multiplier)
+    {
+        if (a.baseBuff.IsInt)
+        {
+            return new Buff(
+                a.Multiplier * multiplier,
+                Mathf.RoundToInt(a.baseBuff * multiplier),
+                Mathf.RoundToInt(a.additionalBuff * multiplier)
+            );
+        }
+        else
+        {
+            return new Buff(
+            a.Multiplier * multiplier,
+            a.baseBuff * multiplier,
+            a.additionalBuff * multiplier);
+        }
+    }
+
     public override string ToString() =>
         $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
 }
