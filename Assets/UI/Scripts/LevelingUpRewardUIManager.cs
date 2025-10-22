@@ -43,7 +43,7 @@ public class LevelingUpRewardUIManager : MonoBehaviour
         window.SetActive(true);
     }
 
-    private void OnButtonClick(RelicSO relic, int amountOfLevels)
+    private void OnButtonClick(RelicSO relic)
     {
         LevelingUpRewardManager.Instance.SelectRelic(relic);
 

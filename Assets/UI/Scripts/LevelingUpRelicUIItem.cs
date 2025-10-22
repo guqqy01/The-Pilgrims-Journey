@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class LevelingUpRelicUIItem : MonoBehaviour
 {
     private RelicSO relicSO;
-    private int levelsIncrease;
 
     [SerializeField]
     private Image relicImage;
@@ -18,12 +17,12 @@ public class LevelingUpRelicUIItem : MonoBehaviour
     [SerializeField]
     private float spriteSize = 50f;
 
-    public delegate void OnButtonClick(RelicSO relic, int levelsIncrease);
+    public delegate void OnButtonClick(RelicSO relic);
     public OnButtonClick onButtonClick;
 
     public void ButtonClick()
     {
-        onButtonClick?.Invoke(relicSO, levelsIncrease);
+        onButtonClick?.Invoke(relicSO);
     }
 
     private void OnDestroy()
@@ -44,6 +43,16 @@ public class LevelingUpRelicUIItem : MonoBehaviour
         if (RelicManager.Instance.TryGetRelic(relicSO, out Relic relic))
         {
             LevelIncrease.text = $"Level: {relic.Level} -> {relic.Level + levelsIncrease}";
+
+            string statIncreaseString = "";
+
+            foreach(RelicEffect effect in relic.relicEffects)
+            {
+                if(effect is UnitStatIncreaseRelicEffect statEffect)
+                {
+
+                }
+            }
             StatIncrease.text = "";
         }
         else

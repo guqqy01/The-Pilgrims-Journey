@@ -433,7 +433,7 @@ namespace Tiles
         {
             get
             {
-                return GetStat(UnitStatsEnum.SpawnRate);
+                return Mathf.Max(GetStat(UnitStatsEnum.SpawnRate), 0f);
             }
         }
 
@@ -441,7 +441,7 @@ namespace Tiles
         {
             get
             {
-                return (float)GetStat(UnitStatsEnum.MovementSpeed);
+                return Mathf.Max(GetStat(UnitStatsEnum.MovementSpeed), 0f);
             }
         }
 
@@ -449,7 +449,7 @@ namespace Tiles
         {
             get
             {
-                return GetStat(UnitStatsEnum.Health);
+                return Mathf.Max(GetStat(UnitStatsEnum.Health), 0);
             }
         }
 
@@ -457,7 +457,7 @@ namespace Tiles
         {
             get
             {
-                return GetStat(UnitStatsEnum.Shield);
+                return Mathf.Max(GetStat(UnitStatsEnum.Shield), 0);
             }
         }
 
@@ -466,7 +466,7 @@ namespace Tiles
         {
             get
             {
-                return GetStat(UnitStatsEnum.ShieldRegeneration);
+                return Mathf.Max(GetStat(UnitStatsEnum.ShieldRegeneration), 0f);
             }
         }
 
@@ -474,7 +474,7 @@ namespace Tiles
         {
             get
             {
-                return (float)GetStat(UnitStatsEnum.ShieldCooldown);
+                return Mathf.Max(GetStat(UnitStatsEnum.ShieldCooldown), 0f);
             }
         }
 
