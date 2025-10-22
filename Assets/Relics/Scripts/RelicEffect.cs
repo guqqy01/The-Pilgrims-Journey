@@ -46,21 +46,71 @@ namespace Relics
 
         public override void OnGainRelic()
         {
-            buffIncreasePerLevel *= Relic.Level;
+            Buff buff = buffIncreasePerLevel * Relic.Level;
 
-            OverallBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buffIncreasePerLevel);
+            OverallBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buff);
         }
 
         public override void OnLevelChangeRelic()
         {
-            buffIncreasePerLevel *= Relic.Level;
+            Buff buff = buffIncreasePerLevel * Relic.Level;
 
-            OverallBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buffIncreasePerLevel);
+            OverallBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buff);
         }
 
         public override void OnRemoveRelic()
         {
             OverallBuffManager.Instance.RemoveStatBuff(Relic.relicSO.name, stat);
+        }
+    }
+
+    public class IncreaseLuckRelicEffect : RelicEffect
+    {
+        [SerializeField]
+        private Buff luckIncreasePerLevel;
+
+        public override void OnGainRelic()
+        {
+            Buff buff = luckIncreasePerLevel * Relic.Level;
+
+            OverallBuffManager.Instance.Luck.AddBuff(Relic.relicSO.name, buff);
+        }
+
+        public override void OnLevelChangeRelic()
+        {
+            Buff buff = luckIncreasePerLevel * Relic.Level;
+
+            OverallBuffManager.Instance.Luck.AddBuff(Relic.relicSO.name, buff);
+        }
+
+        public override void OnRemoveRelic()
+        {
+            OverallBuffManager.Instance.Luck.RemoveBuff(Relic.relicSO.name);
+        }
+    }
+
+    public class IncreaseExperienceRelicEffect : RelicEffect
+    {
+        [SerializeField]
+        private Buff experienceIncreasePerLevel;
+
+        public override void OnGainRelic()
+        {
+            Buff buff = experienceIncreasePerLevel * Relic.Level;
+
+            OverallBuffManager.Instance.ExperienceGain.AddBuff(Relic.relicSO.name, buff);
+        }
+
+        public override void OnLevelChangeRelic()
+        {
+            Buff buff = experienceIncreasePerLevel * Relic.Level;
+
+            OverallBuffManager.Instance.ExperienceGain.AddBuff(Relic.relicSO.name, buff);
+        }
+
+        public override void OnRemoveRelic()
+        {
+            OverallBuffManager.Instance.ExperienceGain.RemoveBuff(Relic.relicSO.name);
         }
     }
 }

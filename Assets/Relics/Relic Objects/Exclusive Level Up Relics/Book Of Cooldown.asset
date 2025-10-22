@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
-  m_Name: Book Of Swiftness
+  m_Name: Book Of Cooldown
   m_EditorClassIdentifier: Assembly-CSharp::Relics.RelicSO
-  summary: 
+  summary: Decreases the shield cooldown of all units
   description: 
-  sprite: {fileID: -1506852007, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  sprite: {fileID: -1287064938, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 0
   spells: []
   relicEffects:
-  - rid: 8036269413581193349
+  - rid: 8036269413581193348
   references:
     version: 2
     RefIds:
-    - rid: 8036269413581193349
+    - rid: 8036269413581193348
       type: {class: UnitStatIncreaseRelicEffect, ns: Relics, asm: Assembly-CSharp}
       data:
-        stat: 3
+        stat: 5
         buffIncreasePerLevel:
           Multiplier: 0
           baseBuff:
             intValue: 0
-            floatValue: 0.1
+            floatValue: -0.2
             isInt: 0
           additionalBuff:
             intValue: 0

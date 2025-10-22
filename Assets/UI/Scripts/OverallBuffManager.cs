@@ -5,9 +5,12 @@ public class OverallBuffManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
     public static OverallBuffManager Instance { private set; get; }
 
+    //Leveling Up
     public BuffableStat AmountOfRelicToChooseFrom = new BuffableStat(3);
     public BuffableStat Luck = new BuffableStat(0f);
+    public BuffableStat ExperienceGain = new BuffableStat(1f);
 
+    //Unit Stats
     public BuffableStat Health = new BuffableStat(0);
     public BuffableStat Shield = new BuffableStat(0);
     public BuffableStat MovementSpeed = new BuffableStat(0f);

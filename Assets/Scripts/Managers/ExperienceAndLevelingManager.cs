@@ -6,8 +6,8 @@ public class ExperienceAndLevelingManager : MonoBehaviour, ISingletonToBeInitiat
     public static ExperienceAndLevelingManager Instance { private set; get; }
 
     public int Level { private set; get; } = 0;
-    public int CurrentExperience { private set; get; }
-    public int ExperienceNeededToLevel => (Level * Level) * 10 + 10;
+    public float CurrentExperience { private set; get; }
+    public float ExperienceNeededToLevel => (Level * Level) * 10f + 10f;
 
     public delegate void OnUpdateUI();
     public OnUpdateUI onUpdateUI;
@@ -43,7 +43,7 @@ public class ExperienceAndLevelingManager : MonoBehaviour, ISingletonToBeInitiat
 
     private void OnUnitPassed(int x, int y)
     {
-        CurrentExperience++;
+        CurrentExperience = CurrentExperience + OverallBuffManager.Instance.ExperienceGain;
 
         if (CurrentExperience >= ExperienceNeededToLevel)
         {
