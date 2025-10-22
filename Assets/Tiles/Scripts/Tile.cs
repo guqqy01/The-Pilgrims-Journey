@@ -389,13 +389,14 @@ namespace Tiles
         private IntOrFloatObject GetStat(UnitStatsEnum stat)
         {
             // Start with base stat
-            var baseValue = new IntOrFloatObject(unitSO.GetStat(stat));
+            var baseValue = unitSO.GetStat(stat);
 
             // Collect buffs
             List<Buff> allBuffs = new List<Buff>
             {
                 GetTileBuff(stat),
-                UpgradeManager.Instance.GetBuff(stat)
+                UpgradeManager.Instance.GetBuff(stat),
+                OverallBuffManager.Instance.GetBuff(stat)
             };
 
             foreach (var equipment in Equipment)
@@ -411,13 +412,16 @@ namespace Tiles
                 return baseValue;
 
             Buff combined = allBuffs[0];
+
             for (int i = 1; i < allBuffs.Count; i++)
             {
                 combined += allBuffs[i];
             }
 
+            var returnValue = combined.Value(baseValue);
+
             // Apply buffs to base value
-            return combined.Value(baseValue);
+            return returnValue;
         }
 
 
@@ -429,7 +433,7 @@ namespace Tiles
         {
             get
             {
-                return (float)GetStat(UnitStatsEnum.SpawnRate).Value;
+                return GetStat(UnitStatsEnum.SpawnRate);
             }
         }
 
@@ -437,7 +441,7 @@ namespace Tiles
         {
             get
             {
-                return (float)GetStat(UnitStatsEnum.MovementSpeed).Value;
+                return (float)GetStat(UnitStatsEnum.MovementSpeed);
             }
         }
 
@@ -445,8 +449,7 @@ namespace Tiles
         {
             get
             {
-                var stat = GetStat(UnitStatsEnum.Health);
-                return stat.IsInt ? stat.IntValue : Mathf.RoundToInt(stat.FloatValue);
+                return GetStat(UnitStatsEnum.Health);
             }
         }
 
@@ -454,8 +457,7 @@ namespace Tiles
         {
             get
             {
-                var stat = GetStat(UnitStatsEnum.Shield);
-                return stat.IsInt ? stat.IntValue : Mathf.RoundToInt(stat.FloatValue);
+                return GetStat(UnitStatsEnum.Shield);
             }
         }
 
@@ -464,7 +466,7 @@ namespace Tiles
         {
             get
             {
-                return (float)GetStat(UnitStatsEnum.ShieldRegeneration).Value;
+                return GetStat(UnitStatsEnum.ShieldRegeneration);
             }
         }
 
@@ -472,7 +474,7 @@ namespace Tiles
         {
             get
             {
-                return (float)GetStat(UnitStatsEnum.ShieldCooldown).Value;
+                return (float)GetStat(UnitStatsEnum.ShieldCooldown);
             }
         }
 

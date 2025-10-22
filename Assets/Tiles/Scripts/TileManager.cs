@@ -17,21 +17,7 @@ public class TileManager : MonoBehaviour
         {
             if (upgrade.stat == stat)
             {
-                Buff addBuff = upgrade.GetBuffAtLevel(level);
-
-                try
-                {
-                    buff += addBuff;
-                }
-                catch(Exception e)
-                {
-                    Debug.Log(buff.BaseBuff.IsInt);
-                    Debug.Log(buff.AdditionalBuff.IsInt);
-
-                    Debug.Log(addBuff.BaseBuff.IsInt);
-                    Debug.Log(addBuff.AdditionalBuff.IsInt);
-                    throw e.InnerException;
-                }
+                buff += upgrade.GetBuffAtLevel(level);
             }
         }
 

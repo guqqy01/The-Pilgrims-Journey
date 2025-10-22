@@ -12,6 +12,8 @@ namespace Units
 
         private readonly Dictionary<string, Buff> buffs = new();
 
+        public bool IsIntStat => baseStat.IsInt;
+
         public BuffableStat(int baseStat)
         {
             this.baseStat = new IntOrFloatObject(baseStat);
@@ -21,6 +23,12 @@ namespace Units
         public BuffableStat(float baseStat)
         {
             this.baseStat = new IntOrFloatObject(baseStat);
+            Value = this.baseStat;
+        }
+
+        public BuffableStat(IntOrFloatObject baseStat)
+        {
+            this.baseStat = baseStat;
             Value = this.baseStat;
         }
 

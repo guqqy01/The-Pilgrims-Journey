@@ -6,7 +6,7 @@ using Equipment;
 
 namespace Units
 {
-    public class Shield : MonoBehaviour
+    public class Shield : UnitStatBase
     {
         private BuffableStat shield;
         public int MaxShield
@@ -64,67 +64,13 @@ namespace Units
             UnitSO unitSO = tile.UnitSO;
             EquipmentSO[] equipmentSOs = tile.Equipment;
 
-            shield = new BuffableStat(unitSO.Shield);
-
-            shield.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.Shield));
-
-            if (tile != null)
-                shield.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.Shield));
-            
-            if (equipmentSOs != null)
-            {
-                for (int i = 0; i < equipmentSOs.Length; i++)
-                {
-                    if (equipmentSOs[i] == null)
-                        continue;
-
-                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.Shield, out Buff outBuff))
-                    {
-                        shield.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
-                    }
-                }
-            }
-                
+            shield = CreateBuffableStat(tile, unitSO.Shield, UnitStatsEnum.Shield);
 
             CurrentShield = MaxShield;
 
-            regeneration = new BuffableStat(unitSO.ShieldRegeneration);
+            regeneration = CreateBuffableStat(tile, unitSO.ShieldRegeneration, UnitStatsEnum.ShieldRegeneration);
 
-            regeneration.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.ShieldRegeneration));
-
-            if (tile != null)
-                regeneration.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.ShieldRegeneration));
-
-            if (equipmentSOs != null)
-                for (int i = 0; i < equipmentSOs.Length; i++)
-                {
-                    if (equipmentSOs[i] == null)
-                        continue;
-
-                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.ShieldRegeneration, out Buff outBuff))
-                    {
-                        regeneration.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
-                    }
-                }
-
-            cooldown = new BuffableStat(unitSO.ShieldCooldown);
-
-            cooldown.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.ShieldCooldown));
-
-            if (tile != null)
-                cooldown.AddBuff("Tile", tile.GetTileBuff(UnitStatsEnum.ShieldCooldown));
-
-            if (equipmentSOs != null)
-                for (int i = 0; i < equipmentSOs.Length; i++)
-                {
-                    if (equipmentSOs[i] == null)
-                        continue;
-
-                    if (equipmentSOs[i].TryGetBuff(UnitStatsEnum.ShieldCooldown, out Buff outBuff))
-                    {
-                        cooldown.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
-                    }
-                }
+            cooldown = CreateBuffableStat(tile, unitSO.ShieldCooldown, UnitStatsEnum.ShieldCooldown);
 
             onShieldChange?.Invoke(CurrentShield);
         }

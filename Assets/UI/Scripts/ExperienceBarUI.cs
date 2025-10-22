@@ -15,7 +15,8 @@ public class ExperienceBarUI : MonoBehaviour
 
     private void OnDisable()
     {
-        ExperienceAndLevelingManager.Instance.onUpdateUI -= OnUpdateExperienceBar;
+        if(ExperienceAndLevelingManager.Instance != null)
+            ExperienceAndLevelingManager.Instance.onUpdateUI -= OnUpdateExperienceBar;
     }
 
     public void OnUpdateExperienceBar()
