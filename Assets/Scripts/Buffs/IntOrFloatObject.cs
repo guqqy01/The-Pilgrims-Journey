@@ -36,7 +36,7 @@ public struct IntOrFloatObject : IEquatable<IntOrFloatObject>
     public static implicit operator IntOrFloatObject(float value) => new IntOrFloatObject(value);
 
     public static implicit operator float(IntOrFloatObject obj) => obj.FloatValue;
-    public static explicit operator int(IntOrFloatObject obj) => obj.IntValue;
+    public static implicit operator int(IntOrFloatObject obj) => obj.IntValue;
 
     // Equality
     public bool Equals(IntOrFloatObject other) => Mathf.Approximately(FloatValue, other.FloatValue);

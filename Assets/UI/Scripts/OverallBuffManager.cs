@@ -27,6 +27,20 @@ public class OverallBuffManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         }
     }
 
+    public Buff GetBuff(UnitStatsEnum stat)
+    {
+        return stat switch
+        {
+            UnitStatsEnum.Health => Health,
+            UnitStatsEnum.Shield => Shield,
+            UnitStatsEnum.MovementSpeed => MovementSpeed,
+            UnitStatsEnum.SpawnRate => SpawnRate,
+            UnitStatsEnum.ShieldRegeneration => ShieldRegeneration,
+            UnitStatsEnum.ShieldCooldown => ShieldCooldown,
+            _ => null,
+        };
+    }
+
     public void AddStatBuff(string reference, UnitStatsEnum stat, Buff buff)
     {
         switch (stat)

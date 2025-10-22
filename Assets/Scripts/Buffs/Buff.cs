@@ -13,9 +13,13 @@ public class Buff
     public IntOrFloatObject BaseBuff => baseBuff;
     public IntOrFloatObject AdditionalBuff => additionalBuff;
 
-    private static bool IsIntStat(UnitStatsEnum stat) =>
-        stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield;
-
+    public bool IsInt
+    {
+        get
+        {
+            return baseBuff.IsInt;
+        }
+    }
     public Buff(bool isInt)
     {
         Multiplier = 0f;
@@ -39,13 +43,6 @@ public class Buff
         this.additionalBuff = additionalBuff;
     }
 
-    public Buff(UnitStatsEnum stat, Buff other)
-    {
-        Multiplier = other.Multiplier;
-        baseBuff = other.BaseBuff;
-        additionalBuff = other.AdditionalBuff;
-    }
-
     /// <summary>
     /// (baseValue + BaseBuff) * (1 + Multiplier/100) + AdditionalBuff
     /// </summary>
@@ -63,16 +60,25 @@ public class Buff
 
     public static Buff operator +(Buff a, Buff b)
     {
-        return new Buff(
+        if (a.IsInt)
+        {
+            return new Buff(
             a.Multiplier + b.Multiplier,
-            a.BaseBuff + b.BaseBuff,
-            a.AdditionalBuff + b.AdditionalBuff
-        );
+            Mathf.RoundToInt(a.baseBuff + b.baseBuff),
+            Mathf.RoundToInt(a.additionalBuff + b.additionalBuff));
+        }
+        else
+        {
+            return new Buff(
+            a.Multiplier + b.Multiplier,
+            (float)(a.baseBuff + b.baseBuff),
+            (float)(a.additionalBuff + b.additionalBuff));
+        }
     }
 
     public static Buff operator *(Buff a, float multiplier)
     {
-        if (a.baseBuff.IsInt)
+        if (a.IsInt)
         {
             return new Buff(
                 a.Multiplier * multiplier,
