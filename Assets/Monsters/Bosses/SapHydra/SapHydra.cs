@@ -164,6 +164,9 @@ namespace Monsters
 
         public void RapidAttack()
         {
+            if (target == null)
+                return;
+
             Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
             project.onHit += OnDamageUnit;

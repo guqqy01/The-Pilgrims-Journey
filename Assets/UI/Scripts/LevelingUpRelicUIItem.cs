@@ -11,8 +11,6 @@ public class LevelingUpRelicUIItem : MonoBehaviour
     [SerializeField]
     private Text relicName;
     [SerializeField]
-    private Text LevelIncrease;
-    [SerializeField]
     private Text StatIncrease;
     [SerializeField]
     private float spriteSize = 50f;
@@ -42,23 +40,35 @@ public class LevelingUpRelicUIItem : MonoBehaviour
 
         if (RelicManager.Instance.TryGetRelic(relicSO, out Relic relic))
         {
-            LevelIncrease.text = $"Level: {relic.Level} -> {relic.Level + levelsIncrease}";
+            StatIncreaseRelicEffect statIncreaseEffect = relicSO.relicEffects.Find(x => x is StatIncreaseRelicEffect) as StatIncreaseRelicEffect;
 
-            string statIncreaseString = "";
+            if (statIncreaseEffect == null)
+                return;
 
-            foreach(RelicEffect effect in relic.relicEffects)
-            {
-                if(effect is UnitStatIncreaseRelicEffect statEffect)
-                {
+            string statIncreaseString = statIncreaseEffect.StatString;
 
-                }
-            }
-            StatIncrease.text = "";
+            Buff fromBuff = statIncreaseEffect.BuffIncreasePerLevel * relic.Level;
+            Buff toBuff = statIncreaseEffect.BuffIncreasePerLevel * (relic.Level + levelsIncrease);
+
+            statIncreaseString = statIncreaseString + ": " + Buff.SimpleCompareString(fromBuff, toBuff);
+
+            StatIncrease.text = statIncreaseString;
         }
         else
         {
-            LevelIncrease.text = $"Level: {levelsIncrease}";
-            StatIncrease.text = "";
+            StatIncreaseRelicEffect statIncreaseEffect = relicSO.relicEffects.Find(x => x is StatIncreaseRelicEffect) as StatIncreaseRelicEffect;
+
+            if (statIncreaseEffect == null)
+                return;
+
+            string statIncreaseString = statIncreaseEffect.StatString;
+
+            Buff fromBuff = statIncreaseEffect.BuffIncreasePerLevel * 0f;
+            Buff toBuff = statIncreaseEffect.BuffIncreasePerLevel * (levelsIncrease);
+
+            statIncreaseString = statIncreaseString + ": " + Buff.SimpleCompareString(fromBuff, toBuff);
+
+            StatIncrease.text = statIncreaseString;
         }
     }
 

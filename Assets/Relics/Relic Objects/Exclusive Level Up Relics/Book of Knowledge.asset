@@ -10,14 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
-  m_Name: Book of Experience
+  m_Name: Book of Knowledge
   m_EditorClassIdentifier: Assembly-CSharp::Relics.RelicSO
   summary: Increases experience gained
   description: 
   sprite: {fileID: 1184853593, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 0
   spells: []
-  relicEffects: []
+  relicEffects:
+  - rid: 7553432098202189897
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7553432098202189897
+      type: {class: IncreaseExperienceRelicEffect, ns: Relics, asm: Assembly-CSharp}
+      data:
+        buffIncreasePerLevel:
+          Multiplier: 5
+          baseBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+          additionalBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0

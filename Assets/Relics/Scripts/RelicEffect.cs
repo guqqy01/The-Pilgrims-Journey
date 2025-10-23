@@ -36,13 +36,22 @@ namespace Relics
         public virtual void Reset() { }
     }
 
-    public class UnitStatIncreaseRelicEffect : RelicEffect
+    public abstract class StatIncreaseRelicEffect : RelicEffect
+    {
+        [SerializeField]
+        protected Buff buffIncreasePerLevel;
+        public Buff BuffIncreasePerLevel => buffIncreasePerLevel;
+
+        public abstract string StatString { get; }
+    }
+
+    public class UnitStatIncreaseRelicEffect : StatIncreaseRelicEffect
     {
         [SerializeField]
         private UnitStatsEnum stat;
+        public UnitStatsEnum Stat => stat;
 
-        [SerializeField]
-        private Buff buffIncreasePerLevel;
+        public override string StatString => Stat.ToString().AddSpacesBeforeCapsRegex();
 
         public override void OnGainRelic()
         {
@@ -64,21 +73,20 @@ namespace Relics
         }
     }
 
-    public class IncreaseLuckRelicEffect : RelicEffect
+    public class IncreaseLuckRelicEffect : StatIncreaseRelicEffect
     {
-        [SerializeField]
-        private Buff luckIncreasePerLevel;
+        public override string StatString => "Luck";
 
         public override void OnGainRelic()
         {
-            Buff buff = luckIncreasePerLevel * Relic.Level;
+            Buff buff = buffIncreasePerLevel * Relic.Level;
 
             OverallBuffManager.Instance.Luck.AddBuff(Relic.relicSO.name, buff);
         }
 
         public override void OnLevelChangeRelic()
         {
-            Buff buff = luckIncreasePerLevel * Relic.Level;
+            Buff buff = buffIncreasePerLevel * Relic.Level;
 
             OverallBuffManager.Instance.Luck.AddBuff(Relic.relicSO.name, buff);
         }
@@ -89,21 +97,20 @@ namespace Relics
         }
     }
 
-    public class IncreaseExperienceRelicEffect : RelicEffect
+    public class IncreaseExperienceRelicEffect : StatIncreaseRelicEffect
     {
-        [SerializeField]
-        private Buff experienceIncreasePerLevel;
+        public override string StatString => "Experience Gain";
 
         public override void OnGainRelic()
         {
-            Buff buff = experienceIncreasePerLevel * Relic.Level;
+            Buff buff = buffIncreasePerLevel * Relic.Level;
 
             OverallBuffManager.Instance.ExperienceGain.AddBuff(Relic.relicSO.name, buff);
         }
 
         public override void OnLevelChangeRelic()
         {
-            Buff buff = experienceIncreasePerLevel * Relic.Level;
+            Buff buff = buffIncreasePerLevel * Relic.Level;
 
             OverallBuffManager.Instance.ExperienceGain.AddBuff(Relic.relicSO.name, buff);
         }
