@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
   m_Name: Healing Necklace
   m_EditorClassIdentifier: 
-  summary: Heals pilgrims
-  description: A necklace imbuded with the power of healing.
+  description: 'A necklace imbuded with the power of healing.
+
+
+    Grants the Spell:
+    Heal'
   sprite: {fileID: 958778337, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 100
   spells:

@@ -13,8 +13,6 @@ namespace Relics
     public class RelicSO : ScriptableObject
     {
         [TextArea()]
-        public string summary;
-        [TextArea()]
         public string description;
         public Sprite sprite;
         public int baseValue;

@@ -17,7 +17,21 @@ MonoBehaviour:
   sprite: {fileID: 1000302555, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 0
   spells: []
-  relicEffects: []
+  relicEffects:
+  - rid: 7553432098202189898
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7553432098202189898
+      type: {class: IncreaseLuckRelicEffect, ns: Relics, asm: Assembly-CSharp}
+      data:
+        buffIncreasePerLevel:
+          Multiplier: 0
+          baseBuff:
+            intValue: 0
+            floatValue: 0.3
+            isInt: 0
+          additionalBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0

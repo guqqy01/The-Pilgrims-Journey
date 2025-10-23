@@ -17,8 +17,6 @@ public class RelicCatalogue : MonoBehaviour
     [SerializeField]
     private Text nameText;
     [SerializeField]
-    private Text summaryText;
-    [SerializeField]
     private Text descriptionText;
 
     private RelicSO relic;
@@ -52,7 +50,6 @@ public class RelicCatalogue : MonoBehaviour
         spriteImage.SetNativeSize();
         spriteImage.ScaleToSize(50f);
         nameText.text = relic.name;
-        summaryText.text = relic.summary;
         descriptionText.text = relic.description;
     }
 }
