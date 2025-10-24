@@ -29,7 +29,7 @@ using static Unity.VisualScripting.Metadata;
 //position  : centred to surround children
 
 
-public class LayoutContentSizer : MonoBehaviour
+public class LayoutContentElement : MonoBehaviour
 {
     private LayoutContentSizerBaseParent layoutSizerParent;
     public LayoutContentSizerBaseParent LayoutSizerParent
@@ -55,8 +55,8 @@ public class LayoutContentSizer : MonoBehaviour
 
     protected RectTransform rectTransform;
 
-    private ParentList<LayoutContent> content = new ParentList<LayoutContent>();
-    internal ParentList<LayoutContent> Content
+    private ParentList<LayoutElementData> content = new ParentList<LayoutElementData>();
+    internal ParentList<LayoutElementData> Content
     {
         get
         {
@@ -132,8 +132,6 @@ public class LayoutContentSizer : MonoBehaviour
             t = t.parent;
         }
     }
-
-    
 
     public void MeasureLayout()
     {
@@ -325,9 +323,6 @@ public class LayoutContentSizer : MonoBehaviour
         if (!moveToCenterY)
             return rectTransform.position.y;
 
-        if (rectTransform == null)
-            rectTransform = GetComponent<RectTransform>();
-
         if (content.Count <= 0)
         {
             return rectTransform.position.y;
@@ -379,9 +374,9 @@ public class LayoutContentSizer : MonoBehaviour
 
     private float HLayoutGroupSetUpChildrenNoCFENoCCSXPos(HorizontalLayoutGroup hLayoutGroup, RectTransform parentRect)
     {
-        LayoutContent parentContent = LayoutSizerParent.GetOwnContent(parentRect);
+        LayoutElementData parentContent = LayoutSizerParent.GetOwnContent(parentRect);
 
-        List<LayoutContent> orderedChildren = parentContent.Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
+        List<LayoutElementData> orderedChildren = parentContent.Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
 
         float xPos = hLayoutGroup.padding.left + parentRect.position.x - parentRect.rect.size.x / 2f;
 
@@ -402,9 +397,9 @@ public class LayoutContentSizer : MonoBehaviour
 
     private float VLayoutGroupSetUpChildrenNoCFENoCCSYPos(VerticalLayoutGroup vLayoutGroup, RectTransform parentRect)
     {
-        LayoutContent parentContent = LayoutSizerParent.GetOwnContent(parentRect);
+        LayoutElementData parentContent = LayoutSizerParent.GetOwnContent(parentRect);
 
-        List<LayoutContent> orderedChildren = parentContent.Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
+        List<LayoutElementData> orderedChildren = parentContent.Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
 
         float yPos = vLayoutGroup.padding.bottom + parentRect.position.y - parentRect.rect.size.y / 2f;
 
@@ -425,7 +420,7 @@ public class LayoutContentSizer : MonoBehaviour
 
     private float VLayoutGroupSetUpChildrenNoCFENoCCSXPos(VerticalLayoutGroup vLayoutGroup, RectTransform parentRect)
     {
-        LayoutContent parentContent = LayoutSizerParent.GetOwnContent(parentRect);
+        LayoutElementData parentContent = LayoutSizerParent.GetOwnContent(parentRect);
 
         float leftPos = parentRect.position.x - parentRect.rect.size.x / 2f;
         float rightPos = parentRect.position.x + parentRect.rect.size.x / 2f;
@@ -451,7 +446,7 @@ public class LayoutContentSizer : MonoBehaviour
 
     private float HLayoutGroupSetUpChildrenNoCFENoCCSYPos(HorizontalLayoutGroup hLayoutGroup, RectTransform parentRect)
     {
-        LayoutContent parentContent = LayoutSizerParent.GetOwnContent(parentRect);
+        LayoutElementData parentContent = LayoutSizerParent.GetOwnContent(parentRect);
 
         float bottomPos = parentRect.position.y - parentRect.rect.size.y / 2f;
         float topPos = parentRect.position.y + parentRect.rect.size.y / 2f;
@@ -476,16 +471,12 @@ public class LayoutContentSizer : MonoBehaviour
         
     }
 
-    
-
-    
-
     private float GetShrinkWrappedWidth()
     {
         float currentXMin = float.MaxValue;
         float currentXMax = float.MinValue;
 
-        foreach (LayoutContent layoutContent in content)
+        foreach (LayoutElementData layoutContent in content)
         {
             RectTransform rTransform = layoutContent.rectTransform;
 
@@ -494,7 +485,7 @@ public class LayoutContentSizer : MonoBehaviour
 
             if (layoutContent.contentSizer != null)
             {
-                LayoutContentSizer sizer = layoutContent.contentSizer;
+                LayoutContentElement sizer = layoutContent.contentSizer;
                 sizer.GetWidthAndXPosition(out float w, out float xPos);
 
                 xMin = xPos - w * rectTransform.lossyScale.x / 2f;
@@ -515,47 +506,105 @@ public class LayoutContentSizer : MonoBehaviour
         return  rectWidth / rectTransform.lossyScale.x + Left + Right;
     }
 
-    private float GetShrinkWrappedHeight()
+    private (float yMin, float yMax) GetContentYBoundsLocal()
     {
         float currentYMin = float.MaxValue;
         float currentYMax = float.MinValue;
 
-        foreach (LayoutContent layoutContent in content)
-        {
-            RectTransform rTransform = layoutContent.rectTransform;
+        Transform parent = rectTransform.parent;
 
-            float yMin;
-            float yMax;
+        foreach (LayoutElementData layoutContent in content)
+        {
+            float yMin, yMax;
 
             if (layoutContent.contentSizer != null)
             {
-                LayoutContentSizer sizer = layoutContent.contentSizer;
-                sizer.GetHeightAndYPosition(out float h, out float yPos);
+                layoutContent.contentSizer.GetHeightAndYPosition(out float h, out float yPos);
 
-                yMin = yPos - h * rectTransform.lossyScale.y / 2f;
-                yMax = yPos + h * rectTransform.lossyScale.y / 2f;
+                // Convert world yPos into local space of parent
+                Vector3 localCenter = parent.InverseTransformPoint(new Vector3(0, yPos, 0));
+                yMin = localCenter.y - h / 2f;
+                yMax = localCenter.y + h / 2f;
             }
             else
             {
-                yMin = rTransform.position.y - rTransform.rect.size.y * rectTransform.lossyScale.y / 2f;
-                yMax = rTransform.position.y + rTransform.rect.size.y * rectTransform.lossyScale.y / 2f;
+                Vector3[] corners = new Vector3[4];
+                layoutContent.rectTransform.GetWorldCorners(corners);
+
+                // Convert bottom-left and top-left into local space
+                Vector3 localBottom = parent.InverseTransformPoint(corners[0]);
+                Vector3 localTop = parent.InverseTransformPoint(corners[1]);
+
+                yMin = localBottom.y;
+                yMax = localTop.y;
             }
 
-            if (currentYMin > yMin) currentYMin = yMin;
-            if (currentYMax < yMax) currentYMax = yMax;
+            if (yMin < currentYMin) currentYMin = yMin;
+            if (yMax > currentYMax) currentYMax = yMax;
         }
 
-        float rectHeight = currentYMax - currentYMin;
-
-        return rectHeight / rectTransform.lossyScale.y + Top + Bottom;
+        return (currentYMin, currentYMax);
     }
+
+    private (float yMin, float yMax) GetContentYBounds()
+    {
+        float currentYMin = float.MaxValue;
+        float currentYMax = float.MinValue;
+
+        foreach (LayoutElementData layoutContent in content)
+        {
+            float yMin, yMax;
+
+            if (layoutContent.contentSizer != null)
+            {
+                layoutContent.contentSizer.GetHeightAndYPosition(out float h, out float yPos);
+                yMin = yPos - h / 2f;
+                yMax = yPos + h / 2f;
+            }
+            else
+            {
+                Vector3[] corners = new Vector3[4];
+                layoutContent.rectTransform.GetWorldCorners(corners);
+
+                // bottom-left (0) and top-left (1) give min/max Y
+                yMin = corners[0].y;
+                yMax = corners[1].y;
+            }
+
+            if (yMin < currentYMin) currentYMin = yMin;
+            if (yMax > currentYMax) currentYMax = yMax;
+        }
+
+        return (currentYMin, currentYMax);
+    }
+
+
+    private float GetShrinkWrappedHeight()
+    {
+        var (yMin, yMax) = GetContentYBoundsLocal();
+        float rectHeight = yMax - yMin;
+
+        return rectHeight + Top + Bottom;
+    }
+
+    private float GetShrinkWrappedYPosition()
+    {
+        var (yMin, yMax) = GetContentYBounds();
+        float rectHeight = yMax - yMin;
+
+        // Center point + padding adjustment
+        return yMin + rectHeight / 2f + (Top - Bottom) / 2f;
+    }
+
+
+
 
     private float GetShrinkWrappedXPosition()
     {
         float currentXMin = float.MaxValue;
         float currentXMax = float.MinValue;
 
-        foreach (LayoutContent layoutContent in content)
+        foreach (LayoutElementData layoutContent in content)
         {
             RectTransform rTransform = layoutContent.rectTransform;
 
@@ -564,7 +613,7 @@ public class LayoutContentSizer : MonoBehaviour
 
             if (layoutContent.contentSizer != null)
             {
-                LayoutContentSizer sizer = layoutContent.contentSizer;
+                LayoutContentElement sizer = layoutContent.contentSizer;
                 sizer.GetWidthAndXPosition(out float w, out float xPos);
 
                 xMin = xPos - w * rectTransform.lossyScale.x / 2f;
@@ -587,40 +636,6 @@ public class LayoutContentSizer : MonoBehaviour
         return currentXMin + rectWidth / 2f + (Right - Left) * rectTransform.lossyScale.x / 2f;
     }
 
-    private float GetShrinkWrappedYPosition()
-    {
-        float currentYMin = float.MaxValue;
-        float currentYMax = float.MinValue;
-
-        foreach (LayoutContent layoutContent in content)
-        {
-            RectTransform rTransform = layoutContent.rectTransform;
-
-            float yMin;
-            float yMax;
-
-            if (layoutContent.contentSizer != null)
-            {
-                LayoutContentSizer sizer = layoutContent.contentSizer;
-                sizer.GetHeightAndYPosition(out float h, out float yPos);
-
-                yMin = yPos - h * rectTransform.lossyScale.y / 2f;
-                yMax = yPos + h * rectTransform.lossyScale.y / 2f;
-            }
-            else
-            {
-                yMin = rTransform.position.y - rTransform.rect.size.y * rectTransform.lossyScale.y / 2f;
-                yMax = rTransform.position.y + rTransform.rect.size.y * rectTransform.lossyScale.y / 2f;
-            }
-
-            if (currentYMin > yMin) currentYMin = yMin;
-            if (currentYMax < yMax) currentYMax = yMax;
-        }
-
-        float rectHeight = currentYMax - currentYMin;
-
-        return currentYMin + rectHeight / 2f + (Top - Bottom) * rectTransform.lossyScale.y / 2f;
-    }
 
     private float GetWidthIfHasHorizontalLayoutGroup(HorizontalLayoutGroup horizontalLayoutGroup)
     {
@@ -635,7 +650,7 @@ public class LayoutContentSizer : MonoBehaviour
             if (!child.gameObject.activeInHierarchy)
                 continue;
 
-            if (child.TryGetComponent(out LayoutContentSizer sizer))
+            if (child.TryGetComponent(out LayoutContentElement sizer))
             {
                 childrenWidth += sizer.GetWidth();
             }
@@ -661,7 +676,7 @@ public class LayoutContentSizer : MonoBehaviour
             if (!child.gameObject.activeInHierarchy)
                 continue;
 
-            if (child.TryGetComponent(out LayoutContentSizer sizer))
+            if (child.TryGetComponent(out LayoutContentElement sizer))
             {
                 childrenHeight += sizer.GetHeight();
             }
@@ -678,7 +693,7 @@ public class LayoutContentSizer : MonoBehaviour
     {
         float width = 0;
 
-        foreach (LayoutContent layoutContent in Content)
+        foreach (LayoutElementData layoutContent in Content)
         {
             RectTransform rTransform = layoutContent.rectTransform;
 
@@ -704,7 +719,7 @@ public class LayoutContentSizer : MonoBehaviour
     {
         float height = 0;
 
-        foreach (LayoutContent layoutContent in Content)
+        foreach (LayoutElementData layoutContent in Content)
         {
             RectTransform rTransform = layoutContent.rectTransform;
 

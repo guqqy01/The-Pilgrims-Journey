@@ -190,6 +190,29 @@ public class Buff
         return returnString;
     }
 
+    public string GetSimpleDescription()
+    {
+        string baseBuffPositiveOrNegative = BaseBuff > 0 ? "+" : "";
+        string multiplierBuffPositiveOrNegative = Multiplier > 0 ? "+" : "";
+        string additionalBuffPositiveOrNegative = AdditionalBuff > 0 ? "+" : "";
+
+        string returnString = "";
+
+        void AddCarageReturn()
+        {
+            if (returnString != "")
+                returnString += "\r\n";
+        }
+
+        returnString = BaseBuff != 0 ? $"{baseBuffPositiveOrNegative}{BaseBuff.Value}" : "";
+        AddCarageReturn();
+        returnString += Multiplier != 0 ? $"{Multiplier}%" : "";
+        AddCarageReturn();
+        returnString += AdditionalBuff != 0 ? $"{additionalBuffPositiveOrNegative}{AdditionalBuff.Value}" : "";
+
+        return returnString;
+
+    }
     public override string ToString() =>
         $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
 }

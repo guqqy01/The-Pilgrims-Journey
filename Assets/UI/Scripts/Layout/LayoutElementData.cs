@@ -7,16 +7,16 @@ using Unity.VisualScripting;
 using static UnityEditor.Searcher.SearcherWindow;
 
 [Serializable]
-public class LayoutContent : IParentListItem<LayoutContent>
+public class LayoutElementData : IParentListItem<LayoutElementData>
 {
     public RectTransform rectTransform;
-    public LayoutContentSizer contentSizer;
+    public LayoutContentElement contentSizer;
     public LayoutGroup layoutGroup;
 
     private Rect? rect;
 
-    private LayoutContent parent;
-    public LayoutContent Parent
+    private LayoutElementData parent;
+    public LayoutElementData Parent
     {
         get
         {
@@ -30,7 +30,7 @@ public class LayoutContent : IParentListItem<LayoutContent>
                 return;
 
             if(parent.Children == null)
-                parent.Children = new List<LayoutContent>();
+                parent.Children = new List<LayoutElementData>();
 
             if (parent.Children.Contains(this))
                 return;
@@ -38,11 +38,11 @@ public class LayoutContent : IParentListItem<LayoutContent>
             parent.Children.Add(this);
         }
     }
-    public List<LayoutContent> Children { get; set; } = new List<LayoutContent>();
+    public List<LayoutElementData> Children { get; set; } = new List<LayoutElementData>();
 
-    public bool IsSubParent(LayoutContent other)
+    public bool IsSubParent(LayoutElementData other)
     {
-        LayoutContent current = Parent;
+        LayoutElementData current = Parent;
 
         while (current != null && current != other)
         {
@@ -52,7 +52,7 @@ public class LayoutContent : IParentListItem<LayoutContent>
         return current != null && current == other;
     }
 
-    public bool IsSubChild(LayoutContent other)
+    public bool IsSubChild(LayoutElementData other)
     {
         return other.IsSubParent(this);
     }
@@ -115,7 +115,7 @@ public class LayoutContent : IParentListItem<LayoutContent>
     /// </summary>
     private void HLayoutGroupSetUpChildrenNoCFENoCCS(HorizontalLayoutGroup hLayoutGroup)
     {
-        List<LayoutContent> orderedChildren = Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
+        List<LayoutElementData> orderedChildren = Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
 
         float leftPos = rectTransform.position.x - rectTransform.sizeDelta.x / 2f;
         float bottomPos = rectTransform.position.y - rectTransform.sizeDelta.y / 2f;
@@ -157,7 +157,7 @@ public class LayoutContent : IParentListItem<LayoutContent>
     /// </summary>
     private void VLayoutGroupSetUpChildrenNoCFENoCCS(VerticalLayoutGroup vLayoutGroup)
     {
-        List<LayoutContent> orderedChildren = Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
+        List<LayoutElementData> orderedChildren = Children.OrderBy(x => x.rectTransform.GetSiblingIndex()).ToList();
 
         float leftPos = rectTransform.position.x - GetSize().x / 2f;
         float rightPos = rectTransform.position.x + GetSize().x / 2f;

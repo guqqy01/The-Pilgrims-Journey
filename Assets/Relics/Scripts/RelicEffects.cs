@@ -14,6 +14,14 @@ namespace Relics
 
         private float timeToStop;
 
+        public override string Description
+        {
+            get
+            {
+                return $"Gives the units spawned in the first {unitTime} seconds a shield of {shieldAmountPerLevel * Relic.Level}";
+            }
+        }
+
         public override void OnPlayEffect()
         {
             timeToStop = Time.time + unitTime;
@@ -48,13 +56,21 @@ namespace Relics
     public class StartMovementEffect : RelicEffect
     {
         [SerializeField]
-        private int movementAmount;
+        private float movementAmountPerLevel;
         [SerializeField]
         private float unitTime;
         [SerializeField]
         private float movementBuffTime;
 
         private float timeToStop;
+
+        public override string Description
+        {
+            get
+            {
+                return $"Gives the units spawned in the first {unitTime} seconds a speed boost of {movementAmountPerLevel * Relic.Level}";
+            }
+        }
 
         public override void OnPlayEffect()
         {
@@ -74,7 +90,7 @@ namespace Relics
             Buff moveBuff = new Buff(
                 0f,
                 new IntOrFloatObject(0f),
-                new IntOrFloatObject(movementAmount) // consider renaming shieldAmount ? movementAmount
+                new IntOrFloatObject(movementAmountPerLevel) // consider renaming shieldAmount ? movementAmount
             );
             unit.Movement.ModifySpeedForTime("StartMovementBuffEffect" + GetHashCode(), moveBuff, movementBuffTime);
         }
@@ -95,12 +111,38 @@ namespace Relics
         [SerializeField]
         private GoldGainEnum goldGain;
 
-        public int CurrentAmountOfGoldToBeGained => Mathf.CeilToInt((ResourceManager.Instance.Gold - startGold) * percentageOfGoldExtra);
+        public int CurrentAmountOfGoldToBeGained 
+        {
+            get
+            {
+                int goldGained = Mathf.CeilToInt((ResourceManager.Instance.Gold - startGold) * percentageOfGoldExtra);
+
+                switch (goldGain)
+                {
+                    case GoldGainEnum.GainOrLoss:
+                        break;
+                    case GoldGainEnum.ZeroMin:
+                        goldGained = Mathf.Max(0, goldGained);
+                        break;
+                }
+
+                return goldGained;
+            }
+            
+        }
 
         [HideInInspector]
         public int TotalNumberOfGoldGained;
 
         private bool reset;
+
+        public override string Description
+        {
+            get
+            {
+                return $"Grants you {percentageOfGoldExtra}% of the gold difference between {numberOfRoundsToGainGold} rounds. Current Amount of gold to be gained in {numberOfRoundsRemaining} rounds is {CurrentAmountOfGoldToBeGained}";
+            }
+        }
 
         public override string GetTopText()
         {
@@ -110,14 +152,6 @@ namespace Relics
         public override string GetBottomText()
         {
             int goldGained = CurrentAmountOfGoldToBeGained;
-            switch (goldGain)
-            {
-                case GoldGainEnum.GainOrLoss:
-                    break;
-                case GoldGainEnum.ZeroMin:
-                    goldGained = Mathf.Max(0, goldGained);
-                    break;
-            }
 
             return goldGained.ToString();
         }
@@ -143,15 +177,6 @@ namespace Relics
             if(numberOfRoundsRemaining <= 0)
             {
                 int goldGained = CurrentAmountOfGoldToBeGained;
-
-                switch (goldGain)
-                {
-                    case GoldGainEnum.GainOrLoss:
-                        break;
-                    case GoldGainEnum.ZeroMin:
-                        goldGained = Mathf.Max(0, goldGained);
-                        break;
-                }
 
                 TotalNumberOfGoldGained += goldGained;
 
@@ -190,6 +215,14 @@ namespace Relics
         [SerializeField, HideInInspector]
         private bool countingDown = false;
 
+        public override string Description
+        {
+            get
+            {
+                return $"This relic will be destroyed in {RemainingNumberOfRounds} rounds.";
+            }
+        }
+
         public override void OnGainRelic()
         {
             RemainingNumberOfRounds = numberOfRounds;
@@ -226,7 +259,13 @@ namespace Relics
 
     public class DemonItemRelicEffect : RelicEffect
     {
-
+        public override string Description
+        {
+            get
+            {
+                return $"Not implemented";
+            }
+        }
 
         public override void OnGainRelic()
         {

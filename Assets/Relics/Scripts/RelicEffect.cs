@@ -34,6 +34,8 @@ namespace Relics
         public virtual void OnPlayEffect() { }
         public virtual void AfterPlayEffect() { }
         public virtual void Reset() { }
+
+        public abstract string Description { get; }
     }
 
     public abstract class StatIncreaseRelicEffect : RelicEffect
@@ -52,6 +54,14 @@ namespace Relics
         public UnitStatsEnum Stat => stat;
 
         public override string StatString => Stat.ToString().AddSpacesBeforeCapsRegex();
+
+        public override string Description
+        {
+            get
+            {
+                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSimpleDescription()}";
+            }
+        }
 
         public override void OnGainRelic()
         {
@@ -77,6 +87,14 @@ namespace Relics
     {
         public override string StatString => "Luck";
 
+        public override string Description
+        {
+            get
+            {
+                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSimpleDescription()}";
+            }
+        }
+
         public override void OnGainRelic()
         {
             Buff buff = buffIncreasePerLevel * Relic.Level;
@@ -100,6 +118,14 @@ namespace Relics
     public class IncreaseExperienceRelicEffect : StatIncreaseRelicEffect
     {
         public override string StatString => "Experience Gain";
+
+        public override string Description
+        {
+            get
+            {
+                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSimpleDescription()}";
+            }
+        }
 
         public override void OnGainRelic()
         {

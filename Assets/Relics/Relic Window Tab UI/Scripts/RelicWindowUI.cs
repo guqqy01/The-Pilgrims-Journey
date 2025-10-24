@@ -17,8 +17,9 @@ namespace Relics
 
         [SerializeField]
         private Text relicTitleText;
+
         [SerializeField]
-        private Text relicDescriptionText;
+        private RelicDescriptionUI relicDescriptionUI;
 
         private void Start()
         {
@@ -53,7 +54,8 @@ namespace Relics
         private void OnRelicSelected(Relic relicSelected)
         {
             relicTitleText.text = relicSelected.relicSO.name;
-            relicDescriptionText.text = relicSelected.relicSO.description;
+
+            relicDescriptionUI.Setup(relicSelected);
 
             foreach(RelicItemUI itemUI in relicItemsUIs)
             {

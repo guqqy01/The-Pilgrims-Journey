@@ -25,14 +25,14 @@ MonoBehaviour:
     - rid: 8036269413581193348
       type: {class: UnitStatIncreaseRelicEffect, ns: Relics, asm: Assembly-CSharp}
       data:
-        stat: 0
         buffIncreasePerLevel:
-          Multiplier: 0
+          Multiplier: 5
           baseBuff:
             intValue: 0
-            floatValue: 1
+            floatValue: 0
             isInt: 0
           additionalBuff:
             intValue: 0
             floatValue: 0
             isInt: 0
+        stat: 0

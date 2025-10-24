@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
   m_Name: Hoarding Wizard Orb
   m_EditorClassIdentifier: Assembly-CSharp::Relics.RelicSO
-  summary: A large sphere humming with two powerful enchantments.
   description: This orb, given to us from the wizard who was hording a large amount
     of trinkets, carries with it two powerful enchantments; one positive and one
     negative. The positive enchantment grants the spell "Healing Beacon". The second
@@ -20,7 +19,7 @@ MonoBehaviour:
   sprite: {fileID: 1734294462, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 500
   spells:
-  - spell: {fileID: 0}
+  - spell: {fileID: 11400000, guid: 49a18ea4067b0704b89d22daf6bbf1de, type: 2}
     amountOfUses: 1
   relicEffects: []
   references:

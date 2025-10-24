@@ -7,27 +7,27 @@ using JetBrains.Annotations;
 using NUnit.Framework;
 using UnityEditor.Rendering.LookDev;
 
-public class LayoutContentSizerBaseParent : LayoutContentSizer, ILayoutGroup
+public class LayoutContentSizerBaseParent : LayoutContentElement
 {
     [SerializeField]
     private bool _setFinalPosition;
     [SerializeField]
     private Vector3 _finalAnchoredPosition;
 
-    public ParentList<LayoutContent> LayoutContentParentList = new ParentList<LayoutContent>();
-    public Dictionary<RectTransform, LayoutContent> RectAndLayoutContent = new Dictionary<RectTransform, LayoutContent>();
+    public ParentList<LayoutElementData> LayoutContentParentList = new ParentList<LayoutElementData>();
+    public Dictionary<RectTransform, LayoutElementData> RectAndLayoutContent = new Dictionary<RectTransform, LayoutElementData>();
 
     public void UpdateAllLayoutsDeepestFirst()
     {
         SetupParentList();
 
-        var allSizers = GetComponentsInChildren<LayoutContentSizer>(includeInactive: false)
+        var allSizers = GetComponentsInChildren<LayoutContentElement>(includeInactive: false)
             .OrderByDescending(s => GetHierarchyDepth(s.transform))
             .ToList();
 
         foreach (var sizer in allSizers)
         {
-            ParentList<LayoutContent> content = GetContent(sizer);
+            ParentList<LayoutElementData> content = GetContent(sizer);
 
             sizer.Content = GetContent(sizer);
         }
@@ -43,7 +43,7 @@ public class LayoutContentSizerBaseParent : LayoutContentSizer, ILayoutGroup
             rectTransform.anchoredPosition = _finalAnchoredPosition;
     }
 
-    public LayoutContent GetOwnContent(RectTransform rectTransform)
+    public LayoutElementData GetOwnContent(RectTransform rectTransform)
     {
         foreach (var item in LayoutContentParentList)
         {
@@ -54,7 +54,7 @@ public class LayoutContentSizerBaseParent : LayoutContentSizer, ILayoutGroup
         return null;
     }
 
-    public List<LayoutContent> GetSiblings(RectTransform rectTransform)
+    public List<LayoutElementData> GetSiblings(RectTransform rectTransform)
     {
         foreach(var child in LayoutContentParentList)
         {
@@ -70,21 +70,21 @@ public class LayoutContentSizerBaseParent : LayoutContentSizer, ILayoutGroup
         if (rectTransform == null)
             rectTransform = GetComponent<RectTransform>();
 
-        ParentList<LayoutContent> returnContent = new ParentList<LayoutContent>();
+        ParentList<LayoutElementData> returnContent = new ParentList<LayoutElementData>();
 
         List<RectTransform> rectTransformContent = new List<RectTransform>();
 
         rectTransformContent = GetComponentsInChildren<RectTransform>(false).ToList();
 
-        RectAndLayoutContent = new Dictionary<RectTransform, LayoutContent>();
+        RectAndLayoutContent = new Dictionary<RectTransform, LayoutElementData>();
 
         foreach (RectTransform rect in rectTransformContent)
         {
-            LayoutContent layoutContent = new LayoutContent();
+            LayoutElementData layoutContent = new LayoutElementData();
 
             layoutContent.rectTransform = rect;
 
-            if(rect.TryGetComponent(out LayoutContentSizer contentSizer))
+            if(rect.TryGetComponent(out LayoutContentElement contentSizer))
             {
                 layoutContent.contentSizer = contentSizer;
                 contentSizer.LayoutSizerParent = this;
@@ -97,7 +97,7 @@ public class LayoutContentSizerBaseParent : LayoutContentSizer, ILayoutGroup
             RectAndLayoutContent.Add(rect, layoutContent);
         }
 
-        foreach(LayoutContent layoutContent in returnContent)
+        foreach(LayoutElementData layoutContent in returnContent)
         {
             RectTransform rectParent = (RectTransform)layoutContent.rectTransform.parent;
 
@@ -108,36 +108,36 @@ public class LayoutContentSizerBaseParent : LayoutContentSizer, ILayoutGroup
         LayoutContentParentList = returnContent;
     }
 
-    public ParentList<LayoutContent> GetContent(LayoutContentSizer sizer)
+    public ParentList<LayoutElementData> GetContent(LayoutContentElement sizer)
     {
-        ParentList<LayoutContent> addContent = RectAndLayoutContent.Where(x => sizer.IncludeContent.Contains(x.Key) && x.Key.gameObject.activeInHierarchy).Select(x => x.Value).ToParentList();
+        ParentList<LayoutElementData> addContent = RectAndLayoutContent.Where(x => x.Key != null && sizer.IncludeContent.Contains(x.Key) && x.Key.gameObject.activeInHierarchy).Select(x => x.Value).ToParentList();
 
         if (!sizer.childrenAreContent)
             return addContent;
 
-        List<LayoutContent> ignoreContent = RectAndLayoutContent.Where(x => sizer.ChildrenToIgnore.Contains(x.Key)).Select(x => x.Value).ToList();
+        List<LayoutElementData> ignoreContent = RectAndLayoutContent.Where(x => sizer.ChildrenToIgnore.Contains(x.Key)).Select(x => x.Value).ToList();
 
-        LayoutContent content = RectAndLayoutContent[(RectTransform)sizer.transform];
+        LayoutElementData content = RectAndLayoutContent[(RectTransform)sizer.transform];
 
-        ParentList<LayoutContent> subList = LayoutContentParentList.GetSubParentList(content, ignoreContent, addContent);
+        ParentList<LayoutElementData> subList = LayoutContentParentList.GetSubParentList(content, ignoreContent, addContent);
 
         subList.Remove(content);
 
-        ParentList<LayoutContent> copyOfSubList = new ParentList<LayoutContent>();
+        ParentList<LayoutElementData> copyOfSubList = new ParentList<LayoutElementData>();
         copyOfSubList.AddRange(subList);
 
-        foreach(LayoutContent c in subList)
+        foreach(LayoutElementData c in subList)
         {
-            List<LayoutContent> children = ((IParentListItem<LayoutContent>)c).GetAllChildren();
+            List<LayoutElementData> children = ((IParentListItem<LayoutElementData>)c).GetAllChildren();
 
             if (c.contentSizer != null)
                 copyOfSubList.RemoveRange(children);
         }
 
-        subList = new ParentList<LayoutContent>();
+        subList = new ParentList<LayoutElementData>();
         subList.AddRange(copyOfSubList);
 
-        foreach (LayoutContent c in addContent)
+        foreach (LayoutElementData c in addContent)
         {
             if (!subList.Contains(c))
             {
@@ -157,15 +157,5 @@ public class LayoutContentSizerBaseParent : LayoutContentSizer, ILayoutGroup
             t = t.parent;
         }
         return depth;
-    }
-
-    public void SetLayoutHorizontal()
-    {
-        //UpdateAllLayoutsDeepestFirst();
-    }
-
-    public void SetLayoutVertical()
-    {
-        //UpdateAllLayoutsDeepestFirst();
     }
 }
