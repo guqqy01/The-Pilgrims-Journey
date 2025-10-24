@@ -12,12 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
   m_Name: Blue Pendant
   m_EditorClassIdentifier: 
-  summary: 
-  description: Grants the Units Spawning in the first 10 seconds a large shield
+  description: 
   sprite: {fileID: -479873264, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 152
   spells: []
-  relicEffects: []
+  relicEffects:
+  - rid: 8036269458620678463
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8036269458620678463
+      type: {class: StartShieldRelicEffect, ns: Relics, asm: Assembly-CSharp}
+      data:
+        shieldAmountPerLevel: 20
+        unitTime: 10
