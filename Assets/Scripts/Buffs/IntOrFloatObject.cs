@@ -55,35 +55,36 @@ public struct IntOrFloatObject : IEquatable<IntOrFloatObject>
     // Arithmetic
     public static IntOrFloatObject operator +(IntOrFloatObject a, IntOrFloatObject b) 
     {
-        if (a.isInt || b.isInt)
+        if (a.IsFloat || b.IsFloat)
         {
-            return new IntOrFloatObject(a.IntValue + b.IntValue);
+            return new IntOrFloatObject(a.FloatValue + b.FloatValue);
         }
-        return new IntOrFloatObject(a.FloatValue + b.FloatValue);
+        return new IntOrFloatObject(a.IntValue + b.IntValue);
     } 
     public static IntOrFloatObject operator -(IntOrFloatObject a, IntOrFloatObject b)
     {
-        if (a.isInt || b.isInt)
+        if (a.IsFloat || b.IsFloat)
         {
-            return new IntOrFloatObject(a.IntValue - b.IntValue);
+            return new IntOrFloatObject(a.FloatValue - b.FloatValue);
         }
-        return new IntOrFloatObject(a.FloatValue - b.FloatValue);
+        return new IntOrFloatObject(a.IntValue - b.IntValue);
     }
+
     public static IntOrFloatObject operator *(IntOrFloatObject a, IntOrFloatObject b)
     {
-        if (a.isInt || b.isInt)
+        if (a.IsFloat || b.IsFloat)
         {
-            return new IntOrFloatObject(a.IntValue * b.IntValue);
+            return new IntOrFloatObject(a.FloatValue * b.FloatValue);
         }
-        return new IntOrFloatObject(a.FloatValue * b.FloatValue);
+        return new IntOrFloatObject(a.IntValue * b.IntValue);
     }
     public static IntOrFloatObject operator /(IntOrFloatObject a, IntOrFloatObject b)
     {
-        if (a.isInt || b.isInt)
+        if (a.IsFloat || b.IsFloat)
         {
-            return new IntOrFloatObject(a.IntValue / b.IntValue);
+            return new IntOrFloatObject(a.FloatValue / b.FloatValue);
         }
-        return new IntOrFloatObject(a.FloatValue / b.FloatValue);
+        return new IntOrFloatObject(a.IntValue / b.IntValue);
     }
 
     public override string ToString() => isInt ? intValue.ToString() : floatValue.ToString("0.###");

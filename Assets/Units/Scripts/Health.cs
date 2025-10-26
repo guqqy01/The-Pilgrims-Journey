@@ -51,14 +51,7 @@ namespace Units
         {
             get
             {
-                var stat = maxHealth.Value;
-
-                // If this stat is int-based, use IntValue
-                if (stat.IsInt)
-                    return stat.IntValue;
-
-                // If it’s float-based (because of buffs), round it
-                return Mathf.RoundToInt(stat.FloatValue);
+                return maxHealth.Value.IntValue;
             }
         }
 

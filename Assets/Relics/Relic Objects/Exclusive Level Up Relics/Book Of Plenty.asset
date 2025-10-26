@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
   m_Name: Book Of Plenty
   m_EditorClassIdentifier: Assembly-CSharp::Relics.RelicSO
-  summary: Increases the Spawn rate of all units
-  description: 
+  description: Increases the spawn rate of all units.
   sprite: {fileID: -31465614, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 0
   spells: []
@@ -25,7 +24,6 @@ MonoBehaviour:
     - rid: 8036269413581193349
       type: {class: UnitStatIncreaseRelicEffect, ns: Relics, asm: Assembly-CSharp}
       data:
-        stat: 2
         buffIncreasePerLevel:
           Multiplier: 0
           baseBuff:
@@ -36,3 +34,4 @@ MonoBehaviour:
             intValue: 0
             floatValue: 0
             isInt: 0
+        stat: 2

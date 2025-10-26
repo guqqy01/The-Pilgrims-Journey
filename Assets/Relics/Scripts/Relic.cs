@@ -19,6 +19,7 @@ namespace Relics
     {
         public RelicSO relicSO;
 
+        [SerializeField]
         private int level;
         public int Level
         {
@@ -79,12 +80,17 @@ namespace Relics
 
         public Relic(RelicSO relicSO, int level = 1)
         {
+            Init(relicSO, level);
+        }
+
+        public void Init(RelicSO relicSO, int level = 1)
+        {
             this.relicSO = relicSO;
             baseValue = relicSO.baseValue;
 
             this.level = level;
 
-            foreach(RelicEffect effect in relicSO.relicEffects)
+            foreach (RelicEffect effect in relicSO.relicEffects)
             {
                 if (effect == null)
                     continue;
@@ -94,7 +100,7 @@ namespace Relics
                 relicEffects.Add(clonedEffect);
             }
 
-            foreach(RelicSpell spell in relicSO.spells)
+            foreach (RelicSpell spell in relicSO.spells)
             {
                 SpellManager.Instance.AddSpell(spell.spell, spell.amountOfUses);
             }

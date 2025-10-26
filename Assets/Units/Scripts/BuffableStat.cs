@@ -35,8 +35,13 @@ namespace Units
         public IntOrFloatObject AddBuff(string reference, Buff buff)
         {
             var previous = Value;
-            buffs[reference] = buff; // add or replace
+            if (buffs.ContainsKey(reference))
+                buffs[reference] = buff; // add or replace
+            else
+                buffs.Add(reference, buff);
+
             RefreshValue();
+
             return Value - previous;
         }
 

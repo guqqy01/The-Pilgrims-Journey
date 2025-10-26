@@ -48,7 +48,9 @@ public class Buff
     /// </summary>
     public virtual IntOrFloatObject Value(IntOrFloatObject baseValue)
     {
-        float result = ((baseValue + baseBuff) * (1 + Multiplier / 100f) + additionalBuff).FloatValue;
+        float result = ((baseValue + baseBuff) * (1f + Multiplier / 100f) + additionalBuff).FloatValue;
+
+
 
         return baseBuff.IsInt
             ? new IntOrFloatObject(Mathf.RoundToInt(result))
@@ -204,11 +206,20 @@ public class Buff
                 returnString += "\r\n";
         }
 
-        returnString = BaseBuff != 0 ? $"{baseBuffPositiveOrNegative}{BaseBuff.Value}" : "";
-        AddCarageReturn();
-        returnString += Multiplier != 0 ? $"{Multiplier}%" : "";
-        AddCarageReturn();
-        returnString += AdditionalBuff != 0 ? $"{additionalBuffPositiveOrNegative}{AdditionalBuff.Value}" : "";
+        string baseString = BaseBuff != 0 ? $"{baseBuffPositiveOrNegative}{BaseBuff.Value}" : "";
+        returnString += baseString;
+
+        string multiplierString = Multiplier != 0 ? $"{multiplierBuffPositiveOrNegative}{Multiplier}%" : "";
+
+        if(multiplierString != "")
+            AddCarageReturn();
+        returnString += multiplierString;
+
+        string additionalString = AdditionalBuff != 0 ? $"{additionalBuffPositiveOrNegative}{AdditionalBuff.Value}" : "";
+
+        if(additionalBuff != null)
+            AddCarageReturn();
+        returnString += additionalString;
 
         return returnString;
 

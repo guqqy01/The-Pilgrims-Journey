@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
   m_Name: Book of Knowledge
   m_EditorClassIdentifier: Assembly-CSharp::Relics.RelicSO
-  summary: Increases experience gained
-  description: 
+  description: Increases the experience gained for each unit passing a level.
   sprite: {fileID: 1184853593, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 0
   spells: []

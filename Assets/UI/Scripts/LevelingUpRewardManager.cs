@@ -47,21 +47,26 @@ public class LevelingUpRewardManager : MonoBehaviour, ISingletonToBeInitiatedFro
 
     private int GetAmountOfLevelsGained()
     {
-        int luck = OverallBuffManager.Instance.Luck;
+        //luck is where on the xAxis the standard deviation curve lies, its it Mathf.Log10'd to stop exponential boosts.
+        float luck = Mathf.Log10(Mathf.Max(OverallBuffManager.Instance.Luck, 0) + 1);
 
+        //Standard deviation on the curve
         float standardDiv = 2f;
 
+        //random position on the curve, within 0 and standardDiv * (Sqrt(2 * PI)).
         float y = Random.Range(Mathf.Epsilon, (1f / (standardDiv * Mathf.Sqrt(2 * Mathf.PI))) - Mathf.Epsilon);
 
+        //Calculate one side of the curve;
         float standardDivCurve = standardDiv * (Mathf.Sqrt(2f)) * Mathf.Sqrt(Mathf.Log10(1f / (standardDiv * Mathf.Sqrt(2 * Mathf.PI) * y)));
 
+        //boolean of wether to sample sample from the left or right side of the curve.
         int rightSide = Random.Range(0, 2);
 
         int value;
 
         if(rightSide >= 1)
         {
-            int rightSideOfCurve = Mathf.RoundToInt(standardDivCurve + luck);
+            int rightSideOfCurve = Mathf.RoundToInt(luck + standardDivCurve);
             value = rightSideOfCurve;
         }
         else
@@ -70,6 +75,7 @@ public class LevelingUpRewardManager : MonoBehaviour, ISingletonToBeInitiatedFro
             value = leftSideOfCurve;
         }
 
+        //Return at least one level increase.
         return Mathf.Max(value, 1);
     }
 

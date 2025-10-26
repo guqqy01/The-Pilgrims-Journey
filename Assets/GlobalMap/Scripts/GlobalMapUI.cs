@@ -147,6 +147,8 @@ namespace Map
             // cache commonly used values per update
             float canvasScaleX = canvasTransform.localScale.x;
 
+            GlobalMapPointUI lastPathMapPoint = null;
+
             // Create new UI for points
             foreach (GlobalMapPoint point in gen.mapPoints)
             {
@@ -162,6 +164,7 @@ namespace Map
                 if (gen.takenPath.Contains(point))
                 {
                     pointUI.Color = takenPointColor;
+                    lastPathMapPoint = pointUI;
                 }
             }
 
@@ -169,10 +172,34 @@ namespace Map
             contentTransform.sizeDelta = new Vector2(Mathf.Max(width, 490), contentTransform.sizeDelta.y);
 
             ColorPathLines(playAnimationAndUseFirstSeenTrigger);
+
+            if (playAnimationAndUseFirstSeenTrigger)
+            {
+                CenterViewPlacement(lastPathMapPoint);
+            }
         }
 
-        private void CenterViewPlacement()
+        private void CenterViewPlacement(GlobalMapPointUI pointUI)
         {
+            if (pointUI == null)
+                return;
+
+            // Get viewport width
+            RectTransform viewport = contentTransform.parent as RectTransform;
+            if (viewport == null)
+                return;
+
+            // Convert world position of the point to local position in content space
+            Vector3 localPos = contentTransform.InverseTransformPoint(pointUI.transform.position);
+
+            // Target anchored position to center the point horizontally
+            float targetX = -localPos.x + (viewport.rect.width / 2f);
+
+            float minX = - contentTransform.rect.width + viewport.rect.width;
+
+            targetX = Mathf.Clamp(targetX, minX, 0);
+
+            contentTransform.anchoredPosition = new Vector2(targetX, contentTransform.anchoredPosition.y);
         }
 
         private List<MapLineUI> GetTakenPathLines()

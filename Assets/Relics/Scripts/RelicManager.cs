@@ -168,9 +168,16 @@ namespace Relics
         {
             if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
             {
+
+                Debug.Log("Load Relics");
                 SaveData saveData = outSaveProfile.saveData;
 
                 relics = saveData.relics;
+
+                foreach(Relic relic in relics)
+                {
+                    relic.Init(relic.relicSO, relic.Level);
+                }
 
                 updateUI?.Invoke();
             }
