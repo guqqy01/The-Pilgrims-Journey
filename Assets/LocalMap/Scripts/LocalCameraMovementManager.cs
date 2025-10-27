@@ -4,8 +4,18 @@ using UnityEngine;
 public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
     public static LocalCameraMovementManager Instance { get; private set; }
+    private Camera cam;
+    private Camera Cam
+    {
+        get
+        {
+            if(cam == null)
+                cam = Camera.main;
 
-    [SerializeField] private Camera cam;
+            return cam;
+        }
+    }
+
 
     [Header("Zoom")]
     [SerializeField] private float zoomSpeed = 1f;
@@ -26,8 +36,8 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
     private int MapSizeX => LocalMapGenerator.Instance.MapSizeX;
     private int MapSizeY => LocalMapGenerator.Instance.MapSizeY;
 
-    private float HalfCamHeight => cam.orthographicSize;
-    private float HalfCamWidth => HalfCamHeight * cam.aspect;
+    private float HalfCamHeight => Cam.orthographicSize;
+    private float HalfCamWidth => HalfCamHeight * Cam.aspect;
     private float MapLeft => -0.5f;
     private float MapRight => MapSizeX - 0.5f;
 
@@ -63,7 +73,7 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
     private float CalculateMaxZoom()
     {
         float maxZoomVertical = MapHeight / 2f;
-        float maxZoomHorizontal = MapWidth / (2f * cam.aspect);
+        float maxZoomHorizontal = MapWidth / (2f * Cam.aspect);
 
         float unitsPerPixel = MapHeight / Screen.height;
         float totalVerticalPadding = (topPaddingPixels + bottomPaddingPixels) * unitsPerPixel;
@@ -73,13 +83,13 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
 
     private float GetVerticalWorldPadding(float pixelPadding)
     {
-        float unitsPerPixel = (cam.orthographicSize * 2f) / (float)Screen.height;
+        float unitsPerPixel = (Cam.orthographicSize * 2f) / (float)Screen.height;
         return pixelPadding * unitsPerPixel;
     }
 
     private void Clamp()
     {
-        Vector3 camPos = cam.transform.position;
+        Vector3 camPos = Cam.transform.position;
 
         float MapTop = MapSizeY - 0.5f;
         float MapBottom = -0.5f;
@@ -92,13 +102,13 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
 
         float camX = Mathf.Clamp(camPos.x, CameraXPosMin, CameraXPosMax);
         float camY = Mathf.Clamp(camPos.y, CameraYPosMin, CameraYPosMax);
-        cam.transform.position = new Vector3(camX, camY, camPos.z);
+        Cam.transform.position = new Vector3(camX, camY, camPos.z);
     }
 
     public void FullZoomCamera()
     {
-        cam.transform.position = new Vector3(MapSizeX / 2f - 0.5f, MapSizeY / 2f - 0.5f, -10f);
-        cam.orthographicSize = MaxZoom;
+        Cam.transform.position = new Vector3(MapSizeX / 2f - 0.5f, MapSizeY / 2f - 0.5f, -10f);
+        Cam.orthographicSize = MaxZoom;
     }
 
     private void MoveCamera()
@@ -107,22 +117,22 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
         float moveY = (Input.GetKey(cameraMovementUp) ? 1 : 0) - (Input.GetKey(cameraMovementDown) ? 1 : 0);
 
         Vector3 move = new Vector3(moveX, moveY, 0f).normalized * cameraSpeed * Time.deltaTime;
-        cam.transform.position += move;
+        Cam.transform.position += move;
     }
 
     private void HandleMouseDrag()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
+            dragOrigin = Cam.ScreenToWorldPoint(Input.mousePosition);
             isDragging = true;
         }
 
         if (Input.GetMouseButton(0) && isDragging)
         {
-            Vector3 currentPos = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 currentPos = Cam.ScreenToWorldPoint(Input.mousePosition);
             Vector3 difference = dragOrigin - currentPos;
-            cam.transform.position += difference;
+            Cam.transform.position += difference;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -133,8 +143,8 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
 
     private void ZoomCamera()
     {
-        float newSize = cam.orthographicSize - Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
+        float newSize = Cam.orthographicSize - Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
         newSize = Mathf.Clamp(newSize, zoomMin, MaxZoom);
-        cam.orthographicSize = newSize;
+        Cam.orthographicSize = newSize;
     }
 }

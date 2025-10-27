@@ -42,9 +42,6 @@ namespace Map
 
         public LocalMapGenerationSettings generationSettings;
 
-        [SerializeField]
-        private Camera cam;
-
         public List<Direction> TargetDirections => pathway.ToDirections;
 
         public Direction StartWall { get; private set; }

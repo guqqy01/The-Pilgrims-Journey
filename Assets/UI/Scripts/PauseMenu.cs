@@ -10,12 +10,14 @@ public class PauseMenu : MonoBehaviour
     public void OpenPauseMenuButton()
     {
         Time.timeScale = 0f;
+        BlurBackgroundController.Instance.EnableBlur();
     }
 
     public void ContinueButton()
     {
         gameObject.SetActive(false);
         Time.timeScale = 1.0f;
+        BlurBackgroundController.Instance.DisableBlur();
     }
 
     public void OptionsButton()

@@ -52,8 +52,17 @@ namespace Map
 
         public Direction? PickedDirection { get; private set; } = null;
 
-        [SerializeField]
         private Camera cam;
+        private Camera Cam
+        {
+            get
+            {
+                if(cam == null)
+                    cam = Camera.main;
+
+                return cam;
+            }
+        }
 
         private void Awake()
         {
@@ -67,7 +76,7 @@ namespace Map
 
             if (InputManagerInstance.LeftClick)
             {
-                Vector3 worldPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 worldPoint = Cam.ScreenToWorldPoint(Input.mousePosition);
                 Collider2D collider = Physics2D.OverlapPoint(worldPoint, pathPickerLayerMask);
 
                 if (collider != null)
