@@ -13,6 +13,8 @@ public class BlurBackgroundController : MonoBehaviour, ISingletonToBeInitiatedFr
     private float timeToBlur = 0.4f;
     private float BlurSpeed => 1f / timeToBlur;
 
+    private Coroutine currentCoroutine;
+
     public void InitiateSingleton()
     {
         if (Instance != null && Instance != this)
@@ -27,12 +29,18 @@ public class BlurBackgroundController : MonoBehaviour, ISingletonToBeInitiatedFr
 
     public void EnableBlur()
     {
-        StartCoroutine(Blur(true));
+        if(currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
+
+        currentCoroutine = StartCoroutine(Blur(true));
     }
 
     public void DisableBlur()
     {
-        StartCoroutine(Blur(false));
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
+
+        currentCoroutine = StartCoroutine(Blur(false));
     }
 
     public IEnumerator Blur(bool on)

@@ -8,8 +8,8 @@ using AYellowpaper.SerializedCollections;
 
 namespace Equipment
 {
-    [CreateAssetMenu()]
-    public class EquipmentSO : ScriptableObject, IInfo
+    [CreateAssetMenu()] 
+    public class EquipmentSO : ScriptableObject, IInfo, IDescriptable
     {
         public Sprite sprite;
 
@@ -88,6 +88,31 @@ namespace Equipment
         public string Description => description;
 
         public string GoldAmount => goldCost.ToString();
+
+        public string MainDescription => description;
+
+        [Header("UI Description")]
+        [SerializeField]
+        private DescriptionStatUI descriptionStatUIPrefab;
+
+        public Dictionary<SubDescriptionUI, object[]> SubDescriptionPrefabsAndParams
+        {
+            get
+            {
+                Dictionary<SubDescriptionUI, object[]> returnList = new Dictionary<SubDescriptionUI, object[]>();
+
+                foreach(var kvp in equipmentStats)
+                {
+
+                    object[] paramObjects = new object[2];
+                    paramObjects[0] = kvp.Value;
+                    paramObjects[1] = kvp.Key;
+                    returnList.Add(descriptionStatUIPrefab, paramObjects);
+                }
+
+                return returnList;
+            }
+        }
 
         [Header("Shop Settings")]
         // X position is normalized to 0-1 so end of the map will be at t = 1
