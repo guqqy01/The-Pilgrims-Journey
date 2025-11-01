@@ -2537,7 +2537,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - UNDERLAY_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - MASK_SOFT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -2579,17 +2580,17 @@ Material:
     - _BumpFace: 0
     - _BumpOutline: 0
     - _ColorMask: 15
-    - _CullMode: 0
+    - _CullMode: 2
     - _Diffuse: 1
     - _FaceDilate: 0
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
     - _GlowInner: 0.611
-    - _GlowOffset: -1
+    - _GlowOffset: 1
     - _GlowOuter: 1
     - _GlowPower: 0.317
     - _GradientScale: 8
-    - _LightAngle: 0
+    - _LightAngle: 0.93
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
     - _OutlineSoftness: 0
@@ -2599,12 +2600,12 @@ Material:
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 5.58
     - _ScaleRatioA: 0.875
-    - _ScaleRatioB: 0.7109375
+    - _ScaleRatioB: 0.35546875
     - _ScaleRatioC: 0.7109375
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
-    - _Sharpness: 0
+    - _Sharpness: 1
     - _SpecularPower: 4
     - _Stencil: 0
     - _StencilComp: 8
@@ -2614,7 +2615,7 @@ Material:
     - _TextureHeight: 512
     - _TextureWidth: 512
     - _UnderlayDilate: 0
-    - _UnderlayOffsetX: 0
+    - _UnderlayOffsetX: 0.417
     - _UnderlayOffsetY: -1
     - _UnderlaySoftness: 0
     - _VertexOffsetX: 0
@@ -2625,13 +2626,13 @@ Material:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 1, g: 0.8227092, b: 0, a: 0.5}
+    - _GlowColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectFaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 28.51895, g: 28.51895, b: 28.51895, a: 1}
-    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _SpecularColor: {r: 0.74901944, g: 0.74901944, b: 0.74901944, a: 1}
+    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.6745098}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!28 &7770868864699924384
@@ -2667,9 +2668,9 @@ Texture2D:
     m_FilterMode: 1
     m_Aniso: 1
     m_MipBias: 0
-    m_WrapU: 0
-    m_WrapV: 0
-    m_WrapW: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
   m_LightmapFormat: 0
   m_ColorSpace: 0
   m_PlatformBlob: 
