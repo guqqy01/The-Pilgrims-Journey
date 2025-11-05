@@ -4,8 +4,10 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class RewardGainedUI : MonoBehaviour
+public class RewardGainedUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
+    public static RewardGainedUI Instance { private set; get; }
+
     [SerializeField] private Image itemImage;
 
     [SerializeField] private Animator glowAnimator;
@@ -17,6 +19,29 @@ public class RewardGainedUI : MonoBehaviour
 
     [SerializeField] private float itemShowtime = 1f;
 
+    public void InitiateSingleton()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    public void Setup(IDescriptable descriptable)
+    {
+        if(descriptable is EquipmentSO equipment)
+        {
+            Setup(equipment);
+        }
+        else if (descriptable is RelicSO relic)
+        {
+            Setup(relic);
+        }
+    }
 
     public void Setup(EquipmentSO equipmentSO)
     {
@@ -30,6 +55,8 @@ public class RewardGainedUI : MonoBehaviour
 
     private void Setup(Sprite sprite, string itemName, bool isEquipment)
     {
+        gameObject.SetActive(true);
+
         itemImage.sprite = sprite;
         itemText.text = itemName;
 
@@ -61,5 +88,10 @@ public class RewardGainedUI : MonoBehaviour
             itemAnimator.SetTrigger("GiveItemRelics");
 
         textAnimator.SetTrigger("Hide");
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

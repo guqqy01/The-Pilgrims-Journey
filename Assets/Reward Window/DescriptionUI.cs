@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using System.Linq;
+using System.Collections;
 
 public class DescriptionUI : MonoBehaviour
 {
@@ -14,6 +15,15 @@ public class DescriptionUI : MonoBehaviour
     [SerializeField] private Transform subDescriptionHolder;
 
     [SerializeField] private LayoutContentSizerBaseParent layoutContentSizer;
+
+    [SerializeField]
+    private RectTransform contentTransform;
+    [SerializeField]
+    private RectTransform viewportTransform;
+
+    [SerializeField]
+    private Scrollbar scrollbar;
+
     public void UpdateUI(IDescriptable descriptable)
     {
         titleText.text = descriptable.Title;
@@ -23,8 +33,8 @@ public class DescriptionUI : MonoBehaviour
 
         foreach (var kvp in descriptable.SubDescriptionPrefabsAndParams)
         {
-            SubDescriptionUI prefab = kvp.Key;
-            object[] paramObjects = kvp.Value;
+            SubDescriptionUI prefab = kvp.UI;
+            object[] paramObjects = kvp.Params;
 
             SubDescriptionUI newSubDescription = Instantiate(prefab, subDescriptionHolder);
             newSubDescription.UpdateUI(paramObjects);
@@ -32,7 +42,19 @@ public class DescriptionUI : MonoBehaviour
             subDescriptionsUIs.Add(newSubDescription);
         }
 
-        layoutContentSizer.UpdateAllLayoutsDeepestFirst();
+        
+        layoutContentSizer.WaitOneFrameThenUpdateLayout();
+
+        StartCoroutine(WaitTwoFramesThenSetHeight());
     }
 
+    private IEnumerator WaitTwoFramesThenSetHeight()
+    {
+        yield return null;
+        yield return new WaitForEndOfFrame();
+        
+
+        scrollbar.size = Mathf.Min(viewportTransform.sizeDelta.y / contentTransform.sizeDelta.y, 1);
+        contentTransform.anchoredPosition = new Vector2(0, -contentTransform.sizeDelta.y / 2f);
+    }
 }

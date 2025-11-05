@@ -22,7 +22,6 @@ using static Unity.VisualScripting.Metadata;
 //size      : padding + minPosition of all children to maxPosition of all children
 //position  : look at siblings size's from the GetRect() function and figure out position based on parents layoutgroup settings
 
-
 //If neither
 
 //size      : padding + minPosition of all children to maxPosition of all children
@@ -88,14 +87,21 @@ public class LayoutContentElement : MonoBehaviour
     [SerializeField]
     private float bottom;
 
-    public bool childrenAreContent = true;
+    [Header("Min")]
+    [SerializeField]
+    private float minWidth;
+    [SerializeField]
+    private float minHeight;
 
+    public bool childrenAreContent = true;
+    [Header("Should Size")]
     [SerializeField]
     private bool sizeWidth = true;
     public bool SizeWidth => sizeWidth;
     [SerializeField]
     private bool sizeHeight = true;
     public bool SizeHeight => sizeHeight;
+    [Header("Should Move")]
     [SerializeField]
     private bool moveToCenterX = true;
     public bool MoveToCenterX => moveToCenterX; 
@@ -225,30 +231,28 @@ public class LayoutContentElement : MonoBehaviour
             rectTransform = GetComponent<RectTransform>();
 
         if (!sizeWidth)
-            return rectTransform.sizeDelta.x;
-
-        if (rectTransform == null)
-            rectTransform = GetComponent<RectTransform>();
+        {
+            return Mathf.Max(rectTransform.sizeDelta.x, 0, minWidth);
+        }
 
         if (content.Count <= 0)
         {
-            return rectTransform.rect.width;
+            return Mathf.Max(minWidth, 0);
         }
 
         if(TryGetComponent(out LayoutGroup layoutGroup))
         {
             if (layoutGroup is  HorizontalLayoutGroup horizontalLayoutGroup)
             {
-                return GetWidthIfHasHorizontalLayoutGroup(horizontalLayoutGroup);
+                return Mathf.Max(GetWidthIfHasHorizontalLayoutGroup(horizontalLayoutGroup), 0, minWidth);
             }
             else if (layoutGroup is VerticalLayoutGroup)
             {
-                return GetWidthIfHasVerticalLayoutGroup();
+                return Mathf.Max(GetWidthIfHasVerticalLayoutGroup(), 0, minWidth);
             }
         }
        
-
-        return GetShrinkWrappedWidth();
+        return Mathf.Max(GetShrinkWrappedWidth(), 0, minWidth);
     }
 
     public float GetHeight()
@@ -257,30 +261,25 @@ public class LayoutContentElement : MonoBehaviour
             rectTransform = GetComponent<RectTransform>();
 
         if (!sizeHeight)
-            return rectTransform.sizeDelta.y;
-
-        if (rectTransform == null)
-            rectTransform = GetComponent<RectTransform>();
+            return Mathf.Max(rectTransform.sizeDelta.y, 0, minHeight);
 
         if (content.Count <= 0)
         {
-            return rectTransform.rect.height;
+            return Mathf.Max(0, minHeight);
         }
 
         if (TryGetComponent(out LayoutGroup layoutGroup))
         {
             if (layoutGroup is HorizontalLayoutGroup)
             {
-                return GetHeightIfHasHorizontalLayoutGroup();
+                return Mathf.Max(GetHeightIfHasHorizontalLayoutGroup(), 0, minHeight);
             }
             else if (layoutGroup is VerticalLayoutGroup verticalLayoutGroup)
             {
-                return GetHeightIfHasVerticalLayoutGroup(verticalLayoutGroup);
+                return Mathf.Max(GetHeightIfHasVerticalLayoutGroup(verticalLayoutGroup), 0, minHeight);
             }
         }
-
-
-        return GetShrinkWrappedHeight();
+        return Mathf.Max(GetShrinkWrappedHeight(), 0, minHeight);
     }
 
     public float GetXPosition()
@@ -418,6 +417,12 @@ public class LayoutContentElement : MonoBehaviour
         return parentRect.position.y;
     }
 
+    /// <summary>
+    /// Gets the position 
+    /// </summary>
+    /// <param name="vLayoutGroup">The layout group</param>
+    /// <param name="parentRect">The Parent with the vertical layout group</param>
+    /// <returns>X position</returns>
     private float VLayoutGroupSetUpChildrenNoCFENoCCSXPos(VerticalLayoutGroup vLayoutGroup, RectTransform parentRect)
     {
         LayoutElementData parentContent = LayoutSizerParent.GetOwnContent(parentRect);
@@ -444,6 +449,7 @@ public class LayoutContentElement : MonoBehaviour
         return childXPosition;
     }
 
+    //No Child Force Expand, No Control Child Size
     private float HLayoutGroupSetUpChildrenNoCFENoCCSYPos(HorizontalLayoutGroup hLayoutGroup, RectTransform parentRect)
     {
         LayoutElementData parentContent = LayoutSizerParent.GetOwnContent(parentRect);
@@ -520,9 +526,10 @@ public class LayoutContentElement : MonoBehaviour
             if (layoutContent.contentSizer != null)
             {
                 layoutContent.contentSizer.GetHeightAndYPosition(out float h, out float yPos);
-
-                // Convert world yPos into local space of parent
-                Vector3 localCenter = parent.InverseTransformPoint(new Vector3(0, yPos, 0));
+                // TODO: also require world xPos. Ideally: GetCenterWorldPosition(out float xPos, out float yPos);
+                float worldX = layoutContent.rectTransform.position.x; // if you don't have contentSizer world x otherwise get from sizer
+                Vector3 worldCenter = new Vector3(worldX, yPos, layoutContent.rectTransform.position.z);
+                Vector3 localCenter = parent.InverseTransformPoint(worldCenter);
                 yMin = localCenter.y - h / 2f;
                 yMax = localCenter.y + h / 2f;
             }
@@ -595,8 +602,6 @@ public class LayoutContentElement : MonoBehaviour
         // Center point + padding adjustment
         return yMin + rectHeight / 2f + (Top - Bottom) / 2f;
     }
-
-
 
 
     private float GetShrinkWrappedXPosition()

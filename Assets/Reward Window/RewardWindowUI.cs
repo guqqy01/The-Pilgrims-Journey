@@ -18,6 +18,8 @@ public class RewardWindowUI : MonoBehaviour
     [SerializeField] private List<EquipmentSO> testEquipment;
     [SerializeField] private List<RelicSO> testRelics;
 
+    private IDescriptable currentSelected;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -28,7 +30,6 @@ public class RewardWindowUI : MonoBehaviour
 
     private void TestSetup()
     {
-
         int rand = Random.Range(0, 2);
 
         if(rand == 0)
@@ -68,12 +69,15 @@ public class RewardWindowUI : MonoBehaviour
         if (descriptableObject == null)
             return;
 
+        currentSelected = descriptableObject;
+
         descriptionText.UpdateUI(descriptableObject);
     }
 
     public void Select()
     {
-       
+        gameObject.SetActive(false);
+        RewardGainedUI.Instance.Setup(currentSelected);
     }
 }
 
@@ -85,11 +89,23 @@ public interface IDescriptable
 
     public Sprite Sprite { get; }
 
-    public Dictionary<SubDescriptionUI, object[]> SubDescriptionPrefabsAndParams { get; }
+    public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams { get; }
 }
 
 
 public abstract class SubDescriptionUI : MonoBehaviour
 {
     public abstract void UpdateUI(params object[] obj);
+}
+
+public class SubDescriptionUIAndParams
+{
+    public SubDescriptionUI UI;
+    public object[] Params;
+
+    public SubDescriptionUIAndParams(SubDescriptionUI UI, object[] Params)
+    {
+        this.UI = UI;
+        this.Params = Params;
+    }
 }

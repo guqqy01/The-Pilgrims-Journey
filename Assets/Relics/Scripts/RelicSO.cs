@@ -28,7 +28,13 @@ namespace Relics
 
         public Sprite Sprite => sprite;
 
-        public Dictionary<SubDescriptionUI, object[]> SubDescriptionPrefabsAndParams => new Dictionary<SubDescriptionUI, object[]>();
+        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams
+        {
+            get
+            {
+                return new List<SubDescriptionUIAndParams>();
+            }
+        }
     }
 
     [Serializable]

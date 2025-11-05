@@ -98,18 +98,18 @@ namespace Equipment
         private DescriptionStatUI descriptionStatUIPrefab;
 
 
-        public Dictionary<SubDescriptionUI, object[]> SubDescriptionPrefabsAndParams
+        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams
         {
             get
             {
-                Dictionary<SubDescriptionUI, object[]> returnList = new Dictionary<SubDescriptionUI, object[]>();
+                List<SubDescriptionUIAndParams> returnList = new List<SubDescriptionUIAndParams>();
 
                 foreach(var kvp in equipmentStats)
                 {
                     object[] paramObjects = new object[2];
                     paramObjects[0] = kvp.Value;
                     paramObjects[1] = kvp.Key;
-                    returnList.Add(descriptionStatUIPrefab, paramObjects);
+                    returnList.Add(new SubDescriptionUIAndParams(descriptionStatUIPrefab, paramObjects));
                 }
 
                 return returnList;

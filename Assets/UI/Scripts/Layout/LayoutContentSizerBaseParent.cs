@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using JetBrains.Annotations;
 using NUnit.Framework;
 using UnityEditor.Rendering.LookDev;
+using System.Collections;
 
 public class LayoutContentSizerBaseParent : LayoutContentElement
 {
@@ -16,6 +17,17 @@ public class LayoutContentSizerBaseParent : LayoutContentElement
 
     public ParentList<LayoutElementData> LayoutContentParentList = new ParentList<LayoutElementData>();
     public Dictionary<RectTransform, LayoutElementData> RectAndLayoutContent = new Dictionary<RectTransform, LayoutElementData>();
+
+    public void WaitOneFrameThenUpdateLayout()
+    {
+        StartCoroutine(WaitThenUpdate());
+    }
+
+    private IEnumerator WaitThenUpdate()
+    {
+        yield return null;
+        UpdateAllLayoutsDeepestFirst();
+    }
 
     public void UpdateAllLayoutsDeepestFirst()
     {
@@ -148,10 +160,21 @@ public class LayoutContentSizerBaseParent : LayoutContentElement
         return copyOfSubList;
     }
 
-    private int GetHierarchyDepth(Transform t)
+    /*private int GetHierarchyDepth(Transform t)
     {
         int depth = 0;
         while (t.parent != null || t == transform)
+        {
+            depth++;
+            t = t.parent;
+        }
+        return depth;
+    }*/
+
+    private int GetHierarchyDepth(Transform t)
+    {
+        int depth = 0;
+        while (t != null && t != transform)
         {
             depth++;
             t = t.parent;
