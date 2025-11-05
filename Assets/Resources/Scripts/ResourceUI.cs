@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class ResourceUI : MonoBehaviour
 {
     [SerializeField]
-    private Text goldText;
+    private TextMeshProUGUI goldText;
 
     private void Start()
     {

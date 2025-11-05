@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SpellUIItem : MonoBehaviour
 {
     public Spell spell;
 
-    public Text useKeyText;
-    public Text amountOfUsesText;
+    public TextMeshProUGUI useKeyText;
+    public TextMeshProUGUI amountOfUsesText;
     public Image spellImage;
 
     public void UpdateUI(Spell spell)

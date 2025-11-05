@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Equipment;
 using UnityEngine.UI;
+using TMPro;
 public class ShopItemUI : MonoBehaviour
 {
     public ShopItem ShopItem;
@@ -15,12 +16,12 @@ public class ShopItemUI : MonoBehaviour
     private float graphicsSize;
 
     [SerializeField]
-    private Text equipmentName;
+    private TextMeshProUGUI equipmentName;
     [SerializeField]
-    private Text goldText;
+    private TextMeshProUGUI goldText;
 
     [SerializeField]
-    private Text stockText;
+    private TextMeshProUGUI stockText;
 
     private Button button;
 

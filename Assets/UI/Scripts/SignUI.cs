@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Map;
 using System.Dynamic;
 using System.Linq;
+using TMPro;
 
 public class SignUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
@@ -19,7 +20,7 @@ public class SignUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     private readonly List<RewardItemUI> rewardItemUIs = new List<RewardItemUI>();
 
     [SerializeField]
-    private Text directionText;
+    private TextMeshProUGUI directionText;
 
     private Direction currentDirection;
 

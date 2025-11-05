@@ -7,6 +7,7 @@ using System;
 using Equipment;
 using Tiles;
 using GameManagerCalls;
+using TMPro;
 
 public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot, IOnSave
 {
@@ -15,7 +16,7 @@ public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFrom
     public string SaveFileName => "PrizeWindowSave";
     
     [SerializeField]
-    private Text prizeText;
+    private TextMeshProUGUI prizeText;
 
     private int currentPageIndex = 0;
     private int LastPageIndex => PrizePages.Count - 1;
@@ -33,7 +34,7 @@ public class PrizeWindow : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFrom
     private List<List<ContainerSave>> containerSaves = new List<List<ContainerSave>>();
 
     [SerializeField]
-    private Text skipText;
+    private TextMeshProUGUI skipText;
 
     [SerializeField]
     private Button skipButton;

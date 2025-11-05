@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
@@ -13,7 +14,7 @@ namespace DialogueSystem
         private Dialogue startDialogue;
 
         [SerializeField]
-        private Text mainText;
+        private TextMeshProUGUI mainText;
 
         [SerializeField]
         private PromptResponseButton dialogueButtonPrefab;

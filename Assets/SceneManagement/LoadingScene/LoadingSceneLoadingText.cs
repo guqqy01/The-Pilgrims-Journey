@@ -1,9 +1,10 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class LoadingSceneLoadingText : MonoBehaviour
 {
     [SerializeField]
-    private Text loadingText;
+    private TextMeshProUGUI loadingText;
     [SerializeField]
     private float dotWritingSpeed = 0.5f;
 

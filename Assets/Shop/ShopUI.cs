@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using AYellowpaper.SerializedCollections;
 using Unity.VisualScripting;
 using System.Linq;
+using TMPro;
 
 
 
@@ -27,10 +28,10 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     private Transform shopItemsContentTransform;
 
     [SerializeField]
-    private Text purchaseGoldAmount;
+    private TextMeshProUGUI purchaseGoldAmount;
 
     [SerializeField]
-    private Text sellGoldAmount;
+    private TextMeshProUGUI sellGoldAmount;
 
     private ShopItemUI selectedShopItem;
 

@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
-
+using TMPro;
 namespace Relics
 {
     public class RelicDescriptionUI : MonoBehaviour
     {
         [SerializeField]
-        private Text relicDescriptionText;
+        private TextMeshProUGUI relicDescriptionText;
 
         [SerializeField]
         private RelicSpellUIItem relicSpellUIItemPrefab;

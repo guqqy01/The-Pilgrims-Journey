@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Relics
 {
@@ -16,7 +17,7 @@ namespace Relics
         private Transform relicItemUISParent;
 
         [SerializeField]
-        private Text relicTitleText;
+        private TextMeshProUGUI relicTitleText;
 
         [SerializeField]
         private RelicDescriptionUI relicDescriptionUI;

@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class InputQuery : MonoBehaviour
 {
     [SerializeField]
-    private Text queryText;
+    private TextMeshProUGUI queryText;
     [SerializeField]
-    private Text yesText;
+    private TextMeshProUGUI yesText;
     [SerializeField]
-    private Text noText;
+    private TextMeshProUGUI noText;
 
     private Action<bool> action;
 

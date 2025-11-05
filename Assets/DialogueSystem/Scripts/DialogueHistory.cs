@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 public class DialogueHistory : MonoBehaviour
 {
     [SerializeField]
-    private Text text;
+    private TextMeshProUGUI text;
 
     public List<string> history = new List<string>();
 

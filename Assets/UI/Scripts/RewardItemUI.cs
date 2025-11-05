@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class RewardItemUI : MonoBehaviour
 {
     [SerializeField]
     private Image image;
     [SerializeField]
-    private Text text;
+    private TextMeshProUGUI text;
 
     public void Init(Sprite sprite, string number)
     {

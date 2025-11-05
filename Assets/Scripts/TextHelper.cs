@@ -109,10 +109,47 @@ public static class TextHelper
                 EditorSceneManager.OpenScene(originalActive.path, OpenSceneMode.Single);
         }
 
-        // Prefab conversion unchanged...
+        // Prefabs
+        string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab");
+        if (prefabGuids.Length == 0) Debug.Log("No prefabs found in project.");
+
+        int prefabCount = 0;
+        foreach (var guid in prefabGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            if (string.IsNullOrEmpty(path)) continue;
+
+            GameObject prefabRoot = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefabRoot == null) continue;
+
+            // Work on an instantiated copy so we can modify safely
+            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefabRoot);
+            if (instance == null) continue;
+
+            try
+            {
+                bool changed = ConvertTextInGameObjectHierarchy(instance, font, createUndo: false, logName: path);
+
+                if (changed)
+                {
+                    // Apply modifications back to the prefab asset
+                    PrefabUtility.SaveAsPrefabAsset(instance, path);
+                    prefabCount++;
+                    Debug.Log($"Updated prefab: {path}");
+                }
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
+        }
+
+        Debug.Log($"Prefab conversion complete. Prefabs changed: {prefabCount}");
+        AssetDatabase.Refresh();
+
     }
 
-private static bool ConvertTextInScene(Scene scene, TMP_FontAsset font)
+    private static bool ConvertTextInScene(Scene scene, TMP_FontAsset font)
     {
         bool anyChanged = false;
 

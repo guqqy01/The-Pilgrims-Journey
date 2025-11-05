@@ -1,14 +1,15 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class InfoDisplay : MonoBehaviour
 {
     [SerializeField]
-    protected Text title;
+    protected TextMeshProUGUI title;
     [SerializeField]
-    protected Text description;
+    protected TextMeshProUGUI description;
     [SerializeField]
-    protected Text goldAmount;
+    protected TextMeshProUGUI goldAmount;
 
     private void Awake()
     {

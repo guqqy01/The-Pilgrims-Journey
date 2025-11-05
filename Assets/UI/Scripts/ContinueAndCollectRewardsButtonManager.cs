@@ -4,13 +4,14 @@ using Map;
 using UnityEngine.UI;
 using UnityEditor.UIElements;
 using GameManagerCalls;
+using TMPro;
 public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnCompleteLocalMapLevel, IOnCreateLocalMap
 {
     [SerializeField]
     private GameObject LevelCompleteScreen;
 
     [SerializeField]
-    private Text buttonText;
+    private TextMeshProUGUI buttonText;
 
     private bool continueToNextLevel;
 

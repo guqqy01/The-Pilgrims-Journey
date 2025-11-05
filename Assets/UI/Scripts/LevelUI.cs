@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Units;
 using GameManagerCalls;
+using TMPro;
 
 public class LevelUI : MonoBehaviour, IOnAfterCreateLocalMap
 {
     [SerializeField]
-    private Text requiredUnitsText;
+    private TextMeshProUGUI requiredUnitsText;
 
     [SerializeField]
     private Image progressBarFill;

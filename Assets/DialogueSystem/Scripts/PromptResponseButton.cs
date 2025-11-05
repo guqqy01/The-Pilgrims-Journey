@@ -11,10 +11,7 @@ namespace DialogueSystem
         private PromptResponse response;
 
         [SerializeField]
-        private Text responseText;
-
-        [SerializeField]
-        private Text indentText;
+        private TextMeshProUGUI responseText;
 
         [SerializeField]
         private Color goneDownPathColor = Color.grey;

@@ -1,10 +1,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class DamagePopup : MonoBehaviour
 {
-    [SerializeField] private Text text;
+    [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float floatSpeed = 1f;
     [SerializeField] private float duration = 1f;
     [SerializeField] private Vector3 floatOffset = new Vector3(0, 1f, 0);

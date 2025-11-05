@@ -145,26 +145,34 @@ public class Buff
 
         string returnString = "";
 
-        void AddCarageReturn()
+        void AddCarageReturnThenStringIfNotNull(string addString)
         {
+            if (addString == null || addString == "")
+                return;
+
             if (returnString != "")
                 returnString += "\r\n";
+
+            returnString += addString;
         }
 
-        returnString = fromBuff.BaseBuff != 0 || toBuff.BaseBuff != 0 ?
-            $"{fromBuffBaseBuffPositiveOrNegative}{fromBuff.BaseBuff.Value} -> " +
-            $"{toBuffBaseBuffPositiveOrNegative}{toBuff.BaseBuff.Value}"
+        string baseString = fromBuff.BaseBuff != 0 || toBuff.BaseBuff != 0 ?
+            $"{fromBuffBaseBuffPositiveOrNegative}{fromBuff.BaseBuff.Value} -> " + $"{toBuffBaseBuffPositiveOrNegative}{toBuff.BaseBuff.Value}"
             : "";
-        AddCarageReturn();
-        returnString += fromBuff.Multiplier != 0 || toBuff.Multiplier != 0 ?
-            $"{fromBuffMultiplierBuffPositiveOrNegative}{fromBuff.Multiplier}% -> " +
-            $"{toBuffMultiplierBuffPositiveOrNegative}{toBuff.Multiplier}%"
+
+        string multiplierString = fromBuff.Multiplier != 0 || toBuff.Multiplier != 0 ?
+            $"{fromBuffMultiplierBuffPositiveOrNegative}{fromBuff.Multiplier}% -> " + $"{toBuffMultiplierBuffPositiveOrNegative}{toBuff.Multiplier}%"
             : "";
-        AddCarageReturn();
-        returnString += fromBuff.AdditionalBuff != 0 || toBuff.AdditionalBuff != 0 ?
-            $"{fromBuffAdditionalBuffPositiveOrNegative}{fromBuff.AdditionalBuff.Value} -> " +
-            $"{toBuffAdditionalBuffPositiveOrNegative}{toBuff.AdditionalBuff.Value}"
+
+        string additionalString = fromBuff.AdditionalBuff != 0 || toBuff.AdditionalBuff != 0 ?
+            $"{fromBuffAdditionalBuffPositiveOrNegative}{fromBuff.AdditionalBuff.Value} -> " + $"{toBuffAdditionalBuffPositiveOrNegative}{toBuff.AdditionalBuff.Value}"
             : "";
+
+        returnString += baseString;
+
+        AddCarageReturnThenStringIfNotNull(multiplierString);
+
+        AddCarageReturnThenStringIfNotNull(additionalString);
 
         return returnString;
     }
@@ -207,15 +215,14 @@ public class Buff
         }
 
         string baseString = BaseBuff != 0 ? $"{baseBuffPositiveOrNegative}{BaseBuff.Value}" : "";
-        returnString += baseString;
-
         string multiplierString = Multiplier != 0 ? $"{multiplierBuffPositiveOrNegative}{Multiplier}%" : "";
+        string additionalString = AdditionalBuff != 0 ? $"{additionalBuffPositiveOrNegative}{AdditionalBuff.Value}" : "";
+
+        returnString += baseString;
 
         if(multiplierString != "")
             AddCarageReturn();
         returnString += multiplierString;
-
-        string additionalString = AdditionalBuff != 0 ? $"{additionalBuffPositiveOrNegative}{AdditionalBuff.Value}" : "";
 
         if(additionalBuff != null)
             AddCarageReturn();

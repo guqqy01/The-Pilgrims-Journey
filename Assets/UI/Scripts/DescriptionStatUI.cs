@@ -1,11 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class DescriptionStatUI : SubDescriptionUI
 {
     [SerializeField]
-    private Text buffText;
+    private TextMeshProUGUI buffText;
 
     public void Setup(Buff buff, UnitStatsEnum Stat)
     {

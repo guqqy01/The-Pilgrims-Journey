@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+using TMPro;
+
 namespace Tiles
 {
     public class TileStatsUI : EquipmentInventory, IOnSetup, IOnClear
@@ -14,27 +16,27 @@ namespace Tiles
         private Tile tile;
 
         [SerializeField]
-        private Text spawnRateText;
+        private TextMeshProUGUI spawnRateText;
         [SerializeField]
-        private Text movement;
+        private TextMeshProUGUI movement;
         [SerializeField]
-        private Text health;
+        private TextMeshProUGUI health;
         [SerializeField]
-        private Text shield;
+        private TextMeshProUGUI shield;
         [SerializeField]
-        private Text shieldRegen;
+        private TextMeshProUGUI shieldRegen;
         [SerializeField]
-        private Text shieldCooldown;
+        private TextMeshProUGUI shieldCooldown;
 
         [SerializeField]
-        private Text tileInfoText;
+        private TextMeshProUGUI tileInfoText;
 
         [SerializeField]
-        private Text levelText;
+        private TextMeshProUGUI levelText;
         [SerializeField]
-        private Text totalNumberOfUnits;
+        private TextMeshProUGUI totalNumberOfUnits;
         [SerializeField]
-        private Text numberOfUnitsToNextLevel;
+        private TextMeshProUGUI numberOfUnitsToNextLevel;
 
         public void TileSelected(Tile tile)
         {
@@ -122,7 +124,7 @@ namespace Tiles
             if (tile == null)
                 return;
 
-            totalNumberOfUnits.text = $"Total Number of units: {tile.currentHealth}/{tile.MaxHealth}";
+            totalNumberOfUnits.text = $"Total units: {tile.currentHealth}/{tile.MaxHealth}";
 
             if (tile.IsMaxLevel)
             {
@@ -158,7 +160,7 @@ namespace Tiles
             shield.text = "NA";
             shieldRegen.text = "NA";
             shieldCooldown.text = "NA";
-            totalNumberOfUnits.text = "Total Number of units: NA";
+            totalNumberOfUnits.text = "Total units: NA";
             levelText.text = "Level: NA";
             numberOfUnitsToNextLevel.text = "Units to upgrade: NA";
             tileInfoText.text = "Select a tile";
@@ -181,9 +183,9 @@ namespace Tiles
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
-
+            DeselectTile();
             Tile.onTileSelected -= TileSelected;
+            base.OnDestroy();
         }
     }
 

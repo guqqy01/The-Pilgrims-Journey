@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class DiscountText : MonoBehaviour
 {
     [SerializeField]
     private RectTransform rectTransform;
 
     [SerializeField]
-    private Text discountText;
+    private TextMeshProUGUI discountText;
 
     [Header("Size")]
     [SerializeField]

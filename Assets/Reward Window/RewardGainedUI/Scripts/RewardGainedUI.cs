@@ -1,6 +1,7 @@
 using Equipment;
 using Relics;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class RewardGainedUI : MonoBehaviour
@@ -12,7 +13,7 @@ public class RewardGainedUI : MonoBehaviour
     [SerializeField] private Animator textAnimator;
 
 
-    [SerializeField] private Text itemText;
+    [SerializeField] private TextMeshProUGUI itemText;
 
     [SerializeField] private float itemShowtime = 1f;
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ public class SpellUI : MonoBehaviour
     public int spellPageIndex = 0;
     public int TotalSpellPages => Mathf.Max(Mathf.CeilToInt(manager.Spells.Count / 4f), 1);
 
-    public Text pagesText;
+    public TextMeshProUGUI pagesText;
 
     private void Start()
     {

@@ -1,7 +1,7 @@
 ﻿using Relics;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class LevelingUpRelicUIItem : MonoBehaviour
 {
     private RelicSO relicSO;
@@ -9,9 +9,9 @@ public class LevelingUpRelicUIItem : MonoBehaviour
     [SerializeField]
     private Image relicImage;
     [SerializeField]
-    private Text relicName;
+    private TextMeshProUGUI relicName;
     [SerializeField]
-    private Text StatIncrease;
+    private TextMeshProUGUI StatIncrease;
     [SerializeField]
     private float spriteSize = 50f;
 

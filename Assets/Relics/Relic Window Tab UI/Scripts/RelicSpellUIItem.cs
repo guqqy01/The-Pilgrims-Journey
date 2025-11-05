@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,11 @@ namespace Relics
         [SerializeField]
         private Image spellSpriteImage;
         [SerializeField]
-        private Text spellTitleText;
+        private TextMeshProUGUI spellTitleText;
         [SerializeField]
-        private Text spellDescriptionText;
+        private TextMeshProUGUI spellDescriptionText;
         [SerializeField]
-        private Text spellAmountOfUsesText;
+        private TextMeshProUGUI spellAmountOfUsesText;
 
         public void Setup(RelicSpell relicSpell)
         {
