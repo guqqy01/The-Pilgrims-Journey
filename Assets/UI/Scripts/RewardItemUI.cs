@@ -13,7 +13,7 @@ public class RewardItemUI : MonoBehaviour
     public void Init(Sprite sprite, string number)
     {
         image.sprite = sprite;
-        text.text = "x" + number.ToString();
+        text.text = "x " + number.ToString();
         image.SetNativeSize();
     }
 }

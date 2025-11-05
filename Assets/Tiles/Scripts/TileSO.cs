@@ -10,7 +10,7 @@ namespace Tiles
 
         [SerializeField]
         private Vector2ListWrapper shape;
-        public List<Vector2Int> Shape => shape.v2IntList;
+        public List<Vector2Int> Shape => shape;
 
         public Tile tilePrefab;
 

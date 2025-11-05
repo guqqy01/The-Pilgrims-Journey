@@ -12,6 +12,8 @@ namespace Equipment
     public class EquipmentSO : ScriptableObject, IInfo, IDescriptable
     {
         public Sprite sprite;
+        public Sprite Sprite => sprite;
+
 
         [TextArea(4, 10)]
         public string description;
@@ -113,6 +115,8 @@ namespace Equipment
                 return returnList;
             }
         }
+
+       
 
         [Header("Shop Settings")]
         // X position is normalized to 0-1 so end of the map will be at t = 1

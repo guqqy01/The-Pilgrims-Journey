@@ -16,6 +16,17 @@ namespace Relics
         [SerializeField]
         private TextMeshProUGUI spellAmountOfUsesText;
 
+        [SerializeField]
+        private LayoutContentElement layoutContentElement;
+
+        public override float Height
+        {
+            get
+            {
+                return layoutContentElement.GetHeight();
+            }
+        }
+
         public void Setup(RelicSpell relicSpell)
         {
             spell = relicSpell.spell;

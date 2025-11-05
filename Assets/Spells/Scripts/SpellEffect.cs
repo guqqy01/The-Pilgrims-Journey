@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public abstract class SpellEffect
 {
-    public virtual List<Vector2Int> Vector2Ints => Vector2ListWrapper.v2IntList;
+    public virtual List<Vector2Int> Vector2Ints => Vector2ListWrapper;
 
     public Vector2ListWrapper Vector2ListWrapper;
 
