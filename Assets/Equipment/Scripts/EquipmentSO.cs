@@ -97,6 +97,7 @@ namespace Equipment
         [SerializeField]
         private DescriptionStatUI descriptionStatUIPrefab;
 
+
         public Dictionary<SubDescriptionUI, object[]> SubDescriptionPrefabsAndParams
         {
             get
@@ -105,7 +106,6 @@ namespace Equipment
 
                 foreach(var kvp in equipmentStats)
                 {
-
                     object[] paramObjects = new object[2];
                     paramObjects[0] = kvp.Value;
                     paramObjects[1] = kvp.Key;

@@ -10,7 +10,7 @@ using UnityEditor;
 namespace Relics
 {
     [CreateAssetMenu()]
-    public class RelicSO : ScriptableObject
+    public class RelicSO : ScriptableObject, IDescriptable
     {
         [TextArea()]
         public string description;
@@ -22,8 +22,13 @@ namespace Relics
         [SerializeReference]
         [AbstractSelector]
         public List<RelicEffect> relicEffects;
+        public string Title => name.AddSpacesBeforeCapsRegex();
 
-        private Sprite previousSprite;
+        public string MainDescription => description;
+
+        public Sprite Sprite => sprite;
+
+        public Dictionary<SubDescriptionUI, object[]> SubDescriptionPrefabsAndParams => new Dictionary<SubDescriptionUI, object[]>();
     }
 
     [Serializable]

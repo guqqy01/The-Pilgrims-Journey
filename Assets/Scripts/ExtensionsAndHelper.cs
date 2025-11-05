@@ -31,6 +31,37 @@ public static class ExtensionsAndHelper
         return returnList;
     }
 
+    public static List<T> GetRandomAmount<T>(this List<T> list, int amount, bool allowSame = false)
+    {
+        if(list == null || list.Count == 0)
+            return new List<T>();
+
+        List<T> returnlist = new List<T>();
+
+        if (allowSame)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                returnlist.Add(list.GetRandom());
+            }
+        }
+        else
+        {
+            List<T> copyOfList = new List<T>();
+
+            copyOfList.AddRange(list);
+
+            while(returnlist.Count < Mathf.Min(amount, list.Count) && copyOfList.Count > 0)
+            {
+                T item = copyOfList.GetRandom();
+                returnlist.Add(item);
+                copyOfList.Remove(item);
+            }
+        }
+
+        return returnlist;
+    }
+
     public static T GetRandom<T>(this List<T> list)
     {
         return list[Random.Range(0, list.Count)];

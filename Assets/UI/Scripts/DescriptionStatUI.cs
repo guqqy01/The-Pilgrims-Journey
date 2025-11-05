@@ -4,26 +4,8 @@ using UnityEngine.UI;
 using TMPro;
 public class DescriptionStatUI : SubDescriptionUI
 {
-    private RectTransform rectTranform;
-
-    private void Awake()
-    {
-        rectTranform = GetComponent<RectTransform>();
-    }
-
     [SerializeField]
     private TextMeshProUGUI buffText;
-
-    public override float Height
-    {
-        get
-        {
-            if(rectTranform == null)
-                rectTranform = GetComponent<RectTransform>();
-
-            return rectTranform.sizeDelta.y;
-        }
-    }
 
     public void Setup(Buff buff, UnitStatsEnum Stat)
     {
