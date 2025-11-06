@@ -4,10 +4,16 @@ using UnityEngine.UI;
 public class RewardWindowItemUI : MonoBehaviour
 {
     [SerializeField]
+    private Image frameImage;
+    [SerializeField]
     private Image objectImage;
     [SerializeField]
     private float spriteSize = 40f;
 
+    [SerializeField]
+    private Sprite unselectedSprite;
+    [SerializeField]
+    private Sprite selectedSprite;
 
     public IDescriptable descriptableObject;
 
@@ -29,5 +35,10 @@ public class RewardWindowItemUI : MonoBehaviour
     private void OnDestroy()
     {
         onSelectItem = null;
+    }
+
+    public void Select(bool selected)
+    {
+        frameImage.sprite = selected ? selectedSprite : unselectedSprite;
     }
 }

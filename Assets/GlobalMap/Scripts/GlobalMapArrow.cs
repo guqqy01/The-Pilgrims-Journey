@@ -5,6 +5,9 @@ public class GlobalMapArrow : MonoBehaviour
     [SerializeField]
     private RectTransform arrow;
 
+    [SerializeField]
+    private float offset = 10f;
+
     public float Size
     {
         get
@@ -16,7 +19,7 @@ public class GlobalMapArrow : MonoBehaviour
             Vector3 sizeVector = new Vector3(value, value, value);
             arrow.localScale = sizeVector;
 
-            arrow.anchoredPosition = new Vector2(-value * 5f ,value / 2f);
+            arrow.anchoredPosition = new Vector2(-value * offset, value / 2f);
         }
     }
 }

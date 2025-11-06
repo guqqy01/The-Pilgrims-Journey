@@ -88,10 +88,16 @@ public class RewardGainedUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
             itemAnimator.SetTrigger("GiveItemRelics");
 
         textAnimator.SetTrigger("Hide");
+
+        yield return new WaitForSeconds(0.5f);
+
+        gameObject.SetActive(false);
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
     }
+
+
 }

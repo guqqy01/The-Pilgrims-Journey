@@ -191,6 +191,9 @@ public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave
         if (activeSpell == null || activeSpell.numberOfUses <= 0)
             return;
 
+        if (InputManager.Instance.MouseOverUI)
+            return;
+
         Vector2Int position = ((Vector2)cam.ScreenToWorldPoint(Input.mousePosition)).V2ToV2Int();
 
         if (!activeSpell.spellSO.CanUseSpell(position))

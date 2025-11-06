@@ -165,8 +165,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ebd82c9e6dd754ca1a776fa00e02f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardWindowItemUI
+  frameImage: {fileID: 8562284103443545292}
   objectImage: {fileID: 9119417974397312539}
   spriteSize: 40
+  unselectedSprite: {fileID: -222353418, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
+  selectedSprite: {fileID: -1094014579, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
 --- !u!114 &2786770492796788789
 MonoBehaviour:
   m_ObjectHideFlags: 0

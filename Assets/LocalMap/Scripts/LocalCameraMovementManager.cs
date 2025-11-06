@@ -1,5 +1,6 @@
 using Map;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
@@ -122,7 +123,7 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
 
     private void HandleMouseDrag()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !InputManager.Instance.MouseOverUI)
         {
             dragOrigin = Cam.ScreenToWorldPoint(Input.mousePosition);
             isDragging = true;

@@ -10,11 +10,11 @@ using Equipment;
 using UnityEngine.UI;
 using GameManagerCalls;
 
-public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfterCreateLocalMap
+public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfterCreateLocalMap, ISingletonToBeInitiatedFromRoot
 {
-    public string SaveFileName => $"RewardManagerSave";
-
     public static RewardManager Instance { get; private set; }
+
+    public string SaveFileName => $"RewardManagerSave";
 
     private SignUI signUI;
     public SignUI SignUI
@@ -67,18 +67,15 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
     // keep name for serialization compatibility; consider renaming later
     public bool TilesOrEquipmentAvailiable = false;
 
-    private void Awake()
+    public void InitiateSingleton()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
         {
             Instance = this;
-            return;
-        }
-
-        if (Instance != this)
-        {
-            // prefer to destroy duplicate component, preserve GameObject
-            Destroy(this);
         }
     }
 
@@ -147,13 +144,12 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                 case Reward.Equipment:
                     for (int i = 0; i < reward.Value; i++)
                     {
-                        int numOfEquipment = UnityEngine.Random.Range(1, 4);
                         List<EquipmentSO> availableEquipment = GameManager.Instance?.AvaliableEquipment;
                         if (availableEquipment == null || availableEquipment.Count == 0)
                             continue;
 
                         var equipmentList = new List<EquipmentSO>();
-                        for (int j = 0; j < numOfEquipment; j++)
+                        for (int j = 0; j < 3; j++)
                         {
                             int breaker = 10;
                             EquipmentSO equip = availableEquipment.GetRandom();
@@ -166,8 +162,7 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                                 equipmentList.Add(equip);
                         }
 
-                        if (equipmentList.Count > 0)
-                            prizeEquipment.Add(equipmentList);
+                        RewardWindowUI.Instance.Setup(equipmentList.Cast<IDescriptable>().ToList());
                     }
                     break;
             }
@@ -254,55 +249,34 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                 {
                     var random = new WeightedChanceList<Reward>();
 
-                    random.Add(Reward.Gold, 1);
-                    if (rewards.ContainsKey(Reward.Equipment))
-                        random[Reward.Gold] += Mathf.RoundToInt(rewards[Reward.Equipment] * goldChanceIncreasePerEquipment);
-                    if (rewards.ContainsKey(Reward.Tile))
-                        random[Reward.Gold] += Mathf.RoundToInt(rewards[Reward.Tile] * goldChanceIncreasePerTile);
+                    bool containsTileOrEquipment = rewards.ContainsKey(Reward.Tile) || rewards.ContainsKey(Reward.Equipment);
 
-                    random.Add(Reward.Tile, 1);
+                    if (containsTileOrEquipment)
+                    {
+                        rewards.Add(Reward.Gold, remaining);
+                        worth += remaining;
+                        continue;
+                    }
 
-                    random.Add(Reward.Equipment, 1);
-                    if (rewards.ContainsKey(Reward.Tile))
-                        random[Reward.Equipment] += Mathf.RoundToInt(rewards[Reward.Tile] * equipmentChanceIncreasePerTile);
+                    random.Add(Reward.Tile, containsTileOrEquipment ? 0 : 1);
+                    random.Add(Reward.Equipment, containsTileOrEquipment ? 0 : 1);
 
                     switch (random.GetRandom())
                     {
-                        case Reward.Gold:
-                            if (rewards.ContainsKey(Reward.Gold))
-                                rewards[Reward.Gold] += goldAmountPerReward;
-                            else
-                                rewards.Add(Reward.Gold, goldAmountPerReward);
-
-                            worth += goldAmountPerReward;
-                            break;
-
                         case Reward.Tile:
-                            if (rewards.ContainsKey(Reward.Tile))
-                                rewards[Reward.Tile] += 1;
-                            else
-                                rewards.Add(Reward.Tile, 1);
-
+                            rewards.Add(Reward.Tile, 1);
                             worth += tileWorth;
                             break;
 
                         case Reward.Equipment:
-                            if (rewards.ContainsKey(Reward.Equipment))
-                                rewards[Reward.Equipment] += 1;
-                            else
-                                rewards.Add(Reward.Equipment, 1);
-
+                            rewards.Add(Reward.Equipment, 1);
                             worth += equipmentWorth;
                             break;
                     }
                 }
                 else
                 {
-                    if (rewards.ContainsKey(Reward.Gold))
-                        rewards[Reward.Gold] += remaining;
-                    else
-                        rewards.Add(Reward.Gold, remaining);
-
+                    rewards.Add(Reward.Gold, remaining);
                     worth += remaining;
                 }
 

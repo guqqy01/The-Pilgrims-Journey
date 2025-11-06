@@ -5,8 +5,10 @@ using System.Linq;
 using Equipment;
 using Relics;
 using Random = UnityEngine.Random;
-public class RewardWindowUI : MonoBehaviour
+public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
+    public static RewardWindowUI Instance { private set; get; }
+
     [SerializeField] private RewardWindowItemUI rewardItemUIPrefab;
 
     [SerializeField] private readonly List<RewardWindowItemUI> rewardItemUIs = new List<RewardWindowItemUI>();
@@ -15,39 +17,29 @@ public class RewardWindowUI : MonoBehaviour
 
     [SerializeField] private DescriptionUI descriptionText;
 
-    [SerializeField] private List<EquipmentSO> testEquipment;
-    [SerializeField] private List<RelicSO> testRelics;
-
     private IDescriptable currentSelected;
 
-    private void Update()
+    [SerializeField]
+    private EquipmentInventory equipmentInventory;
+
+    public void InitiateSingleton()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Instance != null && Instance != this)
         {
-            TestSetup();
-        }
-    }
-
-    private void TestSetup()
-    {
-        int rand = Random.Range(0, 2);
-
-        if(rand == 0)
-        {
-            List<IDescriptable> equipment = testEquipment.GetRandomAmount(3).Cast<IDescriptable>().ToList();
-
-            Setup(equipment);
+            Destroy(gameObject);
         }
         else
         {
-            List<IDescriptable> relics = testRelics.GetRandomAmount(3).Cast<IDescriptable>().ToList();
-
-            Setup(relics);
+            Instance = this;
         }
+
+        gameObject.SetActive(false);
     }
 
     public void Setup(List<IDescriptable> descriptables)
     {
+        gameObject.SetActive(true);
+
         foreach(var item in rewardItemUIs)
         {
             item.onSelectItem -= ShowItemDescription;
@@ -62,12 +54,20 @@ public class RewardWindowUI : MonoBehaviour
             rewardWindowItemUI.onSelectItem += ShowItemDescription;
             rewardItemUIs.Add(rewardWindowItemUI);
         }
+
+        if(rewardItemUIs.Count > 0)
+            ShowItemDescription(rewardItemUIs[0].descriptableObject);
     }
 
     public void ShowItemDescription(IDescriptable descriptableObject)
     {
         if (descriptableObject == null)
             return;
+
+        foreach(RewardWindowItemUI item in rewardItemUIs)
+        {
+            item.Select(item.descriptableObject == descriptableObject);
+        }
 
         currentSelected = descriptableObject;
 
@@ -78,7 +78,14 @@ public class RewardWindowUI : MonoBehaviour
     {
         gameObject.SetActive(false);
         RewardGainedUI.Instance.Setup(currentSelected);
+        
+        if(currentSelected is EquipmentSO equipment)
+        {
+            equipmentInventory.TryAddEquipment(equipment);
+        }
     }
+
+    
 }
 
 public interface IDescriptable

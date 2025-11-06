@@ -2,6 +2,8 @@ using Map;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 public class InputManager : MonoBehaviour
 {
@@ -69,4 +71,12 @@ public class InputManager : MonoBehaviour
         }
     }
 
+
+    public bool MouseOverUI
+    {
+        get
+        {
+            return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+        }
+    }
 }

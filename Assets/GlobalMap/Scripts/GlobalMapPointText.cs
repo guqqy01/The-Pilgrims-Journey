@@ -7,13 +7,13 @@ namespace Map
     public class GlobalMapPointText : MonoBehaviour
     {
         [SerializeField]
-        public TextMeshProUGUI text;
+        private Image image;
 
         public Color Color
         {
             set
             {
-                text.color = value;
+                image.color = value;
             }
         }
     }

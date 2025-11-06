@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103.988754, y: -132.20654}
+  m_AnchoredPosition: {x: 45.99625, y: -119.32885}
   m_SizeDelta: {x: 65.9925, y: 12.5911}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &33553326
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4284479743
   m_fontColor: {r: 1, g: 0.9734409, b: 0.37421376, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -233,13 +233,13 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
   m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
   m_verticalMapping: 0
@@ -289,7 +289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103.642395, y: -94.43325}
+  m_AnchoredPosition: {x: 45.8808, y: -84.31775}
   m_SizeDelta: {x: 65.7616, y: 12.5911}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &47608437
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291120214
   m_fontColor: {r: 0.33531237, g: 0.2967841, b: 0.7735849, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -342,7 +342,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -369,13 +369,13 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
   m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
   m_verticalMapping: 0
@@ -953,7 +953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: arrowSize
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: lineWidth
@@ -962,23 +962,43 @@ PrefabInstance:
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: LegendTable
       value: 
-      objectReference: {fileID: 909741326}
+      objectReference: {fileID: 0}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: mapPointSize
-      value: 5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: minXDistance
-      value: 100
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+      propertyPath: backgroundRect
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: canvasTransform
       value: 
-      objectReference: {fileID: 935680340}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+      propertyPath: contentTransform
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+      propertyPath: lineParentTransform
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: globalMapArrowPrefab
       value: 
       objectReference: {fileID: 4928600429612379644, guid: 54e47a73b842aed4689e3d1e2040bb88, type: 3}
+    - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+      propertyPath: arrowsParentTransform
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+      propertyPath: bothDirectionLineOffset
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: playAnimationAndUseFirstSeenTrigger
       value: 1
@@ -1168,8 +1188,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250.1, y: -65.9}
-  m_SizeDelta: {x: 258.7189, y: 155.3538}
+  m_AnchoredPosition: {x: 244.6721, y: -65.9}
+  m_SizeDelta: {x: 269.5747, y: 155.3538}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &909741328
 MonoBehaviour:
@@ -1184,12 +1204,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
+    m_Left: 13
     m_Right: 0
-    m_Top: 0
+    m_Top: 8
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 22.42
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -1507,7 +1527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 102.9494, y: -18.88665}
+  m_AnchoredPosition: {x: 45.6498, y: -14.295549}
   m_SizeDelta: {x: 65.2996, y: 12.5911}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1214584077
@@ -1562,7 +1582,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1589,13 +1609,13 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
   m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
   m_verticalMapping: 0
@@ -1781,7 +1801,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103.642395, y: -56.65995}
+  m_AnchoredPosition: {x: 45.8808, y: -49.306652}
   m_SizeDelta: {x: 65.7616, y: 12.5911}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1593025293
@@ -1823,7 +1843,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4285230079
   m_fontColor: {r: 1, g: 0.42138356, b: 0.42138356, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1836,7 +1856,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1863,13 +1883,13 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
   m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
   m_verticalMapping: 0
