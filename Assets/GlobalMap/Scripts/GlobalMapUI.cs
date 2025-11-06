@@ -31,6 +31,7 @@ namespace Map
         [SerializeField] private RectTransform canvasTransform;
 
         [Header("Map Point UI")]
+        [SerializeField] private Transform mapPointParentTransform;
         [SerializeField] private GlobalMapPointUI mapPointPrefab;
         private readonly List<GlobalMapPointUI> globalMapPoints = new ();
         public float mapPointSize = 3;
@@ -156,7 +157,7 @@ namespace Map
                     continue;
 
                 Vector3 worldPos = ModifiedPosition(point.Position);
-                GlobalMapPointUI pointUI = Instantiate(mapPointPrefab, worldPos, Quaternion.identity, backgroundRect);
+                GlobalMapPointUI pointUI = Instantiate(mapPointPrefab, worldPos, Quaternion.identity, mapPointParentTransform);
                 pointUI.UpdateUI(point, this);
                 globalMapPoints.Add(pointUI);
                 SetupLinesMainUI(point, canvasScaleX);

@@ -24784,6 +24784,10 @@ PrefabInstance:
       propertyPath: bothDirectionLineOffset
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+      propertyPath: mapPointParentTransform
+      value: 
+      objectReference: {fileID: 1760224300}
     - target: {fileID: 6469332661598854921, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -24963,6 +24967,11 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+--- !u!224 &1760224300 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6562169051762479690, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+  m_PrefabInstance: {fileID: 1760224296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1767631488
 GameObject:
   m_ObjectHideFlags: 0

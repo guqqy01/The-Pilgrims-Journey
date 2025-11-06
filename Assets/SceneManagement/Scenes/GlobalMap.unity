@@ -823,6 +823,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581355697}
   m_CullTransparentMesh: 1
+--- !u!224 &736824021 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8284183234123481630, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+  m_PrefabInstance: {fileID: 871332919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &871332919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -962,7 +967,7 @@ PrefabInstance:
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: LegendTable
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 909741326}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: mapPointSize
       value: 1.5
@@ -974,19 +979,19 @@ PrefabInstance:
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: backgroundRect
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1461473132}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: canvasTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 935680340}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: contentTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 736824021}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: lineParentTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1101954660}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: globalMapArrowPrefab
       value: 
@@ -994,11 +999,15 @@ PrefabInstance:
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: arrowsParentTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1662462338}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: bothDirectionLineOffset
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+      propertyPath: mapPointParentTransform
+      value: 
+      objectReference: {fileID: 1804184363}
     - target: {fileID: 6157109362888092425, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
       propertyPath: playAnimationAndUseFirstSeenTrigger
       value: 1
@@ -1360,6 +1369,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!224 &1101954660 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7530395696807724097, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+  m_PrefabInstance: {fileID: 871332919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1147479129
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,6 +1781,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!224 &1461473132 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8541407032624231626, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+  m_PrefabInstance: {fileID: 871332919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1593025290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,6 +1924,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!224 &1662462338 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8659606338693603741, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+  m_PrefabInstance: {fileID: 871332919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1765798575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,6 +2075,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!224 &1804184363 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6562169051762479690, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
+  m_PrefabInstance: {fileID: 871332919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1911046330
 GameObject:
   m_ObjectHideFlags: 0

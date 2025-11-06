@@ -144,6 +144,12 @@ public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiated
 
     private void ZoomCamera()
     {
+        if(Input.mouseScrollDelta.y == 0)
+            return;
+
+        if (InputManager.Instance.MouseOverUI)
+            return;
+
         float newSize = Cam.orthographicSize - Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
         newSize = Mathf.Clamp(newSize, zoomMin, MaxZoom);
         Cam.orthographicSize = newSize;
