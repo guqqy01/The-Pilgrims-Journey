@@ -57,9 +57,6 @@ public class Buff
             : new IntOrFloatObject(result);
     }
 
-    public int GetBuffGoldValue(UnitStatsEnum Stat) =>
-        BuffValueCalculator.GetValue(this, Stat, out _, out _, out _);
-
     public static Buff operator +(Buff a, Buff b)
     {
         if (a.IsInt)

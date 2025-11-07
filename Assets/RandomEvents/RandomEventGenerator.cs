@@ -1,4 +1,4 @@
-using Map;
+using GlobalMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,41 +8,47 @@ using AYellowpaper.SerializedCollections;
 using UnityEditor;
 using DialogueSystem;
 using Unity.VisualScripting;
-public class RandomEventGenerator : MonoBehaviour
+
+namespace RandomEvents
 {
-    public static RandomEventGenerator Instance;
-    [SerializeField]
-    private WeightedChanceList<RandomEvent> initialRandomEvents;
-
-    private WeightedChanceList<RandomEvent> dynamicRandomEvents = new WeightedChanceList<RandomEvent>();
-
-    [SerializeField]
-    private Image backgroundImage;
-    [SerializeField]
-    private DialogueManager dialogueManager;
-
-    private void Awake()
+    public class RandomEventGenerator : MonoBehaviour
     {
-        Instance = this;
-    }
+        public static RandomEventGenerator Instance;
+        [SerializeField]
+        private WeightedChanceList<RandomEvent> initialRandomEvents;
 
-    private void Start()
-    {
-        dynamicRandomEvents = new WeightedChanceList<RandomEvent>(initialRandomEvents);
-    }
+        private WeightedChanceList<RandomEvent> dynamicRandomEvents = new WeightedChanceList<RandomEvent>();
 
-    public void GenerateRandomEvent()
-    {
-        Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
+        [SerializeField]
+        private Image backgroundImage;
+        [SerializeField]
+        private DialogueManager dialogueManager;
 
-        RandomEvent randomEvent = dynamicRandomEvents.GetRandom();
+        private void Awake()
+        {
+            Instance = this;
+        }
 
-        if (randomEvent.isRepeatable == false)
-            dynamicRandomEvents.Remove(randomEvent);
+        private void Start()
+        {
+            dynamicRandomEvents = new WeightedChanceList<RandomEvent>(initialRandomEvents);
+        }
 
-        backgroundImage.sprite = randomEvent.backgroundSprite;
-        Dialogue dialogue = randomEvent.dialogue;
+        public void GenerateRandomEvent()
+        {
+            Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
-        dialogueManager.SetupDialogue(randomEvent.dialogue);
+            RandomEvent randomEvent = dynamicRandomEvents.GetRandom();
+
+            if (randomEvent.isRepeatable == false)
+                dynamicRandomEvents.Remove(randomEvent);
+
+            backgroundImage.sprite = randomEvent.backgroundSprite;
+            Dialogue dialogue = randomEvent.dialogue;
+
+            dialogueManager.SetupDialogue(randomEvent.dialogue);
+        }
     }
 }
+
+

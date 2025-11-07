@@ -1,9 +1,9 @@
-using Map;
+using GlobalMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using GlobalMap.UI;
 
 public class InputManager : MonoBehaviour
 {

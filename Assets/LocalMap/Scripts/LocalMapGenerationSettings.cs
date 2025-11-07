@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using static UnityEngine.ParticleSystem;
-using UnityEditor;
-using UnityEditorInternal;
-using UnityEngine.UIElements;
-using System.Linq;
-namespace Map
+
+namespace LocalMap
 {
     [CreateAssetMenu()]
     public class LocalMapGenerationSettings : ScriptableObject

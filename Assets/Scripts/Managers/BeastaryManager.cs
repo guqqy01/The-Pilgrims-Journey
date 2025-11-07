@@ -1,5 +1,5 @@
 using GameManagerCalls;
-using Map;
+using GlobalMap;
 using SimpleAudioManager;
 using System;
 using System.Collections;

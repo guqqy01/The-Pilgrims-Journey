@@ -17,36 +17,36 @@ MonoBehaviour:
   highlightColor: {r: 0, g: 0.595603, b: 1, a: 1}
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
   spellEffects:
-  - rid: 8036269340738453601
+  - rid: 4142103448863637716
   references:
     version: 2
     RefIds:
-    - rid: 8036269340738453601
-      type: {class: InvunrabilityEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4142103448863637716
+      type: {class: InvunrabilityEffect, ns: Spells, asm: Assembly-CSharp}
       data:
         Vector2ListWrapper:
           v2IntList:
+          - {x: 0, y: 0}
           - {x: 0, y: 1}
-          - {x: -1, y: 1}
           - {x: -1, y: 0}
-          - {x: -1, y: -1}
           - {x: 0, y: -1}
-          - {x: 1, y: -1}
           - {x: 1, y: 0}
-          - {x: -2, y: 0}
-          - {x: -2, y: -1}
-          - {x: 0, y: -2}
-          - {x: 2, y: 0}
-          - {x: 0, y: 2}
           - {x: 1, y: 1}
+          - {x: -1, y: 1}
+          - {x: -1, y: -1}
+          - {x: 1, y: -1}
+          - {x: 0, y: 2}
+          - {x: -2, y: 0}
           - {x: -2, y: 1}
+          - {x: -2, y: -1}
           - {x: -1, y: 2}
           - {x: 1, y: 2}
-          - {x: 2, y: -1}
+          - {x: 2, y: 0}
           - {x: 2, y: 1}
-          - {x: 1, y: -2}
+          - {x: 2, y: -1}
+          - {x: 0, y: -2}
           - {x: -1, y: -2}
-          - {x: 0, y: 0}
+          - {x: 1, y: -2}
         layerMask:
           serializedVersion: 2
           m_Bits: 64

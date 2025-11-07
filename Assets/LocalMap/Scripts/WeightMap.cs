@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Map
+namespace LocalMap
 {
     [Serializable]
     public class WeightMap

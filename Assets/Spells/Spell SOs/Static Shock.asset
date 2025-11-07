@@ -16,17 +16,33 @@ MonoBehaviour:
   sprite: {fileID: -482280527, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   highlightColor: {r: 0.94138074, g: 1, b: 0, a: 1}
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
-  numberOfUses: 2
   spellEffects:
-  - rid: 8036269261673988224
+  - rid: 4142103448863637717
   references:
     version: 2
     RefIds:
-    - rid: 8036269261673988224
-      type: {class: DemonShockEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4142103448863637717
+      type: {class: StaticShockEffect, ns: Spells, asm: Assembly-CSharp}
       data:
         Vector2ListWrapper:
-          v2IntList: []
+          v2IntList:
+          - {x: 0, y: 0}
+          - {x: 0, y: 1}
+          - {x: -1, y: 0}
+          - {x: 0, y: -1}
+          - {x: 1, y: 0}
+          - {x: -1, y: 2}
+          - {x: -2, y: 1}
+          - {x: -1, y: -2}
+          - {x: 1, y: -2}
+          - {x: 2, y: -1}
+          - {x: 2, y: 1}
+          - {x: 1, y: 2}
+          - {x: 1, y: 1}
+          - {x: -1, y: 1}
+          - {x: -1, y: -1}
+          - {x: 1, y: -1}
+          - {x: -2, y: -1}
         layerMask:
           serializedVersion: 2
           m_Bits: 4096
@@ -38,9 +54,4 @@ MonoBehaviour:
           loop: 0
           volume: 0
           pitch: 0
-        shockTime: 4
-        initalPowerLevel: 0
-        amountOfUsesToLevelUp: 1
-        playerLayerMask:
-          serializedVersion: 2
-          m_Bits: 64
+        shockTime: 3

@@ -2,12 +2,11 @@ using GameManagerCalls;
 using Monsters;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using static UnityEngine.ParticleSystem;
+using GlobalMap;
 
-namespace Map
+namespace LocalMap
 {
     public class LocalMapGenerator : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnClear, IOnCreateLocalMap
     {
@@ -793,14 +792,6 @@ namespace Map
         BaseTiles = 1,
         MapObjects = 2,
         TerrainNoise = 4,
-    }
-
-    public enum Direction
-    {
-        North = 2,
-        South = -2,
-        West = -1,
-        East = 1,
     }
 }
 

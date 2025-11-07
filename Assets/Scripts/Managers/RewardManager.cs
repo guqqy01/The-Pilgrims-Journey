@@ -1,14 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Map;
+using GlobalMap;
 using System.Linq;
 using static UnityEngine.ParticleSystem;
 using System;
 using Units;
 using Equipment;
-using UnityEngine.UI;
 using GameManagerCalls;
+using LocalMap;
+using LocalMap.UI;
 
 public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfterCreateLocalMap, ISingletonToBeInitiatedFromRoot
 {
@@ -29,17 +29,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
 
     // Direction -> (Reward -> amount)
     public SerializableDictionary<Direction, SerializableDictionary<Reward, int>> LevelRewards { private set; get; } = new SerializableDictionary<Direction, SerializableDictionary<Reward, int>>();
-
-    private PrizeWindow prizeWindow;
-    public PrizeWindow PrizeWindow
-    {
-        get
-        {
-            if (prizeWindow == null)
-                prizeWindow = PrizeWindow.Instance;
-            return prizeWindow;
-        }
-    }
 
     [SerializeField]
     private MinMaxCurve rewardWorth;
@@ -136,9 +125,10 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                     for (int i = 0; i < reward.Value; i++)
                     {
                         var tile = GameManager.Instance?.Tiles?.GetRandom();
-                        var unit = UnitManager.Instance?.unlockedUnits?.GetRandom();
-                        if (tile != null && unit != null)
-                            prizeTiles.Add(new TileAndUnit(tile, unit));
+
+                        List<UnitSO> units = UnitManager.Instance.unlockedUnits.GetRandomAmount(2);
+
+                        RewardWindowUI.Instance.Setup(tile, units);
                     }
                     break;
                 case Reward.Equipment:
@@ -166,12 +156,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                     }
                     break;
             }
-        }
-
-        TilesOrEquipmentAvailiable = prizeEquipment.Count != 0 || prizeTiles.Count != 0;
-        if (TilesOrEquipmentAvailiable)
-        {
-            PrizeWindow?.LoadPrize(prizeEquipment, prizeTiles);
         }
     }
 
@@ -297,9 +281,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
         var saveData = new SaveData() { LevelRewards = LevelRewards };
         var saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
         SaveManager.SaveOver(saveProfile);
-
-        // wait for PrizeWindow instance then save it; helper handles null internally
-        ExtensionsAndHelper.WaitForObjectNotNullThenPerformAction(PrizeWindow.Instance, () => PrizeWindow?.Save());
     }
 
     public void Load()
@@ -317,7 +298,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
                 LevelRewards = saveData.LevelRewards;
                 SignUI?.Setup(LevelRewards.Keys.ToList());
             }
-            PrizeWindow?.Load();
         }
         else
         {
@@ -337,5 +317,4 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
         public SerializableDictionary<Direction, SerializableDictionary<Reward, int>> LevelRewards;
     }
 }
-
 

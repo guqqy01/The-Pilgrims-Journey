@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using Map;
+using GlobalMap;
 using GameManagerCalls;
 public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCreateCurrentMapPoint
 {

@@ -3,7 +3,8 @@ using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-namespace Map
+
+namespace LocalMap
 {
     public class Pathway
     {

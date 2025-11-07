@@ -1,17 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Map;
-using System.Linq;
-using Unity.VisualScripting;
-using Units;
+using GlobalMap;
 using System;
 using Equipment;
 using Tiles;
 using Random = UnityEngine.Random;
 using GameManagerCalls;
-
+using RandomEvents;
+using LocalMap;
 
 public class GameManager : MonoBehaviour, ISaveLoad
 {

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Units;
+
 public class TileManager : MonoBehaviour
 {
     public static TileManager Instance { get; private set; }

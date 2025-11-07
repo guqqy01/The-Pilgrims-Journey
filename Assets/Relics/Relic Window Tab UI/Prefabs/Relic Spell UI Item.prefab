@@ -95,6 +95,8 @@ MonoBehaviour:
   right: 1
   top: 1
   bottom: 2
+  minWidth: 0
+  minHeight: 0
   childrenAreContent: 1
   sizeWidth: 0
   sizeHeight: 1
@@ -1002,6 +1004,8 @@ MonoBehaviour:
   right: 0
   top: 1
   bottom: 2
+  minWidth: 0
+  minHeight: 0
   childrenAreContent: 1
   sizeWidth: 0
   sizeHeight: 1
@@ -1026,8 +1030,8 @@ GameObject:
   - component: {fileID: 537899940535595263}
   - component: {fileID: 6183104269299161011}
   - component: {fileID: 8324438985492241312}
-  - component: {fileID: 7196631178555188224}
   - component: {fileID: 1662181432037690980}
+  - component: {fileID: 2343244219921054511}
   m_Layer: 5
   m_Name: Relic Spell UI Item
   m_TagString: Untagged
@@ -1139,6 +1143,8 @@ MonoBehaviour:
   right: 0
   top: 0
   bottom: 0
+  minWidth: 0
+  minHeight: 0
   childrenAreContent: 1
   sizeWidth: 1
   sizeHeight: 1
@@ -1150,23 +1156,6 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
---- !u!114 &7196631178555188224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8686648283889711809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 844e5c9b37608e94bb6d960425bb79ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Relics.RelicSpellUIItem
-  spellSpriteImage: {fileID: 5335994638583613724}
-  spellTitleText: {fileID: 7620015364493917012}
-  spellDescriptionText: {fileID: 1345005316963618797}
-  spellAmountOfUsesText: {fileID: 4528310408783245766}
-  layoutContentElement: {fileID: 8324438985492241312}
 --- !u!114 &1662181432037690980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,3 +1170,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 1
+--- !u!114 &2343244219921054511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8686648283889711809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7f8815c1072f3d4287fa9770403782a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Spells.UI.SpellSubDescriptionUI
+  spellSpriteImage: {fileID: 5335994638583613724}
+  spellTitleText: {fileID: 7620015364493917012}
+  spellDescriptionText: {fileID: 1345005316963618797}
+  spellAmountOfUsesText: {fileID: 4528310408783245766}

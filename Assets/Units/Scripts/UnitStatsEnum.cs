@@ -1,9 +1,14 @@
-﻿public enum UnitStatsEnum
+﻿
+namespace Units
 {
-    Health,
-    Shield,
-    SpawnRate,
-    MovementSpeed,
-    ShieldRegeneration,
-    ShieldCooldown,
+    public enum UnitStatsEnum
+    {
+        Health,
+        Shield,
+        SpawnRate,
+        MovementSpeed,
+        ShieldRegeneration,
+        ShieldCooldown,
+    }
 }
+

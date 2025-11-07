@@ -1,4 +1,4 @@
-﻿using Map;
+﻿using GlobalMap;
 using System;
 using System.Collections.Generic;
 using Units;

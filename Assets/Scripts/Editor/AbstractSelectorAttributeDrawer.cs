@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
 using System.Reflection;
 using System.Linq;
-using System.Runtime.Serialization;
 using Unity.VisualScripting;
-using Codice.CM.Client.Gui;
 
 [CustomPropertyDrawer(typeof(AbstractSelectorAttribute))]
 public class AbstractSelectorAttributeDrawer : PropertyDrawer
@@ -18,8 +15,6 @@ public class AbstractSelectorAttributeDrawer : PropertyDrawer
     {
         return EditorGUI.GetPropertyHeight(property, true);
     }
-
-    
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
@@ -37,7 +32,7 @@ public class AbstractSelectorAttributeDrawer : PropertyDrawer
             property.isExpanded = EditorGUI.Foldout(dropDownRect, property.isExpanded, GUIContent.none);
         }
 
-        dropDownRect = EditorGUI.PrefixLabel(dropDownRect, /*new GUIContent(property.name == "data" ? " " : property.displayName)*/new GUIContent(" "), property.prefabOverride ? EditorStyles.boldLabel : EditorStyles.label);
+        dropDownRect = EditorGUI.PrefixLabel(dropDownRect, *//*new GUIContent(property.name == "data" ? " " : property.displayName)*//*new GUIContent(" "), property.prefabOverride ? EditorStyles.boldLabel : EditorStyles.label);
 
         string[] baseTypeAndAssemblyName = property.managedReferenceFieldTypename.Split(' ');
         string baseTypeString = $"{baseTypeAndAssemblyName[1]}, {baseTypeAndAssemblyName[0]}";
@@ -187,6 +182,180 @@ public class AbstractSelectorAttributeDrawer : PropertyDrawer
         {
             return true;
         }
+
+        return !type.IsInterface && !type.IsGenericTypeDefinition && !type.IsAbstract && type.IsVisible;
+    }
+}
+*/
+
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+using System;
+using System.Reflection;
+using System.Linq;
+using Unity.VisualScripting;
+
+[CustomPropertyDrawer(typeof(AbstractSelectorAttribute))]
+public class AbstractSelectorAttributeDrawer : PropertyDrawer
+{
+    private const string nullValueString = "Null";
+
+    // --- CACHE DICTIONARIES ---
+    private static readonly Dictionary<string, Type> BaseTypeCache = new();
+    private static readonly Dictionary<Type, List<Type>> DerivedTypesCache = new();
+    private static readonly Dictionary<Type, string> TypeTitleCache = new();
+    private static readonly Dictionary<string, Type> TypeFromStringCache = new();
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        return EditorGUI.GetPropertyHeight(property, true);
+    }
+
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        AbstractSelectorAttribute selectorAttribute = (AbstractSelectorAttribute)attribute;
+
+        SerializedObject obj = property.serializedObject;
+
+        Rect dropDownRect = new Rect(position) { height = EditorGUIUtility.singleLineHeight };
+
+        bool isNotNull = property.managedReferenceValue != null;
+
+        //Foldout logic (unchanged)
+        if (isNotNull && property.hasVisibleChildren)
+        {
+            property.isExpanded = EditorGUI.Foldout(dropDownRect, property.isExpanded, GUIContent.none);
+        }
+
+        dropDownRect = EditorGUI.PrefixLabel(dropDownRect, new GUIContent(" "), property.prefabOverride ? EditorStyles.boldLabel : EditorStyles.label);
+
+        // --- CACHED base type lookup ---
+        Type baseType = GetBaseType(property.managedReferenceFieldTypename);
+
+        string name = nullValueString;
+
+        if (isNotNull)
+        {
+            Type referenceType = GetTypeFromString(property.managedReferenceFullTypename);
+            name = GetDisplayNameForType(referenceType, baseType).AddSpacesBeforeCapsRegex();
+        }
+
+        if (name.Contains("."))
+            name = name.Split('.').Last();
+
+        // Dropdown button (unchanged UI logic)
+        if (EditorGUI.DropdownButton(dropDownRect, new GUIContent(name), FocusType.Passive))
+        {
+            GenericMenu menu = new GenericMenu();
+            menu.AddItem(new GUIContent(nullValueString), !isNotNull, () =>
+            {
+                obj.UpdateIfRequiredOrScript();
+                property.managedReferenceValue = null;
+                obj.ApplyModifiedProperties();
+            });
+
+            foreach (Type type in GetDerivedTypes(baseType))
+            {
+                string title = GetDisplayNameForType(type, baseType).AddSpacesBeforeCapsRegex();
+                bool on = isNotNull && property.managedReferenceFullTypename.Split(" ").Last() == type.ToString();
+
+                menu.AddItem(new GUIContent(title), on, () =>
+                {
+                    obj.UpdateIfRequiredOrScript();
+                    property.managedReferenceValue = Activator.CreateInstance(type);
+                    obj.ApplyModifiedProperties();
+                });
+            }
+
+            menu.DropDown(dropDownRect);
+        }
+
+        EditorGUI.PropertyField(position, property, true);
+    }
+
+    // ---------------- CACHED LOOKUPS ----------------
+
+    private Type GetBaseType(string typename)
+    {
+        if (!BaseTypeCache.TryGetValue(typename, out Type type))
+        {
+            string[] split = typename.Split(' ');
+            type = Type.GetType($"{split[1]}, {split[0]}");
+            BaseTypeCache[typename] = type;
+        }
+        return type;
+    }
+
+    private Type GetTypeFromString(string typename)
+    {
+        if (!TypeFromStringCache.TryGetValue(typename, out Type type))
+        {
+            string[] split = typename.Split(' ');
+            type = Type.GetType($"{split[1]}, {split[0]}");
+            TypeFromStringCache[typename] = type;
+        }
+        return type;
+    }
+
+    private List<Type> GetDerivedTypes(Type baseType)
+    {
+        if (!DerivedTypesCache.TryGetValue(baseType, out List<Type> types))
+        {
+            types = FindDerivedTypesUncached(baseType);
+            DerivedTypesCache[baseType] = types;
+        }
+        return types;
+    }
+
+    private string GetDisplayNameForType(Type type, Type baseType)
+    {
+        if (!TypeTitleCache.TryGetValue(type, out string title))
+        {
+            title = TryGetAttributeTitle(type, baseType) ?? type.Name;
+            TypeTitleCache[type] = title;
+        }
+        return title;
+    }
+
+    private string TryGetAttributeTitle(Type type, Type baseType)
+    {
+        if (!type.HasAttribute(typeof(AbstractTitle)))
+            return null;
+
+        foreach (AbstractTitle attribute in type.GetAttributes(typeof(AbstractTitle)))
+        {
+            if (attribute.Type == null || attribute.Type == baseType)
+                return attribute.Title;
+        }
+        return null;
+    }
+
+    // --- original method, unchanged but only called once per type now ---
+    private List<Type> FindDerivedTypesUncached(Type baseType)
+    {
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        List<Type> derived = new List<Type>();
+
+        if (CheckInstantiable(baseType))
+            derived.Add(baseType);
+
+        foreach (Assembly assembly in assemblies)
+        {
+            derived.AddRange(
+                assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t) && CheckInstantiable(t))
+            );
+        }
+        return derived;
+    }
+
+    private bool CheckInstantiable(Type type)
+    {
+        if (typeof(Component).IsAssignableFrom(type))
+            return false;
+
+        if (type == typeof(string) || type.IsValueType)
+            return true;
 
         return !type.IsInterface && !type.IsGenericTypeDefinition && !type.IsAbstract && type.IsVisible;
     }

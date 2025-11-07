@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Tiles;
+using GlobalMap;
+using static LocalMap.PathPicker;
 
-namespace Map
+namespace LocalMap
 {
-    public class PathPicker : MonoBehaviour
+    public class PathPicker : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     {
         private LocalMapGenerator mapGenerator;
         public LocalMapGenerator MapGenerator
@@ -33,8 +35,6 @@ namespace Map
             }
         }
 
-
-        [SerializeField]
         public static PathPicker Instance { private set; get; }
 
         [SerializeField]
@@ -64,9 +64,19 @@ namespace Map
             }
         }
 
-        private void Awake()
+        public delegate void OnClickSign(Direction direction);
+        public OnClickSign onClickSign;
+
+        public void InitiateSingleton()
         {
-            Instance = this;
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
         }
 
         private void Update()
@@ -87,9 +97,7 @@ namespace Map
                     }
                     else if (LocalMapGenerator.Instance.RoadSigns.ContainsKey(collider.gameObject))
                     {
-                        SignUI.Instance.gameObject.SetActive(true);
-
-                        SignUI.Instance.ShowDirection(LocalMapGenerator.Instance.RoadSigns[collider.gameObject]);
+                        onClickSign?.Invoke(LocalMapGenerator.Instance.RoadSigns[collider.gameObject]);
                     }
                 }
             }
@@ -168,6 +176,8 @@ namespace Map
             lr.positionCount = positions.Length;
             lr.SetPositions(positions);
         }
+
+        
     }
 
 }

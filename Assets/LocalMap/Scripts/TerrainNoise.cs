@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
-namespace Map
+namespace LocalMap
 {
     [Serializable]
     public class TerrainNoise
