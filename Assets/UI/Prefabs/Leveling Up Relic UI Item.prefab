@@ -284,8 +284,8 @@ GameObject:
   m_Component:
   - component: {fileID: 596585483806505779}
   - component: {fileID: 2434181968955614924}
-  - component: {fileID: 9218034672399623016}
   - component: {fileID: 4425335521392714069}
+  - component: {fileID: 7476037587926251290}
   m_Layer: 5
   m_Name: Leveling Up Relic UI Item
   m_TagString: Untagged
@@ -322,22 +322,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2821170981719402241}
   m_CullTransparentMesh: 1
---- !u!114 &9218034672399623016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2821170981719402241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 689fce09bf499bd428850d70fca2cf01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LevelingUpRelicUIItem
-  relicImage: {fileID: 7441414558791517045}
-  relicName: {fileID: 1208071695422310600}
-  StatIncrease: {fileID: 950982383888142064}
-  spriteSize: 30
 --- !u!114 &4425335521392714069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,8 +366,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9218034672399623016}
-        m_TargetAssemblyTypeName: LevelingUpRelicUIItem, Assembly-CSharp
+      - m_Target: {fileID: 7476037587926251290}
+        m_TargetAssemblyTypeName: LevelingSystem.UI.LevelingUpRelicUIItem, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1
         m_Arguments:
@@ -394,6 +378,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7476037587926251290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2821170981719402241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fe9f73cc98fd848aa097a330ba5992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.UI.LevelingUpRelicUIItem
+  relicImage: {fileID: 7441414558791517045}
+  relicName: {fileID: 1208071695422310600}
+  StatIncrease: {fileID: 950982383888142064}
+  spriteSize: 30
 --- !u!1 &3041293894503469133
 GameObject:
   m_ObjectHideFlags: 0

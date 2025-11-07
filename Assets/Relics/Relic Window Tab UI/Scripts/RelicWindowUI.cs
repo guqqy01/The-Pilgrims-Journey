@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Relics
+namespace Relics.UI
 {
     public class RelicWindowUI : MonoBehaviour
     {

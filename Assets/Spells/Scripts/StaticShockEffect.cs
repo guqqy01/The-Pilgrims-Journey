@@ -2,48 +2,50 @@
 using System.Collections.Generic;
 using Monsters;
 using Tiles;
-
-public class StaticShockEffect : SpellEffect
+namespace Spells
 {
-    public float shockTime;
-
-    public override bool CanUseEffect(Vector2Int position)
+    public class StaticShockEffect : SpellEffect
     {
-        if (!TilePlayerManager.Instance.IsPlaying)
-            return false;
+        public float shockTime;
 
-        foreach (Collider2D collider in GetColliders2D(position))
+        public override bool CanUseEffect(Vector2Int position)
         {
-            if (collider.TryGetComponent(out Monster monster))
+            if (!TilePlayerManager.Instance.IsPlaying)
+                return false;
+
+            foreach (Collider2D collider in GetColliders2D(position))
             {
-                return true;
+                if (collider.TryGetComponent(out Monster monster))
+                {
+                    return true;
+                }
             }
+
+            return false;
         }
 
-        return false;
-    }
-
-    public override void Effect(Vector2Int origin)
-    {
-        if(!CanUseEffect(origin))
+        public override void Effect(Vector2Int origin)
+        {
+            if (!CanUseEffect(origin))
             { return; }
 
-        List<Collider2D> colliders = GetColliders2D(origin);
+            List<Collider2D> colliders = GetColliders2D(origin);
 
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.TryGetComponent(out Monster monster))
+            foreach (Collider2D collider in colliders)
             {
-                Transform tf = monster.transform;
-                if(effectFX != null)
+                if (collider.TryGetComponent(out Monster monster))
                 {
-                    FX fx = GameObject.Instantiate(effectFX, tf.position, Quaternion.identity, tf);
-                    fx.Init(fXGreyScaleFactor, fXColor);
+                    Transform tf = monster.transform;
+                    if (effectFX != null)
+                    {
+                        FX fx = GameObject.Instantiate(effectFX, tf.position, Quaternion.identity, tf);
+                        fx.Init(fXGreyScaleFactor, fXColor);
+                    }
+                    monster.ShockMonster(shockTime);
                 }
-                monster.ShockMonster(shockTime);
             }
-        }
 
-        AudioManager.Instance.PlayClip(effectSound);
+            AudioManager.Instance.PlayClip(effectSound);
+        }
     }
 }

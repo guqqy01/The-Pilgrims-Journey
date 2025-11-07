@@ -8,7 +8,7 @@ using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 using Random = UnityEngine.Random;
 
-namespace Map
+namespace GlobalMap
 {
     public class GlobalMapGenerator : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad
     {

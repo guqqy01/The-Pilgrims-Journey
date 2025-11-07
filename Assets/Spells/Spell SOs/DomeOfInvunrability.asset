@@ -16,47 +16,46 @@ MonoBehaviour:
   sprite: {fileID: 444164149, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   highlightColor: {r: 0, g: 0, b: 1, a: 1}
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
-  numberOfUses: 1
   spellEffects:
-  - rid: 7077619546095616000
+  - rid: 4142103448863637714
   references:
     version: 2
     RefIds:
-    - rid: 7077619546095616000
-      type: {class: InvunrabilityEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4142103448863637714
+      type: {class: InvunrabilityEffect, ns: Spells, asm: Assembly-CSharp}
       data:
         Vector2ListWrapper:
           v2IntList:
           - {x: 0, y: 0}
-          - {x: -1, y: 1}
-          - {x: 0, y: 1}
-          - {x: 1, y: 1}
-          - {x: 1, y: 0}
-          - {x: 1, y: -1}
-          - {x: 0, y: -1}
-          - {x: -1, y: -1}
           - {x: -1, y: 0}
-          - {x: 0, y: 2}
-          - {x: 1, y: 2}
+          - {x: -1, y: 1}
+          - {x: -1, y: -1}
+          - {x: 0, y: -1}
+          - {x: 1, y: -1}
+          - {x: 1, y: 0}
+          - {x: 1, y: 1}
+          - {x: 0, y: 1}
+          - {x: -2, y: 1}
+          - {x: -2, y: 0}
+          - {x: -2, y: -1}
+          - {x: -1, y: -2}
           - {x: 0, y: -2}
           - {x: 1, y: -2}
           - {x: 2, y: -1}
           - {x: 2, y: 0}
-          - {x: -2, y: -1}
-          - {x: -2, y: 1}
-          - {x: -2, y: 0}
-          - {x: -1, y: -2}
           - {x: 2, y: 1}
+          - {x: 1, y: 2}
           - {x: -1, y: 2}
+          - {x: 0, y: 2}
         layerMask:
           serializedVersion: 2
           m_Bits: 64
-        effectFX: {fileID: 3412425734132728965, guid: 9dc7a86aa324a9a4bae4a8937edf8fba, type: 3}
-        fXGreyScaleFactor: 1
-        fXColor: {r: 0, g: 0.011482716, b: 1, a: 0}
+        effectFX: {fileID: 0}
+        fXGreyScaleFactor: 0
+        fXColor: {r: 0, g: 0, b: 0, a: 0}
         effectSound:
-          clip: {fileID: 8300000, guid: 6c230f6659de50b4b9715bd2a5fee588, type: 3}
+          clip: {fileID: 0}
           loop: 0
-          volume: 0.1
-          pitch: 1
-        invunrabilityTime: 4
+          volume: 0
+          pitch: 0
+        invunrabilityTime: 2

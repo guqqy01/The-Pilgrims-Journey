@@ -1,41 +1,46 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Map;
+using GlobalMap;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(GlobalMapGenerationSettings))]
-public class GlobalMapGenerationSettingsEditor : Editor
+namespace GlobalMap
 {
-    public override VisualElement CreateInspectorGUI()
+    [CustomEditor(typeof(GlobalMapGenerationSettings))]
+    public class GlobalMapGenerationSettingsEditor : Editor
     {
-        var root = new VisualElement();
-
-        // Draw all the serializable fields first
-        root.Add(new IMGUIContainer(() => DrawDefaultInspector()));
-
-        var settings = (GlobalMapGenerationSettings)target;
-        for (int i = 0; i < settings.PathSettings.Count; i++)
+        public override VisualElement CreateInspectorGUI()
         {
-            var s = settings.PathSettings[i];
+            var root = new VisualElement();
 
-            // Label for clarity
-            var lbl = new Label($"Element {i} Direction Tendency:");
-            lbl.style.marginTop = 10;
-            root.Add(lbl);
+            // Draw all the serializable fields first
+            root.Add(new IMGUIContainer(() => DrawDefaultInspector()));
 
-            // Add our curve‐rasterizing view
-            var view = new CurveTextureView(
-                new[]
-                {
+            var settings = (GlobalMapGenerationSettings)target;
+            for (int i = 0; i < settings.PathSettings.Count; i++)
+            {
+                var s = settings.PathSettings[i];
+
+                // Label for clarity
+                var lbl = new Label($"Element {i} Direction Tendency:");
+                lbl.style.marginTop = 10;
+                root.Add(lbl);
+
+                // Add our curve‐rasterizing view
+                var view = new CurveTextureView(
+                    new[]
+                    {
                     s.directionTendency.curveMin,
                     s.directionTendency.curveMax
-                },
-                new[] { Color.red, Color.green }
-            );
-            view.style.marginBottom = 10;
-            root.Add(view);
-        }
+                    },
+                    new[] { Color.red, Color.green }
+                );
+                view.style.marginBottom = 10;
+                root.Add(view);
+            }
 
-        return root;
+            return root;
+        }
     }
 }
+
+

@@ -140,6 +140,33 @@ namespace Tiles
             return CanPlaceTile(tile, GetGridPositon(worldPosition));
         }
 
+        public bool TryPlaceTile(TileAndUnit tileAndUnit)
+        {
+            TileSO tileSO = tileAndUnit.tile;
+            Tile tile = Instantiate(tileSO.tilePrefab, GridTransform);
+            tile.BaseInit(tileSO, tileAndUnit.unit);
+
+            for (int y = 0; y < gridSize.y; y++)
+            {
+                for (int x = 0; x < gridSize.x; x++)
+                {
+                    for (float rotation = 0; rotation < 360; rotation += 90)
+                    {
+                        tile.RotateTo(rotation);
+
+                        if (TryPlaceTile(tile, new Vector2Int(x, y)))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            Destroy(tile.gameObject);
+
+            return false;
+        }
+
         public bool TryPlaceTile(Tile selectedTile, Vector2Int position)
         {
             if (!CanPlaceTile(selectedTile, position))
@@ -242,37 +269,9 @@ namespace Tiles
         {
             tiles.Sort();
             
-            List<Tile> instantiatedTiles = new List<Tile>();
-
             foreach (TileAndUnit tileAndUnit in tiles)
             {
-                TileSO tileSO = tileAndUnit.tile;
-                Tile tile = Instantiate(tileSO.tilePrefab, GridTransform);
-                tile.BaseInit(tileSO, tileAndUnit.unit);
-                instantiatedTiles.Add(tile);
-            }
-
-            foreach (Tile tile in instantiatedTiles)
-            {
-                for (int y = 0; y < gridSize.y; y++)
-                {
-                    for (int x = 0; x < gridSize.x; x++)
-                    {
-                        for (float rotation = 0; rotation < 360; rotation += 90)
-                        {
-                            tile.RotateTo(rotation);
-
-                            if (TryPlaceTile(tile, new Vector2Int(x, y)))
-                            {
-                                goto NextTile;
-                            }
-                        }
-                    }
-                }
-
-                Destroy(tile.gameObject);
-
-                NextTile:;
+                TryPlaceTile(tileAndUnit);
             }
         }
 

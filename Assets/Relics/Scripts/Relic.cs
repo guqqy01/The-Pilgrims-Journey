@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Spells;
 /*
 Incease gold generation
 Start units get a certain buff
@@ -100,7 +100,7 @@ namespace Relics
                 relicEffects.Add(clonedEffect);
             }
 
-            foreach (RelicSpell spell in relicSO.spells)
+            foreach (SpellAndAmountOfUses spell in relicSO.spells)
             {
                 SpellManager.Instance.AddSpell(spell.spell, spell.amountOfUses);
             }

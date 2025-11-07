@@ -3,7 +3,9 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 using TMPro;
-namespace Relics
+using Spells.UI;
+
+namespace Relics.UI
 {
     public class RelicDescriptionUI : MonoBehaviour
     {
@@ -11,9 +13,9 @@ namespace Relics
         private TextMeshProUGUI relicDescriptionText;
 
         [SerializeField]
-        private RelicSpellUIItem relicSpellUIItemPrefab;
+        private SpellSubDescriptionUI relicSpellUIItemPrefab;
 
-        private readonly List<RelicSpellUIItem> relicSpellUIItems = new List<RelicSpellUIItem>();
+        private readonly List<SpellSubDescriptionUI> relicSpellUIItems = new List<SpellSubDescriptionUI>();
 
         [SerializeField]
         private Transform descriptionHolder;
@@ -29,10 +31,10 @@ namespace Relics
 
             relicDescriptionText.text = GetDescriptionString(relic);
 
-            foreach (RelicSpell relicSpell in relicSO.spells)
+            foreach (SpellAndAmountOfUses relicSpell in relicSO.spells)
             {
-                RelicSpellUIItem relicSpellUIItem = Instantiate(relicSpellUIItemPrefab, descriptionHolder);
-                relicSpellUIItem.Setup(relicSpell);
+                SpellSubDescriptionUI relicSpellUIItem = Instantiate(relicSpellUIItemPrefab, descriptionHolder);
+                relicSpellUIItem.Setup(relicSpell.spell, relicSpell.amountOfUses);
                 relicSpellUIItems.Add(relicSpellUIItem);
             }
 

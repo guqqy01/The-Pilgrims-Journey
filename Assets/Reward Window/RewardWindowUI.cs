@@ -5,6 +5,9 @@ using System.Linq;
 using Equipment;
 using Relics;
 using Random = UnityEngine.Random;
+using Tiles;
+using Units;
+using UnityEngine.UI;
 public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
     public static RewardWindowUI Instance { private set; get; }
@@ -17,11 +20,21 @@ public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     [SerializeField] private DescriptionUI descriptionText;
 
+    [SerializeField]
+    private Image tileImage;
+
     private IDescriptable currentSelected;
 
     [SerializeField]
     private EquipmentInventory equipmentInventory;
 
+    private TileSO tileSO;
+
+    [SerializeField]
+    private TileGrid playerGrid;
+
+    [SerializeField]
+    private TileGrid equipmentGrid;
     public void InitiateSingleton()
     {
         if (Instance != null && Instance != this)
@@ -36,6 +49,13 @@ public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         gameObject.SetActive(false);
     }
 
+    private void Clear()
+    {
+        tileImage.gameObject.SetActive(false);
+
+        rewardItemUIs.DestroyAndClearList();
+    }
+
     public void Setup(List<IDescriptable> descriptables)
     {
         gameObject.SetActive(true);
@@ -45,7 +65,7 @@ public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
             item.onSelectItem -= ShowItemDescription;
         }
 
-        rewardItemUIs.DestroyAndClearList();
+        Clear();
 
         foreach (IDescriptable descriptable in descriptables)
         {
@@ -57,6 +77,20 @@ public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
         if(rewardItemUIs.Count > 0)
             ShowItemDescription(rewardItemUIs[0].descriptableObject);
+    }
+
+    public void Setup(TileSO tile, List<UnitSO> unitOptions)
+    {
+        tileSO = tile;
+        Setup(unitOptions.Cast<IDescriptable>().ToList());
+        PlaceTile(tile.TileSprite);
+    }
+
+    public void PlaceTile(Sprite tileSprite)
+    {
+        tileImage.gameObject.SetActive(true);
+        tileImage.sprite = tileSprite;
+        tileImage.NativeRatioScaleHeightToSize(50f);
     }
 
     public void ShowItemDescription(IDescriptable descriptableObject)
@@ -81,11 +115,23 @@ public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         
         if(currentSelected is EquipmentSO equipment)
         {
-            equipmentInventory.TryAddEquipment(equipment);
+            if (!equipmentInventory.TryAddEquipment(equipment))
+            {
+                //Couldnt Place Equipment.
+            }
+        }
+
+        if(currentSelected is UnitSO unit)
+        {
+            if (!playerGrid.TryPlaceTile(new TileAndUnit(tileSO, unit)))
+            {
+                if(!equipmentGrid.TryPlaceTile(new TileAndUnit(tileSO, unit)))
+                {
+                    //Couldnt Place Tile.
+                }
+            }
         }
     }
-
-    
 }
 
 public interface IDescriptable

@@ -5,7 +5,7 @@ using static UnityEngine.ParticleSystem;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
 
-namespace Map
+namespace GlobalMap
 {
     [Serializable]
     public class GlobalPathSettings: ISerializationCallbackReceiver

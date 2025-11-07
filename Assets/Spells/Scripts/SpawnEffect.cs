@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine.UIElements;
-using Map;
+using GlobalMap;
 using Tiles;
+using Spells;
 
 public class SpawnEffect : SpellEffect
 {

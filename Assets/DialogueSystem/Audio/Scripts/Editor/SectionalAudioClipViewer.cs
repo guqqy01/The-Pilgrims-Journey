@@ -1,5 +1,5 @@
 using DialogueSystem;
-using Map;
+using GlobalMap;
 using Serilog;
 using System.Collections;
 using System.Collections.Generic;

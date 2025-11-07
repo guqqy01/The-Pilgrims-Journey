@@ -1,5 +1,5 @@
 using GameManagerCalls;
-using Map;
+using GlobalMap;
 using Tiles;
 using UnityEngine;
 using UnityEngine.UI;

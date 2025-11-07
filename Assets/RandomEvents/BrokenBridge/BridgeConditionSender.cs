@@ -1,24 +1,30 @@
 using DialogueSystem;
 using UnityEngine;
-public class BridgeConditionSender : MonoBehaviour
+
+namespace RandomEvents.BrokenBridge
 {
-    public PromptResponseConditionSender safeBridgeConditionSender;
-    public PromptResponseConditionSender unsafeBridgeConditionSender;
-
-    private void Start()
+    public class BridgeConditionSender : MonoBehaviour
     {
-        safeBridgeConditionSender.Register();
-        unsafeBridgeConditionSender.Register();
+        public PromptResponseConditionSender safeBridgeConditionSender;
+        public PromptResponseConditionSender unsafeBridgeConditionSender;
+
+        private void Start()
+        {
+            safeBridgeConditionSender.Register();
+            unsafeBridgeConditionSender.Register();
+        }
+
+        private void OnDestroy()
+        {
+            safeBridgeConditionSender.Unregister();
+            unsafeBridgeConditionSender.Unregister();
+        }
+
+        public bool Has1000GoldOrMore()
+        {
+            return ResourceManager.Instance != null && ResourceManager.Instance.Gold >= 1000;
+        }
     }
 
-    private void OnDestroy()
-    {
-        safeBridgeConditionSender.Unregister();
-        unsafeBridgeConditionSender.Unregister();
-    }
-
-    public bool Has1000GoldOrMore()
-    {
-        return ResourceManager.Instance != null && ResourceManager.Instance.Gold >= 1000;
-    }
 }
+

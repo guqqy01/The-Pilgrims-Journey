@@ -1,79 +1,84 @@
-﻿using Map;
+﻿using GlobalMap;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using LocalMap;
 
-[Serializable]
-public abstract class SpellEffect
+namespace Spells
 {
-    public virtual List<Vector2Int> Vector2Ints => Vector2ListWrapper;
-
-    public Vector2ListWrapper Vector2ListWrapper;
-
-    public LayerMask layerMask;
-
-    [SerializeField]
-    protected FX effectFX;
-    [SerializeField]
-    [Range(0f, 1f)]
-    protected float fXGreyScaleFactor;
-    [SerializeField]
-    protected Color fXColor;
-    [SerializeField]
-    protected AudioClipAndSettings effectSound;
-
-    public abstract void Effect(Vector2Int position);
-    public abstract bool CanUseEffect(Vector2Int position);
-
-    public List<Vector2Int> GetPositions(Vector2Int position)
+    [Serializable]
+    public abstract class SpellEffect
     {
-        return Vector2Ints.AddToAll(position);
-    }
+        public virtual List<Vector2Int> Vector2Ints => Vector2ListWrapper;
 
-    public List<MapTile> GetMapTiles(Vector2Int position)
-    {
-        LocalMapGenerator localMapGenerator = LocalMapGenerator.Instance;
+        public Vector2ListWrapper Vector2ListWrapper;
 
-        List<Vector2Int> v2IntList = Vector2Ints;
+        public LayerMask layerMask;
 
-        List<MapTile> returnMapTiles = new List<MapTile>();
+        [SerializeField]
+        protected FX effectFX;
+        [SerializeField]
+        [Range(0f, 1f)]
+        protected float fXGreyScaleFactor;
+        [SerializeField]
+        protected Color fXColor;
+        [SerializeField]
+        protected AudioClipAndSettings effectSound;
 
-        foreach (Vector2Int v2Int in v2IntList)
+        public abstract void Effect(Vector2Int position);
+        public abstract bool CanUseEffect(Vector2Int position);
+
+        public List<Vector2Int> GetPositions(Vector2Int position)
         {
-            int x = position.x + v2Int.x;
-            int y = position.y + v2Int.y;
+            return Vector2Ints.AddToAll(position);
+        }
 
-            if (localMapGenerator.Tiles != null && x >= 0 && x < localMapGenerator.Tiles.GetLength(0) && y >= 0 && y < localMapGenerator.Tiles.GetLength(1))
+        public List<MapTile> GetMapTiles(Vector2Int position)
+        {
+            LocalMapGenerator localMapGenerator = LocalMapGenerator.Instance;
+
+            List<Vector2Int> v2IntList = Vector2Ints;
+
+            List<MapTile> returnMapTiles = new List<MapTile>();
+
+            foreach (Vector2Int v2Int in v2IntList)
             {
-                returnMapTiles.Add(localMapGenerator.Tiles[x, y]);
+                int x = position.x + v2Int.x;
+                int y = position.y + v2Int.y;
+
+                if (localMapGenerator.Tiles != null && x >= 0 && x < localMapGenerator.Tiles.GetLength(0) && y >= 0 && y < localMapGenerator.Tiles.GetLength(1))
+                {
+                    returnMapTiles.Add(localMapGenerator.Tiles[x, y]);
+                }
             }
+
+            return returnMapTiles;
         }
 
-        return returnMapTiles;
-    }
-
-    protected List<Collider2D> GetColliders2D(Vector2Int origin, LayerMask layerMask = default(LayerMask))
-    {
-        if(layerMask == default(LayerMask))
+        protected List<Collider2D> GetColliders2D(Vector2Int origin, LayerMask layerMask = default(LayerMask))
         {
-            layerMask = this.layerMask;
+            if (layerMask == default(LayerMask))
+            {
+                layerMask = this.layerMask;
+            }
+
+            List<Collider2D> colliders = new List<Collider2D>();
+
+            foreach (BoxVector2IntDimensions box in Vector2Ints.AddToAll(origin).GetVector2IntBoxDimensions())
+            {
+                colliders.AddRange(Physics2D.OverlapBoxAll(box.position, box.size - new Vector2(0.2f, 0.2f), 0f, layerMask));
+                //Debug.Log($"Position: {box.position}, Size: {box.size}");
+            }
+
+            colliders.RemoveDuplicates();
+
+            return colliders;
         }
 
-        List<Collider2D> colliders = new List<Collider2D>();
-
-        foreach (BoxVector2IntDimensions box in Vector2Ints.AddToAll(origin).GetVector2IntBoxDimensions())
+        public virtual void Reset()
         {
-            colliders.AddRange(Physics2D.OverlapBoxAll(box.position, box.size - new Vector2(0.2f, 0.2f), 0f, layerMask));
-            //Debug.Log($"Position: {box.position}, Size: {box.size}");
+
         }
-
-        colliders.RemoveDuplicates();
-
-        return colliders;
     }
 
-    public virtual void Reset()
-    {
-
-    }
 }

@@ -1,10 +1,10 @@
-using Map;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Units;
 using Tiles;
 using GameManagerCalls;
+using LocalMap;
+using Helper.Wait;
 
 public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
 {
@@ -37,7 +37,7 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, I
 
     private void OnEnable()
     {
-        StartCoroutine(WaitForObjectHelper.WaitForObject(() => TilePlayerManager.Instance, Subscribe));
+        WaitForObjectHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, Subscribe);
     }
 
     private void Subscribe()

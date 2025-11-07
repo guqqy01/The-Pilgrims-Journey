@@ -2,36 +2,40 @@ using DialogueSystem;
 using Relics;
 using UnityEngine;
 
-public class DemonPromptListener : MonoBehaviour
+namespace RandomEvents.Demon
 {
-    [SerializeField]
-    private DialogueEventListener acceptTheGiftListener;
-
-    [SerializeField]
-    private DialogueEventListener refuseTheGiftListener;
-
-    [SerializeField]
-    private RelicSO demonRelic;
-
-    private void OnEnable()
+    public class DemonPromptListener : MonoBehaviour
     {
-        acceptTheGiftListener.Register();
-        refuseTheGiftListener.Register();
-    }
+        [SerializeField]
+        private DialogueEventListener acceptTheGiftListener;
 
-    private void OnDisable()
-    {
-        acceptTheGiftListener.Unregister();
-        refuseTheGiftListener.Unregister();
-    }   
+        [SerializeField]
+        private DialogueEventListener refuseTheGiftListener;
 
-    public void AcceptTheGift()
-    {
-        RelicManager.Instance.AddRelic(demonRelic);
-    }
+        [SerializeField]
+        private RelicSO demonRelic;
 
-    public void RefuseTheGift()
-    {
-        // Nothing happens
+        private void OnEnable()
+        {
+            acceptTheGiftListener.Register();
+            refuseTheGiftListener.Register();
+        }
+
+        private void OnDisable()
+        {
+            acceptTheGiftListener.Unregister();
+            refuseTheGiftListener.Unregister();
+        }
+
+        public void AcceptTheGift()
+        {
+            RelicManager.Instance.AddRelic(demonRelic);
+        }
+
+        public void RefuseTheGift()
+        {
+            // Nothing happens
+        }
     }
 }
+

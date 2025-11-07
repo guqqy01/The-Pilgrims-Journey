@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace Map
+namespace LocalMap
 {
     [Serializable]
     public struct MapWeightPoint : IComparable<MapWeightPoint>

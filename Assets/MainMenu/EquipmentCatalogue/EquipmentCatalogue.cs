@@ -5,7 +5,7 @@ using Units;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Equipment
+namespace Equipment.UI
 {
     public class EquipmentCatalogue : MonoBehaviour
     {

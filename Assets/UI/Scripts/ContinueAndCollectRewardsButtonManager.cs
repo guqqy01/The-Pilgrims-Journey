@@ -1,10 +1,8 @@
-using Tiles;
 using UnityEngine;
-using Map;
 using UnityEngine.UI;
-using UnityEditor.UIElements;
 using GameManagerCalls;
 using TMPro;
+using GlobalMap.UI;
 public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnCompleteLocalMapLevel, IOnCreateLocalMap
 {
     [SerializeField]

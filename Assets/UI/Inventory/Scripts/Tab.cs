@@ -17,7 +17,8 @@ public class Tab : MonoBehaviour
 
         foreach(GameObject sTab in subTabs)
         {
-            sTab.SetActive(sTab == subTab);
+            if(sTab != null)
+                sTab.SetActive(sTab == subTab);
         }
     }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-namespace Relics
+
+namespace Relics.UI
 {
     public class RelicItemUI : MonoBehaviour
     {

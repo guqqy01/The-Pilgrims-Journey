@@ -2,26 +2,30 @@ using DialogueSystem;
 using Relics;
 using UnityEngine;
 
-public class HoardingWizardEventListernerAndConditions : MonoBehaviour
+namespace RandomEvents.HoardingWizard
 {
-    [SerializeField]
-    private DialogueEventListener acceptTheHoardingWizardsItemListener;
-
-    [SerializeField]
-    private RelicSO hoardingWizardRelic;
-
-    private void OnEnable()
+    public class HoardingWizardEventListernerAndConditions : MonoBehaviour
     {
-        acceptTheHoardingWizardsItemListener.Register();
-    }
+        [SerializeField]
+        private DialogueEventListener acceptTheHoardingWizardsItemListener;
 
-    private void OnDisable()
-    {
-        acceptTheHoardingWizardsItemListener.Unregister();
-    }
+        [SerializeField]
+        private RelicSO hoardingWizardRelic;
 
-    public void AcceptTheHoardingWizardsItem()
-    {
-        RelicManager.Instance.AddRelic(hoardingWizardRelic);
+        private void OnEnable()
+        {
+            acceptTheHoardingWizardsItemListener.Register();
+        }
+
+        private void OnDisable()
+        {
+            acceptTheHoardingWizardsItemListener.Unregister();
+        }
+
+        public void AcceptTheHoardingWizardsItem()
+        {
+            RelicManager.Instance.AddRelic(hoardingWizardRelic);
+        }
     }
 }
+

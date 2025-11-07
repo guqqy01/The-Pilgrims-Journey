@@ -1,40 +1,45 @@
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
-public class ChangeRandomBackgroundImage : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+
+namespace RandomEvents
 {
-    public static ChangeRandomBackgroundImage Instance;
-
-    public void InitiateSingleton()
+    public class ChangeRandomBackgroundImage : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     {
-        if (Instance != null && Instance != this)
+        public static ChangeRandomBackgroundImage Instance { private set; get; }
+
+        public void InitiateSingleton()
         {
-            Destroy(this);
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
         }
-        else
+
+        [SerializeField]
+        private Animator fadeAnimator;
+        [SerializeField]
+        private Image backgroundImage;
+
+        private Sprite _sprite;
+
+        public void ChangeBackground(Sprite sprite)
         {
-            Instance = this;
+            _sprite = sprite;
+
+            fadeAnimator.SetTrigger("FadeToBlack");
         }
-    }
 
-    [SerializeField]
-    private Animator fadeAnimator;
-    [SerializeField]
-    private Image backgroundImage;
+        public void ReadyForImageChange()
+        {
+            backgroundImage.sprite = _sprite;
 
-    private Sprite _sprite;
-
-    public void ChangeBackground(Sprite sprite)
-    {
-        _sprite = sprite;
-
-        fadeAnimator.SetTrigger("FadeToBlack");
-    }
-
-    public void ReadyForImageChange()
-    {
-        backgroundImage.sprite = _sprite;
-
-        fadeAnimator.SetTrigger("FadeFromBlack");
+            fadeAnimator.SetTrigger("FadeFromBlack");
+        }
     }
 }
+

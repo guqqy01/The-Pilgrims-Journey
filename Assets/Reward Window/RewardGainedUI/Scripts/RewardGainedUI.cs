@@ -33,6 +33,8 @@ public class RewardGainedUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     public void Setup(IDescriptable descriptable)
     {
+        gameObject.SetActive(true);
+
         if(descriptable is EquipmentSO equipment)
         {
             Setup(equipment);

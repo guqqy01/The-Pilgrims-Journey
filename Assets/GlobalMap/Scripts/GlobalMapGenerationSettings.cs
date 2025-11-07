@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-namespace Map
+
+namespace GlobalMap
 {
     [CreateAssetMenu()]
     public class GlobalMapGenerationSettings : ScriptableObject

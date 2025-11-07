@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Units;
+
 
 [CustomPropertyDrawer(typeof(Upgrade))]
 public class UpgradeDrawer : PropertyDrawer

@@ -2,34 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class EquipmentBuffItemUI : MonoBehaviour
+using Units;
+
+namespace Equipment.UI
 {
-    public Text text;
-
-    public void Init(Buff equipmentBuff, UnitStatsEnum Stat)
+    public class EquipmentBuffItemUI : MonoBehaviour
     {
-        string textString = Stat.ToString() + ":";
-        if(equipmentBuff.BaseBuff.IsInt && equipmentBuff.BaseBuff != 0)
-        {
-            textString += "\r\nBase: +" + equipmentBuff.BaseBuff;
-        }
-        else if (equipmentBuff.BaseBuff.IsFloat && equipmentBuff.BaseBuff != 0f)
-        {
-            textString += "\r\nBase: +" + equipmentBuff.BaseBuff;
-        }
-        if (equipmentBuff.Multiplier != 0f)
-        {
-            textString += "\r\nMultiplier: +" + equipmentBuff.Multiplier + "%";
-        }
-        if(equipmentBuff.AdditionalBuff.IsInt && equipmentBuff.AdditionalBuff != 0f)
-        {
-            textString += "\r\nAdditional: +" + equipmentBuff.AdditionalBuff;
-        }
-        else if (equipmentBuff.AdditionalBuff.IsFloat && equipmentBuff.AdditionalBuff != 0f)
-        {
-            textString += "\r\nAdditional: +" + equipmentBuff.AdditionalBuff;
-        }
+        public Text text;
 
-        text.text = textString;
+        public void Init(Buff equipmentBuff, UnitStatsEnum Stat)
+        {
+            string textString = Stat.ToString() + ":";
+            if (equipmentBuff.BaseBuff.IsInt && equipmentBuff.BaseBuff != 0)
+            {
+                textString += "\r\nBase: +" + equipmentBuff.BaseBuff;
+            }
+            else if (equipmentBuff.BaseBuff.IsFloat && equipmentBuff.BaseBuff != 0f)
+            {
+                textString += "\r\nBase: +" + equipmentBuff.BaseBuff;
+            }
+            if (equipmentBuff.Multiplier != 0f)
+            {
+                textString += "\r\nMultiplier: +" + equipmentBuff.Multiplier + "%";
+            }
+            if (equipmentBuff.AdditionalBuff.IsInt && equipmentBuff.AdditionalBuff != 0f)
+            {
+                textString += "\r\nAdditional: +" + equipmentBuff.AdditionalBuff;
+            }
+            else if (equipmentBuff.AdditionalBuff.IsFloat && equipmentBuff.AdditionalBuff != 0f)
+            {
+                textString += "\r\nAdditional: +" + equipmentBuff.AdditionalBuff;
+            }
+
+            text.text = textString;
+        }
     }
 }
+

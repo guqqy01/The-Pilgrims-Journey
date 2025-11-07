@@ -1,7 +1,9 @@
-using Map;
+using GlobalMap;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using LocalMap;
+
 public class PickDirectionWindow : MonoBehaviour
 {
     public GameObject northButtonGO;

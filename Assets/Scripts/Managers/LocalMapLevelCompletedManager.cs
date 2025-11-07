@@ -1,11 +1,12 @@
 using GameManagerCalls;
-using Map;
+using GlobalMap;
 using Unity.VisualScripting;
 using UnityEngine;
 using static GameManager;
 using System.Collections.Generic;
 using System.Linq;
 using Tiles;
+using Helper.Wait;
 public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnBeforeCreateLocalMap
 {
     public static LocalMapLevelCompletedManager Instance { private set; get; }
@@ -39,7 +40,7 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
 
     private void Start()
     {
-        StartCoroutine(WaitForObjectHelper.WaitForObject(() => TilePlayerManager.Instance, SubscribeToEndOfGameCheck, 1f));
+        WaitForObjectHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToEndOfGameCheck, 1f);
     }
 
     private void SubscribeToEndOfGameCheck()

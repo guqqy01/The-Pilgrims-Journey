@@ -3,48 +3,52 @@ using System.Collections.Generic;
 using Units;
 using Tiles;
 
-public class InvunrabilityEffect : SpellEffect
+namespace Spells
 {
-    public float invunrabilityTime;
-
-    public override bool CanUseEffect(Vector2Int position)
+    public class InvunrabilityEffect : SpellEffect
     {
-        if (!TilePlayerManager.Instance.IsPlaying)
-            return false;
+        public float invunrabilityTime;
 
-        foreach (Collider2D collider in GetColliders2D(position))
+        public override bool CanUseEffect(Vector2Int position)
         {
-            if (collider.TryGetComponent(out Unit unit))
+            if (!TilePlayerManager.Instance.IsPlaying)
+                return false;
+
+            foreach (Collider2D collider in GetColliders2D(position))
             {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public override void Effect(Vector2Int origin)
-    {
-        if (!CanUseEffect(origin))
-        { return; }
-
-
-        List<Collider2D> colliders =  GetColliders2D(origin);
-
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.TryGetComponent(out Unit unit))
-            {
-                Transform tf = unit.transform;
-                if(effectFX != null)
+                if (collider.TryGetComponent(out Unit unit))
                 {
-                    FX fx = GameObject.Instantiate(effectFX, tf.position, Quaternion.identity, tf);
-                    fx.Init(fXGreyScaleFactor, fXColor);
+                    return true;
                 }
-                unit.MakeInvunrableForTime(invunrabilityTime);
             }
+
+            return false;
         }
 
-        AudioManager.Instance.PlayClip(effectSound);
+        public override void Effect(Vector2Int origin)
+        {
+            if (!CanUseEffect(origin))
+            { return; }
+
+
+            List<Collider2D> colliders = GetColliders2D(origin);
+
+            foreach (Collider2D collider in colliders)
+            {
+                if (collider.TryGetComponent(out Unit unit))
+                {
+                    Transform tf = unit.transform;
+                    if (effectFX != null)
+                    {
+                        FX fx = GameObject.Instantiate(effectFX, tf.position, Quaternion.identity, tf);
+                        fx.Init(fXGreyScaleFactor, fXColor);
+                    }
+                    unit.MakeInvunrableForTime(invunrabilityTime);
+                }
+            }
+
+            AudioManager.Instance.PlayClip(effectSound);
+        }
     }
 }
+

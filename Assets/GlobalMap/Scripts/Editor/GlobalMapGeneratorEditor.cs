@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-namespace Map
+namespace GlobalMap
 {
     [CustomEditor(typeof(GlobalMapGenerator))]
     public class GlobalMapGeneratorEditor : Editor

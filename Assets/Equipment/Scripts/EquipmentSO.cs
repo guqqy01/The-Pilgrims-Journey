@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using static UnityEngine.ParticleSystem;
 using AYellowpaper.SerializedCollections;
+using Units.UI;
 
 namespace Equipment
 {
@@ -43,7 +44,7 @@ namespace Equipment
                 if (equipmentStats != null)
                     foreach (var kvp in equipmentStats)
                     {
-                        value += kvp.Value.GetBuffGoldValue(kvp.Key);
+                        value += UnitBuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key, out _, out _, out _);
                     }
                 int specialValue = (EquipmentSpecial != null) ? EquipmentSpecial.GoldValue() : 0;
                 value += specialValue;
@@ -95,7 +96,7 @@ namespace Equipment
 
         [Header("UI Description")]
         [SerializeField]
-        private DescriptionStatUI descriptionStatUIPrefab;
+        private UnitStatSubDescriptionUI descriptionStatUIPrefab;
 
 
         public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams

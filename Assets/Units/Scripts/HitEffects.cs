@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UI;
 namespace Units
 {
     public class HitEffects : MonoBehaviour

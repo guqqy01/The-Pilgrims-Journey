@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Units
+namespace Units.UI
 {
     public class ShieldUI : MonoBehaviour
     {
@@ -14,6 +14,12 @@ namespace Units
         private void Awake()
         {
             shield.onShieldChange += OnShieldChange;
+        }
+
+        private void OnDestroy()
+        {
+            if(shield != null)
+                shield.onShieldChange -= OnShieldChange;
         }
 
         private void OnShieldChange(int currentShield)

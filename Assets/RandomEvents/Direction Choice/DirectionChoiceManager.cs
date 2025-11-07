@@ -1,9 +1,10 @@
 using UnityEngine;
 using DialogueSystem;
-using Map;
+using GlobalMap;
 using System.Collections.Generic;
-using UnityEngine.Events;
-using System.Linq;
+
+using LocalMap;
+
 public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 {
     public static DirectionChoiceManager Instance;

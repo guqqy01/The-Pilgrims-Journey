@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
 using UnityEditor;
+
 namespace Relics
 {
     [CreateAssetMenu()]
@@ -17,7 +16,7 @@ namespace Relics
         public Sprite sprite;
         public int baseValue;
 
-        public List<RelicSpell> spells;
+        public List<SpellAndAmountOfUses> spells;
 
         [SerializeReference]
         [AbstractSelector]
@@ -35,12 +34,5 @@ namespace Relics
                 return new List<SubDescriptionUIAndParams>();
             }
         }
-    }
-
-    [Serializable]
-    public class RelicSpell
-    {
-        public SpellSO spell;
-        public int amountOfUses = 1;
     }
 }

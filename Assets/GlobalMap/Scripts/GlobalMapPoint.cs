@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using Map;
+using GlobalMap;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using System;
@@ -9,7 +9,7 @@ using System.Collections;
 
 
 
-namespace Map
+namespace GlobalMap
 {
     public class GlobalMapPoint
     {
