@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using System.Collections;
-public class BlurBackgroundController : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+using GameManagerCalls;
+
+public class BlurBackgroundController : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnSetup
 {
     public static BlurBackgroundController Instance { get; private set; }
 
@@ -55,5 +57,8 @@ public class BlurBackgroundController : MonoBehaviour, ISingletonToBeInitiatedFr
         }
     }
 
-    
+    public void SetupNewGame()
+    {
+        blurVolume.weight = 0;
+    }
 }

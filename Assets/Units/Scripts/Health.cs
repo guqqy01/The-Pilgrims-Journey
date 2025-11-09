@@ -53,6 +53,12 @@ namespace Units
             }
 
         }
+
+        private void OnDestroy()
+        {
+            onDie = null;
+            onHealthChange = null;
+        }
     }
 }
 

@@ -135,9 +135,11 @@ namespace Tiles
         public int Level { private set; get; } = 1;
         public bool IsMaxLevel => Level == 5;
 
-        public int currentHealth;
-        public int MaxHealth;
+        public int currentAmountOfUnitsInTile;
+        public int MaxAmountOfUnitsInTile;
 
+
+        public int AmountOfUnitsSpawned { private set; get; }
         public int AmountOfUnitsEscapedNeededToLevel { private set; get; }
         public int CurrentAmountOfUnitsEscaped { private set; get; }
 
@@ -153,14 +155,12 @@ namespace Tiles
             if (gameObject == null)
                 return;
 
-            currentHealth = Mathf.Clamp(currentHealth - 1, 0, MaxHealth);
-
-            onUpdateLevelUnitsAndHealthUI?.Invoke();
-
-            if (currentHealth <= 0)
+            if (currentAmountOfUnitsInTile <= 0 && AmountOfUnitsSpawned <= 0)
             {
                 DestroyTile();
             }
+
+            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned--);
         }
 
         public void OnUnitEscape()
@@ -173,6 +173,21 @@ namespace Tiles
             {
                 LevelUp();
             }
+
+            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned--);
+            currentAmountOfUnitsInTile = Mathf.Clamp(currentAmountOfUnitsInTile + 1, 0, MaxAmountOfUnitsInTile);
+        }
+
+        public void OnUnitSpawn()
+        {
+            if (gameObject == null)
+                return;
+
+            currentAmountOfUnitsInTile = Mathf.Clamp(currentAmountOfUnitsInTile - 1, 0, MaxAmountOfUnitsInTile);
+
+            onUpdateLevelUnitsAndHealthUI?.Invoke();
+
+            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned++);
         }
 
         public void DestroyTile()
@@ -186,8 +201,8 @@ namespace Tiles
 
             CurrentAmountOfUnitsEscaped = 0;
             AmountOfUnitsEscapedNeededToLevel = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * UnitSO.numberOfUnitsEscapedToLevelUp * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            MaxHealth = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * UnitSO.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            currentHealth = MaxHealth;
+            MaxAmountOfUnitsInTile = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * UnitSO.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
+            currentAmountOfUnitsInTile = MaxAmountOfUnitsInTile;
             onUpdateLevelUnitsAndHealthUI?.Invoke();
 
             onUpdateUI?.Invoke();
@@ -482,7 +497,6 @@ namespace Tiles
         #endregion
 
         
-
         public void Highlight(bool highlighted)
         {
             highlight.SetActive(highlighted);
@@ -505,8 +519,8 @@ namespace Tiles
             tileGraphics.sprite = tileSO.TileSprite;
 
             AmountOfUnitsEscapedNeededToLevel = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * unit.numberOfUnitsEscapedToLevelUp * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            MaxHealth = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * unit.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            currentHealth = MaxHealth;
+            MaxAmountOfUnitsInTile = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * unit.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
+            currentAmountOfUnitsInTile = MaxAmountOfUnitsInTile;
             tileGraphics.SetNativeSize();
         }
 
@@ -516,7 +530,7 @@ namespace Tiles
 
             BaseInit(tileSave.tile, tileSave.unit);
 
-            currentHealth = tileSave.tileHealth;
+            currentAmountOfUnitsInTile = tileSave.tileHealth;
 
             CurrentAmountOfUnitsEscaped = tileSave.tileExp;
 

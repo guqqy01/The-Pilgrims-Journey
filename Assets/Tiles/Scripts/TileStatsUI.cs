@@ -124,7 +124,7 @@ namespace Tiles
             if (tile == null)
                 return;
 
-            totalNumberOfUnits.text = $"Total units: {tile.currentHealth}/{tile.MaxHealth}";
+            totalNumberOfUnits.text = $"Total units: {tile.currentAmountOfUnitsInTile}/{tile.MaxAmountOfUnitsInTile}";
 
             if (tile.IsMaxLevel)
             {

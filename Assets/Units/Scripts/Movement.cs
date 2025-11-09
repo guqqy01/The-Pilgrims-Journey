@@ -62,6 +62,11 @@ namespace Units
             HandleAdditionalTimedBuff();
         }
 
+        private void OnDestroy()
+        {
+            onPathCompleted = null;
+        }
+
         private void HandleMovement()
         {
             if (finishedPath)

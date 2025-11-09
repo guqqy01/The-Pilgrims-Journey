@@ -281,7 +281,7 @@ namespace Tiles
 
             foreach (Tile tile in ListOfTiles)
             {
-                TileSave tileSave = new TileSave(tile.Level, tile.currentHealth, tile.CurrentAmountOfUnitsEscaped ,tile.Rotation, tile.PlacedPosition, tile.TileSO, tile.UnitSO, tile.Equipment);
+                TileSave tileSave = new TileSave(tile.Level, tile.currentAmountOfUnitsInTile + tile.AmountOfUnitsSpawned, tile.CurrentAmountOfUnitsEscaped ,tile.Rotation, tile.PlacedPosition, tile.TileSO, tile.UnitSO, tile.Equipment);
                 tileSaves.Add(tileSave);
             }
 

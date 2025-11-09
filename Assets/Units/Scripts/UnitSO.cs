@@ -19,7 +19,7 @@ namespace Units
         public Rarity Rarity => rarity;
 
         [Header("Leveling and Health")]
-        public int numberOfUnitsEscapedToLevelUp = 5;
+        public int numberOfUnitsEscapedToLevelUp = 50;
         public int numberOfUnitsAbleToSpawn = 15;
 
         [Header("Stats")]
