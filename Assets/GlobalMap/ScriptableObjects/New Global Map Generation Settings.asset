@@ -21,6 +21,13 @@ MonoBehaviour:
     NumberOfRelics: 1
     NumberOfRandomEncounters: 4
     NumberOfShops: 1
+    mapPointSetting:
+      type: 1
+      range:
+        MinLimit: 50
+        MaxLimit: 1000
+        Start: 373
+        Length: 491
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -146,11 +153,17 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    reverseDirectionChance: 0
   - NumberOfPaths: 1
     NumberOfRelics: 1
     NumberOfRandomEncounters: 4
     NumberOfShops: 1
+    mapPointSetting:
+      type: 0
+      range:
+        MinLimit: 0
+        MaxLimit: 1
+        Start: 0
+        Length: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -285,11 +298,17 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    reverseDirectionChance: 0
   - NumberOfPaths: 1
     NumberOfRelics: 1
     NumberOfRandomEncounters: 4
     NumberOfShops: 1
+    mapPointSetting:
+      type: 0
+      range:
+        MinLimit: 0
+        MaxLimit: 1
+        Start: 0
+        Length: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -424,11 +443,17 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    reverseDirectionChance: 0
   - NumberOfPaths: 1
     NumberOfRelics: 0
     NumberOfRandomEncounters: 2
     NumberOfShops: 1
+    mapPointSetting:
+      type: 0
+      range:
+        MinLimit: 0
+        MaxLimit: 1
+        Start: 0
+        Length: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -617,11 +642,17 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    reverseDirectionChance: 0
   - NumberOfPaths: 1
     NumberOfRelics: 0
     NumberOfRandomEncounters: 2
     NumberOfShops: 1
+    mapPointSetting:
+      type: 0
+      range:
+        MinLimit: 0
+        MaxLimit: 1
+        Start: 0
+        Length: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -810,4 +841,3 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    reverseDirectionChance: 0
