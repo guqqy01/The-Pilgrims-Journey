@@ -38,8 +38,8 @@ public class SectionalAudioClipViewer
 
     public WaveData WaveData => AudioClipWaveData[LOD];
     public WaveData GetWaveData(int lod) => AudioClipWaveData[LOD];
-    public float MinValue => sectionalAudioClip.slider.MinValue;
-    public float MaxValue => sectionalAudioClip.slider.MaxValue;
+    public float MinValue => sectionalAudioClip.slider.Start;
+    public float MaxValue => sectionalAudioClip.slider.End;
     public SectionalAudioClipViewer(SectionalAudioClip sectionalAudioClip, int lod, DrawMethod drawMethod)
     {
         this.sectionalAudioClip = sectionalAudioClip;

@@ -11,11 +11,11 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, I
 {
     public static SpawningManager Instance { private set; get; }
 
-    public List<Unit> SpawnedUnits = new List<Unit>();
+    public readonly List<Unit> SpawnedUnits = new List<Unit>();
 
-    Dictionary<Tile, float> TileAndSpawnRate = new Dictionary<Tile, float>();
+    private readonly Dictionary<Tile, float> TileAndSpawnRate = new Dictionary<Tile, float>();
 
-    Dictionary<Tile, float> tileAndNextSpawnTime = new Dictionary<Tile, float>();
+    private readonly Dictionary<Tile, float> tileAndNextSpawnTime = new Dictionary<Tile, float>();
 
     private float totalSpawnRate;
 
@@ -60,7 +60,7 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, I
 
     private void SetupNewLevel()
     {
-        tileAndNextSpawnTime = new Dictionary<Tile, float>();
+        tileAndNextSpawnTime.Clear();
     }
 
     private void SpawnUnits()

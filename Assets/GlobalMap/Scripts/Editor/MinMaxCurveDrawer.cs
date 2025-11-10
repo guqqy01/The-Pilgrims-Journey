@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections.Generic;
 
-[CustomPropertyDrawer(typeof(ParticleSystem.MinMaxCurve))]
+//[CustomPropertyDrawer(typeof(ParticleSystem.MinMaxCurve))]
 public class MinMaxCurveDrawer : PropertyDrawer
 {
     // Keep foldout state per property path

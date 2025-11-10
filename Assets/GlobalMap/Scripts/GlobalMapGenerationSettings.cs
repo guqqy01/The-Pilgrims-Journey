@@ -22,11 +22,23 @@ namespace GlobalMap
 
         public List<GlobalPathSettings> PathSettings = new List<GlobalPathSettings>();
 
-        private float Time(float currentXPos) => (1f / (EndOfInnerMapPosition.x - StartRoadLength)) * (currentXPos - StartRoadLength);
+        /*private float Time(float currentXPos) => (1f / (EndOfInnerMapPosition.x - StartRoadLength)) * (currentXPos - StartRoadLength);*/
 
-        public bool Traverse(GlobalPathSettings path, int currentXPos) => path.Traverse(Time(currentXPos));
-        public bool Converge(GlobalPathSettings path, int currentXPos) => path.Traverse(Time(currentXPos));
-        public bool TendTowardsDirection(GlobalPathSettings path, int currentXPos) => path.Traverse(Time(currentXPos));
+        private float Time(float currentXPos)
+        {
+            float denom = Mathf.Max(1f, (EndOfInnerMapPosition.x - StartRoadLength));
+            return Mathf.Clamp01((currentXPos - StartRoadLength) / denom);
+        }
+
+        private void OnValidate()
+        {
+            if(MapWidth % 2 == 0)
+            {
+                MapWidth += 1;
+            }
+
+            MapWidth = Mathf.Max(1, MapWidth);
+        }
 
         public Direction GetNextDirection(GlobalPathSettings pathSettings, Direction currentDirection, Vector2Int currentPosition)
         {
@@ -39,150 +51,10 @@ namespace GlobalMap
             switch (currentDirection)
             {
                 case Direction.North:
-                    if (EdgeOfInnerMap(currentDirection, currentPosition))
-                    {
-                        if (pathSettings.Reverse)
-                        {
-                            currentDirection = Direction.West;
-                        }
-                        else
-                        {
-                            currentDirection = Direction.East;
-                        }
-                    }
-                    else
-                    {
-                        if (EdgeOfInnerMap(Direction.East, currentPosition))
-                            currentDirection = Direction.North;
-                        else if (converge)
-                        {
-                            switch (abovePoint)
-                            {
-                                case -1:
-                                    currentDirection = Direction.North;
-                                    break;
-                                default:
-                                    if (pathSettings.Reverse)
-                                    {
-                                        currentDirection = Direction.West;
-                                    }
-                                    else
-                                    {
-                                        currentDirection = Direction.East;
-                                    }
-                                    break;
-                            }
-                        }
-                        else if (traverse)
-                        {
-                            if (tendTowardsDirection)
-                            {
-                                if (currentValue > tendValue)
-                                {
-                                    if (pathSettings.Reverse)
-                                    {
-                                        currentDirection = Direction.West;
-                                    }
-                                    else
-                                    {
-                                        currentDirection = Direction.East;
-                                    }
-                                }
-                                else
-                                {
-                                    currentDirection = Direction.North;
-                                }
-                            }
-                            else
-                            {
-                                currentDirection = Direction.North;
-                            }
-                        }
-                        else
-                        {
-                            if (pathSettings.Reverse)
-                            {
-                                currentDirection = Direction.West;
-                            }
-                            else
-                            {
-                                currentDirection = Direction.East;
-                            }
-                        }
-                    }
+                    currentDirection = HandleVerticalMovement(currentDirection, pathSettings, currentPosition, true);
                     break;
                 case Direction.South:
-                    if (EdgeOfInnerMap(currentDirection, currentPosition))
-                    {
-                        if (pathSettings.Reverse)
-                        {
-                            currentDirection = Direction.West;
-                        }
-                        else
-                        {
-                            currentDirection = Direction.East;
-                        }
-                    }
-                    else
-                    {
-                        if (EdgeOfInnerMap(Direction.East, currentPosition))
-                            currentDirection = Direction.South;
-                        else if (converge)
-                        {
-                            switch (abovePoint)
-                            {
-                                case 1:
-                                    currentDirection = Direction.South;
-                                    break;
-                                default:
-                                    if (pathSettings.Reverse)
-                                    {
-                                        currentDirection = Direction.West;
-                                    }
-                                    else
-                                    {
-                                        currentDirection = Direction.East;
-                                    }
-                                    break;
-                            }
-                        }
-                        else if (traverse)
-                        {
-                            if (tendTowardsDirection)
-                            {
-                                if (currentValue < tendValue)
-                                {
-                                    if (pathSettings.Reverse)
-                                    {
-                                        currentDirection = Direction.West;
-                                    }
-                                    else
-                                    {
-                                        currentDirection = Direction.East;
-                                    }
-                                }
-                                else
-                                {
-                                    currentDirection = Direction.South;
-                                }
-                            }
-                            else
-                            {
-                                currentDirection = Direction.South;
-                            }
-                        }
-                        else
-                        {
-                            if (pathSettings.Reverse)
-                            {
-                                currentDirection = Direction.West;
-                            }
-                            else
-                            {
-                                currentDirection = Direction.East;
-                            }
-                        }
-                    }
+                    currentDirection = HandleVerticalMovement(currentDirection, pathSettings, currentPosition, false);
                     break;
                 case Direction.East:
                     if (EdgeOfInnerMap(currentDirection, currentPosition))
@@ -281,100 +153,61 @@ namespace GlobalMap
                         }
                     }
                     break;
-                case Direction.West:
-                    if (EdgeOfInnerMap(currentDirection, currentPosition))
-                    {
-                        if (converge)
-                        {
-                            switch (abovePoint)
-                            {
-                                case -1:
-                                    currentDirection = Direction.North;
-                                    break;
-                                case 0:
-                                    currentDirection = currentDirection.TangentDirections().GetRandom();
-                                    break;
-                                case 1:
-                                    currentDirection = Direction.South;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            currentDirection = currentDirection.TangentDirections().GetRandom();
-                        }
-                    }
-                    else
-                    {
-                        if (pathSettings.Reverse)
-                        {
-                            currentDirection = Direction.West;
-                        }
-                        else
-                        {
-                            if (converge)
-                            {
-                                switch (abovePoint)
-                                {
-                                    case -1:
-                                        currentDirection = Direction.North;
-                                        break;
-                                    case 0:
-                                        currentDirection = currentDirection.TangentDirections().GetRandom();
-                                        break;
-                                    case 1:
-                                        currentDirection = Direction.South;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                            else
-                            {
-                                currentDirection = currentDirection.TangentDirections().GetRandom();
-                            }
-                        }
-                    }
-                    break;
             }
 
             return currentDirection;
         }
 
-        bool EdgeOfInnerMap(Direction direction, Vector2Int position)
+        Direction HandleVerticalMovement(Direction currentDirection, GlobalPathSettings pathSettings, Vector2Int position, bool isNorth)
         {
-            switch (direction)
+            bool converge = pathSettings.Converge(Time(position.x));
+            bool traverse = pathSettings.Traverse(Time(position.x));
+            bool tend = pathSettings.TendTowardsDirection(Time(position.x), out float tendValue);
+            float currentValue = (float)position.y / MapWidth;
+            int abovePoint = AbovePoint(position.y);
+
+            if (EdgeOfInnerMap(isNorth ? Direction.North : Direction.South, position))
+                return Direction.East;
+
+            if (EdgeOfInnerMap(Direction.East, position))
+                return currentDirection;
+
+            if (converge)
             {
-                case Direction.North:
-                    return (position.y >= MapSize.y - 1);
-                case Direction.South:
-                    return (position.y <= 0);
-                case Direction.East:
-                    return (position.x >= EndOfInnerMapPosition.x);
-                case Direction.West:
-                    return (position.x <= StartRoadLength - 1);
+                if (abovePoint == (isNorth ? -1 : 1))
+                    return currentDirection;
+                return Direction.East;
             }
-            return false;
+
+            if (traverse)
+            {
+                if (tend)
+                {
+                    bool condition = isNorth ? currentValue > tendValue : currentValue < tendValue;
+                    return condition ? Direction.East : currentDirection;
+                }
+                return currentDirection;
+            }
+
+            return Direction.East;
         }
 
-        
-        /// <returns>1 if above point, 0 if at point, -1 if below Point</returns>
-        int AbovePoint(int positionY)
+
+        bool EdgeOfInnerMap(Direction direction, Vector2Int position) => direction switch
         {
-            if (positionY > Mathf.FloorToInt(MapSize.y / 2f))
-            {
-                return 1;
-            }
-            else if (positionY == Mathf.FloorToInt(MapSize.y / 2f))
-            {
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
+            Direction.North => position.y >= MapSize.y - 1,
+            Direction.South => position.y <= 0,
+            Direction.East => position.x >= EndOfInnerMapPosition.x,
+            Direction.West => position.x <= StartRoadLength - 1,
+            _ => false
+        };
+
+
+        /// <returns>1 if above point, 0 if at point, -1 if below Point</returns>
+        int AbovePoint(int y)
+        {
+            int mid = Mathf.FloorToInt(MapSize.y / 2f);
+            return y.CompareTo(mid);
         }
     }
 }

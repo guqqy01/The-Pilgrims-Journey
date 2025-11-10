@@ -28,9 +28,9 @@ namespace DialogueSystem
             }
         }
 
-        public float AudioClipStartTime => audioClip.length * slider.MinValue;
-        public float AudioClipEndTime => audioClip.length * slider.MaxValue;
-        public float EndTime => StartTime + slider.ValueSpan * audioClip.length;
+        public float AudioClipStartTime => audioClip.length * slider.Start;
+        public float AudioClipEndTime => audioClip.length * slider.End;
+        public float EndTime => StartTime + slider.Length * audioClip.length;
 
         public float GetSetupPlayBackPosition(float currentStartTim)
         {
@@ -52,11 +52,11 @@ namespace DialogueSystem
         {
             get
             {
-                return slider.ValueSpan * audioClip.length;
+                return slider.Length * audioClip.length;
             }
             set
             {
-                slider.ValueSpan = value / audioClip.length;
+                slider.Length = value / audioClip.length;
             }
         }
 
@@ -64,22 +64,22 @@ namespace DialogueSystem
         {
             get
             {
-                return slider.MinValue;
+                return slider.Start;
             }
             set 
             {
-                slider.MinValue = value;
+                slider.Start = value;
             }
         }
         public float MaxValue
         {
             get
             {
-                return slider.MaxValue;
+                return slider.End;
             }
             set
             {
-                slider.MaxValue = value;
+                slider.End = value;
             }
         }
 
@@ -87,11 +87,11 @@ namespace DialogueSystem
         {
             get
             {
-                return slider.MinValue * audioClip.length;
+                return slider.Start * audioClip.length;
             }
             set
             {
-                slider.MinValue = Mathf.Clamp01(value / audioClip.length);
+                slider.Start = Mathf.Clamp01(value / audioClip.length);
             }
         }
 
@@ -100,11 +100,11 @@ namespace DialogueSystem
         {
             get
             {
-                return slider.MaxValue * audioClip.length;
+                return slider.End * audioClip.length;
             }
             set
             {
-                slider.MaxValue = Mathf.Clamp01(value / audioClip.length);
+                slider.End = Mathf.Clamp01(value / audioClip.length);
             }
         }
 
@@ -116,16 +116,16 @@ namespace DialogueSystem
         {
             this.audioClip = audioClip;
             slider = new FloatRangeSlider();
-            slider.MinValue = startT;
-            slider.MaxValue = endT;
+            slider.Start = startT;
+            slider.End = endT;
         }
 
         public SectionalAudioClip(AudioClip audioClip, float startT, float endT, float time)
         {
             this.audioClip = audioClip;
             slider = new FloatRangeSlider();
-            slider.MinValue = startT;
-            slider.MaxValue = endT;
+            slider.Start = startT;
+            slider.End = endT;
 
             this.time = time;
         }
@@ -134,8 +134,8 @@ namespace DialogueSystem
         {
             SectionalAudioClip[] twoSectionalAudioClips = new SectionalAudioClip[2];
 
-            twoSectionalAudioClips[0] = new SectionalAudioClip(audioClip, slider.MinValue, Mathf.Lerp(slider.MinValue, slider.MaxValue, T), time);
-            twoSectionalAudioClips[1] = new SectionalAudioClip(audioClip, Mathf.Lerp(slider.MinValue, slider.MaxValue, T), slider.MaxValue, time + (Mathf.Lerp(slider.MinValue, slider.MaxValue, T) - slider.MinValue) * audioClip.length);
+            twoSectionalAudioClips[0] = new SectionalAudioClip(audioClip, slider.Start, Mathf.Lerp(slider.Start, slider.End, T), time);
+            twoSectionalAudioClips[1] = new SectionalAudioClip(audioClip, Mathf.Lerp(slider.Start, slider.End, T), slider.End, time + (Mathf.Lerp(slider.Start, slider.End, T) - slider.Start) * audioClip.length);
 
             return twoSectionalAudioClips;
         }

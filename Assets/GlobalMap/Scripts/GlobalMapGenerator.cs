@@ -12,7 +12,7 @@ namespace GlobalMap
 {
     public class GlobalMapGenerator : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad
     {
-        public static GlobalMapGenerator Instance;
+        public static GlobalMapGenerator Instance { private set; get; }
 
         public int Seed { get; private set; }
 
@@ -54,6 +54,11 @@ namespace GlobalMap
 
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
             Instance = this;
         }
 
@@ -136,7 +141,7 @@ namespace GlobalMap
                     GlobalMapPoint previousMapPoint = startMapPoint;
                     currentPosition = innerMapStartPosition;
 
-                    int breaker = 100;
+                    int breaker = GenerationSettings.MapSize.x * 3;
 
                     // Inner Map traversal
                     while (currentPosition != GenerationSettings.EndOfInnerMapPosition && breaker > 0)
@@ -180,47 +185,38 @@ namespace GlobalMap
 
         private void AssignSpecialMapPoints(GlobalPathSettings pathSettings, List<GlobalMapPoint> pathPoints, List<GlobalMapPoint> usedPoints)
         {
-            // Random encounters
-            for (int i = 0; i < pathSettings.NumberOfRandomEncounters; i++)
-            {
-                GlobalMapPoint point = pathPoints.GetRandom();
-                int breaker = 100;
-                while (usedPoints.Contains(point) && breaker > 0)
-                {
-                    point = pathPoints.GetRandom();
-                    breaker--;
-                }
-                point.Type = GlobalMapPointType.Random;
-                usedPoints.Add(point);
-            }
-
             // Relics
             for (int i = 0; i < pathSettings.NumberOfRelics; i++)
             {
-                GlobalMapPoint point = pathPoints.GetRandom();
-                int breaker = 100;
-                while (usedPoints.Contains(point) && breaker > 0)
-                {
-                    point = pathPoints.GetRandom();
-                    breaker--;
-                }
+                GlobalMapPoint point = GetRandomUnused(pathPoints, usedPoints);
                 point.Type = GlobalMapPointType.Relic;
+                usedPoints.Add(point);
+            }
+
+            // Random encounters
+            for (int i = 0; i < pathSettings.NumberOfRandomEncounters; i++)
+            {
+                GlobalMapPoint point = GetRandomUnused(pathPoints, usedPoints);
+                point.Type = GlobalMapPointType.Random;
                 usedPoints.Add(point);
             }
 
             // Shops
             for (int i = 0; i < pathSettings.NumberOfShops; i++)
             {
-                GlobalMapPoint point = pathPoints.GetRandom();
-                int breaker = 100;
-                while (usedPoints.Contains(point) && breaker > 0)
-                {
-                    point = pathPoints.GetRandom();
-                    breaker--;
-                }
+                GlobalMapPoint point = GetRandomUnused(pathPoints, usedPoints);
                 point.Type = GlobalMapPointType.Shop;
                 usedPoints.Add(point);
             }
+        }
+
+        private GlobalMapPoint GetRandomUnused(List<GlobalMapPoint> pathPoints, List<GlobalMapPoint> usedPoints)
+        {
+            int breaker = 100;
+            GlobalMapPoint point = pathPoints.GetRandom();
+            while (usedPoints.Contains(point) && breaker-- > 0)
+                point = pathPoints.GetRandom();
+            return point;
         }
 
         private void GenerateEndRoad(ref Vector2Int currentPosition, ref GlobalMapPoint previousMapPoint)

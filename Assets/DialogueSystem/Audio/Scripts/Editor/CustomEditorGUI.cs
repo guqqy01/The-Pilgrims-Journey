@@ -5,13 +5,13 @@ public class CustomEditorGUI
 {
     public static void DrawRangeSlider(FloatRangeSlider rangeSlider, Rect position, GUIContent label)
     {
-        float max = rangeSlider.MaxValue;
-        float min = rangeSlider.MinValue;
+        float max = rangeSlider.End;
+        float min = rangeSlider.Start;
 
         EditorGUI.MinMaxSlider(position, label, ref min, ref max, rangeSlider.MinLimit, rangeSlider.MaxLimit);
 
-        rangeSlider.MinValue = min;
-        rangeSlider.MaxValue = max;
+        rangeSlider.Start = min;
+        rangeSlider.End = max;
     }
 }
 

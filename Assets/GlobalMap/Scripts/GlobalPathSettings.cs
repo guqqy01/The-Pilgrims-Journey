@@ -16,6 +16,8 @@ namespace GlobalMap
         public int NumberOfRandomEncounters;
         public int NumberOfShops;
 
+        public MapPointSettings mapPointSetting;
+
         /// <summary>
         /// Chance to traverse North and South
         /// </summary>
@@ -53,43 +55,30 @@ namespace GlobalMap
             return true;
         }
 
-        [Range(0f, 0.5f)]
-        public float reverseDirectionChance = 0f;
-        public bool Reverse => Random.value <= reverseDirectionChance;
-
-
-        public GlobalPathSettings()
-        {
-            TraverseChanceAtPointOnMap = new AnimationCurve();
-            ConvergeToCenterOfMapChance = new AnimationCurve();
-            chanceToTend = new AnimationCurve();
-            directionTendency = new MinMaxCurve
-            (
-                1f,
-                new AnimationCurve(),
-                new AnimationCurve()
-            );
-        }
-
         public void OnBeforeSerialize() { }
 
         public void OnAfterDeserialize()
         {
-            if (TraverseChanceAtPointOnMap == null)
-                TraverseChanceAtPointOnMap = new AnimationCurve();
+            TraverseChanceAtPointOnMap ??= AnimationCurve.Linear(0, 0.5f, 1, 0.5f);
+            ConvergeToCenterOfMapChance ??= AnimationCurve.Linear(0, 0.5f, 1, 0.5f);
+            chanceToTend ??= AnimationCurve.Linear(0, 0.5f, 1, 0.5f);
 
-            if (ConvergeToCenterOfMapChance == null)
-                ConvergeToCenterOfMapChance = new AnimationCurve();
+            directionTendency.curveMin ??= AnimationCurve.Linear(0, 0, 1, 0);
+            directionTendency.curveMax ??= AnimationCurve.Linear(0, 1, 1, 1);
+        }
 
-            if (chanceToTend == null)
-                chanceToTend = new AnimationCurve();
+    }
 
-            // MinMaxCurve defaults may have null curves
-            if (directionTendency.curveMin == null)
-                directionTendency.curveMin = new AnimationCurve();
+    [Serializable]
+    public class MapPointSettings
+    {
+        public GlobalMapPointType type;
 
-            if (directionTendency.curveMax == null)
-                directionTendency.curveMax = new AnimationCurve();
+        public IntRangeSlider range;
+
+        public void Test()
+        {
+
         }
 
     }

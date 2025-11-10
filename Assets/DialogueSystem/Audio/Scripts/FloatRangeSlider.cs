@@ -4,157 +4,113 @@ using UnityEngine;
 [Serializable]
 public class FloatRangeSlider
 {
+    [Tooltip("Lowest possible value for the range start.")]
     public float MinLimit = 0f;
+
+    [Tooltip("Highest possible value for the range end.")]
     public float MaxLimit = 1f;
 
-    public Vector2 MinMaxValues = new Vector2(0f, 1f);
+    [Tooltip("The starting point of the range.")]
+    public float Start = 0f;
 
-    public float ValueSpan 
-    { 
-        get 
-        { 
-            return MaxValue - MinValue;
-        }
-        set
-        {
-            float currentValueSpan = MaxValue - MinValue;
-            if(value < currentValueSpan)
-            {
-                MaxValue = MinValue + value;
-            }
-            else if (value > currentValueSpan)
-            {
-                float amountToExpand = value - currentValueSpan;
-                float maxLargeExpansion = MaxLimit - MaxValue;
+    [Tooltip("The length of the range from Start to End.")]
+    public float Length = 1f;
 
-                if(amountToExpand <= maxLargeExpansion)
-                {
-                    MaxValue = MinValue + value;
-                }
-                else
-                {
-                    float remainder = amountToExpand - maxLargeExpansion;
-                    MaxValue = MaxLimit;
-                    MinValue = MinValue - remainder;
-                }
-            }
-        }
+    /// <summary>
+    /// The end point of the range (Start + Length).
+    /// Automatically clamped within limits.
+    /// </summary>
+    public float End
+    {
+        get => Mathf.Clamp(Start + Length, MinLimit, MaxLimit);
+        set => Length = Mathf.Clamp(value - Start, 0f, MaxLimit - Start);
     }
+
+    /// <summary>
+    /// The span of the total limit range.
+    /// </summary>
     public float LimitSpan => MaxLimit - MinLimit;
 
-    public float MaxValue
+    /// <summary>
+    /// Clamps Start and Length so the range stays within limits.
+    /// </summary>
+    public void ClampToLimits()
     {
-        get
-        {
-            return  MinMaxValues.x > MinMaxValues.y ? MinMaxValues.x : MinMaxValues.y;
-        }
-        set
-        {
-            if (MinMaxValues.x > MinMaxValues.y) 
-            {
-                Mathf.Clamp(MinMaxValues.x = value, MinValue, MaxLimit);
-            } 
-            else 
-            {
-                Mathf.Clamp(MinMaxValues.y = value, MinValue, MaxLimit);
-            }
-        }
+        Start = Mathf.Clamp(Start, MinLimit, MaxLimit);
+        Length = Mathf.Clamp(Length, 0f, MaxLimit - Start);
     }
-    public float MinValue
+
+    /// <summary>
+    /// Moves the entire range by a delta without changing its length.
+    /// </summary>
+    public void Shift(float delta)
     {
-        get
-        {
-            return MinMaxValues.x < MinMaxValues.y ? MinMaxValues.x : MinMaxValues.y;
-        }
-        set
-        {
-            if (MinMaxValues.x < MinMaxValues.y)
-            {
-                Mathf.Clamp(MinMaxValues.x = value, MinLimit, MaxValue);
-            }
-            else
-            {
-                Mathf.Clamp(MinMaxValues.y = value, MinLimit, MaxValue);
-            }
-        }
+        Start = Mathf.Clamp(Start + delta, MinLimit, MaxLimit - Length);
+    }
+
+    /// <summary>
+    /// Sets both start and length at once while keeping everything clamped.
+    /// </summary>
+    public void Set(float start, float length)
+    {
+        Start = Mathf.Clamp(start, MinLimit, MaxLimit);
+        Length = Mathf.Clamp(length, 0f, MaxLimit - Start);
     }
 }
 
 [Serializable]
 public class IntRangeSlider
 {
+    [Tooltip("Lowest possible value for the range start.")]
     public int MinLimit = 0;
-    public int MaxLimit = 1;
 
-    public Vector2Int MinMaxValues = new Vector2Int(0, 1);
+    [Tooltip("Highest possible value for the range end.")]
+    public int MaxLimit = 10;
 
-    public int ValueSpan
+    [Tooltip("The starting point of the range.")]
+    public int Start = 0;
+
+    [Tooltip("The length of the range from Start to End.")]
+    public int Length = 1;
+
+    /// <summary>
+    /// The end point of the range (Start + Length).
+    /// Automatically clamped within limits.
+    /// </summary>
+    public int End
     {
-        get
-        {
-            return MaxValue - MinValue;
-        }
-        set
-        {
-            int currentValueSpan = MaxValue - MinValue;
-            if (value < currentValueSpan)
-            {
-                MaxValue = MinValue + value;
-            }
-            else if (value > currentValueSpan)
-            {
-                int amountToExpand = value - currentValueSpan;
-                int maxLargeExpansion = MaxLimit - MaxValue;
-
-                if (amountToExpand <= maxLargeExpansion)
-                {
-                    MaxValue = MinValue + value;
-                }
-                else
-                {
-                    int remainder = amountToExpand - maxLargeExpansion;
-                    MaxValue = MaxLimit;
-                    MinValue = MinValue - remainder;
-                }
-            }
-        }
+        get => Mathf.Clamp(Start + Length, MinLimit, MaxLimit);
+        set => Length = Mathf.Clamp(value - Start, 0, MaxLimit - Start);
     }
+
+    /// <summary>
+    /// The span of the total limit range.
+    /// </summary>
     public int LimitSpan => MaxLimit - MinLimit;
 
-    public int MaxValue
+    /// <summary>
+    /// Clamps Start and Length so the range stays within limits.
+    /// </summary>
+    public void ClampToLimits()
     {
-        get
-        {
-            return MinMaxValues.x > MinMaxValues.y ? MinMaxValues.x : MinMaxValues.y;
-        }
-        set
-        {
-            if (MinMaxValues.x > MinMaxValues.y)
-            {
-                Mathf.Clamp(MinMaxValues.x = value, MinValue, MaxLimit);
-            }
-            else
-            {
-                Mathf.Clamp(MinMaxValues.y = value, MinValue, MaxLimit);
-            }
-        }
+        Start = Mathf.Clamp(Start, MinLimit, MaxLimit);
+        Length = Mathf.Clamp(Length, 0, MaxLimit - Start);
     }
-    public int MinValue
+
+    /// <summary>
+    /// Moves the entire range by a delta without changing its length.
+    /// </summary>
+    public void Shift(int delta)
     {
-        get
-        {
-            return MinMaxValues.x < MinMaxValues.y ? MinMaxValues.x : MinMaxValues.y;
-        }
-        set
-        {
-            if (MinMaxValues.x < MinMaxValues.y)
-            {
-                Mathf.Clamp(MinMaxValues.x = value, MinLimit, MaxValue);
-            }
-            else
-            {
-                Mathf.Clamp(MinMaxValues.y = value, MinLimit, MaxValue);
-            }
-        }
+        Start = Mathf.Clamp(Start + delta, MinLimit, MaxLimit - Length);
+    }
+
+    /// <summary>
+    /// Sets both start and length at once while keeping everything clamped.
+    /// </summary>
+    public void Set(int start, int length)
+    {
+        Start = Mathf.Clamp(start, MinLimit, MaxLimit);
+        Length = Mathf.Clamp(length, 0, MaxLimit - Start);
     }
 }

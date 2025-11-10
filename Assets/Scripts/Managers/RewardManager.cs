@@ -46,12 +46,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
     private int diamondWorth = 300;
     public int DiamondWorth => diamondWorth;
 
-    [SerializeField]
-    private float goldChanceIncreasePerEquipment = 5f;
-    [SerializeField]
-    private float goldChanceIncreasePerTile = 10f;
-    [SerializeField]
-    private float equipmentChanceIncreasePerTile = 5f;
 
     // keep name for serialization compatibility; consider renaming later
     public bool TilesOrEquipmentAvailiable = false;
