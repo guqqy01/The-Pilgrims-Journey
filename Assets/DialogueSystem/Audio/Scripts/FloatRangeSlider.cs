@@ -4,17 +4,65 @@ using UnityEngine;
 [Serializable]
 public class FloatRangeSlider
 {
+    [SerializeField]
+    private float minLimit = 0f;
+
     [Tooltip("Lowest possible value for the range start.")]
-    public float MinLimit = 0f;
+    public float MinLimit
+    {
+        get => minLimit;
+        set
+        {
+            minLimit = value;
+            if (maxLimit < minLimit) maxLimit = minLimit;
+            ClampToLimits();
+        }
+    }
+
+    [SerializeField]
+    private float maxLimit = 1f;
 
     [Tooltip("Highest possible value for the range end.")]
-    public float MaxLimit = 1f;
+    public float MaxLimit
+    {
+        get => maxLimit;
+        set
+        {
+            maxLimit = value;
+            if (minLimit > maxLimit) minLimit = maxLimit;
+            ClampToLimits();
+        }
+    }
+
+    [SerializeField]
+    private float start = 0f;
 
     [Tooltip("The starting point of the range.")]
-    public float Start = 0f;
+    public float Start
+    {
+        get => start;
+        set
+        {
+            // preserve previous span when possible
+            float previousSpan = Length;
+            start = Mathf.Clamp(value, MinLimit, MaxLimit);
+            // ensure length still valid relative to new start
+            Length = Mathf.Clamp(previousSpan, 0f, MaxLimit - start);
+        }
+    }
+
+    [SerializeField]
+    private float length = 1f;
 
     [Tooltip("The length of the range from Start to End.")]
-    public float Length = 1f;
+    public float Length
+    {
+        get => length;
+        set
+        {
+            length = Mathf.Clamp(value, 0f, MaxLimit - Start);
+        }
+    }
 
     /// <summary>
     /// The end point of the range (Start + Length).
@@ -36,8 +84,8 @@ public class FloatRangeSlider
     /// </summary>
     public void ClampToLimits()
     {
-        Start = Mathf.Clamp(Start, MinLimit, MaxLimit);
-        Length = Mathf.Clamp(Length, 0f, MaxLimit - Start);
+        start = Mathf.Clamp(start, MinLimit, MaxLimit);
+        length = Mathf.Clamp(length, 0f, MaxLimit - start);
     }
 
     /// <summary>
@@ -45,33 +93,80 @@ public class FloatRangeSlider
     /// </summary>
     public void Shift(float delta)
     {
-        Start = Mathf.Clamp(Start + delta, MinLimit, MaxLimit - Length);
+        float target = Mathf.Clamp(start + delta, MinLimit, Mathf.Max(MinLimit, MaxLimit - Length));
+        Start = target;
     }
 
     /// <summary>
     /// Sets both start and length at once while keeping everything clamped.
     /// </summary>
-    public void Set(float start, float length)
+    public void Set(float newStart, float newLength)
     {
-        Start = Mathf.Clamp(start, MinLimit, MaxLimit);
-        Length = Mathf.Clamp(length, 0f, MaxLimit - Start);
+        start = Mathf.Clamp(newStart, MinLimit, MaxLimit);
+        length = Mathf.Clamp(newLength, 0f, MaxLimit - start);
     }
 }
 
 [Serializable]
 public class IntRangeSlider
 {
+    [SerializeField]
+    private int minLimit = 0;
+
     [Tooltip("Lowest possible value for the range start.")]
-    public int MinLimit = 0;
+    public int MinLimit
+    {
+        get => minLimit;
+        set
+        {
+            minLimit = value;
+            if (maxLimit < minLimit) maxLimit = minLimit;
+            ClampToLimits();
+        }
+    }
+
+    [SerializeField]
+    private int maxLimit = 1;
 
     [Tooltip("Highest possible value for the range end.")]
-    public int MaxLimit = 10;
+    public int MaxLimit
+    {
+        get => maxLimit;
+        set
+        {
+            maxLimit = value;
+            if (minLimit > maxLimit) minLimit = maxLimit;
+            ClampToLimits();
+        }
+    }
+
+    [SerializeField]
+    private int start = 0;
 
     [Tooltip("The starting point of the range.")]
-    public int Start = 0;
+    public int Start
+    {
+        get => start;
+        set
+        {
+            int previousSpan = Length;
+            start = Mathf.Clamp(value, MinLimit, MaxLimit);
+            Length = Mathf.Clamp(previousSpan, 0, MaxLimit - start);
+        }
+    }
+
+    [SerializeField]
+    private int length = 1;
 
     [Tooltip("The length of the range from Start to End.")]
-    public int Length = 1;
+    public int Length
+    {
+        get => length;
+        set
+        {
+            length = Mathf.Clamp(value, 0, MaxLimit - Start);
+        }
+    }
 
     /// <summary>
     /// The end point of the range (Start + Length).
@@ -93,8 +188,8 @@ public class IntRangeSlider
     /// </summary>
     public void ClampToLimits()
     {
-        Start = Mathf.Clamp(Start, MinLimit, MaxLimit);
-        Length = Mathf.Clamp(Length, 0, MaxLimit - Start);
+        start = Mathf.Clamp(start, MinLimit, MaxLimit);
+        length = Mathf.Clamp(length, 0, MaxLimit - start);
     }
 
     /// <summary>
@@ -102,15 +197,16 @@ public class IntRangeSlider
     /// </summary>
     public void Shift(int delta)
     {
-        Start = Mathf.Clamp(Start + delta, MinLimit, MaxLimit - Length);
+        int maxStart = Mathf.Max(MinLimit, MaxLimit - Length);
+        Start = Mathf.Clamp(start + delta, MinLimit, maxStart);
     }
 
     /// <summary>
     /// Sets both start and length at once while keeping everything clamped.
     /// </summary>
-    public void Set(int start, int length)
+    public void Set(int newStart, int newLength)
     {
-        Start = Mathf.Clamp(start, MinLimit, MaxLimit);
-        Length = Mathf.Clamp(length, 0, MaxLimit - Start);
+        start = Mathf.Clamp(newStart, MinLimit, MaxLimit);
+        length = Mathf.Clamp(newLength, 0, MaxLimit - start);
     }
 }
