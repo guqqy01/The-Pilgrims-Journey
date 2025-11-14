@@ -1,8 +1,10 @@
 using Equipment;
 using GameManagerCalls;
+using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
@@ -179,39 +181,40 @@ namespace GlobalMap
                 if (pathPoints.Count <= 0)
                     continue;
 
-                AssignSpecialMapPoints(pathSettings, pathPoints, usedPoints);
+                List<KeyValuePair<float, GlobalMapPoint>> pathPointDictionary = pathPoints.Select(x => new KeyValuePair<float, GlobalMapPoint>((float)x.Position.x / GenerationSettings.MapSize.x, x)).ToList();
+
+                AssignSpecialMapPoints(pathSettings, pathPointDictionary, usedPoints);
             }
         }
 
-        private void AssignSpecialMapPoints(GlobalPathSettings pathSettings, List<GlobalMapPoint> pathPoints, List<GlobalMapPoint> usedPoints)
+        private void AssignSpecialMapPoints(GlobalPathSettings pathSettings, List<KeyValuePair<float, GlobalMapPoint>> pathPointsDictionary, List<GlobalMapPoint> usedPoints)
         {
-            // Relics
-            for (int i = 0; i < pathSettings.NumberOfRelics; i++)
+            foreach(MapPointSettings mapPointSetting in pathSettings.mapPointSettings)
             {
-                GlobalMapPoint point = GetRandomUnused(pathPoints, usedPoints);
-                point.Type = GlobalMapPointType.Relic;
-                usedPoints.Add(point);
-            }
+                int amount = mapPointSetting.amountOfPointsInRange.RandomBetweenTwoValuesInclusive();
+                FloatRangeSlider range = mapPointSetting.range;
+                GlobalMapPointType mapPointType = mapPointSetting.type;
 
-            // Random encounters
-            for (int i = 0; i < pathSettings.NumberOfRandomEncounters; i++)
-            {
-                GlobalMapPoint point = GetRandomUnused(pathPoints, usedPoints);
-                point.Type = GlobalMapPointType.Random;
-                usedPoints.Add(point);
-            }
+                for (int i = 0; i < amount; i++)
+                {
+                    GlobalMapPoint point = GetRandomUnused(pathPointsDictionary, range, usedPoints);
 
-            // Shops
-            for (int i = 0; i < pathSettings.NumberOfShops; i++)
-            {
-                GlobalMapPoint point = GetRandomUnused(pathPoints, usedPoints);
-                point.Type = GlobalMapPointType.Shop;
-                usedPoints.Add(point);
+                    if (point == null)
+                        continue;
+
+                    point.Type = mapPointType;
+                    usedPoints.Add(point);
+                }
             }
         }
 
-        private GlobalMapPoint GetRandomUnused(List<GlobalMapPoint> pathPoints, List<GlobalMapPoint> usedPoints)
+        private GlobalMapPoint GetRandomUnused(List<KeyValuePair<float, GlobalMapPoint>> pathPointsDictionary, FloatRangeSlider range, List<GlobalMapPoint> usedPoints)
         {
+            List<GlobalMapPoint> pathPoints = pathPointsDictionary.Where(x => x.Key.IsWithin(range.Start, range.End)).Select(x => x.Value).ToList();
+
+            if (pathPoints.Count == 0)
+                return null;
+
             int breaker = 100;
             GlobalMapPoint point = pathPoints.GetRandom();
             while (usedPoints.Contains(point) && breaker-- > 0)

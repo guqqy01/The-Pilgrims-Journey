@@ -12,11 +12,8 @@ namespace GlobalMap
 
     {
         public int NumberOfPaths = 3;
-        public int NumberOfRelics;
-        public int NumberOfRandomEncounters;
-        public int NumberOfShops;
 
-        public MapPointSettings mapPointSetting;
+        public List<MapPointSettings> mapPointSettings;
 
         /// <summary>
         /// Chance to traverse North and South
@@ -74,12 +71,8 @@ namespace GlobalMap
     {
         public GlobalMapPointType type;
 
-        public IntRangeSlider range;
+        public Vector2Int amountOfPointsInRange;
 
-        public void Test()
-        {
-
-        }
-
+        public FloatRangeSlider range;
     }
 }

@@ -18,16 +18,56 @@ MonoBehaviour:
   EndRoadLength: 1
   PathSettings:
   - NumberOfPaths: 1
-    NumberOfRelics: 1
-    NumberOfRandomEncounters: 4
-    NumberOfShops: 1
-    mapPointSetting:
-      type: 1
+    mapPointSettings:
+    - type: 3
+      amountOfPointsInRange: {x: 1, y: 1}
       range:
-        MinLimit: 50
-        MaxLimit: 1000
-        Start: 373
-        Length: 491
+        minLimit: 0
+        maxLimit: 1
+        start: 0.15
+        length: 0.25
+    - type: 3
+      amountOfPointsInRange: {x: 1, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.6
+        length: 0.29999995
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.6
+        length: 0.39999998
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0
+        length: 0.4
+    - type: 2
+      amountOfPointsInRange: {x: 0, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.59999996
+        length: 0.40000004
+    - type: 2
+      amountOfPointsInRange: {x: 0, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.2
+        length: 0.2
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0
+        length: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -154,306 +194,56 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - NumberOfPaths: 1
-    NumberOfRelics: 1
-    NumberOfRandomEncounters: 4
-    NumberOfShops: 1
-    mapPointSetting:
-      type: 0
+    mapPointSettings:
+    - type: 3
+      amountOfPointsInRange: {x: 1, y: 1}
       range:
-        MinLimit: 0
-        MaxLimit: 1
-        Start: 0
-        Length: 1
-    TraverseChanceAtPointOnMap:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.8
-        inSlope: 0.00078683073
-        outSlope: 0.00078683073
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 1
-      - serializedVersion: 3
-        time: 0.5
-        value: 0.2
-        inSlope: -0.000639081
-        outSlope: -0.000639081
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.8
-        inSlope: 0.0017225641
-        outSlope: 0.0017225641
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 1
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    ConvergeToCenterOfMapChance:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0.5
-        inSlope: 1.318293
-        outSlope: 1.318293
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.044290423
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    directionTendency:
-      m_Mode: 2
-      m_CurveMultiplier: 1
-      m_CurveMin:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0.3
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 0.3
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_CurveMax:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_ConstantMin: 0
-      m_ConstantMax: 0
-    chanceToTend:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - NumberOfPaths: 1
-    NumberOfRelics: 1
-    NumberOfRandomEncounters: 4
-    NumberOfShops: 1
-    mapPointSetting:
-      type: 0
+        minLimit: 0
+        maxLimit: 1
+        start: 0.15
+        length: 0.25
+    - type: 3
+      amountOfPointsInRange: {x: 1, y: 1}
       range:
-        MinLimit: 0
-        MaxLimit: 1
-        Start: 0
-        Length: 1
-    TraverseChanceAtPointOnMap:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.8
-        inSlope: 0.00078683073
-        outSlope: 0.00078683073
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 1
-      - serializedVersion: 3
-        time: 0.5
-        value: 0.2
-        inSlope: -0.000639081
-        outSlope: -0.000639081
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.8
-        inSlope: 0.0017225641
-        outSlope: 0.0017225641
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 1
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    ConvergeToCenterOfMapChance:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0.5
-        inSlope: 1.318293
-        outSlope: 1.318293
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.044290423
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    directionTendency:
-      m_Mode: 2
-      m_CurveMultiplier: 1
-      m_CurveMin:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0.7
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 0.7
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_CurveMax:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_ConstantMin: 0
-      m_ConstantMax: 0
-    chanceToTend:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - NumberOfPaths: 1
-    NumberOfRelics: 0
-    NumberOfRandomEncounters: 2
-    NumberOfShops: 1
-    mapPointSetting:
-      type: 0
+        minLimit: 0
+        maxLimit: 1
+        start: 0.6
+        length: 0.29999995
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
       range:
-        MinLimit: 0
-        MaxLimit: 1
-        Start: 0
-        Length: 1
+        minLimit: 0
+        maxLimit: 1
+        start: 0.6
+        length: 0.39999998
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0
+        length: 0.4
+    - type: 2
+      amountOfPointsInRange: {x: 0, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.59999996
+        length: 0.40000004
+    - type: 2
+      amountOfPointsInRange: {x: 0, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.2
+        length: 0.2
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0
+        length: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
@@ -643,16 +433,56 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - NumberOfPaths: 1
-    NumberOfRelics: 0
-    NumberOfRandomEncounters: 2
-    NumberOfShops: 1
-    mapPointSetting:
-      type: 0
+    mapPointSettings:
+    - type: 3
+      amountOfPointsInRange: {x: 1, y: 1}
       range:
-        MinLimit: 0
-        MaxLimit: 1
-        Start: 0
-        Length: 1
+        minLimit: 0
+        maxLimit: 1
+        start: 0.15
+        length: 0.25
+    - type: 3
+      amountOfPointsInRange: {x: 1, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.6
+        length: 0.29999995
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.6
+        length: 0.39999998
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0
+        length: 0.4
+    - type: 2
+      amountOfPointsInRange: {x: 0, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.59999996
+        length: 0.40000004
+    - type: 2
+      amountOfPointsInRange: {x: 0, y: 1}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0.2
+        length: 0.2
+    - type: 1
+      amountOfPointsInRange: {x: 1, y: 2}
+      range:
+        minLimit: 0
+        maxLimit: 1
+        start: 0
+        length: 1
     TraverseChanceAtPointOnMap:
       serializedVersion: 2
       m_Curve:
