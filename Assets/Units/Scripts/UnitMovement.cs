@@ -2,15 +2,12 @@
 using UnityEngine;
 using Equipment;
 using Tiles;
-using static Units.Movement;
+using System.IO;
 
 namespace Units
 {
-    public class Movement : UnitStatBase
+    public class UnitMovement : BaseMovement
     {
-        public BuffableStat speed;
-        public float Speed => (float)speed.Value.Value;
-
         public Animator ani;
 
         public List<Vector2Int> Path { private set; get; }
@@ -20,25 +17,14 @@ namespace Units
 
         private bool finishedPath = false;
 
-        [SerializeField]
-        private Transform visualTransform;
-
-        private float initialXScale;
-
         public delegate void OnPathCompleted();
         public OnPathCompleted onPathCompleted;
 
-
-        private void Awake()
-        {
-            initialXScale = visualTransform.localScale.x;
-        }
-
         public void Init(List<Vector2Int> path, int currentPathIndex, UnitSO unitSO)
         {
-            speed = new BuffableStat(unitSO.MovementSpeed);
+            BaseInit(unitSO.MovementSpeed);
 
-            speed.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.MovementSpeed));
+            Speed.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.MovementSpeed));
 
             CurrentPathIndex = currentPathIndex;
 
@@ -48,7 +34,7 @@ namespace Units
 
         public void Init(List<Vector2Int> path, int currentPathIndex, Tile tile)
         {
-            speed = CreateBuffableStat(tile, tile.UnitSO.MovementSpeed, UnitStatsEnum.MovementSpeed);
+            BaseInit(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.MovementSpeed, UnitStatsEnum.MovementSpeed));
 
             CurrentPathIndex = currentPathIndex;
 
@@ -56,25 +42,19 @@ namespace Units
             finishedPath = false;
         }
 
-        private void Update()
-        {
-            HandleMovement();
-            HandleAdditionalTimedBuff();
-        }
-
         private void OnDestroy()
         {
             onPathCompleted = null;
         }
 
-        private void HandleMovement()
+        public override void HandleMovement()
         {
             if (finishedPath)
             {
                 onPathCompleted?.Invoke();
 
                 LocalMapLevelCompletedManager.Instance.UnitPassed();
-                SpawningManager.Instance.SpawnedUnits.Remove(GetComponent<Unit>());
+                UnitSpawningManager.Instance.SpawnedUnits.Remove(GetComponent<Unit>());
                 Destroy(gameObject);
                 return;
             }
@@ -95,7 +75,7 @@ namespace Units
 
             float distance = toVector.magnitude;
 
-            float distanceToMove = Speed * Time.deltaTime;
+            float distanceToMove = SpeedValue * Time.fixedDeltaTime;
 
             if (distance < distanceToMove)
             {
@@ -113,50 +93,6 @@ namespace Units
             }
 
             transform.position += (Vector3)toVector.normalized * distanceToMove;
-        }
-
-        private Dictionary<string, float> referenceAndTimeToRemoveBuff = new Dictionary<string, float>();
-
-        public void ModifySpeedForTime(string reference, Buff movementBuff, float time)
-        {
-            speed.AddBuff(reference, movementBuff);
-
-            if (referenceAndTimeToRemoveBuff.ContainsKey(reference))
-            {
-                referenceAndTimeToRemoveBuff[reference] = Time.time + time;
-            }
-            else
-            {
-                referenceAndTimeToRemoveBuff.Add(reference, Time.time + time);
-            }
-        }
-
-        private void HandleAdditionalTimedBuff()
-        {
-            if (referenceAndTimeToRemoveBuff.Count <= 0)
-                return;
-
-            List<string> toRemove = new List<string>();
-
-            foreach (KeyValuePair<string, float> kvp in referenceAndTimeToRemoveBuff)
-            {
-                if (Time.time >= kvp.Value)
-                {
-                    speed.RemoveBuff(kvp.Key);
-
-                    toRemove.Add(kvp.Key);
-                }
-            }
-
-            if (toRemove.Count <= 0)
-                return;
-
-            for (int i = 0; i < toRemove.Count; i++)
-            {
-                referenceAndTimeToRemoveBuff.Remove(toRemove[i]);
-            }
-
-
         }
     }
 }

@@ -5,9 +5,9 @@ using LevelingSystem;
 
 namespace Units
 {
-    public abstract class UnitStatBase : MonoBehaviour
+    public static class UnitStatBase
     {
-        protected BuffableStat CreateBuffableStat(Tile tile, IntOrFloatObject value, UnitStatsEnum stat)
+        internal static BuffableStat CreateBuffableStat(Tile tile, IntOrFloatObject value, UnitStatsEnum stat)
         {
             BuffableStat buffableStat = new BuffableStat(value);
 

@@ -24,19 +24,19 @@ namespace Relics
         {
             timeToStop = Time.time + unitTime;
 
-            SpawningManager.Instance.onUnitSpawned += AddShieldToUnit;
+            UnitSpawningManager.Instance.onUnitSpawned += AddShieldToUnit;
         }
 
         public override void Reset()
         {
-            SpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;
+            UnitSpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;
         }
 
         private void AddShieldToUnit(Unit unit)
         {
             if (Time.time >= timeToStop)
             {
-                SpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;
+                UnitSpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;
                 return;
             }
 

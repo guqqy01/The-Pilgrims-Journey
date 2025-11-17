@@ -7,12 +7,12 @@ using Equipment;
 
 namespace Units
 {
-    [RequireComponent(typeof(Movement), typeof(Health), typeof(Shield))]
+    [RequireComponent(typeof(UnitMovement), typeof(Health), typeof(Shield))]
     [RequireComponent(typeof(CoinDrop), typeof(HitEffects))]
     public class Unit : MonoBehaviour
     {
         public UnitSO UnitSO { private set; get; }
-        public Movement Movement { private set; get; }
+        public UnitMovement Movement { private set; get; }
         public Health Health { private set; get; }
         public Shield Shield { private set; get; }
         public CoinDrop CoinDrop { private set; get; }
@@ -41,7 +41,7 @@ namespace Units
 
         private void Awake()
         {
-            Movement = GetComponent<Movement>();
+            Movement = GetComponent<UnitMovement>();
             Health = GetComponent<Health>();
             Shield = GetComponent<Shield>();
             CoinDrop = GetComponent<CoinDrop>();
@@ -53,8 +53,8 @@ namespace Units
         {
             UnitSO = unitSO;
             Movement.Init(path, currentPathIndex, unitSO);
-            Health.Init(unitSO);
-            Shield.Init(unitSO);
+            Health.Init(unitSO.Health);
+            Shield.Init(unitSO.Shield, unitSO.ShieldRegeneration, unitSO.ShieldCooldown);
             CoinDrop.Init(unitSO);
             HitEffects.Init(UnitMat);
         }
@@ -63,8 +63,15 @@ namespace Units
         {
             UnitSO = tile.UnitSO;
             Movement.Init(path, currentPathIndex, tile);
-            Health.Init(tile);
-            Shield.Init(tile);
+            Health.Init(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.Health, UnitStatsEnum.Health));
+
+            Shield.Init
+                (
+                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.Shield, UnitStatsEnum.Shield),
+                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.ShieldRegeneration, UnitStatsEnum.ShieldRegeneration),
+                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.ShieldCooldown, UnitStatsEnum.ShieldCooldown)
+                );
+
             CoinDrop.Init(tile.UnitSO);
             HitEffects.Init(UnitMat);
 

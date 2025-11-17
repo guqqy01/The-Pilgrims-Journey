@@ -7,9 +7,9 @@ using LocalMap;
 using Helper.Wait;
 using System.Linq;
 
-public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
+public class UnitSpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
 {
-    public static SpawningManager Instance { private set; get; }
+    public static UnitSpawningManager Instance { private set; get; }
 
     public readonly List<Unit> SpawnedUnits = new List<Unit>();
 
@@ -95,6 +95,11 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, I
         }
     }
 
+    private void OnUnitDie(Health health)
+    {
+        SpawnedUnits.Remove(health.GetComponent<Unit>());
+    }
+
     private void SpawnUnit(Tile tile, Direction pathDirection)
     {
         if (tile == null || tile.UnitSO == null || tile.UnitSO.unitPrefab == null) return;
@@ -112,6 +117,7 @@ public class SpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, I
 
         // subscribe safely (store local tile reference or store onto unit)
         unit.Health.onDie += tile.OnUnitDie;
+        unit.Health.onDie += OnUnitDie;
         unit.Movement.onPathCompleted += tile.OnUnitEscape;
         tile.OnUnitSpawn();
 

@@ -3,8 +3,7 @@ using Tiles;
 
 namespace Units
 {
-
-    public class Health : UnitStatBase
+    public class Health : MonoBehaviour
     {
         private BuffableStat maxHealth;
         public int MaxHealth
@@ -17,23 +16,24 @@ namespace Units
 
         public int CurrentHealth { private set; get; } = 5;
 
-        public delegate void OnDie();
+        public delegate void OnDie(Health health);
         public OnDie onDie;
 
         public delegate void OnHealthChange(int currentHealth);
         public OnHealthChange onHealthChange;
 
-        public void Init(UnitSO unitSO)
+
+        public void Init(BuffableStat healthBuffableStat)
         {
-            maxHealth = new BuffableStat(unitSO.Health);
+            maxHealth = healthBuffableStat;
 
             CurrentHealth = MaxHealth;
             onHealthChange?.Invoke(CurrentHealth);
         }
 
-        public void Init(Tile tile)
+        public void Init(int maxHealth)
         {
-            maxHealth = CreateBuffableStat(tile, tile.UnitSO.Health, UnitStatsEnum.Health);
+            maxHealth = new BuffableStat(maxHealth);
 
             CurrentHealth = MaxHealth;
             onHealthChange?.Invoke(CurrentHealth);
@@ -47,11 +47,10 @@ namespace Units
 
             if (CurrentHealth <= 0)
             {
-                onDie?.Invoke();
-                SpawningManager.Instance.SpawnedUnits.Remove(GetComponent<Unit>());
+                onDie?.Invoke(this);
+
                 Destroy(gameObject);
             }
-
         }
 
         private void OnDestroy()

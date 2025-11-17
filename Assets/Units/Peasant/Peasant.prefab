@@ -5377,7 +5377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8982089314669466727}
   - component: {fileID: 3152279250383704034}
-  - component: {fileID: 3207248203820527080}
+  - component: {fileID: 2091363808939369387}
   - component: {fileID: 2468762895627085193}
   - component: {fileID: -3200719875420227310}
   - component: {fileID: 5069724962427592924}
@@ -5422,7 +5422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3207248203820527080
+--- !u!114 &2091363808939369387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5431,9 +5431,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8982089314669466726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4eca2dfe04f114c8d315a3f5f37120, type: 3}
+  m_Script: {fileID: 11500000, guid: 0984e62c504131e42ad498c80e7aadfe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::Units.UnitMovement
   ani: {fileID: 8982089313793131042}
   visualTransform: {fileID: 8982089313793131040}
 --- !u!61 &2468762895627085193

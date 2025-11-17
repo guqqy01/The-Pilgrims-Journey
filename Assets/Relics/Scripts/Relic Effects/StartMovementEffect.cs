@@ -26,14 +26,14 @@ namespace Relics
         {
             timeToStop = Time.time + unitTime;
 
-            SpawningManager.Instance.onUnitSpawned += AddMovementBuffToUnit;
+            UnitSpawningManager.Instance.onUnitSpawned += AddMovementBuffToUnit;
         }
 
         private void AddMovementBuffToUnit(Unit unit)
         {
             if (Time.time >= timeToStop)
             {
-                SpawningManager.Instance.onUnitSpawned -= AddMovementBuffToUnit;
+                UnitSpawningManager.Instance.onUnitSpawned -= AddMovementBuffToUnit;
                 return;
             }
 

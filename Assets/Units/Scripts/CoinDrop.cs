@@ -28,7 +28,7 @@ namespace Units
             resourceManager = ResourceManager.Instance;
         }
 
-        public void OnDie()
+        public void OnDie(Health health)
         {
             float value = Random.value;
 

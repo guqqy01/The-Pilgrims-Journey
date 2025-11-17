@@ -65,7 +65,7 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
             return;
 
         //Units on map
-        if (SpawningManager.Instance.SpawnedUnits.NotNull().Count() > 0)
+        if (UnitSpawningManager.Instance.SpawnedUnits.NotNull().Count() > 0)
         {
             return;
         }

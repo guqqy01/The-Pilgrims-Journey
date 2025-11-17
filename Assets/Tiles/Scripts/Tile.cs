@@ -150,7 +150,7 @@ namespace Tiles
             return Level * Level * 0.2f + 1f;
         }
 
-        public void OnUnitDie()
+        public void OnUnitDie(Health _)
         {
             if (gameObject == null)
                 return;

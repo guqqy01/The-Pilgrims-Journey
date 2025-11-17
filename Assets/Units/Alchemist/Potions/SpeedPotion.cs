@@ -13,7 +13,7 @@ public class SpeedPotion : Potion
 
         foreach (Collider2D unitCollider in unitColliders)
         {
-            if (unitCollider.TryGetComponent(out Movement movement))
+            if (unitCollider.TryGetComponent(out UnitMovement movement))
             {
                 movement.ModifySpeedForTime("AlchemistPotion", movementBuff, lastingTime);
             }

@@ -6,7 +6,7 @@ namespace Units
 {
     public class NecromancerSpecial : MonoBehaviour
     {
-        private Movement movement;
+        private UnitMovement movement;
 
         [SerializeField]
         private List<UnitSO> unitSpawns;
@@ -18,7 +18,7 @@ namespace Units
 
         private void Awake()
         {
-            movement = GetComponent<Movement>();
+            movement = GetComponent<UnitMovement>();
         }
 
 
