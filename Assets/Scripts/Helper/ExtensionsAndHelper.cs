@@ -67,6 +67,11 @@ public static class ExtensionsAndHelper
         return list[Random.Range(0, list.Count)];
     }
 
+    public static bool ContainsLayer(this LayerMask layerMask, int layer)
+    {
+        return (layerMask & (1 << layer)) != 0;
+    }
+    
     public static object GetRandom(this System.Array array)
     {
         return array.GetValue(Random.Range(0, array.Length));

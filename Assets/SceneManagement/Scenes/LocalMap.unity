@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 249761102}
   - component: {fileID: 249761106}
   - component: {fileID: 249761105}
+  - component: {fileID: 249761107}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -275,9 +276,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 216724883
+  m_SortingLayer: 4
+  m_SortingOrder: 1
   m_Sprite: {fileID: 8508983311690277503, guid: 1052ffc2e73ee3643814e0b0afeb9a55, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -346,6 +347,22 @@ MonoBehaviour:
   visualTransform: {fileID: 249761104}
   ani: {fileID: 249761102}
   rb: {fileID: 249761105}
+  Deadzone: 0.1
+--- !u!114 &249761107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249761101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ceee574cc6b8a4692fedcfa73eab86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroAttacks
+  meleeSwipeAttackPrefab: {fileID: 8618847770750187054, guid: cb4a6af23b60420428e5ac3428cb68af, type: 3}
+  cooldown: 1
+  damage: 3
 --- !u!1 &833186578
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +575,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: c3ff552e
+  m_ApplyToSortingLayers: c3ff552e93f5ea0c
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

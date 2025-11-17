@@ -23,34 +23,52 @@ namespace Units
         [SerializeField]
         private DamagePopup damagePopupPrefab;
 
-        
+        private Health health;
+
+        private Shield shield;
+
+        private void Awake()
+        {
+            unitMat = GetComponentInChildren<Renderer>().material;
+
+            if (TryGetComponent(out health))
+            {
+                health.onHealthChange += HitHealth;
+            }
+
+            if(TryGetComponent(out shield))
+            {
+                shield.onShieldChange += HitShield;
+            }
+        }
+
         public void Init(Material unitMaterial)
         {
             unitMat = unitMaterial;
             originalColor = unitMat.GetColor("_Tint");
         }
 
-        public void HitShield(int dmgAmount, Vector3 hitDirection)
+        public void HitShield(StatChangeInfo shieldChangeInfo)
         {
             StartCoroutine(FlashMaterial());
 
-            if(dmgAmount > 0)
-            {
-                DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-                damagePopup.Setup(dmgAmount, false, hitDirection);
-            }
+            if (shieldChangeInfo.HitInfoType != HitInfoType.Damage || shieldChangeInfo.ChangeAmount <= 0)
+                return;
+
+            DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+            damagePopup.Setup(shieldChangeInfo.ChangeAmount, false, shieldChangeInfo.HitDirection);
         }
 
-        public void HitHealth(int dmgAmount, float knockBackMultiplier, Vector3 hitDirection)
+        public void HitHealth(StatChangeInfo healthChangeInfo)
         {
-            StartCoroutine(SmoothKnockBack(hitDirection, knockBackMultiplier));
+            StartCoroutine(SmoothKnockBack(healthChangeInfo.HitDirection, healthChangeInfo.KnockBackMultiplier));
             StartCoroutine(FlashMaterial());
 
-            if (dmgAmount > 0)
-            {
-                DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-                damagePopup.Setup(dmgAmount, true, hitDirection);
-            }
+            if (healthChangeInfo.HitInfoType != HitInfoType.Damage || healthChangeInfo.ChangeAmount <= 0)
+                return;
+
+            DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+            damagePopup.Setup(healthChangeInfo.ChangeAmount, true, healthChangeInfo.HitDirection);
         }
 
         private IEnumerator SmoothKnockBack(Vector3 direction, float multiplier)

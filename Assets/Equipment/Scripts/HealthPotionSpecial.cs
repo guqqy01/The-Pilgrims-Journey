@@ -39,9 +39,9 @@ namespace Equipment
             recoveryRate = periodOfTimeToHeal / amountOfMaxHealthToRecover; ;
         }
 
-        private void OnHealthChange(int currentHealth)
+        private void OnHealthChange(StatChangeInfo healthChangeInfo)
         {
-            if ((float)currentHealth / health.MaxHealth < healthPercentageToStartRecovery)
+            if ((float)healthChangeInfo.CurrentAmount / health.MaxHealth < healthPercentageToStartRecovery)
                 started = true;
         }
 

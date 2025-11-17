@@ -18,8 +18,6 @@ namespace Units
         public CoinDrop CoinDrop { private set; get; }
         public Material UnitMat { get; private set; }
 
-        public HitEffects HitEffects { private set; get; }
-
         public List<EquipmentSpecial> EquipmentSpecials { private set; get; } = new List<EquipmentSpecial>();
 
         public bool Invunrable {  get; private set; }
@@ -46,7 +44,6 @@ namespace Units
             Shield = GetComponent<Shield>();
             CoinDrop = GetComponent<CoinDrop>();
             UnitMat = GetComponentInChildren<Renderer>().material;
-            HitEffects = GetComponent<HitEffects>();
         }
 
         public void Init(UnitSO unitSO, List<Vector2Int> path, int currentPathIndex)
@@ -56,7 +53,6 @@ namespace Units
             Health.Init(unitSO.Health);
             Shield.Init(unitSO.Shield, unitSO.ShieldRegeneration, unitSO.ShieldCooldown);
             CoinDrop.Init(unitSO);
-            HitEffects.Init(UnitMat);
         }
 
         public void Init(Tile tile, List<Vector2Int> path, int currentPathIndex)
@@ -73,7 +69,6 @@ namespace Units
                 );
 
             CoinDrop.Init(tile.UnitSO);
-            HitEffects.Init(UnitMat);
 
             EquipmentSO[] equipmentSOs = tile.Equipment;
 
@@ -94,17 +89,16 @@ namespace Units
                 }
         }
 
-        public OnHitInfo Damage(int damage, Vector3 damageDirection)
+        public OnHitInfo Damage(int damage, Vector3 damageDirection, float knockBackMultiplier = 1f)
         {
             if (Invunrable)
                 return new OnHitInfo();
 
             OnHitInfo hitInfo = new OnHitInfo();
 
-            int leftDmg = Shield.DamageShield(damage);
+            int leftDmg = Shield.DamageShield(damage, damageDirection);
 
             hitInfo.dmgToShield = damage - leftDmg;
-            HitEffects.HitShield(hitInfo.dmgToShield, damageDirection);
 
             hitInfo.dmgToHealth = Mathf.Min(Health.CurrentHealth, leftDmg);
             hitInfo.killed = leftDmg >= Health.CurrentHealth;
@@ -112,8 +106,7 @@ namespace Units
 
             if (leftDmg > 0)
             {
-                Health.ModifyHealth(-leftDmg);
-                HitEffects.HitHealth(hitInfo.dmgToHealth, 1f, damageDirection);
+                Health.ModifyHealth(-leftDmg, damageDirection, knockBackMultiplier);
             }
 
             return hitInfo;

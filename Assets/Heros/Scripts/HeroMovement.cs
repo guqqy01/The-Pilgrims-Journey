@@ -4,8 +4,6 @@ namespace Hero
 {
     public class HeroMovement : BaseMovement
     {
-
-
         [SerializeField]
         private Animator ani;
 
@@ -17,6 +15,8 @@ namespace Hero
 
 
         public float Deadzone = 0.1f;
+
+        public Direction LastDirection { private set; get; }
 
 
         private void Start()
@@ -61,7 +61,7 @@ namespace Hero
             float speed = Mathf.Clamp01(dir.magnitude);
             ani.SetFloat(hashSpeed, speed);
 
-            // If no movement, clear all directional bools
+            // If no movement, clear all directional bools but keep LastDirection unchanged
             if (dir == Vector2.zero)
             {
                 ani.SetBool(hashUp, false);
@@ -71,10 +71,14 @@ namespace Hero
                 return;
             }
 
-            // Determine dominant axis with clearer absolute checks
+            // Determine dominant axis with clearer absolute checks and set LastDirection
             if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x))
             {
                 bool up = dir.y > 0f;
+
+                // Record last faced direction (vertical)
+                LastDirection = up ? Direction.North : Direction.South;
+
                 ani.SetBool(hashUp, up);
                 ani.SetBool(hashDown, !up);
                 ani.SetBool(hashLeft, false);
@@ -83,6 +87,10 @@ namespace Hero
             else
             {
                 bool right = dir.x > 0f;
+
+                // Record last faced direction (horizontal)
+                LastDirection = right ? Direction.East : Direction.West;
+
                 ani.SetBool(hashRight, right);
                 ani.SetBool(hashLeft, !right);
                 ani.SetBool(hashUp, false);

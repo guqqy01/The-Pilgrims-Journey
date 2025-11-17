@@ -33,9 +33,9 @@ namespace Units.UI
             poisonDebuff.onPoisoned -= OnPoisoned;
         }
 
-        private void OnHealthChange(int currentHealth)
+        private void OnHealthChange(StatChangeInfo healthChangeInfo)
         {
-            healthFill.fillAmount = Mathf.Clamp01((float)currentHealth / health.MaxHealth);
+            healthFill.fillAmount = Mathf.Clamp01((float)healthChangeInfo.CurrentAmount / health.MaxHealth);
         }
 
         private void OnPoisoned()

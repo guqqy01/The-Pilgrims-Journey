@@ -11,6 +11,9 @@ namespace Units.UI
         [SerializeField]
         private Shield shield;
 
+        [SerializeField]
+        private GameObject shieldUIGO;
+
         private void Awake()
         {
             shield.onShieldChange += OnShieldChange;
@@ -22,15 +25,17 @@ namespace Units.UI
                 shield.onShieldChange -= OnShieldChange;
         }
 
-        private void OnShieldChange(int currentShield)
+        private void OnShieldChange(StatChangeInfo shieldChangeInfo)
         {
             if(shield.MaxShield == 0)
             {
+                shieldUIGO.SetActive(false);
                 shieldFill.fillAmount = 0;
             }
             else
             {
-                shieldFill.fillAmount = Mathf.Clamp01((float)currentShield / shield.MaxShield);
+                shieldUIGO.SetActive(true);
+                shieldFill.fillAmount = Mathf.Clamp01((float)shieldChangeInfo.CurrentAmount / shield.MaxShield);
             }
         }
     }
