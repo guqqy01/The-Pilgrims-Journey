@@ -17,7 +17,8 @@ namespace Monsters
     public struct MonsterSpawn
     {
         public int range;
-        public AnimationCurve spawnAmountVSLevel;
+        public AnimationCurve maxAmountVSLevel;
+        public AnimationCurve spawnRateVSLevel;
         public MonsterSO monster;
     }
 

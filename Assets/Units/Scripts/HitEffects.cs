@@ -6,7 +6,7 @@ namespace Units
     public class HitEffects : MonoBehaviour
     {
         [SerializeField]
-        private float knockBack = 5f;
+        private float knockBack = 1f;
 
         [SerializeField]
         private float knockBackDuration = 0.2f;
@@ -42,6 +42,18 @@ namespace Units
             }
         }
 
+        private void OnDestroy()
+        {
+            if(shield != null)
+            {
+                shield.onShieldChange -= HitShield;
+            }
+            if(health != null)
+            {
+                health.onHealthChange -= HitHealth;
+            }
+        }
+
         public void Init(Material unitMaterial)
         {
             unitMat = unitMaterial;
@@ -55,8 +67,11 @@ namespace Units
             if (shieldChangeInfo.HitInfoType != HitInfoType.Damage || shieldChangeInfo.ChangeAmount <= 0)
                 return;
 
-            DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-            damagePopup.Setup(shieldChangeInfo.ChangeAmount, false, shieldChangeInfo.HitDirection);
+            if(damagePopupPrefab != null)
+            {
+                DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+                damagePopup.Setup(shieldChangeInfo.ChangeAmount, false, shieldChangeInfo.HitDirection);
+            }
         }
 
         public void HitHealth(StatChangeInfo healthChangeInfo)

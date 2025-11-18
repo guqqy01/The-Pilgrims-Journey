@@ -22,8 +22,6 @@ namespace LocalMap
 
         public MapTile[,] Tiles { private set; get; }
         [SerializeField, HideInInspector]
-        private List<Monster> enemys;
-        [SerializeField, HideInInspector]
         public List<GameObject> mapObjectGOs;
 
         [SerializeField]
@@ -34,10 +32,6 @@ namespace LocalMap
         private Dictionary<string, int> mapObjects = new Dictionary<string, int>();
 
         private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
-
-        public MonsterSpawnSettings monsterSettings;
-
-        private WeightMap weightMap;
 
         public LocalMapGenerationSettings generationSettings;
 
@@ -52,6 +46,9 @@ namespace LocalMap
         [SerializeField]
         private int mapSizeY = 18;
         public int MapSizeY => mapSizeY;
+
+        [SerializeField]
+        private Transform maptileParent;
 
         private int randomTargetDirection 
         {
@@ -181,8 +178,6 @@ namespace LocalMap
 
             DestroyMapObjects();
 
-            DestoryEnemys();
-
             DestroyTiles();
 
             DestoryRoadSigns();
@@ -229,23 +224,10 @@ namespace LocalMap
 
             PlaceRoadSigns();
 
-            BossMonsterSpawn? bossSpawn = null;
-
-            if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Relic)
-                bossSpawn = monsterSettings.bossMonsters.GetRandom();
-
-            CreateEnemyWeightMap(bossSpawn);
-
-            SpawnEnemys(bossSpawn);
-
             SpawnMapObjects(generationSettings);
 
             PathPicker.Instance.Setup();
         }
-
-
-
-       
 
         private void DestroyMapObjects()
         {
@@ -334,106 +316,6 @@ namespace LocalMap
         }
 
 
-        private void CreateEnemyWeightMap(BossMonsterSpawn? bossMonsterSpawn)
-        {
-            int maxRange = 0;
-
-            for (int i = 0; i < monsterSettings.rangeAndMonster.Count; i++)
-            {
-                if (monsterSettings.rangeAndMonster[i].range > maxRange)
-                    maxRange = monsterSettings.rangeAndMonster[i].range;
-            }
-
-            if(bossMonsterSpawn.HasValue)
-            {
-                if (bossMonsterSpawn.Value.range > maxRange)
-                    maxRange = bossMonsterSpawn.Value.range;
-            }
-
-            weightMap = new WeightMap(maxRange, mapSizeX, mapSizeY);
-
-            for (int i = 0; i < mapSizeX; i++)
-            {
-                for (int j = 0; j < mapSizeY; j++)
-                {
-
-                    for (int k = 1; k <= maxRange; k++)
-                    {
-                        weightMap[k, i, j] = 0;
-                    }
-                    
-                    if (pathway.ContainsStep(i, j))
-                        continue;
-
-                    for (int x = - maxRange; x <= maxRange; x++)
-                    {
-                        for (int y = - maxRange; y <= maxRange; y++)
-                        {
-                            if (pathway.ContainsStep(i + x, j + y))
-                            {
-                                int range = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
-
-                                weightMap[range, i, j] += 2 * maxRange - Mathf.Abs(x) - Mathf.Abs(y);
-                            }
-                        }
-                    }
-                }
-            }
-
-            weightMap.Sort();
-        }
-
-        private void DestoryEnemys() 
-        {
-            for (int i = 0; i < enemys.Count; i++)
-            {
-                if (Application.isPlaying)
-                {
-                    if(enemys[i] != null)
-                        Destroy(enemys[i].gameObject);
-                }
-                else
-                {
-                    if (enemys[i] != null)
-                        DestroyImmediate(enemys[i].gameObject);
-                }
-            }
-
-            enemys.Clear();
-        }
-
-        private void SpawnBoss(BossMonsterSpawn bossMonsterSpawn)
-        {
-            int spawnIndex = 0;
-
-            Vector2Int point = weightMap[bossMonsterSpawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
-
-            int breaker = mapSizeX * mapSizeY;
-
-            Vector2 spawnPosition;
-
-            while (SpotOccupied(point, bossMonsterSpawn.boss.size, out spawnPosition) && breaker > 0)
-            {
-                point = weightMap[bossMonsterSpawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
-
-                spawnIndex++;
-                breaker--;
-            }
-
-            Monster monster = Instantiate(bossMonsterSpawn.boss.prefab, spawnPosition, Quaternion.identity, transform);
-            monster.Init(bossMonsterSpawn.boss);
-            enemys.Add(monster);
-            BeastaryManager.Instance.BufferMonster(bossMonsterSpawn.boss);
-
-            for (int i = 0; i < bossMonsterSpawn.boss.size.x; i++)
-            {
-                for (int j = 0; j < bossMonsterSpawn.boss.size.y; j++)
-                {
-                    occupiedSpots.Add(point + new Vector2Int(i, j));
-                }
-            }
-        }
-
         private bool SpotOccupied(Vector2Int point, Vector2Int size, out Vector2 spawnPosition)
         {
             spawnPosition = point;
@@ -455,40 +337,6 @@ namespace LocalMap
             return false;
         }
 
-        private void SpawnEnemys(BossMonsterSpawn? boss)
-        {
-            DestoryEnemys();
-
-            if (boss.HasValue)
-                SpawnBoss(boss.Value);
-
-            foreach (MonsterSpawn spawn in monsterSettings.rangeAndMonster)
-            {
-                for (int i = 0; i < spawn.spawnAmountVSLevel.Evaluate(GameManager.Instance.Level); i++)
-                {
-                    int spawnIndex = i;
-
-                    Vector2Int point = weightMap[spawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
-
-                    int breaker = mapSizeX * mapSizeY;
-
-                    Vector2 spawnPosition;
-
-                    while (SpotOccupied(point, spawn.monster.size, out spawnPosition) && breaker > 0)
-                    {
-                        point = weightMap[spawn.range, mapSizeX * mapSizeY - 1 - spawnIndex];
-
-                        spawnIndex++;
-                        breaker--;
-                    }
-                    Monster monster = Instantiate(spawn.monster.prefab, new Vector3(point.x, point.y), Quaternion.identity, transform);
-                    monster.Init(spawn.monster);
-                    enemys.Add(monster);
-                    BeastaryManager.Instance.BufferMonster(spawn.monster);
-                    occupiedSpots.Add(point);
-                }
-            }
-        }
 
         private Direction GetNextDirection(Direction currentDirection, Direction targetDirection, Vector2Int position)
         {
@@ -679,7 +527,7 @@ namespace LocalMap
             {
                 for (int j = 0; j < mapSizeY; j++)
                 {
-                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, transform);
+                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, maptileParent != null ? maptileParent : transform);
 
                     if (pathway.ContainsStep(new Vector2Int(i, j)))
                     {

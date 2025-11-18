@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Monsters
 {
+    [RequireComponent(typeof(MonsterMovement), typeof(HealthAndShieldManager))]
     public abstract class Monster : MonoBehaviour
     {
         private BeastaryManager beastaryManager;
@@ -27,6 +28,7 @@ namespace Monsters
         private float timeToStartFlickering;
         private float timeToChangeFlickerColor;
         private bool flickerOnOrOff;
+
 
         protected virtual void Start()
         {
@@ -136,6 +138,5 @@ namespace Monsters
         }
 
         protected abstract void ShockEffect(float shockTime);
-
     }
 }

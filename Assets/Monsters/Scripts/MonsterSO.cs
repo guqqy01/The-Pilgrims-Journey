@@ -17,6 +17,8 @@ namespace Monsters
         public Monster prefab;
 
         public Vector2Int size = Vector2Int.one;
+
+        public MonsterMovementType movementType = MonsterMovementType.Stationary;
     }
 }
 

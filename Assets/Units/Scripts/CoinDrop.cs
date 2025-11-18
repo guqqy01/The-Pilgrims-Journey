@@ -7,8 +7,7 @@ namespace Units
     [RequireComponent(typeof(Health))]
     public class CoinDrop : MonoBehaviour
     {
-        [SerializeField, HideInInspector]
-        private ResourceManager resourceManager;
+        private ResourceManager resourceManager => ResourceManager.Instance;
 
         public BuffableStat coin1Percent;
         public BuffableStat coin5Percent;
@@ -21,11 +20,6 @@ namespace Units
             coint10Percent = new BuffableStat(unitSO.Coin10Percent);
 
             GetComponent<Health>().onDie += OnDie;
-        }
-
-        private void Start()
-        {
-            resourceManager = ResourceManager.Instance;
         }
 
         public void OnDie(Health health)

@@ -9,7 +9,7 @@ namespace Units
 {
     public class PoisonDebuff : MonoBehaviour
     {
-        private Unit unit;
+        private HealthAndShieldManager healthAndShieldManager;
 
         private List<Poison> poisons = new List<Poison>();
 
@@ -21,9 +21,13 @@ namespace Units
 
         private float damageAmount;
 
+        [SerializeField]
+        private ParticleSystem poisonPS;
+        public ParticleSystem PoisonPS => poisonPS;
+
         private void Awake()
         {
-            unit = GetComponent<Unit>();
+            healthAndShieldManager = GetComponent<HealthAndShieldManager>();
         }
 
         private void Update()
@@ -35,7 +39,7 @@ namespace Units
             foreach (Poison item in poisons)
             {
                 damageOverTime += item.DamageOverTime;
-                item.CheckDamage(unit);
+                item.CheckDamage(healthAndShieldManager);
             }
 
             damageAmount += damageOverTime * Time.deltaTime;
@@ -44,10 +48,10 @@ namespace Units
 
             if (amountToDamage >= 1)
             {
-                unit.Health.ModifyHealth(-amountToDamage);
+                healthAndShieldManager.Health.ModifyHealth(-amountToDamage);
                 damageAmount -= amountToDamage;
 
-                if (unit.Health.CurrentHealth <= 0)
+                if (healthAndShieldManager.Health.CurrentHealth <= 0)
                 {
                     MonsterSO returnMonster;
                     WeightedChanceList<MonsterSO> weightedChanceList = new WeightedChanceList<MonsterSO>();
@@ -58,7 +62,7 @@ namespace Units
                     }
 
                     returnMonster = weightedChanceList.GetRandom();
-                    BeastaryManager.Instance.Unitdamaged(returnMonster, new OnHitInfo() { unit = unit, killed = true });
+                    BeastaryManager.Instance.Unitdamaged(returnMonster, new OnHitInfo(healthAndShieldManager, true, 0, 0));
                 }
             }
         }
@@ -72,12 +76,12 @@ namespace Units
                 onPoisoned?.Invoke();
             }
 
-            if (!unit.PoisonPS.isPlaying)
+            if (!PoisonPS.isPlaying)
             {
-                unit.PoisonPS.Play();
+                PoisonPS.Play();
             }
 
-            var emmision = unit.PoisonPS.emission;
+            var emmision = PoisonPS.emission;
             emmision.rateOverTime = poisons.Count;
         }
 
@@ -101,12 +105,12 @@ namespace Units
 
             if (poisons.Count <= 0)
             {
-                unit.PoisonPS.Stop();
+                PoisonPS.Stop();
                 onCured?.Invoke();
             }
             else
             {
-                var emmision = unit.PoisonPS.emission;
+                var emmision = PoisonPS.emission;
                 emmision.rateOverTime = poisons.Count;
             }
         }
@@ -130,7 +134,7 @@ namespace Units
                 timeToRemove = Time.time + time;
             }
 
-            public void CheckDamage(Unit unit)
+            public void CheckDamage(HealthAndShieldManager healthAndShieldManager)
             {
                 currentDamageAmount += DamageOverTime * Time.deltaTime;
 
@@ -138,7 +142,7 @@ namespace Units
 
                 if (amountToDamage >= 1)
                 {
-                    BeastaryManager.Instance.Unitdamaged(monster.MonsterSO, new OnHitInfo() { unit = unit, dmgToHealth = amountToDamage });
+                    BeastaryManager.Instance.Unitdamaged(monster.MonsterSO, new OnHitInfo(healthAndShieldManager, false, 0, amountToDamage));
                     currentDamageAmount -= amountToDamage;
                 }
             }

@@ -61,12 +61,12 @@ namespace Monsters
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!hit && 1 << collision.gameObject.layer == layerMask)
+            if (!hit && layerMask.ContainsLayer(collision.gameObject.layer))
             {
-                if (collision.TryGetComponent(out Units.Unit unit))
+                if (collision.TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
                 {
                     hit = true;
-                    OnHitInfo info = unit.Damage(damage, (unit.transform.position - transform.position).normalized);
+                    OnHitInfo info = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized);
 
                     onHit?.Invoke(info);
 

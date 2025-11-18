@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Monsters;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Units.UI
 {
@@ -17,7 +18,8 @@ namespace Units.UI
         private PoisonDebuff poisonDebuff;
         private void Awake()
         {
-            health.onHealthChange += OnHealthChange;
+            if (health != null)
+                health.onHealthChange += OnHealthChange;
 
             if(poisonDebuff != null)
             {
@@ -28,9 +30,14 @@ namespace Units.UI
 
         private void OnDestroy()
         {
-            health.onHealthChange -= OnHealthChange;
-            poisonDebuff.onCured -= OnCured;
-            poisonDebuff.onPoisoned -= OnPoisoned;
+            if (health != null)
+                health.onHealthChange -= OnHealthChange;
+
+            if (poisonDebuff != null)
+            {
+                poisonDebuff.onCured -= OnCured;
+                poisonDebuff.onPoisoned -= OnPoisoned;
+            }
         }
 
         private void OnHealthChange(StatChangeInfo healthChangeInfo)

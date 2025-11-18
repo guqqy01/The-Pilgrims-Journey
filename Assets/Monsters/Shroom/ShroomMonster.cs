@@ -50,9 +50,9 @@ namespace Monsters
             {
                 if (1 << colliders[i].gameObject.layer == targetMask)
                 {
-                    if (colliders[i].TryGetComponent(out Units.Unit unit))
+                    if (colliders[i].TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
                     {
-                        OnHitInfo hitInfo = unit.Damage(damage, (unit.transform.position - transform.position).normalized);
+                        OnHitInfo hitInfo = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized);
 
                         OnDamageUnit(hitInfo);
                     }

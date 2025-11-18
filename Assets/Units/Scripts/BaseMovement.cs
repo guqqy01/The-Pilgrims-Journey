@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public abstract class BaseMovement : MonoBehaviour
 {
+    private float initSpeed = 1f;
+
     public BuffableStat Speed { private set; get; }
     public float SpeedValue => Speed.Value;
 
@@ -13,19 +16,34 @@ public abstract class BaseMovement : MonoBehaviour
 
     private readonly Dictionary<string, float> referenceAndTimeToRemoveBuff = new Dictionary<string, float>();
 
+    public Rigidbody2D rb { protected set; get; }
+
+    private bool initialized = false;
+
     protected virtual void Awake()
     {
         initialXScale = visualTransform.localScale.x;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void BaseInit(float movementSpeed)
     {
         Speed = new BuffableStat(movementSpeed);
+        initialized = true;
     }
 
     public void BaseInit(BuffableStat movementStat)
     {
         Speed = movementStat;
+        initialized = true;
+    }
+
+    protected virtual void Start()
+    {
+        if (!initialized)
+        {
+            Speed = new BuffableStat(initSpeed);
+        }
     }
 
     protected virtual void Update()
@@ -35,10 +53,10 @@ public abstract class BaseMovement : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        HandleMovement();
+        HandleFixedUpdateMovement();
     }
 
-    public abstract void HandleMovement();
+    public abstract void HandleFixedUpdateMovement();
 
     private void HandleAdditionalTimedBuff()
     {

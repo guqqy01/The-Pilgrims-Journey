@@ -3,7 +3,12 @@ using System.Collections.Generic;
 
 public class Shield : MonoBehaviour
 {
-    private BuffableStat shield;
+    [SerializeField]
+    private int initShield = 5;
+    [SerializeField]
+    private float initRegen = 1f, initCooldown = 6f;
+
+    private BuffableStat shield = new BuffableStat(0);
     public int MaxShield
     {
         get
@@ -21,11 +26,11 @@ public class Shield : MonoBehaviour
     public int CurrentShield { private set; get; } = 5;
 
 
-    private BuffableStat regeneration;
+    private BuffableStat regeneration = new BuffableStat(1f);
     public float Regeneration => (float)regeneration.Value.Value;
 
 
-    private BuffableStat cooldown;
+    private BuffableStat cooldown = new BuffableStat(6f);
     public float Cooldown => (float)cooldown.Value.Value;
 
     private float timeToNextRegenPoint;
@@ -40,6 +45,11 @@ public class Shield : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem shieldBrokenPS;
+
+    private void Start()
+    {
+        Init(initShield, initRegen, initCooldown);
+    }
 
     public void Init(int maxShield, float regeneration, float shieldCooldown)
     {
@@ -98,7 +108,7 @@ public class Shield : MonoBehaviour
 
         CurrentShield = Mathf.Min(CurrentShield, MaxShield);
 
-        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, CurrentShield, amountChanged);
+        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, amountChanged, CurrentShield);
 
         onShieldChange?.Invoke(statChangeInfo);
 
@@ -129,11 +139,11 @@ public class Shield : MonoBehaviour
     {
         CurrentShield = Mathf.Clamp(CurrentShield + amount, 0, MaxShield);
 
-        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, CurrentShield, amount);
+        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, amount, CurrentShield);
 
         onShieldChange?.Invoke(statChangeInfo);
     }
-
+    
     /// <summary>
     /// Deal damage to the shield
     /// </summary>
@@ -145,7 +155,7 @@ public class Shield : MonoBehaviour
 
         CurrentShield = Mathf.Clamp(CurrentShield - amount, 0, MaxShield);
 
-        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, -amount, CurrentShield, hitDirection);
+        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, -amount + leftOverDmg, CurrentShield, hitDirection);
 
         onShieldChange?.Invoke(statChangeInfo);
 

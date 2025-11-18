@@ -47,7 +47,7 @@ namespace Units
             onPathCompleted = null;
         }
 
-        public override void HandleMovement()
+        public override void HandleFixedUpdateMovement()
         {
             if (finishedPath)
             {

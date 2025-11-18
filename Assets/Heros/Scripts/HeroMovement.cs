@@ -99,7 +99,7 @@ namespace Hero
         }
 
 
-        public override void HandleMovement()
+        public override void HandleFixedUpdateMovement()
         {
             if (rb == null) return;
 

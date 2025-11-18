@@ -16,7 +16,13 @@ namespace Units.UI
 
         private void Awake()
         {
-            shield.onShieldChange += OnShieldChange;
+            if(shield == null)
+                shield = GetComponentInParent<Shield>();
+
+            if(shield != null)
+                shield.onShieldChange += OnShieldChange;
+            else
+                shieldUIGO.SetActive(false);
         }
 
         private void OnDestroy()

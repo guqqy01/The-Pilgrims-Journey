@@ -7,6 +7,11 @@ namespace GameManagerCalls
     {
     }
 
+    public interface IOnPlayLocalLevel : IGameManagerCallInterface
+    {
+        public void OnPlayLocalLevel();
+    }
+
     public interface IOnCompletedLevel : IGameManagerCallInterface
     {
         public void OnLevelCompleted();

@@ -16,7 +16,7 @@ namespace Spells
 
             foreach (Collider2D collider in GetColliders2D(position))
             {
-                if (collider.TryGetComponent(out Unit unit))
+                if (collider.TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
                 {
                     return true;
                 }
@@ -35,15 +35,15 @@ namespace Spells
 
             foreach (Collider2D collider in colliders)
             {
-                if (collider.TryGetComponent(out Unit unit))
+                if (collider.TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
                 {
-                    Transform tf = unit.transform;
+                    Transform tf = healthAndShieldManager.transform;
                     if (effectFX != null)
                     {
                         FX fx = GameObject.Instantiate(effectFX, tf.position, Quaternion.identity, tf);
                         fx.Init(fXGreyScaleFactor, fXColor);
                     }
-                    unit.MakeInvunrableForTime(invunrabilityTime);
+                    healthAndShieldManager.MakeInvunrableForTime(invunrabilityTime);
                 }
             }
 

@@ -65,7 +65,7 @@ namespace Monsters
             if (monster == null)
                 return;
 
-            if (hitInfo.unit == null)
+            /*if (hitInfo.unit == null)
                 return;
 
 
@@ -77,7 +77,7 @@ namespace Monsters
             if (hitInfo.killed)
             {
                 beastaryItems[monster].UnitKilled(hitInfo.unit.UnitSO);
-            }
+            }*/
         }
 
         public void ReleaseBuffer()

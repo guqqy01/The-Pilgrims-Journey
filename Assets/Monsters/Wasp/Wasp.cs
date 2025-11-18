@@ -45,12 +45,12 @@ namespace Monsters
         {
             base.OnDamageUnit(hitInfo);
 
-            if(hitInfo.dmgToHealth > 0)
+            if(hitInfo.DamageToHealth > 0)
             {
-                if(!hitInfo.unit.gameObject.TryGetComponent(out PoisonDebuff poisonDebuff))
-                    poisonDebuff = hitInfo.unit.gameObject.AddComponent<PoisonDebuff>();
-
-                poisonDebuff.Add(this, poisonDamage, poisonTime);
+                if(hitInfo.HealthAndShieldManager.TryGetComponent(out PoisonDebuff poisonDebug))
+                {
+                    poisonDebug.Add(this, damage, poisonTime);
+                }
             }
 
         }

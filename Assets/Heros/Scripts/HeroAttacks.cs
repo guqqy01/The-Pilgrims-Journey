@@ -17,6 +17,8 @@ namespace Hero
 
         [SerializeField]
         private int damage = 3;
+        [SerializeField]
+        private float knockback = 1f;
 
         private void Awake()
         {
@@ -60,7 +62,7 @@ namespace Hero
 
             var attack = Instantiate(meleeSwipeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
 
-            attack.Init(damage);
+            attack.Init(damage, knockback);
         }
     }
 }

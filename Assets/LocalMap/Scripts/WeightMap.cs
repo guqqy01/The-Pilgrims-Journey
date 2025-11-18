@@ -9,9 +9,9 @@ namespace LocalMap
     [Serializable]
     public class WeightMap
     {
-        public Dictionary<int, MapWeightPoint[]> rangeAndPoints;
+        private readonly Dictionary<int, MapWeightPoint[]> rangeAndPoints;
 
-        public Dictionary<int, Dictionary<Vector2Int, int>> rangeAndCoordsAndIndex;
+        private readonly Dictionary<int, Dictionary<Vector2Int, int>> rangeAndCoordsAndIndex;
 
         public WeightMap(int maxRange, int xSize, int ySize)
         {
@@ -36,6 +36,38 @@ namespace LocalMap
                 rangeAndCoordsAndIndex.Add(range, coordsAndIndex);
             }
         }
+
+        public List<KeyValuePair<int, List<Vector2Int>>> WeightAndMapPoints(int range)
+        {
+            var result = new Dictionary<int, List<Vector2Int>>();
+
+            // Defensive: ensure rangeAndPoints and entry exist
+            if (rangeAndPoints == null) return new List<KeyValuePair<int, List<Vector2Int>>>();
+            if (range < 0 || range >= rangeAndPoints.Count) return new List<KeyValuePair<int, List<Vector2Int>>>();
+
+            var mapPointsAtRange = rangeAndPoints[range];
+            if (mapPointsAtRange == null || mapPointsAtRange.Length == 0)
+                return new List<KeyValuePair<int, List<Vector2Int>>>();
+
+            for (int i = 0; i < mapPointsAtRange.Length; i++)
+            {
+                var mp = mapPointsAtRange[i];
+                if (!result.TryGetValue(mp.weight, out var list))
+                {
+                    list = new List<Vector2Int>();
+                    result[mp.weight] = list;
+                }
+                list.Add(mp.coords);
+            }
+
+            // Convert to a list of KeyValuePair and order descending by key (highest weight first)
+            var ordered = result
+                .OrderByDescending(kv => kv.Key)
+                .ToList();
+
+            return ordered;
+        }
+
 
         public int this[int range, int i, int j]
         {

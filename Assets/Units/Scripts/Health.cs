@@ -22,6 +22,11 @@ public class Health : MonoBehaviour
     public delegate void OnHealthChange(StatChangeInfo statChangeInfo);
     public OnHealthChange onHealthChange;
 
+    private void Start()
+    {
+        Init(initMaxHealth);
+    }
+
     public void Init(BuffableStat healthBuffableStat)
     {
         maxHealth = healthBuffableStat;
@@ -35,7 +40,7 @@ public class Health : MonoBehaviour
 
     public void Init(int maxHealth)
     {
-        maxHealth = new BuffableStat(maxHealth);
+        this.maxHealth = new BuffableStat(maxHealth);
 
         CurrentHealth = MaxHealth;
 
@@ -44,11 +49,11 @@ public class Health : MonoBehaviour
         onHealthChange?.Invoke(statChangeInfo);
     }
 
-    public void ModifyHealth(int amount, Vector2 sourceDirection = new Vector2(), float knockBackMultiplier = 0)
+    public void ModifyHealth(int amount, Vector2 hitDirection = new Vector2(), float knockBackMultiplier = 0)
     {
         CurrentHealth = Mathf.Clamp(amount + CurrentHealth, 0, MaxHealth);
 
-        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, amount, CurrentHealth, sourceDirection, knockBackMultiplier);
+        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, amount, CurrentHealth, hitDirection, knockBackMultiplier);
 
         onHealthChange?.Invoke(statChangeInfo);
 

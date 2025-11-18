@@ -28,6 +28,7 @@ public class PlayButton : MonoBehaviour, IOnCompletedLevel, IOnCreateLocalMap
         {
             TilePlayerManager.Instance.Play();
             button.interactable = false;
+            InterfaceCaller.CallInterfaces<IOnPlayLocalLevel>(x => x.OnPlayLocalLevel());
         }
     }
 }
