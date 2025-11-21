@@ -8,7 +8,7 @@ using static LocalMap.PathPicker;
 
 namespace LocalMap
 {
-    public class PathPicker : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class PathPicker : Singleton<PathPicker>
     {
         private LocalMapGenerator mapGenerator;
         public LocalMapGenerator MapGenerator
@@ -34,8 +34,6 @@ namespace LocalMap
                 return inputManager;
             }
         }
-
-        public static PathPicker Instance { private set; get; }
 
         [SerializeField]
         private LineRenderer lr;
@@ -67,16 +65,9 @@ namespace LocalMap
         public delegate void OnClickSign(Direction direction);
         public OnClickSign onClickSign;
 
-        public void InitiateSingleton()
+        protected override void CleanUp()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
+            onClickSign = null;
         }
 
         private void Update()

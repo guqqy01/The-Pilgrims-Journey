@@ -5,10 +5,8 @@ using System;
 using System.Linq;
 using GlobalMap;
 using GameManagerCalls;
-public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCreateCurrentMapPoint
+public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMapPoint
 {
-    public static InventoryToolbar Instance;
-
     [SerializeField]
     private LayoutContentSizerBaseParent layoutContentSizer;
 
@@ -21,17 +19,6 @@ public class InventoryToolbar : MonoBehaviour, ISingletonToBeInitiatedFromRoot, 
     [SerializeField]
     private List<ToolbarButtonSetup> toolbarButtons;
 
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void Awake()
     {

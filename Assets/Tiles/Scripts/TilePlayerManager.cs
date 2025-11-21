@@ -7,9 +7,8 @@ using LocalMap;
 
 namespace Tiles
 {
-    public class TilePlayerManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCompleteLocalMapLevel, IOnSetup
+    public class TilePlayerManager : Singleton<TilePlayerManager>, IOnCompleteLocalMapLevel, IOnSetupNewGame
     {
-        public static TilePlayerManager Instance { private set; get; }
         public float CurrentPlayingPosition { private set; get; }
 
         public delegate void OnCurrentPlayingPositionChange(Dictionary<Tile, int> spawningTilesAndSize);
@@ -51,18 +50,6 @@ namespace Tiles
         [SerializeField]
         private TileGrid playerTileGrid;
 
-        public void InitiateSingleton()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
-
         private void Awake()
         {
             if (playerTileGrid != null)
@@ -72,8 +59,18 @@ namespace Tiles
             }
         }
 
-        private void OnDestroy()
+        protected override void CleanUp()
         {
+            onPositionChangeNextSpawning = null;
+            onPositionChangeCurrentSpawning = null;
+            noRemainingTilesToPlay = null;
+            onPlay = null;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
             if(playerTileGrid != null)
             {
                 playerTileGrid.onTileAdded -= OnTileAdded;

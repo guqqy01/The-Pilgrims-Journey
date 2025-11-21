@@ -4,10 +4,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class RewardGainedUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class RewardGainedUI : Singleton<RewardGainedUI>
 {
-    public static RewardGainedUI Instance { private set; get; }
-
     [SerializeField] private Image itemImage;
 
     [SerializeField] private Animator glowAnimator;
@@ -18,18 +16,6 @@ public class RewardGainedUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     [SerializeField] private TextMeshProUGUI itemText;
 
     [SerializeField] private float itemShowtime = 1f;
-
-    public void InitiateSingleton()
-    {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     public void Setup(IDescriptable descriptable)
     {

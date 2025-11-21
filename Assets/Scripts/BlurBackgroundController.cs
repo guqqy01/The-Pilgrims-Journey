@@ -4,10 +4,8 @@ using UnityEngine.Rendering;
 using System.Collections;
 using GameManagerCalls;
 
-public class BlurBackgroundController : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnSetup
+public class BlurBackgroundController : Singleton< BlurBackgroundController>, IOnSetupNewGame
 {
-    public static BlurBackgroundController Instance { get; private set; }
-
     [SerializeField]
     private Volume blurVolume;
 
@@ -16,18 +14,6 @@ public class BlurBackgroundController : MonoBehaviour, ISingletonToBeInitiatedFr
     private float BlurSpeed => 1f / timeToBlur;
 
     private Coroutine currentCoroutine;
-
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     public void EnableBlur()
     {

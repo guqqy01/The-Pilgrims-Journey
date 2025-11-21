@@ -15,10 +15,8 @@ using TMPro;
 
 
 [RequireComponent(typeof(EquipmentInventory))]
-public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class ShopUI : Singleton<ShopUI>
 {
-    public static ShopUI Instance { get; private set; }
-
     [SerializeField]
     private ShopItemUI ShopItemPrefab;
 
@@ -41,18 +39,6 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
     [SerializeField]
     private Button sellButton;
 
-    public void InitiateSingleton()
-    {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else 
-        {
-            Instance = this;
-        }
-    }
-
     private void Start()
     {
         ShopManager.Instance.onShopSetup -= Setup;
@@ -64,8 +50,10 @@ public class ShopUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
         Setup(ShopManager.Instance.EquipmentAndTheirShopItems);
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         if (ShopManager.Instance != null)
         {
             ShopManager.Instance.onShopSetup -= Setup;

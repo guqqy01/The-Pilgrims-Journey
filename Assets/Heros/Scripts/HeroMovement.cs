@@ -1,14 +1,12 @@
 using UnityEngine;
 
-namespace Hero
+namespace Heros
 {
     public class HeroMovement : BaseMovement
     {
         [SerializeField]
         private Animator ani;
 
-        [SerializeField]
-        private Rigidbody2D rb;
 
         Vector2 input;
         int hashUp, hashDown, hashLeft, hashRight, hashSpeed;
@@ -18,16 +16,9 @@ namespace Hero
 
         public Direction LastDirection { private set; get; }
 
-
-        private void Start()
-        {
-            BaseInit(2f);
-        }
-
         protected override void Awake()
         {
             base.Awake();
-            rb = GetComponent<Rigidbody2D>();
             ani = GetComponent<Animator>();
 
             // Cache animator parameter hashes
@@ -43,8 +34,8 @@ namespace Hero
             base.Update();
 
             // Read input in Update (keeps input responsive)
-            input.x = Input.GetAxis("Horizontal");
-            input.y = Input.GetAxis("Vertical");
+            input.x = Input.GetAxisRaw("Horizontal");
+            input.y = Input.GetAxisRaw("Vertical");
 
             // Apply deadzone
             if (Mathf.Abs(input.x) < Deadzone) input.x = 0f;

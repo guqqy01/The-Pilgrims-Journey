@@ -4,16 +4,12 @@ using System;
 using System.Collections.Generic;
 using Units;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Tiles.Tile;
 
 namespace Tiles
 {
 
-    public class TileUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class TileUIManager : Singleton<TileUIManager>
     {
-        public static TileUIManager Instance { private set; get; }
-
         private InputManager inputManager;
 
         [SerializeField]
@@ -34,17 +30,6 @@ namespace Tiles
             inputManager = InputManager.Instance;
         }
 
-        public void InitiateSingleton()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
 
 
         protected void Awake()
@@ -53,8 +38,9 @@ namespace Tiles
 
         }
 
-        protected void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             Tile.onDragTile -= DraggingTile;
         }
 

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnSetup, IOnClear
+public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnSetupNewGame, IOnClear
 {
     public string SaveFileName => "ResourceManagerSave";
 

@@ -11,7 +11,7 @@ using TMPro;
 
 namespace Tiles
 {
-    public class TileStatsUI : EquipmentInventory, IOnSetup, IOnClear
+    public class TileStatsUI : EquipmentInventory, IOnSetupNewGame, IOnClear
     {
         private Tile tile;
 

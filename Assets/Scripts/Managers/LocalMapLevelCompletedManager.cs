@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Tiles;
 using Helper.Wait;
-public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnBeforeCreateLocalMap
+public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedManager>, IOnBeforeCreateLocalMap
 {
-    public static LocalMapLevelCompletedManager Instance { private set; get; }
-
     private int unitsPassed = 0;
 
     [SerializeField]
@@ -26,18 +24,6 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
     public delegate void OnUnitPassed(int totalPassed, int requiredToPass);
     public static OnUnitPassed onUnitPassed;
 
-    public void InitiateSingleton()
-    {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
-
     private void Start()
     {
         WaitForObjectHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToEndOfGameCheck, 1f);
@@ -48,8 +34,10 @@ public class LocalMapLevelCompletedManager : MonoBehaviour, ISingletonToBeInitia
         TilePlayerManager.Instance.noRemainingTilesToPlay += StartEndOfGameCheck;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         if (TilePlayerManager.Instance != null)
             TilePlayerManager.Instance.noRemainingTilesToPlay -= StartEndOfGameCheck;
     }

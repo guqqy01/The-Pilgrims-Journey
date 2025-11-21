@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace Hero
+namespace Heros
 {
     [RequireComponent(typeof (HeroMovement))]
-    public class HeroAttacks : MonoBehaviour
+    public class HeroSwipeAttack : MonoBehaviour
     {
         private HeroMovement heroMovement;
 

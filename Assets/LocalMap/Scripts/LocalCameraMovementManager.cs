@@ -4,9 +4,8 @@ using UnityEngine.EventSystems;
 
 namespace LocalMap
 {
-    public class LocalCameraMovementManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class LocalCameraMovementManager : Singleton<LocalCameraMovementManager>
     {
-        public static LocalCameraMovementManager Instance { get; private set; }
         private Camera cam;
         private Camera Cam
         {
@@ -53,17 +52,6 @@ namespace LocalMap
         private Vector3 dragOrigin;
         private bool isDragging;
 
-        public void InitiateSingleton()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
 
         private void Update()
         {

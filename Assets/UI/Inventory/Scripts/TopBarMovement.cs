@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class TopBarMovement : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class TopBarMovement : Singleton<TopBarMovement>
 {
-    public static TopBarMovement Instance;
-
     [SerializeField]
     private VerticalLayoutGroup verticalLayoutGroup;
 
@@ -45,18 +43,6 @@ public class TopBarMovement : MonoBehaviour, ISingletonToBeInitiatedFromRoot
             {
                 ShowBar();
             }
-        }
-    }
-
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
         }
     }
 

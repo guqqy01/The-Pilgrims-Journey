@@ -3,13 +3,11 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using GameManagerCalls;
-public class MapPointRequiredUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnCreateCurrentMapPoint
+public class MapPointRequiredUIManager : Singleton<MapPointRequiredUIManager>, IOnCreateCurrentMapPoint
 {
     public List<GameObject> optionalUIs;
 
     public List<MapPointTypeAndRequiredUI> mapPointTypeAndRequiredUIs;
-
-    public static MapPointRequiredUIManager Instance;
 
     public void OnCreateCurrentMapPoint()
     {
@@ -29,18 +27,6 @@ public class MapPointRequiredUIManager : MonoBehaviour, ISingletonToBeInitiatedF
         foreach(GameObject optionalUI in optionalUIs)
         {
             optionalUI.SetActive(currentNeeded.requiredObjects.Contains(optionalUI));
-        }
-    }
-
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
         }
     }
 }

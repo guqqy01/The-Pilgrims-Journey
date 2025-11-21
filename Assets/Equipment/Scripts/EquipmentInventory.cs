@@ -9,7 +9,7 @@ using static Equipment.EquipmentInventory;
 
 namespace Equipment
 {
-    public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, IOnSetup, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnClear
+    public class EquipmentInventory : MonoBehaviour, ISaveLoad, IComparable<EquipmentInventory>, IOnSetupNewGame, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnClear
     {
         [SerializeField]
         private int inventorySize = 6;

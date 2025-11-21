@@ -1,10 +1,9 @@
 using UnityEngine;
+
 namespace LevelingSystem
 {
-    public class ExperienceAndLevelingManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class ExperienceAndLevelingManager : Singleton<ExperienceAndLevelingManager>
     {
-        public static ExperienceAndLevelingManager Instance { private set; get; }
-
         public int Level { private set; get; } = 0;
         public float CurrentExperience { private set; get; }
         public float ExperienceNeededToLevel => Level * 10f + 10f;
@@ -12,25 +11,15 @@ namespace LevelingSystem
         public delegate void OnUpdateUI();
         public OnUpdateUI onUpdateUI;
 
-        public void InitiateSingleton()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
 
         private void Awake()
         {
             LocalMapLevelCompletedManager.onUnitPassed += OnUnitPassed;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             LocalMapLevelCompletedManager.onUnitPassed -= OnUnitPassed;
         }
 

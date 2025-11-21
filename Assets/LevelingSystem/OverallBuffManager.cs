@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace LevelingSystem
 {
-    public class OverallBuffManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class OverallBuffManager : Singleton<OverallBuffManager>
     {
-        public static OverallBuffManager Instance { private set; get; }
-
         //Leveling Up
         public BuffableStat AmountOfRelicToChooseFrom = new BuffableStat(3);
         public BuffableStat Luck = new BuffableStat(0f);
@@ -19,18 +17,6 @@ namespace LevelingSystem
         public BuffableStat SpawnRate = new BuffableStat(0f);
         public BuffableStat ShieldCooldown = new BuffableStat(0f);
         public BuffableStat ShieldRegeneration = new BuffableStat(0f);
-
-        public void InitiateSingleton()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
 
         public Buff GetBuff(UnitStatsEnum stat)
         {

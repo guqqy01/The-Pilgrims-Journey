@@ -8,11 +8,10 @@ using GameManagerCalls;
 
 namespace Relics
 {
-    public class RelicManager : MonoBehaviour, ISaveLoad, ISingletonToBeInitiatedFromRoot, IOnCompletedLevel, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnDelete, IOnSetup, IOnClear
+    public class RelicManager : Singleton<RelicManager>, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoadAfterMapPointSceneLoad, IOnDelete, IOnSetupNewGame, IOnClear
     {
         public string SaveFileName => "RelicManagerSave";
 
-        public static RelicManager Instance { private set; get; }
 
         private List<Relic> relics = new List<Relic>();
         public List<Relic> Relics => relics;
@@ -24,16 +23,9 @@ namespace Relics
         public delegate void UpdateUI();
         public UpdateUI updateUI;
 
-        public void InitiateSingleton()
+        public override void InitiateSingleton()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
+            base.InitiateSingleton();
 
             if (TilePlayerManager.Instance != null)
                 TilePlayerManager.Instance.onPlay += OnPlayRelicEffects;

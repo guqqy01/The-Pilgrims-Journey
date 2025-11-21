@@ -4,20 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverScreen : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnSetup, IOnGameEnd
+public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGameEnd
 {
-    public static GameOverScreen Instance;
-
-    public void InitiateSingleton()
+    public override void InitiateSingleton()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
+        base.InitiateSingleton();
 
         gameObject.SetActive(false);
     }

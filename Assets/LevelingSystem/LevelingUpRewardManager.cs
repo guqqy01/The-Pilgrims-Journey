@@ -4,10 +4,8 @@ using Relics;
 
 namespace LevelingSystem
 {
-    public class LevelingUpRewardManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class LevelingUpRewardManager : Singleton<LevelingUpRewardManager>
     {
-        public static LevelingUpRewardManager Instance { private set; get; }
-
         public delegate void OnShowUI(Dictionary<RelicSO, int> relicSOs);
         public OnShowUI onShowUI;
 
@@ -16,16 +14,10 @@ namespace LevelingSystem
 
         public Dictionary<RelicSO, int> RelicsOfferedAndAmountOfLevelsGained { private set; get; } = new Dictionary<RelicSO, int>();
 
-        public void InitiateSingleton()
+        protected override void OnDestroy()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
+            base.OnDestroy();
+            onShowUI = null;
         }
 
         public void SetupRelicsChoices()

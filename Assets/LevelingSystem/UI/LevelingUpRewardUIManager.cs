@@ -25,7 +25,8 @@ namespace LevelingSystem.UI
 
         private void OnDestroy()
         {
-            LevelingUpRewardManager.Instance.onShowUI -= ShowUI;
+            if(LevelingUpRewardManager.Instance != null)
+                LevelingUpRewardManager.Instance.onShowUI -= ShowUI;
         }
 
         public void ShowUI(Dictionary<RelicSO, int> relicSOs)

@@ -5,10 +5,8 @@ using UnityEngine.UI;
 using AYellowpaper.SerializedCollections;
 using GameManagerCalls;
 
-public class InventoryUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnSetup
+public class InventoryUIManager : Singleton<InventoryUIManager>, IOnSetupNewGame
 {
-    public static InventoryUIManager Instance;
-
     public InventoryToolbar inventoryToolbar;
 
     [SerializeField]
@@ -16,18 +14,6 @@ public class InventoryUIManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     [SerializeField]
     private SerializedDictionary<GlobalMapPointType, List<Button>> globalMapPointAndRequiredButtons;
-
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     public void SetupContinueGameAfterMapPointLoad()
     {

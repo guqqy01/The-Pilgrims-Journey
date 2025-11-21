@@ -5,13 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using GlobalMap;
-
+using Heros;
 namespace LocalMap
 {
-    public class LocalMapGenerator : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnClear, IOnCreateLocalMap
+    public class LocalMapGenerator : Singleton<LocalMapGenerator>, IOnClear, IOnCreateLocalMap
     {
-        public static LocalMapGenerator Instance { private set; get; }
-
         public Pathway pathway;
 
         [SerializeField]
@@ -78,18 +76,6 @@ namespace LocalMap
         }
 
         private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
-
-        public void InitiateSingleton()
         {
             if (Instance != null && Instance != this)
             {
@@ -624,8 +610,6 @@ namespace LocalMap
                 pathway[otherFromDirections[i]].Add(startPoint);
                 CreatePathFromStartToTargetDirection(pathway[otherFromDirections[i]], startPoint, otherFromDirections[i], otherFromDirections[i]);
             }
-
-            
         }
 
         public void OnCreateLocalMap()

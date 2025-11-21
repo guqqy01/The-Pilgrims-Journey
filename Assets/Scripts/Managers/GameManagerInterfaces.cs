@@ -52,7 +52,7 @@ namespace GameManagerCalls
         public void Clear();
     }
 
-    public interface IOnSetup : IGameManagerCallInterface
+    public interface IOnSetupNewGame : IGameManagerCallInterface
     {
         public void SetupNewGame();
     }

@@ -8,10 +8,8 @@ using Random = UnityEngine.Random;
 using Tiles;
 using Units;
 using UnityEngine.UI;
-public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class RewardWindowUI : Singleton<RewardWindowUI>
 {
-    public static RewardWindowUI Instance { private set; get; }
-
     [SerializeField] private RewardWindowItemUI rewardItemUIPrefab;
 
     [SerializeField] private readonly List<RewardWindowItemUI> rewardItemUIs = new List<RewardWindowItemUI>();
@@ -35,16 +33,9 @@ public class RewardWindowUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
 
     [SerializeField]
     private TileGrid equipmentGrid;
-    public void InitiateSingleton()
+    public override void InitiateSingleton()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        base.InitiateSingleton();
 
         gameObject.SetActive(false);
     }

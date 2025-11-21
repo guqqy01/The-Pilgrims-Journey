@@ -5,27 +5,14 @@ using System.Collections.Generic;
 
 using LocalMap;
 
-public class DirectionChoiceManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+public class DirectionChoiceManager : Singleton<DirectionChoiceManager>
 {
-    public static DirectionChoiceManager Instance;
     public Prompt directionChoicePrompt;
 
     [SerializeField]
     private DialogueEventListener directionChoiceListener = new DialogueEventListener();
 
     private List<DialogueEventListener> promptDirectionListeners = new List<DialogueEventListener>();
-
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
 
     public void SetupDirectionChoicePrompt()

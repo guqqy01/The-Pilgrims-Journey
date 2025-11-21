@@ -4,22 +4,8 @@ using UnityEngine.UI;
 
 namespace RandomEvents
 {
-    public class ChangeRandomBackgroundImage : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class ChangeRandomBackgroundImage : Singleton<ChangeRandomBackgroundImage>
     {
-        public static ChangeRandomBackgroundImage Instance { private set; get; }
-
-        public void InitiateSingleton()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
-
         [SerializeField]
         private Animator fadeAnimator;
         [SerializeField]

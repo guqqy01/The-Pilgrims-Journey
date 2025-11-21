@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class BaseMovement : MonoBehaviour
 {
+    [SerializeField]
     private float initSpeed = 1f;
 
     public BuffableStat Speed { private set; get; }

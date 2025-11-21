@@ -7,10 +7,8 @@ using LocalMap;
 using Helper.Wait;
 using System.Linq;
 
-public class UnitSpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
+public class UnitSpawningManager : Singleton<UnitSpawningManager>, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
 {
-    public static UnitSpawningManager Instance { private set; get; }
-
     public readonly List<Unit> SpawnedUnits = new List<Unit>();
 
     private readonly Dictionary<Tile, float> TileAndSpawnRate = new Dictionary<Tile, float>();
@@ -23,18 +21,6 @@ public class UnitSpawningManager : MonoBehaviour, ISingletonToBeInitiatedFromRoo
 
     public delegate void OnUnitSpawned(Unit unit);
     public OnUnitSpawned onUnitSpawned;
-
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void OnEnable()
     {

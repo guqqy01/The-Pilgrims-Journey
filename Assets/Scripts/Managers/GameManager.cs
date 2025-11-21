@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
     {
         Level = 1;
 
-        InterfaceCaller.CallInterfaces<IOnSetup>(x => x.SetupNewGame());
+        InterfaceCaller.CallInterfaces<IOnSetupNewGame>(x => x.SetupNewGame());
     } 
 
 

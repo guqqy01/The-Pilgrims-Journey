@@ -10,10 +10,8 @@ using Helper.Wait;
 
 namespace LocalMap.UI
 {
-    public class SignUI : MonoBehaviour, ISingletonToBeInitiatedFromRoot
+    public class SignUI : Singleton<SignUI>
     {
-        public static SignUI Instance { get; private set; }
-
         [SerializeField]
         private RewardItemUI rewardItemUIPrefab;
 
@@ -48,16 +46,9 @@ namespace LocalMap.UI
         [SerializeField]
         private Sprite hightlightedArrowSprite;
 
-        public void InitiateSingleton()
+        public override void InitiateSingleton()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
+            base.InitiateSingleton();
 
             WaitForObjectHelper.WaitForObjectThenPerformAction(() => PathPicker.Instance, SubscriibeToOnClickSign);
         }
@@ -68,9 +59,12 @@ namespace LocalMap.UI
             PathPicker.Instance.onClickSign += ShowDirection;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            PathPicker.Instance.onClickSign -= ShowDirection;
+            base.OnDestroy();
+
+            if(PathPicker.Instance != null)
+                PathPicker.Instance.onClickSign -= ShowDirection;
         }
 
         public void Setup(List<Direction> avaliableDirections)

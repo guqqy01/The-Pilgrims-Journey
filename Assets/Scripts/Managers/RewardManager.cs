@@ -10,10 +10,8 @@ using GameManagerCalls;
 using LocalMap;
 using LocalMap.UI;
 
-public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfterCreateLocalMap, ISingletonToBeInitiatedFromRoot
+public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLoad, IOnAfterCreateLocalMap
 {
-    public static RewardManager Instance { get; private set; }
-
     public string SaveFileName => $"RewardManagerSave";
 
     private SignUI signUI;
@@ -49,18 +47,6 @@ public class RewardManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnAfte
 
     // keep name for serialization compatibility; consider renaming later
     public bool TilesOrEquipmentAvailiable = false;
-
-    public void InitiateSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     public void Clear()
     {

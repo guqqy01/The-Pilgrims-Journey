@@ -10,10 +10,8 @@ using static UnityEngine.ParticleSystem;
 using GameManagerCalls;
 using System.Linq;
 
-public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad
+public class ShopManager : Singleton<ShopManager>, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad
 {
-    public static ShopManager Instance;
-
     [SerializeField]
     private EquipmentInventory equipmentInventory;
     public EquipmentInventory EquipmentInventory => equipmentInventory;
@@ -38,17 +36,12 @@ public class ShopManager : MonoBehaviour, ISingletonToBeInitiatedFromRoot, ISave
     public delegate void OnUpdateSellGold();
     public OnUpdateSellGold onUpdateSellGold;
 
-
-    public void InitiateSingleton()
+    protected override void CleanUp()
     {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
+        onShopSetup = null;
+        onPurchase = null;
+        onSell = null;
+        onUpdateSellGold = null;
     }
 
     private void Start()
