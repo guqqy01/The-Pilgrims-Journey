@@ -107,7 +107,8 @@ namespace Monsters
         {
             foreach (KeyValuePair<MonsterSO, int> kvp in monstersInLevelBuffer)
             {
-                beastaryItems[kvp.Key].encountered += kvp.Value;
+                if(beastaryItems.ContainsKey(kvp.Key))
+                    beastaryItems[kvp.Key].encountered += kvp.Value;
             }
 
             updateUI?.Invoke();

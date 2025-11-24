@@ -50,10 +50,8 @@ public class ShopUI : Singleton<ShopUI>
         Setup(ShopManager.Instance.EquipmentAndTheirShopItems);
     }
 
-    protected override void OnDestroy()
+    protected override void CleanUp()
     {
-        base.OnDestroy();
-
         if (ShopManager.Instance != null)
         {
             ShopManager.Instance.onShopSetup -= Setup;

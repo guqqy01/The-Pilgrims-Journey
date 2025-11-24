@@ -65,13 +65,8 @@ namespace Tiles
             onPositionChangeCurrentSpawning = null;
             noRemainingTilesToPlay = null;
             onPlay = null;
-        }
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            if(playerTileGrid != null)
+            if (playerTileGrid != null)
             {
                 playerTileGrid.onTileAdded -= OnTileAdded;
                 playerTileGrid.onTileRemoved -= OnTileRemoved;

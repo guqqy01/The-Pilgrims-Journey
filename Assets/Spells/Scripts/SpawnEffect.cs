@@ -13,7 +13,7 @@ public class SpawnEffect : SpellEffect
 
     public override bool CanUseEffect(Vector2Int position)
     {
-        if (!TilePlayerManager.Instance.IsPlaying)
+        if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
             return false;
         return true;
     }

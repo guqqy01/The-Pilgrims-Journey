@@ -97,19 +97,6 @@ namespace GlobalMap.UI
             catch { /* defensive: generator may be destroyed first during shutdown */ }
         }
 
-        private void OnValidate()
-        {
-            // Editor-time quick checks to fail fast if someone forgets to set references
-            if (contentTransform == null) Debug.LogWarning("GlobalMapUI.contentTransform is not assigned.", this);
-            if (backgroundRect == null) Debug.LogWarning("GlobalMapUI.backgroundRect is not assigned.", this);
-            if (canvasTransform == null) Debug.LogWarning("GlobalMapUI.canvasTransform is not assigned.", this);
-            if (mapPointPrefab == null) Debug.LogWarning("GlobalMapUI.mapPointPrefab is not assigned.", this);
-            if (MapLinePrefab == null) Debug.LogWarning("GlobalMapUI.MapLinePrefab is not assigned.", this);
-            if (lineParentTransform == null) Debug.LogWarning("GlobalMapUI.lineParentTransform is not assigned.", this);
-            if (globalMapArrowPrefab == null) Debug.LogWarning("GlobalMapUI.globalMapArrowPrefab is not assigned.", this);
-            if (arrowsParentTransform == null) Debug.LogWarning("GlobalMapUI.arrowsParentTransform is not assigned.", this);
-        }
-
         public void ChangeLegendTableActive()
         {
             if (LegendTable != null)

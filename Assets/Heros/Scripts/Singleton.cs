@@ -15,7 +15,7 @@ public abstract class Singleton<T> : MonoBehaviour, ISingletonToBeInitiatedFromR
         Instance = this as T;
     }
 
-    protected virtual void OnDestroy()
+    private void OnDestroy()
     {
         CleanUp();
 

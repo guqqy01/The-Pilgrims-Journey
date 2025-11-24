@@ -11,7 +11,7 @@ namespace Spells
 
         public override bool CanUseEffect(Vector2Int position)
         {
-            if (!TilePlayerManager.Instance.IsPlaying)
+            if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
                 return false;
 
             foreach (Collider2D collider in GetColliders2D(position))

@@ -1,28 +1,24 @@
+using Equipment;
 using UnityEngine;
 
 namespace Heros
 {
-    [RequireComponent(typeof(HeroMovement))]
+    [RequireComponent(typeof(HeroMovement), typeof(HealthAndShieldManager))]
     public class Hero : MonoBehaviour
     {
-        public static Hero Instance { private set; get; }
-
-        private HeroMovement hMovement;
+        public HeroMovement HeroMovement { private set; get; }
+        public HealthAndShieldManager HealthAndShieldManager {  private set; get; }
 
         private void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-            }
-
-            hMovement = GetComponent<HeroMovement>();
+            HeroMovement = GetComponent<HeroMovement>();
+            HealthAndShieldManager = GetComponent<HealthAndShieldManager>();
         }
 
+        public void Setup()
+        {
+
+        }
     }
 }
 

@@ -14,9 +14,8 @@ namespace LevelingSystem
 
         public Dictionary<RelicSO, int> RelicsOfferedAndAmountOfLevelsGained { private set; get; } = new Dictionary<RelicSO, int>();
 
-        protected override void OnDestroy()
+        protected override void CleanUp()
         {
-            base.OnDestroy();
             onShowUI = null;
         }
 

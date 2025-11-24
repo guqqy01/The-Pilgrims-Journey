@@ -1,5 +1,6 @@
 using GameManagerCalls;
 using GlobalMap;
+using Heros;
 using LocalMap;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,216 +8,543 @@ using UnityEngine;
 
 namespace Monsters
 {
-    public class MonsterSpawnManager : MonoBehaviour, IOnPlayLocalLevel, IOnAfterCreateLocalMap
+    /// <summary>
+    /// Handles all monster spawning logic inside a local level:
+    ///  • Normal spawns based on spawn definitions
+    ///  • Wave-triggered spawns
+    ///  • Boss spawn
+    ///  • Horde/exponential spawn modes
+    ///  • Occupied-grid tracking
+    /// </summary>
+    public class MonsterSpawnManager : Singleton<MonsterSpawnManager>,
+        IOnPlayLocalLevel, IOnAfterCreateLocalMap, IOnClear, IOnCompleteLocalMapLevel
     {
+        // ---------------------------------------------------------
+        // Inspector Fields
+        // ---------------------------------------------------------
+
         [SerializeField]
         private MonsterSpawnSettings monsterSpawnSettings;
 
+        [SerializeField, HideInInspector]
+        private List<Monster> monsters = new();
+
         private WeightMap weightMap;
 
-        [SerializeField, HideInInspector]
-        private List<Monster> monsters = new List<Monster>();
 
-        LocalMapGenerator mapGenerator => LocalMapGenerator.Instance;
+        // ---------------------------------------------------------
+        // Runtime State
+        // ---------------------------------------------------------
 
-        private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
+        private readonly List<Vector2Int> occupiedSpots = new();
+        private readonly Dictionary<MonsterSO, int> aliveCountByMonster = new();
+        private readonly Dictionary<MonsterSO, float> nextSpawnTimeByMonster = new();
 
-        private bool spawningMonsters = false;
+        private bool isSpawning = false;
 
-        // Tracks how many of each MonsterSO are currently alive
-        Dictionary<MonsterSO, int> monstersSpawned = new Dictionary<MonsterSO, int>();
+        private float levelStartTime;
+        private int nextWaveIndex = 0;
 
-        // Tracks next allowed spawn time per MonsterSO
-        Dictionary<MonsterSO, float> monsterAndNextSpawntime = new Dictionary<MonsterSO, float>();
+        // Horde mode state
+        private bool hordeActive = false;
+        private float hordeEndTime = 0f;
+        private int hordeMultiplier = 1;
+        private bool hordeIgnoreCaps = true;
+        private Direction? hordePreferredSide = null;
+
+        private readonly System.Random seededRandom = new();
+
+        private LocalMapGenerator Map => LocalMapGenerator.Instance;
+
+        private WeightedChanceList<Vector2> directMonsterWeightList = null;
+
+        // ---------------------------------------------------------
+        // Unity Events / Lifecycle
+        // ---------------------------------------------------------
 
         private void Awake()
         {
-            // defensive init
             if (monsterSpawnSettings == null)
-                Debug.LogWarning("MonsterSpawnSettings not assigned on MonsterSpawnManager.");
+                Debug.LogWarning("MonsterSpawnSettings not assigned.");
         }
 
         public void AfterCreateLocalMap()
         {
-            spawningMonsters = false;
-            CreateEnemyWeightMap();
+            isSpawning = false;
+            CreateWeightMap();
+        }
+
+        public void Clear()
+        {
+            ResetState();
+        }
+
+        public void OnCompleteLocalMapLevel()
+        {
+            ResetState();
         }
 
         public void OnPlayLocalLevel()
         {
             Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
-            BossMonsterSpawn? bossSpawn = null;
+            levelStartTime = Time.time;
+            nextWaveIndex = 0;
 
+            BossMonsterSpawn? bossSpawn = null;
             if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Relic)
                 bossSpawn = monsterSpawnSettings.bossMonsters.GetRandom();
 
-            BeginSpawnEnemys(bossSpawn);
+            BeginSpawning(bossSpawn);
         }
+
+
+        // ---------------------------------------------------------
+        // Update Loop
+        // ---------------------------------------------------------
 
         private void Update()
         {
-            if (!spawningMonsters)
+            if (!isSpawning)
                 return;
 
             float now = Time.time;
 
-            // For each monster spawn config, check timers and spawn if allowed
-            foreach (var monsterSpawn in monsterSpawnSettings.rangeAndMonster)
+            ProcessWaveTriggers(now);
+            ProcessHordeTimer(now);
+            ProcessNormalSpawns(now);
+        }
+
+
+        // ---------------------------------------------------------
+        // Wave Logic
+        // ---------------------------------------------------------
+
+        private void ProcessWaveTriggers(float now)
+        {
+            if (nextWaveIndex >= monsterSpawnSettings.waves.Count)
+                return;
+
+            var wave = monsterSpawnSettings.waves[nextWaveIndex];
+            if (now - levelStartTime >= wave.triggerTime)
             {
-                MonsterSO monsterSO = monsterSpawn.monster;
-
-                // ensure dictionary entries exist
-                if (!monstersSpawned.ContainsKey(monsterSO))
-                    monstersSpawned[monsterSO] = 0;
-
-                if (!monsterAndNextSpawntime.ContainsKey(monsterSO))
-                    monsterAndNextSpawntime[monsterSO] = now + Random.Range(0f, monsterSpawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level));
-
-                // How many allowed alive
-                int maxAllowed = Mathf.FloorToInt(monsterSpawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
-
-                // If we already have >= max allowed, skip
-                if (monstersSpawned[monsterSO] >= maxAllowed)
-                    continue;
-
-                // If not yet time to spawn, skip
-                if (now < monsterAndNextSpawntime[monsterSO])
-                    continue;
-
-                // It's time to spawn one of this type.
-                bool spawned = TrySpawnOne(monsterSpawn);
-
-                // Set next spawn time regardless of success to avoid tight loops.
-                float baseRate = Mathf.Max(0.01f, monsterSpawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level));
-                // Add a bit of jitter so spawns aren't perfectly rhythmic
-                float jitter = Random.Range(0.75f, 1.25f);
-                monsterAndNextSpawntime[monsterSO] = now + baseRate * jitter;
-
-                // If we spawned, increment count
-                if (spawned)
-                {
-                    monstersSpawned[monsterSO]++;
-                }
+                SpawnWave(wave);
+                nextWaveIndex++;
             }
         }
+
+
+        // ---------------------------------------------------------
+        // Horde Logic
+        // ---------------------------------------------------------
+
+        private void ProcessHordeTimer(float now)
+        {
+            if (hordeActive && now >= hordeEndTime)
+            {
+                hordeActive = false;
+                hordeMultiplier = 1;
+            }
+        }
+
+
+        // ---------------------------------------------------------
+        // Normal Spawn Tick Logic
+        // ---------------------------------------------------------
+
+        private void ProcessNormalSpawns(float now)
+        {
+            foreach (var spawn in monsterSpawnSettings.rangeAndMonster)
+            {
+                var monsterSO = spawn.monster;
+
+                EnsureMonsterTrackingExists(monsterSO);
+
+                // Skip if already at cap
+                if (!CanSpawnMore(monsterSO, spawn))
+                    continue;
+
+                // Skip if not time yet
+                if (now < nextSpawnTimeByMonster[monsterSO])
+                    continue;
+
+                AttemptSpawnForMonster(spawn);
+
+                // Always set next spawn time to prevent excessive loops
+                nextSpawnTimeByMonster[monsterSO] = now + GetNextSpawnDelay(spawn);
+            }
+        }
+
+
+        // ---------------------------------------------------------
+        // Helpers: Monster Tracking
+        // ---------------------------------------------------------
+
+        private void EnsureMonsterTrackingExists(MonsterSO monster)
+        {
+            if (!aliveCountByMonster.ContainsKey(monster))
+                aliveCountByMonster[monster] = 0;
+
+            if (!nextSpawnTimeByMonster.ContainsKey(monster))
+            {
+                float delay = Random.Range(
+                    0f,
+                    monsterSpawnSettings
+                        .rangeAndMonster
+                        .Find(s => s.monster == monster)
+                        .spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
+                );
+
+                nextSpawnTimeByMonster[monster] = Time.time + delay;
+            }
+        }
+
+        private bool CanSpawnMore(MonsterSO monster, MonsterSpawn spawn)
+        {
+            int baseMax = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
+
+            int allowed = hordeActive switch
+            {
+                true when hordeIgnoreCaps => int.MaxValue / 2,
+                true when !hordeIgnoreCaps => Mathf.Max(1, baseMax * hordeMultiplier),
+                _ => baseMax
+            };
+
+            return aliveCountByMonster[monster] < allowed;
+        }
+
+        private float GetNextSpawnDelay(MonsterSpawn spawn)
+        {
+            float baseRate = Mathf.Max(0.01f, spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level));
+            float jitter = Random.Range(0.75f, 1.25f);
+            return baseRate * jitter;
+        }
+
+
+        // ---------------------------------------------------------
+        // Spawn Attempts
+        // ---------------------------------------------------------
+
+        private void AttemptSpawnForMonster(MonsterSpawn spawn)
+        {
+            MonsterSO monsterSO = spawn.monster;
+
+            if (TrySpawnOne(spawn))
+            {
+                aliveCountByMonster[monsterSO]++;
+            }
+        }
+
+
+        // ---------------------------------------------------------
+        // One-Spawn Routing
+        // ---------------------------------------------------------
 
         private bool TrySpawnOne(MonsterSpawn spawn)
         {
-            // Use weight map to find spawn point
-            var weightsAndPoints = weightMap.WeightAndMapPoints(spawn.range);
-            if (weightsAndPoints == null || weightsAndPoints.Count == 0)
+            var points = weightMap.WeightAndMapPoints(spawn.range);
+            if (points == null || points.Count == 0)
                 return false;
 
-            // Iterate weight groups from highest to lowest (WeightAndMapPoints already orders descending).
-            // For each weight group, pick randomly from its points until one is not occupied.
-            foreach (var kv in weightsAndPoints)
+            Vector2Int hero = GetHeroGridPosition();
+            Direction? preferredSide = DeterminePreferredSide(null, hero);
+
+            return spawn.monster.movementType == MonsterMovementType.Direct
+                ? TrySpawnDirect(spawn, points, hero, preferredSide)
+                : TrySpawnStationary(spawn, points, hero, preferredSide);
+        }
+
+        private Vector2Int GetHeroGridPosition()
+        {
+            Vector3 pos = HeroManager.Instance.ActiveHero != null
+                ? HeroManager.Instance.ActiveHero.transform.position
+                : Vector3.zero;
+
+            return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
+        }
+
+        private Direction? DeterminePreferredSide(Direction? userSide, Vector2Int heroGrid)
+        {
+            if (!hordeActive)
+                return userSide;
+
+            if (userSide != null)
+                return userSide;
+
+            Vector2Int center = new(Map.MapSizeX / 2, Map.MapSizeY / 2);
+            Vector2 offset = center - heroGrid;
+
+            return Mathf.Abs(offset.x) > Mathf.Abs(offset.y)
+                ? offset.x > 0 ? Direction.West : Direction.East
+                : offset.y > 0 ? Direction.South : Direction.North;
+        }
+
+
+        // ---------------------------------------------------------
+        // Direct Movement Spawning
+        // ---------------------------------------------------------
+
+        private bool TrySpawnDirect(
+            MonsterSpawn spawn,
+            List<KeyValuePair<int, List<Vector2Int>>> weightedPoints,
+            Vector2Int heroGrid,
+            Direction? preferredSide)
+        {
+            var list = new WeightedChanceList<Vector2>();
+            int maxWeight = weightedPoints.Max(wp => wp.Key);
+
+            foreach (var (weight, points) in weightedPoints)
             {
-                int weight = kv.Key;
-                List<Vector2Int> points = kv.Value;
-
-                if (weight <= 0 || points == null || points.Count == 0)
-                    continue;
-
-                // Make a local copy so we can remove tried points without affecting iteration
-                var remaining = new List<Vector2Int>(points);
-
-                // Try each candidate in a random order
-                while (remaining.Count > 0)
+                foreach (var p in points)
                 {
-                    int idx = Random.Range(0, remaining.Count);
-                    Vector2Int candidate = remaining[idx];
-                    remaining.RemoveAt(idx);
-
-                    Vector2 spawnPosition;
-                    if (SpotOccupied(candidate, spawn.monster.size, out spawnPosition))
-                    {
-                        // occupied - try next
+                    if (!IsWithinSpawnDistance(spawn, p, heroGrid))
                         continue;
-                    }
 
-                    // Found an available spot — instantiate
-                    Monster monster = Instantiate(spawn.monster.prefab, new Vector3(spawnPosition.x, spawnPosition.y), Quaternion.identity, transform);
-                    monster.Init(spawn.monster);
+                    if (SpotOccupied(p, spawn.monster.size, out Vector2 pos))
+                        continue;
 
-                    // Hook death event
-                    if (monster.TryGetComponent(out Health health))
-                    {
-                        health.onDie += OnMonsterDie;
-                    }
-
-                    monsters.Add(monster);
-                    BeastaryManager.Instance.BufferMonster(spawn.monster);
-
-                    // Occupy cells if this is a stationary monster or otherwise sized occupant.
-                    // Behavior matches your existing code: for multi-cell sized monsters, add all positions.
-                    Vector2Int basePoint = candidate;
-                    for (int i = 0; i < spawn.monster.size.x; i++)
-                    {
-                        for (int j = 0; j < spawn.monster.size.y; j++)
-                        {
-                            occupiedSpots.Add(basePoint + new Vector2Int(i, j));
-                        }
-                    }
-
-                    // If monster movement is stationary we might want to set its StationaryPosition if MonsterMovement expects it.
-                    // In your original code you just instantiate at the integer coordinate and MonsterMovement probably stores it itself.
-                    // If needed, set it here:
-                    if (monster.TryGetComponent(out MonsterMovement movement) && spawn.monster.movementType == MonsterMovementType.Stationary)
-                    {
-                        movement.StationaryPosition = candidate;
-                    }
-
-                    return true;
+                    int invertedWeight = Mathf.Max(maxWeight - weight, 0);
+                    list.Add(pos, invertedWeight);
                 }
-
-                // If we've exhausted all points for this weight, continue to next-lower weight
             }
 
-            // None of the weight groups yielded a free point
+            if (list.weightedList.Count == 0)
+                return false;
+
+            Vector2 spawnPos = list.GetRandom();
+            SpawnMonster(spawn.monster, spawnPos);
+
+            return true;
+        }
+
+
+        // ---------------------------------------------------------
+        // Stationary Spawning
+        // ---------------------------------------------------------
+
+        private bool TrySpawnStationary(
+            MonsterSpawn spawn,
+            List<KeyValuePair<int, List<Vector2Int>>> weightedPoints,
+            Vector2Int heroGrid,
+            Direction? preferredSide)
+        {
+            foreach (var (_, points) in weightedPoints)
+            {
+                if (points == null || points.Count == 0)
+                    continue;
+
+                var shuffled = points.ToList();
+
+                while (shuffled.Count > 0)
+                {
+                    int idx = seededRandom.Next(shuffled.Count);
+                    var p = shuffled[idx];
+                    shuffled.RemoveAt(idx);
+
+                    if (!IsCandidateSuitable(spawn, p, heroGrid, preferredSide))
+                        continue;
+
+                    if (SpotOccupied(p, spawn.monster.size, out Vector2 spawnPos))
+                        continue;
+
+                    SpawnMonster(spawn.monster, spawnPos);
+                    MarkOccupied(p, spawn.monster.size);
+                    return true;
+                }
+            }
+
             return false;
         }
 
-        private void CreateEnemyWeightMap()
+        private bool IsCandidateSuitable(
+            MonsterSpawn spawn,
+            Vector2Int p,
+            Vector2Int heroGrid,
+            Direction? side)
+        {
+            if (spawn.monster.movementType == MonsterMovementType.Direct)
+            {
+                if (!IsWithinSpawnDistance(spawn, p, heroGrid))
+                    return false;
+            }
+
+            if (side != null && !IsPointOnSide(p, heroGrid, side.Value))
+                return false;
+
+            return true;
+        }
+
+        private bool IsWithinSpawnDistance(MonsterSpawn spawn, Vector2Int point, Vector2Int hero)
+        {
+            float dist = Vector2.Distance(point, hero);
+            return dist >= spawn.minSpawnDistance && dist <= spawn.maxSpawnDistance;
+        }
+
+        private bool IsPointOnSide(Vector2Int p, Vector2Int hero, Direction side)
+        {
+            return side switch
+            {
+                Direction.North => p.y > hero.y,
+                Direction.South => p.y < hero.y,
+                Direction.East => p.x > hero.x,
+                Direction.West => p.x < hero.x,
+                _ => true
+            };
+        }
+
+
+        // ---------------------------------------------------------
+        // Core Spawn / Cleanup
+        // ---------------------------------------------------------
+
+        private void SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
+        {
+            Monster m = Instantiate(monsterSO.prefab, (Vector3)spawnPos, Quaternion.identity, transform);
+            m.Init(monsterSO);
+
+            monsters.Add(m);
+            BeastaryManager.Instance.BufferMonster(monsterSO);
+
+            if (m.TryGetComponent(out Health health))
+                health.onDie += OnMonsterDie;
+        }
+
+        private void MarkOccupied(Vector2Int origin, Vector2 size)
+        {
+            for (int x = 0; x < size.x; x++)
+            {
+                for (int y = 0; y < size.y; y++)
+                    occupiedSpots.Add(origin + new Vector2Int(x, y));
+            }
+        }
+
+        public bool SpotOccupied(Vector2Int point, Vector2 size, out Vector2 spawnPosition)
+        {
+            spawnPosition = point;
+
+            for (int x = 0; x < size.x; x++)
+            {
+                for (int y = 0; y < size.y; y++)
+                {
+                    Vector2Int cell = point + new Vector2Int(x, y);
+
+                    if (occupiedSpots.Contains(cell) ||
+                        Map.pathway.ContainsStep(cell))
+                        return true;
+
+                    if (cell.x < 0 || cell.y < 0 ||
+                        cell.x >= Map.MapSizeX || cell.y >= Map.MapSizeY)
+                        return true;
+                }
+            }
+
+            spawnPosition = (Vector2)point + size / 2f;
+            return false;
+        }
+
+
+        // ---------------------------------------------------------
+        // Waves
+        // ---------------------------------------------------------
+
+        private void SpawnWave(Wave wave)
+        {
+            if (wave.entries == null || wave.entries.Count == 0)
+                return;
+
+            foreach (var entry in wave.entries)
+            {
+                MonsterSpawn spawnDef = monsterSpawnSettings.rangeAndMonster.FirstOrDefault(s => s.monster == entry.monster);
+
+                for (int i = 0; i < entry.count; i++)
+                {
+                    if (!TrySpawnOne(spawnDef))
+                        break;
+
+                    aliveCountByMonster[entry.monster] =
+                        aliveCountByMonster.GetValueOrDefault(entry.monster) + 1;
+                }
+            }
+        }
+
+        private MonsterSpawn CreateDefaultWaveSpawn(WaveEntry entry) =>
+            new()
+            {
+                monster = entry.monster,
+                range = entry.range,
+                minSpawnDistance = 0,
+                maxSpawnDistance = 0,
+                maxAmountVSLevel = AnimationCurve.Constant(0, 1, 1),
+                spawnRateVSLevel = AnimationCurve.Constant(0, 1, 1)
+            };
+
+
+        // ---------------------------------------------------------
+        // Boss Spawn
+        // ---------------------------------------------------------
+
+        private void SpawnBoss(BossMonsterSpawn boss)
+        {
+            int index = 0;
+            int limit = Map.MapSizeX * Map.MapSizeY;
+
+            Vector2Int p = weightMap[boss.range, limit - 1];
+            while (SpotOccupied(p, boss.boss.size, out Vector2 spawnPos) && limit-- > 0)
+            {
+                index++;
+                p = weightMap[boss.range, Map.MapSizeX * Map.MapSizeY - 1 - index];
+            }
+
+            if (limit <= 0)
+            {
+                Debug.LogWarning("Could not find boss spawn position.");
+                return;
+            }
+
+            SpawnMonster(boss.boss, p);
+            MarkOccupied(p, boss.boss.size);
+
+            aliveCountByMonster[boss.boss] =
+                aliveCountByMonster.GetValueOrDefault(boss.boss) + 1;
+        }
+
+
+        // ---------------------------------------------------------
+        // Weight Map Construction
+        // ---------------------------------------------------------
+
+        private void CreateWeightMap()
         {
             int maxRange = 0;
 
-            for (int i = 0; i < monsterSpawnSettings.rangeAndMonster.Count; i++)
-            {
-                if (monsterSpawnSettings.rangeAndMonster[i].range > maxRange)
-                    maxRange = monsterSpawnSettings.rangeAndMonster[i].range;
-            }
+            foreach (var s in monsterSpawnSettings.rangeAndMonster)
+                maxRange = Mathf.Max(maxRange, s.range);
 
-            foreach (BossMonsterSpawn bossSpawn in monsterSpawnSettings.bossMonsters)
-            {
-                if (bossSpawn.range > maxRange)
-                    maxRange = bossSpawn.range;
-            }
+            foreach (var boss in monsterSpawnSettings.bossMonsters)
+                maxRange = Mathf.Max(maxRange, boss.range);
 
-            weightMap = new WeightMap(maxRange, mapGenerator.MapSizeX, mapGenerator.MapSizeY);
+            weightMap = new WeightMap(maxRange, Map.MapSizeX, Map.MapSizeY);
 
-            for (int i = 0; i < mapGenerator.MapSizeX; i++)
+            for (int x = 0; x < Map.MapSizeX; x++)
             {
-                for (int j = 0; j < mapGenerator.MapSizeY; j++)
+                for (int y = 0; y < Map.MapSizeY; y++)
                 {
-
-                    for (int k = 1; k <= maxRange; k++)
-                    {
-                        weightMap[k, i, j] = 0;
-                    }
-
-                    if (mapGenerator.pathway.ContainsStep(i, j))
+                    // Skip tiles on path
+                    if (Map.pathway.ContainsStep(x, y))
                         continue;
 
-                    for (int x = -maxRange; x <= maxRange; x++)
-                    {
-                        for (int y = -maxRange; y <= maxRange; y++)
-                        {
-                            if (mapGenerator.pathway.ContainsStep(i + x, j + y))
-                            {
-                                int range = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
+                    // Weight is based on proximity to the path
+                    for (int r = 1; r <= maxRange; r++)
+                        weightMap[r, x, y] = 0;
 
-                                weightMap[range, i, j] += 2 * maxRange - Mathf.Abs(x) - Mathf.Abs(y);
+                    for (int dx = -maxRange; dx <= maxRange; dx++)
+                    {
+                        for (int dy = -maxRange; dy <= maxRange; dy++)
+                        {
+                            if (Map.pathway.ContainsStep(x + dx, y + dy))
+                            {
+                                int r = Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dy));
+                                weightMap[r, x, y] += 2 * maxRange - Mathf.Abs(dx) - Mathf.Abs(dy);
                             }
                         }
                     }
@@ -226,241 +554,175 @@ namespace Monsters
             weightMap.Sort();
         }
 
-        private void DestoryEnemys()
+
+        // ---------------------------------------------------------
+        // Start / Reset / Horde API
+        // ---------------------------------------------------------
+
+        private void BeginSpawning(BossMonsterSpawn? boss)
         {
-            for (int i = 0; i < monsters.Count; i++)
-            {
-                if (Application.isPlaying)
-                {
-                    if (monsters[i] != null)
-                        Destroy(monsters[i].gameObject);
-                }
-                else
-                {
-                    if (monsters[i] != null)
-                        DestroyImmediate(monsters[i].gameObject);
-                }
-            }
+            DestroyExistingMonsters();
 
-            monsters.Clear();
-            occupiedSpots.Clear();
-            monstersSpawned.Clear();
-            monsterAndNextSpawntime.Clear();
-        }
+            aliveCountByMonster.Clear();
+            nextSpawnTimeByMonster.Clear();
 
-        public bool SpotOccupied(Vector2Int point, Vector2 size, out Vector2 spawnPosition)
-        {
-            spawnPosition = point;
-
-            for (int i = 0; i < size.x; i++)
-            {
-                for (int j = 0; j < size.y; j++)
-                {
-                    if (occupiedSpots.Contains(point + new Vector2Int(i, j)) || mapGenerator.pathway.ContainsStep(point + new Vector2Int(i, j)))
-                        return true;
-
-                    // bounds check - note: mapGenerator.MapSizeX/Y are sizes; valid indices are 0..MapSizeX-1 etc.
-                    if (point.x + i < 0 || point.y + j < 0 || point.x + i >= mapGenerator.MapSizeX || point.y + j >= mapGenerator.MapSizeY)
-                        return true;
-                }
-            }
-
-            spawnPosition = (Vector2)point + ((Vector2)size / 2f);
-
-            return false;
-        }
-
-        private void SpawnBoss(BossMonsterSpawn bossMonsterSpawn)
-        {
-            int spawnIndex = 0;
-
-            Vector2Int point = weightMap[bossMonsterSpawn.range, mapGenerator.MapSizeX * mapGenerator.MapSizeY - 1 - spawnIndex];
-
-            int breaker = mapGenerator.MapSizeX * mapGenerator.MapSizeY;
-
-            Vector2 spawnPosition;
-
-            while (SpotOccupied(point, bossMonsterSpawn.boss.size, out spawnPosition) && breaker > 0)
-            {
-                spawnIndex++;
-                point = weightMap[bossMonsterSpawn.range, mapGenerator.MapSizeX * mapGenerator.MapSizeY - 1 - spawnIndex];
-                breaker--;
-            }
-
-            if (breaker <= 0)
-            {
-                Debug.LogWarning("Couldn't find spawn spot for boss.");
-                return;
-            }
-
-            Monster monster = Instantiate(bossMonsterSpawn.boss.prefab, spawnPosition, Quaternion.identity, transform);
-            monster.Init(bossMonsterSpawn.boss);
-            monsters.Add(monster);
-            BeastaryManager.Instance.BufferMonster(bossMonsterSpawn.boss);
-
-            for (int i = 0; i < bossMonsterSpawn.boss.size.x; i++)
-            {
-                for (int j = 0; j < bossMonsterSpawn.boss.size.y; j++)
-                {
-                    occupiedSpots.Add(point + new Vector2Int(i, j));
-                }
-            }
-
-            // count boss in monstersSpawned dictionary so it contributes to limits (optional)
-            if (!monstersSpawned.ContainsKey(bossMonsterSpawn.boss))
-                monstersSpawned[bossMonsterSpawn.boss] = 0;
-            monstersSpawned[bossMonsterSpawn.boss]++;
-        }
-
-        private void BeginSpawnEnemys(BossMonsterSpawn? boss)
-        {
-            DestoryEnemys();
-
-            // initialize counters + timers for each monster type
-            monstersSpawned.Clear();
-            monsterAndNextSpawntime.Clear();
-
-            // initialize per-monster dictionaries
+            // Setup spawn timers for each monster type
             foreach (var spawn in monsterSpawnSettings.rangeAndMonster)
             {
-                if (!monstersSpawned.ContainsKey(spawn.monster))
-                    monstersSpawned[spawn.monster] = 0;
-
-                float initialDelay = Random.Range(0f, Mathf.Max(0.01f, spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)));
-                monsterAndNextSpawntime[spawn.monster] = Time.time + initialDelay;
+                EnsureMonsterTrackingExists(spawn.monster);
             }
 
             if (boss.HasValue)
                 SpawnBoss(boss.Value);
 
-            // Spawn all stationary monsters up-front (keeps your original behavior)
-            foreach (MonsterSpawn spawn in monsterSpawnSettings.rangeAndMonster.Where(x => x.monster.movementType == MonsterMovementType.Stationary))
+            // Pre-spawn stationary monsters to fill their caps
+            PreSpawnStationaryMonsters();
+
+            levelStartTime = Time.time;
+            nextWaveIndex = 0;
+            isSpawning = true;
+        }
+
+        private void ResetState()
+        {
+            isSpawning = false;
+            occupiedSpots.Clear();
+
+            monsters.DestroyAndClearList();
+            aliveCountByMonster.Clear();
+            nextSpawnTimeByMonster.Clear();
+
+            nextWaveIndex = 0;
+            hordeActive = false;
+        }
+
+        private void DestroyExistingMonsters()
+        {
+            foreach (var m in monsters)
             {
-                int initialAmount = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
+                if (m == null)
+                    continue;
 
-                for (int i = 0; i < initialAmount; i++)
-                {
-                    int spawnIndex = i;
-
-                    Vector2Int point = weightMap[spawn.range, mapGenerator.MapSizeX * mapGenerator.MapSizeY - 1 - spawnIndex];
-
-                    int breaker = mapGenerator.MapSizeX * mapGenerator.MapSizeY;
-
-                    Vector2 spawnPosition;
-
-                    while (SpotOccupied(point, spawn.monster.size, out spawnPosition) && breaker > 0)
-                    {
-                        spawnIndex++;
-                        point = weightMap[spawn.range, mapGenerator.MapSizeX * mapGenerator.MapSizeY - 1 - spawnIndex];
-                        breaker--;
-                    }
-
-                    if (breaker <= 0)
-                        break; // couldn't find more spots
-
-                    Monster monster = Instantiate(spawn.monster.prefab, new Vector3(point.x, point.y), Quaternion.identity, transform);
-                    monster.Init(spawn.monster);
-
-                    if (monster.TryGetComponent(out Health health))
-                    {
-                        health.onDie += OnMonsterDie;
-                    }
-
-                    monsters.Add(monster);
-                    BeastaryManager.Instance.BufferMonster(spawn.monster);
-
-                    // occupy spots for sized monster
-                    for (int x = 0; x < spawn.monster.size.x; x++)
-                    {
-                        for (int j = 0; j < spawn.monster.size.y; j++)
-                        {
-                            occupiedSpots.Add(point + new Vector2Int(x, j));
-                        }
-                    }
-
-                    // increment spawn counters
-                    monstersSpawned[spawn.monster] = monstersSpawned.GetValueOrDefault(spawn.monster) + 1;
-                }
+#if UNITY_EDITOR
+                if (Application.isPlaying)
+                    Destroy(m.gameObject);
+                else
+                    DestroyImmediate(m.gameObject);
+#else
+                Destroy(m.gameObject);
+#endif
             }
 
-            spawningMonsters = true;
+            monsters.Clear();
+            occupiedSpots.Clear();
         }
+
+        private void PreSpawnStationaryMonsters()
+        {
+            foreach (var spawn in monsterSpawnSettings.rangeAndMonster
+                         .Where(s => s.monster.movementType == MonsterMovementType.Stationary))
+            {
+                int amount = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
+
+                for (int i = 0; i < amount; i++)
+                {
+                    int idx = i;
+                    int limit = Map.MapSizeX * Map.MapSizeY;
+
+                    Vector2Int p = weightMap[spawn.range, limit - 1];
+
+                    while (SpotOccupied(p, spawn.monster.size, out Vector2 _) && limit-- > 0)
+                    {
+                        idx++;
+                        p = weightMap[spawn.range, Map.MapSizeX * Map.MapSizeY - 1 - idx];
+                    }
+
+                    if (limit <= 0)
+                        break;
+
+                    SpawnMonster(spawn.monster, p);
+                    MarkOccupied(p, spawn.monster.size);
+
+                    aliveCountByMonster[spawn.monster] =
+                        aliveCountByMonster.GetValueOrDefault(spawn.monster) + 1;
+                }
+            }
+        }
+
+
+        // ---------------------------------------------------------
+        // Monster Death Callback
+        // ---------------------------------------------------------
 
         private void OnMonsterDie(Health health)
         {
-            if (health.TryGetComponent(out Monster monster))
-            {
-                if (monster.TryGetComponent(out MonsterMovement movement))
-                {
-                    // if the monster had a stationary position, free those spots
-                    Vector2Int pos = movement.StationaryPosition;
-                    if (pos != default)
-                    {
-                        for (int i = 0; i < monster.MonsterSO.size.x; i++)
-                        {
-                            for (int j = 0; j < monster.MonsterSO.size.y; j++)
-                            {
-                                occupiedSpots.Remove(pos + new Vector2Int(i, j));
-                            }
-                        }
-                    }
-                }
-
-                NotifyMonsterDied(monster.MonsterSO);
-
-                monsters.Remove(monster);
-            }
-
-            health.onDie -= OnMonsterDie;
-        }
-
-        public void NotifyMonsterDied(MonsterSO monster)
-        {
-            // Decrement count
-            if (!monstersSpawned.ContainsKey(monster))
+            if (!health.TryGetComponent(out Monster monster))
                 return;
 
-            int previousCount = monstersSpawned[monster];
-            monstersSpawned[monster]--;
+            HandleStationaryDeath(monster);
+            aliveCountByMonster[monster.MonsterSO]--;
+            monsters.Remove(monster);
 
-            // Only trigger a delay if we *were* at the limit
-            int maxAllowed = Mathf.FloorToInt(
-                monsterSpawnSettings.rangeAndMonster
-                .Find(m => m.monster == monster)
-                .maxAmountVSLevel
-                .Evaluate(GameManager.Instance.Level)
-            );
+            health.onDie -= OnMonsterDie;
 
-            bool wasAtMax = previousCount >= maxAllowed;
+            HandleRespawnDelay(monster.MonsterSO);
+        }
 
-            if (wasAtMax)
+        private void HandleStationaryDeath(Monster m)
+        {
+            if (!m.TryGetComponent(out MonsterMovement movement))
+                return;
+
+            Vector2Int pos = movement.StationaryPosition;
+            if (pos == default)
+                return;
+
+            for (int x = 0; x < m.MonsterSO.size.x; x++)
+            {
+                for (int y = 0; y < m.MonsterSO.size.y; y++)
+                    occupiedSpots.Remove(pos + new Vector2Int(x, y));
+            }
+        }
+
+        private void HandleRespawnDelay(MonsterSO monster)
+        {
+            var spawn = monsterSpawnSettings.rangeAndMonster.Find(s => s.monster == monster);
+
+            int previous = aliveCountByMonster[monster];
+            int maxAllowed = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
+
+            if (previous >= maxAllowed)
             {
                 float now = Time.time;
-                var spawnData = monsterSpawnSettings.rangeAndMonster
-                    .Find(m => m.monster == monster);
-
-                float baseRate = Mathf.Max(
-                    0.01f,
-                    spawnData.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
-                );
-
-                // jitter to prevent patterns
-                float jitter = Random.Range(0.75f, 1.25f);
-
-                // delay next spawn
-                monsterAndNextSpawntime[monster] = now + baseRate * jitter;
+                nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(spawn);
             }
+        }
+
+
+        // ---------------------------------------------------------
+        // Horde API
+        // ---------------------------------------------------------
+
+        public void StartHorde(int multiplier, float duration, bool ignoreCap = true, Direction? side = null)
+        {
+            hordeActive = true;
+            hordeMultiplier = Mathf.Max(1, multiplier);
+            hordeIgnoreCaps = ignoreCap;
+            hordeEndTime = Time.time + Mathf.Max(0.1f, duration);
+            hordePreferredSide = side;
         }
     }
 
-    // convenience extension used in above code (if you don't have it)
+
+    // Small helper extensions
     public static class DictionaryExtensions
     {
-        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
+        public static TValue GetValueOrDefault<TKey, TValue>(
+            this Dictionary<TKey, TValue> dict,
+            TKey key)
         {
-            if (dict.TryGetValue(key, out TValue v))
-                return v;
-            return default;
+            dict.TryGetValue(key, out TValue v);
+            return v;
         }
     }
 }

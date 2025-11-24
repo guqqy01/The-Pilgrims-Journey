@@ -16,6 +16,9 @@ namespace Heros
 
         public Direction LastDirection { private set; get; }
 
+        private bool overrideMovementToMoveOutOfMap = false;
+        private Direction directionOutOfMap;
+
         protected override void Awake()
         {
             base.Awake();
@@ -41,7 +44,32 @@ namespace Heros
             if (Mathf.Abs(input.x) < Deadzone) input.x = 0f;
             if (Mathf.Abs(input.y) < Deadzone) input.y = 0f;
 
+            if (overrideMovementToMoveOutOfMap)
+            {
+                switch (directionOutOfMap)
+                {
+                    case Direction.South:
+                        input = Vector2.down;
+                        break;
+                    case Direction.North:
+                        input = Vector2.up;
+                        break;
+                    case Direction.East:
+                        input = Vector2.right;
+                        break;
+                    case Direction.West:
+                        //Not Moveing West;
+                        break;
+                }
+            }
+
             UpdateAnimator(input);
+        }
+
+        public void MoveInDirectionOutOfMap(Direction direction)
+        {
+            overrideMovementToMoveOutOfMap = true;
+            directionOutOfMap = direction;
         }
 
         void UpdateAnimator(Vector2 dir)

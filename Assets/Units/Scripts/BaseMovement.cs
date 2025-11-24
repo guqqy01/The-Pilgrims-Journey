@@ -23,7 +23,8 @@ public abstract class BaseMovement : MonoBehaviour
 
     protected virtual void Awake()
     {
-        initialXScale = visualTransform.localScale.x;
+        if(visualTransform != null)
+            initialXScale = visualTransform.localScale.x;
         rb = GetComponent<Rigidbody2D>();
     }
 

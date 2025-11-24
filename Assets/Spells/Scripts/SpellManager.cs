@@ -188,7 +188,7 @@ namespace Spells
 
         public void UseSpell()
         {
-            if (!TilePlayerManager.Instance.IsPlaying)
+            if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
                 return;
 
             if (activeSpell == null || activeSpell.numberOfUses <= 0)
@@ -216,7 +216,7 @@ namespace Spells
 
         public void ActivateSpell(Spell spell)
         {
-            if (!TilePlayerManager.Instance.IsPlaying)
+            if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
                 return;
 
             activeSpell = spell;

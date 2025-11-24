@@ -68,52 +68,69 @@ public class WeightedChanceList<T>
 
     public T GetRandom()
     {
-        if (weightedList.Count <= 0)
+        if (weightedList == null || weightedList.Count == 0)
+            return default;
+
+        int count = weightedList.Count;
+        int[] weights = new int[count];
+        int total = 0;
+
+        // Compute weight array ONCE
+        for (int i = 0; i < count; i++)
         {
-            return default(T);
+            int w = weightedList[i].weight;
+            weights[i] = w;
+            total += w;
         }
 
-        int totalChance = 0;
+        if (total <= 0)
+            return default;
 
-        foreach(WeightedChanceObject<T> obj in weightedList)
+        int roll = UnityEngine.Random.Range(0, total);
+        int cumulative = 0;
+
+        // Weighted selection
+        for (int i = 0; i < count; i++)
         {
-            totalChance += obj.weight;
+            cumulative += weights[i];
+            if (roll < cumulative)
+                return weightedList[i].item;
         }
 
-        int index = UnityEngine.Random.Range(1, totalChance + 1);
-
-        foreach (WeightedChanceObject<T> obj in weightedList)
-        {
-            index -= obj.weight;
-            if (index <= 0)
-                return obj.item;
-        }
-
-        return weightedList[0].item;
+        // Safety: should never happen
+        return weightedList[count - 1].item;
     }
 
     public T GetRandom(float time)
     {
-        if (weightedList.Count <= 0)
-            return default(T);
+        if (weightedList == null || weightedList.Count == 0)
+            return default;
 
-        int totalChance = 0;
+        int count = weightedList.Count;
+        int[] weights = new int[count];
+        int total = 0;
 
-        foreach (WeightedChanceObject<T> obj in weightedList)
+        for (int i = 0; i < count; i++)
         {
-            totalChance += obj.Weight(time);
+            int w = weightedList[i].Weight(time);
+            weights[i] = w;
+            total += w;
         }
 
-        int index = UnityEngine.Random.Range(1, totalChance + 1);
+        if (total <= 0)
+            return default;
 
-        foreach (WeightedChanceObject<T> obj in weightedList)
+        int roll = UnityEngine.Random.Range(0, total);
+        int cumulative = 0;
+
+        for (int i = 0; i < count; i++)
         {
-            index -= obj.Weight(time);
-            if (index <= 0)
-                return obj.item;
+            cumulative += weights[i];
+            if (roll < cumulative)
+                return weightedList[i].item;
         }
 
-        return weightedList[0].item;
+        return weightedList[count - 1].item;
     }
 
     public T GetRandom(float time, float lerpFactor)

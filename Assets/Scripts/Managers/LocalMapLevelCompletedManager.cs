@@ -7,14 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Tiles;
 using Helper.Wait;
-public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedManager>, IOnBeforeCreateLocalMap
+using Heros;
+using static LocalMapLevelCompletedManager;
+using Monsters;
+using LocalMap;
+public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedManager>, IOnBeforeCreateLocalMap, IOnPlayLocalLevel
 {
     private int unitsPassed = 0;
 
     [SerializeField]
     private AnimationCurve requiredUnits;
 
-    public bool CurrentLevelCompleted { private set; get; } = false;
+    public bool CurrentlyPlayingLocalLevel { private set; get; } = false;
 
     public int RequiredNumberOfUnitsToPass => Mathf.CeilToInt(requiredUnits.Evaluate(GameManager.Instance.Level));
 
@@ -23,6 +27,9 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
     public delegate void OnUnitPassed(int totalPassed, int requiredToPass);
     public static OnUnitPassed onUnitPassed;
+
+    public delegate void RequiredUnitsPassed();
+    public RequiredUnitsPassed onRequiredUnitsPassed;
 
     private void Start()
     {
@@ -34,10 +41,13 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         TilePlayerManager.Instance.noRemainingTilesToPlay += StartEndOfGameCheck;
     }
 
-    protected override void OnDestroy()
+    public void OnPlayLocalLevel()
     {
-        base.OnDestroy();
+        CurrentlyPlayingLocalLevel = true;
+    }
 
+    protected override void CleanUp()
+    {
         if (TilePlayerManager.Instance != null)
             TilePlayerManager.Instance.noRemainingTilesToPlay -= StartEndOfGameCheck;
     }
@@ -60,7 +70,8 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
         if(unitsPassed >= RequiredNumberOfUnitsToPass)
         {
-            CompleteLevel();
+            Direction? opDirection = PathPicker.Instance.PickedDirection.HasValue ? (Direction)(-(int)PathPicker.Instance.PickedDirection) : null;
+            MonsterSpawnManager.Instance.StartHorde(20, 20f, true, opDirection);
         }
         else
         {
@@ -75,29 +86,27 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
         if (unitsPassed >= RequiredNumberOfUnitsToPass)
         {
-            GotEnoughUnitsToCompleteLevel();
+            onRequiredUnitsPassed?.Invoke();
         }
-    }
-
-    private void GotEnoughUnitsToCompleteLevel()
-    {
-
     }
 
     public void CompleteLevel()
     {
         tilePlayerFinishedPlaying = false;
-        CurrentLevelCompleted = true;
         if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Normal)
             RewardManager.Instance.GiveRewards();
 
         InterfaceCaller.CallInterfaces<IOnCompleteLocalMapLevel>(x => x.OnCompleteLocalMapLevel());
+
+        CurrentlyPlayingLocalLevel = false;
     }
 
     public void OnBeforeCreateLocalMap()
     {
         unitsPassed = 0;
-        CurrentLevelCompleted = false;
         tilePlayerFinishedPlaying = false;
+        CurrentlyPlayingLocalLevel = false;
     }
+
+    
 }

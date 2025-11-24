@@ -17,9 +17,8 @@ namespace LevelingSystem
             LocalMapLevelCompletedManager.onUnitPassed += OnUnitPassed;
         }
 
-        protected override void OnDestroy()
+        protected override void CleanUp()
         {
-            base.OnDestroy();
             LocalMapLevelCompletedManager.onUnitPassed -= OnUnitPassed;
         }
 

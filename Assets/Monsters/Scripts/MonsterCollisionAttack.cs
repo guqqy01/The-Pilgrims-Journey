@@ -10,7 +10,7 @@ public class MonsterCollisionAttack : MonoBehaviour
     [SerializeField]
     private LayerMask layerMask;
 
-    private Dictionary<HealthAndShieldManager, float> hitCooldowns
+    private readonly Dictionary<HealthAndShieldManager, float> hitCooldowns
         = new Dictionary<HealthAndShieldManager, float>();
 
 
@@ -22,7 +22,13 @@ public class MonsterCollisionAttack : MonoBehaviour
         if (!collision.TryGetComponent(out HealthAndShieldManager health))
             return;
 
-        float nextAllowed = hitCooldowns.ContainsKey(health) ? hitCooldowns[health] : 0f;
+
+        if (!hitCooldowns.ContainsKey(health))
+        {
+            hitCooldowns.Add(health, 0f);
+        }
+
+        float nextAllowed = hitCooldowns[health];
 
         if (Time.time >= nextAllowed)
         {
@@ -30,14 +36,6 @@ public class MonsterCollisionAttack : MonoBehaviour
             health.Damage(damage, dir, knockback);
 
             hitCooldowns[health] = Time.time + attackCooldown;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out HealthAndShieldManager health))
-        {
-            hitCooldowns.Remove(health);
         }
     }
 }

@@ -59,11 +59,9 @@ namespace LocalMap.UI
             PathPicker.Instance.onClickSign += ShowDirection;
         }
 
-        protected override void OnDestroy()
+        protected override void CleanUp()
         {
-            base.OnDestroy();
-
-            if(PathPicker.Instance != null)
+            if (PathPicker.Instance != null)
                 PathPicker.Instance.onClickSign -= ShowDirection;
         }
 

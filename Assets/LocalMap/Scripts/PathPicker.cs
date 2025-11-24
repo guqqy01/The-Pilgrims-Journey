@@ -96,10 +96,7 @@ namespace LocalMap
 
         public void PickDirection(Direction direction)
         {
-            if (TilePlayerManager.Instance.IsPlaying)
-                return;
-
-            if(LocalMapLevelCompletedManager.Instance.CurrentLevelCompleted)
+            if (LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
                 return;
 
             if (!pathEndPoints.ContainsKey(direction))

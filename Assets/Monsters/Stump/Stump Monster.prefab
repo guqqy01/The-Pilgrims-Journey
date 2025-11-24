@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
+  initSpeed: 1
   visualTransform: {fileID: 5667121558266182341}
   StationaryPosition: {x: 0, y: 0}
   directTargetLayerMask:

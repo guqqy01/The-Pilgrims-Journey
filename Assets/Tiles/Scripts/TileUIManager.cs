@@ -38,9 +38,8 @@ namespace Tiles
 
         }
 
-        protected override void OnDestroy()
+        protected override void CleanUp()
         {
-            base.OnDestroy();
             Tile.onDragTile -= DraggingTile;
         }
 
