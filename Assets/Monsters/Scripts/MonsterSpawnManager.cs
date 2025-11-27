@@ -52,6 +52,9 @@ namespace Monsters
         private bool hordeIgnoreCaps = true;
         private Direction? hordePreferredSide = null;
 
+        [SerializeField] private float hordeSpawnRate = 0.25f;   // seconds between horde spawns
+        private float nextHordeSpawnTime = 0f;
+
         private readonly System.Random seededRandom = new();
 
         private LocalMapGenerator Map => LocalMapGenerator.Instance;
@@ -140,13 +143,113 @@ namespace Monsters
 
         private void ProcessHordeTimer(float now)
         {
-            if (hordeActive && now >= hordeEndTime)
+            if (!hordeActive)
+                return;
+
+            // Check timer end
+            if (now >= hordeEndTime)
             {
                 hordeActive = false;
                 hordeMultiplier = 1;
+                return;
+            }
+
+            // Horde spawn tick
+            if (now >= nextHordeSpawnTime)
+            {
+                SpawnHordeBatch();
+                nextHordeSpawnTime = now + hordeSpawnRate;
             }
         }
 
+        private void SpawnHordeBatch()
+        {
+            // Use PathPicker as the authoritative spawn direction
+            Direction side = PathPicker.Instance.PickedDirection.Value.OppositeDirection();
+
+            foreach (var spawn in monsterSpawnSettings.rangeAndMonster)
+            {
+                MonsterSO monster = spawn.monster;
+
+                EnsureMonsterTrackingExists(monster);
+
+                if (!hordeIgnoreCaps && !CanSpawnMore(monster, spawn))
+                    continue;
+
+                TrySpawnHordeMonster(monster, side);
+            }
+        }
+
+        private void TrySpawnHordeMonster(MonsterSO monster, Direction side)
+        {
+            List<Vector2Int> positions = GetAllSideTiles(side);
+
+            // Shuffle for randomness
+            positions = positions.OrderBy(_ => seededRandom.Next()).ToList();
+
+            foreach (var p in positions)
+            {
+                if (SpotOccupied(p, monster.size, out Vector2 pos))
+                    continue;
+
+                Monster m = SpawnMonsterForceDirect(monster, pos);
+                MarkOccupied(p, monster.size);
+
+                aliveCountByMonster[monster] = aliveCountByMonster.GetValueOrDefault(monster) + 1;
+                return;
+            }
+        }
+
+        private List<Vector2Int> GetAllSideTiles(Direction side)
+        {
+            List<Vector2Int> result = new();
+
+            int w = Map.MapSizeX;
+            int h = Map.MapSizeY;
+
+            switch (side)
+            {
+                case Direction.North:
+                    for (int x = 0; x < w; x++)
+                        result.Add(new Vector2Int(x, h - 1));
+                    break;
+
+                case Direction.South:
+                    for (int x = 0; x < w; x++)
+                        result.Add(new Vector2Int(x, 0));
+                    break;
+
+                case Direction.East:
+                    for (int y = 0; y < h; y++)
+                        result.Add(new Vector2Int(w - 1, y));
+                    break;
+
+                case Direction.West:
+                    for (int y = 0; y < h; y++)
+                        result.Add(new Vector2Int(0, y));
+                    break;
+            }
+
+            return result;
+        }
+
+        private Monster SpawnMonsterForceDirect(MonsterSO monsterSO, Vector2 spawnPos)
+        {
+            Monster m = Instantiate(monsterSO.prefab, (Vector3)spawnPos, Quaternion.identity, transform);
+            m.Init(monsterSO);
+
+            // FORCE DIRECT MOVEMENT
+            if (m.TryGetComponent(out MonsterMovement move))
+                move.OverrideToDirect();
+
+            monsters.Add(m);
+            BeastaryManager.Instance.BufferMonster(monsterSO);
+
+            if (m.TryGetComponent(out Health health))
+                health.onDie += OnMonsterDie;
+
+            return m;
+        }
 
         // ---------------------------------------------------------
         // Normal Spawn Tick Logic
@@ -203,14 +306,7 @@ namespace Monsters
         {
             int baseMax = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
 
-            int allowed = hordeActive switch
-            {
-                true when hordeIgnoreCaps => int.MaxValue / 2,
-                true when !hordeIgnoreCaps => Mathf.Max(1, baseMax * hordeMultiplier),
-                _ => baseMax
-            };
-
-            return aliveCountByMonster[monster] < allowed;
+            return aliveCountByMonster[monster] < baseMax;
         }
 
         private float GetNextSpawnDelay(MonsterSpawn spawn)
@@ -247,11 +343,10 @@ namespace Monsters
                 return false;
 
             Vector2Int hero = GetHeroGridPosition();
-            Direction? preferredSide = DeterminePreferredSide(null, hero);
 
             return spawn.monster.movementType == MonsterMovementType.Direct
-                ? TrySpawnDirect(spawn, points, hero, preferredSide)
-                : TrySpawnStationary(spawn, points, hero, preferredSide);
+                ? TrySpawnDirect(spawn, points, hero)
+                : TrySpawnStationary(spawn, points, hero);
         }
 
         private Vector2Int GetHeroGridPosition()
@@ -263,22 +358,6 @@ namespace Monsters
             return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
         }
 
-        private Direction? DeterminePreferredSide(Direction? userSide, Vector2Int heroGrid)
-        {
-            if (!hordeActive)
-                return userSide;
-
-            if (userSide != null)
-                return userSide;
-
-            Vector2Int center = new(Map.MapSizeX / 2, Map.MapSizeY / 2);
-            Vector2 offset = center - heroGrid;
-
-            return Mathf.Abs(offset.x) > Mathf.Abs(offset.y)
-                ? offset.x > 0 ? Direction.West : Direction.East
-                : offset.y > 0 ? Direction.South : Direction.North;
-        }
-
 
         // ---------------------------------------------------------
         // Direct Movement Spawning
@@ -287,8 +366,7 @@ namespace Monsters
         private bool TrySpawnDirect(
             MonsterSpawn spawn,
             List<KeyValuePair<int, List<Vector2Int>>> weightedPoints,
-            Vector2Int heroGrid,
-            Direction? preferredSide)
+            Vector2Int heroGrid)
         {
             var list = new WeightedChanceList<Vector2>();
             int maxWeight = weightedPoints.Max(wp => wp.Key);
@@ -325,8 +403,7 @@ namespace Monsters
         private bool TrySpawnStationary(
             MonsterSpawn spawn,
             List<KeyValuePair<int, List<Vector2Int>>> weightedPoints,
-            Vector2Int heroGrid,
-            Direction? preferredSide)
+            Vector2Int heroGrid)
         {
             foreach (var (_, points) in weightedPoints)
             {
@@ -341,7 +418,7 @@ namespace Monsters
                     var p = shuffled[idx];
                     shuffled.RemoveAt(idx);
 
-                    if (!IsCandidateSuitable(spawn, p, heroGrid, preferredSide))
+                    if (!IsCandidateSuitable(spawn, p, heroGrid))
                         continue;
 
                     if (SpotOccupied(p, spawn.monster.size, out Vector2 spawnPos))
@@ -359,18 +436,14 @@ namespace Monsters
         private bool IsCandidateSuitable(
             MonsterSpawn spawn,
             Vector2Int p,
-            Vector2Int heroGrid,
-            Direction? side)
+            Vector2Int heroGrid)
         {
             if (spawn.monster.movementType == MonsterMovementType.Direct)
             {
                 if (!IsWithinSpawnDistance(spawn, p, heroGrid))
                     return false;
             }
-
-            if (side != null && !IsPointOnSide(p, heroGrid, side.Value))
-                return false;
-
+            
             return true;
         }
 
@@ -378,18 +451,6 @@ namespace Monsters
         {
             float dist = Vector2.Distance(point, hero);
             return dist >= spawn.minSpawnDistance && dist <= spawn.maxSpawnDistance;
-        }
-
-        private bool IsPointOnSide(Vector2Int p, Vector2Int hero, Direction side)
-        {
-            return side switch
-            {
-                Direction.North => p.y > hero.y,
-                Direction.South => p.y < hero.y,
-                Direction.East => p.x > hero.x,
-                Direction.West => p.x < hero.x,
-                _ => true
-            };
         }
 
 

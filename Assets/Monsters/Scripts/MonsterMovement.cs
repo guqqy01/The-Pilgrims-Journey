@@ -21,7 +21,7 @@ namespace Monsters
         private float directStoppingDistance;
 
         private HeroMovement heroMovement;
-        public HeroMovement Hero
+        public HeroMovement HeroMovement
         {
             get
             {
@@ -32,7 +32,8 @@ namespace Monsters
             }
         }
 
-        public MonsterMovementType movementType;
+        [SerializeField]
+        private MonsterMovementType movementType;
 
         public override void HandleFixedUpdateMovement()
         {
@@ -47,6 +48,10 @@ namespace Monsters
             }
         }
 
+        public void OverrideToDirect()
+        {
+            this.movementType = MonsterMovementType.Direct;
+        }
         protected override void Start()
         {
             base.Start();
@@ -77,12 +82,12 @@ namespace Monsters
 
         private void HandleDirectMovement()
         {
-            if (Hero == null)
+            if (HeroMovement == null)
                 return;
 
-            Vector2 direction = (Hero.rb.position - rb.position).normalized;
+            Vector2 direction = (HeroMovement.rb.position - rb.position).normalized;
 
-            Vector2 TargetPosition = rb.position - Hero.rb.position - direction * directStoppingDistance;
+            Vector2 TargetPosition = rb.position - HeroMovement.rb.position - direction * directStoppingDistance;
 
             float distance = Vector2.Distance(TargetPosition, rb.position);
 
