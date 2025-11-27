@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: 13e77bc634bc64b41b51077b97d1719a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4861807786740039136
+    second: fanfx1_skull_puff_small_white_0
+  - first:
+      213: -4776611606728411293
+    second: fanfx1_skull_puff_small_white_1
+  - first:
+      213: 7128785131163266659
+    second: fanfx1_skull_puff_small_white_2
+  - first:
+      213: 7316225954372853636
+    second: fanfx1_skull_puff_small_white_3
+  - first:
+      213: 7480575612559667922
+    second: fanfx1_skull_puff_small_white_4
+  - first:
+      213: 1395463895131813180
+    second: fanfx1_skull_puff_small_white_5
+  - first:
+      213: 8348498229958572931
+    second: fanfx1_skull_puff_small_white_6
+  - first:
+      213: -6997606922471526016
+    second: fanfx1_skull_puff_small_white_7
+  - first:
+      213: -3986360742113167212
+    second: fanfx1_skull_puff_small_white_8
+  - first:
+      213: 7647416529962126522
+    second: fanfx1_skull_puff_small_white_9
+  - first:
+      213: 8846987542768250671
+    second: fanfx1_skull_puff_small_white_10
+  - first:
+      213: -1718264129330809798
+    second: fanfx1_skull_puff_small_white_11
+  - first:
+      213: -1757104866349470237
+    second: fanfx1_skull_puff_small_white_12
+  - first:
+      213: 4463233492259063634
+    second: fanfx1_skull_puff_small_white_13
+  - first:
+      213: 5443807737769853243
+    second: fanfx1_skull_puff_small_white_14
+  - first:
+      213: -1430411423087625847
+    second: fanfx1_skull_puff_small_white_15
+  - first:
+      213: -5271998341300003001
+    second: fanfx1_skull_puff_small_white_16
+  - first:
+      213: -566592175351577816
+    second: fanfx1_skull_puff_small_white_17
+  - first:
+      213: 5784483323536717396
+    second: fanfx1_skull_puff_small_white_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 11
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 022c121b393678cb0800000000000000
+      internalID: -4861807786740039136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 4
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 367f1fe1d0116bdb0800000000000000
+      internalID: -4776611606728411293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_2
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 2
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36ea21f8e488ee260800000000000000
+      internalID: 7128785131163266659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_3
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48f13e21eb4788560800000000000000
+      internalID: 7316225954372853636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_4
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 1
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d2b116c2e750d760800000000000000
+      internalID: 7480575612559667922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 11
+        width: 32
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c35f636e40fad5310800000000000000
+      internalID: 1395463895131813180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_6
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 35
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38b78ac68e2dbd370800000000000000
+      internalID: 8348498229958572931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_7
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 15
+        width: 35
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0813544349183ee90800000000000000
+      internalID: -6997606922471526016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_8
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 0
+        width: 34
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49838c3960a9da8c0800000000000000
+      internalID: -3986360742113167212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_9
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 18
+        width: 33
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abcc7d5f0d4112a60800000000000000
+      internalID: 7647416529962126522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_10
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 0
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2fe10bfb40d6ca70800000000000000
+      internalID: 8846987542768250671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_11
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 4
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a34f0fcc0ef7728e0800000000000000
+      internalID: -1718264129330809798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_12
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 0
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ed21200f628d97e0800000000000000
+      internalID: -1757104866349470237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_13
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 20
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2574ab7c63790fd30800000000000000
+      internalID: 4463233492259063634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_14
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 6
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b318b438b4a4c8b40800000000000000
+      internalID: 5443807737769853243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_15
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 6
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 989733ca368262ce0800000000000000
+      internalID: -1430411423087625847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_16
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 7
+        width: 89
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74f5d5ad07916d6b0800000000000000
+      internalID: -5271998341300003001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_17
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 8
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82347af1b6f0328f0800000000000000
+      internalID: -566592175351577816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_skull_puff_small_white_18
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 8
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 456b39c6fec964050800000000000000
+      internalID: 5784483323536717396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fanfx1_skull_puff_small_white_0: -4861807786740039136
+      fanfx1_skull_puff_small_white_1: -4776611606728411293
+      fanfx1_skull_puff_small_white_10: 8846987542768250671
+      fanfx1_skull_puff_small_white_11: -1718264129330809798
+      fanfx1_skull_puff_small_white_12: -1757104866349470237
+      fanfx1_skull_puff_small_white_13: 4463233492259063634
+      fanfx1_skull_puff_small_white_14: 5443807737769853243
+      fanfx1_skull_puff_small_white_15: -1430411423087625847
+      fanfx1_skull_puff_small_white_16: -5271998341300003001
+      fanfx1_skull_puff_small_white_17: -566592175351577816
+      fanfx1_skull_puff_small_white_18: 5784483323536717396
+      fanfx1_skull_puff_small_white_2: 7128785131163266659
+      fanfx1_skull_puff_small_white_3: 7316225954372853636
+      fanfx1_skull_puff_small_white_4: 7480575612559667922
+      fanfx1_skull_puff_small_white_5: 1395463895131813180
+      fanfx1_skull_puff_small_white_6: 8348498229958572931
+      fanfx1_skull_puff_small_white_7: -6997606922471526016
+      fanfx1_skull_puff_small_white_8: -3986360742113167212
+      fanfx1_skull_puff_small_white_9: 7647416529962126522
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

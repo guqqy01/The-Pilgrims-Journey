@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: 0ccb7f3392439c8489990241d556cd3a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1920340038317027583
+    second: fx1_aura_energy_large_yellow_0
+  - first:
+      213: 8187057537399545951
+    second: fx1_aura_energy_large_yellow_1
+  - first:
+      213: 1086798636145373181
+    second: fx1_aura_energy_large_yellow_2
+  - first:
+      213: 4843597454929254594
+    second: fx1_aura_energy_large_yellow_3
+  - first:
+      213: -6825277798106337148
+    second: fx1_aura_energy_large_yellow_4
+  - first:
+      213: -2410196375753206294
+    second: fx1_aura_energy_large_yellow_5
+  - first:
+      213: -2698325068129828595
+    second: fx1_aura_energy_large_yellow_6
+  - first:
+      213: 1146711268892248097
+    second: fx1_aura_energy_large_yellow_7
+  - first:
+      213: 1223861585736880270
+    second: fx1_aura_energy_large_yellow_8
+  - first:
+      213: 2856820837046768643
+    second: fx1_aura_energy_large_yellow_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 7
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff0b8d7271b66aa10800000000000000
+      internalID: 1920340038317027583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_1
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 3
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f50626014754e9170800000000000000
+      internalID: 8187057537399545951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_2
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 1
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dffe2d9f995151f00800000000000000
+      internalID: 1086798636145373181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_3
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 0
+        width: 58
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c85b08093ae73340800000000000000
+      internalID: 4843597454929254594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_4
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 9
+        width: 38
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 480f286210eb741a0800000000000000
+      internalID: -6825277798106337148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_5
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 7
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae5db408a234d8ed0800000000000000
+      internalID: -2410196375753206294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_6
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 3
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d01079995af9d8ad0800000000000000
+      internalID: -2698325068129828595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_7
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1288242d2dfe9ef00800000000000000
+      internalID: 1146711268892248097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_8
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 0
+        width: 58
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e80d710c0a70cf010800000000000000
+      internalID: 1223861585736880270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_aura_energy_large_yellow_9
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 9
+        width: 38
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3045b1b4a6775a720800000000000000
+      internalID: 2856820837046768643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx1_aura_energy_large_yellow_0: 1920340038317027583
+      fx1_aura_energy_large_yellow_1: 8187057537399545951
+      fx1_aura_energy_large_yellow_2: 1086798636145373181
+      fx1_aura_energy_large_yellow_3: 4843597454929254594
+      fx1_aura_energy_large_yellow_4: -6825277798106337148
+      fx1_aura_energy_large_yellow_5: -2410196375753206294
+      fx1_aura_energy_large_yellow_6: -2698325068129828595
+      fx1_aura_energy_large_yellow_7: 1146711268892248097
+      fx1_aura_energy_large_yellow_8: 1223861585736880270
+      fx1_aura_energy_large_yellow_9: 2856820837046768643
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

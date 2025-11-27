@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: 347b4809bc9f0574ea22e36b87b99cbd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3955362485500389045
+    second: fanfx1_magic_puff_B_small_yellow_0
+  - first:
+      213: 5223580783762463395
+    second: fanfx1_magic_puff_B_small_yellow_1
+  - first:
+      213: -2423815857506602847
+    second: fanfx1_magic_puff_B_small_yellow_2
+  - first:
+      213: -1522832624940191200
+    second: fanfx1_magic_puff_B_small_yellow_3
+  - first:
+      213: 8173179244338477403
+    second: fanfx1_magic_puff_B_small_yellow_4
+  - first:
+      213: 5522749741077944092
+    second: fanfx1_magic_puff_B_small_yellow_5
+  - first:
+      213: 6261129068413266355
+    second: fanfx1_magic_puff_B_small_yellow_6
+  - first:
+      213: -8024955454542542062
+    second: fanfx1_magic_puff_B_small_yellow_7
+  - first:
+      213: 4451669368722789490
+    second: fanfx1_magic_puff_B_small_yellow_8
+  - first:
+      213: 3570063119734805303
+    second: fanfx1_magic_puff_B_small_yellow_9
+  - first:
+      213: -4621900974583409032
+    second: fanfx1_magic_puff_B_small_yellow_10
+  - first:
+      213: -8581377116968357940
+    second: fanfx1_magic_puff_B_small_yellow_11
+  - first:
+      213: -795413755606734146
+    second: fanfx1_magic_puff_B_small_yellow_12
+  - first:
+      213: -4215911458444878368
+    second: fanfx1_magic_puff_B_small_yellow_13
+  - first:
+      213: -5431590915246710995
+    second: fanfx1_magic_puff_B_small_yellow_14
+  - first:
+      213: 7460984547371765662
+    second: fanfx1_magic_puff_B_small_yellow_15
+  - first:
+      213: 8230888937827479344
+    second: fanfx1_magic_puff_B_small_yellow_16
+  - first:
+      213: 4935711477727209573
+    second: fanfx1_magic_puff_B_small_yellow_17
+  - first:
+      213: -4536235449950592559
+    second: fanfx1_magic_puff_B_small_yellow_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_0
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 1
+        width: 20
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b49d7dd96cabb19c0800000000000000
+      internalID: -3955362485500389045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_1
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 2
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3aad7bf0c03ed7840800000000000000
+      internalID: 5223580783762463395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_2
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 3
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a03c5cc150ec5ed0800000000000000
+      internalID: -2423815857506602847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_3
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 4
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0227012cbcfcddae0800000000000000
+      internalID: -1522832624940191200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_4
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 5
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b59f3682837fc6170800000000000000
+      internalID: 8173179244338477403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_5
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 7
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c17d454f0afb4ac40800000000000000
+      internalID: 5522749741077944092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_6
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 7
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b925aff6bff3e650800000000000000
+      internalID: 6261129068413266355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_7
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 9
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21b88a93881a1a090800000000000000
+      internalID: -8024955454542542062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_8
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 10
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 274953474b187cd30800000000000000
+      internalID: 4451669368722789490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_9
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 11
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 733148d0e796b8130800000000000000
+      internalID: 3570063119734805303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_10
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 14
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8769cee2d85bbdfb0800000000000000
+      internalID: -4621900974583409032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_11
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 14
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccf6f6b6af2d8e880800000000000000
+      internalID: -8581377116968357940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_12
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 22
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebae99f476f16f4f0800000000000000
+      internalID: -795413755606734146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_13
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 16
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0edd4ea8dd21e75c0800000000000000
+      internalID: -4215911458444878368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_14
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 19
+        width: 139
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2f1b7327dc1f94b0800000000000000
+      internalID: -5431590915246710995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_15
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 1
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9fc5c47aedba8760800000000000000
+      internalID: 7460984547371765662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_16
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03f26ec31edf93270800000000000000
+      internalID: 8230888937827479344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_17
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 0
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 568afbf307b2f7440800000000000000
+      internalID: 4935711477727209573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx1_magic_puff_B_small_yellow_18
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 0
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d1292c64ed0c01c0800000000000000
+      internalID: -4536235449950592559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fanfx1_magic_puff_B_small_yellow_0: -3955362485500389045
+      fanfx1_magic_puff_B_small_yellow_1: 5223580783762463395
+      fanfx1_magic_puff_B_small_yellow_10: -4621900974583409032
+      fanfx1_magic_puff_B_small_yellow_11: -8581377116968357940
+      fanfx1_magic_puff_B_small_yellow_12: -795413755606734146
+      fanfx1_magic_puff_B_small_yellow_13: -4215911458444878368
+      fanfx1_magic_puff_B_small_yellow_14: -5431590915246710995
+      fanfx1_magic_puff_B_small_yellow_15: 7460984547371765662
+      fanfx1_magic_puff_B_small_yellow_16: 8230888937827479344
+      fanfx1_magic_puff_B_small_yellow_17: 4935711477727209573
+      fanfx1_magic_puff_B_small_yellow_18: -4536235449950592559
+      fanfx1_magic_puff_B_small_yellow_2: -2423815857506602847
+      fanfx1_magic_puff_B_small_yellow_3: -1522832624940191200
+      fanfx1_magic_puff_B_small_yellow_4: 8173179244338477403
+      fanfx1_magic_puff_B_small_yellow_5: 5522749741077944092
+      fanfx1_magic_puff_B_small_yellow_6: 6261129068413266355
+      fanfx1_magic_puff_B_small_yellow_7: -8024955454542542062
+      fanfx1_magic_puff_B_small_yellow_8: 4451669368722789490
+      fanfx1_magic_puff_B_small_yellow_9: 3570063119734805303
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

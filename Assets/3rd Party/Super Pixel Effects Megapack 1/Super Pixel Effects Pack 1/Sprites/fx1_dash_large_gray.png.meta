@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: 2f553c0b8ba420c408b4556cb6c8751e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8019485161064745146
+    second: fx1_dash_large_gray_0
+  - first:
+      213: -8229415737137029629
+    second: fx1_dash_large_gray_1
+  - first:
+      213: -2378163095593086902
+    second: fx1_dash_large_gray_2
+  - first:
+      213: -6964118418464954974
+    second: fx1_dash_large_gray_3
+  - first:
+      213: 9120195603372956746
+    second: fx1_dash_large_gray_4
+  - first:
+      213: 1205128313741865979
+    second: fx1_dash_large_gray_5
+  - first:
+      213: -1541310944809871882
+    second: fx1_dash_large_gray_6
+  - first:
+      213: -2516847851767734959
+    second: fx1_dash_large_gray_7
+  - first:
+      213: 5397194490985322722
+    second: fx1_dash_large_gray_8
+  - first:
+      213: -2708689250997132872
+    second: fx1_dash_large_gray_9
+  - first:
+      213: 149485436701507503
+    second: fx1_dash_large_gray_10
+  - first:
+      213: -8471809774519455143
+    second: fx1_dash_large_gray_11
+  - first:
+      213: -1882752530920672835
+    second: fx1_dash_large_gray_12
+  - first:
+      213: -1164982161201395708
+    second: fx1_dash_large_gray_13
+  - first:
+      213: -4872425907477989774
+    second: fx1_dash_large_gray_14
+  - first:
+      213: -4998182509694054558
+    second: fx1_dash_large_gray_15
+  - first:
+      213: 6891665459975237906
+    second: fx1_dash_large_gray_16
+  - first:
+      213: 8942478223135874471
+    second: fx1_dash_large_gray_17
+  - first:
+      213: -4221349911740228541
+    second: fx1_dash_large_gray_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_0
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 0
+        width: 85
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 647383d2cb015b090800000000000000
+      internalID: -8019485161064745146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_1
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 0
+        width: 85
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30e10f60dfd3bcd80800000000000000
+      internalID: -8229415737137029629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_2
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 0
+        width: 81
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a401b3db3411ffed0800000000000000
+      internalID: -2378163095593086902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_3
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 0
+        width: 65
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a524a5223b7a5f90800000000000000
+      internalID: -6964118418464954974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_4
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 29
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4cdf159491719e70800000000000000
+      internalID: 9120195603372956746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_5
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 0
+        width: 70
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf37959f0d979b010800000000000000
+      internalID: 1205128313741865979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_6
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 2
+        width: 29
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f59f26acd92c9ae0800000000000000
+      internalID: -1541310944809871882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_7
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 15
+        width: 24
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15ddda1b63c521dd0800000000000000
+      internalID: -2516847851767734959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_8
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 33
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e810e24bcfa6ea40800000000000000
+      internalID: 5397194490985322722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_9
+      rect:
+        serializedVersion: 2
+        x: 905
+        y: 4
+        width: 174
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b1a56b3a7dc86ad0800000000000000
+      internalID: -2708689250997132872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_10
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 0
+        width: 67
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafffa17634131200800000000000000
+      internalID: 149485436701507503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_11
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 17
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 952f51945e51e6a80800000000000000
+      internalID: -8471809774519455143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_12
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 22
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db171826c8e1fd5e0800000000000000
+      internalID: -1882752530920672835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_13
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 4
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4088cef85e625dfe0800000000000000
+      internalID: -1164982161201395708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_14
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 22
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2763d5ec37aa16cb0800000000000000
+      internalID: -4872425907477989774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_15
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 5
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26f8d1b2d73e2aab0800000000000000
+      internalID: -4998182509694054558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_16
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 5
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21137a4e83d14af50800000000000000
+      internalID: 6891665459975237906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_17
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 10
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ad1ead80901a1c70800000000000000
+      internalID: 8942478223135874471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_gray_18
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 12
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34cd816fe90ca65c0800000000000000
+      internalID: -4221349911740228541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx1_dash_large_gray_0: -8019485161064745146
+      fx1_dash_large_gray_1: -8229415737137029629
+      fx1_dash_large_gray_10: 149485436701507503
+      fx1_dash_large_gray_11: -8471809774519455143
+      fx1_dash_large_gray_12: -1882752530920672835
+      fx1_dash_large_gray_13: -1164982161201395708
+      fx1_dash_large_gray_14: -4872425907477989774
+      fx1_dash_large_gray_15: -4998182509694054558
+      fx1_dash_large_gray_16: 6891665459975237906
+      fx1_dash_large_gray_17: 8942478223135874471
+      fx1_dash_large_gray_18: -4221349911740228541
+      fx1_dash_large_gray_2: -2378163095593086902
+      fx1_dash_large_gray_3: -6964118418464954974
+      fx1_dash_large_gray_4: 9120195603372956746
+      fx1_dash_large_gray_5: 1205128313741865979
+      fx1_dash_large_gray_6: -1541310944809871882
+      fx1_dash_large_gray_7: -2516847851767734959
+      fx1_dash_large_gray_8: 5397194490985322722
+      fx1_dash_large_gray_9: -2708689250997132872
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

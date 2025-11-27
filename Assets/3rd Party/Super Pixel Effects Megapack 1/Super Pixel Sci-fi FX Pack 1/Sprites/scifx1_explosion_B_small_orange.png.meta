@@ -1,0 +1,637 @@
+fileFormatVersion: 2
+guid: a2da43bda386bcb4d83a0104dd260ded
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6238216540306092179
+    second: scifx1_explosion_B_small_orange_0
+  - first:
+      213: -6223346370764970445
+    second: scifx1_explosion_B_small_orange_1
+  - first:
+      213: 4704005787477600193
+    second: scifx1_explosion_B_small_orange_2
+  - first:
+      213: 576430763518030602
+    second: scifx1_explosion_B_small_orange_3
+  - first:
+      213: -1223182238046029089
+    second: scifx1_explosion_B_small_orange_4
+  - first:
+      213: 5642060085116002288
+    second: scifx1_explosion_B_small_orange_5
+  - first:
+      213: 3690443606837500804
+    second: scifx1_explosion_B_small_orange_6
+  - first:
+      213: 835400263895523686
+    second: scifx1_explosion_B_small_orange_7
+  - first:
+      213: -3013069961145118552
+    second: scifx1_explosion_B_small_orange_8
+  - first:
+      213: 7939178611970496751
+    second: scifx1_explosion_B_small_orange_9
+  - first:
+      213: -8472221985408489997
+    second: scifx1_explosion_B_small_orange_10
+  - first:
+      213: -8039691032226581179
+    second: scifx1_explosion_B_small_orange_11
+  - first:
+      213: -9212609165895513185
+    second: scifx1_explosion_B_small_orange_12
+  - first:
+      213: -1251137164482072174
+    second: scifx1_explosion_B_small_orange_13
+  - first:
+      213: 7533480220158812903
+    second: scifx1_explosion_B_small_orange_14
+  - first:
+      213: 8412429018343488961
+    second: scifx1_explosion_B_small_orange_15
+  - first:
+      213: 3802218151878523134
+    second: scifx1_explosion_B_small_orange_16
+  - first:
+      213: -4519009941733283389
+    second: scifx1_explosion_B_small_orange_17
+  - first:
+      213: 4860856736026537519
+    second: scifx1_explosion_B_small_orange_18
+  - first:
+      213: -6038131023739400405
+    second: scifx1_explosion_B_small_orange_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_0
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 8
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39039e454e8929650800000000000000
+      internalID: 6238216540306092179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_1
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 7
+        width: 40
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3366650d27b32a9a0800000000000000
+      internalID: -6223346370764970445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_2
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 1
+        width: 46
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c7ebff375cf74140800000000000000
+      internalID: 4704005787477600193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a037911b9b4eff700800000000000000
+      internalID: 576430763518030602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_4
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 2
+        width: 53
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdaf2b53c32660fe0800000000000000
+      internalID: -1223182238046029089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_5
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 39
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ffdfb621cf9c4e40800000000000000
+      internalID: 5642060085116002288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_6
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 37
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48b192958e6173330800000000000000
+      internalID: 3690443606837500804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_7
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 28
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 661a2c62d10f79b00800000000000000
+      internalID: 835400263895523686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_8
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 28
+        width: 19
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a09b8295dc6f26d0800000000000000
+      internalID: -3013069961145118552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_9
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 31
+        width: 23
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe851ee42e0ad2e60800000000000000
+      internalID: 7939178611970496751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_10
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 8
+        width: 108
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f5e875fdfe9c6a80800000000000000
+      internalID: -8472221985408489997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_11
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 20
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 545bd303a974d6090800000000000000
+      internalID: -8039691032226581179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_12
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 16
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9b4a4c26cc362080800000000000000
+      internalID: -9212609165895513185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_13
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 0
+        width: 24
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 291b1c1b06113aee0800000000000000
+      internalID: -1251137164482072174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_14
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 13
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e26ffc985c4c8860800000000000000
+      internalID: 7533480220158812903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_15
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 1
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cd3d880f93feb470800000000000000
+      internalID: 8412429018343488961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_16
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 13
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef8f24d934134c430800000000000000
+      internalID: 3802218151878523134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_17
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 7
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c9678696604941c0800000000000000
+      internalID: -4519009941733283389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_18
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 0
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2e2dee827b357340800000000000000
+      internalID: 4860856736026537519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scifx1_explosion_B_small_orange_19
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 0
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2f4fb643df343ca0800000000000000
+      internalID: -6038131023739400405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      scifx1_explosion_B_small_orange_0: 6238216540306092179
+      scifx1_explosion_B_small_orange_1: -6223346370764970445
+      scifx1_explosion_B_small_orange_10: -8472221985408489997
+      scifx1_explosion_B_small_orange_11: -8039691032226581179
+      scifx1_explosion_B_small_orange_12: -9212609165895513185
+      scifx1_explosion_B_small_orange_13: -1251137164482072174
+      scifx1_explosion_B_small_orange_14: 7533480220158812903
+      scifx1_explosion_B_small_orange_15: 8412429018343488961
+      scifx1_explosion_B_small_orange_16: 3802218151878523134
+      scifx1_explosion_B_small_orange_17: -4519009941733283389
+      scifx1_explosion_B_small_orange_18: 4860856736026537519
+      scifx1_explosion_B_small_orange_19: -6038131023739400405
+      scifx1_explosion_B_small_orange_2: 4704005787477600193
+      scifx1_explosion_B_small_orange_3: 576430763518030602
+      scifx1_explosion_B_small_orange_4: -1223182238046029089
+      scifx1_explosion_B_small_orange_5: 5642060085116002288
+      scifx1_explosion_B_small_orange_6: 3690443606837500804
+      scifx1_explosion_B_small_orange_7: 835400263895523686
+      scifx1_explosion_B_small_orange_8: -3013069961145118552
+      scifx1_explosion_B_small_orange_9: 7939178611970496751
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

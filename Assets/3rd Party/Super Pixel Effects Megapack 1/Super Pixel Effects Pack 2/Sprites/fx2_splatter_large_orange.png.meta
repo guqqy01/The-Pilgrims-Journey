@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 28c9767a1578ec24ebff81c04b67000d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8636158213344667266
+    second: fx2_splatter_large_orange_0
+  - first:
+      213: -3444473052928590294
+    second: fx2_splatter_large_orange_1
+  - first:
+      213: -1657581657334981461
+    second: fx2_splatter_large_orange_2
+  - first:
+      213: 7332963397669361752
+    second: fx2_splatter_large_orange_3
+  - first:
+      213: -858829319941360911
+    second: fx2_splatter_large_orange_4
+  - first:
+      213: 4116507115235740779
+    second: fx2_splatter_large_orange_5
+  - first:
+      213: 6166792394799499957
+    second: fx2_splatter_large_orange_6
+  - first:
+      213: -4483955407911123198
+    second: fx2_splatter_large_orange_7
+  - first:
+      213: 3577693174159429681
+    second: fx2_splatter_large_orange_8
+  - first:
+      213: -2028975398191533452
+    second: fx2_splatter_large_orange_9
+  - first:
+      213: -5533951972026465569
+    second: fx2_splatter_large_orange_10
+  - first:
+      213: -8627019262258116804
+    second: fx2_splatter_large_orange_11
+  - first:
+      213: 8523525614866448455
+    second: fx2_splatter_large_orange_12
+  - first:
+      213: 487122180209899150
+    second: fx2_splatter_large_orange_13
+  - first:
+      213: -2542123073782389633
+    second: fx2_splatter_large_orange_14
+  - first:
+      213: 4033999476605968451
+    second: fx2_splatter_large_orange_15
+  - first:
+      213: 2990884213253872745
+    second: fx2_splatter_large_orange_16
+  - first:
+      213: 1214667722133457967
+    second: fx2_splatter_large_orange_17
+  - first:
+      213: -6919275940329802049
+    second: fx2_splatter_large_orange_18
+  - first:
+      213: 4550270675918291113
+    second: fx2_splatter_large_orange_19
+  - first:
+      213: 8224023218367953564
+    second: fx2_splatter_large_orange_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 29
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e79d48d7cd3362880800000000000000
+      internalID: -8636158213344667266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_1
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 25
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2e39c90206c230d0800000000000000
+      internalID: -3444473052928590294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_2
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 23
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bac5850d3461ff8e0800000000000000
+      internalID: -1657581657334981461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_3
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 22
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8581605cb5be3c560800000000000000
+      internalID: 7332963397669361752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_4
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 33
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f27436a843d414f0800000000000000
+      internalID: -858829319941360911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_5
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 21
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6c8efe3965c02930800000000000000
+      internalID: 4116507115235740779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_6
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 25
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5baca9f8209d49550800000000000000
+      internalID: 6166792394799499957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_7
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 24
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20704c2405ac5c1c0800000000000000
+      internalID: -4483955407911123198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_8
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 33
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 130dc198cf486a130800000000000000
+      internalID: 3577693174159429681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_9
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 41
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47279c410a1a7d3e0800000000000000
+      internalID: -2028975398191533452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_10
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 17
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd24a4760047333b0800000000000000
+      internalID: -5533951972026465569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_11
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 16
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3707aa50bba64880800000000000000
+      internalID: -8627019262258116804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_12
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 17
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 740ce0c1365a94670800000000000000
+      internalID: 8523525614866448455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_13
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 29
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e86ff91ca0b92c600800000000000000
+      internalID: 487122180209899150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_14
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 28
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7460eb788098bcd0800000000000000
+      internalID: -2542123073782389633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_15
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 10
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 340e533a625abf730800000000000000
+      internalID: 4033999476605968451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_16
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 11
+        width: 29
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96c12577851c18920800000000000000
+      internalID: 2990884213253872745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_17
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 5
+        width: 33
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2cc5e19bdd5bd010800000000000000
+      internalID: 1214667722133457967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_18
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 6
+        width: 27
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb63cb1313bc9ff90800000000000000
+      internalID: -6919275940329802049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_19
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 2
+        width: 35
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a08cf5421fc52f30800000000000000
+      internalID: 4550270675918291113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_orange_20
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 0
+        width: 191
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9af26b5b89912270800000000000000
+      internalID: 8224023218367953564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx2_splatter_large_orange_0: -8636158213344667266
+      fx2_splatter_large_orange_1: -3444473052928590294
+      fx2_splatter_large_orange_10: -5533951972026465569
+      fx2_splatter_large_orange_11: -8627019262258116804
+      fx2_splatter_large_orange_12: 8523525614866448455
+      fx2_splatter_large_orange_13: 487122180209899150
+      fx2_splatter_large_orange_14: -2542123073782389633
+      fx2_splatter_large_orange_15: 4033999476605968451
+      fx2_splatter_large_orange_16: 2990884213253872745
+      fx2_splatter_large_orange_17: 1214667722133457967
+      fx2_splatter_large_orange_18: -6919275940329802049
+      fx2_splatter_large_orange_19: 4550270675918291113
+      fx2_splatter_large_orange_2: -1657581657334981461
+      fx2_splatter_large_orange_20: 8224023218367953564
+      fx2_splatter_large_orange_3: 7332963397669361752
+      fx2_splatter_large_orange_4: -858829319941360911
+      fx2_splatter_large_orange_5: 4116507115235740779
+      fx2_splatter_large_orange_6: 6166792394799499957
+      fx2_splatter_large_orange_7: -4483955407911123198
+      fx2_splatter_large_orange_8: 3577693174159429681
+      fx2_splatter_large_orange_9: -2028975398191533452
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

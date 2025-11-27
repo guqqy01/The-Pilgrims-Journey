@@ -1,0 +1,637 @@
+fileFormatVersion: 2
+guid: e8cdf785788f6454eb3396c6085909d3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1254598972813059447
+    second: pj3_demon_bite_impact_small_yellow_0
+  - first:
+      213: 5023183292379106392
+    second: pj3_demon_bite_impact_small_yellow_1
+  - first:
+      213: 8957736808932372367
+    second: pj3_demon_bite_impact_small_yellow_2
+  - first:
+      213: -8128783824983763604
+    second: pj3_demon_bite_impact_small_yellow_3
+  - first:
+      213: -2246429048611125549
+    second: pj3_demon_bite_impact_small_yellow_4
+  - first:
+      213: 1689528180709019614
+    second: pj3_demon_bite_impact_small_yellow_5
+  - first:
+      213: 5477448766865670871
+    second: pj3_demon_bite_impact_small_yellow_6
+  - first:
+      213: -7797634122866584829
+    second: pj3_demon_bite_impact_small_yellow_7
+  - first:
+      213: -3896134903971299536
+    second: pj3_demon_bite_impact_small_yellow_8
+  - first:
+      213: -1619986380649268180
+    second: pj3_demon_bite_impact_small_yellow_9
+  - first:
+      213: -6945209210259315107
+    second: pj3_demon_bite_impact_small_yellow_10
+  - first:
+      213: 7140871010477907563
+    second: pj3_demon_bite_impact_small_yellow_11
+  - first:
+      213: -5678163348812382589
+    second: pj3_demon_bite_impact_small_yellow_12
+  - first:
+      213: 3190387570517995174
+    second: pj3_demon_bite_impact_small_yellow_13
+  - first:
+      213: 1969672092623156823
+    second: pj3_demon_bite_impact_small_yellow_14
+  - first:
+      213: -1308204538960699392
+    second: pj3_demon_bite_impact_small_yellow_15
+  - first:
+      213: 7314299343063583178
+    second: pj3_demon_bite_impact_small_yellow_16
+  - first:
+      213: -7678713517748535608
+    second: pj3_demon_bite_impact_small_yellow_17
+  - first:
+      213: 6775952192361355764
+    second: pj3_demon_bite_impact_small_yellow_18
+  - first:
+      213: -4609116958098319062
+    second: pj3_demon_bite_impact_small_yellow_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 5
+        width: 20
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98a58e1a1e4c69ee0800000000000000
+      internalID: -1254598972813059447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_1
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 5
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85c0fe7279ee5b540800000000000000
+      internalID: 5023183292379106392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 5
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8fead7ea26405c70800000000000000
+      internalID: 8957736808932372367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_3
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 11
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c65d6e7ed22c03f80800000000000000
+      internalID: -8128783824983763604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_4
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 12
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d64a60bea413d0e0800000000000000
+      internalID: -2246429048611125549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_5
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 13
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edf4c29cde8627710800000000000000
+      internalID: 1689528180709019614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_6
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 13
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d20e68f1aec30c40800000000000000
+      internalID: 5477448766865670871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_7
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 0
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3039212341d39c390800000000000000
+      internalID: -7797634122866584829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_8
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 1
+        width: 27
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03f3acb82f52ee9c0800000000000000
+      internalID: -3896134903971299536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_9
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 9
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2cfd6848f6a489e0800000000000000
+      internalID: -1619986380649268180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_10
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 0
+        width: 34
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d56e8b34509ad9f90800000000000000
+      internalID: -6945209210259315107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_11
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 0
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6e9b6e9958791360800000000000000
+      internalID: 7140871010477907563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_12
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 5
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38e3569b48c1331b0800000000000000
+      internalID: -5678163348812382589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_13
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 5
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6aeeb8c8798864c20800000000000000
+      internalID: 3190387570517995174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_14
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 6
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 756bdcc155ea55b10800000000000000
+      internalID: 1969672092623156823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_15
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 6
+        width: 44
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 000a1b927e258dde0800000000000000
+      internalID: -1308204538960699392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_16
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 2
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac98d2cef7c918560800000000000000
+      internalID: 7314299343063583178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_17
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 2
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cebb9a3dbabf6590800000000000000
+      internalID: -7678713517748535608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_18
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 1
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f95ab05e94090e50800000000000000
+      internalID: 6775952192361355764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj3_demon_bite_impact_small_yellow_19
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 1
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a291258fb802900c0800000000000000
+      internalID: -4609116958098319062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pj3_demon_bite_impact_small_yellow_0: -1254598972813059447
+      pj3_demon_bite_impact_small_yellow_1: 5023183292379106392
+      pj3_demon_bite_impact_small_yellow_10: -6945209210259315107
+      pj3_demon_bite_impact_small_yellow_11: 7140871010477907563
+      pj3_demon_bite_impact_small_yellow_12: -5678163348812382589
+      pj3_demon_bite_impact_small_yellow_13: 3190387570517995174
+      pj3_demon_bite_impact_small_yellow_14: 1969672092623156823
+      pj3_demon_bite_impact_small_yellow_15: -1308204538960699392
+      pj3_demon_bite_impact_small_yellow_16: 7314299343063583178
+      pj3_demon_bite_impact_small_yellow_17: -7678713517748535608
+      pj3_demon_bite_impact_small_yellow_18: 6775952192361355764
+      pj3_demon_bite_impact_small_yellow_19: -4609116958098319062
+      pj3_demon_bite_impact_small_yellow_2: 8957736808932372367
+      pj3_demon_bite_impact_small_yellow_3: -8128783824983763604
+      pj3_demon_bite_impact_small_yellow_4: -2246429048611125549
+      pj3_demon_bite_impact_small_yellow_5: 1689528180709019614
+      pj3_demon_bite_impact_small_yellow_6: 5477448766865670871
+      pj3_demon_bite_impact_small_yellow_7: -7797634122866584829
+      pj3_demon_bite_impact_small_yellow_8: -3896134903971299536
+      pj3_demon_bite_impact_small_yellow_9: -1619986380649268180
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

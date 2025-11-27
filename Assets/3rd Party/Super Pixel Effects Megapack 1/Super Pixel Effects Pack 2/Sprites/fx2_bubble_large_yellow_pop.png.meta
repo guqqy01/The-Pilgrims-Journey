@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 96a2380e6eb406a478c7449987aa9449
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7968819323188094769
+    second: fx2_bubble_large_yellow_pop_0
+  - first:
+      213: 1126850785090609396
+    second: fx2_bubble_large_yellow_pop_1
+  - first:
+      213: -7571262725058618098
+    second: fx2_bubble_large_yellow_pop_2
+  - first:
+      213: 4156818431543921552
+    second: fx2_bubble_large_yellow_pop_3
+  - first:
+      213: 1161687898434260813
+    second: fx2_bubble_large_yellow_pop_4
+  - first:
+      213: 1814880190868540543
+    second: fx2_bubble_large_yellow_pop_5
+  - first:
+      213: -8959304945700634477
+    second: fx2_bubble_large_yellow_pop_6
+  - first:
+      213: -8532532353904900575
+    second: fx2_bubble_large_yellow_pop_7
+  - first:
+      213: 6555851760076120957
+    second: fx2_bubble_large_yellow_pop_8
+  - first:
+      213: 5506322190831286210
+    second: fx2_bubble_large_yellow_pop_9
+  - first:
+      213: 5256584852887296139
+    second: fx2_bubble_large_yellow_pop_10
+  - first:
+      213: -2091522432697736324
+    second: fx2_bubble_large_yellow_pop_11
+  - first:
+      213: 2492356196787519642
+    second: fx2_bubble_large_yellow_pop_12
+  - first:
+      213: 4767639773615079478
+    second: fx2_bubble_large_yellow_pop_13
+  - first:
+      213: -8656576972995745652
+    second: fx2_bubble_large_yellow_pop_14
+  - first:
+      213: -1990637908100309936
+    second: fx2_bubble_large_yellow_pop_15
+  - first:
+      213: 1803719205158893056
+    second: fx2_bubble_large_yellow_pop_16
+  - first:
+      213: -4296648751267454583
+    second: fx2_bubble_large_yellow_pop_17
+  - first:
+      213: -3838211849758230269
+    second: fx2_bubble_large_yellow_pop_18
+  - first:
+      213: 1237507079789892076
+    second: fx2_bubble_large_yellow_pop_19
+  - first:
+      213: -289637930707884245
+    second: fx2_bubble_large_yellow_pop_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 15
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13725ed24fee69e60800000000000000
+      internalID: 7968819323188094769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_1
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 17
+        width: 62
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f0223891d063af00800000000000000
+      internalID: 1126850785090609396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_2
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 18
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0d99b37aa87de690800000000000000
+      internalID: -7571262725058618098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_3
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 21
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09bc8f7f65cffa930800000000000000
+      internalID: 4156818431543921552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_4
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 11
+        width: 74
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4f4b0e1df42f1010800000000000000
+      internalID: 1161687898434260813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_5
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 43
+        width: 54
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7ccc9efaefbf2910800000000000000
+      internalID: 1814880190868540543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_6
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 6
+        width: 47
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3900d1dce972aa380800000000000000
+      internalID: -8959304945700634477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_7
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 6
+        width: 38
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12688fa080b569980800000000000000
+      internalID: -8532532353904900575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_8
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 43
+        width: 31
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d73e47ff0701bfa50800000000000000
+      internalID: 6555851760076120957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_9
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 23
+        width: 71
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c7795bdbd26a6c40800000000000000
+      internalID: 5506322190831286210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_10
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 2
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b88db08b21423f840800000000000000
+      internalID: 5256584852887296139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_11
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 67
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c736a47cd6b69f2e0800000000000000
+      internalID: -2091522432697736324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_12
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 2
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a90834381c0a69220800000000000000
+      internalID: 2492356196787519642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_13
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 83
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 630c9533d1f0a2240800000000000000
+      internalID: 4767639773615079478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_14
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 1
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8823c98b19add780800000000000000
+      internalID: -8656576972995745652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_15
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 18
+        width: 62
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05c11439e55df54e0800000000000000
+      internalID: -1990637908100309936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_16
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 12
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 006bb028f09180910800000000000000
+      internalID: 1803719205158893056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_17
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 73
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 981e310b9bc3f54c0800000000000000
+      internalID: -4296648751267454583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_18
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 12
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 309377a88aeebbac0800000000000000
+      internalID: -3838211849758230269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_19
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 1
+        width: 108
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce158e9e1228c2110800000000000000
+      internalID: 1237507079789892076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_bubble_large_yellow_pop_20
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 1
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b276daa26dffafbf0800000000000000
+      internalID: -289637930707884245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx2_bubble_large_yellow_pop_0: 7968819323188094769
+      fx2_bubble_large_yellow_pop_1: 1126850785090609396
+      fx2_bubble_large_yellow_pop_10: 5256584852887296139
+      fx2_bubble_large_yellow_pop_11: -2091522432697736324
+      fx2_bubble_large_yellow_pop_12: 2492356196787519642
+      fx2_bubble_large_yellow_pop_13: 4767639773615079478
+      fx2_bubble_large_yellow_pop_14: -8656576972995745652
+      fx2_bubble_large_yellow_pop_15: -1990637908100309936
+      fx2_bubble_large_yellow_pop_16: 1803719205158893056
+      fx2_bubble_large_yellow_pop_17: -4296648751267454583
+      fx2_bubble_large_yellow_pop_18: -3838211849758230269
+      fx2_bubble_large_yellow_pop_19: 1237507079789892076
+      fx2_bubble_large_yellow_pop_2: -7571262725058618098
+      fx2_bubble_large_yellow_pop_20: -289637930707884245
+      fx2_bubble_large_yellow_pop_3: 4156818431543921552
+      fx2_bubble_large_yellow_pop_4: 1161687898434260813
+      fx2_bubble_large_yellow_pop_5: 1814880190868540543
+      fx2_bubble_large_yellow_pop_6: -8959304945700634477
+      fx2_bubble_large_yellow_pop_7: -8532532353904900575
+      fx2_bubble_large_yellow_pop_8: 6555851760076120957
+      fx2_bubble_large_yellow_pop_9: 5506322190831286210
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

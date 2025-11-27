@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 49858adeb31093f4c96a055b1e2da2a1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2116581034835710542
+    second: fx2_splatter_large_white_0
+  - first:
+      213: -3452965164651572560
+    second: fx2_splatter_large_white_1
+  - first:
+      213: -1985908807854358353
+    second: fx2_splatter_large_white_2
+  - first:
+      213: -7837031035133959907
+    second: fx2_splatter_large_white_3
+  - first:
+      213: 4526955370779772927
+    second: fx2_splatter_large_white_4
+  - first:
+      213: 5799460384196913655
+    second: fx2_splatter_large_white_5
+  - first:
+      213: -2677179813753987617
+    second: fx2_splatter_large_white_6
+  - first:
+      213: 1112674698187466145
+    second: fx2_splatter_large_white_7
+  - first:
+      213: -2924757544981036864
+    second: fx2_splatter_large_white_8
+  - first:
+      213: -2984887417840519878
+    second: fx2_splatter_large_white_9
+  - first:
+      213: -5860597837810327692
+    second: fx2_splatter_large_white_10
+  - first:
+      213: -6129601647977006996
+    second: fx2_splatter_large_white_11
+  - first:
+      213: -1883238985089284649
+    second: fx2_splatter_large_white_12
+  - first:
+      213: 3585105001730635363
+    second: fx2_splatter_large_white_13
+  - first:
+      213: -7394345813091846780
+    second: fx2_splatter_large_white_14
+  - first:
+      213: 8567011974856233371
+    second: fx2_splatter_large_white_15
+  - first:
+      213: 197502341387448311
+    second: fx2_splatter_large_white_16
+  - first:
+      213: 6046595327202344481
+    second: fx2_splatter_large_white_17
+  - first:
+      213: 6905042648152707427
+    second: fx2_splatter_large_white_18
+  - first:
+      213: -2540509443339598046
+    second: fx2_splatter_large_white_19
+  - first:
+      213: 2162753899301372745
+    second: fx2_splatter_large_white_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 29
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4216bfac3b9f5d10800000000000000
+      internalID: 2116581034835710542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_1
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 25
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b215233a7a9410d0800000000000000
+      internalID: -3452965164651572560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_2
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 23
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa085870672a074e0800000000000000
+      internalID: -1985908807854358353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_3
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 22
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d11e021cbc54d3390800000000000000
+      internalID: -7837031035133959907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_4
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 33
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff70065cce9f2de30800000000000000
+      internalID: 4526955370779772927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_5
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 21
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f9e1091e72db7050800000000000000
+      internalID: 5799460384196913655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_6
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 25
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fddd859c42fb8dad0800000000000000
+      internalID: -2677179813753987617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_7
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 24
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a567082eb3017f00800000000000000
+      internalID: 1112674698187466145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_8
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 33
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c00345428c2967d0800000000000000
+      internalID: -2924757544981036864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_9
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 41
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a35351545bc8396d0800000000000000
+      internalID: -2984887417840519878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_10
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 17
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47f94e93159faaea0800000000000000
+      internalID: -5860597837810327692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_11
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 16
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c687ea5f6c74feaa0800000000000000
+      internalID: -6129601647977006996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_12
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 17
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d50692fe146dd5e0800000000000000
+      internalID: -1883238985089284649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_13
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 29
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36671ae110ad0c130800000000000000
+      internalID: 3585105001730635363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_14
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 28
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4857340f8a1026990800000000000000
+      internalID: -7394345813091846780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_15
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 10
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b91d2db400424e670800000000000000
+      internalID: 8567011974856233371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_16
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 11
+        width: 29
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ffe4b4455badb200800000000000000
+      internalID: 197502341387448311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_17
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 5
+        width: 33
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ebe62f962d9e350800000000000000
+      internalID: 6046595327202344481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_18
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 6
+        width: 27
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 361901a34b3a3df50800000000000000
+      internalID: 6905042648152707427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_19
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 2
+        width: 35
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 227c7391f1c4ebcd0800000000000000
+      internalID: -2540509443339598046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_white_20
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 0
+        width: 191
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94303707635a30e10800000000000000
+      internalID: 2162753899301372745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx2_splatter_large_white_0: 2116581034835710542
+      fx2_splatter_large_white_1: -3452965164651572560
+      fx2_splatter_large_white_10: -5860597837810327692
+      fx2_splatter_large_white_11: -6129601647977006996
+      fx2_splatter_large_white_12: -1883238985089284649
+      fx2_splatter_large_white_13: 3585105001730635363
+      fx2_splatter_large_white_14: -7394345813091846780
+      fx2_splatter_large_white_15: 8567011974856233371
+      fx2_splatter_large_white_16: 197502341387448311
+      fx2_splatter_large_white_17: 6046595327202344481
+      fx2_splatter_large_white_18: 6905042648152707427
+      fx2_splatter_large_white_19: -2540509443339598046
+      fx2_splatter_large_white_2: -1985908807854358353
+      fx2_splatter_large_white_20: 2162753899301372745
+      fx2_splatter_large_white_3: -7837031035133959907
+      fx2_splatter_large_white_4: 4526955370779772927
+      fx2_splatter_large_white_5: 5799460384196913655
+      fx2_splatter_large_white_6: -2677179813753987617
+      fx2_splatter_large_white_7: 1112674698187466145
+      fx2_splatter_large_white_8: -2924757544981036864
+      fx2_splatter_large_white_9: -2984887417840519878
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

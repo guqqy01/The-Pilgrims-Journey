@@ -1,0 +1,403 @@
+fileFormatVersion: 2
+guid: 5f6e6b07a28edde47b89a3061f50d23a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6754874474928066927
+    second: pj2_fireball_large_blue_0
+  - first:
+      213: 4190852911103879625
+    second: pj2_fireball_large_blue_1
+  - first:
+      213: -5801426396159287377
+    second: pj2_fireball_large_blue_2
+  - first:
+      213: -7593863837401492417
+    second: pj2_fireball_large_blue_3
+  - first:
+      213: -8843523480280735641
+    second: pj2_fireball_large_blue_4
+  - first:
+      213: 7453739770037328571
+    second: pj2_fireball_large_blue_5
+  - first:
+      213: 4729287969969418612
+    second: pj2_fireball_large_blue_6
+  - first:
+      213: 39622294294282988
+    second: pj2_fireball_large_blue_7
+  - first:
+      213: 2095185906285456718
+    second: pj2_fireball_large_blue_8
+  - first:
+      213: -8255126644695756262
+    second: pj2_fireball_large_blue_9
+  - first:
+      213: 808394604984722491
+    second: pj2_fireball_large_blue_10
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 1
+        width: 70
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f61d07ccb822ebd50800000000000000
+      internalID: 6754874474928066927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_1
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 1
+        width: 68
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c92240c486e82a30800000000000000
+      internalID: 4190852911103879625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_2
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 2
+        width: 66
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafd9521e613d7fa0800000000000000
+      internalID: -5801426396159287377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_3
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 1
+        width: 67
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f34dffae21d2d9690800000000000000
+      internalID: -7593863837401492417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_4
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7606a0bef3e754580800000000000000
+      internalID: -8843523480280735641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_5
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 0
+        width: 67
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbad64944d0017760800000000000000
+      internalID: 7453739770037328571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_6
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 10
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4713e821a5ec1a140800000000000000
+      internalID: 4729287969969418612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_7
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 0
+        width: 68
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce2c8984444cc8000800000000000000
+      internalID: 39622294294282988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_8
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 1
+        width: 68
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4dac822b78931d10800000000000000
+      internalID: 2095185906285456718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_9
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 1
+        width: 69
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a121c0fdd06ef6d80800000000000000
+      internalID: -8255126644695756262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj2_fireball_large_blue_10
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 0
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b34e4743c9ef73b00800000000000000
+      internalID: 808394604984722491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pj2_fireball_large_blue_0: 6754874474928066927
+      pj2_fireball_large_blue_1: 4190852911103879625
+      pj2_fireball_large_blue_10: 808394604984722491
+      pj2_fireball_large_blue_2: -5801426396159287377
+      pj2_fireball_large_blue_3: -7593863837401492417
+      pj2_fireball_large_blue_4: -8843523480280735641
+      pj2_fireball_large_blue_5: 7453739770037328571
+      pj2_fireball_large_blue_6: 4729287969969418612
+      pj2_fireball_large_blue_7: 39622294294282988
+      pj2_fireball_large_blue_8: 2095185906285456718
+      pj2_fireball_large_blue_9: -8255126644695756262
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

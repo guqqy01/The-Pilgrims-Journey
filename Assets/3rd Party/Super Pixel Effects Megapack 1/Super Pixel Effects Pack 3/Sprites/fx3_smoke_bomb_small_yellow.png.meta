@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: 510a04eb5128003409586297a51870e0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1158119994982316666
+    second: fx3_smoke_bomb_small_yellow_0
+  - first:
+      213: -3824978821696210557
+    second: fx3_smoke_bomb_small_yellow_1
+  - first:
+      213: 8446545357156628333
+    second: fx3_smoke_bomb_small_yellow_2
+  - first:
+      213: 1692168788922336420
+    second: fx3_smoke_bomb_small_yellow_3
+  - first:
+      213: -2068796480912085182
+    second: fx3_smoke_bomb_small_yellow_4
+  - first:
+      213: 5663963846870505114
+    second: fx3_smoke_bomb_small_yellow_5
+  - first:
+      213: 4334102888168740784
+    second: fx3_smoke_bomb_small_yellow_6
+  - first:
+      213: 6634075606005931287
+    second: fx3_smoke_bomb_small_yellow_7
+  - first:
+      213: 1629543693614190587
+    second: fx3_smoke_bomb_small_yellow_8
+  - first:
+      213: 5460752100156574468
+    second: fx3_smoke_bomb_small_yellow_9
+  - first:
+      213: 27655484231214995
+    second: fx3_smoke_bomb_small_yellow_10
+  - first:
+      213: 8817751846051507357
+    second: fx3_smoke_bomb_small_yellow_11
+  - first:
+      213: 4600200339008204007
+    second: fx3_smoke_bomb_small_yellow_12
+  - first:
+      213: -1824104143658597084
+    second: fx3_smoke_bomb_small_yellow_13
+  - first:
+      213: 212861067880215191
+    second: fx3_smoke_bomb_small_yellow_14
+  - first:
+      213: 4997307015575195892
+    second: fx3_smoke_bomb_small_yellow_15
+  - first:
+      213: -689654910998332118
+    second: fx3_smoke_bomb_small_yellow_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_0
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 4
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7ab23cdff7721010800000000000000
+      internalID: 1158119994982316666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_1
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 389b76bf602faeac0800000000000000
+      internalID: -3824978821696210557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_2
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 1
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d67bb882048283570800000000000000
+      internalID: 8446545357156628333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_3
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a408bb4c8acb7710800000000000000
+      internalID: 1692168788922336420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_4
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 0
+        width: 45
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24f28a2cf882a43e0800000000000000
+      internalID: -2068796480912085182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_5
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 20
+        width: 21
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a961f591c117a9e40800000000000000
+      internalID: 5663963846870505114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_6
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 0
+        width: 20
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b7da4d1d93d52c30800000000000000
+      internalID: 4334102888168740784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_7
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 25
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d51156d98f01c50800000000000000
+      internalID: 6634075606005931287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_8
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 24
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bff0adb0b5d4d9610800000000000000
+      internalID: 1629543693614190587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_9
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 0
+        width: 44
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40b0d405a1d78cb40800000000000000
+      internalID: 5460752100156574468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_10
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 11
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39761b13480426000800000000000000
+      internalID: 27655484231214995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_11
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 9
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9ce175e592fe5a70800000000000000
+      internalID: 8817751846051507357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_12
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 21
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ec273ed5d137df30800000000000000
+      internalID: 4600200339008204007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_13
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 5
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42549e322fa7fa6e0800000000000000
+      internalID: -1824104143658597084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_14
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 2
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 792b281730c34f200800000000000000
+      internalID: 212861067880215191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_15
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 0
+        width: 15
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f05de8f0400a5540800000000000000
+      internalID: 4997307015575195892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_smoke_bomb_small_yellow_16
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 1
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2d375c238add66f0800000000000000
+      internalID: -689654910998332118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx3_smoke_bomb_small_yellow_0: 1158119994982316666
+      fx3_smoke_bomb_small_yellow_1: -3824978821696210557
+      fx3_smoke_bomb_small_yellow_10: 27655484231214995
+      fx3_smoke_bomb_small_yellow_11: 8817751846051507357
+      fx3_smoke_bomb_small_yellow_12: 4600200339008204007
+      fx3_smoke_bomb_small_yellow_13: -1824104143658597084
+      fx3_smoke_bomb_small_yellow_14: 212861067880215191
+      fx3_smoke_bomb_small_yellow_15: 4997307015575195892
+      fx3_smoke_bomb_small_yellow_16: -689654910998332118
+      fx3_smoke_bomb_small_yellow_2: 8446545357156628333
+      fx3_smoke_bomb_small_yellow_3: 1692168788922336420
+      fx3_smoke_bomb_small_yellow_4: -2068796480912085182
+      fx3_smoke_bomb_small_yellow_5: 5663963846870505114
+      fx3_smoke_bomb_small_yellow_6: 4334102888168740784
+      fx3_smoke_bomb_small_yellow_7: 6634075606005931287
+      fx3_smoke_bomb_small_yellow_8: 1629543693614190587
+      fx3_smoke_bomb_small_yellow_9: 5460752100156574468
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

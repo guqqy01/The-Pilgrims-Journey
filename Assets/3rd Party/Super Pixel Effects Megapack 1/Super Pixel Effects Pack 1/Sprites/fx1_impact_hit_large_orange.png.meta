@@ -1,0 +1,689 @@
+fileFormatVersion: 2
+guid: 38c36c924a1a4d248a3c39aaccf8067a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6545865209003809624
+    second: fx1_impact_hit_large_orange_0
+  - first:
+      213: 1378300078074694441
+    second: fx1_impact_hit_large_orange_1
+  - first:
+      213: -4227998636396268784
+    second: fx1_impact_hit_large_orange_2
+  - first:
+      213: -491036292053813608
+    second: fx1_impact_hit_large_orange_3
+  - first:
+      213: 5958039392937689610
+    second: fx1_impact_hit_large_orange_4
+  - first:
+      213: 1256768166519311214
+    second: fx1_impact_hit_large_orange_5
+  - first:
+      213: -2724059443346064954
+    second: fx1_impact_hit_large_orange_6
+  - first:
+      213: 9218950712217569766
+    second: fx1_impact_hit_large_orange_7
+  - first:
+      213: -3355194987314269557
+    second: fx1_impact_hit_large_orange_8
+  - first:
+      213: 4365039914960227610
+    second: fx1_impact_hit_large_orange_9
+  - first:
+      213: 4845265792397754209
+    second: fx1_impact_hit_large_orange_10
+  - first:
+      213: 6851816309632652755
+    second: fx1_impact_hit_large_orange_11
+  - first:
+      213: -25600809830965673
+    second: fx1_impact_hit_large_orange_12
+  - first:
+      213: -6611498504518316922
+    second: fx1_impact_hit_large_orange_13
+  - first:
+      213: 3049986891118783202
+    second: fx1_impact_hit_large_orange_14
+  - first:
+      213: 8568830913254865800
+    second: fx1_impact_hit_large_orange_15
+  - first:
+      213: 7415864696117633623
+    second: fx1_impact_hit_large_orange_16
+  - first:
+      213: -4694681680462478252
+    second: fx1_impact_hit_large_orange_17
+  - first:
+      213: -1419803304810735030
+    second: fx1_impact_hit_large_orange_18
+  - first:
+      213: 1475111002464287437
+    second: fx1_impact_hit_large_orange_19
+  - first:
+      213: 2809690086277625241
+    second: fx1_impact_hit_large_orange_20
+  - first:
+      213: -9018476233621446055
+    second: fx1_impact_hit_large_orange_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_0
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 9
+        width: 41
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a46dbd164a6825a0800000000000000
+      internalID: -6545865209003809624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_1
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 18
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92b09835e94b02310800000000000000
+      internalID: 1378300078074694441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_2
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 45
+        width: 20
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 013b3ce14a12355c0800000000000000
+      internalID: -4227998636396268784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_3
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 48
+        width: 23
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 896be40181d7f29f0800000000000000
+      internalID: -491036292053813608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_4
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 56
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a02c5d5c2453fa250800000000000000
+      internalID: 5958039392937689610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_5
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 16
+        width: 31
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6b07622dffe07110800000000000000
+      internalID: 1256768166519311214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_6
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 13
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c93f447e52323ad0800000000000000
+      internalID: -2724059443346064954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_7
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 17
+        width: 34
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e9009324da40ff70800000000000000
+      internalID: 9218950712217569766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_8
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 4
+        width: 26
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8236f48fe3ff61d0800000000000000
+      internalID: -3355194987314269557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_9
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 15
+        width: 29
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1d0b99fcacb39c30800000000000000
+      internalID: 4365039914960227610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_10
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 37
+        width: 32
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16f383e1197dd3340800000000000000
+      internalID: 4845265792397754209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_11
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d5d1e191aa861f50800000000000000
+      internalID: 6851816309632652755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_12
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 17
+        width: 22
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75e1018f23c05aff0800000000000000
+      internalID: -25600809830965673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_13
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 14
+        width: 12
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68cc82da32d3f34a0800000000000000
+      internalID: -6611498504518316922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_14
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 39
+        width: 25
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eaabbefaeab35a20800000000000000
+      internalID: 3049986891118783202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_15
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 39
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88b31f4e05a9ae670800000000000000
+      internalID: 8568830913254865800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_16
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 18
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 752a37276a17ae660800000000000000
+      internalID: 7415864696117633623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_17
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 42
+        width: 17
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 454008692e329deb0800000000000000
+      internalID: -4694681680462478252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_18
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 18
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4a94ddaa68db4ce0800000000000000
+      internalID: -1419803304810735030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_19
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 8
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dca772a24a5a87410800000000000000
+      internalID: 1475111002464287437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_20
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 0
+        width: 20
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 995b3814f360ef620800000000000000
+      internalID: 2809690086277625241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_impact_hit_large_orange_21
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 0
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 952e0bfb5afe7d280800000000000000
+      internalID: -9018476233621446055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx1_impact_hit_large_orange_0: -6545865209003809624
+      fx1_impact_hit_large_orange_1: 1378300078074694441
+      fx1_impact_hit_large_orange_10: 4845265792397754209
+      fx1_impact_hit_large_orange_11: 6851816309632652755
+      fx1_impact_hit_large_orange_12: -25600809830965673
+      fx1_impact_hit_large_orange_13: -6611498504518316922
+      fx1_impact_hit_large_orange_14: 3049986891118783202
+      fx1_impact_hit_large_orange_15: 8568830913254865800
+      fx1_impact_hit_large_orange_16: 7415864696117633623
+      fx1_impact_hit_large_orange_17: -4694681680462478252
+      fx1_impact_hit_large_orange_18: -1419803304810735030
+      fx1_impact_hit_large_orange_19: 1475111002464287437
+      fx1_impact_hit_large_orange_2: -4227998636396268784
+      fx1_impact_hit_large_orange_20: 2809690086277625241
+      fx1_impact_hit_large_orange_21: -9018476233621446055
+      fx1_impact_hit_large_orange_3: -491036292053813608
+      fx1_impact_hit_large_orange_4: 5958039392937689610
+      fx1_impact_hit_large_orange_5: 1256768166519311214
+      fx1_impact_hit_large_orange_6: -2724059443346064954
+      fx1_impact_hit_large_orange_7: 9218950712217569766
+      fx1_impact_hit_large_orange_8: -3355194987314269557
+      fx1_impact_hit_large_orange_9: 4365039914960227610
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

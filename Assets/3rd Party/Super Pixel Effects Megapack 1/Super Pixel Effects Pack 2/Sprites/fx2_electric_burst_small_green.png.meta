@@ -1,0 +1,689 @@
+fileFormatVersion: 2
+guid: 2442838cdd80fb445a4e76db95d71052
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2909242017746118064
+    second: fx2_electric_burst_small_green_0
+  - first:
+      213: -4422435255540973635
+    second: fx2_electric_burst_small_green_1
+  - first:
+      213: -2006819578201727045
+    second: fx2_electric_burst_small_green_2
+  - first:
+      213: 2008802446152862841
+    second: fx2_electric_burst_small_green_3
+  - first:
+      213: -5045868912500785339
+    second: fx2_electric_burst_small_green_4
+  - first:
+      213: -8942675743872274994
+    second: fx2_electric_burst_small_green_5
+  - first:
+      213: -4987739901891645867
+    second: fx2_electric_burst_small_green_6
+  - first:
+      213: -7572309806410004682
+    second: fx2_electric_burst_small_green_7
+  - first:
+      213: 3252392231967926424
+    second: fx2_electric_burst_small_green_8
+  - first:
+      213: -690168480203107755
+    second: fx2_electric_burst_small_green_9
+  - first:
+      213: -9172132276607869309
+    second: fx2_electric_burst_small_green_10
+  - first:
+      213: -7347654082013818838
+    second: fx2_electric_burst_small_green_11
+  - first:
+      213: 1100277581968220834
+    second: fx2_electric_burst_small_green_12
+  - first:
+      213: 5017866296904714896
+    second: fx2_electric_burst_small_green_13
+  - first:
+      213: -3019124338432485592
+    second: fx2_electric_burst_small_green_14
+  - first:
+      213: -170196919832464648
+    second: fx2_electric_burst_small_green_15
+  - first:
+      213: 7244974751033354990
+    second: fx2_electric_burst_small_green_16
+  - first:
+      213: 4374165991552194626
+    second: fx2_electric_burst_small_green_17
+  - first:
+      213: 4631540841816719740
+    second: fx2_electric_burst_small_green_18
+  - first:
+      213: -7234854871362835782
+    second: fx2_electric_burst_small_green_19
+  - first:
+      213: -8804287062511540718
+    second: fx2_electric_burst_small_green_20
+  - first:
+      213: 7513618534920146742
+    second: fx2_electric_burst_small_green_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 11
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05a1a967ccb40a7d0800000000000000
+      internalID: -2909242017746118064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_1
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 4
+        width: 24
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbff05fe09a50a2c0800000000000000
+      internalID: -4422435255540973635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_2
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 0
+        width: 35
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbf9cf8e9385624e0800000000000000
+      internalID: -2006819578201727045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_3
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 1
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97c80e28e23b0eb10800000000000000
+      internalID: 2008802446152862841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_4
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 0
+        width: 35
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54f343f45f879f9b0800000000000000
+      internalID: -5045868912500785339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_5
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 0
+        width: 37
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecdadf09acb35e380800000000000000
+      internalID: -8942675743872274994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_6
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 0
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55ee4b34cfcf7cab0800000000000000
+      internalID: -4987739901891645867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_7
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 2
+        width: 37
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63789b3d950c9e690800000000000000
+      internalID: -7572309806410004682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_8
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 26
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89820b8c081d22d20800000000000000
+      internalID: 3252392231967926424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_9
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 1
+        width: 38
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55292568c670c66f0800000000000000
+      internalID: -690168480203107755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_10
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 0
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38e94eb5a4a06b080800000000000000
+      internalID: -9172132276607869309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_11
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 0
+        width: 37
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a201e1dba83e70a90800000000000000
+      internalID: -7347654082013818838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_12
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 0
+        width: 45
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2aa8b91a8f44f00800000000000000
+      internalID: 1100277581968220834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_13
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 8
+        width: 29
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09a096dafca03a540800000000000000
+      internalID: 5017866296904714896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_14
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 25
+        width: 6
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 827def2096ae916d0800000000000000
+      internalID: -3019124338432485592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_15
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 4
+        width: 37
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f2358b9dc653adf0800000000000000
+      internalID: -170196919832464648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_16
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 0
+        width: 36
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eea640a86225b8460800000000000000
+      internalID: 7244974751033354990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_17
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 14
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24810134bc824bc30800000000000000
+      internalID: 4374165991552194626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_18
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 2
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c71033f4bd9864040800000000000000
+      internalID: 4631540841816719740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_19
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 0
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abae9ee83d1a89b90800000000000000
+      internalID: -7234854871362835782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_20
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 1
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 216ae625093e0d580800000000000000
+      internalID: -8804287062511540718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_electric_burst_small_green_21
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 1
+        width: 25
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63fc4b7af3cb54860800000000000000
+      internalID: 7513618534920146742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx2_electric_burst_small_green_0: -2909242017746118064
+      fx2_electric_burst_small_green_1: -4422435255540973635
+      fx2_electric_burst_small_green_10: -9172132276607869309
+      fx2_electric_burst_small_green_11: -7347654082013818838
+      fx2_electric_burst_small_green_12: 1100277581968220834
+      fx2_electric_burst_small_green_13: 5017866296904714896
+      fx2_electric_burst_small_green_14: -3019124338432485592
+      fx2_electric_burst_small_green_15: -170196919832464648
+      fx2_electric_burst_small_green_16: 7244974751033354990
+      fx2_electric_burst_small_green_17: 4374165991552194626
+      fx2_electric_burst_small_green_18: 4631540841816719740
+      fx2_electric_burst_small_green_19: -7234854871362835782
+      fx2_electric_burst_small_green_2: -2006819578201727045
+      fx2_electric_burst_small_green_20: -8804287062511540718
+      fx2_electric_burst_small_green_21: 7513618534920146742
+      fx2_electric_burst_small_green_3: 2008802446152862841
+      fx2_electric_burst_small_green_4: -5045868912500785339
+      fx2_electric_burst_small_green_5: -8942675743872274994
+      fx2_electric_burst_small_green_6: -4987739901891645867
+      fx2_electric_burst_small_green_7: -7572309806410004682
+      fx2_electric_burst_small_green_8: 3252392231967926424
+      fx2_electric_burst_small_green_9: -690168480203107755
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,689 @@
+fileFormatVersion: 2
+guid: 1489953530b99a340a12b75a49000903
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1909355766748516987
+    second: fx1_energy_shield_large_blue_0
+  - first:
+      213: 2089741143353217699
+    second: fx1_energy_shield_large_blue_1
+  - first:
+      213: 3523287272030424798
+    second: fx1_energy_shield_large_blue_2
+  - first:
+      213: 3685236610238080755
+    second: fx1_energy_shield_large_blue_3
+  - first:
+      213: 7603771140106201506
+    second: fx1_energy_shield_large_blue_4
+  - first:
+      213: -4148381845761662590
+    second: fx1_energy_shield_large_blue_5
+  - first:
+      213: -2871422951944030221
+    second: fx1_energy_shield_large_blue_6
+  - first:
+      213: -7917448763582349029
+    second: fx1_energy_shield_large_blue_7
+  - first:
+      213: -4336117865143569512
+    second: fx1_energy_shield_large_blue_8
+  - first:
+      213: -4438295228094042756
+    second: fx1_energy_shield_large_blue_9
+  - first:
+      213: -4590369917318389888
+    second: fx1_energy_shield_large_blue_10
+  - first:
+      213: -7065305938348257327
+    second: fx1_energy_shield_large_blue_11
+  - first:
+      213: -6767532869998566259
+    second: fx1_energy_shield_large_blue_12
+  - first:
+      213: 8008127458825458840
+    second: fx1_energy_shield_large_blue_13
+  - first:
+      213: 6191352616330585067
+    second: fx1_energy_shield_large_blue_14
+  - first:
+      213: 7336198194890571671
+    second: fx1_energy_shield_large_blue_15
+  - first:
+      213: -7404979131898083734
+    second: fx1_energy_shield_large_blue_16
+  - first:
+      213: -7701206191042182175
+    second: fx1_energy_shield_large_blue_17
+  - first:
+      213: -7282233736586442235
+    second: fx1_energy_shield_large_blue_18
+  - first:
+      213: 3781467353866871566
+    second: fx1_energy_shield_large_blue_19
+  - first:
+      213: 8309081870126639879
+    second: fx1_energy_shield_large_blue_20
+  - first:
+      213: 7047131537533781012
+    second: fx1_energy_shield_large_blue_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_0
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 7
+        width: 23
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7293e224f46f7a10800000000000000
+      internalID: 1909355766748516987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_1
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 5
+        width: 34
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a2561a7f70400d10800000000000000
+      internalID: 2089741143353217699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_2
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 4
+        width: 39
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ede47035b1b35e030800000000000000
+      internalID: 3523287272030424798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_3
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 3
+        width: 45
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f6618afb27942330800000000000000
+      internalID: 3685236610238080755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_4
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 3
+        width: 49
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a9a56fb095068960800000000000000
+      internalID: 7603771140106201506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_5
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 3
+        width: 51
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28162bab0bcfd66c0800000000000000
+      internalID: -4148381845761662590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_6
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 3
+        width: 54
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f7f875e908a628d0800000000000000
+      internalID: -2871422951944030221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_7
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 29
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1181574c429f1290800000000000000
+      internalID: -7917448763582349029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_8
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 3
+        width: 54
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89374ef76c303d3c0800000000000000
+      internalID: -4336117865143569512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_9
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 3
+        width: 62
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7da42151020862c0800000000000000
+      internalID: -4438295228094042756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_10
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 3
+        width: 66
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08f199a81eabb40c0800000000000000
+      internalID: -4590369917318389888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_11
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 3
+        width: 59
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1df4b43ceadf2fd90800000000000000
+      internalID: -7065305938348257327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_12
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 3
+        width: 37
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d84a4fde5b4e412a0800000000000000
+      internalID: -6767532869998566259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_13
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 9
+        width: 15
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 894d753be75922f60800000000000000
+      internalID: 8008127458825458840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_14
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 4
+        width: 32
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be3e19fb66a1ce550800000000000000
+      internalID: 6191352616330585067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_15
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 18
+        width: 8
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79f7050b3696fc560800000000000000
+      internalID: 7336198194890571671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_16
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 5
+        width: 27
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a66c80a76ba3c3990800000000000000
+      internalID: -7404979131898083734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_17
+      rect:
+        serializedVersion: 2
+        x: 899
+        y: 7
+        width: 23
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e344e0a5c1df1590800000000000000
+      internalID: -7701206191042182175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_18
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 10
+        width: 18
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50a466fdffe40fa90800000000000000
+      internalID: -7282233736586442235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_19
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 13
+        width: 14
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e03a8f4f5887a7430800000000000000
+      internalID: 3781467353866871566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_20
+      rect:
+        serializedVersion: 2
+        x: 1092
+        y: 16
+        width: 9
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70b698effe9cf4370800000000000000
+      internalID: 8309081870126639879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_energy_shield_large_blue_21
+      rect:
+        serializedVersion: 2
+        x: 1155
+        y: 20
+        width: 69
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 414472ccbc07cc160800000000000000
+      internalID: 7047131537533781012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx1_energy_shield_large_blue_0: 1909355766748516987
+      fx1_energy_shield_large_blue_1: 2089741143353217699
+      fx1_energy_shield_large_blue_10: -4590369917318389888
+      fx1_energy_shield_large_blue_11: -7065305938348257327
+      fx1_energy_shield_large_blue_12: -6767532869998566259
+      fx1_energy_shield_large_blue_13: 8008127458825458840
+      fx1_energy_shield_large_blue_14: 6191352616330585067
+      fx1_energy_shield_large_blue_15: 7336198194890571671
+      fx1_energy_shield_large_blue_16: -7404979131898083734
+      fx1_energy_shield_large_blue_17: -7701206191042182175
+      fx1_energy_shield_large_blue_18: -7282233736586442235
+      fx1_energy_shield_large_blue_19: 3781467353866871566
+      fx1_energy_shield_large_blue_2: 3523287272030424798
+      fx1_energy_shield_large_blue_20: 8309081870126639879
+      fx1_energy_shield_large_blue_21: 7047131537533781012
+      fx1_energy_shield_large_blue_3: 3685236610238080755
+      fx1_energy_shield_large_blue_4: 7603771140106201506
+      fx1_energy_shield_large_blue_5: -4148381845761662590
+      fx1_energy_shield_large_blue_6: -2871422951944030221
+      fx1_energy_shield_large_blue_7: -7917448763582349029
+      fx1_energy_shield_large_blue_8: -4336117865143569512
+      fx1_energy_shield_large_blue_9: -4438295228094042756
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

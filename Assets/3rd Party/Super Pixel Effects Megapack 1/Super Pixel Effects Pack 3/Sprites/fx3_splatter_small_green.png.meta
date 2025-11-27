@@ -1,0 +1,767 @@
+fileFormatVersion: 2
+guid: 1bf959158ab7fbf49887921f1b6cfb10
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5429666971126859412
+    second: fx3_splatter_small_green_0
+  - first:
+      213: 5105995377100765391
+    second: fx3_splatter_small_green_1
+  - first:
+      213: 8764573443592320494
+    second: fx3_splatter_small_green_2
+  - first:
+      213: -5720824057622330492
+    second: fx3_splatter_small_green_3
+  - first:
+      213: -426458952905885001
+    second: fx3_splatter_small_green_4
+  - first:
+      213: 2286304508086510992
+    second: fx3_splatter_small_green_5
+  - first:
+      213: -8632639783558906299
+    second: fx3_splatter_small_green_6
+  - first:
+      213: -2247060715949701342
+    second: fx3_splatter_small_green_7
+  - first:
+      213: 4746586243325756725
+    second: fx3_splatter_small_green_8
+  - first:
+      213: -3017194898893880271
+    second: fx3_splatter_small_green_9
+  - first:
+      213: 5868161009799081418
+    second: fx3_splatter_small_green_10
+  - first:
+      213: 285611808927467553
+    second: fx3_splatter_small_green_11
+  - first:
+      213: -3839650609763857271
+    second: fx3_splatter_small_green_12
+  - first:
+      213: -2906739870243275251
+    second: fx3_splatter_small_green_13
+  - first:
+      213: -4358551644414227352
+    second: fx3_splatter_small_green_14
+  - first:
+      213: 3325832040743660659
+    second: fx3_splatter_small_green_15
+  - first:
+      213: 6904540903539542191
+    second: fx3_splatter_small_green_16
+  - first:
+      213: 2663166052673699940
+    second: fx3_splatter_small_green_17
+  - first:
+      213: -6963399069601447056
+    second: fx3_splatter_small_green_18
+  - first:
+      213: -7998506274169957804
+    second: fx3_splatter_small_green_19
+  - first:
+      213: 3056639436879350634
+    second: fx3_splatter_small_green_20
+  - first:
+      213: -3115524785323680717
+    second: fx3_splatter_small_green_21
+  - first:
+      213: 5699056370462473908
+    second: fx3_splatter_small_green_22
+  - first:
+      213: -3472381723052740027
+    second: fx3_splatter_small_green_23
+  - first:
+      213: -715512311881594204
+    second: fx3_splatter_small_green_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 12
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49600b6b75d0a5b40800000000000000
+      internalID: 5429666971126859412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_1
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 10
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc8b0e42eb32cd640800000000000000
+      internalID: 5105995377100765391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_2
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 5
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee574293c1502a970800000000000000
+      internalID: 8764573443592320494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_3
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 2
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48389ee64dc8b90b0800000000000000
+      internalID: -5720824057622330492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_4
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 1
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ba72c087d9e41af0800000000000000
+      internalID: -426458952905885001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 7
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 095eed436d59abf10800000000000000
+      internalID: 2286304508086510992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_6
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54ef013cad3b23880800000000000000
+      internalID: -8632639783558906299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_7
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 20
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 227451d2f26d0d0e0800000000000000
+      internalID: -2247060715949701342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_8
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 0
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53500313a034fd140800000000000000
+      internalID: 4746586243325756725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_9
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 9
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1344f49a935c026d0800000000000000
+      internalID: -3017194898893880271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_10
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 22
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acd2fd9f855ef6150800000000000000
+      internalID: 5868161009799081418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_11
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 5
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12847ce4d62b6f300800000000000000
+      internalID: 285611808927467553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_12
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98cc96f1d12d6bac0800000000000000
+      internalID: -3839650609763857271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_13
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 23
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0e3fa31d7f29a7d0800000000000000
+      internalID: -2906739870243275251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_14
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 0
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86cce7b3f505383c0800000000000000
+      internalID: -4358551644414227352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_15
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 25
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37c632bbe9ab72e20800000000000000
+      internalID: 3325832040743660659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_16
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 0
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa801a4be5bd1df50800000000000000
+      internalID: 6904540903539542191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_17
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 21
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 460ce733a6775f420800000000000000
+      internalID: 2663166052673699940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_18
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 1
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 073ce1b90790d5f90800000000000000
+      internalID: -6963399069601447056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_19
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 21
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 452dd5aebe89ff090800000000000000
+      internalID: -7998506274169957804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_20
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 0
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6bc4a18f5d5b6a20800000000000000
+      internalID: 3056639436879350634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_21
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 8
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33c5bd9e6be63c4d0800000000000000
+      internalID: -3115524785323680717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_22
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 24
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4beb754f29d171f40800000000000000
+      internalID: 5699056370462473908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_23
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 0
+        width: 97
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 542f1e8683f9fcfc0800000000000000
+      internalID: -3472381723052740027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx3_splatter_small_green_24
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 0
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aa01e1e75df116f0800000000000000
+      internalID: -715512311881594204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx3_splatter_small_green_0: 5429666971126859412
+      fx3_splatter_small_green_1: 5105995377100765391
+      fx3_splatter_small_green_10: 5868161009799081418
+      fx3_splatter_small_green_11: 285611808927467553
+      fx3_splatter_small_green_12: -3839650609763857271
+      fx3_splatter_small_green_13: -2906739870243275251
+      fx3_splatter_small_green_14: -4358551644414227352
+      fx3_splatter_small_green_15: 3325832040743660659
+      fx3_splatter_small_green_16: 6904540903539542191
+      fx3_splatter_small_green_17: 2663166052673699940
+      fx3_splatter_small_green_18: -6963399069601447056
+      fx3_splatter_small_green_19: -7998506274169957804
+      fx3_splatter_small_green_2: 8764573443592320494
+      fx3_splatter_small_green_20: 3056639436879350634
+      fx3_splatter_small_green_21: -3115524785323680717
+      fx3_splatter_small_green_22: 5699056370462473908
+      fx3_splatter_small_green_23: -3472381723052740027
+      fx3_splatter_small_green_24: -715512311881594204
+      fx3_splatter_small_green_3: -5720824057622330492
+      fx3_splatter_small_green_4: -426458952905885001
+      fx3_splatter_small_green_5: 2286304508086510992
+      fx3_splatter_small_green_6: -8632639783558906299
+      fx3_splatter_small_green_7: -2247060715949701342
+      fx3_splatter_small_green_8: 4746586243325756725
+      fx3_splatter_small_green_9: -3017194898893880271
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

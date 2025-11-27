@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 20c6f2a81ce7958498a8cd33024e7f03
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3209153016324357861
+    second: fx2_splatter_large_red_0
+  - first:
+      213: 4125050036829422789
+    second: fx2_splatter_large_red_1
+  - first:
+      213: -5876756773715984028
+    second: fx2_splatter_large_red_2
+  - first:
+      213: -5020183876329962569
+    second: fx2_splatter_large_red_3
+  - first:
+      213: -3020798293921588925
+    second: fx2_splatter_large_red_4
+  - first:
+      213: 3789794436874768401
+    second: fx2_splatter_large_red_5
+  - first:
+      213: -5438473956844803739
+    second: fx2_splatter_large_red_6
+  - first:
+      213: -2801063266983926654
+    second: fx2_splatter_large_red_7
+  - first:
+      213: 7554543224050457247
+    second: fx2_splatter_large_red_8
+  - first:
+      213: -6771183576230081948
+    second: fx2_splatter_large_red_9
+  - first:
+      213: -7862813286077228524
+    second: fx2_splatter_large_red_10
+  - first:
+      213: -5215504548011818890
+    second: fx2_splatter_large_red_11
+  - first:
+      213: -1432786336667359554
+    second: fx2_splatter_large_red_12
+  - first:
+      213: 5986552908476003560
+    second: fx2_splatter_large_red_13
+  - first:
+      213: 496762586660864766
+    second: fx2_splatter_large_red_14
+  - first:
+      213: 7379801403499733461
+    second: fx2_splatter_large_red_15
+  - first:
+      213: -1330432339505001316
+    second: fx2_splatter_large_red_16
+  - first:
+      213: -2735531629785499363
+    second: fx2_splatter_large_red_17
+  - first:
+      213: 8241303808281436578
+    second: fx2_splatter_large_red_18
+  - first:
+      213: -7756530672719176610
+    second: fx2_splatter_large_red_19
+  - first:
+      213: -6616402465377034485
+    second: fx2_splatter_large_red_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 29
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5eef2ef5aa3398c20800000000000000
+      internalID: 3209153016324357861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_1
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 25
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c40eed272f1f3930800000000000000
+      internalID: 4125050036829422789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_2
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 23
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 461c947c9d0917ea0800000000000000
+      internalID: -5876756773715984028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_3
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 22
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b38530dc59b45ab0800000000000000
+      internalID: -5020183876329962569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_4
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 33
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34992b0e4f7f316d0800000000000000
+      internalID: -3020798293921588925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_5
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 21
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1101cad06fd089430800000000000000
+      internalID: 3789794436874768401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_6
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 25
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5696d0220c8a684b0800000000000000
+      internalID: -5438473956844803739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_7
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 24
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2842702accf9029d0800000000000000
+      internalID: -2801063266983926654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_8
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 33
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9a9cdd590127d860800000000000000
+      internalID: 7554543224050457247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_9
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 41
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46ac8d5a96ce702a0800000000000000
+      internalID: -6771183576230081948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_10
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 17
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41a152ca9fca1e290800000000000000
+      internalID: -7862813286077228524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_11
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 16
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 670425b1f3ece97b0800000000000000
+      internalID: -5215504548011818890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_12
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 17
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb6a8e30b68bd1ce0800000000000000
+      internalID: -1432786336667359554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_13
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 29
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e43bc2f622841350800000000000000
+      internalID: 5986552908476003560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_14
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 28
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef200abc0fad4e600800000000000000
+      internalID: 496762586660864766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_15
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 10
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d1e780d6425a6660800000000000000
+      internalID: 7379801403499733461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_16
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 11
+        width: 29
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9ccc1e06da598de0800000000000000
+      internalID: -1330432339505001316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_17
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 5
+        width: 33
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d193ac6e970790ad0800000000000000
+      internalID: -2735531629785499363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_18
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 6
+        width: 27
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a160ba362efe5270800000000000000
+      internalID: 8241303808281436578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_19
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 2
+        width: 35
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5cd623f2744b5490800000000000000
+      internalID: -7756530672719176610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx2_splatter_large_red_20
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 0
+        width: 191
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0fde205301dd24a0800000000000000
+      internalID: -6616402465377034485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx2_splatter_large_red_0: 3209153016324357861
+      fx2_splatter_large_red_1: 4125050036829422789
+      fx2_splatter_large_red_10: -7862813286077228524
+      fx2_splatter_large_red_11: -5215504548011818890
+      fx2_splatter_large_red_12: -1432786336667359554
+      fx2_splatter_large_red_13: 5986552908476003560
+      fx2_splatter_large_red_14: 496762586660864766
+      fx2_splatter_large_red_15: 7379801403499733461
+      fx2_splatter_large_red_16: -1330432339505001316
+      fx2_splatter_large_red_17: -2735531629785499363
+      fx2_splatter_large_red_18: 8241303808281436578
+      fx2_splatter_large_red_19: -7756530672719176610
+      fx2_splatter_large_red_2: -5876756773715984028
+      fx2_splatter_large_red_20: -6616402465377034485
+      fx2_splatter_large_red_3: -5020183876329962569
+      fx2_splatter_large_red_4: -3020798293921588925
+      fx2_splatter_large_red_5: 3789794436874768401
+      fx2_splatter_large_red_6: -5438473956844803739
+      fx2_splatter_large_red_7: -2801063266983926654
+      fx2_splatter_large_red_8: 7554543224050457247
+      fx2_splatter_large_red_9: -6771183576230081948
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

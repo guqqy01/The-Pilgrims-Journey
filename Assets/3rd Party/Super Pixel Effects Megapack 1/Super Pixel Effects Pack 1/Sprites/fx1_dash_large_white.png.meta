@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: e512f3f68685a25489fd8572932384ee
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6869754357368915200
+    second: fx1_dash_large_white_0
+  - first:
+      213: -117264888954909221
+    second: fx1_dash_large_white_1
+  - first:
+      213: -3262016318234394081
+    second: fx1_dash_large_white_2
+  - first:
+      213: -5311158900066206566
+    second: fx1_dash_large_white_3
+  - first:
+      213: -8775316106575647663
+    second: fx1_dash_large_white_4
+  - first:
+      213: 6689039558994812615
+    second: fx1_dash_large_white_5
+  - first:
+      213: 7711003812654662231
+    second: fx1_dash_large_white_6
+  - first:
+      213: -7544318194582600678
+    second: fx1_dash_large_white_7
+  - first:
+      213: 3070386883199469384
+    second: fx1_dash_large_white_8
+  - first:
+      213: -5856237963741133130
+    second: fx1_dash_large_white_9
+  - first:
+      213: 4315278807234499989
+    second: fx1_dash_large_white_10
+  - first:
+      213: -8927863957368965482
+    second: fx1_dash_large_white_11
+  - first:
+      213: 2419809380213622244
+    second: fx1_dash_large_white_12
+  - first:
+      213: 4920209803699698643
+    second: fx1_dash_large_white_13
+  - first:
+      213: -2704857978414972478
+    second: fx1_dash_large_white_14
+  - first:
+      213: 5448093497291947917
+    second: fx1_dash_large_white_15
+  - first:
+      213: -5704823711976313372
+    second: fx1_dash_large_white_16
+  - first:
+      213: 7911869138818632172
+    second: fx1_dash_large_white_17
+  - first:
+      213: -5754830713906352284
+    second: fx1_dash_large_white_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx1_dash_large_white_0
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 0
+        width: 85
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00b75da3fcab9a0a0800000000000000
+      internalID: -6869754357368915200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_1
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 0
+        width: 85
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdd873d64346f5ef0800000000000000
+      internalID: -117264888954909221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_2
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 0
+        width: 81
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f128c14017dfab2d0800000000000000
+      internalID: -3262016318234394081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_3
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 0
+        width: 65
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9c36efbe19fa46b0800000000000000
+      internalID: -5311158900066206566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_4
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 29
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15c6bc3ae70d73680800000000000000
+      internalID: -8775316106575647663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_5
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 0
+        width: 70
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cedb62f90e34dc50800000000000000
+      internalID: 6689039558994812615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_6
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 2
+        width: 29
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 752c6faec1df20b60800000000000000
+      internalID: 7711003812654662231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_7
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 15
+        width: 24
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a144363d2923d4790800000000000000
+      internalID: -7544318194582600678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_8
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 33
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8478f184a943c9a20800000000000000
+      internalID: 3070386883199469384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_9
+      rect:
+        serializedVersion: 2
+        x: 905
+        y: 4
+        width: 174
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b68d0389967abea0800000000000000
+      internalID: -5856237963741133130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_10
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 0
+        width: 67
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 595dbfb3633f2eb30800000000000000
+      internalID: 4315278807234499989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_11
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 17
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 696720a580bd91480800000000000000
+      internalID: -8927863957368965482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_12
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 22
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e58ac38fc3e49120800000000000000
+      internalID: 2419809380213622244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_13
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 4
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3db3ae18fb8184440800000000000000
+      internalID: 4920209803699698643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_14
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 22
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c1c1b4eff9667ad0800000000000000
+      internalID: -2704857978414972478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_15
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 5
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8fb339ab248b9b40800000000000000
+      internalID: 5448093497291947917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_16
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 5
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ed2d653f0564d0b0800000000000000
+      internalID: -5704823711976313372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_17
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 10
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce909a8101b9ccd60800000000000000
+      internalID: 7911869138818632172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_dash_large_white_18
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 12
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46faa13c4fbb220b0800000000000000
+      internalID: -5754830713906352284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx1_dash_large_white_0: -6869754357368915200
+      fx1_dash_large_white_1: -117264888954909221
+      fx1_dash_large_white_10: 4315278807234499989
+      fx1_dash_large_white_11: -8927863957368965482
+      fx1_dash_large_white_12: 2419809380213622244
+      fx1_dash_large_white_13: 4920209803699698643
+      fx1_dash_large_white_14: -2704857978414972478
+      fx1_dash_large_white_15: 5448093497291947917
+      fx1_dash_large_white_16: -5704823711976313372
+      fx1_dash_large_white_17: 7911869138818632172
+      fx1_dash_large_white_18: -5754830713906352284
+      fx1_dash_large_white_2: -3262016318234394081
+      fx1_dash_large_white_3: -5311158900066206566
+      fx1_dash_large_white_4: -8775316106575647663
+      fx1_dash_large_white_5: 6689039558994812615
+      fx1_dash_large_white_6: 7711003812654662231
+      fx1_dash_large_white_7: -7544318194582600678
+      fx1_dash_large_white_8: 3070386883199469384
+      fx1_dash_large_white_9: -5856237963741133130
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

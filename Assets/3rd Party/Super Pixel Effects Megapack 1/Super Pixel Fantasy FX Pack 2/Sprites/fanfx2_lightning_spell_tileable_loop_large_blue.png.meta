@@ -1,0 +1,325 @@
+fileFormatVersion: 2
+guid: c8e6b617df1adab49bc5dc24caf5e464
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2603887583367587300
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_0
+  - first:
+      213: -6970800190068966217
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_1
+  - first:
+      213: -3957368793612335181
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_2
+  - first:
+      213: 3356307176686584142
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_3
+  - first:
+      213: -3309363080544373513
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_4
+  - first:
+      213: 9021430880052362066
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_5
+  - first:
+      213: -1515035987681002222
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_6
+  - first:
+      213: 4502127815484322650
+    second: fanfx2_lightning_spell_tileable_loop_large_blue_7
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 0
+        width: 46
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1a1356f9022ddbd0800000000000000
+      internalID: -2603887583367587300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_1
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 0
+        width: 41
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bcb6b6f82eb24f90800000000000000
+      internalID: -6970800190068966217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_2
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 0
+        width: 51
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b7458b9c0a9419c0800000000000000
+      internalID: -3957368793612335181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_3
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 0
+        width: 41
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e418f7f389ff39e20800000000000000
+      internalID: 3356307176686584142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_4
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 0
+        width: 46
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f43c5fdfc7c212d0800000000000000
+      internalID: -3309363080544373513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_5
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 0
+        width: 41
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25bb24b769f823d70800000000000000
+      internalID: 9021430880052362066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_6
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 0
+        width: 51
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21d3754dbc289fae0800000000000000
+      internalID: -1515035987681002222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanfx2_lightning_spell_tileable_loop_large_blue_7
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 0
+        width: 41
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5339571565ca7e30800000000000000
+      internalID: 4502127815484322650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fanfx2_lightning_spell_tileable_loop_large_blue_0: -2603887583367587300
+      fanfx2_lightning_spell_tileable_loop_large_blue_1: -6970800190068966217
+      fanfx2_lightning_spell_tileable_loop_large_blue_2: -3957368793612335181
+      fanfx2_lightning_spell_tileable_loop_large_blue_3: 3356307176686584142
+      fanfx2_lightning_spell_tileable_loop_large_blue_4: -3309363080544373513
+      fanfx2_lightning_spell_tileable_loop_large_blue_5: 9021430880052362066
+      fanfx2_lightning_spell_tileable_loop_large_blue_6: -1515035987681002222
+      fanfx2_lightning_spell_tileable_loop_large_blue_7: 4502127815484322650
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: d603c15df5d7b364d98d6e4f5d0df659
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3416149308273104069
+    second: pj4_plasma_ball_small_orange_0
+  - first:
+      213: 1690319815903385044
+    second: pj4_plasma_ball_small_orange_1
+  - first:
+      213: -7473907306675875308
+    second: pj4_plasma_ball_small_orange_2
+  - first:
+      213: 8734802627157898214
+    second: pj4_plasma_ball_small_orange_3
+  - first:
+      213: -7635573277277981788
+    second: pj4_plasma_ball_small_orange_4
+  - first:
+      213: 4303359481370912702
+    second: pj4_plasma_ball_small_orange_5
+  - first:
+      213: 6278014159881940701
+    second: pj4_plasma_ball_small_orange_6
+  - first:
+      213: -3637839084454588670
+    second: pj4_plasma_ball_small_orange_7
+  - first:
+      213: -1913811913052325426
+    second: pj4_plasma_ball_small_orange_8
+  - first:
+      213: 8313275863311951010
+    second: pj4_plasma_ball_small_orange_9
+  - first:
+      213: -3097062622753505206
+    second: pj4_plasma_ball_small_orange_10
+  - first:
+      213: -9020853673358737329
+    second: pj4_plasma_ball_small_orange_11
+  - first:
+      213: 7748614083700699341
+    second: pj4_plasma_ball_small_orange_12
+  - first:
+      213: -8617594052240889743
+    second: pj4_plasma_ball_small_orange_13
+  - first:
+      213: 1654012560726315870
+    second: pj4_plasma_ball_small_orange_14
+  - first:
+      213: 4078219527011131924
+    second: pj4_plasma_ball_small_orange_15
+  - first:
+      213: -3037949241761740194
+    second: pj4_plasma_ball_small_orange_16
+  - first:
+      213: 4459088287285786997
+    second: pj4_plasma_ball_small_orange_17
+  - first:
+      213: -2936378696256523951
+    second: pj4_plasma_ball_small_orange_18
+  - first:
+      213: -8757287803485658268
+    second: pj4_plasma_ball_small_orange_19
+  - first:
+      213: -3456951135975039566
+    second: pj4_plasma_ball_small_orange_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 25
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3b6facbd466790d0800000000000000
+      internalID: -3416149308273104069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_1
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 0
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d599b7bae8357710800000000000000
+      internalID: 1690319815903385044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_2
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 412536d27e8574890800000000000000
+      internalID: -7473907306675875308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_3
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 0
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e335eed5b0483970800000000000000
+      internalID: 8734802627157898214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_4
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a3716f2f8ef80690800000000000000
+      internalID: -7635573277277981788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_5
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 0
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb72cebe5aa98bb30800000000000000
+      internalID: 4303359481370912702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_6
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 0
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddea2a6bd9cff1750800000000000000
+      internalID: 6278014159881940701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_7
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 25
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20f4d0570acc38dc0800000000000000
+      internalID: -3637839084454588670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_8
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 1
+        width: 26
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec9fa937436c075e0800000000000000
+      internalID: -1913811913052325426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_9
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 2
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a4a9802a50be5370800000000000000
+      internalID: 8313275863311951010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_10
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 1
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4043ab14f50505d0800000000000000
+      internalID: -3097062622753505206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_11
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 0
+        width: 24
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f40ccace06d7fc280800000000000000
+      internalID: -9020853673358737329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_12
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 0
+        width: 98
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc0b198847b988b60800000000000000
+      internalID: 7748614083700699341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_13
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 1
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 178a9a11ed7286880800000000000000
+      internalID: -8617594052240889743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_14
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 0
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e53502029ab34f610800000000000000
+      internalID: 1654012560726315870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_15
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 0
+        width: 25
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4126f8f6d0fb89830800000000000000
+      internalID: 4078219527011131924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_16
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 0
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5acf17a24907d5d0800000000000000
+      internalID: -3037949241761740194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_17
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 0
+        width: 26
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57936c90c2dd1ed30800000000000000
+      internalID: 4459088287285786997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_18
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 0
+        width: 26
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 151fa932223ef37d0800000000000000
+      internalID: -2936378696256523951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_19
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 1
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 463606d042dd77680800000000000000
+      internalID: -8757287803485658268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pj4_plasma_ball_small_orange_20
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bd135ee1417600d0800000000000000
+      internalID: -3456951135975039566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pj4_plasma_ball_small_orange_0: -3416149308273104069
+      pj4_plasma_ball_small_orange_1: 1690319815903385044
+      pj4_plasma_ball_small_orange_10: -3097062622753505206
+      pj4_plasma_ball_small_orange_11: -9020853673358737329
+      pj4_plasma_ball_small_orange_12: 7748614083700699341
+      pj4_plasma_ball_small_orange_13: -8617594052240889743
+      pj4_plasma_ball_small_orange_14: 1654012560726315870
+      pj4_plasma_ball_small_orange_15: 4078219527011131924
+      pj4_plasma_ball_small_orange_16: -3037949241761740194
+      pj4_plasma_ball_small_orange_17: 4459088287285786997
+      pj4_plasma_ball_small_orange_18: -2936378696256523951
+      pj4_plasma_ball_small_orange_19: -8757287803485658268
+      pj4_plasma_ball_small_orange_2: -7473907306675875308
+      pj4_plasma_ball_small_orange_20: -3456951135975039566
+      pj4_plasma_ball_small_orange_3: 8734802627157898214
+      pj4_plasma_ball_small_orange_4: -7635573277277981788
+      pj4_plasma_ball_small_orange_5: 4303359481370912702
+      pj4_plasma_ball_small_orange_6: 6278014159881940701
+      pj4_plasma_ball_small_orange_7: -3637839084454588670
+      pj4_plasma_ball_small_orange_8: -1913811913052325426
+      pj4_plasma_ball_small_orange_9: 8313275863311951010
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

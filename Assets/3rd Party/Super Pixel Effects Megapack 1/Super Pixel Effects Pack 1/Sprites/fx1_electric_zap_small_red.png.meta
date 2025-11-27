@@ -1,0 +1,689 @@
+fileFormatVersion: 2
+guid: 0abe51afa538de5498b2094b07bf5ca9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5071325092233407290
+    second: fx1_electric_zap_small_red_0
+  - first:
+      213: -789621831875094189
+    second: fx1_electric_zap_small_red_1
+  - first:
+      213: -4913838240011996094
+    second: fx1_electric_zap_small_red_2
+  - first:
+      213: 1319286886712416819
+    second: fx1_electric_zap_small_red_3
+  - first:
+      213: -5942458585762622771
+    second: fx1_electric_zap_small_red_4
+  - first:
+      213: -1278535279345154196
+    second: fx1_electric_zap_small_red_5
+  - first:
+      213: 3982535257130079358
+    second: fx1_electric_zap_small_red_6
+  - first:
+      213: 1019360580228038625
+    second: fx1_electric_zap_small_red_7
+  - first:
+      213: -3284855439311504704
+    second: fx1_electric_zap_small_red_8
+  - first:
+      213: -3541624620550741024
+    second: fx1_electric_zap_small_red_9
+  - first:
+      213: 2810429840016526278
+    second: fx1_electric_zap_small_red_10
+  - first:
+      213: -862625602806940178
+    second: fx1_electric_zap_small_red_11
+  - first:
+      213: 2021378795106643957
+    second: fx1_electric_zap_small_red_12
+  - first:
+      213: 5979672546795637418
+    second: fx1_electric_zap_small_red_13
+  - first:
+      213: 6969125260042097257
+    second: fx1_electric_zap_small_red_14
+  - first:
+      213: 9222544582168970172
+    second: fx1_electric_zap_small_red_15
+  - first:
+      213: -5862181357325679743
+    second: fx1_electric_zap_small_red_16
+  - first:
+      213: 1599149375413804265
+    second: fx1_electric_zap_small_red_17
+  - first:
+      213: -6404810212119491039
+    second: fx1_electric_zap_small_red_18
+  - first:
+      213: 2450949549749004541
+    second: fx1_electric_zap_small_red_19
+  - first:
+      213: -8239167618789266637
+    second: fx1_electric_zap_small_red_20
+  - first:
+      213: 1967416669190996989
+    second: fx1_electric_zap_small_red_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3be8176d47f06640800000000000000
+      internalID: 5071325092233407290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 21
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3591134a023ba05f0800000000000000
+      internalID: -789621831875094189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_2
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 12
+        width: 22
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 244ba54c72a8ecbb0800000000000000
+      internalID: -4913838240011996094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_3
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 21
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33a135ffe6c0f4210800000000000000
+      internalID: 1319286886712416819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_4
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 26
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc216279665288da0800000000000000
+      internalID: -5942458585762622771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_5
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 23
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c67c3d9ffeab14ee0800000000000000
+      internalID: -1278535279345154196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_6
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 0
+        width: 49
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7415ba47bec44730800000000000000
+      internalID: 3982535257130079358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_7
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 19
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef37820c0f752e00800000000000000
+      internalID: 1019360580228038625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_8
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 4
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0caf351c169d962d0800000000000000
+      internalID: -3284855439311504704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_9
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 21
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e3ab440c2f99dec0800000000000000
+      internalID: -3541624620550741024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_10
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 3
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cbc7589c07a00720800000000000000
+      internalID: 2810429840016526278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_11
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 3
+        width: 54
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eedf88aa5965704f0800000000000000
+      internalID: -862625602806940178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_12
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 23
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ffa6deed416d0c10800000000000000
+      internalID: 2021378795106643957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_13
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 9
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aaac8e8ef701cf250800000000000000
+      internalID: 5979672546795637418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_14
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 6
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 962d200008e47b060800000000000000
+      internalID: 6969125260042097257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_15
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 5
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb382613f6f0dff70800000000000000
+      internalID: 9222544582168970172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_16
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 9
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1838fab5d1955aea0800000000000000
+      internalID: -5862181357325679743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_17
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 10
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ecd35062e1513610800000000000000
+      internalID: 1599149375413804265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_18
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 15
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ec2d4db0b8d17a0800000000000000
+      internalID: -6404810212119491039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_19
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 0
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df8613b31a5830220800000000000000
+      internalID: 2450949549749004541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_20
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 5
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33b2a2524b898ad80800000000000000
+      internalID: -8239167618789266637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx1_electric_zap_small_red_21
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 5
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df3cf4c690bad4b10800000000000000
+      internalID: 1967416669190996989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fx1_electric_zap_small_red_0: 5071325092233407290
+      fx1_electric_zap_small_red_1: -789621831875094189
+      fx1_electric_zap_small_red_10: 2810429840016526278
+      fx1_electric_zap_small_red_11: -862625602806940178
+      fx1_electric_zap_small_red_12: 2021378795106643957
+      fx1_electric_zap_small_red_13: 5979672546795637418
+      fx1_electric_zap_small_red_14: 6969125260042097257
+      fx1_electric_zap_small_red_15: 9222544582168970172
+      fx1_electric_zap_small_red_16: -5862181357325679743
+      fx1_electric_zap_small_red_17: 1599149375413804265
+      fx1_electric_zap_small_red_18: -6404810212119491039
+      fx1_electric_zap_small_red_19: 2450949549749004541
+      fx1_electric_zap_small_red_2: -4913838240011996094
+      fx1_electric_zap_small_red_20: -8239167618789266637
+      fx1_electric_zap_small_red_21: 1967416669190996989
+      fx1_electric_zap_small_red_3: 1319286886712416819
+      fx1_electric_zap_small_red_4: -5942458585762622771
+      fx1_electric_zap_small_red_5: -1278535279345154196
+      fx1_electric_zap_small_red_6: 3982535257130079358
+      fx1_electric_zap_small_red_7: 1019360580228038625
+      fx1_electric_zap_small_red_8: -3284855439311504704
+      fx1_electric_zap_small_red_9: -3541624620550741024
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
