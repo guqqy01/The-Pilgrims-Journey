@@ -67,7 +67,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -81,7 +81,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 25
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,7 +105,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -133,12 +133,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_0
       rect:
         serializedVersion: 2
-        x: 5
+        x: 0
         y: 0
-        width: 28
-        height: 11
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_1
       rect:
         serializedVersion: 2
-        x: 35
+        x: 32
         y: 0
-        width: 30
-        height: 11
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -177,12 +177,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_2
       rect:
         serializedVersion: 2
-        x: 66
+        x: 64
         y: 0
-        width: 30
+        width: 32
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -199,12 +199,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_3
       rect:
         serializedVersion: 2
-        x: 101
-        y: 2
-        width: 59
-        height: 10
+        x: 96
+        y: 0
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -221,12 +221,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_4
       rect:
         serializedVersion: 2
-        x: 162
-        y: 1
-        width: 30
-        height: 11
+        x: 128
+        y: 0
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -243,12 +243,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_5
       rect:
         serializedVersion: 2
-        x: 199
-        y: 1
-        width: 26
-        height: 9
+        x: 160
+        y: 0
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -265,12 +265,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_6
       rect:
         serializedVersion: 2
-        x: 227
-        y: 1
-        width: 29
-        height: 9
+        x: 192
+        y: 0
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -287,12 +287,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_7
       rect:
         serializedVersion: 2
-        x: 258
-        y: 1
-        width: 30
-        height: 10
+        x: 224
+        y: 0
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -309,12 +309,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_8
       rect:
         serializedVersion: 2
-        x: 295
-        y: 1
-        width: 26
-        height: 10
+        x: 256
+        y: 0
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -331,12 +331,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_9
       rect:
         serializedVersion: 2
-        x: 323
-        y: 1
-        width: 30
-        height: 10
+        x: 288
+        y: 0
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -353,12 +353,12 @@ TextureImporter:
       name: pj3_arrow_loop_small_red_10
       rect:
         serializedVersion: 2
-        x: 354
+        x: 320
         y: 0
-        width: 30
-        height: 11
+        width: 32
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -371,11 +371,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: pj3_arrow_loop_small_red_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e0484cdb8ea9ee49aa970b25469aef5
+      internalID: 1693328714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3d649aea70efd8d45b6fb5534300627d
     internalID: 0
     vertices: []
     indices: 
@@ -383,11 +405,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":12.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       pj3_arrow_loop_small_red_0: -6546762027430228494
       pj3_arrow_loop_small_red_1: -6599956786740620728
       pj3_arrow_loop_small_red_10: 3840314906068050824
+      pj3_arrow_loop_small_red_11: 1693328714
       pj3_arrow_loop_small_red_2: -5253360399953683222
       pj3_arrow_loop_small_red_3: -2719594840276831205
       pj3_arrow_loop_small_red_4: 3747623036295104378

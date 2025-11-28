@@ -1,41 +1,20 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Heros
 {
-    [RequireComponent(typeof (HeroMovement))]
-    public class HeroSwipeAttack : MonoBehaviour
+    public class MeleeHeroAttack : HeroAttack
     {
         private HeroMovement heroMovement;
 
         [SerializeField]
-        private MeleeSwipeAttack meleeSwipeAttackPrefab;
-
-        [SerializeField]
-        private float cooldown = 1f;
-
-        private float nextAttackTime;
-
-        [SerializeField]
-        private int damage = 3;
-        [SerializeField]
-        private float knockback = 1f;
+        private MeleeAttackSpawn meleeSwipeAttackPrefab;
 
         private void Awake()
         {
             heroMovement = GetComponent<HeroMovement>();
         }
 
-        private void Update()
-        {
-            if (Time.time >= nextAttackTime)
-            {
-                Attack();
-
-                nextAttackTime = Time.time + cooldown;
-            }
-        }
-
-        private void Attack()
+        protected override bool Attack()
         {
             float rotation;
 
@@ -57,13 +36,12 @@ namespace Heros
                     _ => 0f // fallback
                 };
             }
-            
-            
 
             var attack = Instantiate(meleeSwipeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
 
             attack.Init(damage, knockback);
+
+            return true;
         }
     }
 }
-

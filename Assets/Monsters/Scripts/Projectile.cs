@@ -1,75 +1,91 @@
 ﻿using System;
 using Units;
 using UnityEngine;
+using System.Collections.Generic;
 
-namespace Monsters
+[RequireComponent(typeof(Collider2D))]
+public class Projectile : MonoBehaviour
 {
-    [RequireComponent(typeof(Collider2D))]
-    public class Projectile : MonoBehaviour
+    private int damage;
+    private float speed;
+
+    private bool homing;
+
+    private Transform target;
+
+    private Vector2 direction;
+
+    private LayerMask layerMask;
+
+    [SerializeField]
+    private bool oneHit = true;
+
+    private bool hit = false;
+
+    [SerializeField]
+    private bool pointInTravelDirection;
+
+    public delegate void OnHit(OnHitInfo hitInfo);
+    public OnHit onHit;
+
+    private readonly List<HealthAndShieldManager> hitHealth = new List<HealthAndShieldManager>();
+
+    private const float projectileLifetime = 20f;
+    private float lifeTimeEnd;
+
+    public void Init(int damage, float speed, bool homing, Transform target, Vector2 direction, LayerMask layerMask)
     {
-        public int damage;
-        public float speed;
+        this.damage = damage;
+        this.speed = speed;
+        this.homing = homing;
+        this.target = target;
+        this.direction = direction;
+        this.layerMask = layerMask;
 
-        public bool homing;
-
-        public Transform target;
-
-        public Vector2 direction;
-
-        public LayerMask layerMask;
-
-        public bool oneHit = true;
-
-        private bool hit = false;
-
-        [SerializeField]
-        private bool pointInTravelDirection;
-
-        public delegate void OnHit(OnHitInfo hitInfo);
-        public OnHit onHit;
-
-
-
-        public void Init(int damage, float speed, bool homing, Transform target, Vector2 direction, LayerMask layerMask)
+        if (pointInTravelDirection)
         {
-            this.damage = damage;
-            this.speed = speed;
-            this.homing = homing;
-            this.target = target;
-            this.direction = direction;
-            this.layerMask = layerMask;
+            direction = target.position - transform.position;
 
-            if (pointInTravelDirection)
-            {
-                direction = target.position - transform.position;
-
-                transform.right = direction;
-            }
+            transform.right = direction;
         }
+    }
 
-        private void Update()
+    private void Awake()
+    {
+        lifeTimeEnd = Time.time + projectileLifetime;
+    }
+
+    private void Update()
+    {
+        if (homing && target != null)
         {
-            if (homing && target != null)
-            {
-                direction = target.position - transform.position;
+            direction = target.position - transform.position;
                 
-                transform.right = direction;
-            }
-
-            transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
+            transform.right = direction;
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
+
+        if(Time.time > lifeTimeEnd)
         {
-            if (!hit && layerMask.ContainsLayer(collision.gameObject.layer))
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!hit && layerMask.ContainsLayer(collision.gameObject.layer))
+        {
+            if (collision.TryGetComponent(out HealthAndShieldManager healthAndShieldManager) && !hitHealth.Contains(healthAndShieldManager))
             {
-                if (collision.TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
+                
+                OnHitInfo info = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized);
+
+                onHit?.Invoke(info);
+
+                if (oneHit)
                 {
                     hit = true;
-                    OnHitInfo info = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized);
-
-                    onHit?.Invoke(info);
-
                     Destroy(gameObject);
                 }
             }

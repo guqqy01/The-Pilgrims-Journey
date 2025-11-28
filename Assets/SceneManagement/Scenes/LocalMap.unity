@@ -818,6 +818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterSpawnManager
   monsterSpawnSettings: {fileID: 11400000, guid: ccb9129bbe8b5234b8972a5502518280, type: 2}
   monsters: []
+  hordeSpawnRate: 0.25
 --- !u!1 &1008669248
 GameObject:
   m_ObjectHideFlags: 0
