@@ -147,7 +147,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227571404946397071}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
-  knockBack: 1
+  knockBackSpeed: 1
   knockBackDuration: 0.2
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.1

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a32354078ed48741bacebcb685e8165, type: 3}
-  m_Name: Magic Missile
+  m_Name: Arrow Shot
   m_EditorClassIdentifier: Assembly-CSharp::Heros.ProjectileHeroAttackSO
   icon: {fileID: 0}
   description: 
   damage: 1
-  attackSpeed: 2.5
-  knockback: 0.1
+  attackSpeed: 1
+  knockback: 1
   findTargetDistance: 10
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  projectilePrefab: {fileID: 4849551019690282387, guid: eb3a5841076484b40b7afc5e8fa1a5ff, type: 3}
-  projectileSpeed: 6
-  projectileHoming: 1
+  projectilePrefab: {fileID: 358202956058573000, guid: dc8f85bf4625753438309143272bb1ce, type: 3}
+  projectileSpeed: 10
+  projectileHoming: 0

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Linq;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class DescriptionUI : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class DescriptionUI : MonoBehaviour
 
     [SerializeField]
     private Scrollbar scrollbar;
+
+    private void Awake()
+    {
+        Info.onInfoSelected += UpdateUI;
+    }
 
     public void UpdateUI(IDescriptable descriptable)
     {

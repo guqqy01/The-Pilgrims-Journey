@@ -170,6 +170,8 @@ namespace Tiles
 
         }
 
+
+
         public void PositionChanged()
         {
             int newPosition = Mathf.FloorToInt(CurrentPlayingPosition);
@@ -179,7 +181,6 @@ namespace Tiles
 
             onPositionChangeCurrentSpawning?.Invoke(SpawningTilesAndSize);
             onPositionChangeNextSpawning?.Invoke(NextSpawningTilesAndSize);
-
 
             if (!IsPlaying || SpawningTilesAndSize.Count > 0)
                 return;

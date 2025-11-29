@@ -10,7 +10,7 @@ using Units.UI;
 namespace Equipment
 {
     [CreateAssetMenu()] 
-    public class EquipmentSO : ScriptableObject, IInfo, IDescriptable
+    public class EquipmentSO : ScriptableObject, IDescriptable
     {
         public Sprite sprite;
         public Sprite Sprite => sprite;

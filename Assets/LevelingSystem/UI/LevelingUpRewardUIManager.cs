@@ -44,6 +44,8 @@ namespace LevelingSystem.UI
                 uIItems.Add(uiItem);
             }
 
+            BlurBackgroundController.Instance.EnableBlur();
+
             window.SetActive(true);
         }
 
@@ -52,6 +54,8 @@ namespace LevelingSystem.UI
             LevelingUpRewardManager.Instance.SelectRelic(relic);
 
             window.SetActive(false);
+
+            BlurBackgroundController.Instance.DisableBlur();
         }
     }
 }

@@ -124,32 +124,3 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
         }
     }
 }
-
-public interface IDescriptable
-{
-    public string Title { get; }
-
-    public string MainDescription { get; }
-
-    public Sprite Sprite { get; }
-
-    public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams { get; }
-}
-
-
-public abstract class SubDescriptionUI : MonoBehaviour
-{
-    public abstract void UpdateUI(params object[] obj);
-}
-
-public class SubDescriptionUIAndParams
-{
-    public SubDescriptionUI UI;
-    public object[] Params;
-
-    public SubDescriptionUIAndParams(SubDescriptionUI UI, object[] Params)
-    {
-        this.UI = UI;
-        this.Params = Params;
-    }
-}

@@ -10,7 +10,7 @@ using LevelingSystem;
 
 namespace Tiles
 {
-    public class Tile : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable, IInfo
+    public class Tile : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
         public RectTransform RectTransform { private set; get; }
         public TileSO TileSO { private set; get; }
@@ -187,7 +187,7 @@ namespace Tiles
 
             onUpdateLevelUnitsAndHealthUI?.Invoke();
 
-            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned++);
+            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned + 1);
         }
 
         public void DestroyTile()
@@ -243,7 +243,6 @@ namespace Tiles
         public void OnPointerClick(PointerEventData eventData)
         {
             onTileSelected?.Invoke(this);
-            Info.Select(this);
             AudioManager.Instance.PlaySelectTile();
         }
 

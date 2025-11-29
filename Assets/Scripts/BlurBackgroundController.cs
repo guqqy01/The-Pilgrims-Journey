@@ -31,7 +31,7 @@ public class BlurBackgroundController : Singleton< BlurBackgroundController>, IO
         currentCoroutine = StartCoroutine(Blur(false));
     }
 
-    public IEnumerator Blur(bool on)
+    private IEnumerator Blur(bool on)
     {
         float desiredWeight = on ? 1.0f : 0.0f;
         float sign = on ? 1f : -1f;

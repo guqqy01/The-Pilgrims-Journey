@@ -70,8 +70,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
         if(unitsPassed >= RequiredNumberOfUnitsToPass)
         {
-            Direction? opDirection = PathPicker.Instance.PickedDirection.HasValue ? (Direction)(-(int)PathPicker.Instance.PickedDirection) : null;
-            MonsterSpawnManager.Instance.StartHorde(20, 20f, true, opDirection);
+            MonsterSpawnManager.Instance.StartHorde(20, 60f, true);
         }
         else
         {

@@ -68,7 +68,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 5d60bec43d43a264caf12e7745385336, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterCollisionAttack
   damage: 3
-  knockback: 0.2
+  knockback: 0.3
   attackCooldown: 0.5
   layerMask:
     serializedVersion: 2
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
-  knockBack: 1
+  knockBackSpeed: 1
   knockBackDuration: 0.2
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.1

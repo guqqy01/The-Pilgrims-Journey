@@ -50,7 +50,6 @@ namespace Monsters
         private float hordeEndTime = 0f;
         private int hordeMultiplier = 1;
         private bool hordeIgnoreCaps = true;
-        private Direction? hordePreferredSide = null;
 
         [SerializeField] private float hordeSpawnRate = 0.25f;   // seconds between horde spawns
         private float nextHordeSpawnTime = 0f;
@@ -277,7 +276,6 @@ namespace Monsters
                 nextSpawnTimeByMonster[monsterSO] = now + GetNextSpawnDelay(spawn);
             }
         }
-
 
         // ---------------------------------------------------------
         // Helpers: Monster Tracking
@@ -764,13 +762,12 @@ namespace Monsters
         // Horde API
         // ---------------------------------------------------------
 
-        public void StartHorde(int multiplier, float duration, bool ignoreCap = true, Direction? side = null)
+        public void StartHorde(int multiplier, float duration, bool ignoreCap = true)
         {
             hordeActive = true;
             hordeMultiplier = Mathf.Max(1, multiplier);
             hordeIgnoreCaps = ignoreCap;
             hordeEndTime = Time.time + Mathf.Max(0.1f, duration);
-            hordePreferredSide = side;
         }
     }
 

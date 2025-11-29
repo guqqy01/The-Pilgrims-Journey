@@ -15,7 +15,7 @@ Stun monsters for a short period of time for the beginning of the game
 namespace Relics
 {
     [Serializable]
-    public class Relic
+    public class Relic : IDescriptable
     {
         public RelicSO relicSO;
 
@@ -74,6 +74,14 @@ namespace Relics
                 return "";
             }
         }
+
+        public string Title => relicSO.Title;
+
+        public string MainDescription => relicSO.MainDescription;
+
+        public Sprite Sprite => relicSO.Sprite;
+
+        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams => relicSO.SubDescriptionPrefabsAndParams;
 
         [SerializeReference]
         public List<RelicEffect> relicEffects = new List<RelicEffect>();

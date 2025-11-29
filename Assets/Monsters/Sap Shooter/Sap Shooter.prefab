@@ -144,6 +144,7 @@ MonoBehaviour:
   attackSpeed: 1
   projectileSpeed: 6
   damage: 1
+  knockbackMulitplier: 0.3
   projectile: {fileID: 2067198908419732263, guid: f8b4233d2ec11014c969b3d153a08be2, type: 3}
   target: {fileID: 0}
 --- !u!114 &6334555571237156668
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
-  knockBack: 1
+  knockBackSpeed: 1
   knockBackDuration: 0.2
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.1
@@ -212,7 +213,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4957495057371097057}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -243,11 +244,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
+  initSpeed: 1
   visualTransform: {fileID: 4957495057371096988}
   StationaryPosition: {x: 0, y: 0}
   directTargetLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  directStoppingDistance: 0
   movementType: 0
 --- !u!58 &6495602782445255804
 CircleCollider2D:

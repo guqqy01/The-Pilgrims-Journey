@@ -11,16 +11,13 @@ namespace Relics.UI
         [SerializeField]
         private RelicItemUI relicItemUIPrefab;
 
-        private List<RelicItemUI> relicItemsUIs = new List<RelicItemUI>();
+        private readonly List<RelicItemUI> relicItemsUIs = new List<RelicItemUI>();
 
         [SerializeField]
         private Transform relicItemUISParent;
 
         [SerializeField]
-        private TextMeshProUGUI relicTitleText;
-
-        [SerializeField]
-        private RelicDescriptionUI relicDescriptionUI;
+        private DescriptionUI relicDescriptionUI;
 
         private void Start()
         {
@@ -54,9 +51,7 @@ namespace Relics.UI
 
         private void OnRelicSelected(Relic relicSelected)
         {
-            relicTitleText.text = relicSelected.relicSO.name;
-
-            relicDescriptionUI.Setup(relicSelected);
+            relicDescriptionUI.UpdateUI(relicSelected);
 
             foreach(RelicItemUI itemUI in relicItemsUIs)
             {

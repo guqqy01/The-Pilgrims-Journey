@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using static Tiles.Tile;
 namespace Equipment.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class DragableEquipmentUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IInfo
+    public class DragableEquipmentUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IDescriptable
     {
         private Canvas canvas;
         private Canvas Canvas
@@ -40,9 +41,13 @@ namespace Equipment.UI
 
         public string Title => EquipmentSO.name;
 
-        public string Description => EquipmentSO.description;
-
         public string GoldAmount => EquipmentSO.goldCost.ToString();
+
+        public string MainDescription => EquipmentSO.description;
+
+        public Sprite Sprite => EquipmentSO.Sprite;
+
+        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams => EquipmentSO.SubDescriptionPrefabsAndParams;
 
         private void Awake()
         {
@@ -112,7 +117,7 @@ namespace Equipment.UI
             }
         }
 
-        void IInfo.Select()
+        void IDescriptable.Select()
         {
             if (highlight == null)
                 return;
@@ -120,7 +125,7 @@ namespace Equipment.UI
             highlight.SetActive(true, EquipmentSO);
         }
 
-        void IInfo.Deselect()
+        void IDescriptable.Deselect()
         {
             if(highlight != null)
                 highlight.SetActive(false);

@@ -7,20 +7,24 @@ using LocalMap;
 using Helper.Wait;
 using System.Linq;
 
-public class UnitSpawningManager : Singleton<UnitSpawningManager>, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
+public class UnitSpawningManager
+    : Singleton<UnitSpawningManager>, IOnGameEnd, IOnCompleteLocalMapLevel, IOnAfterCreateLocalMap, IOnClear
 {
+    // --- Public fields ---
     public readonly List<Unit> SpawnedUnits = new List<Unit>();
-
-    private readonly Dictionary<Tile, float> TileAndSpawnRate = new Dictionary<Tile, float>();
-
-    private readonly Dictionary<Tile, float> tileAndNextSpawnTime = new Dictionary<Tile, float>();
-
-    private float totalSpawnRate;
-
-    private float nextTotalSpawnTime;
-
     public delegate void OnUnitSpawned(Unit unit);
     public OnUnitSpawned onUnitSpawned;
+
+    // --- Private fields ---
+    private readonly Dictionary<Tile, float> tileSpawnRates = new Dictionary<Tile, float>();
+    private readonly Dictionary<Tile, float> tileNextSpawnTimes = new Dictionary<Tile, float>();
+
+    private float totalSpawnRate;
+    private float nextTotalSpawnTime;
+
+    // ---------------------------------------------------------
+    //  Unity events
+    // ---------------------------------------------------------
 
     private void OnEnable()
     {
@@ -29,142 +33,206 @@ public class UnitSpawningManager : Singleton<UnitSpawningManager>, IOnGameEnd, I
 
     private void OnDisable()
     {
-        if(TilePlayerManager.Instance != null)
-            TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= OnPositionChange;
-    }
-
-    private void Subscribe()
-    {
-        TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= OnPositionChange;
-        TilePlayerManager.Instance.onPositionChangeCurrentSpawning += OnPositionChange;
+        if (TilePlayerManager.Instance != null)
+            TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= SetupNewSpawnRateValues;
     }
 
     private void Update()
     {
-        SpawnUnits();
+        HandleSpawnUnits();
     }
 
-    private void SetupNewLevel()
+    // ---------------------------------------------------------
+    //  Event Subscription
+    // ---------------------------------------------------------
+
+    private void Subscribe()
     {
-        tileAndNextSpawnTime.Clear();
+        TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= SetupNewSpawnRateValues;
+        TilePlayerManager.Instance.onPositionChangeCurrentSpawning += SetupNewSpawnRateValues;
     }
 
-    private void SpawnUnits()
+    // ---------------------------------------------------------
+    //  Main spawning loop
+    // ---------------------------------------------------------
+
+    private void HandleSpawnUnits()
+    {
+        if (!IsReadyForSpawning())
+            return;
+
+        if (Time.time < nextTotalSpawnTime)
+            return;
+
+        Direction pathDirection = (Direction)PathPicker.Instance.PickedDirection;
+
+        foreach (var kvp in tileNextSpawnTimes.ToList())
+        {
+            Tile tile = kvp.Key;
+            float nextSpawn = kvp.Value;
+
+            if (Time.time >= nextSpawn)
+            {
+                SpawnUnit(tile, pathDirection);   // Spawns *one* unit per frame
+                break;
+            }
+        }
+    }
+
+    private bool IsReadyForSpawning()
     {
         if (TilePlayerManager.Instance == null)
         {
             Debug.LogWarning("TilePlayerManager.Instance is null");
-            return;
+            return false;
         }
 
-        if (!TilePlayerManager.Instance.IsPlaying) return;
+        if (!TilePlayerManager.Instance.IsPlaying)
+            return false;
 
-        if (PathPicker.Instance == null || PathPicker.Instance.PickedDirection == null)
+        if (PathPicker.Instance?.PickedDirection == null)
         {
             Debug.LogWarning("PathPicker not ready");
+            return false;
+        }
+
+        if (totalSpawnRate <= 0f)
+            return false;
+
+        return true;
+    }
+
+    // ---------------------------------------------------------
+    //  Spawning
+    // ---------------------------------------------------------
+
+    private void SpawnUnit(Tile tile, Direction pathDirection)
+    {
+        if (!IsTileSpawnValid(tile))
             return;
-        }
 
-        if (Time.time < nextTotalSpawnTime) return;
+        Unit unit = InstantiateUnit(tile, pathDirection);
+        RegisterUnitEvents(unit, tile);
+        tile.OnUnitSpawn();
 
-        if (totalSpawnRate <= 0f) return;
+        if (!TryUpdateNextSpawnTime(tile))
+            return;
 
-        Direction pathDirection = (Direction)PathPicker.Instance.PickedDirection;
+        UpdateGlobalSpawnTime();
+        onUnitSpawned?.Invoke(unit);
 
-        foreach (var kvp in tileAndNextSpawnTime.ToList())
+        if (tile.currentAmountOfUnitsInTile <= 0)
+            RemoveTileFromSpawnLists(tile);
+    }
+
+    private bool IsTileSpawnValid(Tile tile)
+    {
+        if (tile?.UnitSO?.unitPrefab == null)
+            return false;
+
+        if (LocalMapGenerator.Instance?.pathway == null)
         {
-            var tile = kvp.Key;
-            var nextSpawnTime = kvp.Value;
-            if (Time.time < nextSpawnTime) continue;
-            SpawnUnit(tile, pathDirection);
-            break;
+            Debug.LogWarning("LocalMapGenerator or pathway missing");
+            return false;
         }
+
+        return true;
+    }
+
+    private Unit InstantiateUnit(Tile tile, Direction pathDirection)
+    {
+        var path = LocalMapGenerator.Instance.pathway.PathNodes[pathDirection];
+        Unit unit = Instantiate(tile.UnitSO.unitPrefab, (Vector2)path[0], Quaternion.identity);
+        unit.Init(tile, path, 0);
+        SpawnedUnits.Add(unit);
+        return unit;
+    }
+
+    private void RegisterUnitEvents(Unit unit, Tile tile)
+    {
+        unit.Health.onDie += tile.OnUnitDie;
+        unit.Health.onDie += OnUnitDie;
+        unit.Movement.onPathCompleted += tile.OnUnitEscape;
+    }
+
+    private bool TryUpdateNextSpawnTime(Tile tile)
+    {
+        if (!tileSpawnRates.TryGetValue(tile, out float rate) || rate <= 0f)
+        {
+            tileNextSpawnTimes.Remove(tile);
+            tileSpawnRates.Remove(tile);
+            SetupTotalSpawnRate();
+            return false;
+        }
+
+        tileNextSpawnTimes[tile] += 1f / rate;
+        return true;
+    }
+
+    private void UpdateGlobalSpawnTime()
+    {
+        if (totalSpawnRate > 0f)
+            nextTotalSpawnTime = Time.time + 1f / totalSpawnRate;
     }
 
     private void OnUnitDie(Health health)
     {
-        SpawnedUnits.Remove(health.GetComponent<Unit>());
+        Unit unit = health.GetComponent<Unit>();
+        if (unit != null)
+            SpawnedUnits.Remove(unit);
     }
 
-    private void SpawnUnit(Tile tile, Direction pathDirection)
+    // ---------------------------------------------------------
+    //  Setup & Updates
+    // ---------------------------------------------------------
+
+    private void SetupNewLevel()
     {
-        if (tile == null || tile.UnitSO == null || tile.UnitSO.unitPrefab == null) return;
-
-        if (LocalMapGenerator.Instance == null || LocalMapGenerator.Instance.pathway == null)
-        {
-            Debug.LogWarning("LocalMapGenerator or pathway missing");
-            return;
-        }
-
-        // instantiate
-        Unit unit = Instantiate(tile.UnitSO.unitPrefab, (Vector2)LocalMapGenerator.Instance.pathway.PathNodes[pathDirection][0], Quaternion.identity);
-        unit.Init(tile, LocalMapGenerator.Instance.pathway.PathNodes[pathDirection], 0);
-        SpawnedUnits.Add(unit);
-
-        // subscribe safely (store local tile reference or store onto unit)
-        unit.Health.onDie += tile.OnUnitDie;
-        unit.Health.onDie += OnUnitDie;
-        unit.Movement.onPathCompleted += tile.OnUnitEscape;
-        tile.OnUnitSpawn();
-
-        // compute spawn increment using local snapshot of rate
-        if (!TileAndSpawnRate.TryGetValue(tile, out float spawnRate) || spawnRate <= 0f)
-        {
-            // if rate missing, remove and exit
-            tileAndNextSpawnTime.Remove(tile);
-            TileAndSpawnRate.Remove(tile);
-            SetupTotalSpawnRate();
-            return;
-        }
-
-        tileAndNextSpawnTime[tile] = tileAndNextSpawnTime[tile] + 1f / spawnRate;
-
-        // guard against zero
-        if (totalSpawnRate > 0f)
-            nextTotalSpawnTime = Time.time + 1f / totalSpawnRate;
-
-        onUnitSpawned?.Invoke(unit);
-
-        if (tile.currentAmountOfUnitsInTile <= 0)
-        {
-            TileAndSpawnRate.Remove(tile);
-            tileAndNextSpawnTime.Remove(tile);
-            SetupTotalSpawnRate();
-        }
+        tileNextSpawnTimes.Clear();
     }
 
-    private void OnPositionChange(Dictionary<Tile, int> spawningTilesAndSize)
+    private void SetupNewSpawnRateValues(Dictionary<Tile, int> spawningTilesAndSize)
     {
         nextTotalSpawnTime = 0;
 
-        Dictionary<Tile, float> tileAndNextSpawnTimeHolder = new Dictionary<Tile, float>();
+        // retain old spawn times for still-active tiles
+        Dictionary<Tile, float> preservedTimes = new Dictionary<Tile, float>();
 
-        foreach (var item in tileAndNextSpawnTime)
+        foreach (var kvp in tileNextSpawnTimes)
         {
-            if (spawningTilesAndSize.ContainsKey(item.Key))
+            Tile tile = kvp.Key;
+            if (tile.currentAmountOfUnitsInTile > 0 &&
+                spawningTilesAndSize.ContainsKey(tile))
             {
-                tileAndNextSpawnTimeHolder.Add(item.Key, item.Value);
+                preservedTimes[tile] = kvp.Value;
             }
         }
 
-        tileAndNextSpawnTime.Clear();
-        TileAndSpawnRate.Clear();
+        // reset dictionaries
+        tileNextSpawnTimes.Clear();
+        tileSpawnRates.Clear();
 
-        foreach (var tileAndSizeKVP in spawningTilesAndSize)
+        foreach (var kvp in spawningTilesAndSize)
         {
-            Tile tile = tileAndSizeKVP.Key;
-            if (tileAndNextSpawnTimeHolder.ContainsKey(tile))
-            {
-                tileAndNextSpawnTime.Add(tile, tileAndNextSpawnTimeHolder[tile]);
-            }
-            else
-            {
-                tileAndNextSpawnTime.Add(tile, Time.time);
-            }
-            
-            TileAndSpawnRate.Add(tile, tile.SpawnRateValue * tileAndSizeKVP.Value);
+            Tile tile = kvp.Key;
+            if (tile.currentAmountOfUnitsInTile <= 0)
+                continue;
+
+            // restore or create new spawn time
+            tileNextSpawnTimes[tile] = preservedTimes.ContainsKey(tile)
+                ? preservedTimes[tile]
+                : Time.time;
+
+            tileSpawnRates[tile] = tile.SpawnRateValue * kvp.Value;
         }
 
+        SetupTotalSpawnRate();
+    }
+
+    private void RemoveTileFromSpawnLists(Tile tile)
+    {
+        tileSpawnRates.Remove(tile);
+        tileNextSpawnTimes.Remove(tile);
         SetupTotalSpawnRate();
     }
 
@@ -172,42 +240,30 @@ public class UnitSpawningManager : Singleton<UnitSpawningManager>, IOnGameEnd, I
     {
         totalSpawnRate = 0f;
 
-        foreach (var tileSpawnRateKVP in TileAndSpawnRate)
+        foreach (var kvp in tileSpawnRates)
         {
-            totalSpawnRate += tileSpawnRateKVP.Value;
+            if (kvp.Key.currentAmountOfUnitsInTile > 0)
+                totalSpawnRate += kvp.Value;
         }
     }
+
+    // ---------------------------------------------------------
+    //  Cleanup
+    // ---------------------------------------------------------
 
     private void DestroyUnits()
     {
         foreach (Unit unit in SpawnedUnits)
         {
             if (unit != null)
-            {
                 Destroy(unit.gameObject);
-            }
         }
 
         SpawnedUnits.Clear();
     }
 
-    public void OnGameEnd()
-    {
-        DestroyUnits();
-    }
-
-    public void OnCompleteLocalMapLevel()
-    {
-        DestroyUnits();
-    }
-
-    public void AfterCreateLocalMap()
-    {
-        SetupNewLevel();
-    }
-
-    public void Clear()
-    {
-        DestroyUnits();
-    }
+    public void OnGameEnd() => DestroyUnits();
+    public void OnCompleteLocalMapLevel() => DestroyUnits();
+    public void AfterCreateLocalMap() => SetupNewLevel();
+    public void Clear() => DestroyUnits();
 }
