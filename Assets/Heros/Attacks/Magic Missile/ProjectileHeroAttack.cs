@@ -23,9 +23,23 @@ namespace Heros
 
             Projectile newMissile = Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(target.position - transform.position, Vector3.back));
 
-            newMissile.Init(damage, projectileSpeed, projectileHoming, target, target.position - transform.position, enemyLayerMask);
+            newMissile.Init(damage, projectileSpeed, knockbackMultiplier, projectileHoming, target, target.position - transform.position, enemyLayerMask);
 
             return true;
+        }
+
+        protected override void InheritSetup(HeroAttackSO heroAttackSO)
+        {
+            if (heroAttackSO is not ProjectileHeroAttackSO projectileAttack)
+            {
+                return;
+            }
+
+            projectilePrefab = projectileAttack.projectilePrefab;
+
+            projectileSpeed = projectileAttack.projectileSpeed;
+
+            projectileHoming = projectileAttack.projectileHoming;
         }
     }
 }

@@ -33,6 +33,9 @@ public class TabReferencePropertyDrawer : PropertyDrawer
                 {
                     foreach(GameObject subTab in tab.subTabs)
                     {
+                        if (subTab == null)
+                            continue;
+
                         string name = $"{tab.gameObject.name}/{subTab.name}";
                         menu.AddItem(new GUIContent(name), false, () => Setup(tabProperty, subTabIndexProperty, tab, subTab)); 
                     }

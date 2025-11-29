@@ -4,6 +4,8 @@ namespace Heros
 {
     public abstract class HeroAttack : MonoBehaviour
     {
+        public HeroAttackSO HeroAttackSO { get; private set; }
+
         [SerializeField]
         protected int damage;
         [SerializeField]
@@ -14,7 +16,7 @@ namespace Heros
         protected float Cooldown => 1f / attackSpeed;
 
         [SerializeField]
-        protected float knockback;
+        protected float knockbackMultiplier;
 
         [SerializeField]
         protected LayerMask enemyLayerMask;
@@ -54,5 +56,21 @@ namespace Heros
         }
 
         protected abstract bool Attack();
+
+        protected abstract void InheritSetup(HeroAttackSO heroAttackSO);
+
+        public void Setup(HeroAttackSO heroAttackSO)
+        {
+            HeroAttackSO = heroAttackSO;
+
+            damage = heroAttackSO.damage;
+            attackSpeed = heroAttackSO.attackSpeed;
+            knockbackMultiplier = heroAttackSO.knockback;
+            findTargetDistance = heroAttackSO.findTargetDistance;
+
+            enemyLayerMask = heroAttackSO.enemyLayerMask;
+
+            InheritSetup(heroAttackSO);
+        }
     }
 }

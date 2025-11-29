@@ -7,7 +7,7 @@ namespace Heros
         private HeroMovement heroMovement;
 
         [SerializeField]
-        private MeleeAttackSpawn meleeSwipeAttackPrefab;
+        private MeleeAttackSpawn meleeAttackPrefab;
 
         private void Awake()
         {
@@ -37,11 +37,21 @@ namespace Heros
                 };
             }
 
-            var attack = Instantiate(meleeSwipeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
+            var attack = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
 
-            attack.Init(damage, knockback);
+            attack.Init(damage, knockbackMultiplier);
 
             return true;
+        }
+
+        protected override void InheritSetup(HeroAttackSO heroAttackSO)
+        {
+            if(heroAttackSO is not MeleeHeroAttackSO meleeAttack)
+            {
+                return;
+            }
+
+            meleeAttackPrefab = meleeAttack.meleeAttackSpawn;
         }
     }
 }

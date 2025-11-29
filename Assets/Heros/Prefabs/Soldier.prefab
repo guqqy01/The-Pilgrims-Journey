@@ -19,9 +19,7 @@ GameObject:
   - component: {fileID: 7080628637785621500}
   - component: {fileID: 1381167920000805783}
   - component: {fileID: 693340296508962407}
-  - component: {fileID: 1969031612786209333}
-  - component: {fileID: 5241646110600398729}
-  - component: {fileID: 4996819905277972932}
+  - component: {fileID: 2039612255479401262}
   m_Layer: 15
   m_Name: Soldier
   m_TagString: Untagged
@@ -284,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f5e93846400f004b97ebf3aa29aa221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heros.Hero
---- !u!114 &1969031612786209333
+--- !u!114 &2039612255479401262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -293,61 +291,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 227571404946397071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0c2343a00a05be45bfc9a4e3ff349c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 97e67232178a9924587ccb3762202ad4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Heros.MeleeHeroAttack
-  damage: 3
-  attackSpeed: 1
-  knockback: 1
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
-  findTargetDistance: 0
-  meleeSwipeAttackPrefab: {fileID: 8618847770750187054, guid: cb4a6af23b60420428e5ac3428cb68af, type: 3}
---- !u!114 &5241646110600398729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227571404946397071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec6b427e23fea244cbbe91309266adc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Heros.ProjectileHeroAttack
-  damage: 1
-  attackSpeed: 2.5
-  knockback: 0.3
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
-  findTargetDistance: 10
-  projectilePrefab: {fileID: 4849551019690282387, guid: eb3a5841076484b40b7afc5e8fa1a5ff, type: 3}
-  projectileSpeed: 5
-  projectileHoming: 1
---- !u!114 &4996819905277972932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227571404946397071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec6b427e23fea244cbbe91309266adc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Heros.ProjectileHeroAttack
-  damage: 2
-  attackSpeed: 1
-  knockback: 0.2
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
-  findTargetDistance: 10
-  projectilePrefab: {fileID: 358202956058573000, guid: dc8f85bf4625753438309143272bb1ce, type: 3}
-  projectileSpeed: 8
-  projectileHoming: 0
+  m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroAttacksManager
+  tests:
+  - heroAttackSO: {fileID: 11400000, guid: f41e236921bf2b84ca35332bae27f8ad, type: 2}
+    KeyCode: 282
+  - heroAttackSO: {fileID: 11400000, guid: 1abcf1be5389fa444bca511ac29a5216, type: 2}
+    KeyCode: 283
+  - heroAttackSO: {fileID: 11400000, guid: 83a28c63b537ade4fa34867b92157972, type: 2}
+    KeyCode: 284
 --- !u!1001 &5241316447171764164
 PrefabInstance:
   m_ObjectHideFlags: 0

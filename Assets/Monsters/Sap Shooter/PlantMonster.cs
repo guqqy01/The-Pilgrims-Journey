@@ -18,6 +18,9 @@ namespace Monsters
         [SerializeField]
         private int damage = 1;
 
+        [SerializeField]
+        private float knockbackMulitplier;
+
         public Projectile projectile;
 
         public Transform target;
@@ -40,7 +43,7 @@ namespace Monsters
 
                     project.onHit += OnDamageUnit; 
                     
-                    project.Init(damage, projectileSpeed, false, target, target.position - transform.position, targetMask);
+                    project.Init(damage, projectileSpeed, knockbackMulitplier, false, target, target.position - transform.position, targetMask);
 
                     audioSource?.Play();
 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf39c47dfca98e489ebeee658b85b71, type: 3}
+  m_Name: Sword Swipe
+  m_EditorClassIdentifier: Assembly-CSharp::Heros.MeleeHeroAttackSO
+  icon: {fileID: 0}
+  description: 
+  damage: 3
+  attackSpeed: 1
+  knockback: 1
+  findTargetDistance: 0
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  meleeAttackSpawn: {fileID: 8618847770750187054, guid: cb4a6af23b60420428e5ac3428cb68af, type: 3}

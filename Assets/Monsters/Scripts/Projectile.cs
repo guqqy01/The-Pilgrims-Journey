@@ -33,7 +33,9 @@ public class Projectile : MonoBehaviour
     private const float projectileLifetime = 20f;
     private float lifeTimeEnd;
 
-    public void Init(int damage, float speed, bool homing, Transform target, Vector2 direction, LayerMask layerMask)
+    private float knockbackMultiplier;
+
+    public void Init(int damage, float speed, float knockbackMultiplier,bool homing, Transform target, Vector2 direction, LayerMask layerMask)
     {
         this.damage = damage;
         this.speed = speed;
@@ -41,6 +43,7 @@ public class Projectile : MonoBehaviour
         this.target = target;
         this.direction = direction;
         this.layerMask = layerMask;
+        this.knockbackMultiplier = knockbackMultiplier;
 
         if (pointInTravelDirection)
         {
@@ -79,7 +82,7 @@ public class Projectile : MonoBehaviour
             if (collision.TryGetComponent(out HealthAndShieldManager healthAndShieldManager) && !hitHealth.Contains(healthAndShieldManager))
             {
                 
-                OnHitInfo info = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized);
+                OnHitInfo info = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized, knockbackMultiplier);
 
                 onHit?.Invoke(info);
 

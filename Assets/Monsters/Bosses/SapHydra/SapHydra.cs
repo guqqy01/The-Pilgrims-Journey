@@ -58,6 +58,9 @@ namespace Monsters
         [SerializeField]
         private WeightedChanceList<State> stateChance;
 
+        [SerializeField]
+        private float knockbackMultiplier;
+
         [Header("Rapid Attack")]
         [SerializeField]
         private int rapidAttackDamage;
@@ -171,7 +174,7 @@ namespace Monsters
 
             project.onHit += OnDamageUnit;
 
-            project.Init(rapidAttackDamage, projectileSpeed, false, target, target.position - transform.position, targetMask);
+            project.Init(rapidAttackDamage, projectileSpeed, knockbackMultiplier, false, target, target.position - transform.position, targetMask);
 
             audioSource?.Play();
         }
@@ -192,7 +195,7 @@ namespace Monsters
 
                 project.onHit += OnDamageUnit;
 
-                project.Init(rapidAttackDamage, projectileSpeed, false, target, currentDirection, targetMask);
+                project.Init(rapidAttackDamage, projectileSpeed, knockbackMultiplier, false, target, currentDirection, targetMask);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }
@@ -217,7 +220,7 @@ namespace Monsters
 
                 project.onHit += OnDamageUnit;
 
-                project.Init(rapidAttackDamage, projectileSpeed, false, target, currentDirection, targetMask);
+                project.Init(rapidAttackDamage, projectileSpeed, knockbackMultiplier, false, target, currentDirection, targetMask);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }

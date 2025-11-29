@@ -2,6 +2,7 @@ using UnityEngine;
 using GameManagerCalls;
 using GlobalMap;
 using LocalMap;
+ 
 namespace Heros
 {
     public class HeroManager : Singleton<HeroManager>, IOnAfterCreateLocalMap
