@@ -6,7 +6,7 @@ namespace Units
     public class HitEffects : MonoBehaviour
     {
         [SerializeField]
-        private float knockBack = 1f;
+        private float knockBackSpeed = 1f;
 
         [SerializeField]
         private float knockBackDuration = 0.2f;
@@ -76,6 +76,9 @@ namespace Units
 
         public void HitHealth(StatChangeInfo healthChangeInfo)
         {
+            if (healthChangeInfo.HitInfoType == HitInfoType.Heal)
+                return;
+
             StartCoroutine(SmoothKnockBack(healthChangeInfo.HitDirection, healthChangeInfo.KnockBackMultiplier));
             StartCoroutine(FlashMaterial());
 
@@ -86,20 +89,19 @@ namespace Units
             damagePopup.Setup(healthChangeInfo.ChangeAmount, true, healthChangeInfo.HitDirection);
         }
 
+
         private IEnumerator SmoothKnockBack(Vector3 direction, float multiplier)
         {
-            Vector3 startPos = transform.position;
-            Vector3 targetPos = startPos + direction.normalized * knockBack * multiplier;
+            float totalKnockbackDuration = knockBackDuration;
+
             float elapsed = 0f;
 
-            while (elapsed < knockBackDuration)
+            while (elapsed < totalKnockbackDuration)
             {
-                transform.position = Vector3.Lerp(startPos, targetPos, elapsed / knockBackDuration);
+                transform.position += direction.normalized * knockBackSpeed * multiplier * Time.deltaTime;
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-
-            transform.position = targetPos;
         }
 
         private IEnumerator FlashMaterial()
