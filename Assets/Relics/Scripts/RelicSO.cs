@@ -42,9 +42,6 @@ namespace Relics
 
         public Sprite Sprite => sprite;
 
-        [SerializeField]
-        private SpellSubDescriptionUI relicSpellUIItemPrefab;
-
         public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams
         {
             get
@@ -57,10 +54,12 @@ namespace Relics
                     param[0] = spellAndAmountOfUses.spell;
                     param[1] = spellAndAmountOfUses.amountOfUses;
 
-                    returnList.Add(new SubDescriptionUIAndParams(relicSpellUIItemPrefab, param));
+                    SubDescriptionUI subDescriptionUI = GlobalConfig.SubDescriptionUIHelper.GetSubDescriptionUIFromType(typeof(RelicSO));
+
+                    returnList.Add(new SubDescriptionUIAndParams(subDescriptionUI, param));
                 }
 
-                return new List<SubDescriptionUIAndParams>();
+                return returnList;
             }
         }
     }

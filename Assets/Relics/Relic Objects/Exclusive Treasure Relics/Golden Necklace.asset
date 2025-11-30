@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
   m_Name: Golden Necklace
   m_EditorClassIdentifier: 
-  summary: 
   description: grants a percentage of the gold difference between rounds.
   sprite: {fileID: 444164149, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   baseValue: 200
   spells: []
   relicEffects:
   - rid: 925506328635899917
+  relicSpellUIItemPrefab: {fileID: 2343244219921054511, guid: 30a351046b4e2b84099dcc7c8c92253f, type: 3}
   references:
     version: 2
     RefIds:
