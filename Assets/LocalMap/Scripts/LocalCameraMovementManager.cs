@@ -1,9 +1,12 @@
 using GlobalMap;
+using Heros;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace LocalMap
 {
+    [RequireComponent(typeof(SmoothCameraFollow))]
     public class LocalCameraMovementManager : Singleton<LocalCameraMovementManager>
     {
         private Camera cam;
@@ -18,6 +21,7 @@ namespace LocalMap
             }
         }
 
+        private SmoothCameraFollow smoothCameraFollow;
 
         [Header("Zoom")]
         [SerializeField] private float zoomSpeed = 1f;
@@ -52,13 +56,31 @@ namespace LocalMap
         private Vector3 dragOrigin;
         private bool isDragging;
 
+        private bool cameraLock = true;
+
+        private void Awake()
+        {
+            smoothCameraFollow = GetComponent<SmoothCameraFollow>();
+        }
+
+        private void LateUpdate()
+        {
+            if (cameraLock)
+            {
+                if(HeroManager.Instance.ActiveHero != null)
+                    smoothCameraFollow.FollowTarget(HeroManager.Instance.ActiveHero.transform);
+            }
+
+            Clamp();
+        }
 
         private void Update()
         {
-            HandleMouseDrag();
+            if (!cameraLock)
+                HandleMouseDrag();
+
             MoveCamera();
             ZoomCamera();
-            Clamp();
         }
 
         private float CalculateMaxZoom()
@@ -106,6 +128,12 @@ namespace LocalMap
         {
             float moveX = (Input.GetKey(cameraMovementRight) ? 1 : 0) - (Input.GetKey(cameraMovementLeft) ? 1 : 0);
             float moveY = (Input.GetKey(cameraMovementUp) ? 1 : 0) - (Input.GetKey(cameraMovementDown) ? 1 : 0);
+
+            if (moveX != 0 || moveY != 0)
+            {
+                cameraLock = false;
+            }
+
 
             Vector3 move = new Vector3(moveX, moveY, 0f).normalized * cameraSpeed * Time.deltaTime;
             Cam.transform.position += move;
