@@ -27,7 +27,7 @@ namespace Monsters
         private MonsterSpawnSettings monsterSpawnSettings;
 
         [SerializeField, HideInInspector]
-        private List<Monster> monsters = new();
+        public List<Monster> Monsters { private set; get; } = new();
 
         private WeightMap weightMap;
 
@@ -241,7 +241,7 @@ namespace Monsters
             if (m.TryGetComponent(out MonsterMovement move))
                 move.OverrideToDirect();
 
-            monsters.Add(m);
+            Monsters.Add(m);
             BeastaryManager.Instance.BufferMonster(monsterSO);
 
             if (m.TryGetComponent(out Health health))
@@ -461,7 +461,7 @@ namespace Monsters
             Monster m = Instantiate(monsterSO.prefab, (Vector3)spawnPos, Quaternion.identity, transform);
             m.Init(monsterSO);
 
-            monsters.Add(m);
+            Monsters.Add(m);
             BeastaryManager.Instance.BufferMonster(monsterSO);
 
             if (m.TryGetComponent(out Health health))
@@ -647,7 +647,7 @@ namespace Monsters
             isSpawning = false;
             occupiedSpots.Clear();
 
-            monsters.DestroyAndClearList();
+            Monsters.DestroyAndClearList();
             aliveCountByMonster.Clear();
             nextSpawnTimeByMonster.Clear();
 
@@ -657,7 +657,7 @@ namespace Monsters
 
         private void DestroyExistingMonsters()
         {
-            foreach (var m in monsters)
+            foreach (var m in Monsters)
             {
                 if (m == null)
                     continue;
@@ -672,7 +672,7 @@ namespace Monsters
 #endif
             }
 
-            monsters.Clear();
+            Monsters.Clear();
             occupiedSpots.Clear();
         }
 
@@ -720,7 +720,7 @@ namespace Monsters
 
             HandleStationaryDeath(monster);
             aliveCountByMonster[monster.MonsterSO]--;
-            monsters.Remove(monster);
+            Monsters.Remove(monster);
 
             health.onDie -= OnMonsterDie;
 

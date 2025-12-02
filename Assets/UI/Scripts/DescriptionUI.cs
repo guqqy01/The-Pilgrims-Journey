@@ -51,7 +51,9 @@ public class DescriptionUI : MonoBehaviour
         
         layoutContentSizer.WaitOneFrameThenUpdateLayout();
 
-        StartCoroutine(WaitTwoFramesThenSetHeight());
+
+        if(gameObject.activeInHierarchy)
+            StartCoroutine(WaitTwoFramesThenSetHeight());
     }
 
     private IEnumerator WaitTwoFramesThenSetHeight()

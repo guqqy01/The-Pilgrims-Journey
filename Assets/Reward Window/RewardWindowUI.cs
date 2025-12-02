@@ -102,7 +102,7 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
     public void Select()
     {
         gameObject.SetActive(false);
-        RewardGainedUI.Instance.Setup(currentSelected);
+        //RewardGainedUI.Instance.Setup(currentSelected);
         
         if(currentSelected is EquipmentSO equipment)
         {

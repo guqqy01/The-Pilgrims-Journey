@@ -57,6 +57,22 @@ namespace LocalMap
         private bool isDragging;
 
         private bool cameraLock = true;
+        public bool CameraLocked
+        {
+            get
+            {
+                return cameraLock;
+            }
+            set
+            {
+                cameraLock = value;
+
+                updateUI?.Invoke(cameraLock);
+            }
+        }
+
+        public delegate void UpdateUI(bool cameraLocked);
+        public UpdateUI updateUI;
 
         private void Awake()
         {
@@ -81,6 +97,11 @@ namespace LocalMap
 
             MoveCamera();
             ZoomCamera();
+        }
+
+        public void ChangeCameraLock()
+        {
+            CameraLocked = !cameraLock;
         }
 
         private float CalculateMaxZoom()
@@ -131,7 +152,7 @@ namespace LocalMap
 
             if (moveX != 0 || moveY != 0)
             {
-                cameraLock = false;
+                CameraLocked = false;
             }
 
 

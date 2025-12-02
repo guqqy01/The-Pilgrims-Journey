@@ -20,7 +20,8 @@ public class LayoutContentSizerBaseParent : LayoutContentElement
 
     public void WaitOneFrameThenUpdateLayout()
     {
-        StartCoroutine(WaitThenUpdate());
+        if(gameObject.activeInHierarchy)
+            StartCoroutine(WaitThenUpdate());
     }
 
     private IEnumerator WaitThenUpdate()
