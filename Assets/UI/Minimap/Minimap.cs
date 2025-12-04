@@ -1,16 +1,23 @@
 using Heros;
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
 using LocalMap;
-using Unity.Burst;
 using Monsters;
+using System.Collections.Generic;
 using System.Linq;
 using Units;
+using Unity.Burst;
+using UnityEngine;
+using UnityEngine.UI;
 public class Minimap : MonoBehaviour
 {
     [SerializeField]
     private Image pointPrefab;
+
+    [SerializeField]
+    private Sprite heroPointSprite;
+    [SerializeField]
+    private Sprite monsterPointSprite;
+    [SerializeField]
+    private Sprite unitPointSprite;
 
     [SerializeField]
     private RectTransform cameraDisplayRect;
@@ -40,6 +47,17 @@ public class Minimap : MonoBehaviour
         HandleUnitPoints();
     }
 
+    private float GetVerticalWorldPadding(float pixelPadding)
+    {
+        Camera cam = Camera.main;
+
+        if (cam == null)
+            return 0f;
+        
+        float unitsPerPixel = (cam.orthographicSize * 2f) / (float)Screen.height;
+        return pixelPadding * unitsPerPixel;
+    }
+
     private void HandleCameraDisplayRect()
     {
         if (Camera.main == null || LocalMapGenerator.Instance == null)
@@ -48,8 +66,11 @@ public class Minimap : MonoBehaviour
         Camera cam = Camera.main;
 
         // Get camera world-space bounds (orthographic assumed)
-        float camHeight = cam.orthographicSize * 2f;
-        float camWidth = camHeight * cam.aspect;
+
+        float verticalPadding = GetVerticalWorldPadding(LocalCameraMovementManager.Instance.BottomPaddingPixels + LocalCameraMovementManager.Instance.TopPaddingPixels);
+
+        float camHeight = cam.orthographicSize * 2f - verticalPadding;
+        float camWidth = (camHeight + verticalPadding) * cam.aspect;
 
         Vector3 camPos = cam.transform.position;
 
@@ -85,9 +106,11 @@ public class Minimap : MonoBehaviour
         if(heroPoint == null)
         {
             heroPoint = Instantiate(pointPrefab, minimapTransform);
+            //heroPoint.color = heroColor;
+            heroPoint.sprite = heroPointSprite;
+            heroPoint.NativeRatioScaleHeightToSize(20f);
         }
 
-        heroPoint.color = heroColor;
         heroPoint.rectTransform.anchoredPosition = GetPositionOnMinimap(HeroManager.Instance.ActiveHero.transform);
     }
 
@@ -113,7 +136,9 @@ public class Minimap : MonoBehaviour
             if (!monsterPoints.ContainsKey(t))
             {
                 var point = Instantiate(pointPrefab, minimapTransform);
-                point.color = monsterColor;
+                point.sprite = monsterPointSprite;
+                point.NativeRatioScaleHeightToSize(20f);
+                //point.color = monsterColor;
                 monsterPoints.Add(t, point);
             }
         }
@@ -150,7 +175,9 @@ public class Minimap : MonoBehaviour
             if (!unitPoints.ContainsKey(t))
             {
                 var point = Instantiate(pointPrefab, minimapTransform);
-                point.color = unitColor;
+                point.sprite = unitPointSprite;
+                point.NativeRatioScaleHeightToSize(20f);
+                //point.color = unitColor;
                 unitPoints.Add(t, point);
             }
         }

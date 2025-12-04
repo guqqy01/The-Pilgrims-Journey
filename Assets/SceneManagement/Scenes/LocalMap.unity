@@ -818,7 +818,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterSpawnManager
   monsterSpawnSettings: {fileID: 11400000, guid: ccb9129bbe8b5234b8972a5502518280, type: 2}
-  monsters: []
   hordeSpawnRate: 0.25
 --- !u!1 &1008669248
 GameObject:
@@ -882,11 +881,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748aa98f7b8c0ec4f973fc8a41b5dab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalMap.SmoothCameraFollow
-  smoothSpeed: 0.125
-  leftPadding: 0
-  rightPadding: 0
-  topPadding: 0
-  bottomPadding: 0
+  target: {fileID: 0}
+  smoothTime: 0.25
+  leftPadding: 0.48
+  rightPadding: 0.48
+  topPadding: 0.48
+  bottomPadding: 0.48
+  lookAheadDistance: 10
+  lookAheadSmooth: 0.3
+  lookAheadThreshold: 5
 --- !u!1 &1051450880
 GameObject:
   m_ObjectHideFlags: 0

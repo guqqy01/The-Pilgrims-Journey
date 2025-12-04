@@ -32,7 +32,10 @@ namespace LocalMap
 
         [Header("Padding (in pixels)")]
         [SerializeField] private float topPaddingPixels;
+        public float TopPaddingPixels { get { return topPaddingPixels; } }
+
         [SerializeField] private float bottomPaddingPixels;
+        public float BottomPaddingPixels { get { return bottomPaddingPixels; } }
 
         private KeyCode cameraMovementLeft = KeyCode.LeftArrow;
         private KeyCode cameraMovementRight = KeyCode.RightArrow;

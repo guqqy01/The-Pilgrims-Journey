@@ -2,81 +2,142 @@ using UnityEngine;
 
 namespace LocalMap
 {
-    public class  SmoothCameraFollow : MonoBehaviour
+    public class SmoothCameraFollow : MonoBehaviour
     {
-        private Camera cam;
-        public Camera Cam
+        public Transform target;
+
+        [Header("Camera Smoothing")]
+        [SerializeField] float smoothTime = 0.25f;
+
+        [Header("Dead Zone (Viewport Space)")]
+        [SerializeField] float leftPadding = 0.1f;
+        [SerializeField] float rightPadding = 0.1f;
+        [SerializeField] float topPadding = 0.1f;
+        [SerializeField] float bottomPadding = 0.1f;
+
+        [Header("Look Ahead")]
+        [SerializeField] float lookAheadDistance = 2f;
+        [SerializeField] float lookAheadSmooth = 0.25f;
+        [SerializeField] float lookAheadThreshold = 0.1f;
+
+        Camera cam;
+        Vector3 camVelocity;
+        Vector3 lookAheadOffset;
+        Vector3 lookAheadVel;
+
+        Vector3 lastTargetPos;
+
+
+        void Start()
         {
-            get
-            {
-                if (cam == null)
-                    cam = Camera.main;
-
-                return cam;
-            }
+            if (target != null)
+                lastTargetPos = target.position;
         }
-
-        [SerializeField]
-        private float smoothSpeed = 0.125f;
-
-        [SerializeField]
-        private float leftPadding = 0f;
-        [SerializeField]
-        private float rightPadding = 0f;
-        [SerializeField]
-        private float topPadding = 0f;
-        [SerializeField]
-        private float bottomPadding = 0f;
 
         public void FollowTarget(Transform target)
         {
-            // Current camera position
-            Vector3 camPos = Cam.transform.position;
+            this.target = target;
+            if (target == null) return;
 
-            // Desired position is target’s position but keep camera’s Z
-            Vector3 desiredPos = new Vector3(target.position.x, target.position.y, camPos.z);
+            cam = Camera.main;
 
-            // Convert target position to viewport space
-            Vector3 viewportPos = Cam.WorldToViewportPoint(target.position);
+            Vector3 camPos = cam.transform.position;
+            Vector3 targetPos = target.position;
 
-            // Clamp viewport position based on padding
-            float minX = leftPadding / Cam.pixelWidth;
-            float maxX = 1f - (rightPadding / Cam.pixelWidth);
-            float minY = bottomPadding / Cam.pixelHeight;
-            float maxY = 1f - (topPadding / Cam.pixelHeight);
+            // -----------------------------------------------------
+            // 1. Compute target velocity for look-ahead
+            // -----------------------------------------------------
+            Vector3 delta = targetPos - lastTargetPos;
+            lastTargetPos = targetPos;
 
-            // If target is outside padding, adjust desired position
-            if (viewportPos.x < minX)
-                desiredPos.x = Cam.ViewportToWorldPoint(new Vector3(minX, 0, camPos.z - Cam.transform.position.z)).x;
-            else if (viewportPos.x > maxX)
-                desiredPos.x = Cam.ViewportToWorldPoint(new Vector3(maxX, 0, camPos.z - Cam.transform.position.z)).x;
+            Vector3 lookDir = Vector3.zero;
+            if (delta.magnitude > lookAheadThreshold)
+                lookDir = delta.normalized;
 
-            if (viewportPos.y < minY)
-                desiredPos.y = Cam.ViewportToWorldPoint(new Vector3(0, minY, camPos.z - Cam.transform.position.z)).y;
-            else if (viewportPos.y > maxY)
-                desiredPos.y = Cam.ViewportToWorldPoint(new Vector3(0, maxY, camPos.z - Cam.transform.position.z)).y;
+            Vector3 desiredLookAhead = lookDir * lookAheadDistance;
+            lookAheadOffset = Vector3.SmoothDamp(
+                lookAheadOffset,
+                desiredLookAhead,
+                ref lookAheadVel,
+                lookAheadSmooth
+            );
 
-            // Smoothly move camera
-            Cam.transform.position = Vector3.Lerp(camPos, desiredPos, smoothSpeed);
+            // -----------------------------------------------------
+            // 2. Dead-zone: compute desired camera position
+            // -----------------------------------------------------
+            Vector3 viewport = cam.WorldToViewportPoint(target.position);
+            float minX = leftPadding;
+            float maxX = 1f - rightPadding;
+            float minY = bottomPadding;
+            float maxY = 1f - topPadding;
+
+            Vector3 desired = camPos;
+
+            if (viewport.x < minX)
+            {
+                float dx = viewport.x - minX;
+                desired.x += dx * cam.orthographicSize * cam.aspect * 2f;
+            }
+            else if (viewport.x > maxX)
+            {
+                float dx = viewport.x - maxX;
+                desired.x += dx * cam.orthographicSize * cam.aspect * 2f;
+            }
+
+            if (viewport.y < minY)
+            {
+                float dy = viewport.y - minY;
+                desired.y += dy * cam.orthographicSize * 2f;
+            }
+            else if (viewport.y > maxY)
+            {
+                float dy = viewport.y - maxY;
+                desired.y += dy * cam.orthographicSize * 2f;
+            }
+
+            // -----------------------------------------------------
+            // 3. Apply clamped look-ahead
+            // -----------------------------------------------------
+            Vector3 finalPos = desired + lookAheadOffset;
+            Vector3 projectedViewport = cam.WorldToViewportPoint(target.position - lookAheadOffset);
+
+            if (projectedViewport.x < minX || projectedViewport.x > maxX)
+                finalPos.x = desired.x;
+
+            if (projectedViewport.y < minY || projectedViewport.y > maxY)
+                finalPos.y = desired.y;
+
+            // -----------------------------------------------------
+            // 4. Smooth move camera
+            // -----------------------------------------------------
+            cam.transform.position = Vector3.SmoothDamp(
+                camPos,
+                new Vector3(finalPos.x, finalPos.y, camPos.z),
+                ref camVelocity,
+                smoothTime
+            );
         }
 
-        private void OnDrawGizmos()
+        void OnDrawGizmos()
         {
-            if (Cam == null) return;
+            if (!Application.isPlaying) cam = Camera.main;
+            if (cam == null) return;
+
+            float minX = leftPadding;
+            float maxX = 1f - rightPadding;
+            float minY = bottomPadding;
+            float maxY = 1f - topPadding;
+
+            Vector3 bl = cam.ViewportToWorldPoint(new Vector3(minX, minY, cam.nearClipPlane + 10));
+            Vector3 br = cam.ViewportToWorldPoint(new Vector3(maxX, minY, cam.nearClipPlane + 10));
+            Vector3 tl = cam.ViewportToWorldPoint(new Vector3(minX, maxY, cam.nearClipPlane + 10));
+            Vector3 tr = cam.ViewportToWorldPoint(new Vector3(maxX, maxY, cam.nearClipPlane + 10));
 
             Gizmos.color = Color.yellow;
-
-            // Draw padding rectangle in world space
-            Vector3 bottomLeft = Cam.ViewportToWorldPoint(new Vector3(leftPadding / Cam.pixelWidth, bottomPadding / Cam.pixelHeight, Cam.nearClipPlane));
-            Vector3 topRight = Cam.ViewportToWorldPoint(new Vector3(1f - (rightPadding / Cam.pixelWidth), 1f - (topPadding / Cam.pixelHeight), Cam.nearClipPlane));
-
-            Vector3 topLeft = new Vector3(bottomLeft.x, topRight.y, bottomLeft.z);
-            Vector3 bottomRight = new Vector3(topRight.x, bottomLeft.y, bottomLeft.z);
-
-            Gizmos.DrawLine(bottomLeft, bottomRight);
-            Gizmos.DrawLine(bottomRight, topRight);
-            Gizmos.DrawLine(topRight, topLeft);
-            Gizmos.DrawLine(topLeft, bottomLeft);
+            Gizmos.DrawLine(bl, br);
+            Gizmos.DrawLine(br, tr);
+            Gizmos.DrawLine(tr, tl);
+            Gizmos.DrawLine(tl, bl);
         }
     }
 }

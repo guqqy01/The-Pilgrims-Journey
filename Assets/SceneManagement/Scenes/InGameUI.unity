@@ -523,7 +523,6 @@ GameObject:
   m_Component:
   - component: {fileID: 99329608}
   - component: {fileID: 99329610}
-  - component: {fileID: 99329609}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -550,36 +549,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 94, y: 94}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &99329609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 99329607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.7778719, g: 0.7798742, b: 0.59594154, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &99329610
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15226,7 +15195,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 2
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1271004915
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25414,8 +25383,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 99329608}
   - {fileID: 2075268269}
+  - {fileID: 99329608}
   - {fileID: 1271004913}
   m_Father: {fileID: 1952090236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25437,6 +25406,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Minimap
   pointPrefab: {fileID: 2271378460484226580, guid: 4a3c2a208f7c2d344ac8535435ba4382, type: 3}
+  heroPointSprite: {fileID: 883234428, guid: db12c4552372db2479861b629dfee4f6, type: 3}
+  monsterPointSprite: {fileID: -919159996, guid: db12c4552372db2479861b629dfee4f6, type: 3}
+  unitPointSprite: {fileID: 868182866, guid: db12c4552372db2479861b629dfee4f6, type: 3}
   cameraDisplayRect: {fileID: 1271004913}
   minimapTransform: {fileID: 99329608}
   heroColor: {r: 0, g: 0.25239325, b: 1, a: 1}
@@ -25576,10 +25548,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1094014579, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
+  m_Sprite: {fileID: -1047029239, guid: 0efcf427f3a239c44a343843e96b2f24, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
-  m_FillCenter: 0
+  m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
