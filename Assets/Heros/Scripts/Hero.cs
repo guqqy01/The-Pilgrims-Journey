@@ -20,5 +20,28 @@ namespace Heros
 
         }
     }
+
+    public class HeroStatsManager : MonoBehaviour
+    {
+
+    }
+
+    public enum HeroStats
+    {
+        Health,
+        Shield,
+        ShieldCooldown,
+        ShieldRegeneration,
+
+        MovementSpeed,
+        Luck,
+        ExperienceGain,
+        AttackSpeed,
+        Damage,
+        NumberOfAttacks,
+        CriticalChance,
+        CriticalDamage,
+        Size,
+    }
 }
 
