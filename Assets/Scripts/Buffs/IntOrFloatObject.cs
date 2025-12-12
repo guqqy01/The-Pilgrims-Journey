@@ -8,8 +8,44 @@ public struct IntOrFloatObject : IEquatable<IntOrFloatObject>
     [SerializeField] private float floatValue;
     [SerializeField] private bool isInt;
 
-    public bool IsInt => isInt;
-    public bool IsFloat => !isInt;
+    public bool IsInt
+    {
+        get
+        {
+            return isInt;
+        }
+        set
+        {
+            if (value)
+            {
+                if (isInt)
+                    return;
+
+                intValue = Mathf.RoundToInt(floatValue);
+            }
+            else
+            {
+                if (!isInt)
+                    return;
+
+                floatValue = intValue;
+            }
+
+            isInt = value;
+        }
+    }
+
+    public bool IsFloat
+    {
+        get
+        {
+            return !isInt;
+        }
+        set
+        {
+            IsInt = !value;
+        }
+    }
 
     public int IntValue => isInt ? intValue : Mathf.RoundToInt(floatValue);
     public float FloatValue => isInt ? intValue : floatValue;
@@ -19,16 +55,16 @@ public struct IntOrFloatObject : IEquatable<IntOrFloatObject>
     // Constructors
     public IntOrFloatObject(int value)
     {
+        isInt = true;
         intValue = value;
         floatValue = value;
-        isInt = true;
     }
 
     public IntOrFloatObject(float value)
     {
+        isInt = false;
         intValue = Mathf.RoundToInt(value);
         floatValue = value;
-        isInt = false;
     }
 
     // Implicit conversions

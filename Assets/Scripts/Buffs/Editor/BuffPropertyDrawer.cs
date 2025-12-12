@@ -2,70 +2,90 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-/*[CustomPropertyDrawer(typeof(Buff))]
+[CustomPropertyDrawer(typeof(Buff))]
 public class BuffPropertyDrawer : PropertyDrawer
 {
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    /*public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         return 4f * EditorGUIUtility.singleLineHeight + 6f;
     }
-
+*/
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        SerializedProperty statProperty = property.FindPropertyRelative("stat");
-        SerializedProperty baseBuffProp = property.FindPropertyRelative("baseBuff");
         SerializedProperty multiplierProp = property.FindPropertyRelative("Multiplier");
+
+        SerializedProperty baseBuffProp = property.FindPropertyRelative("baseBuff");
         SerializedProperty additionalBuffProp = property.FindPropertyRelative("additionalBuff");
 
-        Rect statRect = new Rect(position) { height = EditorGUIUtility.singleLineHeight };
-        Rect formulaRect = new Rect(position) { yMin = statRect.yMax + 2f, height = 2f * EditorGUIUtility.singleLineHeight + 2f };
-        Rect goldValuesRect = new Rect(position) { yMin = formulaRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
+        Rect foldoutRect = new Rect(position) { width = position.width / 2f };
 
-        // Draw stat field
-        EditorGUI.BeginChangeCheck();
-        EditorGUI.PropertyField(statRect, statProperty);
-        if (EditorGUI.EndChangeCheck())
+        Rect dropDownRect = EditorGUI.PrefixLabel(position, new GUIContent(" "));
+
+        property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, label);
+
+        bool isInt = baseBuffProp.FindPropertyRelative("isInt").boolValue;
+
+        if(EditorGUI.DropdownButton(dropDownRect, new GUIContent(isInt ? "Int" : "Float"), FocusType.Passive))
         {
-            bool isIntStat = (UnitStatsEnum)statProperty.enumValueIndex is UnitStatsEnum.Health or UnitStatsEnum.Shield;
-            baseBuffProp.FindPropertyRelative("isInt").boolValue = isIntStat;
-            additionalBuffProp.FindPropertyRelative("isInt").boolValue = isIntStat;
+            GenericMenu menu = new GenericMenu();
+
+            menu.AddItem(new GUIContent("Int"), isInt, () => ChangeBuffToInt(property));
+            menu.AddItem(new GUIContent("Float"), !isInt, () => ChangeBuffToFloat(property));
+
+            menu.ShowAsContext();
         }
 
-        // Formula preview
-        PropertyInLineDrawer.DrawPropertiesInText(
-            formulaRect,
-            property,
-            "(^baseBuff^ + Base Value) * ^Multiplier^ + ^additionalBuff^",
-            new GUIContent("Total Buff"),
-            '^'
-        );
+        EditorGUI.indentLevel++;
 
-        // Gold values
-        goldValuesRect = EditorGUI.PrefixLabel(goldValuesRect, new GUIContent("Buff gold values"));
-        float width = (goldValuesRect.width - 4f) / 3f;
-
-        try
+        if (property.isExpanded)
         {
-            bool isInt = baseBuffProp.FindPropertyRelative("isInt").boolValue;
-
-            IntOrFloatObject baseBuffValue = isInt
-                ? new IntOrFloatObject(baseBuffProp.FindPropertyRelative("intValue").intValue)
-                : new IntOrFloatObject(baseBuffProp.FindPropertyRelative("floatValue").floatValue);
-
-            IntOrFloatObject additionalBuffValue = isInt
-                ? new IntOrFloatObject(additionalBuffProp.FindPropertyRelative("intValue").intValue)
-                : new IntOrFloatObject(additionalBuffProp.FindPropertyRelative("floatValue").floatValue);
-
-            Buff buff = new Buff(
-                multiplierProp.floatValue,
-                baseBuffValue,
-                additionalBuffValue
-            );
+            EditorGUILayout.PropertyField(multiplierProp);
+            EditorGUILayout.PropertyField(baseBuffProp);
+            EditorGUILayout.PropertyField(additionalBuffProp);
         }
-        catch (Exception e)
-        {
-            EditorGUI.HelpBox(goldValuesRect, $"Error calculating buff: {e.Message}", MessageType.Error);
-            Debug.LogError(e);
-        }
+
+        EditorGUI.indentLevel--;
     }
-}*/
+
+    private void ChangeBuffToInt(SerializedProperty property)
+    {
+        SerializedProperty baseBuffProp = property.FindPropertyRelative("baseBuff");
+        SerializedProperty addBuffProp = property.FindPropertyRelative("additionalBuff");
+
+        ConvertIntOrFloatToInt(baseBuffProp);
+        ConvertIntOrFloatToInt(addBuffProp);
+
+        property.serializedObject.ApplyModifiedProperties();
+    }
+
+    private void ChangeBuffToFloat(SerializedProperty property)
+    {
+        SerializedProperty baseBuffProp = property.FindPropertyRelative("baseBuff");
+        SerializedProperty addBuffProp = property.FindPropertyRelative("additionalBuff");
+
+        ConvertIntOrFloatToFloat(baseBuffProp);
+        ConvertIntOrFloatToFloat(addBuffProp);
+
+        property.serializedObject.ApplyModifiedProperties();
+    }
+
+    private void ConvertIntOrFloatToInt(SerializedProperty prop)
+    {
+        var intValue = prop.FindPropertyRelative("intValue");
+        var floatValue = prop.FindPropertyRelative("floatValue");
+        var isIntProp = prop.FindPropertyRelative("isInt");
+
+        intValue.intValue = Mathf.RoundToInt(floatValue.floatValue);
+        isIntProp.boolValue = true;
+    }
+
+    private void ConvertIntOrFloatToFloat(SerializedProperty prop)
+    {
+        var intValue = prop.FindPropertyRelative("intValue");
+        var floatValue = prop.FindPropertyRelative("floatValue");
+        var isIntProp = prop.FindPropertyRelative("isInt");
+
+        floatValue.floatValue = intValue.intValue;
+        isIntProp.boolValue = false;
+    }
+}

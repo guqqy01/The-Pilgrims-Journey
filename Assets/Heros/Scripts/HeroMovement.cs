@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Heros
@@ -18,6 +19,15 @@ namespace Heros
 
         private bool overrideMovementToMoveOutOfMap = false;
         private Direction directionOutOfMap;
+
+        public void Setup(HeroSO heroSO)
+        {
+            BaseInit(0f);
+
+            Speed.AddBuff("HeroBase", heroSO.BaseMovementSpeedBuff);
+
+            Speed.AddBuff("HeroStatsManager", HeroStatsManager.Instance.movementSpeed);
+        }
 
         protected override void Awake()
         {

@@ -19,7 +19,13 @@ public class Buff
         {
             return baseBuff.IsInt;
         }
+        set
+        {
+            baseBuff.IsInt = value;
+            additionalBuff.IsInt = value;
+        }
     }
+
     public Buff(bool isInt)
     {
         Multiplier = 0f;
