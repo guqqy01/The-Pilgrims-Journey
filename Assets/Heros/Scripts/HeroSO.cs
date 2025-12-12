@@ -10,24 +10,48 @@ namespace Heros
 
         public Hero prefab;
 
-        [Header("Utiltiy")]
-        public Buff BaseMovementSpeedBuff;
-        public Buff BaseLuckBuff;
-        public Buff BaseExperienceGainBuff;
-
         [Header("Defence")]
-        public Buff BaseHealthBuff;
-        public Buff BaseShieldBuff;
-        public Buff BaseShieldCooldownBuff;
-        public Buff BaseShieldRegenerationBuff;
+        public Buff Health;
+        public Buff Shield;
+        public Buff ShieldCooldown;
+        public Buff ShieldRegeneration;
+
+        [Header("Utility")]
+        public Buff MovementSpeed;
+        public Buff Luck;
+        public Buff ExperienceGain;
 
         [Header("Attack")]
-        public Buff BaseAttackSpeedBuff;
-        public Buff BaseAttackDamageBuff;
-        public Buff BaseNumberOfAttacksBuff;
-        public Buff BaseCriticalChanceBuff;
-        public Buff BaseCriticalDamageBuff;
-        public Buff BaseAttackSizeBuff;
+        public Buff DamageBuff;
+        public Buff AttackSpeed;
+        public Buff NumberOfAttacks;
+        public Buff CriticalChance;
+        public Buff CriticalDamage;
+        public Buff AttackSize;
+
+        public Buff GetBuff(HeroStats stat)
+        {
+            return stat switch
+            {
+                HeroStats.Health => Health,
+                HeroStats.Shield => Shield,
+                HeroStats.ShieldRegeneration => ShieldRegeneration,
+                HeroStats.ShieldCooldown => ShieldCooldown,
+
+                HeroStats.MovementSpeed => MovementSpeed,
+                HeroStats.Luck => Luck,
+                HeroStats.ExperienceGain => ExperienceGain,
+
+                HeroStats.Damage => DamageBuff,
+                HeroStats.AttackSpeed => AttackSpeed,
+
+                HeroStats.NumberOfAttacks => NumberOfAttacks,
+                HeroStats.CriticalChance => CriticalChance,
+                HeroStats.CriticalDamage => CriticalDamage,
+                HeroStats.Size => AttackSize,
+                _ => null
+            };
+        }
     }
 
 }

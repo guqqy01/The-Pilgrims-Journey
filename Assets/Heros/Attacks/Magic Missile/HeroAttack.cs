@@ -7,6 +7,12 @@ namespace Heros
         public HeroAttackSO HeroAttackSO { get; private set; }
 
         [SerializeField]
+        private int baseDamage;
+
+        [SerializeField]
+        private float baseAttackDamage;
+
+        [SerializeField]
         protected BuffableStat damage;
         [SerializeField]
         protected BuffableStat attackSpeed;
@@ -59,14 +65,12 @@ namespace Heros
 
         protected abstract void InheritSetup(HeroAttackSO heroAttackSO);
 
-        public void Setup(HeroAttackSO heroAttackSO)
+        public void Setup(HeroSO heroSO, HeroAttackSO heroAttackSO)
         {
             HeroAttackSO = heroAttackSO;
 
-            damage = new BuffableStat(heroAttackSO.damage);
-            damage.AddBuff("HeroStatsManager", HeroStatsManager.Instance.damageBuff);
-
-            attackSpeed = new BuffableStat(heroAttackSO.attackSpeed);
+            damage = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Damage);
+            attackSpeed = HeroStatBase.GetBuffableStat(heroSO, HeroStats.AttackSpeed);
 
             knockbackMultiplier = heroAttackSO.knockback;
             findTargetDistance = heroAttackSO.findTargetDistance;

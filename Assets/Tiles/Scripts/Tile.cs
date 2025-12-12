@@ -416,7 +416,7 @@ namespace Tiles
 
             foreach (var equipment in Equipment)
             {
-                if (equipment != null && equipment.TryGetBuff(stat, out Buff outBuff))
+                if (equipment != null && equipment.TryGetUnitBuff(stat, out Buff outBuff))
                 {
                     allBuffs.Add(outBuff);
                 }

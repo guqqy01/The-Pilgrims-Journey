@@ -11,12 +11,38 @@ using DialogueSystem;
 using System;
 using Random = UnityEngine.Random;
 using System.Collections;
+using Heros;
+using Units;
 public static class ExtensionsAndHelper
 {
     public static Color SetAlpha(this Color color, float alpha)
     {
         Color holder = new Color(color.r, color.g, color.b, alpha);
         return holder;
+    }
+
+    public static bool IsIntStat(this HeroStats stat)
+    {
+        return stat switch
+        {
+            HeroStats.Health => true,
+            HeroStats.Shield => true,
+            HeroStats.Damage => true,
+            HeroStats.NumberOfAttacks => true,
+
+            _ => false,
+        };
+    }
+
+    public static bool IsIntStat(this UnitStatsEnum stat)
+    {
+        return stat switch
+        {
+            UnitStatsEnum.Health => true,
+            UnitStatsEnum.Shield => true,
+
+            _ => false,
+        };
     }
 
     public static List<Vector2Int> AddToAll(this List<Vector2Int> v2IntList, Vector2Int v2Int)

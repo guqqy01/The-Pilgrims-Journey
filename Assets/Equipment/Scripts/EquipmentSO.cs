@@ -6,6 +6,7 @@ using System.Linq;
 using static UnityEngine.ParticleSystem;
 using AYellowpaper.SerializedCollections;
 using Units.UI;
+using Heros;
 
 namespace Equipment
 {
@@ -14,7 +15,6 @@ namespace Equipment
     {
         public Sprite sprite;
         public Sprite Sprite => sprite;
-
 
         [TextArea(4, 10)]
         public string description;
@@ -35,14 +35,15 @@ namespace Equipment
                 else return Rarity.Legendary;
             }
         }
+
         public int goldCost
         {
             get
             {
                 int value = 0;
 
-                if (equipmentStats != null)
-                    foreach (var kvp in equipmentStats)
+                if (unitEquipmentStats != null)
+                    foreach (var kvp in unitEquipmentStats)
                     {
                         value += UnitBuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key, out _, out _, out _);
                     }
@@ -53,7 +54,7 @@ namespace Equipment
             }
         }
 
-        public bool TryGetBuff(UnitStatsEnum stat, out Buff outBuff)
+        public bool TryGetUnitBuff(UnitStatsEnum stat, out Buff outBuff)
         {
             outBuff = null;
 
@@ -66,23 +67,46 @@ namespace Equipment
             return true;
         }
 
+        public bool TryGetHeroBuff(HeroStats stat, out Buff outBuff)
+        {
+            outBuff = null;
+
+            if (!HeroEquipmentStats.ContainsKey(stat))
+                return false;
+
+
+            outBuff = HeroEquipmentStats[stat];
+
+            return true;
+        }
+
         [SerializeReference]
         [AbstractSelector]
         public EquipmentSpecial EquipmentSpecial;
 
         [SerializeField]
-        private SerializedDictionary<UnitStatsEnum, Buff> equipmentStats;
+        private SerializedDictionary<UnitStatsEnum, Buff> unitEquipmentStats;
 
         public Dictionary<UnitStatsEnum, Buff> EquipmentStatsDictionary
         {
             get
             {
-                if (equipmentStats != null)
-                    return equipmentStats;
+                unitEquipmentStats ??= new SerializedDictionary<UnitStatsEnum, Buff>();
 
-                equipmentStats = new SerializedDictionary<UnitStatsEnum, Buff>();
+                return unitEquipmentStats;
+            }
+        }
 
-                return equipmentStats;
+        [SerializeField]
+        private SerializedDictionary<HeroStats, Buff> heroEquipmentStats;
+
+        public Dictionary<HeroStats, Buff> HeroEquipmentStats
+        {
+            get
+            {
+                heroEquipmentStats ??= new SerializedDictionary<HeroStats, Buff>();
+
+                return heroEquipmentStats;
             }
         }
 
@@ -105,7 +129,7 @@ namespace Equipment
             {
                 List<SubDescriptionUIAndParams> returnList = new List<SubDescriptionUIAndParams>();
 
-                foreach(var kvp in equipmentStats)
+                foreach(var kvp in unitEquipmentStats)
                 {
                     object[] paramObjects = new object[2];
                     paramObjects[0] = kvp.Value;

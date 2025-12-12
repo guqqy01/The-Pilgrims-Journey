@@ -22,11 +22,7 @@ namespace Heros
 
         public void Setup(HeroSO heroSO)
         {
-            BaseInit(0f);
-
-            Speed.AddBuff("HeroBase", heroSO.BaseMovementSpeedBuff);
-
-            Speed.AddBuff("HeroStatsManager", HeroStatsManager.Instance.movementSpeed);
+            BaseInit(HeroStatBase.GetBuffableStat(heroSO, HeroStats.MovementSpeed));
         }
 
         protected override void Awake()

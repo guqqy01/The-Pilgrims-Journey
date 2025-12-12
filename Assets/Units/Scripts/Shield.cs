@@ -3,11 +3,6 @@ using System.Collections.Generic;
 
 public class Shield : MonoBehaviour
 {
-    [SerializeField]
-    private int initShield = 5;
-    [SerializeField]
-    private float initRegen = 1f, initCooldown = 6f;
-
     private BuffableStat shield = new BuffableStat(0);
     public int MaxShield
     {
@@ -45,11 +40,6 @@ public class Shield : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem shieldBrokenPS;
-
-    private void Start()
-    {
-        Init(initShield, initRegen, initCooldown);
-    }
 
     public void Init(int maxShield, float regeneration, float shieldCooldown)
     {

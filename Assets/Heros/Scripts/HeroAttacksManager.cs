@@ -41,7 +41,7 @@ namespace Heros
             }
 
             var attack = (HeroAttack)gameObject.AddComponent(heroAttackSO.HeroAttackType);
-            attack.Setup(heroAttackSO);
+            attack.Setup(HeroManager.Instance.heroSO, heroAttackSO);
 
             attacks.Add(heroAttackSO, attack);
         }

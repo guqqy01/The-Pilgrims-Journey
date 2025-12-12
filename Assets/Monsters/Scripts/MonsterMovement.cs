@@ -52,9 +52,8 @@ namespace Monsters
         {
             this.movementType = MonsterMovementType.Direct;
         }
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
             StationaryPosition =  new Vector2Int(Mathf.RoundToInt(rb.position.x), Mathf.RoundToInt(rb.position.y));
         }
 

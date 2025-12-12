@@ -4,9 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class BaseMovement : MonoBehaviour
 {
-    [SerializeField]
-    private float initSpeed = 1f;
-
     public BuffableStat Speed { private set; get; }
     public float SpeedValue => Speed.Value;
 
@@ -19,8 +16,6 @@ public abstract class BaseMovement : MonoBehaviour
 
     public Rigidbody2D rb { protected set; get; }
 
-    private bool initialized = false;
-
     protected virtual void Awake()
     {
         if(visualTransform != null)
@@ -31,21 +26,11 @@ public abstract class BaseMovement : MonoBehaviour
     public void BaseInit(float movementSpeed)
     {
         Speed = new BuffableStat(movementSpeed);
-        initialized = true;
     }
 
     public void BaseInit(BuffableStat movementStat)
     {
         Speed = movementStat;
-        initialized = true;
-    }
-
-    protected virtual void Start()
-    {
-        if (!initialized)
-        {
-            Speed = new BuffableStat(initSpeed);
-        }
     }
 
     protected virtual void Update()

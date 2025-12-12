@@ -29,7 +29,7 @@ namespace Units
                     if (equipmentSOs[i] == null)
                         continue;
 
-                    if (equipmentSOs[i].TryGetBuff(stat, out Buff outBuff))
+                    if (equipmentSOs[i].TryGetUnitBuff(stat, out Buff outBuff))
                     {
                         buffableStat.AddBuff("Equipment" + (i + 1).ToString(), outBuff);
                     }

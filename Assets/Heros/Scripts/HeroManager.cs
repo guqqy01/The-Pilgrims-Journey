@@ -8,7 +8,6 @@ namespace Heros
     public class HeroManager : Singleton<HeroManager>, IOnAfterCreateLocalMap
     {
         public HeroSO heroSO;
-
         public Hero ActiveHero { private set; get; }
 
 
@@ -34,7 +33,7 @@ namespace Heros
 
             ActiveHero = Instantiate(heroSO.prefab, position, Quaternion.identity, transform);
 
-            ActiveHero.Setup();
+            ActiveHero.Setup(heroSO);
 
             ActiveHero.HealthAndShieldManager.Health.onDie += OnHeroDie;
         }

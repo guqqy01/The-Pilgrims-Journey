@@ -2,9 +2,6 @@
 
 public class Health : MonoBehaviour
 {
-    [SerializeField]
-    private int initMaxHealth = 10;
-
     private BuffableStat maxHealth;
     public int MaxHealth
     {
@@ -21,11 +18,6 @@ public class Health : MonoBehaviour
 
     public delegate void OnHealthChange(StatChangeInfo statChangeInfo);
     public OnHealthChange onHealthChange;
-
-    private void Start()
-    {
-        Init(initMaxHealth);
-    }
 
     public void Init(BuffableStat healthBuffableStat)
     {
