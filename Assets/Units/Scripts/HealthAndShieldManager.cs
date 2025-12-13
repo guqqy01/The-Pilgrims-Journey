@@ -24,6 +24,13 @@ public class HealthAndShieldManager : MonoBehaviour
         UnitMat = GetComponentInChildren<Renderer>().material;
     }
 
+    public void Setup(BuffableStat health, BuffableStat shield, BuffableStat shieldRegeneration, BuffableStat shieldCooldown)
+    {
+        Health.Init(health);
+
+        Shield.Init(shield, shieldRegeneration, shieldCooldown);
+    }
+
     private void Update()
     {
         if (Invunrable && Time.time >= removeInvunrabilityTime)

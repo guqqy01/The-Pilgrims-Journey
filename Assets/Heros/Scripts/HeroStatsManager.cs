@@ -4,26 +4,22 @@ namespace Heros
 
     public class HeroStatsManager : Singleton<HeroStatsManager>
     {
-        [Header("Stats")]
-        public BuffableStat Health;
-        public BuffableStat Shield;
-        public BuffableStat ShieldCooldown;
-        public BuffableStat ShieldRegeneration;
+        public BuffableStat Health = new BuffableStat(0);
+        public BuffableStat Shield = new BuffableStat(0);
+        public BuffableStat ShieldCooldown = new BuffableStat(0f);
+        public BuffableStat ShieldRegeneration = new BuffableStat(0f);
 
-        public BuffableStat MovementSpeed;
-        public BuffableStat Luck;
-        public BuffableStat ExperienceGain;
+        public BuffableStat MovementSpeed = new BuffableStat(0f);
+        public BuffableStat Luck = new BuffableStat(0);
+        public BuffableStat ExperienceGain = new BuffableStat(0f);
 
-        public BuffableStat DamageBuff;
-        public BuffableStat AttackSpeed;
+        public BuffableStat DamageBuff = new BuffableStat(0);
+        public BuffableStat AttackSpeed = new BuffableStat(0);
 
-        public BuffableStat NumberOfAttacks;
-        public BuffableStat CriticalChance;
-        public BuffableStat CriticalDamage;
-        public BuffableStat AttackSize;
-
-        [Header("Other")]
-        public Hero Hero;
+        public BuffableStat NumberOfAttacks = new BuffableStat(0);
+        public BuffableStat CriticalChance = new BuffableStat(0f);
+        public BuffableStat CriticalDamage = new BuffableStat(0);
+        public BuffableStat AttackSize = new BuffableStat(0f);
 
         public Buff GetBuff(HeroStats stat)
         {

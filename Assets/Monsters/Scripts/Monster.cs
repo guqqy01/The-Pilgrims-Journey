@@ -30,6 +30,28 @@ namespace Monsters
         private bool flickerOnOrOff;
 
 
+        private MonsterMovement monsterMovement;
+        public MonsterMovement MonsterMovement
+        {
+            get
+            {
+                monsterMovement ??= GetComponent<MonsterMovement>();
+
+                return monsterMovement;
+            }
+        }
+
+        private HealthAndShieldManager healthAndShieldManager;
+        private HealthAndShieldManager HealthAndShieldManager
+        {
+            get
+            {
+                healthAndShieldManager ??= GetComponent<HealthAndShieldManager>();
+
+                return healthAndShieldManager;
+            }
+        }
+
         protected virtual void Start()
         {
             beastaryManager = BeastaryManager.Instance;
@@ -39,6 +61,10 @@ namespace Monsters
         public virtual void Init(MonsterSO monster)
         {
             MonsterSO = monster;
+
+            MonsterMovement.Setup(monster);
+
+            HealthAndShieldManager.Setup(new BuffableStat(monster.health), new BuffableStat(monster.shield), new BuffableStat(monster.shieldRegeneration), new BuffableStat(monster.shieldCooldown));
         }
         
         protected virtual void OnDamageUnit(OnHitInfo hitInfo)

@@ -31,6 +31,7 @@ namespace Heros
 
             HealthAndShieldManager.Shield.Init(shieldStat, shieldRegenerationStat, shieldCooldownStat);
         }
+
     }
 }
 

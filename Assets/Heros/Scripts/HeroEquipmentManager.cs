@@ -1,19 +1,22 @@
 ﻿using Equipment;
+using UnityEngine;
 namespace Heros
 {
+    [RequireComponent(typeof(EquipmentInventory))]
     public class HeroEquipmentManager : Singleton<HeroEquipmentManager>
     {
-        private EquipmentSO[] equipment = new EquipmentSO[3];
+        private EquipmentInventory inventory;
 
-        public EquipmentSO[] Equipment { get { return equipment; } }
-
-
+        private void Awake()
+        {
+            inventory = GetComponent<EquipmentInventory>();
+        }
 
         public Buff GetBuff(HeroStats stat)
         {
             Buff returnBuff = new Buff(stat.IsIntStat());
 
-            foreach(var item in equipment)
+            foreach(var item in inventory.NonNullEquipment)
             {
                 if(item.TryGetHeroBuff(stat, out Buff outBuff))
                 {

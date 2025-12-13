@@ -57,6 +57,11 @@ namespace Monsters
             StationaryPosition =  new Vector2Int(Mathf.RoundToInt(rb.position.x), Mathf.RoundToInt(rb.position.y));
         }
 
+        public void Setup(MonsterSO monsterSO)
+        {
+            BaseInit(monsterSO.movementSpeed);
+        }
+
         private void HandleStationaryMovement()
         {
             float distance = Vector2.Distance(StationaryPosition, rb.position);

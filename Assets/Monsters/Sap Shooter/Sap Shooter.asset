@@ -19,3 +19,10 @@ MonoBehaviour:
     roots from being trampled by animals and humans.
   sprite: {fileID: 1709180350, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   prefab: {fileID: -3937348490146185227, guid: f17ecc19c59195447a80c1f4f45b458c, type: 3}
+  size: {x: 1, y: 1}
+  movementType: 0
+  movementSpeed: 1
+  health: 5
+  shield: 2
+  shieldCooldown: 6
+  shieldRegeneration: 1

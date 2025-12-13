@@ -7,6 +7,7 @@ using static UnityEngine.ParticleSystem;
 using AYellowpaper.SerializedCollections;
 using Units.UI;
 using Heros;
+using UnityEngine.Serialization;
 
 namespace Equipment
 {
@@ -84,6 +85,7 @@ namespace Equipment
         [AbstractSelector]
         public EquipmentSpecial EquipmentSpecial;
 
+        [FormerlySerializedAs("equipmentStats")]
         [SerializeField]
         private SerializedDictionary<UnitStatsEnum, Buff> unitEquipmentStats;
 

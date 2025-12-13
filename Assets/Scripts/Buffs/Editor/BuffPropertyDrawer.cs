@@ -5,11 +5,11 @@ using System;
 [CustomPropertyDrawer(typeof(Buff))]
 public class BuffPropertyDrawer : PropertyDrawer
 {
-    /*public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         return 4f * EditorGUIUtility.singleLineHeight + 6f;
     }
-*/
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         SerializedProperty multiplierProp = property.FindPropertyRelative("Multiplier");

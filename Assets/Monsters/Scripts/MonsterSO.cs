@@ -19,6 +19,14 @@ namespace Monsters
         public Vector2Int size = Vector2Int.one;
 
         public MonsterMovementType movementType = MonsterMovementType.Stationary;
+
+        [Header("Stats")]
+        public float movementSpeed;
+
+        public int health;
+        public int shield;
+        public float shieldCooldown;
+        public float shieldRegeneration;
     }
 }
 

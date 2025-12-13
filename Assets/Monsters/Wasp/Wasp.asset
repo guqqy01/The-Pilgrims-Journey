@@ -17,3 +17,10 @@ MonoBehaviour:
   description: 
   sprite: {fileID: -1582189006, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   prefab: {fileID: 1852068231971348684, guid: 18395e6d31cfb3e4a90f5f097a55b452, type: 3}
+  size: {x: 1, y: 1}
+  movementType: 0
+  movementSpeed: 1
+  health: 5
+  shield: 2
+  shieldCooldown: 6
+  shieldRegeneration: 1
