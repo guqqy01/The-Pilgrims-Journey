@@ -10,8 +10,6 @@
 
         //Utility
         MovementSpeed,
-        Luck,
-        ExperienceGain,
 
         //Attack
         AttackSpeed,

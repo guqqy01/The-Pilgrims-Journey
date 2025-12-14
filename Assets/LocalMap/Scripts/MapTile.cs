@@ -73,6 +73,9 @@ namespace LocalMap
         {
             highlighted = true;
 
+            if (highlight == null)
+                return;
+
             highlight.gameObject.SetActive(highlighted);
             highlight.color = color.SetAlpha(0.2f);
 

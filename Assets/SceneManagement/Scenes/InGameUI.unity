@@ -4766,10 +4766,9 @@ Transform:
   - {fileID: 1718404808}
   - {fileID: 1121056835}
   - {fileID: 633149109}
-  - {fileID: 816057840}
-  - {fileID: 931264060}
   - {fileID: 1597868031}
   - {fileID: 682797022}
+  - {fileID: 1980612276}
   m_Father: {fileID: 1724326376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424068699
@@ -10345,12 +10344,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816057839}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 412035605}
+  m_Father: {fileID: 1980612276}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &816057841
 MonoBehaviour:
@@ -12598,7 +12597,7 @@ GameObject:
   - component: {fileID: 931264060}
   - component: {fileID: 931264061}
   m_Layer: 0
-  m_Name: HeroStatsManager
+  m_Name: Hero Buff Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12612,12 +12611,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931264059}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 412035605}
+  m_Father: {fileID: 1980612276}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &931264061
 MonoBehaviour:
@@ -17014,6 +17013,7 @@ MonoBehaviour:
   - {fileID: 1182074395}
   - {fileID: 2116193721}
   - {fileID: 991965983}
+  - {fileID: 1952090235}
   mapPointTypeAndRequiredUIs:
   - mapPointType: 0
     requiredObjects:
@@ -17023,6 +17023,7 @@ MonoBehaviour:
     - {fileID: 126022707}
     - {fileID: 1182074395}
     - {fileID: 2116193721}
+    - {fileID: 1952090235}
     controlTopBarMovement: 0
   - mapPointType: 1
     requiredObjects: []
@@ -17040,6 +17041,7 @@ MonoBehaviour:
     - {fileID: 1494294934}
     - {fileID: 1182074395}
     - {fileID: 2116193721}
+    - {fileID: 1952090235}
     controlTopBarMovement: 0
 --- !u!1 &1164369846
 GameObject:
@@ -23326,6 +23328,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c04ca7173cebfd438c881afb5134d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DescriptionUI
+--- !u!1 &1547803920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1547803921}
+  - component: {fileID: 1547803922}
+  m_Layer: 0
+  m_Name: Unit Buff Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1547803921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547803920}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1980612276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1547803922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547803920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e67b01019bdabb439fca59fe251c458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.UnitBuffManager
 --- !u!1 &1558217526
 GameObject:
   m_ObjectHideFlags: 0
@@ -29769,6 +29815,40 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2904566264893245220, guid: 6a5caa1aad74d34449e2e12e201985f0, type: 3}
   m_PrefabInstance: {fileID: 1978897976}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1980612275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1980612276}
+  m_Layer: 0
+  m_Name: Buff Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1980612276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980612275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 816057840}
+  - {fileID: 931264060}
+  - {fileID: 1547803921}
+  m_Father: {fileID: 412035605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1981964151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3760574097821788609, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}

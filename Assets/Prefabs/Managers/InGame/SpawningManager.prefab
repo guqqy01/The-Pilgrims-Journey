@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4764305456297653943}
-  - component: {fileID: 4764305456297653942}
+  - component: {fileID: 6683413499796783386}
   m_Layer: 0
   m_Name: SpawningManager
   m_TagString: Untagged
@@ -24,15 +24,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4764305456297653936}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4764305456297653942
+--- !u!114 &6683413499796783386
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4764305456297653936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0dc4b80f31cfd14aa9116b0b71f7c75, type: 3}
+  m_Script: {fileID: 11500000, guid: d162a43282a83ff43a48e4b1053c60de, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  SpawnedUnits: []
+  m_EditorClassIdentifier: Assembly-CSharp::UnitSpawningManager

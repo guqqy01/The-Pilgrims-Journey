@@ -10,8 +10,6 @@ namespace Heros
         public BuffableStat ShieldRegeneration = new BuffableStat(0f);
 
         public BuffableStat MovementSpeed = new BuffableStat(0f);
-        public BuffableStat Luck = new BuffableStat(0);
-        public BuffableStat ExperienceGain = new BuffableStat(0f);
 
         public BuffableStat DamageBuff = new BuffableStat(0);
         public BuffableStat AttackSpeed = new BuffableStat(0);
@@ -31,8 +29,6 @@ namespace Heros
                 HeroStats.ShieldCooldown => ShieldCooldown,
 
                 HeroStats.MovementSpeed => MovementSpeed,
-                HeroStats.Luck => Luck,
-                HeroStats.ExperienceGain => ExperienceGain,
 
                 HeroStats.Damage => DamageBuff,
                 HeroStats.AttackSpeed => AttackSpeed,

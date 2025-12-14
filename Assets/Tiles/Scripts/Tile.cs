@@ -411,7 +411,7 @@ namespace Tiles
             {
                 GetTileBuff(stat),
                 UpgradeManager.Instance.GetBuff(stat),
-                OverallBuffManager.Instance.GetBuff(stat)
+                UnitBuffManager.Instance.GetBuff(stat)
             };
 
             foreach (var equipment in Equipment)

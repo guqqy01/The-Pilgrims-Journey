@@ -160,8 +160,6 @@ namespace Relics
         {
             if(SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
             {
-
-                Debug.Log("Load Relics");
                 SaveData saveData = outSaveProfile.saveData;
 
                 relics = saveData.relics;

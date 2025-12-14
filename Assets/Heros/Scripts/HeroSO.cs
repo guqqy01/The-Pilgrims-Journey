@@ -11,22 +11,35 @@ namespace Heros
         public Hero prefab;
 
         [Header("Defence")]
+        [BuffType(true)]
         public Buff Health;
+        [BuffType(true)]
         public Buff Shield;
+        [BuffType(false)]
         public Buff ShieldCooldown;
+        [BuffType(false)]
         public Buff ShieldRegeneration;
 
         [Header("Utility")]
+        [BuffType(false)]
         public Buff MovementSpeed;
+        [BuffType(false)]
         public Buff Luck;
+        [BuffType(false)]
         public Buff ExperienceGain;
 
         [Header("Attack")]
+        [BuffType(true)]
         public Buff DamageBuff;
+        [BuffType(false)]
         public Buff AttackSpeed;
+        [BuffType(true)]
         public Buff NumberOfAttacks;
+        [BuffType(false)]
         public Buff CriticalChance;
+        [BuffType(false)]
         public Buff CriticalDamage;
+        [BuffType(false)]
         public Buff AttackSize;
 
         public Buff GetBuff(HeroStats stat)
@@ -39,8 +52,6 @@ namespace Heros
                 HeroStats.ShieldCooldown => ShieldCooldown,
 
                 HeroStats.MovementSpeed => MovementSpeed,
-                HeroStats.Luck => Luck,
-                HeroStats.ExperienceGain => ExperienceGain,
 
                 HeroStats.Damage => DamageBuff,
                 HeroStats.AttackSpeed => AttackSpeed,
@@ -53,5 +64,4 @@ namespace Heros
             };
         }
     }
-
 }

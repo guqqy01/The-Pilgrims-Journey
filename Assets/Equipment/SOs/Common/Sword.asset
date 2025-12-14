@@ -16,19 +16,21 @@ MonoBehaviour:
   description: A solid sword.
   EquipmentSpecial:
     rid: -2
-  equipmentStats:
+  unitEquipmentStats:
     _serializedList:
     - Key: 2
       Value:
         Multiplier: 25
         baseBuff:
-          intValue: 0
+          intValue: -3
           floatValue: 0
           isInt: 0
         additionalBuff:
           intValue: 0
           floatValue: 0
           isInt: 0
+  heroEquipmentStats:
+    _serializedList: []
   descriptionStatUIPrefab: {fileID: 1272681180951300573, guid: 7f9378a1465d10845a576da89cada5c4, type: 3}
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0

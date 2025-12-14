@@ -36,7 +36,7 @@ namespace Units
                 }
             }
 
-            buffableStat.AddBuff("OverallBuff", OverallBuffManager.Instance.GetBuff(stat));
+            buffableStat.AddBuff("OverallBuff", UnitBuffManager.Instance.GetBuff(stat));
 
             return buffableStat;
         }

@@ -178,7 +178,7 @@ namespace Spells
                             }
                         }
 
-                        localMapGenerator.Tiles[v2Int.x, v2Int.y].HighlightWithColor(canUseSpell ? activeSpell.spellSO.highlightColor : activeSpell.spellSO.invalidUseColor, boolArray);
+                        localMapGenerator.Tiles[v2Int.x, v2Int.y]?.HighlightWithColor(canUseSpell ? activeSpell.spellSO.highlightColor : activeSpell.spellSO.invalidUseColor, boolArray);
                         highlightedTiles.Add(localMapGenerator.Tiles[v2Int.x, v2Int.y]);
                     }
 
