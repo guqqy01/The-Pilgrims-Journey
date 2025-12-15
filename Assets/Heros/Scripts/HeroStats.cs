@@ -14,10 +14,11 @@
         //Attack
         AttackSpeed,
         Damage,
-        NumberOfAttacks,
+        NumberOfProjectiles,
         CriticalChance,
         CriticalDamage,
         Size,
+        Knockback,
     }
 }
 

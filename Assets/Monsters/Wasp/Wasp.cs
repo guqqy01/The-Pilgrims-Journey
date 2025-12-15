@@ -20,6 +20,10 @@ namespace Monsters
 
         [SerializeField]
         private float projectileSpeed = 5f;
+
+        [SerializeField]
+        private float projectileTurnSpeed = 10f;
+
         private float nextAttackTime;
         [SerializeField]
         private int damage = 1;
@@ -87,7 +91,9 @@ namespace Monsters
 
                     project.onHit += OnDamageUnit;
 
-                    project.Init(damage, projectileSpeed, knockbackMultiplier, true, target, target.position - transform.position, targetMask);
+                    ProjectileHitStats projectileStats = new ProjectileHitStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+
+                    project.Init(projectileStats, true, target.position - transform.position, targetMask, target);
 
                     audioSource?.Play();
 

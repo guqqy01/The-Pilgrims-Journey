@@ -14,13 +14,81 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Heros.ProjectileHeroAttackSO
   icon: {fileID: 0}
   description: 
-  damage: 2
-  attackSpeed: 2.5
-  knockback: 0.5
+  damage:
+    Multiplier: 0
+    baseBuff:
+      intValue: 2
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  attackSpeed:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 3
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  criticalChance:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 50
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  criticalDamageMultiplier:
+    Multiplier: 0
+    baseBuff:
+      intValue: 50
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  knockback:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  size:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   findTargetDistance: 10
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 4096
   projectilePrefab: {fileID: 4849551019690282387, guid: eb3a5841076484b40b7afc5e8fa1a5ff, type: 3}
+  numberOfProjectiles:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   projectileSpeed: 6
+  projectileTurnSpeed: 40
   projectileHoming: 1

@@ -6,8 +6,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Collider2D))]
 public class Projectile : MonoBehaviour
 {
-    private int damage;
-    private float speed;
+    private ProjectileHitStats projectileStats;
 
     private bool homing;
 
@@ -22,35 +21,22 @@ public class Projectile : MonoBehaviour
 
     private bool hit = false;
 
-    [SerializeField]
-    private bool pointInTravelDirection;
-
     public delegate void OnHit(OnHitInfo hitInfo);
     public OnHit onHit;
 
     private readonly List<HealthAndShieldManager> hitHealth = new List<HealthAndShieldManager>();
-
+     
     private const float projectileLifetime = 20f;
     private float lifeTimeEnd;
 
-    private float knockbackMultiplier;
-
-    public void Init(int damage, float speed, float knockbackMultiplier,bool homing, Transform target, Vector2 direction, LayerMask layerMask)
+    public void Init(ProjectileHitStats projectileHitStats,bool homing, Vector2 direction, LayerMask layerMask, Transform target = null)
     {
-        this.damage = damage;
-        this.speed = speed;
+        projectileStats = projectileHitStats;
         this.homing = homing;
         this.target = target;
         this.direction = direction;
         this.layerMask = layerMask;
-        this.knockbackMultiplier = knockbackMultiplier;
-
-        if (pointInTravelDirection)
-        {
-            direction = target.position - transform.position;
-
-            transform.right = direction;
-        }
+        transform.right = direction;
     }
 
     private void Awake()
@@ -62,12 +48,18 @@ public class Projectile : MonoBehaviour
     {
         if (homing && target != null)
         {
-            direction = target.position - transform.position;
-                
-            transform.right = direction;
+            direction = (target.position - transform.position).normalized;
+
+            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.right, direction);
+
+            transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            targetRotation,
+            projectileStats.turningSpeed * Time.deltaTime
+            );
         }
 
-        transform.position += (Vector3)direction.normalized * speed * Time.deltaTime;
+        transform.position += transform.right * projectileStats.speed * Time.deltaTime;
 
         if(Time.time > lifeTimeEnd)
         {
@@ -81,8 +73,7 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out HealthAndShieldManager healthAndShieldManager) && !hitHealth.Contains(healthAndShieldManager))
             {
-                
-                OnHitInfo info = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized, knockbackMultiplier);
+                OnHitInfo info = healthAndShieldManager.Damage(projectileStats, (healthAndShieldManager.transform.position - transform.position).normalized);
 
                 onHit?.Invoke(info);
 
@@ -93,6 +84,37 @@ public class Projectile : MonoBehaviour
                 }
             }
         }
+    }
+}
+
+public class ProjectileHitStats : HitStats
+{
+    public float speed;
+    public float turningSpeed;
+
+    public ProjectileHitStats(int damage, float criticalChance, int criticalDamageMultiplier, float knockbackMultiplier, float speed, float turningSpeed) : base(damage, criticalChance, criticalDamageMultiplier, knockbackMultiplier)
+    {
+        this.speed = speed;
+        this.turningSpeed = turningSpeed;
+    }
+}
+
+
+public class HitStats
+{
+    public int damage;
+
+    public float criticalChance;
+    public int criticalDamageMultiplier;
+
+    public float knockbackMultiplier;
+
+    public HitStats(int damage, float criticalChance, int criticalDamageMultiplier, float knockbackMultiplier)
+    {
+        this.damage = damage;
+        this.criticalChance = criticalChance;
+        this.criticalDamageMultiplier = criticalDamageMultiplier;
+        this.knockbackMultiplier = knockbackMultiplier;
     }
 }
 

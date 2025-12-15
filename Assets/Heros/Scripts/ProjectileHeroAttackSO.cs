@@ -10,7 +10,11 @@ namespace Heros
 
         public Projectile projectilePrefab;
 
+        public Buff numberOfProjectiles;
+
         public float projectileSpeed;
+
+        public float projectileTurnSpeed;
 
         public bool projectileHoming;
     }

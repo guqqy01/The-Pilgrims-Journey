@@ -21,6 +21,60 @@ public static class ExtensionsAndHelper
         return holder;
     }
 
+    public static List<Vector2> SplitConeDirections(this Vector2 mainDirection, int numOfSplits, float coneAngleRad)
+    {
+        if(numOfSplits <= 0)
+            return new List<Vector2>();
+
+        if(numOfSplits == 1)
+            return new List<Vector2> { mainDirection };
+
+        List<Vector2> returnList = new List<Vector2>();
+
+        float angleDeltaRad = coneAngleRad / (numOfSplits - 1);
+
+        Vector2 currentDirection = mainDirection.RotateCounterClockwise(coneAngleRad / 2f);
+
+        for (int i = 0; i < numOfSplits; i++)
+        {
+            returnList.Add(currentDirection);
+
+            currentDirection = currentDirection.RotateClockwise(angleDeltaRad);
+        }
+
+        return returnList;
+    }
+
+    public static bool Odd(this int value)
+    {
+        return !Even(value);
+    }
+
+    public static bool Even(this int value)
+    {
+        return value % 2 == 0;
+    }
+
+    public static List<Vector2> SplitConeDirectionsAlwaysHaveMainDirection(this Vector2 mainDirection, int numOfSplits, float coneAngleRad)
+    {
+        if (numOfSplits <= 0)
+            return new List<Vector2>();
+
+        if (numOfSplits.Odd())
+            return SplitConeDirections(mainDirection, numOfSplits, coneAngleRad);
+
+        List<Vector2> returnList = SplitConeDirections(mainDirection, numOfSplits + 1, coneAngleRad);
+
+        int ran = Random.Range(0, 2);
+
+        if(ran == 0)
+            returnList.RemoveAt(0);
+        else
+            returnList.RemoveAt(returnList.Count - 1);
+
+        return returnList;
+    }
+
     public static bool IsIntStat(this HeroStats stat)
     {
         return stat switch
@@ -28,7 +82,7 @@ public static class ExtensionsAndHelper
             HeroStats.Health => true,
             HeroStats.Shield => true,
             HeroStats.Damage => true,
-            HeroStats.NumberOfAttacks => true,
+            HeroStats.NumberOfProjectiles => true,
 
             _ => false,
         };

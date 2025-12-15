@@ -154,7 +154,7 @@ TextureImporter:
         height: 2
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 1, z: 18, w: 1}
       customData: 
       outline: []
       physicsShape: []
@@ -3564,7 +3564,7 @@ TextureImporter:
         height: 2
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 1, z: 19, w: 1}
       customData: 
       outline: []
       physicsShape: []
@@ -7933,7 +7933,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _bar_sheet_356
+      name: Health And Shield Outer
       rect:
         serializedVersion: 2
         x: 169
@@ -7942,7 +7942,7 @@ TextureImporter:
         height: 4
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 1, z: 1, w: 1}
       customData: 
       outline: []
       physicsShape: []
@@ -10234,6 +10234,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Health And Shield Outer: 2125174595
       HealthBarInner: 1788269278
       HealthBarOuter: -1673929383
       ShieldInner: 564668571
@@ -10520,7 +10521,6 @@ TextureImporter:
       _bar_sheet_353: -125987125
       _bar_sheet_354: 2007632937
       _bar_sheet_355: -1960601066
-      _bar_sheet_356: 2125174595
       _bar_sheet_357: 158279393
       _bar_sheet_358: 767393617
       _bar_sheet_359: -1977162988

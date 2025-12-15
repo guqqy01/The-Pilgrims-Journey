@@ -11,12 +11,20 @@ namespace Heros
         [SerializeField]
         protected BuffableStat attackSpeed;
 
+        [SerializeField]
+        protected BuffableStat criticalChance;
+        [SerializeField]
+        protected BuffableStat criticalDamageMultiplier;
+
+        [SerializeField]
+        protected BuffableStat size;
+
         protected float nextAttackTime;
 
         protected float Cooldown => 1f / attackSpeed;
 
         [SerializeField]
-        protected float knockbackMultiplier;
+        protected BuffableStat knockback;
 
         [SerializeField]
         protected LayerMask enemyLayerMask;
@@ -57,24 +65,36 @@ namespace Heros
 
         protected abstract bool Attack();
 
-        protected abstract void InheritSetup(HeroAttackSO heroAttackSO);
+        protected abstract void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO);
 
         public void Setup(HeroSO heroSO, HeroAttackSO heroAttackSO)
         {
             HeroAttackSO = heroAttackSO;
 
             damage = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Damage);
-            damage.AddBuff("Weapon Damage", new Buff(0f, heroAttackSO.damage, 0));
+            damage.AddBuff("Weapon Base", heroAttackSO.damage);
 
             attackSpeed = HeroStatBase.GetBuffableStat(heroSO, HeroStats.AttackSpeed);
-            attackSpeed.AddBuff("Weapon Attack Speed", new Buff(0f, heroAttackSO.attackSpeed, 0f));
+            attackSpeed.AddBuff("Weapon Base", heroAttackSO.attackSpeed);
 
-            knockbackMultiplier = heroAttackSO.knockback;
+            criticalChance = HeroStatBase.GetBuffableStat(heroSO, HeroStats.CriticalChance);
+            criticalChance.AddBuff("Weapon Base", heroAttackSO.criticalChance);
+
+            criticalDamageMultiplier = HeroStatBase.GetBuffableStat(heroSO, HeroStats.CriticalDamage);
+            criticalDamageMultiplier.AddBuff("Weapon Base", heroAttackSO.criticalDamageMultiplier);
+            criticalDamageMultiplier.AddBuff("Base Damage", new Buff(0f, damage.Value, 0));
+
+            knockback = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Knockback);
+            knockback.AddBuff("Weapon Base", heroAttackSO.knockback);
+
+            size = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Size);
+            size.AddBuff("Weapon Base", heroAttackSO.size);
+
             findTargetDistance = heroAttackSO.findTargetDistance;
 
             enemyLayerMask = heroAttackSO.enemyLayerMask;
 
-            InheritSetup(heroAttackSO);
+            InheritSetup(heroSO, heroAttackSO);
         }
     }
 }

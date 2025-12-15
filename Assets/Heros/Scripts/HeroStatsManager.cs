@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 namespace Heros
 {
-
     public class HeroStatsManager : Singleton<HeroStatsManager>
     {
         public BuffableStat Health = new BuffableStat(0);
@@ -14,10 +13,11 @@ namespace Heros
         public BuffableStat DamageBuff = new BuffableStat(0);
         public BuffableStat AttackSpeed = new BuffableStat(0);
 
-        public BuffableStat NumberOfAttacks = new BuffableStat(0);
+        public BuffableStat NumberOfProjectiles = new BuffableStat(0);
         public BuffableStat CriticalChance = new BuffableStat(0f);
         public BuffableStat CriticalDamage = new BuffableStat(0);
         public BuffableStat AttackSize = new BuffableStat(0f);
+        public BuffableStat Knockback = new BuffableStat(0f);
 
         public Buff GetBuff(HeroStats stat)
         {
@@ -33,10 +33,11 @@ namespace Heros
                 HeroStats.Damage => DamageBuff,
                 HeroStats.AttackSpeed => AttackSpeed,
 
-                HeroStats.NumberOfAttacks => NumberOfAttacks,
+                HeroStats.NumberOfProjectiles => NumberOfProjectiles,
                 HeroStats.CriticalChance => CriticalChance,
                 HeroStats.CriticalDamage => CriticalDamage,
                 HeroStats.Size => AttackSize,
+                HeroStats.Knockback => Knockback,
                 _ => null
             };
         }

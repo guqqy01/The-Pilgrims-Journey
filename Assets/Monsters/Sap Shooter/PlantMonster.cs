@@ -14,12 +14,16 @@ namespace Monsters
 
         [SerializeField]
         private float projectileSpeed = 5f;
+
+        [SerializeField]
+        private float projectileTurnSpeed = 10f;
+
         private float nextAttackTime;
         [SerializeField]
         private int damage = 1;
 
         [SerializeField]
-        private float knockbackMulitplier;
+        private float knockbackMultiplier;
 
         public Projectile projectile;
 
@@ -41,9 +45,11 @@ namespace Monsters
 
                     Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
-                    project.onHit += OnDamageUnit; 
-                    
-                    project.Init(damage, projectileSpeed, knockbackMulitplier, false, target, target.position - transform.position, targetMask);
+                    project.onHit += OnDamageUnit;
+
+                    ProjectileHitStats projectileStats = new ProjectileHitStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+
+                    project.Init(projectileStats, false, target.position - transform.position, targetMask, target);
 
                     audioSource?.Play();
 

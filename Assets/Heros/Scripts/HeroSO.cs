@@ -36,11 +36,15 @@ namespace Heros
         [BuffType(true)]
         public Buff NumberOfAttacks;
         [BuffType(false)]
+        [Tooltip("critical percentage, value 100 => 100% chance to crit")]
         public Buff CriticalChance;
         [BuffType(false)]
-        public Buff CriticalDamage;
+        [Tooltip("critical damage multiplier, value 100 => +100% damage increase")]
+        public Buff CriticalDamageMultiplier;
         [BuffType(false)]
         public Buff AttackSize;
+        [BuffType(false)]
+        public Buff Knockback;
 
         public Buff GetBuff(HeroStats stat)
         {
@@ -56,10 +60,11 @@ namespace Heros
                 HeroStats.Damage => DamageBuff,
                 HeroStats.AttackSpeed => AttackSpeed,
 
-                HeroStats.NumberOfAttacks => NumberOfAttacks,
+                HeroStats.NumberOfProjectiles => NumberOfAttacks,
                 HeroStats.CriticalChance => CriticalChance,
-                HeroStats.CriticalDamage => CriticalDamage,
+                HeroStats.CriticalDamage => CriticalDamageMultiplier,
                 HeroStats.Size => AttackSize,
+                HeroStats.Knockback => Knockback,
                 _ => null
             };
         }

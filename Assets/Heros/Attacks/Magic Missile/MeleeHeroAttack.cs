@@ -39,12 +39,12 @@ namespace Heros
 
             var attack = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
 
-            attack.Init(damage, knockbackMultiplier);
+            attack.Init(damage, knockback);
 
             return true;
         }
 
-        protected override void InheritSetup(HeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
         {
             if(heroAttackSO is not MeleeHeroAttackSO meleeAttack)
             {

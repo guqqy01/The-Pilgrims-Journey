@@ -14,6 +14,9 @@ namespace Monsters
         [SerializeField]
         private float projectileSpeed = 5f;
 
+        [SerializeField]
+        private float projectileTurnSpeed = 10f;
+
         public Projectile projectile;
 
         public Transform target;
@@ -173,8 +176,9 @@ namespace Monsters
             Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
             project.onHit += OnDamageUnit;
+            ProjectileHitStats projectileStats = new ProjectileHitStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-            project.Init(rapidAttackDamage, projectileSpeed, knockbackMultiplier, false, target, target.position - transform.position, targetMask);
+            project.Init(projectileStats, false, target.position - transform.position, targetMask, target);
 
             audioSource?.Play();
         }
@@ -194,8 +198,9 @@ namespace Monsters
                 Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
                 project.onHit += OnDamageUnit;
+                ProjectileHitStats projectileStats = new ProjectileHitStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                project.Init(rapidAttackDamage, projectileSpeed, knockbackMultiplier, false, target, currentDirection, targetMask);
+                project.Init(projectileStats, false, currentDirection, targetMask, target);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }
@@ -219,8 +224,9 @@ namespace Monsters
                 Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
                 project.onHit += OnDamageUnit;
+                ProjectileHitStats projectileStats = new ProjectileHitStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                project.Init(rapidAttackDamage, projectileSpeed, knockbackMultiplier, false, target, currentDirection, targetMask);
+                project.Init(projectileStats, false, currentDirection, targetMask, target);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }
