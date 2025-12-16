@@ -91,7 +91,7 @@ namespace Monsters
 
                     project.onHit += OnDamageUnit;
 
-                    ProjectileHitStats projectileStats = new ProjectileHitStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+                    ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
                     project.Init(projectileStats, true, target.position - transform.position, targetMask, target);
 

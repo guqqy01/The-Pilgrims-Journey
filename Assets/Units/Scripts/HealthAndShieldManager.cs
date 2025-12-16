@@ -90,7 +90,7 @@ public class HealthAndShieldManager : MonoBehaviour
         return hitInfo;
     }
 
-    public OnHitInfo Damage(HitStats hitStats, Vector2 damageDirection)
+    public OnHitInfo Damage(AttackStats hitStats, Vector2 damageDirection)
     {
         if (Invunrable)
             return new OnHitInfo(this, false, 0, 0);

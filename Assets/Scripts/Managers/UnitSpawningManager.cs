@@ -113,6 +113,7 @@ public class UnitSpawningManager
 
         Unit unit = InstantiateUnit(tile, pathDirection);
         RegisterUnitEvents(unit, tile);
+        
         tile.OnUnitSpawn();
 
         if (!TryUpdateNextSpawnTime(tile))
@@ -127,10 +128,16 @@ public class UnitSpawningManager
 
     private bool IsTileSpawnValid(Tile tile)
     {
-        if (tile?.UnitSO?.unitPrefab == null)
+        if(tile == null)
             return false;
 
-        if (LocalMapGenerator.Instance?.pathway == null)
+        if(tile.UnitSO == null)
+            return false;
+
+        if (tile.UnitSO.unitPrefab == null)
+            return false;
+
+        if (LocalMapGenerator.Instance == null ||LocalMapGenerator.Instance.pathway == null)
         {
             Debug.LogWarning("LocalMapGenerator or pathway missing");
             return false;

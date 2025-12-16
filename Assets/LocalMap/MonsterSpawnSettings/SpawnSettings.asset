@@ -156,5 +156,15 @@ MonoBehaviour:
   - triggerTime: 15
     entries:
     - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
-      count: 100
+      count: 20
+      range: 5
+  - triggerTime: 40
+    entries:
+    - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+      count: 40
+      range: 5
+  - triggerTime: 100
+    entries:
+    - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+      count: 80
       range: 5

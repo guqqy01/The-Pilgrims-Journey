@@ -65,8 +65,19 @@ namespace Heros
             Quaternion rotation = Quaternion.FromToRotation(Vector3.right, direction);
 
             Projectile newMissile = Instantiate(projectilePrefab, transform.position, rotation);
+            string reference = "baseSize";
 
-            ProjectileHitStats projectileStats = new ProjectileHitStats(damage, criticalChance, criticalDamageMultiplier, knockback, projectileSpeed, projectileTurnSpeed);
+            size.AddBuff(reference, new Buff(0f, newMissile.transform.localScale.x, 0));
+            float newSizeX = size;
+            size.RemoveBuff(reference);
+
+            size.AddBuff(reference, new Buff(0f, newMissile.transform.localScale.y, 0));
+            float newSizeY = size;
+            size.RemoveBuff(reference);
+
+            newMissile.transform.localScale =  new Vector3(newSizeX, newSizeY, newMissile.transform.localScale.z);
+
+            ProjectileStats projectileStats = new ProjectileStats(damage, criticalChance, criticalDamageMultiplier, knockback, projectileSpeed, projectileTurnSpeed);
 
             newMissile.Init(projectileStats, projectileHoming, direction, enemyLayerMask, target);
         }

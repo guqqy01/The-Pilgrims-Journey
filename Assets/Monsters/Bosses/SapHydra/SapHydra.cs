@@ -176,7 +176,7 @@ namespace Monsters
             Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
             project.onHit += OnDamageUnit;
-            ProjectileHitStats projectileStats = new ProjectileHitStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+            ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
             project.Init(projectileStats, false, target.position - transform.position, targetMask, target);
 
@@ -198,7 +198,7 @@ namespace Monsters
                 Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
                 project.onHit += OnDamageUnit;
-                ProjectileHitStats projectileStats = new ProjectileHitStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+                ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
                 project.Init(projectileStats, false, currentDirection, targetMask, target);
 
@@ -224,7 +224,7 @@ namespace Monsters
                 Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
                 project.onHit += OnDamageUnit;
-                ProjectileHitStats projectileStats = new ProjectileHitStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+                ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
                 project.Init(projectileStats, false, currentDirection, targetMask, target);
 

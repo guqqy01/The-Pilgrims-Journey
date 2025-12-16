@@ -28,6 +28,7 @@ public class CameraLockButton : MonoBehaviour
     private void SubscribeToLocalCameraMovementManager()
     {
         LocalCameraMovementManager.Instance.updateUI += UpdateUI;
+        UpdateUI(LocalCameraMovementManager.Instance.CameraLocked);
     }
 
     public void UpdateUI(bool locked)

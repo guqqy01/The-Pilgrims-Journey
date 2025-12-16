@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Collider2D))]
 public class Projectile : MonoBehaviour
 {
-    private ProjectileHitStats projectileStats;
+    private ProjectileStats projectileStats;
 
     private bool homing;
 
@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour
     private const float projectileLifetime = 20f;
     private float lifeTimeEnd;
 
-    public void Init(ProjectileHitStats projectileHitStats,bool homing, Vector2 direction, LayerMask layerMask, Transform target = null)
+    public void Init(ProjectileStats projectileHitStats,bool homing, Vector2 direction, LayerMask layerMask, Transform target = null)
     {
         projectileStats = projectileHitStats;
         this.homing = homing;
@@ -73,7 +73,7 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out HealthAndShieldManager healthAndShieldManager) && !hitHealth.Contains(healthAndShieldManager))
             {
-                OnHitInfo info = healthAndShieldManager.Damage(projectileStats, (healthAndShieldManager.transform.position - transform.position).normalized);
+                OnHitInfo info = healthAndShieldManager.Damage(projectileStats.attackStats, (healthAndShieldManager.transform.position - transform.position).normalized);
 
                 onHit?.Invoke(info);
 
@@ -87,20 +87,32 @@ public class Projectile : MonoBehaviour
     }
 }
 
-public class ProjectileHitStats : HitStats
+public struct ProjectileStats
 {
+    public AttackStats attackStats;
+
     public float speed;
     public float turningSpeed;
 
-    public ProjectileHitStats(int damage, float criticalChance, int criticalDamageMultiplier, float knockbackMultiplier, float speed, float turningSpeed) : base(damage, criticalChance, criticalDamageMultiplier, knockbackMultiplier)
+    public ProjectileStats(AttackStats attackStats, float speed, float turningSpeed)
     {
+        this.attackStats = attackStats;
+
+        this.speed = speed;
+        this.turningSpeed = turningSpeed;
+    }
+
+    public ProjectileStats(int damage, float criticalChance, int criticalDamageMultiplier, float knockbackMultiplier, float speed, float turningSpeed)
+    {
+        attackStats = new AttackStats(damage, criticalChance, criticalDamageMultiplier, knockbackMultiplier);
+
         this.speed = speed;
         this.turningSpeed = turningSpeed;
     }
 }
 
 
-public class HitStats
+public struct AttackStats
 {
     public int damage;
 
@@ -109,7 +121,7 @@ public class HitStats
 
     public float knockbackMultiplier;
 
-    public HitStats(int damage, float criticalChance, int criticalDamageMultiplier, float knockbackMultiplier)
+    public AttackStats(int damage, float criticalChance, int criticalDamageMultiplier, float knockbackMultiplier)
     {
         this.damage = damage;
         this.criticalChance = criticalChance;
