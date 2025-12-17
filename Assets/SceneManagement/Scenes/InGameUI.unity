@@ -757,15 +757,15 @@ RectTransform:
   m_Children:
   - {fileID: 1696763079}
   - {fileID: 1329492110}
-  - {fileID: 387773090}
   - {fileID: 1260576015}
+  - {fileID: 387773090}
   - {fileID: 1060422351}
   - {fileID: 285753668}
   - {fileID: 1087430265}
   - {fileID: 1000456609}
   - {fileID: 1392961841}
-  - {fileID: 1167792034}
   - {fileID: 87945392}
+  - {fileID: 1167792034}
   - {fileID: 1206485784}
   - {fileID: 1081115853}
   - {fileID: 776579804}
@@ -853,7 +853,7 @@ GameObject:
   - component: {fileID: 87945394}
   - component: {fileID: 87945393}
   m_Layer: 5
-  m_Name: Text (TMP) (6)
+  m_Name: Damage Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2945,7 +2945,7 @@ GameObject:
   - component: {fileID: 285753670}
   - component: {fileID: 285753669}
   m_Layer: 5
-  m_Name: Text (TMP) (4)
+  m_Name: Movement Speed Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4710,7 +4710,7 @@ GameObject:
   - component: {fileID: 387773092}
   - component: {fileID: 387773091}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: Shield Cooldown Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8415,7 +8415,7 @@ GameObject:
   - component: {fileID: 675028520}
   - component: {fileID: 675028519}
   m_Layer: 5
-  m_Name: Text (TMP) (12)
+  m_Name: Size Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10132,7 +10132,7 @@ GameObject:
   - component: {fileID: 776579806}
   - component: {fileID: 776579805}
   m_Layer: 5
-  m_Name: Text (TMP) (9)
+  m_Name: Critical Damage Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13884,7 +13884,7 @@ GameObject:
   - component: {fileID: 1000456611}
   - component: {fileID: 1000456610}
   m_Layer: 5
-  m_Name: Text (TMP) (11)
+  m_Name: Experience Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14736,6 +14736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1026601493}
   - component: {fileID: 1026601494}
+  - component: {fileID: 1026601495}
   m_Layer: 5
   m_Name: Hero Stats Tab
   m_TagString: Untagged
@@ -14776,6 +14777,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tab
   subTabs: []
+--- !u!114 &1026601495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026601492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92265acb8b8b5c34c906f634830c6956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsUI
+  maxHealthText: {fileID: 1696763080}
+  maxShieldText: {fileID: 1329492111}
+  ShieldRegenerationText: {fileID: 1260576016}
+  ShieldCooldownText: {fileID: 387773091}
+  MovementSpeedText: {fileID: 285753669}
+  LuckText: {fileID: 1087430266}
+  ExperienceText: {fileID: 1000456610}
+  DamageText: {fileID: 87945393}
+  AttackSpeedText: {fileID: 1167792035}
+  NumberOfProjectilesText: {fileID: 1206485785}
+  CriticalChanceText: {fileID: 1081115854}
+  CriticalDamageText: {fileID: 776579805}
+  SizeText: {fileID: 675028519}
 --- !u!1 &1036330462 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3702043423493587489, guid: ddf4f9d772b9ee140b10980684714c41, type: 3}
@@ -15260,7 +15286,7 @@ GameObject:
   - component: {fileID: 1081115855}
   - component: {fileID: 1081115854}
   m_Layer: 5
-  m_Name: Text (TMP) (8)
+  m_Name: Critical Chance Texts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15528,7 +15554,7 @@ GameObject:
   - component: {fileID: 1087430267}
   - component: {fileID: 1087430266}
   m_Layer: 5
-  m_Name: Text (TMP) (10)
+  m_Name: Luck Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17341,7 +17367,7 @@ GameObject:
   - component: {fileID: 1167792036}
   - component: {fileID: 1167792035}
   m_Layer: 5
-  m_Name: Text (TMP) (5)
+  m_Name: Attack Speed Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17928,7 +17954,7 @@ GameObject:
   - component: {fileID: 1206485786}
   - component: {fileID: 1206485785}
   m_Layer: 5
-  m_Name: Text (TMP) (7)
+  m_Name: Number of Attacks Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18765,7 +18791,7 @@ GameObject:
   - component: {fileID: 1260576017}
   - component: {fileID: 1260576016}
   m_Layer: 5
-  m_Name: Text (TMP) (3)
+  m_Name: Shield Renegeneration Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19917,7 +19943,7 @@ GameObject:
   - component: {fileID: 1329492112}
   - component: {fileID: 1329492111}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Max Shield Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25204,7 +25230,7 @@ GameObject:
   - component: {fileID: 1696763081}
   - component: {fileID: 1696763080}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Max Health Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
