@@ -3,18 +3,20 @@ using UnityEngine;
 
 namespace Heros
 {
-    [RequireComponent(typeof(HeroMovement), typeof(HealthAndShieldManager))]
+    [RequireComponent(typeof(HeroMovement), typeof(HealthAndShieldManager), typeof(HeroAttacksManager))]
     public class Hero : MonoBehaviour
     {
         public HeroSO HeroSO {  get; private set; }
 
         public HeroMovement HeroMovement { private set; get; }
         public HealthAndShieldManager HealthAndShieldManager {  private set; get; }
+        public HeroAttacksManager HeroAttacksManager { private set; get; }
 
         private void Awake()
         {
             HeroMovement = GetComponent<HeroMovement>();
             HealthAndShieldManager = GetComponent<HealthAndShieldManager>();
+            HeroAttacksManager = GetComponent<HeroAttacksManager>();
         }
 
         public void Setup(HeroSO heroSO)
@@ -23,13 +25,7 @@ namespace Heros
 
             HeroMovement.Setup(heroSO);
 
-            HealthAndShieldManager.Health.Init(HeroStatBase.GetBuffableStat(heroSO, HeroStats.Health));
-
-            BuffableStat shieldStat = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Shield);
-            BuffableStat shieldCooldownStat = HeroStatBase.GetBuffableStat(heroSO, HeroStats.ShieldCooldown);
-            BuffableStat shieldRegenerationStat = HeroStatBase.GetBuffableStat(heroSO, HeroStats.ShieldRegeneration);
-
-            HealthAndShieldManager.Shield.Init(shieldStat, shieldRegenerationStat, shieldCooldownStat);
+            HealthAndShieldManager.Setup(HeroStatBuffsManager.Instance.MaxHealth, HeroStatBuffsManager.Instance.Shield, HeroStatBuffsManager.Instance.ShieldRegeneration, HeroStatBuffsManager.Instance.ShieldCooldown);
         }
 
     }

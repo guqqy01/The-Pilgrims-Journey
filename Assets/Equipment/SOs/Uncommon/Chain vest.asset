@@ -41,7 +41,29 @@ MonoBehaviour:
           floatValue: 0
           isInt: 0
   heroEquipmentStats:
-    _serializedList: []
+    _serializedList:
+    - Key: 0
+      Value:
+        Multiplier: 20
+        baseBuff:
+          intValue: 15
+          floatValue: 0
+          isInt: 1
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 1
+    - Key: 2
+      Value:
+        Multiplier: 20
+        baseBuff:
+          intValue: 0
+          floatValue: 15
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
   descriptionStatUIPrefab: {fileID: 1272681180951300573, guid: 7f9378a1465d10845a576da89cada5c4, type: 3}
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0

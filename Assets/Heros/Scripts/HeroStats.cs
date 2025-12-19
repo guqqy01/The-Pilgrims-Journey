@@ -16,8 +16,8 @@
         Damage,
         NumberOfProjectiles,
         CriticalChance,
-        CriticalDamage,
-        Size,
+        CriticalDamageMultiplier,
+        AttackSize,
         Knockback,
     }
 }

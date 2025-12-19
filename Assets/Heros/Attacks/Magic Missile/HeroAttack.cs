@@ -80,14 +80,13 @@ namespace Heros
             criticalChance = HeroStatBase.GetBuffableStat(heroSO, HeroStats.CriticalChance);
             criticalChance.AddBuff("Weapon Base", heroAttackSO.criticalChance);
 
-            criticalDamageMultiplier = HeroStatBase.GetBuffableStat(heroSO, HeroStats.CriticalDamage);
+            criticalDamageMultiplier = HeroStatBase.GetBuffableStat(heroSO, HeroStats.CriticalDamageMultiplier);
             criticalDamageMultiplier.AddBuff("Weapon Base", heroAttackSO.criticalDamageMultiplier);
-            criticalDamageMultiplier.AddBuff("Base Damage", new Buff(0f, damage.Value, 0));
 
             knockback = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Knockback);
             knockback.AddBuff("Weapon Base", heroAttackSO.knockback);
 
-            size = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Size);
+            size = HeroStatBase.GetBuffableStat(heroSO, HeroStats.AttackSize);
             size.AddBuff("Weapon Base", heroAttackSO.size);
 
             findTargetDistance = heroAttackSO.findTargetDistance;

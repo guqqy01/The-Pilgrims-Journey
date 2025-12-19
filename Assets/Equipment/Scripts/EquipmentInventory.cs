@@ -125,6 +125,22 @@ namespace Equipment
                 onContainerSizeChanged?.Invoke(containers.Length);
         }
 
+        public void Lock()
+        {
+            foreach(var container in containers)
+            {
+                container.Active = false;
+            }
+        }
+
+        public void Unlock()
+        {
+            foreach (var container in containers)
+            {
+                container.Active = true;
+            }
+        }
+
         private void RegisterContainer(EquipmentContainer container)
         {
             if (container == null || containerChangeHandlers.ContainsKey(container))

@@ -19,19 +19,19 @@ namespace Relics
         {
             Buff buff = buffIncreasePerLevel * Relic.Level;
 
-            OverallBuffManager.Instance.Luck.AddBuff(Relic.relicSO.name, buff);
+            OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.Luck);
         }
 
         public override void OnLevelChangeRelic()
         {
             Buff buff = buffIncreasePerLevel * Relic.Level;
 
-            OverallBuffManager.Instance.Luck.AddBuff(Relic.relicSO.name, buff);
+            OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.Luck);
         }
 
         public override void OnRemoveRelic()
         {
-            OverallBuffManager.Instance.Luck.RemoveBuff(Relic.relicSO.name);
+            OverallStatsManager.Instance.RemoveBuff(Relic.relicSO.name, OverallStats.Luck);
         }
     }
 }

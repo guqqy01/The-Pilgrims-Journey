@@ -23,7 +23,7 @@ namespace LevelingSystem
         {
             RelicsOfferedAndAmountOfLevelsGained.Clear();
 
-            while (RelicsOfferedAndAmountOfLevelsGained.Count < OverallBuffManager.Instance.AmountOfRelicToChooseFrom && RelicsOfferedAndAmountOfLevelsGained.Count < relicsAbleToRecieveThroughLeveling.weightedList.Count)
+            while (RelicsOfferedAndAmountOfLevelsGained.Count < OverallStatsManager.Instance.AmountOfRelicToChooseFrom && RelicsOfferedAndAmountOfLevelsGained.Count < relicsAbleToRecieveThroughLeveling.weightedList.Count)
             {
                 RelicSO relicSO = relicsAbleToRecieveThroughLeveling.GetRandom();
 
@@ -41,7 +41,7 @@ namespace LevelingSystem
         private int GetAmountOfLevelsGained()
         {
             //luck is where on the xAxis the standard deviation curve lies, its it Mathf.Log10'd to stop exponential boosts.
-            float luck = Mathf.Log10(Mathf.Max(OverallBuffManager.Instance.Luck, 0) + 1);
+            float luck = Mathf.Log10(Mathf.Max(OverallStatsManager.Instance.Luck, 0) + 1);
 
             //Standard deviation on the curve
             float standardDiv = 2f;

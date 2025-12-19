@@ -31,7 +31,7 @@ namespace LevelingSystem
 
         private void OnUnitPassed(int x, int y)
         {
-            CurrentExperience = CurrentExperience + OverallBuffManager.Instance.ExperienceGain;
+            CurrentExperience = CurrentExperience + OverallStatsManager.Instance.ExperienceGain;
 
             if (CurrentExperience >= ExperienceNeededToLevel)
             {

@@ -16,9 +16,22 @@ MonoBehaviour:
   description: Leather boots, quick and sturdy
   EquipmentSpecial:
     rid: -2
-  equipmentStats:
+  unitEquipmentStats:
     _serializedList:
     - Key: 3
+      Value:
+        Multiplier: 25
+        baseBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
+  heroEquipmentStats:
+    _serializedList:
+    - Key: 4
       Value:
         Multiplier: 25
         baseBuff:

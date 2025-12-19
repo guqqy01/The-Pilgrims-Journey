@@ -10556,9 +10556,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 816057839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3b5cd9bf0c70184da4f1c3acd9d265f, type: 3}
+  m_Script: {fileID: 11500000, guid: 728a4f24234064a46a61f9341035286f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OverallBuffManager
+  m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.OverallStatsManager
 --- !u!1 &816941844
 GameObject:
   m_ObjectHideFlags: 0
@@ -12823,9 +12823,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 931264059}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5894eec5b688b534f869bda691f78a11, type: 3}
+  m_Script: {fileID: 11500000, guid: 009030ee63393574bb8ee4ac2717fd37, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroStatsManager
+  m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroStatBuffsManager
 --- !u!1 &938827969
 GameObject:
   m_ObjectHideFlags: 0
@@ -24060,7 +24060,7 @@ GameObject:
   - component: {fileID: 1597868032}
   - component: {fileID: 1597868033}
   m_Layer: 0
-  m_Name: HeroEquipmentManager
+  m_Name: Hero Equipment Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

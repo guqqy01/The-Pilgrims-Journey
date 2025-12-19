@@ -1,12 +1,13 @@
 ﻿using Equipment;
 using UnityEngine;
+using GameManagerCalls;
 namespace Heros
 {
     [RequireComponent(typeof(EquipmentInventory))]
-    public class HeroEquipmentManager : Singleton<HeroEquipmentManager>
+    public class HeroEquipmentManager : Singleton<HeroEquipmentManager>, IOnAfterCreateLocalMap, IOnCompleteLocalMapLevel, IOnPlayLocalLevel
     {
         private EquipmentInventory inventory;
-
+        public EquipmentInventory Inventory => inventory;
         private void Awake()
         {
             inventory = GetComponent<EquipmentInventory>();
@@ -14,6 +15,7 @@ namespace Heros
 
         public Buff GetBuff(HeroStats stat)
         {
+            
             Buff returnBuff = new Buff(stat.IsIntStat());
 
             foreach(var item in inventory.NonNullEquipment)
@@ -25,6 +27,21 @@ namespace Heros
             }
 
             return returnBuff;
+        }
+
+        public void AfterCreateLocalMap()
+        {
+            inventory.Unlock();
+        }
+
+        public void OnCompleteLocalMapLevel()
+        {
+            inventory.Unlock();
+        }
+
+        public void OnPlayLocalLevel()
+        {
+            inventory.Lock();
         }
     }
 }

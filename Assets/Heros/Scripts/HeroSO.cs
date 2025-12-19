@@ -62,8 +62,8 @@ namespace Heros
 
                 HeroStats.NumberOfProjectiles => NumberOfAttacks,
                 HeroStats.CriticalChance => CriticalChance,
-                HeroStats.CriticalDamage => CriticalDamageMultiplier,
-                HeroStats.Size => AttackSize,
+                HeroStats.CriticalDamageMultiplier => CriticalDamageMultiplier,
+                HeroStats.AttackSize => AttackSize,
                 HeroStats.Knockback => Knockback,
                 _ => null
             };
