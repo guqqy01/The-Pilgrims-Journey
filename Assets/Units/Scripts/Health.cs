@@ -2,6 +2,8 @@
 
 public class Health : MonoBehaviour
 {
+    private int previousMaxHealth;
+
     private BuffableStat maxHealth;
     public int MaxHealth
     {
@@ -19,10 +21,29 @@ public class Health : MonoBehaviour
     public delegate void OnHealthChange(StatChangeInfo statChangeInfo);
     public OnHealthChange onHealthChange;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Debug.Log(MaxHealth);
+        }
+    }
+
+    private void OnMaxHealthChanged()
+    {
+        int currentMaxHealth = MaxHealth;
+
+        ModifyHealth(Mathf.Max(currentMaxHealth - previousMaxHealth, 0));
+
+        previousMaxHealth = MaxHealth;
+    }
+    
     public void Init(BuffableStat healthBuffableStat)
     {
         maxHealth = healthBuffableStat;
 
+        maxHealth.onValueChange += OnMaxHealthChanged;
+        previousMaxHealth = MaxHealth;
         CurrentHealth = MaxHealth;
 
         StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, HitInfoType.Init, CurrentHealth, CurrentHealth);
@@ -33,6 +54,8 @@ public class Health : MonoBehaviour
     public void Init(int maxHealth)
     {
         this.maxHealth = new BuffableStat(maxHealth);
+
+        this.maxHealth.onValueChange += OnMaxHealthChanged;
 
         CurrentHealth = MaxHealth;
 

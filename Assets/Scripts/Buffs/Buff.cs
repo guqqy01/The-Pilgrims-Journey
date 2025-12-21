@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class Buff
+public class Buff: IBuffSource
 {
     [Tooltip("Percentage multiplier. Example: 100 = +100% (doubles the base).")]
     public float Multiplier = 0f;
@@ -25,6 +25,8 @@ public class Buff
             additionalBuff.IsInt = value;
         }
     }
+
+    Buff IBuffSource.Buff => this;
 
     public Buff(bool isInt)
     {
@@ -236,4 +238,5 @@ public class Buff
     }
     public override string ToString() =>
         $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
+
 }

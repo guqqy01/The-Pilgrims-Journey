@@ -28,7 +28,7 @@ public class UnitSpawningManager
 
     private void OnEnable()
     {
-        WaitForObjectHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, Subscribe);
+        WaitForHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, Subscribe);
     }
 
     private void OnDisable()

@@ -16,7 +16,6 @@ public class HealthAndShieldManager : MonoBehaviour
     private bool flickerOnOrOff;
     private Color invunrabilityColor = Color.blue;
 
-
     private void Awake()
     {
         Health = GetComponent<Health>();

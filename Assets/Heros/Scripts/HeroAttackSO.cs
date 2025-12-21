@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using NUnit.Framework.Internal;
 
 namespace Heros
 {
@@ -32,6 +33,20 @@ namespace Heros
         public float findTargetDistance;
 
         public LayerMask enemyLayerMask;
+
+        public Buff GetBuff(HeroStats heroStat)
+        {
+            return heroStat switch
+            {
+                HeroStats.Damage => damage,
+                HeroStats.AttackSpeed => attackSpeed,
+                HeroStats.CriticalChance => criticalChance,
+                HeroStats.CriticalDamageMultiplier => criticalDamageMultiplier,
+                HeroStats.Knockback => knockback,
+                HeroStats.AttackSize => size,
+                _ => null,
+            };
+        }
     }
 }
 

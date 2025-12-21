@@ -3,52 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class BuffableStat
+public class BuffableStat: IBuffSource
 {
     private readonly IntOrFloatObject baseStat;
     public IntOrFloatObject Value { get; private set; }
 
-    private readonly Dictionary<string, Buff> buffs = new();
-
+    private readonly Dictionary<string, IBuffSource> buffs = new();
     public bool IsIntStat => baseStat.IsInt;
 
-    public BuffableStat(int baseStat)
-    {
-        this.baseStat = new IntOrFloatObject(baseStat);
-        Value = this.baseStat;
-    }
+    public Buff Buff => ConvertToBuff();
 
-    public BuffableStat(float baseStat)
-    {
-        this.baseStat = new IntOrFloatObject(baseStat);
-        Value = this.baseStat;
-    }
+    public delegate void OnValueChange();
+    public OnValueChange onValueChange;
+
+    public BuffableStat(int baseStat) : this(new IntOrFloatObject(baseStat)) { }
+    public BuffableStat(float baseStat) : this(new IntOrFloatObject(baseStat)) { }
 
     public BuffableStat(IntOrFloatObject baseStat)
     {
         this.baseStat = baseStat;
-        Value = this.baseStat;
+        Value = baseStat;
     }
 
-    public IntOrFloatObject AddBuff(string reference, Buff buff)
+    public void AddBuff(string reference, IBuffSource buffSource)
     {
-        var previous = Value;
-        if (buffs.ContainsKey(reference))
-            buffs[reference] = buff; // add or replace
-        else
-            buffs.Add(reference, buff);
+        if (buffs.TryGetValue(reference, out var old) && old is BuffableStat oldStat)
+            oldStat.onValueChange -= RefreshValue;
+
+        buffs[reference] = buffSource;
+
+        if(buffSource is BuffableStat buffableStat)
+            buffableStat.onValueChange += RefreshValue;
 
         RefreshValue();
-
-        return Value - previous;
     }
 
-    public IntOrFloatObject RemoveBuff(string reference)
+    public void RemoveBuff(string reference)
     {
-        var previous = Value;
+        if (!buffs.TryGetValue(reference, out var buffSource))
+            return;
+
+        if(buffSource is BuffableStat buffableStat)
+            buffableStat.onValueChange -= RefreshValue;
+
         buffs.Remove(reference);
         RefreshValue();
-        return Value - previous;
     }
 
     private void RefreshValue()
@@ -61,28 +60,33 @@ public class BuffableStat
 
         // Combine all buffs
         Buff combined = null;
-        foreach (var buff in buffs.Values)
+        foreach (var buffSource in buffs.Values)
         {
+            Buff buff = buffSource.Buff;
             combined = combined == null ? buff : combined + buff;
         }
 
         Value = combined.Value(baseStat);
+
+        onValueChange?.Invoke();
     }
 
     private Buff ConvertToBuff()
     {
-        IntOrFloatObject baseBuff = baseStat;
-        IntOrFloatObject additionalBuff = 0;
-        float multiplier = 0;
+        Buff combined = new Buff(0f, baseStat, baseStat.IsInt ? 0 : 0f);
 
-        foreach(var buff in buffs)
+        foreach(var buffSource in buffs.Values)
         {
-            baseBuff += buff.Value.BaseBuff;
-            multiplier += buff.Value.Multiplier;
-            additionalBuff += buff.Value.AdditionalBuff;
+            Buff buff = buffSource.Buff;
+            combined += buff;
         }
 
-        return new Buff(multiplier, baseBuff, additionalBuff);
+        return combined;
+    }
+
+    public IntOrFloatObject Evaluate(IntOrFloatObject baseValue)
+    {
+        return Value;
     }
 
     public static implicit operator BuffableStat(int value) => new BuffableStat(value);
@@ -93,4 +97,9 @@ public class BuffableStat
 
 
     public static implicit operator Buff(BuffableStat obj) => obj.ConvertToBuff();
+}
+
+public interface IBuffSource
+{
+    Buff Buff { get; }
 }

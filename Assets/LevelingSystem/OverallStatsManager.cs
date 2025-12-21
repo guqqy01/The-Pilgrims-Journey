@@ -20,52 +20,44 @@ namespace LevelingSystem
         public OnBuffsChanged buffsChanged;
 
 
-        public IntOrFloatObject AddBuff(string reference, Buff buff, OverallStats stat)
+        public void AddBuff(string reference, Buff buff, OverallStats stat)
         {
-            IntOrFloatObject value;
-
             switch (stat)
             {
                 case OverallStats.AmountOfRelicToChooseFrom:
-                    value = amountOfRelicToChooseFrom.AddBuff(reference, buff);
+                    amountOfRelicToChooseFrom.AddBuff(reference, buff);
                     break;
                 case OverallStats.Luck:
-                    value = luck.AddBuff(reference, buff);
+                    luck.AddBuff(reference, buff);
                     break;
                 case OverallStats.ExperienceGain:
-                    value = experienceGain.AddBuff(reference, buff);
+                    experienceGain.AddBuff(reference, buff);
                     break;
                 default:
                     throw new NotImplementedException();
             }
 
             buffsChanged?.Invoke();
-
-            return value;
         }
 
-        public IntOrFloatObject RemoveBuff(string reference, OverallStats stat)
+        public void RemoveBuff(string reference, OverallStats stat)
         {
-            IntOrFloatObject value;
-
             switch (stat)
             {
                 case OverallStats.AmountOfRelicToChooseFrom:
-                    value = amountOfRelicToChooseFrom.RemoveBuff(reference);
+                    amountOfRelicToChooseFrom.RemoveBuff(reference);
                     break;
                 case OverallStats.Luck:
-                    value = luck.RemoveBuff(reference);
+                    luck.RemoveBuff(reference);
                     break;
                 case OverallStats.ExperienceGain:
-                    value = experienceGain.RemoveBuff(reference);
+                    experienceGain.RemoveBuff(reference);
                     break;
                 default:
                     throw new NotImplementedException();
             }
 
             buffsChanged?.Invoke();
-
-            return value;
         }
     }
 

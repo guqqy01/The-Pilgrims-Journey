@@ -33,7 +33,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
     private void Start()
     {
-        WaitForObjectHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToEndOfGameCheck, 1f);
+        WaitForHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToEndOfGameCheck, 1f);
     }
 
     private void SubscribeToEndOfGameCheck()

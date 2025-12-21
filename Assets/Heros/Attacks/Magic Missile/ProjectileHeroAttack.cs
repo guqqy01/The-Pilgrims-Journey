@@ -89,8 +89,11 @@ namespace Heros
                 return;
             }
 
-            numberOfProjectiles = HeroStatBase.GetBuffableStat(heroSO, HeroStats.NumberOfProjectiles);
+            BuffableStat heroNumOfProjectilesStat = HeroManager.Instance.Stats.Get(HeroStats.NumberOfProjectiles);
+
+            numberOfProjectiles = new BuffableStat(0);
             numberOfProjectiles.AddBuff("Weapon Base", projectileAttack.numberOfProjectiles);
+            numberOfProjectiles.AddBuff("Hero Base", heroNumOfProjectilesStat);
 
             projectilePrefab = projectileAttack.projectilePrefab;
 

@@ -19,13 +19,16 @@ namespace Heros
             HeroAttacksManager = GetComponent<HeroAttacksManager>();
         }
 
-        public void Setup(HeroSO heroSO)
+        public void Setup(HeroSO heroSO, HeroStatContainer stats)
         {
             HeroSO = heroSO;
 
             HeroMovement.Setup(heroSO);
 
-            HealthAndShieldManager.Setup(HeroStatBuffsManager.Instance.MaxHealth, HeroStatBuffsManager.Instance.Shield, HeroStatBuffsManager.Instance.ShieldRegeneration, HeroStatBuffsManager.Instance.ShieldCooldown);
+            HealthAndShieldManager.Setup(stats.Get(HeroStats.Health), 
+                stats.Get(HeroStats.Shield), 
+                stats.Get(HeroStats.ShieldRegeneration), 
+                stats.Get(HeroStats.ShieldCooldown));
         }
 
     }

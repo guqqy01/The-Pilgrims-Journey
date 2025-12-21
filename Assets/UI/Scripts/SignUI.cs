@@ -50,7 +50,7 @@ namespace LocalMap.UI
         {
             base.InitiateSingleton();
 
-            WaitForObjectHelper.WaitForObjectThenPerformAction(() => PathPicker.Instance, SubscriibeToOnClickSign);
+            WaitForHelper.WaitForObjectThenPerformAction(() => PathPicker.Instance, SubscriibeToOnClickSign);
         }
 
         private void SubscriibeToOnClickSign()

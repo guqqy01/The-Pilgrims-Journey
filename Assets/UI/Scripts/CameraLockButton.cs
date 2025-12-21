@@ -16,7 +16,7 @@ public class CameraLockButton : MonoBehaviour
 
     private void Awake()
     {
-        WaitForObjectHelper.WaitForObjectThenPerformAction(() => LocalCameraMovementManager.Instance, SubscribeToLocalCameraMovementManager);
+        WaitForHelper.WaitForObjectThenPerformAction(() => LocalCameraMovementManager.Instance, SubscribeToLocalCameraMovementManager);
     }
 
     private void OnDestroy()

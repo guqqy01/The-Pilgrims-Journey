@@ -1,6 +1,10 @@
 ﻿using Equipment;
 using UnityEngine;
 using GameManagerCalls;
+using static UnityEditor.Progress;
+using System.Linq;
+using System.Collections.Generic;
+using Equipment.UI;
 namespace Heros
 {
     [RequireComponent(typeof(EquipmentInventory))]
@@ -11,22 +15,79 @@ namespace Heros
         private void Awake()
         {
             inventory = GetComponent<EquipmentInventory>();
+
+            inventory.onEquipmentChanged += OnEquipChange;
         }
 
-        public Buff GetBuff(HeroStats stat)
+        private void OnEquipChange(EquipmentContainer equipmentContainer, EquipmentSO from, EquipmentSO to)
         {
-            
-            Buff returnBuff = new Buff(stat.IsIntStat());
+            RemoveEquipment(equipmentContainer, from);
+            AddEquipment(equipmentContainer, to);
+        }
 
-            foreach(var item in inventory.NonNullEquipment)
+        private void AddEquipment(EquipmentContainer equipmentContainer, EquipmentSO equipment)
+        {
+            if (equipment == null)
+                return;
+
+            List<EquipmentContainer> containers = inventory.Containers.ToList();
+
+            if (!containers.Contains(equipmentContainer))
             {
-                if(item.TryGetHeroBuff(stat, out Buff outBuff))
-                {
-                    returnBuff += outBuff;
-                }
+                Debug.LogWarning($"Equipment container: {equipmentContainer}, is not in the inventory list");
+                return;
             }
 
-            return returnBuff;
+            foreach (var kvp in equipment.HeroEquipmentStats)
+            {
+                HeroStats stat = kvp.Key;
+                Buff buff = kvp.Value;
+
+                int index = containers.IndexOf(equipmentContainer);
+
+                HeroStatBuffsManager.Instance.AddBuff($"{equipment.name}: {index}", stat, buff);
+            }
+        }
+
+        private void RemoveEquipment(EquipmentContainer equipmentContainer, EquipmentSO equipment)
+        {
+            if(equipment == null) 
+                return;
+
+            List<EquipmentContainer> containers = inventory.Containers.ToList();
+
+            if (!containers.Contains(equipmentContainer))
+            {
+                Debug.LogWarning($"Equipment container: {equipmentContainer}, is not in the inventory list");
+                return;
+            }
+
+            foreach (var kvp in equipment.HeroEquipmentStats)
+            {
+                HeroStats stat = kvp.Key;
+                Buff buff = kvp.Value;
+
+                int index = containers.IndexOf(equipmentContainer);
+
+                HeroStatBuffsManager.Instance.RemoveBuff($"{equipment.name}: {index}", stat);
+            }
+        }
+
+        public void ApplyEquipmentBuffs()
+        {
+            if (inventory == null)
+                inventory = GetComponent<EquipmentInventory>();
+
+            if (inventory == null)
+                return;
+
+            foreach(var equipmentContainer in inventory.Containers)
+            {
+                if (equipmentContainer.EquipmentSO == null)
+                    continue;
+
+                AddEquipment(equipmentContainer, equipmentContainer.EquipmentSO);
+            }
         }
 
         public void AfterCreateLocalMap()

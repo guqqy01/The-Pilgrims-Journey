@@ -71,29 +71,25 @@ namespace Heros
         {
             HeroAttackSO = heroAttackSO;
 
-            damage = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Damage);
-            damage.AddBuff("Weapon Base", heroAttackSO.damage);
-
-            attackSpeed = HeroStatBase.GetBuffableStat(heroSO, HeroStats.AttackSpeed);
-            attackSpeed.AddBuff("Weapon Base", heroAttackSO.attackSpeed);
-
-            criticalChance = HeroStatBase.GetBuffableStat(heroSO, HeroStats.CriticalChance);
-            criticalChance.AddBuff("Weapon Base", heroAttackSO.criticalChance);
-
-            criticalDamageMultiplier = HeroStatBase.GetBuffableStat(heroSO, HeroStats.CriticalDamageMultiplier);
-            criticalDamageMultiplier.AddBuff("Weapon Base", heroAttackSO.criticalDamageMultiplier);
-
-            knockback = HeroStatBase.GetBuffableStat(heroSO, HeroStats.Knockback);
-            knockback.AddBuff("Weapon Base", heroAttackSO.knockback);
-
-            size = HeroStatBase.GetBuffableStat(heroSO, HeroStats.AttackSize);
-            size.AddBuff("Weapon Base", heroAttackSO.size);
+            SetupBuffableStat(ref damage, HeroStats.Damage, heroAttackSO);
+            SetupBuffableStat(ref attackSpeed, HeroStats.AttackSpeed, heroAttackSO);
+            SetupBuffableStat(ref criticalChance, HeroStats.CriticalChance, heroAttackSO);
+            SetupBuffableStat(ref criticalDamageMultiplier, HeroStats.CriticalDamageMultiplier, heroAttackSO);
+            SetupBuffableStat(ref knockback, HeroStats.Knockback, heroAttackSO);
+            SetupBuffableStat(ref size, HeroStats.AttackSize, heroAttackSO);
 
             findTargetDistance = heroAttackSO.findTargetDistance;
 
             enemyLayerMask = heroAttackSO.enemyLayerMask;
 
             InheritSetup(heroSO, heroAttackSO);
+        }
+
+        private void SetupBuffableStat(ref BuffableStat stat, HeroStats heroStats, HeroAttackSO heroAttackSO)
+        {
+            stat = new BuffableStat(heroStats.IsIntStat() ? 0 : 0f);
+            stat.AddBuff("Weapon Base", heroAttackSO.GetBuff(heroStats));
+            stat.AddBuff("Hero Base", HeroManager.Instance.Stats.Get(heroStats));
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Heros
 {
     public class HeroManager : Singleton<HeroManager>, IOnAfterCreateLocalMap
     {
+        public HeroStatContainer Stats { get; private set; }
+
         public HeroSO heroSO;
         public Hero ActiveHero { private set; get; }
 
@@ -38,49 +40,19 @@ namespace Heros
 
         private void Awake()
         {
-            WaitForObjectHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
-            WaitForObjectHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
+            Stats = new HeroStatContainer(heroSO);
+            WaitForHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
+            WaitForHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
         }
 
         private void SubscribeToHeroEquipmentManager()
         {
-            HeroEquipmentManager.Inventory.onEquipmentChanged += UpdateHeroStatsFromEquipmentChange;
-            UpdateHeroStats();
+            HeroEquipmentManager.Instance.ApplyEquipmentBuffs();
         }
 
         private void SubscribeToHeroStatsManager()
         {
-            HeroStatsManager.buffsChanged += UpdateHeroStats;
-            UpdateHeroStats();
-        }
-
-        private void OnDestroy()
-        {
-            if (HeroStatsManager != null)
-            {
-                HeroStatsManager.buffsChanged -= UpdateHeroStats;
-            }
-
-            if (HeroEquipmentManager != null)
-            {
-                HeroEquipmentManager.Inventory.onEquipmentChanged -= UpdateHeroStatsFromEquipmentChange;
-            }
-        }
-
-        private void UpdateHeroStatsFromEquipmentChange(EquipmentContainer container, EquipmentSO from, EquipmentSO to)
-        {
-            if (ActiveHero == null)
-                return;
-
-            ActiveHero.Setup(heroSO);
-        }
-
-        public void UpdateHeroStats()
-        {
-            if (ActiveHero == null)
-                return;
-
-            ActiveHero.Setup(heroSO);
+            HeroStatBuffsManager.Instance.Bind(Stats);
         }
 
         public void AfterCreateLocalMap()
@@ -105,7 +77,7 @@ namespace Heros
 
             ActiveHero = Instantiate(heroSO.prefab, position, Quaternion.identity, transform);
 
-            ActiveHero.Setup(heroSO);
+            ActiveHero.Setup(heroSO, Stats);
 
             ActiveHero.HealthAndShieldManager.Health.onDie += OnHeroDie;
         }

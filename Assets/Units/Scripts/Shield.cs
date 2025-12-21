@@ -56,6 +56,21 @@ public class Shield : MonoBehaviour
         onShieldChange?.Invoke(statChangeInfo);
     }
 
+    public void Init(ref BuffableStat shieldStat, ref BuffableStat shieldRegenerationStat, ref BuffableStat shieldCooldownStat)
+    {
+        shield = shieldStat;
+
+        CurrentShield = MaxShield;
+
+        regeneration = shieldRegenerationStat;
+
+        cooldown = shieldCooldownStat;
+
+        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, HitInfoType.Init, CurrentShield, CurrentShield);
+
+        onShieldChange?.Invoke(statChangeInfo);
+    }
+
     public void Init(BuffableStat shieldStat, BuffableStat shieldRegenerationStat, BuffableStat shieldCooldownStat)
     {
         shield = shieldStat;
@@ -90,8 +105,12 @@ public class Shield : MonoBehaviour
         {
             if(Time.time >= kvp.Value)
             {
-                amountChanged += shield.RemoveBuff(kvp.Key);
-                    
+                int previous = shield.Value;
+                shield.RemoveBuff(kvp.Key);
+                int after = shield.Value;
+
+                amountChanged = after - previous;
+
                 toRemove.Add(kvp.Key);
             }
         }
@@ -165,7 +184,11 @@ public class Shield : MonoBehaviour
 
     public void ModifyShieldForTime(string reference, Buff shieldBuff, float time)
     {
-        RegenerateShield((int)shield.AddBuff(reference, shieldBuff));
+        int previous = shield.Value;
+        shield.AddBuff(reference, shieldBuff);
+        int after = shield.Value;
+
+        RegenerateShield(after - previous);
 
         if (referenceAndTimeToRemoveBuff.ContainsKey(reference))
         {
@@ -179,7 +202,11 @@ public class Shield : MonoBehaviour
 
     public void ModifyShield(string reference, Buff shieldBuff)
     {
-        RegenerateShield((int)shield.AddBuff(reference, shieldBuff));
+        int previous = shield.Value;
+        shield.AddBuff(reference, shieldBuff);
+        int after = shield.Value;
+
+        RegenerateShield(after - previous);
     }
 }
 

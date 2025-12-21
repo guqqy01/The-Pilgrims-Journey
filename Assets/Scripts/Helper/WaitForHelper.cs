@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Helper.Wait
 {
-    public static class WaitForObjectHelper
+    public static class WaitForHelper
     {
         /// <summary>
         /// Waits until getObject() returns non-null, then invokes onReady.
@@ -25,6 +26,67 @@ namespace Helper.Wait
 
             // Start the coroutine on the MonoBehaviour so the polling actually runs
             waiter.StartWaiting();
+        }
+
+        public static void WaitForConditionThenPerformAction(Func<bool> condition, Action onReady, float checkInterval = 0f)
+        {
+            // Create a single host GameObject
+            var host = new GameObject("WaitForObjectHost");
+            host.hideFlags = HideFlags.HideAndDontSave;
+
+            // Ensure it's in the active scene (important in multi-scene setups)
+            SceneManager.MoveGameObjectToScene(host, SceneManager.GetActiveScene());
+
+            var waiter = host.AddComponent<WaitForCondition>();
+            waiter.Setup(condition, onReady, checkInterval);
+
+            // Start the coroutine on the MonoBehaviour so the polling actually runs
+            waiter.StartWaiting();
+        }
+    }
+
+    internal class WaitForCondition : MonoBehaviour
+    {
+        private Func<bool> _getObject;
+        private Action _onReady;
+        private float _checkInterval;
+
+        public void Setup(Func<bool> getObject, Action onReady, float checkInterval = 0f)
+        {
+            _getObject = getObject ?? throw new ArgumentNullException(nameof(getObject));
+            _onReady = onReady;
+            _checkInterval = checkInterval;
+        }
+
+        // Public kickoff so the helper controls when the coroutine starts
+        public void StartWaiting()
+        {
+            StartCoroutine(WaitForObjectThenPerformActionCoroutine());
+        }
+
+        private IEnumerator WaitForObjectThenPerformActionCoroutine()
+        {
+            try
+            {
+                if (_checkInterval <= 0f)
+                {
+                    yield return new WaitUntil(() => _getObject() == true);
+                }
+                else
+                {
+                    while (_getObject() == false)
+                    {
+                        yield return new WaitForSeconds(_checkInterval);
+                    }
+                }
+
+                _onReady?.Invoke();
+            }
+            finally
+            {
+                // Always destroy the host GameObject so we don't leak
+                Destroy(gameObject);
+            }
         }
     }
 
