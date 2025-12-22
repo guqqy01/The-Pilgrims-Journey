@@ -8,7 +8,7 @@ using UnityEditor.SceneManagement;
 
 namespace Heros
 {
-    public class HeroAttacksManager : MonoBehaviour
+    public class HeroAttacksManager : Singleton<HeroAttacksManager>
     {
         [SerializeField]
         private Dictionary<HeroAttackSO, HeroAttack> attacks = new Dictionary<HeroAttackSO, HeroAttack>();

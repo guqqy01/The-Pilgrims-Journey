@@ -10,9 +10,23 @@ namespace LevelingSystem
         public OnShowUI onShowUI;
 
         [SerializeField]
-        private WeightedChanceList<RelicSO> relicsAbleToRecieveThroughLeveling;
+        private WeightedChanceList<RelicSO> unitStatRelics;
+        [SerializeField]
+        private WeightedChanceList<RelicSO> heroStatRelics;
+        [SerializeField]
+        private WeightedChanceList<RelicSO> heroWeaponRelics;
+
+        private readonly WeightedChanceList<WeightedChanceList<RelicSO>> relicLists = new WeightedChanceList<WeightedChanceList<RelicSO>>();
+
 
         public Dictionary<RelicSO, int> RelicsOfferedAndAmountOfLevelsGained { private set; get; } = new Dictionary<RelicSO, int>();
+
+        private void Awake()
+        {
+            relicLists.Add(unitStatRelics, 1);
+            relicLists.Add(heroStatRelics, 1);
+            relicLists.Add(heroWeaponRelics, 1);
+        }
 
         protected override void CleanUp()
         {
@@ -23,9 +37,23 @@ namespace LevelingSystem
         {
             RelicsOfferedAndAmountOfLevelsGained.Clear();
 
-            while (RelicsOfferedAndAmountOfLevelsGained.Count < OverallStatsManager.Instance.AmountOfRelicToChooseFrom && RelicsOfferedAndAmountOfLevelsGained.Count < relicsAbleToRecieveThroughLeveling.weightedList.Count)
+            WeightedChanceList<RelicSO> randomRelicRewards = relicLists.GetRandom();
+
+            foreach (WeightedChanceObject<WeightedChanceList<RelicSO>> list in relicLists.weightedList)
             {
-                RelicSO relicSO = relicsAbleToRecieveThroughLeveling.GetRandom();
+                if(list.item == randomRelicRewards)
+                {
+                    relicLists[list.item] = 1;
+                }
+                else
+                {
+                    relicLists[list.item] += 1;
+                }
+            }
+
+            while (RelicsOfferedAndAmountOfLevelsGained.Count < OverallStatsManager.Instance.AmountOfRelicToChooseFrom && RelicsOfferedAndAmountOfLevelsGained.Count < unitStatRelics.weightedList.Count)
+            {
+                RelicSO relicSO = unitStatRelics.GetRandom();
 
                 if (!RelicsOfferedAndAmountOfLevelsGained.ContainsKey(relicSO))
                 {

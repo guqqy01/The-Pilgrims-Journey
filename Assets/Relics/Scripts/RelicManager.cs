@@ -118,8 +118,14 @@ namespace Relics
 
         public void RemoveRelic(Relic relic)
         {
+            foreach(RelicEffect effect in relic.relicEffects)
+            {
+                effect.OnRemoveRelic();
+            }
+
             relics.Remove(relic);
             
+
             updateUI?.Invoke();
         }
 

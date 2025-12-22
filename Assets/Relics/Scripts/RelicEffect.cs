@@ -1,4 +1,6 @@
 ﻿using System;
+using Heros;
+using UnityEngine;
 namespace Relics
 {
 
@@ -34,5 +36,35 @@ namespace Relics
         public virtual void Reset() { }
 
         public abstract string Description { get; }
+    }
+
+    public class HeroWeaponRelicEffect : RelicEffect
+    {
+        [SerializeField]
+        private HeroAttackSO weapon;
+
+        public HeroWeaponRelicEffect(Relic relic, Action updateUI = null) : base(relic, updateUI) { }
+
+        public override string Description => throw new NotImplementedException();
+
+        public override RelicEffect CreateInstance()
+        {
+            return new HeroWeaponRelicEffect(Relic, updateUI);
+        }
+
+        public override void OnGainRelic()
+        {
+            HeroAttacksManager.Instance.AddHeroAttack(weapon);
+        }
+
+        public override void OnRemoveRelic()
+        {
+            HeroAttacksManager.Instance.RemoveHeroAttack(weapon);
+        }
+
+        public override void OnLevelChangeRelic()
+        {
+            // Implement logic for when the relic level changes, if needed
+        }
     }
 }
