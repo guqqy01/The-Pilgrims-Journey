@@ -29,16 +29,21 @@ namespace LevelingSystem
             LevelingUpRewardManager.Instance.SetupRelicsChoices();
         }
 
-        private void OnUnitPassed(int x, int y)
+        public void AddExperience(float amount)
         {
-            CurrentExperience = CurrentExperience + OverallStatsManager.Instance.ExperienceGain;
+            float modifiedAmount = OverallStatsManager.Instance.ExperienceGainBuff.Value(amount);
 
+            CurrentExperience += modifiedAmount;
             if (CurrentExperience >= ExperienceNeededToLevel)
             {
                 LevelUp();
             }
-
             onUpdateUI?.Invoke();
+        }
+
+        private void OnUnitPassed(int x, int y)
+        {
+            AddExperience(1);
         }
     }
 

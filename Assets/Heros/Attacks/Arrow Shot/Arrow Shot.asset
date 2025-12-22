@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a32354078ed48741bacebcb685e8165, type: 3}
   m_Name: Arrow Shot
   m_EditorClassIdentifier: Assembly-CSharp::Heros.ProjectileHeroAttackSO
-  icon: {fileID: 0}
+  icon: {fileID: 1035577215, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: 
   damage:
     Multiplier: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       isInt: 0
-  criticalDamage:
+  criticalDamageMultiplier:
     Multiplier: 0
     baseBuff:
       intValue: 0

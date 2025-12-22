@@ -14,7 +14,7 @@ namespace LevelingSystem
         //Leveling Up
         public IntOrFloatObject AmountOfRelicToChooseFrom => amountOfRelicToChooseFrom.Value;
         public IntOrFloatObject Luck => luck.Value;
-        public IntOrFloatObject ExperienceGain => experienceGain.Value;
+        public Buff ExperienceGainBuff => experienceGain.Buff;
 
         public delegate void OnBuffsChanged();
         public OnBuffsChanged buffsChanged;

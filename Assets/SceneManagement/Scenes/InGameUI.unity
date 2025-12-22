@@ -31637,6 +31637,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3486125441687639382, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3536150092763717196, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -32205,7 +32209,7 @@ GameObject:
   - component: {fileID: 2141038531}
   - component: {fileID: 2141038533}
   m_Layer: 5
-  m_Name: Stats Background
+  m_Name: Hero Relics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf39c47dfca98e489ebeee658b85b71, type: 3}
   m_Name: Sword Swipe
   m_EditorClassIdentifier: Assembly-CSharp::Heros.MeleeHeroAttackSO
-  icon: {fileID: 0}
+  icon: {fileID: -561801890, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: 
   damage:
     Multiplier: 0
@@ -38,16 +38,16 @@ MonoBehaviour:
     Multiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 5
       isInt: 0
     additionalBuff:
       intValue: 0
       floatValue: 0
       isInt: 0
-  criticalDamage:
+  criticalDamageMultiplier:
     Multiplier: 0
     baseBuff:
-      intValue: 0
+      intValue: 50
       floatValue: 0
       isInt: 1
     additionalBuff:

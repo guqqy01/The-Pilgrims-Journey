@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6977938646385162272}
   - component: {fileID: 537846680898563994}
   - component: {fileID: 734443397913311538}
+  - component: {fileID: 740907183039731}
   m_Layer: 12
   m_Name: Stump Monster
   m_TagString: Untagged
@@ -162,7 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
-  initSpeed: 1
   visualTransform: {fileID: 5667121558266182341}
   StationaryPosition: {x: 0, y: 0}
   directTargetLayerMask:
@@ -199,7 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  initMaxHealth: 10
 --- !u!114 &3927271593214692764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,9 +211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f242de0bb17004b459badd0aa0a21116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shield
-  initShield: 2
-  initRegen: 1
-  initCooldown: 6
   shieldBrokenPS: {fileID: 0}
 --- !u!114 &3456319749367150767
 MonoBehaviour:
@@ -309,6 +305,23 @@ MonoBehaviour:
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.1
   damagePopupPrefab: {fileID: 3616214638791460713, guid: f26cfdc90fcec80428d02d590d2b8146, type: 3}
+--- !u!114 &740907183039731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608093838665869098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c0a2e734c18f74bb05f6b7ee8ae99b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.ExperienceOrbDropper
+  experienceWorth:
+    minLimit: 1
+    maxLimit: 5
+    start: 1
+    length: 2
 --- !u!1001 &3971554817273352068
 PrefabInstance:
   m_ObjectHideFlags: 0

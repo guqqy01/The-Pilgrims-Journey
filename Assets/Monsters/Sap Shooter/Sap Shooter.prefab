@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 293350617359689474}
   - component: {fileID: 8527300395849525213}
   - component: {fileID: 6495602782445255804}
+  - component: {fileID: 5576585235031850374}
   m_Layer: 12
   m_Name: Sap Shooter
   m_TagString: Untagged
@@ -143,8 +144,9 @@ MonoBehaviour:
   audioSource: {fileID: 4861480678793185777}
   attackSpeed: 1
   projectileSpeed: 6
+  projectileTurnSpeed: 10
   damage: 1
-  knockbackMulitplier: 0.3
+  knockbackMultiplier: 0
   projectile: {fileID: 2067198908419732263, guid: f8b4233d2ec11014c969b3d153a08be2, type: 3}
   target: {fileID: 0}
 --- !u!114 &6334555571237156668
@@ -159,7 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Units.Health
-  initMaxHealth: 10
 --- !u!114 &2436504346431583623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,9 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f242de0bb17004b459badd0aa0a21116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shield
-  initShield: 2
-  initRegen: 1
-  initCooldown: 6
   shieldBrokenPS: {fileID: 0}
 --- !u!114 &3019113797934983628
 MonoBehaviour:
@@ -244,7 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
-  initSpeed: 1
   visualTransform: {fileID: 4957495057371096988}
   StationaryPosition: {x: 0, y: 0}
   directTargetLayerMask:
@@ -288,6 +285,23 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.03668213, y: 0}
   m_Radius: 0.46331787
+--- !u!114 &5576585235031850374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4957495057371097057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c0a2e734c18f74bb05f6b7ee8ae99b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.ExperienceOrbDropper
+  experienceWorth:
+    minLimit: 1
+    maxLimit: 5
+    start: 1
+    length: 2
 --- !u!1 &6795605464711786627
 GameObject:
   m_ObjectHideFlags: 0

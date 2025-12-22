@@ -7,11 +7,11 @@ public class Bounce : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    private const int numberOfBounces = 3;
-    private const float yForce = 3f;
-    private const float xForce = 2f;
-    private const float gravityScale = 3f;
-    private const float timeMultiplier = 0.3f;
+    [SerializeField] private int numberOfBounces = 3;
+    [SerializeField] private float yForce = 3f;
+    [SerializeField] private float xForce = 2f;
+    [SerializeField] private float gravityScale = 3f;
+    [SerializeField] private float timeMultiplier = 0.3f;
 
 
     private float timeToNextBounce = 0f;
@@ -21,28 +21,42 @@ public class Bounce : MonoBehaviour
     private static Vector2 angleRange = new Vector2(-45, 45);
     private float angle;
 
+    private bool bouncing = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = gravityScale;
     }
 
     private void Start()
     {
+        ResetBounces();
+    }
+
+    public void ResetBounces()
+    {
+        num = 0;
+        bouncing = true;
+        rb.gravityScale = gravityScale;
         angle = Random.Range(angleRange.x, angleRange.y);
 
         float random = Random.Range(1, 3);
 
         if (random == 2)
             angle += 180;
-
         DoBounce();
     }
 
     void Update()
     {
-        if (num - 1 >= numberOfBounces)
+        if (!bouncing)
             return;
+
+        if (num - 1 >= numberOfBounces)
+        {
+            RemoveBounce();
+            return;
+        }
 
         if (Time.time >= timeToNextBounce)
         {
@@ -50,11 +64,16 @@ public class Bounce : MonoBehaviour
 
             if (num - 1 >= numberOfBounces)
             {
-                Destroy(this);
-                rb.linearVelocity = Vector2.zero;
-                rb.gravityScale = 0;
+                RemoveBounce();
             }
         }
+    }
+
+    private void RemoveBounce()
+    {
+        bouncing = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0;
     }
 
     private void DoBounce()
