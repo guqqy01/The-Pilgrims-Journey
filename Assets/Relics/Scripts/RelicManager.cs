@@ -119,7 +119,7 @@ namespace Relics
         public void RemoveRelic(Relic relic)
         {
             relics.Remove(relic);
-
+            
             updateUI?.Invoke();
         }
 

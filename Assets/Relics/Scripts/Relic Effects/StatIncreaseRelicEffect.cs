@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 namespace Relics
 {
     public abstract class StatIncreaseRelicEffect : RelicEffect
@@ -8,5 +9,12 @@ namespace Relics
         public Buff BuffIncreasePerLevel => buffIncreasePerLevel;
 
         public abstract string StatString { get; }
+
+        public StatIncreaseRelicEffect(Relic relic, Buff buffIncreasePerLevel, Action updateUI = null) : base(relic, updateUI)
+        {
+            this.buffIncreasePerLevel = buffIncreasePerLevel;
+        }
+
+        
     }
 }

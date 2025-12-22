@@ -7,8 +7,7 @@ namespace Relics
     {
         public Relic Relic { private set; get; }
 
-        public delegate void UpdateUI();
-        public UpdateUI updateUI;
+        public Action updateUI;
 
         public void Init(Relic relic)
         {
@@ -16,13 +15,13 @@ namespace Relics
             OnGainRelic();
         }
 
-        public RelicEffect Clone
+        public RelicEffect(Relic relic, Action updateUI = null)
         {
-            get
-            {
-                return (RelicEffect)MemberwiseClone();
-            }
+            Relic = relic;
+            this.updateUI = updateUI;
         }
+
+        public abstract RelicEffect CreateInstance();
 
         public virtual void OnGainRelic() { }
         public virtual void OnRemoveRelic() { }

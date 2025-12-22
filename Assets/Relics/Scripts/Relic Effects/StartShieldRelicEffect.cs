@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Units;
-
+using System;
 namespace Relics
 {
     public class StartShieldRelicEffect : RelicEffect
@@ -18,6 +18,17 @@ namespace Relics
             {
                 return $"Gives the units spawned in the first {unitTime} seconds a shield of {shieldAmountPerLevel * Relic.Level}";
             }
+        }
+
+        public override RelicEffect CreateInstance()
+        {
+            return new StartShieldRelicEffect(Relic, shieldAmountPerLevel, unitTime, updateUI);
+        }
+
+        public StartShieldRelicEffect(Relic relic, int shieldAmountPerLevel, float unitTime, Action updateUI = null) : base(relic, updateUI)
+        {
+            this.shieldAmountPerLevel = shieldAmountPerLevel;
+            this.unitTime = unitTime;
         }
 
         public override void OnPlayEffect()
@@ -49,5 +60,7 @@ namespace Relics
 
             unit.Shield.ModifyShield("StartShieldEffect" + GetHashCode(), shieldBuff);
         }
+
+        
     }
 }

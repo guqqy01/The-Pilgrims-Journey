@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System;
 namespace Relics
 {
     public class AddPercentageOfGoldGainedFloorCap : RelicEffect
@@ -41,6 +41,18 @@ namespace Relics
         public int TotalNumberOfGoldGained;
 
         private bool reset;
+
+        internal AddPercentageOfGoldGainedFloorCap(float percentageOfGoldExtra, int numberOfRoundsToGainGold, GoldGainEnum goldGain, Relic relic, Action updateUI = null) : base(relic, updateUI)
+        {
+            this.percentageOfGoldExtra = percentageOfGoldExtra;
+            this.numberOfRoundsToGainGold = numberOfRoundsToGainGold;
+            this.goldGain = goldGain;
+        }
+
+        public override RelicEffect CreateInstance()
+        {
+            return new AddPercentageOfGoldGainedFloorCap(percentageOfGoldExtra, numberOfRoundsToGainGold, goldGain, Relic, updateUI);
+        }
 
         public override string Description
         {
@@ -105,7 +117,9 @@ namespace Relics
             reset = false;
         }
 
-        private enum GoldGainEnum
+        
+
+        internal enum GoldGainEnum
         {
             GainOrLoss,
             ZeroMin,

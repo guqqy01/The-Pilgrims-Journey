@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Units;
 using LevelingSystem;
-
+using System;
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Normal")]
@@ -11,6 +11,11 @@ namespace Relics
         private UnitStatsEnum stat;
         public UnitStatsEnum Stat => stat;
 
+        public override RelicEffect CreateInstance()
+        {
+            return new UnitStatIncreaseRelicEffect(Relic, buffIncreasePerLevel, stat, updateUI);
+        }
+
         public override string StatString => Stat.ToString().AddSpacesBeforeCapsRegex();
 
         public override string Description
@@ -19,6 +24,11 @@ namespace Relics
             {
                 return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSimpleDescription()}";
             }
+        }
+
+        public UnitStatIncreaseRelicEffect(Relic relic, Buff buff, UnitStatsEnum stat, Action updateUI = null) : base(relic, buff, updateUI)
+        {
+            this.stat = stat;
         }
 
         public override void OnGainRelic()
@@ -39,5 +49,7 @@ namespace Relics
         {
             UnitBuffManager.Instance.RemoveStatBuff(Relic.relicSO.name, stat);
         }
+
+        
     }
 }

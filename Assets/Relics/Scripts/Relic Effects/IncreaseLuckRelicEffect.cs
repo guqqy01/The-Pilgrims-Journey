@@ -1,5 +1,5 @@
 ﻿using LevelingSystem;
-
+using System;
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Luck")]
@@ -13,6 +13,17 @@ namespace Relics
             {
                 return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSimpleDescription()}";
             }
+        }
+
+       
+        public IncreaseLuckRelicEffect(Relic relic, Buff buffIncreasePerLevel, Action updateUI = null) : base(relic, buffIncreasePerLevel, updateUI)
+        {
+            
+        }
+
+        public override RelicEffect CreateInstance()
+        {
+            return new IncreaseLuckRelicEffect(Relic, buffIncreasePerLevel, updateUI);
         }
 
         public override void OnGainRelic()
@@ -33,5 +44,7 @@ namespace Relics
         {
             OverallStatsManager.Instance.RemoveBuff(Relic.relicSO.name, OverallStats.Luck);
         }
+
+        
     }
 }

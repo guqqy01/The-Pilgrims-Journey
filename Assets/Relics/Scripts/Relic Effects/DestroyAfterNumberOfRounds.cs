@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System;
 namespace Relics
 {
     public class DestroyAfterNumberOfRounds : RelicEffect
@@ -17,6 +17,18 @@ namespace Relics
             {
                 return $"This relic will be destroyed in {RemainingNumberOfRounds} rounds.";
             }
+        }
+
+        public DestroyAfterNumberOfRounds(Relic relic, int numberOfRounds, int remainingNumberOfRounds, bool countingDown, Action updateUI = null) : base(relic, updateUI)
+        {
+            this.numberOfRounds = numberOfRounds;
+            RemainingNumberOfRounds = remainingNumberOfRounds;
+            this.countingDown = countingDown;
+        }
+
+        public override RelicEffect CreateInstance()
+        {
+            return new DestroyAfterNumberOfRounds(Relic, numberOfRounds, RemainingNumberOfRounds, countingDown, updateUI);
         }
 
         public override void OnGainRelic()

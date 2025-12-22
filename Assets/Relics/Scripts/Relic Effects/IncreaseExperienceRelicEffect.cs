@@ -1,5 +1,5 @@
 ﻿using LevelingSystem;
-
+using System;
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Experience")]
@@ -13,6 +13,16 @@ namespace Relics
             {
                 return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSimpleDescription()}";
             }
+        }
+
+        public IncreaseExperienceRelicEffect(Relic relic, Buff buffIncreasePerLevel, Action updateUI = null) : base(relic, buffIncreasePerLevel, updateUI)
+        {
+        }
+
+        public override RelicEffect CreateInstance()
+        {
+            return new IncreaseExperienceRelicEffect(Relic, buffIncreasePerLevel, updateUI);
+            
         }
 
         public override void OnGainRelic()

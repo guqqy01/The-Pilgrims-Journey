@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Units;
-
+using System;
 namespace Relics
 {
     public class StartMovementEffect : RelicEffect
@@ -20,6 +20,18 @@ namespace Relics
             {
                 return $"Gives the units spawned in the first {unitTime} seconds a speed boost of {movementAmountPerLevel * Relic.Level}";
             }
+        }
+
+        public override RelicEffect CreateInstance()
+        {
+            return new StartMovementEffect(Relic, movementAmountPerLevel, unitTime, movementBuffTime, updateUI);
+        }
+
+        public StartMovementEffect(Relic relic, float movementAmountPerLevel, float unitTime, float movementBuffTime, Action updateUI = null) : base(relic, updateUI)
+        {
+            this.movementAmountPerLevel = movementAmountPerLevel;
+            this.unitTime = unitTime;
+            this.movementBuffTime = movementBuffTime;
         }
 
         public override void OnPlayEffect()
@@ -44,5 +56,7 @@ namespace Relics
             );
             unit.Movement.ModifySpeedForTime("StartMovementBuffEffect" + GetHashCode(), moveBuff, movementBuffTime);
         }
+
+        
     }
 }

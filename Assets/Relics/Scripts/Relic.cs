@@ -103,7 +103,7 @@ namespace Relics
                 if (effect == null)
                     continue;
 
-                RelicEffect clonedEffect = effect.Clone;
+                RelicEffect clonedEffect = effect.CreateInstance();
                 clonedEffect.Init(this);
                 relicEffects.Add(clonedEffect);
             }
