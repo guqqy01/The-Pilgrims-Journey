@@ -43,13 +43,16 @@ namespace Relics
         [SerializeField]
         private HeroAttackSO weapon;
 
-        public HeroWeaponRelicEffect(Relic relic, Action updateUI = null) : base(relic, updateUI) { }
+        public HeroWeaponRelicEffect(Relic relic, HeroAttackSO heroAttackSO, Action updateUI = null) : base(relic, updateUI) 
+        { 
+            weapon = heroAttackSO;
+        }
 
         public override string Description => throw new NotImplementedException();
 
         public override RelicEffect CreateInstance()
         {
-            return new HeroWeaponRelicEffect(Relic, updateUI);
+            return new HeroWeaponRelicEffect(Relic, weapon, updateUI);
         }
 
         public override void OnGainRelic()
