@@ -19,6 +19,8 @@
         CriticalDamageMultiplier,
         AttackSize,
         Knockback,
+        ProjectileSpeed,
+        ProjectileTurnSpeed,
     }
 }
 

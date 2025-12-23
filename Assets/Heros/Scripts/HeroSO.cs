@@ -46,6 +46,11 @@ namespace Heros
         [BuffType(false)]
         public Buff Knockback;
 
+        [BuffType(false)]
+        public Buff ProjectileSpeed;
+        [BuffType(false)]
+        public Buff ProjectileTurnSpeed;
+
         public Buff GetBuff(HeroStats stat)
         {
             return stat switch
@@ -65,6 +70,8 @@ namespace Heros
                 HeroStats.CriticalDamageMultiplier => CriticalDamageMultiplier,
                 HeroStats.AttackSize => AttackSize,
                 HeroStats.Knockback => Knockback,
+                HeroStats.ProjectileSpeed => ProjectileSpeed,
+                HeroStats.ProjectileTurnSpeed => ProjectileTurnSpeed,
                 _ => null
             };
         }

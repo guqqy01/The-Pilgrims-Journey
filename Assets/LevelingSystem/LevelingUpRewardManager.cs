@@ -53,7 +53,15 @@ namespace LevelingSystem
 
             while (RelicsOfferedAndAmountOfLevelsGained.Count < OverallStatsManager.Instance.AmountOfRelicToChooseFrom && RelicsOfferedAndAmountOfLevelsGained.Count < unitStatRelics.weightedList.Count)
             {
-                RelicSO relicSO = unitStatRelics.GetRandom();
+                RelicSO relicSO = randomRelicRewards.GetRandom();
+
+                if(randomRelicRewards == heroWeaponRelics)
+                {
+                    if (!RelicsOfferedAndAmountOfLevelsGained.ContainsKey(relicSO))
+                    {
+                        RelicsOfferedAndAmountOfLevelsGained.Add(relicSO, 1);
+                    }
+                }
 
                 if (!RelicsOfferedAndAmountOfLevelsGained.ContainsKey(relicSO))
                 {

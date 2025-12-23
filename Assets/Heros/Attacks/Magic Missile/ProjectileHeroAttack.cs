@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using static UnityEngine.GraphicsBuffer;
-
+using System.Linq;
 namespace Heros
 {
     public class ProjectileHeroAttack : HeroAttack
@@ -14,10 +14,10 @@ namespace Heros
         protected BuffableStat numberOfProjectiles;
 
         [SerializeField]
-        protected float projectileSpeed;
+        protected BuffableStat projectileSpeed;
 
         [SerializeField]
-        protected float projectileTurnSpeed;
+        protected BuffableStat projectileTurnSpeed;
 
         [SerializeField]
         protected bool projectileHoming;
@@ -84,24 +84,23 @@ namespace Heros
 
         protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
         {
-            if (heroAttackSO is not ProjectileHeroAttackSO projectileAttack)
-            {
+            if (heroAttackSO is not ProjectileHeroAttackSO projectileHeroAttackSO)
                 return;
-            }
 
-            BuffableStat heroNumOfProjectilesStat = HeroManager.Instance.Stats.Get(HeroStats.NumberOfProjectiles);
+            SetupBuffableStat(ref numberOfProjectiles, HeroStats.NumberOfProjectiles);
+            SetupBuffableStat(ref projectileSpeed, HeroStats.ProjectileSpeed);
+            SetupBuffableStat(ref projectileTurnSpeed, HeroStats.ProjectileTurnSpeed);
 
-            numberOfProjectiles = new BuffableStat(0);
-            numberOfProjectiles.AddBuff("Weapon Base", projectileAttack.numberOfProjectiles);
-            numberOfProjectiles.AddBuff("Hero Base", heroNumOfProjectilesStat);
+            projectilePrefab = projectileHeroAttackSO.projectilePrefab;
 
-            projectilePrefab = projectileAttack.projectilePrefab;
+            projectileHoming = projectileHeroAttackSO.projectileHoming;
+        }
 
-            projectileSpeed = projectileAttack.projectileSpeed;
-
-            projectileTurnSpeed = projectileAttack.projectileTurnSpeed;
-
-            projectileHoming = projectileAttack.projectileHoming;
+        protected override void InheritLevelSetup()
+        {
+            numberOfProjectiles.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.NumberOfProjectiles, Level));
+            projectileSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileSpeed, Level));
+            projectileTurnSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileTurnSpeed, Level));
         }
     }
 }

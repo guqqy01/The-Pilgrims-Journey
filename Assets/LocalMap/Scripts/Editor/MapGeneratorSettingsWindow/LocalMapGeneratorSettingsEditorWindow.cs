@@ -184,16 +184,7 @@ namespace LocalMap
             
             Sprite sprite = spriteProperty.objectReferenceValue as Sprite;
 
-            Texture2D spriteTexture = null;
-
-            if (sprite != null)
-            {
-                spriteTexture = AssetPreview.GetAssetPreview(sprite);
-                if (spriteTexture != null)
-                {
-                    GUI.Label(spriteRect, spriteTexture);
-                }
-            }
+            sprite.DrawSpriteInRect(spriteRect);
 
             EditorGUI.ObjectField(spriteObjectPickerRect, spriteProperty, new GUIContent("Tile"));
 

@@ -53,5 +53,10 @@ namespace Heros
 
             meleeAttackPrefab = meleeAttack.meleeAttackSpawn;
         }
+
+        protected override void InheritLevelSetup()
+        {
+            
+        }
     }
 }

@@ -102,140 +102,170 @@ public class Buff: IBuffSource
         }
     }
 
-    public static string CompareString(Buff fromBuff, Buff toBuff)
+    public static string CompareString(Buff from, Buff to)
     {
-        string fromBuffBaseBuffPositiveOrNegative = fromBuff.BaseBuff > 0 ? "+" : "";
-        string fromBuffMultiplierBuffPositiveOrNegative = fromBuff.Multiplier > 0 ? "+" : "";
-        string fromBuffAdditionalBuffPositiveOrNegative = fromBuff.AdditionalBuff > 0 ? "+" : "";
+        string result = "";
 
-        string toBuffBaseBuffPositiveOrNegative = toBuff.BaseBuff > 0 ? "+" : "";
-        string toBuffMultiplierBuffPositiveOrNegative = toBuff.Multiplier > 0 ? "+" : "";
-        string toBuffAdditionalBuffPositiveOrNegative = toBuff.AdditionalBuff > 0 ? "+" : "";
-
-        string returnString = "";
-
-        void AddCarageReturn()
+        if (from.BaseBuff != 0 || to.BaseBuff != 0)
         {
-            if (returnString != "")
-                returnString += "\r\n";
+            AppendLine(ref result,
+                $"Base: {FormatSignedValue(from.BaseBuff)} → {FormatSignedValue(to.BaseBuff)}");
         }
 
-        returnString = fromBuff.BaseBuff != 0 || toBuff.BaseBuff != 0 ? 
-            $"Base: {fromBuffBaseBuffPositiveOrNegative}{fromBuff.BaseBuff.Value} -> " +
-            $"{toBuffBaseBuffPositiveOrNegative}{toBuff.BaseBuff.Value}" 
-            : "";
-        AddCarageReturn();
-        returnString += fromBuff.Multiplier != 0 || toBuff.Multiplier != 0 ? 
-            $"Multiplier: {fromBuffMultiplierBuffPositiveOrNegative}{fromBuff.Multiplier}% -> " +
-            $"{toBuffMultiplierBuffPositiveOrNegative}{toBuff.Multiplier}%" 
-            : "";
-        AddCarageReturn();
-        returnString += fromBuff.AdditionalBuff != 0 || toBuff.AdditionalBuff != 0 ? 
-            $"Additional: {fromBuffAdditionalBuffPositiveOrNegative}{fromBuff.AdditionalBuff.Value} -> " +
-            $"{toBuffAdditionalBuffPositiveOrNegative}{toBuff.AdditionalBuff.Value}" 
-            : "";
+        if (!Mathf.Approximately(from.Multiplier, 0f) || !Mathf.Approximately(to.Multiplier, 0f))
+        {
+            AppendLine(ref result,
+                $"Multiplier: {FormatSignedPercent(from.Multiplier)} → {FormatSignedPercent(to.Multiplier)}");
+        }
 
-        return returnString;
+        if (from.AdditionalBuff != 0 || to.AdditionalBuff != 0)
+        {
+            AppendLine(ref result,
+                $"Additional: {FormatSignedValue(from.AdditionalBuff)} → {FormatSignedValue(to.AdditionalBuff)}");
+        }
+
+        return result;
     }
 
-    public static string SimpleCompareString(Buff fromBuff, Buff toBuff)
+    public static string SimpleCompareString(Buff from, Buff to)
     {
-        string fromBuffBaseBuffPositiveOrNegative = fromBuff.BaseBuff > 0 ? "+" : "";
-        string fromBuffMultiplierBuffPositiveOrNegative = fromBuff.Multiplier > 0 ? "+" : "";
-        string fromBuffAdditionalBuffPositiveOrNegative = fromBuff.AdditionalBuff > 0 ? "+" : "";
+        string result = "";
 
-        string toBuffBaseBuffPositiveOrNegative = toBuff.BaseBuff > 0 ? "+" : "";
-        string toBuffMultiplierBuffPositiveOrNegative = toBuff.Multiplier > 0 ? "+" : "";
-        string toBuffAdditionalBuffPositiveOrNegative = toBuff.AdditionalBuff > 0 ? "+" : "";
+        if (from.BaseBuff != 0 || to.BaseBuff != 0)
+            AppendLine(ref result,
+                $"{FormatSignedValue(from.BaseBuff)} → {FormatSignedValue(to.BaseBuff)}");
 
-        string returnString = "";
+        if (!Mathf.Approximately(from.Multiplier, 0f) || !Mathf.Approximately(to.Multiplier, 0f))
+            AppendLine(ref result,
+                $"{FormatSignedPercent(from.Multiplier)} → {FormatSignedPercent(to.Multiplier)}");
 
-        void AddCarageReturnThenStringIfNotNull(string addString)
-        {
-            if (addString == null || addString == "")
-                return;
+        if (from.AdditionalBuff != 0 || to.AdditionalBuff != 0)
+            AppendLine(ref result,
+                $"{FormatSignedValue(from.AdditionalBuff)} → {FormatSignedValue(to.AdditionalBuff)}");
 
-            if (returnString != "")
-                returnString += "\r\n";
-
-            returnString += addString;
-        }
-
-        string baseString = fromBuff.BaseBuff != 0 || toBuff.BaseBuff != 0 ?
-            $"{fromBuffBaseBuffPositiveOrNegative}{fromBuff.BaseBuff.Value} -> " + $"{toBuffBaseBuffPositiveOrNegative}{toBuff.BaseBuff.Value}"
-            : "";
-
-        string multiplierString = fromBuff.Multiplier != 0 || toBuff.Multiplier != 0 ?
-            $"{fromBuffMultiplierBuffPositiveOrNegative}{fromBuff.Multiplier}% -> " + $"{toBuffMultiplierBuffPositiveOrNegative}{toBuff.Multiplier}%"
-            : "";
-
-        string additionalString = fromBuff.AdditionalBuff != 0 || toBuff.AdditionalBuff != 0 ?
-            $"{fromBuffAdditionalBuffPositiveOrNegative}{fromBuff.AdditionalBuff.Value} -> " + $"{toBuffAdditionalBuffPositiveOrNegative}{toBuff.AdditionalBuff.Value}"
-            : "";
-
-        returnString += baseString;
-
-        AddCarageReturnThenStringIfNotNull(multiplierString);
-
-        AddCarageReturnThenStringIfNotNull(additionalString);
-
-        return returnString;
+        return result;
     }
 
     public string GetDescription()
     {
-        string baseBuffPositiveOrNegative = BaseBuff > 0 ? "+" : "";
-        string multiplierBuffPositiveOrNegative = Multiplier > 0 ? "+" : "";
-        string additionalBuffPositiveOrNegative = AdditionalBuff > 0 ? "+" : "";
+        string result = "";
 
-        string returnString = "";
+        if (BaseBuff != 0)
+            AppendLine(ref result, $"Base: {FormatSignedValue(BaseBuff)}");
 
-        void AddCarageReturn()
-        {
-            if (returnString != "")
-                returnString += "\r\n";
-        }
+        if (!Mathf.Approximately(Multiplier, 0f))
+            AppendLine(ref result, $"Multiplier: {FormatSignedPercent(Multiplier)}");
 
-        returnString = BaseBuff != 0 ? $"Base:{baseBuffPositiveOrNegative}{BaseBuff.Value}" : "";
-        AddCarageReturn();
-        returnString += Multiplier != 0 ? $"Multiplier: {Multiplier}%" : "";
-        AddCarageReturn();
-        returnString += AdditionalBuff != 0 ? $"Additional: {additionalBuffPositiveOrNegative}{AdditionalBuff.Value}" : "";
+        if (AdditionalBuff != 0)
+            AppendLine(ref result, $"Additional: {FormatSignedValue(AdditionalBuff)}");
 
-        return returnString;
+        return result;
     }
+
 
     public string GetSimpleDescription()
     {
-        string baseBuffPositiveOrNegative = BaseBuff > 0 ? "+" : "";
-        string multiplierBuffPositiveOrNegative = Multiplier > 0 ? "+" : "";
-        string additionalBuffPositiveOrNegative = AdditionalBuff > 0 ? "+" : "";
+        string result = "";
 
-        string returnString = "";
+        if (BaseBuff != 0)
+            AppendLine(ref result, FormatSignedValue(BaseBuff));
 
-        void AddCarageReturn()
+        if (!Mathf.Approximately(Multiplier, 0f))
+            AppendLine(ref result, FormatSignedPercent(Multiplier));
+
+        if (AdditionalBuff != 0)
+            AppendLine(ref result, FormatSignedValue(AdditionalBuff));
+
+        return result;
+    }
+
+    public static string CompareStringColoredEditor(Buff from, Buff to)
+    {
+        string result = "";
+
+        if (from.BaseBuff != 0 || to.BaseBuff != 0)
         {
-            if (returnString != "")
-                returnString += "\r\n";
+            string text =
+                $"{FormatSignedValue(from.BaseBuff)} → {FormatSignedValue(to.BaseBuff)}";
+
+            AppendLine(ref result,
+                ArrowCompare(text,
+                    from.BaseBuff.FloatValue,
+                    to.BaseBuff.FloatValue));
         }
 
-        string baseString = BaseBuff != 0 ? $"{baseBuffPositiveOrNegative}{BaseBuff.Value}" : "";
-        string multiplierString = Multiplier != 0 ? $"{multiplierBuffPositiveOrNegative}{Multiplier}%" : "";
-        string additionalString = AdditionalBuff != 0 ? $"{additionalBuffPositiveOrNegative}{AdditionalBuff.Value}" : "";
+        if (!Mathf.Approximately(from.Multiplier, 0f) || !Mathf.Approximately(to.Multiplier, 0f))
+        {
+            string text =
+                $"{FormatSignedPercent(from.Multiplier)} → {FormatSignedPercent(to.Multiplier)}";
 
-        returnString += baseString;
+            AppendLine(ref result,
+                ArrowCompare(text,
+                    from.Multiplier,
+                    to.Multiplier));
+        }
 
-        if(multiplierString != "")
-            AddCarageReturn();
-        returnString += multiplierString;
+        if (from.AdditionalBuff != 0 || to.AdditionalBuff != 0)
+        {
+            string text =
+                $"{FormatSignedValue(from.AdditionalBuff)} → {FormatSignedValue(to.AdditionalBuff)}";
 
-        if(additionalBuff != null)
-            AddCarageReturn();
-        returnString += additionalString;
+            AppendLine(ref result,
+                ArrowCompare(text,
+                    from.AdditionalBuff.FloatValue,
+                    to.AdditionalBuff.FloatValue));
+        }
 
-        return returnString;
-
+        return result;
     }
+
+
+    private static string ArrowCompare(string fromText, float from, float to)
+    {
+        if (Mathf.Approximately(from, to))
+        {
+            return $"<color=#AAAAAA> {fromText}</color>"; // unchanged
+        }
+
+        if (to > from)
+        {
+            return $"<color=#4CAF50>▲ {fromText}</color>"; // increased
+        }
+
+        return $"<color=#F44336>▼ {fromText}</color>";     // decreased
+    }
+
+    private static void AppendLine(ref string target, string line)
+    {
+        if (string.IsNullOrEmpty(line))
+            return;
+
+        if (!string.IsNullOrEmpty(target))
+            target += "\r\n";
+
+        target += line;
+    }
+
+    private static string FormatSignedValue(IntOrFloatObject value)
+    {
+        if (value == 0)
+            return "0";
+
+        return value > 0
+            ? $"+{value.Value}"
+            : value.Value.ToString();
+    }
+
+    private static string FormatSignedPercent(float value)
+    {
+        if (Mathf.Approximately(value, 0f))
+            return "0%";
+
+        return value > 0
+            ? $"+{value}%"
+            : $"{value}%";
+    }
+
     public override string ToString() =>
         $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
 

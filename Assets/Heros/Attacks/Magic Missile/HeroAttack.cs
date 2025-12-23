@@ -6,6 +6,8 @@ namespace Heros
     {
         public HeroAttackSO HeroAttackSO { get; private set; }
 
+        public int Level { private set; get; } = 1;
+
         [SerializeField]
         protected BuffableStat damage;
         [SerializeField]
@@ -67,16 +69,34 @@ namespace Heros
 
         protected abstract void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO);
 
+        protected abstract void InheritLevelSetup();
+
+        public void SetHeroAttackLevel(int level)
+        {
+            Level = Mathf.Clamp(level, 1, HeroAttackSO.MaxLevel);
+
+            damage.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.Damage, Level));
+            attackSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.AttackSpeed, Level));
+            criticalChance.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.CriticalChance, Level));
+            criticalDamageMultiplier.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.CriticalDamageMultiplier, Level));
+            knockback.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.Knockback, Level));
+            size.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.AttackSize, Level));
+
+            InheritLevelSetup();
+        }
+
         public void Setup(HeroSO heroSO, HeroAttackSO heroAttackSO)
         {
             HeroAttackSO = heroAttackSO;
 
-            SetupBuffableStat(ref damage, HeroStats.Damage, heroAttackSO);
-            SetupBuffableStat(ref attackSpeed, HeroStats.AttackSpeed, heroAttackSO);
-            SetupBuffableStat(ref criticalChance, HeroStats.CriticalChance, heroAttackSO);
-            SetupBuffableStat(ref criticalDamageMultiplier, HeroStats.CriticalDamageMultiplier, heroAttackSO);
-            SetupBuffableStat(ref knockback, HeroStats.Knockback, heroAttackSO);
-            SetupBuffableStat(ref size, HeroStats.AttackSize, heroAttackSO);
+            Level = 1;
+
+            SetupBuffableStat(ref damage, HeroStats.Damage);
+            SetupBuffableStat(ref attackSpeed, HeroStats.AttackSpeed);
+            SetupBuffableStat(ref criticalChance, HeroStats.CriticalChance);
+            SetupBuffableStat(ref criticalDamageMultiplier, HeroStats.CriticalDamageMultiplier);
+            SetupBuffableStat(ref knockback, HeroStats.Knockback);
+            SetupBuffableStat(ref size, HeroStats.AttackSize);
 
             findTargetDistance = heroAttackSO.findTargetDistance;
 
@@ -85,11 +105,11 @@ namespace Heros
             InheritSetup(heroSO, heroAttackSO);
         }
 
-        private void SetupBuffableStat(ref BuffableStat stat, HeroStats heroStats, HeroAttackSO heroAttackSO)
+        protected void SetupBuffableStat(ref BuffableStat stat, HeroStats heroStats)
         {
             stat = new BuffableStat(heroStats.IsIntStat() ? 0 : 0f);
-            stat.AddBuff("Weapon Base", heroAttackSO.GetBuff(heroStats));
-            stat.AddBuff("Hero Base", HeroManager.Instance.Stats.Get(heroStats));
+            stat.AddBuff("Weapon", HeroAttackSO.GetBuff(heroStats, Level));
+            stat.AddBuff("Hero", HeroManager.Instance.Stats.Get(heroStats));
         }
     }
 }

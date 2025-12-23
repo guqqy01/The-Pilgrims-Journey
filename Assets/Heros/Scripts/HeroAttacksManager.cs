@@ -10,6 +10,8 @@ namespace Heros
 {
     public class HeroAttacksManager : Singleton<HeroAttacksManager>
     {
+        private Hero ActiveHero => HeroManager.Instance.ActiveHero;
+
         [SerializeField]
         private Dictionary<HeroAttackSO, HeroAttack> attacks = new Dictionary<HeroAttackSO, HeroAttack>();
 
@@ -40,7 +42,7 @@ namespace Heros
                 return;
             }
 
-            var attack = (HeroAttack)gameObject.AddComponent(heroAttackSO.HeroAttackType);
+            var attack = (HeroAttack)ActiveHero.gameObject.AddComponent(heroAttackSO.HeroAttackType);
             attack.Setup(HeroManager.Instance.heroSO, heroAttackSO);
 
             attacks.Add(heroAttackSO, attack);
@@ -53,6 +55,16 @@ namespace Heros
                 Destroy(heroAttack);
 
                 attacks.Remove(heroAttackSO);
+            }
+        }
+        
+        public void SetHeroAttackLevel(HeroAttackSO heroAttackSO, int level)
+        {
+            Debug.Log($"Setting attack {heroAttackSO.name} to level {level}");
+
+            if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
+            {
+                heroAttack.SetHeroAttackLevel(level);
             }
         }
 
