@@ -151,7 +151,7 @@ namespace LevelingSystem
         public RelicSO RelicSO { get; }
 
         public ScriptableObject Source => RelicSO;
-
+        public Sprite Sprite => RelicSO.Sprite;
         public RelicReward(RelicSO relicSO)
         {
             RelicSO = relicSO;
@@ -173,6 +173,7 @@ namespace LevelingSystem
     public class HeroWeaponReward : ILevelingUpReward
     {
         public HeroAttackSO HeroAttackSO { get; }
+        public Sprite Sprite => HeroAttackSO.icon;
 
         public ScriptableObject Source => HeroAttackSO;
 
@@ -191,6 +192,7 @@ namespace LevelingSystem
     public interface ILevelingUpReward
     {
         ScriptableObject Source { get; }
+        public Sprite Sprite { get; }
         void Apply(int amount);
     }
 }

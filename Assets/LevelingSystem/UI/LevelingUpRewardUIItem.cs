@@ -11,9 +11,9 @@ namespace LevelingSystem.UI
         private ILevelingUpReward reward;
         private int levelsIncrease;
 
-        [SerializeField] private Image relicImage;
-        [SerializeField] private TextMeshProUGUI relicName;
-        [SerializeField] private TextMeshProUGUI statIncrease;
+        [SerializeField] private Image rewardImage;
+        [SerializeField] private TextMeshProUGUI rewardNameText;
+        [SerializeField] private TextMeshProUGUI increaseAmountText;
         [SerializeField] private float spriteSize = 50f;
 
         public System.Action<ILevelingUpReward> onButtonClick;
@@ -36,7 +36,9 @@ namespace LevelingSystem.UI
             // All rewards must expose a source SO
             ScriptableObject source = reward.Source;
 
-            relicName.text = source.name;
+            rewardNameText.text = source.name;
+            rewardImage.sprite = reward.Sprite;
+            rewardImage.NativeRatioScaleToSize(spriteSize);
 
             if (source is RelicSO relicSO)
             {
@@ -53,16 +55,13 @@ namespace LevelingSystem.UI
         // -------------------------
         private void SetupRelicUI(RelicSO relicSO)
         {
-            relicImage.sprite = relicSO.sprite;
-            relicImage.NativeRatioScaleToSize(spriteSize);
-
             StatIncreaseRelicEffect statIncreaseEffect =
                 relicSO.relicEffects.Find(x => x is StatIncreaseRelicEffect)
                 as StatIncreaseRelicEffect;
 
             if (statIncreaseEffect == null)
             {
-                statIncrease.text = string.Empty;
+                increaseAmountText.text = string.Empty;
                 return;
             }
 
@@ -74,7 +73,7 @@ namespace LevelingSystem.UI
             Buff fromBuff = statIncreaseEffect.BuffIncreasePerLevel * currentLevel;
             Buff toBuff = statIncreaseEffect.BuffIncreasePerLevel * (currentLevel + levelsIncrease);
 
-            statIncrease.text =
+            increaseAmountText.text =
                 $"{statIncreaseEffect.StatString}: {Buff.SimpleCompareString(fromBuff, toBuff)}";
         }
 
@@ -83,10 +82,10 @@ namespace LevelingSystem.UI
         // -------------------------
         private void SetupGenericRewardUI(ScriptableObject source)
         {
-            statIncrease.text = $"+{levelsIncrease}";
+            increaseAmountText.text = $"+{levelsIncrease}";
 
-            if (relicImage != null)
-                relicImage.enabled = false;
+            if (rewardImage != null)
+                rewardImage.enabled = false;
         }
     }
 }

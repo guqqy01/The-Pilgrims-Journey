@@ -390,9 +390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fe9f73cc98fd848aa097a330ba5992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.UI.LevelingUpRelicUIItem
-  relicImage: {fileID: 7441414558791517045}
-  relicName: {fileID: 1208071695422310600}
-  statIncrease: {fileID: 950982383888142064}
+  rewardImage: {fileID: 7441414558791517045}
+  rewardNameText: {fileID: 1208071695422310600}
+  increaseAmountText: {fileID: 950982383888142064}
   spriteSize: 30
 --- !u!1 &3041293894503469133
 GameObject:
