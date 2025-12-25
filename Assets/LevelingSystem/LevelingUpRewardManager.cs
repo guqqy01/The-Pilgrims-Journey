@@ -1,79 +1,116 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Relics;
-
+using Heros;
+using Unity.VisualScripting;
+using System.Linq;
 namespace LevelingSystem
 {
     public class LevelingUpRewardManager : Singleton<LevelingUpRewardManager>
     {
-        public delegate void OnShowUI(Dictionary<RelicSO, int> relicSOs);
+        public delegate void OnShowUI(Dictionary<ILevelingUpReward, int> rewards);
         public OnShowUI onShowUI;
 
-        [SerializeField]
-        private WeightedChanceList<RelicSO> unitStatRelics;
-        [SerializeField]
-        private WeightedChanceList<RelicSO> heroStatRelics;
-        [SerializeField]
-        private WeightedChanceList<RelicSO> heroWeaponRelics;
+        [SerializeField] private WeightedChanceList<RelicSO> unitStatRelics;
+        [SerializeField] private WeightedChanceList<RelicSO> heroStatRelics;
+        [SerializeField] private WeightedChanceList<HeroAttackSO> heroWeaponRelics;
 
-        private readonly WeightedChanceList<WeightedChanceList<RelicSO>> relicLists = new WeightedChanceList<WeightedChanceList<RelicSO>>();
+        private int unitWeight = 1;
+        private int heroWeight = 0;
+        private int weaponWeight = 1;
 
-
-        public Dictionary<RelicSO, int> RelicsOfferedAndAmountOfLevelsGained { private set; get; } = new Dictionary<RelicSO, int>();
-
-        private void Awake()
-        {
-            relicLists.Add(unitStatRelics, 1);
-            relicLists.Add(heroStatRelics, 1);
-            relicLists.Add(heroWeaponRelics, 1);
-        }
+        public Dictionary<ILevelingUpReward, int> Rewards { get; private set; } = new();
 
         protected override void CleanUp()
         {
             onShowUI = null;
         }
 
+        private enum RewardPool
+        {
+            Unit,
+            Hero,
+            Weapon
+        }
+
+        private RewardPool GetRandomPool()
+        {
+            WeightedChanceList<RewardPool> pools = new();
+            pools.Add(RewardPool.Unit, unitWeight);
+            pools.Add(RewardPool.Hero, heroWeight);
+            pools.Add(RewardPool.Weapon, weaponWeight);
+
+            RewardPool selected = pools.GetRandom();
+
+            if (selected == RewardPool.Unit) unitWeight = 0;
+            if (selected == RewardPool.Hero) heroWeight = 0;
+            if (selected == RewardPool.Weapon) weaponWeight = 0;
+
+            unitWeight++;
+            //heroWeight++;
+            weaponWeight++;
+
+            return selected;
+        }
+
         public void SetupRelicsChoices()
         {
-            RelicsOfferedAndAmountOfLevelsGained.Clear();
+            Rewards.Clear();
 
-            WeightedChanceList<RelicSO> randomRelicRewards = relicLists.GetRandom();
+            RewardPool pool = GetRandomPool();
 
-            foreach (WeightedChanceObject<WeightedChanceList<RelicSO>> list in relicLists.weightedList)
+            int breaker = 100;
+
+            while (Rewards.Count < OverallStatsManager.Instance.AmountOfRelicToChooseFrom && breaker > 0)
             {
-                if(list.item == randomRelicRewards)
+                ILevelingUpReward reward = pool switch
                 {
-                    relicLists[list.item] = 1;
-                }
-                else
-                {
-                    relicLists[list.item] += 1;
-                }
+                    RewardPool.Unit => new RelicReward(unitStatRelics.GetRandom()),
+                    RewardPool.Hero => new RelicReward(heroStatRelics.GetRandom()),
+                    RewardPool.Weapon => new HeroWeaponReward(heroWeaponRelics.GetRandom()),
+                    _ => null
+                };
+
+                breaker--;
+
+                if (!IsRewardValid(reward))
+                    continue;
+
+                int amount = pool == RewardPool.Weapon ? 1 : GetAmountOfLevelsGained();
+                Rewards.Add(reward, amount);
             }
 
-            while (RelicsOfferedAndAmountOfLevelsGained.Count < OverallStatsManager.Instance.AmountOfRelicToChooseFrom && RelicsOfferedAndAmountOfLevelsGained.Count < unitStatRelics.weightedList.Count)
-            {
-                RelicSO relicSO = randomRelicRewards.GetRandom();
-
-                if(randomRelicRewards == heroWeaponRelics)
-                {
-                    if (!RelicsOfferedAndAmountOfLevelsGained.ContainsKey(relicSO))
-                    {
-                        RelicsOfferedAndAmountOfLevelsGained.Add(relicSO, 1);
-                    }
-                }
-
-                if (!RelicsOfferedAndAmountOfLevelsGained.ContainsKey(relicSO))
-                {
-                    RelicsOfferedAndAmountOfLevelsGained.Add(relicSO, GetAmountOfLevelsGained());
-                }
-            }
-
-            onShowUI?.Invoke(RelicsOfferedAndAmountOfLevelsGained);
-
+            onShowUI?.Invoke(Rewards);
             Time.timeScale = 0f;
         }
 
+        private bool IsRewardValid(ILevelingUpReward reward)
+        {
+            if(reward == null)
+            {
+                return false;
+            }
+
+            if (Rewards.Keys.Select(x => x.Source).Contains(reward.Source))
+            {
+                return false;
+            }
+
+            if(reward is HeroWeaponReward weaponReward)
+            {
+                int currentWeaponLevel = HeroAttacksManager.Instance.GetHeroAttackLevel(weaponReward.HeroAttackSO);
+                if (currentWeaponLevel >= weaponReward.HeroAttackSO.MaxLevel)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public void SelectReward(ILevelingUpReward reward)
+        {
+            reward.Apply(Rewards[reward]);
+            Time.timeScale = 1f;
+        }
         private int GetAmountOfLevelsGained()
         {
             //luck is where on the xAxis the standard deviation curve lies, its it Mathf.Log10'd to stop exponential boosts.
@@ -107,20 +144,54 @@ namespace LevelingSystem
             //Return at least one level increase.
             return Mathf.Max(value, 1);
         }
+    }
 
-        public void SelectRelic(RelicSO relicSO)
+    public class RelicReward : ILevelingUpReward
+    {
+        public RelicSO RelicSO { get; }
+
+        public ScriptableObject Source => RelicSO;
+
+        public RelicReward(RelicSO relicSO)
         {
-            if (RelicManager.Instance.TryGetRelic(relicSO, out Relic relic))
+            RelicSO = relicSO;
+        }
+
+        public void Apply(int amount)
+        {
+            if (RelicManager.Instance.TryGetRelic(RelicSO, out Relic relic))
             {
-                relic.Level += RelicsOfferedAndAmountOfLevelsGained[relicSO];
+                relic.Level += amount;
             }
             else
             {
-                RelicManager.Instance.AddRelic(relicSO, RelicsOfferedAndAmountOfLevelsGained[relicSO]);
+                RelicManager.Instance.AddRelic(RelicSO, amount);
             }
-
-            Time.timeScale = 1f;
         }
+    }
+
+    public class HeroWeaponReward : ILevelingUpReward
+    {
+        public HeroAttackSO HeroAttackSO { get; }
+
+        public ScriptableObject Source => HeroAttackSO;
+
+        public HeroWeaponReward(HeroAttackSO relicSO)
+        {
+            HeroAttackSO = relicSO;
+        }
+
+        public void Apply(int amount)
+        {
+            HeroAttacksManager.Instance.LevelUpOrAddHeroAttack(HeroAttackSO);
+        }
+    }
+
+
+    public interface ILevelingUpReward
+    {
+        ScriptableObject Source { get; }
+        void Apply(int amount);
     }
 }
 

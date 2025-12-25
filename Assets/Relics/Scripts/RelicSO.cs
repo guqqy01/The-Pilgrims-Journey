@@ -1,11 +1,12 @@
+using LevelingSystem;
+using Spells.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using UnityEditor;
-using Spells.UI;
 
 namespace Relics
 {

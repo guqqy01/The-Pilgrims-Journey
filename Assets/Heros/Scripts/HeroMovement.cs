@@ -72,6 +72,11 @@ namespace Heros
             UpdateAnimator(input);
         }
 
+        public void ResetMovement()
+        {
+            overrideMovementToMoveOutOfMap = false;
+        }
+
         public void MoveInDirectionOutOfMap(Direction direction)
         {
             overrideMovementToMoveOutOfMap = true;

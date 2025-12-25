@@ -29,6 +29,12 @@ namespace Heros
                 stats.Get(HeroStats.ShieldCooldown));
         }
 
+        public void ResetHero()
+        {
+            HealthAndShieldManager.Health.ModifyHealth(HealthAndShieldManager.Health.MaxHealth - HealthAndShieldManager.Health.CurrentHealth);
+            HeroMovement.ResetMovement();
+        }
+
     }
 }
 

@@ -1,9 +1,11 @@
-﻿using NUnit.Framework.Internal;
+﻿using LevelingSystem;
+using NUnit.Framework.Internal;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor;
 using UnityEngine;
+
 namespace Heros
 {
     public abstract class HeroAttackSO : ScriptableObject

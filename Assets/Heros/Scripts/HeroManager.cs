@@ -5,6 +5,7 @@ using LocalMap;
 using LevelingSystem;
 using Helper.Wait;
 using Equipment;
+
 namespace Heros
 {
     public class HeroManager : Singleton<HeroManager>, IOnAfterCreateLocalMap
@@ -38,6 +39,9 @@ namespace Heros
             }
         }
 
+        public delegate void OnHeroSpawned(Hero hero);
+        public OnHeroSpawned onHeroSpawned;
+
         private void Awake()
         {
             Stats = new HeroStatContainer(heroSO);
@@ -56,10 +60,15 @@ namespace Heros
         }
 
         public void AfterCreateLocalMap()
-        {
-            RemoveHero();
-
-            SpawnHero();
+        {   
+            if(ActiveHero == null)
+            {
+                SpawnHero();
+            }
+            else 
+            {
+                ResetHero();
+            }
         }
 
         private void RemoveHero()
@@ -80,6 +89,15 @@ namespace Heros
             ActiveHero.Setup(heroSO, Stats);
 
             ActiveHero.HealthAndShieldManager.Health.onDie += OnHeroDie;
+
+            onHeroSpawned?.Invoke(ActiveHero);
+        }
+
+        private void ResetHero()
+        {
+            ActiveHero.transform.position = new Vector2(LocalMapGenerator.Instance.MapSizeX / 2f, LocalMapGenerator.Instance.MapSizeY / 2f);
+
+            ActiveHero.ResetHero();
         }
 
         public void OnHeroDie(Health health)

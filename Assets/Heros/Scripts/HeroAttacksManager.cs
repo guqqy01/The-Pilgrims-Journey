@@ -18,6 +18,11 @@ namespace Heros
         [SerializeField]
         private List<HeroAttackTest> tests = new List<HeroAttackTest>();
 
+        private void Awake()
+        {
+            
+        }
+
         private void Update()
         {
             foreach(HeroAttackTest heroAttackTest in tests)
@@ -29,6 +34,11 @@ namespace Heros
                     AddHeroAttack(heroAttackTest.heroAttackSO);
                 }
             }
+        }
+
+        public bool HasHeroAttack(HeroAttackSO heroAttackSO)
+        {
+            return attacks.ContainsKey(heroAttackSO);
         }
 
         public void AddHeroAttack(HeroAttackSO heroAttackSO)
@@ -58,6 +68,29 @@ namespace Heros
             }
         }
         
+        public int GetHeroAttackLevel(HeroAttackSO heroAttackSO)
+        {
+            if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
+            {
+                return heroAttack.Level;
+            }
+            return 0;
+        }
+
+        public void LevelUpOrAddHeroAttack(HeroAttackSO heroAttackSO)
+        {
+            int heroAttackLevel = GetHeroAttackLevel(heroAttackSO);
+
+            if (heroAttackLevel == 0)
+            {
+                AddHeroAttack(heroAttackSO);
+            }
+            else
+            {
+                SetHeroAttackLevel(heroAttackSO, heroAttackLevel + 1);
+            }
+        }
+
         public void SetHeroAttackLevel(HeroAttackSO heroAttackSO, int level)
         {
             Debug.Log($"Setting attack {heroAttackSO.name} to level {level}");

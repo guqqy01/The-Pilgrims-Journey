@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Relics;
+using LevelingSystem;
 using Relics.UI;
 
 namespace LevelingSystem.UI
@@ -8,12 +8,12 @@ namespace LevelingSystem.UI
     public class LevelingUpRewardUIManager : MonoBehaviour
     {
         [SerializeField]
-        private LevelingUpRelicUIItem levelingUpRelicUIItemPrefab;
+        private LevelingUpRewardUIItem levelingUpRelicUIItemPrefab;
 
-        private List<LevelingUpRelicUIItem> uIItems = new List<LevelingUpRelicUIItem>();
+        private readonly List<LevelingUpRewardUIItem> uiItems = new();
 
         [SerializeField]
-        private Transform uIItemsHolder;
+        private Transform uiItemsHolder;
 
         [SerializeField]
         private GameObject window;
@@ -25,38 +25,35 @@ namespace LevelingSystem.UI
 
         private void OnDestroy()
         {
-            if(LevelingUpRewardManager.Instance != null)
+            if (LevelingUpRewardManager.Instance != null)
                 LevelingUpRewardManager.Instance.onShowUI -= ShowUI;
         }
 
-        public void ShowUI(Dictionary<RelicSO, int> relicSOs)
+        public void ShowUI(Dictionary<ILevelingUpReward, int> rewards)
         {
-            uIItems.DestroyAndClearList();
+            uiItems.DestroyAndClearList();
 
-            foreach (var relic in relicSOs)
+            foreach (var rewardPair in rewards)
             {
-                LevelingUpRelicUIItem uiItem = Instantiate(levelingUpRelicUIItemPrefab, uIItemsHolder);
+                LevelingUpRewardUIItem uiItem =
+                    Instantiate(levelingUpRelicUIItemPrefab, uiItemsHolder);
 
-                uiItem.Setup(relic.Key, relic.Value);
-
+                uiItem.Setup(rewardPair.Key, rewardPair.Value);
                 uiItem.onButtonClick += OnButtonClick;
 
-                uIItems.Add(uiItem);
+                uiItems.Add(uiItem);
             }
 
             BlurBackgroundController.Instance.EnableBlur();
-
             window.SetActive(true);
         }
 
-        private void OnButtonClick(RelicSO relic)
+        private void OnButtonClick(ILevelingUpReward reward)
         {
-            LevelingUpRewardManager.Instance.SelectRelic(relic);
+            LevelingUpRewardManager.Instance.SelectReward(reward);
 
             window.SetActive(false);
-
             BlurBackgroundController.Instance.DisableBlur();
         }
     }
 }
-
