@@ -10,6 +10,8 @@ namespace Heros
 
         public Hero prefab;
 
+        public HeroAttackSO startingAttack;
+
         [Header("Defence")]
         [BuffType(true)]
         public Buff Health;

@@ -30,6 +30,7 @@ namespace LevelingSystem.UI
 
         public void Setup(ILevelingUpReward reward, int levelsIncrease)
         {
+
             this.reward = reward;
             this.levelsIncrease = levelsIncrease;
 
@@ -83,9 +84,6 @@ namespace LevelingSystem.UI
         private void SetupGenericRewardUI(ScriptableObject source)
         {
             increaseAmountText.text = $"+{levelsIncrease}";
-
-            if (rewardImage != null)
-                rewardImage.enabled = false;
         }
     }
 }
