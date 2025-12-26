@@ -27,19 +27,15 @@ namespace Heros
         public delegate void OnHeroAttackLevelChange(HeroAttack heroAttack);
         public OnHeroAttackLevelChange onHeroAttackLevelChange;
 
-        private void Awake()
-        {
-            
-        }
-
         private void Update()
         {
-            foreach(HeroAttackTest heroAttackTest in tests)
+            if(attacks.Count != 0)
+                return;
+
+            foreach (HeroAttackTest heroAttackTest in tests)
             {
                 if (Input.GetKeyDown(heroAttackTest.KeyCode))
                 {
-                    ClearAllAttacks();
-
                     AddHeroAttack(heroAttackTest.heroAttackSO);
                 }
             }
