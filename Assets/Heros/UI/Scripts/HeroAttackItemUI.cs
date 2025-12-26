@@ -20,7 +20,7 @@ public class HeroAttackItemUI : MonoBehaviour
     [SerializeField]
     private Sprite unleveledSprite;
 
-    public void Setup(HeroAttack heroAttack)
+    public void UpdateUI(HeroAttack heroAttack)
     {
         HeroAttackSO heroAttackSO = heroAttack.HeroAttackSO;
 
@@ -41,10 +41,5 @@ public class HeroAttackItemUI : MonoBehaviour
             spawnedLevelImage.sprite = unleveledSprite;
             levelPrefabs.Add(spawnedLevelImage);
         }
-    }
-
-    public void UpdateUI()
-    {
-
     }
 }

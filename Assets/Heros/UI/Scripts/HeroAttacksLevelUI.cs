@@ -1,8 +1,9 @@
+using Helper.Wait;
 using Heros;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroAttacksLevelUI : MonoBehaviour
+public class HeroAttacksLevelUI : Singleton<HeroAttacksLevelUI>
 {
     [SerializeField]
     private HeroAttackItemUI heroAttackItemPrefab;
@@ -12,10 +13,27 @@ public class HeroAttacksLevelUI : MonoBehaviour
 
     private Dictionary<HeroAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<HeroAttack, HeroAttackItemUI>();
 
-    private void Awake()
+    public override void InitiateSingleton()
     {
-        //HeroAttacksManager.Instance.OnAddedHeroAttack += CreateHeroAttackItemUI;
-        //HeroAttacksManager.Instance.OnHeroAttackLevelChange += UpdateHeroAttackItemUI;
+        base.InitiateSingleton();
+        WaitForHelper.WaitForObjectThenPerformAction(() => HeroAttacksManager.Instance, SubscribeToHeroAttacksManager);
+    }
+
+    private void OnDestroy()
+    {
+        if (HeroAttacksManager.Instance == null)
+            return;
+
+        HeroAttacksManager.Instance.onAddHeroAttack -= CreateHeroAttackItemUI;
+        HeroAttacksManager.Instance.onHeroAttackLevelChange -= UpdateHeroAttackItemUI;
+        HeroAttacksManager.Instance.onRemoveHeroAttack -= RemoveHeroAttackItemUI;
+    }
+
+    private void SubscribeToHeroAttacksManager()
+    {
+        HeroAttacksManager.Instance.onAddHeroAttack += CreateHeroAttackItemUI;
+        HeroAttacksManager.Instance.onHeroAttackLevelChange += UpdateHeroAttackItemUI;
+        HeroAttacksManager.Instance.onRemoveHeroAttack += RemoveHeroAttackItemUI;
     }
 
     public void CreateHeroAttackItemUI(HeroAttack heroAttack)
@@ -34,7 +52,7 @@ public class HeroAttacksLevelUI : MonoBehaviour
         }
 
         HeroAttackItemUI heroAttackItemUI = Instantiate(heroAttackItemPrefab, heroAttacksHolderTransform);
-        heroAttackItemUI.Setup(heroAttack);
+        heroAttackItemUI.UpdateUI(heroAttack);
 
 
         heroAttackItemUIs.Add(heroAttack, heroAttackItemUI);
@@ -42,6 +60,12 @@ public class HeroAttacksLevelUI : MonoBehaviour
 
     public void UpdateHeroAttackItemUI(HeroAttack heroAttack)
     {
-        //heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
+        heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
+    }
+
+    public void RemoveHeroAttackItemUI(HeroAttack heroAttack)
+    {
+        Destroy(heroAttackItemUIs[heroAttack].gameObject);
+        heroAttackItemUIs.Remove(heroAttack);
     }
 }

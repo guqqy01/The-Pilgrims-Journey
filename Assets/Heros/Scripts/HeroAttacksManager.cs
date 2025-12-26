@@ -18,6 +18,15 @@ namespace Heros
         [SerializeField]
         private List<HeroAttackTest> tests = new List<HeroAttackTest>();
 
+        public delegate void OnAddHeroAttack(HeroAttack heroAttack);
+        public OnAddHeroAttack onAddHeroAttack;
+
+        public delegate void OnRemoveHeroAttack(HeroAttack heroAttack);
+        public OnAddHeroAttack onRemoveHeroAttack;
+
+        public delegate void OnHeroAttackLevelChange(HeroAttack heroAttack);
+        public OnHeroAttackLevelChange onHeroAttackLevelChange;
+
         private void Awake()
         {
             
@@ -56,12 +65,16 @@ namespace Heros
             attack.Setup(HeroManager.Instance.heroSO, heroAttackSO);
 
             attacks.Add(heroAttackSO, attack);
+
+            onAddHeroAttack?.Invoke(attack);
         }
 
         public void RemoveHeroAttack(HeroAttackSO heroAttackSO)
         {
             if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
             {
+                onRemoveHeroAttack?.Invoke(heroAttack);
+
                 Destroy(heroAttack);
 
                 attacks.Remove(heroAttackSO);
@@ -96,6 +109,8 @@ namespace Heros
             if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
             {
                 heroAttack.SetHeroAttackLevel(level);
+
+                onHeroAttackLevelChange?.Invoke(heroAttack);
             }
         }
 
@@ -103,6 +118,7 @@ namespace Heros
         {
             foreach (var attack in attacks.Values)
             {
+                onRemoveHeroAttack?.Invoke(attack);
                 Destroy(attack);
             }
             attacks.Clear();
