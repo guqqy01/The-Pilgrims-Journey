@@ -43,7 +43,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 5
+        floatValue: 10
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 60
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -223,7 +223,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 10
+        floatValue: 15
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 70
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -313,7 +313,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 15
+        floatValue: 20
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -322,7 +322,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 80
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -403,7 +403,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 20
+        floatValue: 25
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -412,7 +412,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 90
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -469,17 +469,455 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 4
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 4
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 30
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 100
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfProjectiles:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    projectileSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 11
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    projectileTurnSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 3
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 5
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 4.5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 35
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 110
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfProjectiles:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    projectileSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 12
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    projectileTurnSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 3
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 5
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 40
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 120
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfProjectiles:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    projectileSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 13
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    projectileTurnSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 3
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 6
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5.5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 45
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 130
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfProjectiles:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    projectileSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 14
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    projectileTurnSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 3
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 6
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 6
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 50
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 150
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfProjectiles:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    projectileSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 15
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    projectileTurnSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 3
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
   projectilePrefab: {fileID: 4849551019690282387, guid: eb3a5841076484b40b7afc5e8fa1a5ff, type: 3}
-  numberOfProjectiles:
-    Multiplier: 0
-    baseBuff:
-      intValue: 0
-      floatValue: 1
-      isInt: 0
-    additionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
-  projectileSpeed: 6
-  projectileTurnSpeed: 40
   projectileHoming: 1

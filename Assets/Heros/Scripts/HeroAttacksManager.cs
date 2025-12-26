@@ -93,8 +93,6 @@ namespace Heros
 
         public void SetHeroAttackLevel(HeroAttackSO heroAttackSO, int level)
         {
-            Debug.Log($"Setting attack {heroAttackSO.name} to level {level}");
-
             if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
             {
                 heroAttack.SetHeroAttackLevel(level);
