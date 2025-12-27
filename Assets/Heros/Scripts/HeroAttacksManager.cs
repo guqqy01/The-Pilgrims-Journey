@@ -41,6 +41,13 @@ namespace Heros
             }
         }
 
+        private void OnDestroy()
+        {
+            onAddHeroAttack = null;
+            onRemoveHeroAttack = null;
+            onHeroAttackLevelChange = null;
+        }
+
         public bool HasHeroAttack(HeroAttackSO heroAttackSO)
         {
             return attacks.ContainsKey(heroAttackSO);
