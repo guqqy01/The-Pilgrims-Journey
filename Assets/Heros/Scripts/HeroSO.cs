@@ -8,6 +8,8 @@ namespace Heros
         [TextArea()]
         public string Description;
 
+        public Sprite icon;
+
         public Hero prefab;
 
         public HeroAttackSO startingAttack;

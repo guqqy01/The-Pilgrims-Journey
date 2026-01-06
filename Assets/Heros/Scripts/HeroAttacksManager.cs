@@ -15,9 +15,6 @@ namespace Heros
         [SerializeField]
         private Dictionary<HeroAttackSO, HeroAttack> attacks = new Dictionary<HeroAttackSO, HeroAttack>();
 
-        [SerializeField]
-        private List<HeroAttackTest> tests = new List<HeroAttackTest>();
-
         public delegate void OnAddHeroAttack(HeroAttack heroAttack);
         public OnAddHeroAttack onAddHeroAttack;
 
@@ -26,19 +23,11 @@ namespace Heros
 
         public delegate void OnHeroAttackLevelChange(HeroAttack heroAttack);
         public OnHeroAttackLevelChange onHeroAttackLevelChange;
-
+        
         private void Update()
         {
             if(attacks.Count != 0)
                 return;
-
-            foreach (HeroAttackTest heroAttackTest in tests)
-            {
-                if (Input.GetKeyDown(heroAttackTest.KeyCode))
-                {
-                    AddHeroAttack(heroAttackTest.heroAttackSO);
-                }
-            }
         }
 
         private void OnDestroy()
@@ -65,12 +54,14 @@ namespace Heros
             }
 
             var attack = (HeroAttack)ActiveHero.gameObject.AddComponent(heroAttackSO.HeroAttackType);
-            attack.Setup(HeroManager.Instance.heroSO, heroAttackSO);
+            attack.Setup(HeroManager.Instance.HeroSO, heroAttackSO);
 
             attacks.Add(heroAttackSO, attack);
 
             onAddHeroAttack?.Invoke(attack);
         }
+
+        
 
         public void RemoveHeroAttack(HeroAttackSO heroAttackSO)
         {

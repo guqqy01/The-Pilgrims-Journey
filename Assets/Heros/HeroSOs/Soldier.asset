@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Soldier
   m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroSO
   Description: 
+  icon: {fileID: -8476044083614416924, guid: 6104fd19b5e6d1f45b503e10aa48c63a, type: 3}
   prefab: {fileID: 693340296508962407, guid: 02302b97023878740aa00aecc6478a3c, type: 3}
+  startingAttack: {fileID: 11400000, guid: 83a28c63b537ade4fa34867b92157972, type: 2}
   Health:
     Multiplier: 0
     baseBuff:
@@ -124,7 +126,7 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       isInt: 0
-  CriticalDamage:
+  CriticalDamageMultiplier:
     Multiplier: 0
     baseBuff:
       intValue: 0
@@ -135,6 +137,36 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   AttackSize:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  Knockback:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ProjectileSpeed:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ProjectileTurnSpeed:
     Multiplier: 0
     baseBuff:
       intValue: 0

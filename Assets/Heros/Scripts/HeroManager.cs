@@ -12,7 +12,7 @@ namespace Heros
     {
         public HeroStatContainer Stats { get; private set; }
 
-        public HeroSO heroSO;
+        public HeroSO HeroSO { private set; get; }
         public Hero ActiveHero { private set; get; }
 
         private HeroStatBuffsManager heroStatsManager;
@@ -42,13 +42,6 @@ namespace Heros
         public delegate void OnHeroSpawned(Hero hero);
         public OnHeroSpawned onHeroSpawned;
 
-        private void Awake()
-        {
-            Stats = new HeroStatContainer(heroSO);
-            WaitForHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
-            WaitForHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
-        }
-
         private void SubscribeToHeroEquipmentManager()
         {
             HeroEquipmentManager.Instance.ApplyEquipmentBuffs();
@@ -59,11 +52,26 @@ namespace Heros
             HeroStatBuffsManager.Instance.Bind(Stats);
         }
 
+        private void SetupHeroAttack()
+        {
+            HeroAttacksManager.Instance.AddHeroAttack(HeroSO.startingAttack);
+        }
+
+        public void SelectHero(HeroSO heroSO)
+        {
+            this.HeroSO = heroSO;
+            
+            Stats = new HeroStatContainer(HeroSO);
+            WaitForHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
+            WaitForHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
+        }
+
         public void AfterCreateLocalMap()
         {   
             if(ActiveHero == null)
             {
                 SpawnHero();
+                WaitForHelper.WaitForObjectThenPerformAction(() => HeroAttacksManager.Instance, SetupHeroAttack);
             }
             else 
             {
@@ -84,9 +92,9 @@ namespace Heros
         {
             Vector2 position = new Vector2(LocalMapGenerator.Instance.MapSizeX / 2f, LocalMapGenerator.Instance.MapSizeY / 2f);
 
-            ActiveHero = Instantiate(heroSO.prefab, position, Quaternion.identity, transform);
+            ActiveHero = Instantiate(HeroSO.prefab, position, Quaternion.identity, transform);
 
-            ActiveHero.Setup(heroSO, Stats);
+            ActiveHero.Setup(HeroSO, Stats);
 
             ActiveHero.HealthAndShieldManager.Health.onDie += OnHeroDie;
 

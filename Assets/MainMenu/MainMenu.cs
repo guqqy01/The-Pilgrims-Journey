@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Monsters;
+using Unity.VisualScripting;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : Singleton<MainMenu>
 {
-    public static MainMenu Instance { private set; get; }
-
     [SerializeField]
     private InputQuery inputQuery;
 
@@ -30,8 +29,6 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         Deactivated = false;
     }
 
@@ -64,6 +61,12 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    private void ShowHeroSelectionScreen()
+    {
+        HeroSelectionWindow.Instance.gameObject.SetActive(true);
+        HeroSelectionWindow.Instance.UpdateUI();
+    }
+
     private void StartNewJourney(bool value)
     {
         if (value)
@@ -73,8 +76,7 @@ public class MainMenu : MonoBehaviour
 
             Deactivated = true;
 
-            GameManager.Instance.StartNewJourney();
-            Time.timeScale = 1.0f;
+            ShowHeroSelectionScreen();
         }
     }
 
