@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecba54c338438d4bb8028f93d8fb4c5, type: 3}
-  m_Name: Soldier
+  m_Name: Mage
   m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroSO
   Description: 
-  icon: {fileID: -8476044083614416924, guid: 6104fd19b5e6d1f45b503e10aa48c63a, type: 3}
+  icon: {fileID: -1555144467586398932, guid: 54fe132b000ca2a49bfa9f5c3fe4920e, type: 3}
   prefab: {fileID: 693340296508962407, guid: 02302b97023878740aa00aecc6478a3c, type: 3}
-  startingAttack: {fileID: 11400000, guid: 83a28c63b537ade4fa34867b92157972, type: 2}
+  startingAttack: {fileID: 11400000, guid: 1abcf1be5389fa444bca511ac29a5216, type: 2}
+  spriteLibrary: {fileID: 7108339969198208228, guid: 793c3ca4aa4b4d4439be56ab162ea9ea, type: 3}
   Health:
     Multiplier: 0
     baseBuff:
-      intValue: 10
+      intValue: 8
       floatValue: 10
       isInt: 1
     additionalBuff:
@@ -50,7 +51,7 @@ MonoBehaviour:
     Multiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 1
+      floatValue: 2
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -97,7 +98,7 @@ MonoBehaviour:
       floatValue: 0
       isInt: 1
   AttackSpeed:
-    Multiplier: 0
+    Multiplier: 20
     baseBuff:
       intValue: 0
       floatValue: 0

@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecba54c338438d4bb8028f93d8fb4c5, type: 3}
+  m_Name: Soldier
+  m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroSO
+  Description: An experienced warrior, swarn to protect the weak.
+  icon: {fileID: -1656002450, guid: 98d64eb89de690d45a4c87cac8d791c7, type: 3}
+  prefab: {fileID: 693340296508962407, guid: 02302b97023878740aa00aecc6478a3c, type: 3}
+  startingAttack: {fileID: 11400000, guid: 83a28c63b537ade4fa34867b92157972, type: 2}
+  spriteLibrary: {fileID: 7108339969198208228, guid: 0a8b6283a16004f4a952387987783bac, type: 3}
+  Health:
+    Multiplier: 0
+    baseBuff:
+      intValue: 10
+      floatValue: 10
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  Shield:
+    Multiplier: 0
+    baseBuff:
+      intValue: 8
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ShieldCooldown:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 4
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ShieldRegeneration:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  MovementSpeed:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 2.5
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  Luck:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ExperienceGain:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  DamageBuff:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  AttackSpeed:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  NumberOfAttacks:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  CriticalChance:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  CriticalDamageMultiplier:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  AttackSize:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  Knockback:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ProjectileSpeed:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ProjectileTurnSpeed:
+    Multiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0

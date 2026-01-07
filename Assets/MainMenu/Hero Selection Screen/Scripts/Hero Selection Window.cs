@@ -3,7 +3,6 @@ using UnityEngine;
 using Heros;
 using Helper.Wait;
 using UnityEngine.UI;
-
 public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
 {
     [HideInInspector]
@@ -15,14 +14,16 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
     [SerializeField]
     private Transform heroSelectionButtonsHolder;
 
-    [SerializeField]
-    private List<HeroSelectionButtonUI> heroSelectionButtonUIs = new List<HeroSelectionButtonUI>();
+    private readonly List<HeroSelectionButtonUI> heroSelectionButtonUIs = new List<HeroSelectionButtonUI>();
 
     [SerializeField]
     private List<HeroSO> heroSOs = new List<HeroSO>();
 
     [SerializeField]
     private Button selectHeroButton;
+
+    [SerializeField]
+    private HeroMainDescriptionSection heroMainDescriptionSection;
 
     public void UpdateUI()
     {
@@ -36,12 +37,15 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
         }
 
         selectHeroButton.interactable = HoveredHeroSO != null;
+
+        UpdateDescriptionUI();
     }
 
     public void HoverHero(HeroSO heroSO)
     {
         HoveredHeroSO = heroSO;
         selectHeroButton.interactable = HoveredHeroSO != null;
+        UpdateDescriptionUI();
     }
 
     public void SelectHoveredHero()
@@ -65,4 +69,35 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
     {
         HeroManager.Instance.SelectHero(heroSO);
     }
+
+    private void UpdateDescriptionUI()
+    {
+        bool hasContent = heroMainDescriptionSection.HasContent(HoveredHeroSO);
+
+        heroMainDescriptionSection.gameObject.SetActive(hasContent);
+
+        if (!hasContent)
+            return;
+
+        heroMainDescriptionSection.Bind(HoveredHeroSO);
+    }
+}
+
+public class HeroWeaponDesciptionSection : MonoBehaviour, IHeroDescriptionSection
+{
+    public void Bind(HeroSO heroSO)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool HasContent(HeroSO heroSO)
+    {
+        throw new System.NotImplementedException();
+    }
+}
+
+public interface IHeroDescriptionSection
+{
+    public void Bind(HeroSO heroSO);
+    public bool HasContent(HeroSO heroSO);
 }

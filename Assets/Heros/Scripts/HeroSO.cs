@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-
+using UnityEngine.U2D.Animation;
 namespace Heros
 {
     [CreateAssetMenu()]
@@ -13,6 +14,8 @@ namespace Heros
         public Hero prefab;
 
         public HeroAttackSO startingAttack;
+
+        public SpriteLibraryAsset spriteLibrary;
 
         [Header("Defence")]
         [BuffType(true)]
@@ -79,5 +82,35 @@ namespace Heros
                 _ => null
             };
         }
+
+        public string GetHeroStatsString()
+        {
+            string str = "";
+            foreach (HeroStats stat in Enum.GetValues(typeof(HeroStats)))
+            {
+                Buff buff = GetBuff(stat);
+
+                string buffDescription =  buff.GetSimpleDescription();
+
+                if (String.IsNullOrEmpty(buffDescription))
+                    continue;
+
+                AppendLine(ref str, stat.ToString() + ": " + buffDescription);
+            }
+
+            return str;
+        }
+
+        private static void AppendLine(ref string target, string line)
+        {
+            if (string.IsNullOrEmpty(line))
+                return;
+
+            if (!string.IsNullOrEmpty(target))
+                target += "\r\n";
+
+            target += line;
+        }
+
     }
 }
