@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Magic Missile
   m_EditorClassIdentifier: Assembly-CSharp::Heros.ProjectileHeroAttackSO
   icon: {fileID: 9064289929049976407, guid: 32834b51f84e10c4b9dfc6b0dd5a5050, type: 3}
-  description: 
+  description: A bolt of magic that targets the closest enemy.
   findTargetDistance: 10
   enemyLayerMask:
     serializedVersion: 2

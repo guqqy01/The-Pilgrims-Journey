@@ -16,6 +16,29 @@ namespace Heros
 
         public abstract Buff GetBuff(HeroStats heroStats, int level);
 
+        public string GetStatsDescription(int level)
+        {
+            string str = "";
+            foreach (HeroStats stat in Enum.GetValues(typeof(HeroStats)))
+            {
+                Buff buff = GetBuff(stat, level);
+
+                if(buff == null)
+                    continue;
+
+                string buffDescription = buff.GetSimpleDescription();
+
+                if (String.IsNullOrEmpty(buffDescription))
+                    continue;
+
+                string buffStr = stat.ToString().AddSpacesBeforeCapsRegex() + ": " + buffDescription;
+
+                buffStr.AppendLineToTarget(ref str);
+            }
+
+            return str;
+        }
+
         public Sprite icon;
 
         [TextArea]
@@ -53,6 +76,7 @@ namespace Heros
         public Buff knockback;
         [BuffType(false)]
         public Buff size;
+
     }
 
     [CustomEditor(typeof(HeroAttackSO), true)]

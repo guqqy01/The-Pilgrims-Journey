@@ -25,6 +25,18 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
     [SerializeField]
     private HeroMainDescriptionSection heroMainDescriptionSection;
 
+    [SerializeField]
+    private HeroWeaponDesciptionSection heroWeaponDesciptionSection;
+
+    [SerializeField]
+    private RectTransform contentTransform;
+
+    public override void InitiateSingleton()
+    {
+        base.InitiateSingleton();
+        gameObject.SetActive(false);
+    }
+
     public void UpdateUI()
     {
         heroSelectionButtonUIs.DestroyAndClearList();
@@ -39,6 +51,8 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
         selectHeroButton.interactable = HoveredHeroSO != null;
 
         UpdateDescriptionUI();
+
+        contentTransform.anchoredPosition = Vector2.zero;
     }
 
     public void HoverHero(HeroSO heroSO)
@@ -72,6 +86,12 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
 
     private void UpdateDescriptionUI()
     {
+        UpdateHeroDescriptionUI();
+        UpdateWeaponDescriptionUI();
+    }
+
+    private void UpdateHeroDescriptionUI()
+    {
         bool hasContent = heroMainDescriptionSection.HasContent(HoveredHeroSO);
 
         heroMainDescriptionSection.gameObject.SetActive(hasContent);
@@ -81,23 +101,16 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
 
         heroMainDescriptionSection.Bind(HoveredHeroSO);
     }
-}
 
-public class HeroWeaponDesciptionSection : MonoBehaviour, IHeroDescriptionSection
-{
-    public void Bind(HeroSO heroSO)
+    private void UpdateWeaponDescriptionUI()
     {
-        throw new System.NotImplementedException();
-    }
+        bool hasContent = heroWeaponDesciptionSection.HasContent(HoveredHeroSO);
 
-    public bool HasContent(HeroSO heroSO)
-    {
-        throw new System.NotImplementedException();
-    }
-}
+        heroWeaponDesciptionSection.gameObject.SetActive(hasContent);
 
-public interface IHeroDescriptionSection
-{
-    public void Bind(HeroSO heroSO);
-    public bool HasContent(HeroSO heroSO);
+        if (!hasContent)
+            return;
+
+        heroWeaponDesciptionSection.Bind(HoveredHeroSO);
+    }
 }

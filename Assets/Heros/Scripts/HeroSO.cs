@@ -90,27 +90,30 @@ namespace Heros
             {
                 Buff buff = GetBuff(stat);
 
-                string buffDescription =  buff.GetSimpleDescription();
+                string buffDescription;
+
+                if (stat == HeroStats.Health || 
+                    stat == HeroStats.Shield || 
+                    stat == HeroStats.MovementSpeed || 
+                    stat == HeroStats.ShieldCooldown ||
+                    stat == HeroStats.ShieldRegeneration)
+                {
+                    buffDescription = buff.GetSimpleDescription();
+                }
+                else
+                {
+                    buffDescription = buff.GetSignedSimpleDescription();
+                }
 
                 if (String.IsNullOrEmpty(buffDescription))
                     continue;
 
-                AppendLine(ref str, stat.ToString() + ": " + buffDescription);
+                string buffStr = stat.ToString().AddSpacesBeforeCapsRegex() + ": " + buffDescription;
+
+                buffStr.AppendLineToTarget(ref str);
             }
 
             return str;
         }
-
-        private static void AppendLine(ref string target, string line)
-        {
-            if (string.IsNullOrEmpty(line))
-                return;
-
-            if (!string.IsNullOrEmpty(target))
-                target += "\r\n";
-
-            target += line;
-        }
-
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Arrow Shot
   m_EditorClassIdentifier: Assembly-CSharp::Heros.ProjectileHeroAttackSO
   icon: {fileID: 1035577215, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: 
+  description: An arrow that shoots through multiple enemies.
   findTargetDistance: 10
   enemyLayerMask:
     serializedVersion: 2
@@ -470,16 +470,4 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
   projectilePrefab: {fileID: 358202956058573000, guid: dc8f85bf4625753438309143272bb1ce, type: 3}
-  numberOfProjectiles:
-    Multiplier: 0
-    baseBuff:
-      intValue: 0
-      floatValue: 2
-      isInt: 0
-    additionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
-  projectileSpeed: 10
-  projectileTurnSpeed: 0
   projectileHoming: 0

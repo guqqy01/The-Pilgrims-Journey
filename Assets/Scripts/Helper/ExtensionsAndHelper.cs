@@ -35,6 +35,17 @@ public static class ExtensionsAndHelper
         GUI.DrawTextureWithTexCoords(rect, texture, uvRect);
     }
 
+    public static void AppendLineToTarget(this string line, ref string target)
+    {
+        if (string.IsNullOrEmpty(line))
+            return;
+
+        if (!string.IsNullOrEmpty(target))
+            target += "\r\n";
+
+        target += line;
+    }
+
     public static List<Vector2> SplitConeDirections(this Vector2 mainDirection, int numOfSplits, float coneAngleRad)
     {
         if(numOfSplits <= 0)

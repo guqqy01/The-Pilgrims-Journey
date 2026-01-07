@@ -11,7 +11,7 @@ namespace Relics
         {
             get
             {
-                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSimpleDescription()}";
+                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSignedSimpleDescription()}";
             }
         }
 

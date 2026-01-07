@@ -163,7 +163,7 @@ public class Buff: IBuffSource
     }
 
 
-    public string GetSimpleDescription()
+    public string GetSignedSimpleDescription()
     {
         string result = "";
 
@@ -175,6 +175,22 @@ public class Buff: IBuffSource
 
         if (AdditionalBuff != 0)
             AppendLine(ref result, FormatSignedValue(AdditionalBuff));
+
+        return result;
+    }
+
+    public string GetSimpleDescription()
+    {
+        string result = "";
+
+        if (BaseBuff != 0)
+            AppendLine(ref result, FormatValue(BaseBuff));
+
+        if (!Mathf.Approximately(Multiplier, 0f))
+            AppendLine(ref result, FormatSignedPercent(Multiplier));
+
+        if (AdditionalBuff != 0)
+            AppendLine(ref result, FormatValue(AdditionalBuff));
 
         return result;
     }
@@ -254,6 +270,11 @@ public class Buff: IBuffSource
         return value > 0
             ? $"+{value.Value}"
             : value.Value.ToString();
+    }
+
+    private static string FormatValue(IntOrFloatObject value)
+    {
+        return value.Value.ToString();
     }
 
     private static string FormatSignedPercent(float value)
