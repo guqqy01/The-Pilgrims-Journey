@@ -16,6 +16,9 @@ namespace Relics
         {
             get
             {
+                if (Relic == null)
+                    return "";
+
                 return $"Gives the units spawned in the first {unitTime} seconds a shield of {shieldAmountPerLevel * Relic.Level}";
             }
         }

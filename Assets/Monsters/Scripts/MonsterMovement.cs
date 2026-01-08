@@ -35,6 +35,9 @@ namespace Monsters
         [SerializeField]
         private MonsterMovementType movementType;
 
+        [SerializeField]
+        private bool mirrorWhenTargetToTheLeft = false;
+
         public override void HandleFixedUpdateMovement()
         {
             switch (movementType)
@@ -82,6 +85,18 @@ namespace Monsters
             {
                 rb.MovePosition(moveVector + rb.position);
             }
+
+            if (visualTransform != null && mirrorWhenTargetToTheLeft)
+            {
+                if (moveVector.x > 0)
+                {
+                    visualTransform.localScale = new Vector3(initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
+                }
+                else
+                {
+                    visualTransform.localScale = new Vector3(-initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
+                }
+            }
         }
 
         private void HandleDirectMovement()
@@ -107,6 +122,18 @@ namespace Monsters
             else
             {
                 rb.MovePosition(moveVector + rb.position);
+            }
+
+            if(visualTransform != null && mirrorWhenTargetToTheLeft)
+            {
+                if (moveVector.x > 0)
+                {
+                    visualTransform.localScale = new Vector3(initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
+                }
+                else
+                {
+                    visualTransform.localScale = new Vector3(-initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
+                }
             }
         }
     }

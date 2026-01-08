@@ -19,7 +19,7 @@ public class MonsterCollisionAttack : MonoBehaviour
         if (!layerMask.ContainsLayer(collision.gameObject.layer))
             return;
 
-        if (!collision.TryGetComponent(out HealthAndShieldManager health))
+        if (!collision.TryGetComponentInParent(out HealthAndShieldManager health))
             return;
 
 

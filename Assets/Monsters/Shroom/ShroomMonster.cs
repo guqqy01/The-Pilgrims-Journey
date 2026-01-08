@@ -50,7 +50,7 @@ namespace Monsters
             {
                 if (1 << colliders[i].gameObject.layer == targetMask)
                 {
-                    if (colliders[i].TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
+                    if (colliders[i].TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
                     {
                         OnHitInfo hitInfo = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized);
 

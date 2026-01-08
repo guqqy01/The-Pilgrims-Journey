@@ -46,6 +46,20 @@ public static class ExtensionsAndHelper
         target += line;
     }
 
+    public static bool TryGetComponentInParent<T>(this Component component, out T outComponent)
+    {
+        outComponent = component.GetComponentInParent<T>();
+
+        return outComponent != null;
+    }
+
+    public static bool TryGetComponentInParent<T>(this GameObject gameObject, out T outComponent)
+    {
+        outComponent = gameObject.GetComponentInParent<T>();
+
+        return outComponent != null;
+    }
+
     public static List<Vector2> SplitConeDirections(this Vector2 mainDirection, int numOfSplits, float coneAngleRad)
     {
         if(numOfSplits <= 0)

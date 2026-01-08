@@ -32,6 +32,9 @@ public class Shield : MonoBehaviour
 
     private readonly Dictionary<string, float> referenceAndTimeToRemoveBuff = new Dictionary<string, float>();
 
+    public delegate void OnShieldRestored();
+    public OnShieldRestored onShieldRestored;
+
     public delegate void OnDestroy();
     public OnDestroy onDestroy;
 
@@ -146,9 +149,14 @@ public class Shield : MonoBehaviour
 
     public void RegenerateShield(int amount)
     {
+        bool shieldRegenerated = CurrentShield == 0 && amount > 0;
+
         CurrentShield = Mathf.Clamp(CurrentShield + amount, 0, MaxShield);
 
         StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Shield, amount, CurrentShield);
+
+        if (shieldRegenerated)
+            onShieldRestored?.Invoke();
 
         onShieldChange?.Invoke(statChangeInfo);
     }

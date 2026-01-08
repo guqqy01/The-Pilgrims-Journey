@@ -32,7 +32,7 @@ public class MeleeAttackSpawn : MonoBehaviour
 
         if (!hitGameObjects.Contains(collision.gameObject) && hitLayerMask.ContainsLayer(collision.gameObject.layer))
         {
-            if(collision.gameObject.TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
+            if(collision.gameObject.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
             {
                 Vector2 hitDirection = collision.transform.position - transform.position;
                 healthAndShieldManager.Damage(damage, hitDirection, knockback);

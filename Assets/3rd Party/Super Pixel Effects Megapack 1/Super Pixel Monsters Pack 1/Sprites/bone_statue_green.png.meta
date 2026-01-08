@@ -1,0 +1,741 @@
+fileFormatVersion: 2
+guid: 56074441a95d243459ef1a7e0ff9c58d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8731343594014785718
+    second: bone_statue_green_0
+  - first:
+      213: 6297002696538634913
+    second: bone_statue_green_1
+  - first:
+      213: -5537207454186388710
+    second: bone_statue_green_2
+  - first:
+      213: 4160799487433709333
+    second: bone_statue_green_3
+  - first:
+      213: -1086146223127108408
+    second: bone_statue_green_4
+  - first:
+      213: -3251314240249410610
+    second: bone_statue_green_5
+  - first:
+      213: -5541900458138484777
+    second: bone_statue_green_6
+  - first:
+      213: 3834507843991239557
+    second: bone_statue_green_7
+  - first:
+      213: 4745837678797239323
+    second: bone_statue_green_8
+  - first:
+      213: -6026319536357074409
+    second: bone_statue_green_9
+  - first:
+      213: -9009171837556212347
+    second: bone_statue_green_10
+  - first:
+      213: 5477116365050061902
+    second: bone_statue_green_11
+  - first:
+      213: 6046520988731785471
+    second: bone_statue_green_12
+  - first:
+      213: -1726804184629382253
+    second: bone_statue_green_13
+  - first:
+      213: 5049705858232212978
+    second: bone_statue_green_14
+  - first:
+      213: 639657296574701931
+    second: bone_statue_green_15
+  - first:
+      213: 6124338804121425938
+    second: bone_statue_green_16
+  - first:
+      213: 7376232137775599954
+    second: bone_statue_green_17
+  - first:
+      213: -4533732409383100442
+    second: bone_statue_green_18
+  - first:
+      213: 3539729326406477099
+    second: bone_statue_green_19
+  - first:
+      213: 8053227120020379703
+    second: bone_statue_green_20
+  - first:
+      213: 5926389681359401306
+    second: bone_statue_green_21
+  - first:
+      213: -6504725684715100454
+    second: bone_statue_green_22
+  - first:
+      213: 7935897880988159131
+    second: bone_statue_green_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bone_statue_green_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 63
+        width: 31
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4fbdda034904d680800000000000000
+      internalID: -8731343594014785718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_1
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 63
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1aabcdce692736750800000000000000
+      internalID: 6297002696538634913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_2
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 63
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1343956823e723b0800000000000000
+      internalID: -5537207454186388710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_3
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 63
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5171d16c6112eb930800000000000000
+      internalID: 4160799487433709333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_4
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 63
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c46064c3cb3de0f0800000000000000
+      internalID: -1086146223127108408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_5
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 63
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecbc3c8bce201e2d0800000000000000
+      internalID: -3251314240249410610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_6
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 63
+        width: 38
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dfb41445e63713b0800000000000000
+      internalID: -5541900458138484777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_7
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 63
+        width: 46
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58bfb896198e63530800000000000000
+      internalID: 3834507843991239557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_8
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 95
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b14bf5e693a9cd140800000000000000
+      internalID: 4745837678797239323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_9
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 95
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71a907c7f463e5ca0800000000000000
+      internalID: -6026319536357074409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_10
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 63
+        width: 57
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58d320642fdf8f280800000000000000
+      internalID: -9009171837556212347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_11
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 63
+        width: 48
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e44a944a050a20c40800000000000000
+      internalID: 5477116365050061902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_12
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 63
+        width: 57
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff04d4cadce89e350800000000000000
+      internalID: 6046520988731785471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_13
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 63
+        width: 53
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 393f18a3eb82908e0800000000000000
+      internalID: -1726804184629382253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_14
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 63
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fdd32c39b8241640800000000000000
+      internalID: 5049705858232212978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_15
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 63
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6162541ce480e800800000000000000
+      internalID: 639657296574701931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 31
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2185cc7b1b50ef450800000000000000
+      internalID: 6124338804121425938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_17
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 15
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2515fe06c04ad5660800000000000000
+      internalID: 7376232137775599954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_18
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 15
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ef5b08f462f411c0800000000000000
+      internalID: -4533732409383100442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_19
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 15
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b25ad7d6115af1130800000000000000
+      internalID: 3539729326406477099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_20
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 15
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7385b58d56fc2cf60800000000000000
+      internalID: 8053227120020379703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_21
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 15
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a51b7fd0404ce3250800000000000000
+      internalID: 5926389681359401306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_22
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 15
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad6623904729ab5a0800000000000000
+      internalID: -6504725684715100454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bone_statue_green_23
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 15
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c031a9319f12e60800000000000000
+      internalID: 7935897880988159131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      bone_statue_green_0: -8731343594014785718
+      bone_statue_green_1: 6297002696538634913
+      bone_statue_green_10: -9009171837556212347
+      bone_statue_green_11: 5477116365050061902
+      bone_statue_green_12: 6046520988731785471
+      bone_statue_green_13: -1726804184629382253
+      bone_statue_green_14: 5049705858232212978
+      bone_statue_green_15: 639657296574701931
+      bone_statue_green_16: 6124338804121425938
+      bone_statue_green_17: 7376232137775599954
+      bone_statue_green_18: -4533732409383100442
+      bone_statue_green_19: 3539729326406477099
+      bone_statue_green_2: -5537207454186388710
+      bone_statue_green_20: 8053227120020379703
+      bone_statue_green_21: 5926389681359401306
+      bone_statue_green_22: -6504725684715100454
+      bone_statue_green_23: 7935897880988159131
+      bone_statue_green_3: 4160799487433709333
+      bone_statue_green_4: -1086146223127108408
+      bone_statue_green_5: -3251314240249410610
+      bone_statue_green_6: -5541900458138484777
+      bone_statue_green_7: 3834507843991239557
+      bone_statue_green_8: 4745837678797239323
+      bone_statue_green_9: -6026319536357074409
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

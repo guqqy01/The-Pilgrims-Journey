@@ -149,6 +149,58 @@ MonoBehaviour:
     monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
     minSpawnDistance: 10
     maxSpawnDistance: 30
+  - range: 1
+    maxAmountVSLevel:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 3
+        inSlope: 4.85
+        outSlope: 4.85
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 20
+        value: 100
+        inSlope: 4.85
+        outSlope: 4.85
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    spawnRateVSLevel:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 3
+        inSlope: -0.3996191
+        outSlope: -0.3996191
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.04333334
+      - serializedVersion: 3
+        time: 20
+        value: 0.2
+        inSlope: -0.010704133
+        outSlope: -0.010704133
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.18666668
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+    minSpawnDistance: 15
+    maxSpawnDistance: 30
   bossMonsters:
   - range: 6
     boss: {fileID: 11400000, guid: fd2edaadc12841c41955b9d132cca146, type: 2}
@@ -158,13 +210,22 @@ MonoBehaviour:
     - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
       count: 20
       range: 5
+    - monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+      count: 1
+      range: 10
   - triggerTime: 40
     entries:
     - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
       count: 40
       range: 5
+    - monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+      count: 2
+      range: 10
   - triggerTime: 100
     entries:
     - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
       count: 80
       range: 5
+    - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+      count: 6
+      range: 10

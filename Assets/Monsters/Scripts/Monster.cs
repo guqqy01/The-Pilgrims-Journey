@@ -42,7 +42,7 @@ namespace Monsters
         }
 
         private HealthAndShieldManager healthAndShieldManager;
-        private HealthAndShieldManager HealthAndShieldManager
+        public HealthAndShieldManager HealthAndShieldManager
         {
             get
             {
@@ -159,8 +159,12 @@ namespace Monsters
             Shocked = false;
             if(ani != null)
                 ani.speed = 1f;
-            MonsterMat.SetFloat("_EffectAmount", 0);
-            MonsterMat.SetColor("_Tint", Color.white);
+
+            if(MonsterMat != null)
+            {
+                MonsterMat.SetFloat("_EffectAmount", 0);
+                MonsterMat.SetColor("_Tint", Color.white);
+            }
         }
 
         protected abstract void ShockEffect(float shockTime);

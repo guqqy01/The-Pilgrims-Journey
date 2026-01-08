@@ -1,0 +1,741 @@
+fileFormatVersion: 2
+guid: 5359e0c9b4418ea4e9028a3127f386e5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9212571211283444218
+    second: demon_eye_blue_0
+  - first:
+      213: 3205166239083540488
+    second: demon_eye_blue_1
+  - first:
+      213: 5648529471736706295
+    second: demon_eye_blue_2
+  - first:
+      213: -7930678698013165086
+    second: demon_eye_blue_3
+  - first:
+      213: 8223131173972918978
+    second: demon_eye_blue_4
+  - first:
+      213: 2230537074472051256
+    second: demon_eye_blue_5
+  - first:
+      213: -8070711390270116296
+    second: demon_eye_blue_6
+  - first:
+      213: 1411131403098807659
+    second: demon_eye_blue_7
+  - first:
+      213: -2947000420386124287
+    second: demon_eye_blue_8
+  - first:
+      213: 7534739984613671801
+    second: demon_eye_blue_9
+  - first:
+      213: -7361939820820946172
+    second: demon_eye_blue_10
+  - first:
+      213: 6861437168295931331
+    second: demon_eye_blue_11
+  - first:
+      213: 1310702739934206373
+    second: demon_eye_blue_12
+  - first:
+      213: -4142647785870161903
+    second: demon_eye_blue_13
+  - first:
+      213: 2551653613857913173
+    second: demon_eye_blue_14
+  - first:
+      213: -7471043473828551953
+    second: demon_eye_blue_15
+  - first:
+      213: -3508114814678849154
+    second: demon_eye_blue_16
+  - first:
+      213: -7438903906030154630
+    second: demon_eye_blue_17
+  - first:
+      213: 6502150438152173101
+    second: demon_eye_blue_18
+  - first:
+      213: -4095947560392758738
+    second: demon_eye_blue_19
+  - first:
+      213: -2975096912007732536
+    second: demon_eye_blue_20
+  - first:
+      213: -5211510050974473342
+    second: demon_eye_blue_21
+  - first:
+      213: 5304814792878469421
+    second: demon_eye_blue_22
+  - first:
+      213: -1728133077524623986
+    second: demon_eye_blue_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: demon_eye_blue_0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 85
+        width: 43
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60ec57b2b4f562080800000000000000
+      internalID: -9212571211283444218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_1
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 87
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80036a676b90b7c20800000000000000
+      internalID: 3205166239083540488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_2
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 86
+        width: 45
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f4f03a90ab936e40800000000000000
+      internalID: 5648529471736706295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_3
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 86
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e9fa212eb190f190800000000000000
+      internalID: -7930678698013165086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_4
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 87
+        width: 49
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c2c8161c3e6e1270800000000000000
+      internalID: 8223131173972918978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_5
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 84
+        width: 48
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 832ee3eb6a574fe10800000000000000
+      internalID: 2230537074472051256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_6
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 75
+        width: 44
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83e204240c21fff80800000000000000
+      internalID: -8070711390270116296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_7
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 81
+        width: 43
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6d5a1dd888559310800000000000000
+      internalID: 1411131403098807659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_8
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 85
+        width: 43
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10e45f54bb62a17d0800000000000000
+      internalID: -2947000420386124287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_9
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 87
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97384d16816c09860800000000000000
+      internalID: 7534739984613671801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_10
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 86
+        width: 45
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4032a2afcb225d990800000000000000
+      internalID: -7361939820820946172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_11
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 86
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cde0f840c8b83f50800000000000000
+      internalID: 6861437168295931331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_12
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 87
+        width: 49
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a9d8e3923d803210800000000000000
+      internalID: 1310702739934206373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_13
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 84
+        width: 48
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11886a599cb5286c0800000000000000
+      internalID: -4142647785870161903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_14
+      rect:
+        serializedVersion: 2
+        x: 903
+        y: 75
+        width: 44
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 559b7db417b496320800000000000000
+      internalID: 2551653613857913173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_15
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 81
+        width: 43
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe2e2f83b85815890800000000000000
+      internalID: -7471043473828551953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_16
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 21
+        width: 43
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7928cfa92ca05fc0800000000000000
+      internalID: -3508114814678849154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_17
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 22
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7c8eca7f44b3c890800000000000000
+      internalID: -7438903906030154630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_18
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 21
+        width: 45
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d26f536af574c3a50800000000000000
+      internalID: 6502150438152173101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_19
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 22
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2a692425654827c0800000000000000
+      internalID: -4095947560392758738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_20
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 23
+        width: 49
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c2ea6b0f1556b6d0800000000000000
+      internalID: -2975096912007732536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_21
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 21
+        width: 48
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 283e94c683ffca7b0800000000000000
+      internalID: -5211510050974473342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_22
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 12
+        width: 44
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2132c0b2fc7e9940800000000000000
+      internalID: 5304814792878469421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_eye_blue_23
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 17
+        width: 43
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8dca8d3f107408e0800000000000000
+      internalID: -1728133077524623986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      demon_eye_blue_0: -9212571211283444218
+      demon_eye_blue_1: 3205166239083540488
+      demon_eye_blue_10: -7361939820820946172
+      demon_eye_blue_11: 6861437168295931331
+      demon_eye_blue_12: 1310702739934206373
+      demon_eye_blue_13: -4142647785870161903
+      demon_eye_blue_14: 2551653613857913173
+      demon_eye_blue_15: -7471043473828551953
+      demon_eye_blue_16: -3508114814678849154
+      demon_eye_blue_17: -7438903906030154630
+      demon_eye_blue_18: 6502150438152173101
+      demon_eye_blue_19: -4095947560392758738
+      demon_eye_blue_2: 5648529471736706295
+      demon_eye_blue_20: -2975096912007732536
+      demon_eye_blue_21: -5211510050974473342
+      demon_eye_blue_22: 5304814792878469421
+      demon_eye_blue_23: -1728133077524623986
+      demon_eye_blue_3: -7930678698013165086
+      demon_eye_blue_4: 8223131173972918978
+      demon_eye_blue_5: 2230537074472051256
+      demon_eye_blue_6: -8070711390270116296
+      demon_eye_blue_7: 1411131403098807659
+      demon_eye_blue_8: -2947000420386124287
+      demon_eye_blue_9: 7534739984613671801
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

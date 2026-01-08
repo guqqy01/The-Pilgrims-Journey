@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Linq;
+using Monsters;
 
 namespace LocalMap
 {
@@ -13,8 +14,17 @@ namespace LocalMap
 
         private readonly Dictionary<int, Dictionary<Vector2Int, int>> rangeAndCoordsAndIndex;
 
-        public WeightMap(int maxRange, int xSize, int ySize)
+        public WeightMap(Pathway pathway, MonsterSpawnSettings monsterSpawnSettings, int xSize, int ySize)
         {
+            int maxRange = 0;
+
+            foreach (var s in monsterSpawnSettings.rangeAndMonster)
+                maxRange = Mathf.Max(maxRange, s.range);
+
+            foreach (var boss in monsterSpawnSettings.bossMonsters)
+                maxRange = Mathf.Max(maxRange, boss.range);
+
+
             rangeAndPoints = new Dictionary<int, MapWeightPoint[]>();
             rangeAndCoordsAndIndex = new Dictionary<int, Dictionary<Vector2Int, int>>();
 
@@ -35,6 +45,34 @@ namespace LocalMap
                 rangeAndPoints.Add(range, points);
                 rangeAndCoordsAndIndex.Add(range, coordsAndIndex);
             }
+
+            for (int x = 0; x < xSize; x++)
+            {
+                for (int y = 0; y < ySize; y++)
+                {
+                    // Skip tiles on path
+                    if (pathway.ContainsStep(x, y))
+                        continue;
+
+                    // Weight is based on proximity to the path
+                    for (int r = 1; r <= maxRange; r++)
+                        this[r, x, y] = 0;
+
+                    for (int dx = -maxRange; dx <= maxRange; dx++)
+                    {
+                        for (int dy = -maxRange; dy <= maxRange; dy++)
+                        {
+                            if (pathway.ContainsStep(x + dx, y + dy))
+                            {
+                                int r = Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dy));
+                                this[r, x, y] += 2 * maxRange - Mathf.Abs(dx) - Mathf.Abs(dy);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Sort();
         }
 
         public List<KeyValuePair<int, List<Vector2Int>>> WeightAndMapPoints(int range)

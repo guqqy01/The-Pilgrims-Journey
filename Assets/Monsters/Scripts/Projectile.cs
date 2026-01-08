@@ -71,7 +71,7 @@ public class Projectile : MonoBehaviour
     {
         if (!hit && layerMask.ContainsLayer(collision.gameObject.layer))
         {
-            if (collision.TryGetComponent(out HealthAndShieldManager healthAndShieldManager) && !hitHealth.Contains(healthAndShieldManager))
+            if (collision.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager) && !hitHealth.Contains(healthAndShieldManager))
             {
                 OnHitInfo info = healthAndShieldManager.Damage(projectileStats.attackStats, (healthAndShieldManager.transform.position - transform.position).normalized);
 
