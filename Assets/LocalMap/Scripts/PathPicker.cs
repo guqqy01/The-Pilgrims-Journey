@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Tiles;
 using GlobalMap;
-using static LocalMap.PathPicker;
+using GameManagerCalls;
 
 namespace LocalMap
 {
@@ -150,6 +150,16 @@ namespace LocalMap
 
                 PickDirection(direction);
             }
+            else if(PickedDirection.HasValue && !MapGenerator.pathway.ToDirections.Contains((Direction)PickedDirection))
+            {
+                Direction direction = pathPickerPoints.Values.ToList()[0];
+
+                PickDirection(direction);
+            }
+            else
+            {
+                PickDirection((Direction)PickedDirection);
+            }
         }
 
 
@@ -165,7 +175,6 @@ namespace LocalMap
             lr.SetPositions(positions);
         }
 
-        
     }
 
 }

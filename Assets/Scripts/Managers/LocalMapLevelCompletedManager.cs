@@ -70,7 +70,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
         if(unitsPassed >= RequiredNumberOfUnitsToPass)
         {
-            MonsterSpawnManager.Instance.StartHorde(20, 60f, true);
+            MonsterSpawnManager.Instance.StartHorde(20, 60f);
         }
         else
         {
