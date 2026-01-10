@@ -34,7 +34,7 @@ public class HealthAndShieldManager : MonoBehaviour
     {
         if (Invunrable && Time.time >= removeInvunrabilityTime)
         {
-            RemoveShock();
+            RemoveInvunrability();
         }
         else if (Invunrable && Time.time >= removeInvunrabilityTime - timeToStartFlickering)
         {
@@ -65,7 +65,7 @@ public class HealthAndShieldManager : MonoBehaviour
         UnitMat.SetColor("_Tint", invunrabilityColor);
     }
 
-    private void RemoveShock()
+    private void RemoveInvunrability()
     {
         Invunrable = false;
 

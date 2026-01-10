@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
     public delegate void OnHit(OnHitInfo hitInfo);
     public OnHit onHit;
 
-    private readonly List<HealthAndShieldManager> hitHealth = new List<HealthAndShieldManager>();
+    private readonly HashSet<HealthAndShieldManager> hitHealth = new HashSet<HealthAndShieldManager>();
      
     private const float projectileLifetime = 20f;
     private float lifeTimeEnd;
@@ -69,20 +69,28 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!hit && layerMask.ContainsLayer(collision.gameObject.layer))
+        if (hit)
+            return;
+
+        if (!layerMask.ContainsLayer(collision.gameObject.layer))
+            return;
+
+        if (!collision.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
+            return;
+
+        if (!hitHealth.Add(healthAndShieldManager))
+            return;
+
+        Vector2 damageDirection = (healthAndShieldManager.transform.position - transform.position).normalized;
+
+        OnHitInfo info = healthAndShieldManager.Damage(projectileStats.attackStats, damageDirection);
+
+        onHit?.Invoke(info);
+
+        if (oneHit)
         {
-            if (collision.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager) && !hitHealth.Contains(healthAndShieldManager))
-            {
-                OnHitInfo info = healthAndShieldManager.Damage(projectileStats.attackStats, (healthAndShieldManager.transform.position - transform.position).normalized);
-
-                onHit?.Invoke(info);
-
-                if (oneHit)
-                {
-                    hit = true;
-                    Destroy(gameObject);
-                }
-            }
+            hit = true;
+            Destroy(gameObject);
         }
     }
 }

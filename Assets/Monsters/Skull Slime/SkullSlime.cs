@@ -4,14 +4,17 @@ namespace Monsters
 {
     public class SkullSlime : Monster
     {
-        string hasShieldString = "HasShield";
+        private static readonly int HasShieldHash = Animator.StringToHash("HasShield");
+        private static readonly int MovingHash = Animator.StringToHash("Moving");
+
+        private bool isMoving;
 
         protected override void Start()
         {
             HealthAndShieldManager.Shield.onDestroy += OnShieldDestroyed;
             HealthAndShieldManager.Shield.onShieldRestored += OnShieldRestored;
 
-            ani.SetBool(hasShieldString, true);
+            ani.SetBool(HasShieldHash, true);
         }
 
         private void OnDestroy()
@@ -27,19 +30,23 @@ namespace Monsters
         {
             base.Update();
 
-            ani.SetBool("Moving", MonsterMovement.HeroMovement != null);
+            bool shouldMove = HeroManager.Instance.ActiveHero != null;
+            if (shouldMove != isMoving)
+            {
+                isMoving = shouldMove;
+                ani.SetBool(MovingHash, isMoving);
+            }
         }
-
         private void OnShieldDestroyed()
         {
-            ani.SetBool(hasShieldString, false);
+            ani.SetBool(HasShieldHash, false);
 
             MonsterMovement.Speed.AddBuff("Exposed", new Buff(-100f, 0f, 0f));
         }
 
         private void OnShieldRestored()
         {
-            ani.SetBool(hasShieldString, true);
+            ani.SetBool(HasShieldHash, true);
 
             MonsterMovement.Speed.RemoveBuff("Exposed");
         }

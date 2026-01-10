@@ -14,7 +14,15 @@ namespace Monsters
 
             HandleStationaryDeath(monster);
 
-            aliveCountByMonster[monster.MonsterSO]--;
+            if (aliveCountByMonster.ContainsKey(monster.MonsterSO))
+            {
+                aliveCountByMonster[monster.MonsterSO]--;
+            }
+            else
+            {
+                Debug.LogWarning($"Monster: {monster.MonsterSO.name}, is not in the aliveCountByMonster Dictionary");
+            }
+            
             Monsters.Remove(monster);
 
             health.onDie -= OnMonsterDie;

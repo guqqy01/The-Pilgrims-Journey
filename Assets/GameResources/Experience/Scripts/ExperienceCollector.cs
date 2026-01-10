@@ -19,6 +19,9 @@ namespace LevelingSystem
 
         private void CollectExperience(ExperienceOrb orb)
         {
+            if (!orb.gameObject.activeInHierarchy)
+                return;
+
             ExperienceAndLevelingManager.Instance.AddExperience(orb.ExperienceAmount);
 
             orb.Release();

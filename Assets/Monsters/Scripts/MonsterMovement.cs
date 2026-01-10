@@ -20,18 +20,6 @@ namespace Monsters
         [SerializeField]
         private float directStoppingDistance;
 
-        private HeroMovement heroMovement;
-        public HeroMovement HeroMovement
-        {
-            get
-            {
-                if(heroMovement == null)
-                    heroMovement = FindFirstObjectByType<HeroMovement>();
-
-                return heroMovement;
-            }
-        }
-
         [SerializeField]
         private MonsterMovementType movementType;
 
@@ -67,17 +55,15 @@ namespace Monsters
 
         private void HandleStationaryMovement()
         {
-            float distance = Vector2.Distance(StationaryPosition, rb.position);
-
-            if (distance == 0)
-                return;
-
             Vector2 toVector = StationaryPosition - rb.position;
-            Vector2 direction = toVector.normalized;
+            float sqrDistance = toVector.sqrMagnitude;
 
+            if (sqrDistance == 0f) return;
+
+            Vector2 direction = toVector / Mathf.Sqrt(sqrDistance); // or just normalized
             Vector2 moveVector = Speed * Time.fixedDeltaTime * direction;
 
-            if(moveVector.sqrMagnitude > distance * distance)
+            if (moveVector.sqrMagnitude >= sqrDistance)
             {
                 rb.MovePosition(StationaryPosition);
             }
@@ -101,12 +87,14 @@ namespace Monsters
 
         private void HandleDirectMovement()
         {
-            if (HeroMovement == null)
+            Hero activeHero = HeroManager.Instance.ActiveHero;
+
+            if (activeHero == null)
                 return;
 
-            Vector2 direction = (HeroMovement.rb.position - rb.position).normalized;
+            Vector3 direction = (activeHero.transform.position - transform.position).normalized;
 
-            Vector2 TargetPosition = rb.position - HeroMovement.rb.position - direction * directStoppingDistance;
+            Vector2 TargetPosition = activeHero.transform.position - direction * directStoppingDistance;
 
             float distance = Vector2.Distance(TargetPosition, rb.position);
 

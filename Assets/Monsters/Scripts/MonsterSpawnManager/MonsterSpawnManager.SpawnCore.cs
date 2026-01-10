@@ -17,6 +17,8 @@ namespace Monsters
 
         private void SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
         {
+            EnsureMonsterTrackingExists(monsterSO);
+
             Monster m = Instantiate(monsterSO.prefab, (Vector3)spawnPos, Quaternion.identity, transform);
             m.Init(monsterSO);
 
@@ -28,6 +30,25 @@ namespace Monsters
 
                 aliveCountByMonster[monsterSO] =
                     aliveCountByMonster.GetValueOrDefault(monsterSO) + 1;
+        }
+
+        private void EnsureMonsterTrackingExists(MonsterSO monster)
+        {
+            if (!aliveCountByMonster.ContainsKey(monster))
+                aliveCountByMonster[monster] = 0;
+
+            if (!nextSpawnTimeByMonster.ContainsKey(monster))
+            {
+                var spawn = monsterSpawnSettings.rangeAndMonster
+                    .Find(s => s.monster == monster);
+
+                float delay = UnityEngine.Random.Range(
+                    0f,
+                    spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
+                );
+
+                nextSpawnTimeByMonster[monster] = Time.time + delay;
+            }
         }
 
         private bool TrySpawnOne(MonsterSpawn spawn)
@@ -149,25 +170,15 @@ namespace Monsters
             }
         }
 
-        private void ResetState()
-        {
-            isSpawning = false;
-
-            occupiedSpots.Clear();
-            Monsters.DestroyAndClearList();
-
-            aliveCountByMonster.Clear();
-            nextSpawnTimeByMonster.Clear();
-
-            nextWaveIndex = 0;
-            hordeActive = false;
-        }
-
+        
         private void DestroyExistingMonsters()
         {
             foreach (var m in Monsters)
             {
                 if (m == null) continue;
+
+                if (m.TryGetComponent(out Health health))
+                    health.onDie -= OnMonsterDie;
 
 #if UNITY_EDITOR
                 if (Application.isPlaying)

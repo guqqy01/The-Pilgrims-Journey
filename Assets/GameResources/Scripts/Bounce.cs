@@ -23,6 +23,8 @@ public class Bounce : MonoBehaviour
 
     private bool bouncing = true;
 
+    public System.Action OnSettled;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -74,6 +76,9 @@ public class Bounce : MonoBehaviour
         bouncing = false;
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0;
+
+        OnSettled?.Invoke();
+        OnSettled = null;
     }
 
     private void DoBounce()

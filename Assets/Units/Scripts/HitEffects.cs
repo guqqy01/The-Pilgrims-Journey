@@ -20,9 +20,6 @@ namespace Units
         private Material unitMat;
         private Color originalColor;
 
-        [SerializeField]
-        private DamagePopup damagePopupPrefab;
-
         private Health health;
 
         private Shield shield;
@@ -62,20 +59,24 @@ namespace Units
 
         public void HitShield(StatChangeInfo shieldChangeInfo)
         {
+            if (shieldChangeInfo.HitInfoType == HitInfoType.Heal)
+                return;
+
             StartCoroutine(FlashMaterial());
 
             if (shieldChangeInfo.HitInfoType != HitInfoType.Damage || shieldChangeInfo.ChangeAmount <= 0)
                 return;
 
-            if(damagePopupPrefab != null)
-            {
-                DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-                damagePopup.Setup(shieldChangeInfo.ChangeAmount, false, shieldChangeInfo.HitDirection);
-            }
+            DamagePopupManager.Instance.SpawnPopup(
+                transform.position,
+                shieldChangeInfo.ChangeAmount,
+                false,
+                shieldChangeInfo.HitDirection
+            );
+            
         }
 
-
-        public void HitHealth(StatChangeInfo healthChangeInfo)
+        private void HitHealth(StatChangeInfo healthChangeInfo)
         {
             if (healthChangeInfo.HitInfoType == HitInfoType.Heal)
                 return;
@@ -86,10 +87,13 @@ namespace Units
             if (healthChangeInfo.HitInfoType != HitInfoType.Damage || healthChangeInfo.ChangeAmount <= 0)
                 return;
 
-            DamagePopup damagePopup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-            damagePopup.Setup(healthChangeInfo.ChangeAmount, true, healthChangeInfo.HitDirection);
+            DamagePopupManager.Instance.SpawnPopup(
+                transform.position,
+                healthChangeInfo.ChangeAmount,
+                true,
+                healthChangeInfo.HitDirection
+            );
         }
-
 
         private IEnumerator SmoothKnockBack(Vector3 direction, float multiplier)
         {

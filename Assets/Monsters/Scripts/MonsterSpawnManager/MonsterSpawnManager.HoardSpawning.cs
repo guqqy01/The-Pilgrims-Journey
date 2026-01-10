@@ -55,8 +55,6 @@ namespace Monsters
                 if(monster.movementType == MonsterMovementType.Stationary)
                     continue;
 
-                EnsureMonsterTrackingExists(monster);
-
                 TrySpawnHordeMonster(monster, side);
             }
         }

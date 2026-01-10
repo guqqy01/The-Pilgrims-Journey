@@ -21,26 +21,22 @@ namespace Monsters
 
         private readonly System.Random seededRandom = new();
 
-        private void EnsureMonsterTrackingExists(MonsterSO monster)
+        private void ResetState()
         {
-            if (!aliveCountByMonster.ContainsKey(monster))
-                aliveCountByMonster[monster] = 0;
+            isSpawning = false;
 
-            if (!nextSpawnTimeByMonster.ContainsKey(monster))
-            {
-                var spawn = monsterSpawnSettings.rangeAndMonster
-                    .Find(s => s.monster == monster);
+            occupiedSpots.Clear();
 
-                float delay = Random.Range(
-                    0f,
-                    spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
-                );
+            DestroyExistingMonsters();
 
-                nextSpawnTimeByMonster[monster] = Time.time + delay;
-            }
+            Monsters.DestroyAndClearList();
+
+            aliveCountByMonster.Clear();
+            nextSpawnTimeByMonster.Clear();
+
+            nextWaveIndex = 0;
+            hordeActive = false;
         }
-
-        
     }
 
 }

@@ -41,14 +41,12 @@ namespace LevelingSystem
         {
             orb.Initialize(experienceValue, this);
 
-            if (orb.TryGetComponent(out Collider2D col))
-                col.enabled = true;
+            orb.Collider2D.enabled = true;
         }
 
         private void OnRelease(ExperienceOrb orb)
         {
-            if (orb.TryGetComponent(out Collider2D col))
-                col.enabled = false;
+            orb.Collider2D.enabled = false;
 
             orb.gameObject.SetActive(false);
             orb.transform.SetParent(parent);
