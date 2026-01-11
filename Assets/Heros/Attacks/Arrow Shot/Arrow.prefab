@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6866783321708335059}
   - component: {fileID: 2872810802686929510}
   - component: {fileID: 358202956058573000}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   oneHit: 0
-  pointInTravelDirection: 1
 --- !u!1 &1929096668613293871
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +95,7 @@ GameObject:
   - component: {fileID: 2519754178065957995}
   - component: {fileID: 1632382629177201262}
   - component: {fileID: 2374018942477804303}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: pj3_arrow_loop_small_red_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

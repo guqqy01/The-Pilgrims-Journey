@@ -2,7 +2,7 @@
 using Units;
 using UnityEngine;
 using System.Collections.Generic;
-
+using System.Linq;
 [RequireComponent(typeof(Collider2D))]
 public class Projectile : MonoBehaviour
 {
@@ -29,7 +29,9 @@ public class Projectile : MonoBehaviour
     private const float projectileLifetime = 20f;
     private float lifeTimeEnd;
 
-    public void Init(ProjectileStats projectileHitStats,bool homing, Vector2 direction, LayerMask layerMask, Transform target = null)
+    private HashSet<HealthAndShieldManager> ignoreExceptions;
+
+    public void Init(ProjectileStats projectileHitStats,bool homing, Vector2 direction, LayerMask layerMask, Transform target = null, params HealthAndShieldManager[] ignoreExceptions)
     {
         projectileStats = projectileHitStats;
         this.homing = homing;
@@ -37,6 +39,8 @@ public class Projectile : MonoBehaviour
         this.direction = direction;
         this.layerMask = layerMask;
         transform.right = direction;
+
+        this.ignoreExceptions = ignoreExceptions.ToHashSet();
     }
 
     private void Awake()
@@ -76,6 +80,9 @@ public class Projectile : MonoBehaviour
             return;
 
         if (!collision.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
+            return;
+
+        if (ignoreExceptions.Contains(healthAndShieldManager))
             return;
 
         if (!hitHealth.Add(healthAndShieldManager))

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 725064352881457791}
   - component: {fileID: 2551612116384175923}
   - component: {fileID: 2072305240618860678}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: pj1_magic_missile_small_red_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 8312906772163267944}
   - component: {fileID: 3724239882864732816}
   - component: {fileID: 4849551019690282387}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Magic Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,4 +196,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.Projectile
   oneHit: 1
-  pointInTravelDirection: 1

@@ -2,6 +2,7 @@ using LocalMap;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace Monsters
 {
@@ -11,11 +12,19 @@ namespace Monsters
     public partial class MonsterSpawnManager
     {
         private bool hordeActive;
+        [Header("Horde")]
+        [SerializeField]
+        private float hordeLength = 30f;
+
         private float hordeEndTime;
         private int hordeMultiplier = 1;
 
+        
         [SerializeField] private float hordeSpawnRate = 0.25f;
         private float nextHordeSpawnTime;
+
+        [SerializeField]
+        private MonsterSO deathMonster;
 
         private void ProcessHordeTimer(float now)
         {
@@ -24,6 +33,8 @@ namespace Monsters
 
             if (now >= hordeEndTime)
             {
+                SpawnMonster(deathMonster, GetAllSideTiles(PathPicker.Instance.PickedDirection.Value.OppositeDirection()).GetRandom());
+
                 hordeActive = false;
                 hordeMultiplier = 1;
                 return;
@@ -36,11 +47,11 @@ namespace Monsters
             }
         }
 
-        public void StartHorde(int multiplier, float duration)
+        public void StartHorde(int multiplier)
         {
             hordeActive = true;
             hordeMultiplier = Mathf.Max(1, multiplier);
-            hordeEndTime = Time.time + duration;
+            hordeEndTime = Time.time + hordeLength;
         }
 
         private void SpawnHordeBatch()

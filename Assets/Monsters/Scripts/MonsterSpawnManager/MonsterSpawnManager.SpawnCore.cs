@@ -42,10 +42,15 @@ namespace Monsters
                 var spawn = monsterSpawnSettings.rangeAndMonster
                     .Find(s => s.monster == monster);
 
-                float delay = UnityEngine.Random.Range(
+                float delay = 0f;
+
+                if(spawn.monster != null)
+                {
+                    delay = UnityEngine.Random.Range(
                     0f,
                     spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
                 );
+                }
 
                 nextSpawnTimeByMonster[monster] = Time.time + delay;
             }

@@ -1,0 +1,96 @@
+using Heros;
+using UnityEngine;
+using UnityEngine.Audio;
+
+namespace Monsters
+{
+    public class Death : Monster
+    {
+        private static readonly int AttackHash = Animator.StringToHash("Attack");
+
+        [SerializeField]
+        private DeathAnimationHelper deathAnimationHelper;
+
+        [SerializeField]
+        private float attackSpeed = 1f;
+
+        [SerializeField]
+        private float projectileSpeed = 5f;
+
+        [SerializeField]
+        private float projectileTurnSpeed = 10f;
+
+        private float nextAttackTime;
+        [SerializeField]
+        private int damage = 1;
+
+        [SerializeField]
+        private float knockbackMultiplier;
+
+        public Projectile projectile;
+
+        private Transform target;
+
+        [SerializeField]
+        private LayerMask attackHitMask;
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (target == null || Vector2.Distance(target.position, transform.position) > range)
+                target = GetClosestTargetInRange();
+
+            if (target != null)
+            {
+                if (Time.time >= nextAttackTime)
+                {
+                    PlayAttackAnimation();
+                }
+            }
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
+            deathAnimationHelper.onAttack += FromAnimatorShootProjectiles;
+
+            deathAnimationHelper.onAttackFinish += OnAttackFinished;
+        }
+
+        protected override void ShockEffect(float shockTime)
+        {
+            
+        }
+
+        public void FromAnimatorShootProjectiles()
+        {
+            if (HeroManager.Instance.ActiveHero == null)
+                return;
+
+            Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
+
+            project.onHit += OnDamageUnit;
+
+            ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+
+            project.Init(projectileStats, false, HeroManager.Instance.ActiveHero.transform.position - transform.position, attackHitMask, null, HealthAndShieldManager);
+        }
+
+        private void PlayAttackAnimation()
+        {
+            ani.SetTrigger(AttackHash);
+
+            MonsterMovement.Moving = false;
+
+            nextAttackTime = Time.time + 1f / attackSpeed;
+        }
+
+        public void OnAttackFinished()
+        {
+            MonsterMovement.Moving = true;
+        }
+    }
+
+}

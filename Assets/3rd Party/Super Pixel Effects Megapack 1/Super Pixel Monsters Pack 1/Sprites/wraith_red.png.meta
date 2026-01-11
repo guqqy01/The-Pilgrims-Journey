@@ -165,7 +165,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -186,7 +186,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -217,12 +217,12 @@ TextureImporter:
       name: wraith_red_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 129
-        width: 67
-        height: 56
+        x: 0
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -239,12 +239,12 @@ TextureImporter:
       name: wraith_red_1
       rect:
         serializedVersion: 2
-        x: 160
-        y: 130
-        width: 65
-        height: 55
+        x: 128
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -261,12 +261,12 @@ TextureImporter:
       name: wraith_red_2
       rect:
         serializedVersion: 2
-        x: 288
-        y: 131
-        width: 65
-        height: 54
+        x: 256
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -283,12 +283,12 @@ TextureImporter:
       name: wraith_red_3
       rect:
         serializedVersion: 2
-        x: 416
-        y: 129
-        width: 64
-        height: 56
+        x: 384
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -305,12 +305,12 @@ TextureImporter:
       name: wraith_red_4
       rect:
         serializedVersion: 2
-        x: 542
-        y: 130
-        width: 60
-        height: 55
+        x: 512
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -327,12 +327,12 @@ TextureImporter:
       name: wraith_red_5
       rect:
         serializedVersion: 2
-        x: 670
-        y: 130
-        width: 54
-        height: 57
+        x: 640
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -349,12 +349,12 @@ TextureImporter:
       name: wraith_red_6
       rect:
         serializedVersion: 2
-        x: 797
-        y: 129
-        width: 55
-        height: 62
+        x: 768
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -371,12 +371,12 @@ TextureImporter:
       name: wraith_red_7
       rect:
         serializedVersion: 2
-        x: 927
-        y: 129
-        width: 53
-        height: 62
+        x: 896
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -393,12 +393,12 @@ TextureImporter:
       name: wraith_red_8
       rect:
         serializedVersion: 2
-        x: 1048
-        y: 130
-        width: 82
-        height: 58
+        x: 1024
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -415,12 +415,12 @@ TextureImporter:
       name: wraith_red_9
       rect:
         serializedVersion: 2
-        x: 1185
-        y: 131
-        width: 81
-        height: 54
+        x: 1152
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -437,12 +437,12 @@ TextureImporter:
       name: wraith_red_10
       rect:
         serializedVersion: 2
-        x: 1313
-        y: 129
-        width: 74
-        height: 56
+        x: 1280
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -459,12 +459,12 @@ TextureImporter:
       name: wraith_red_11
       rect:
         serializedVersion: 2
-        x: 1367
-        y: 143
-        width: 27
-        height: 21
+        x: 1408
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -481,12 +481,12 @@ TextureImporter:
       name: wraith_red_12
       rect:
         serializedVersion: 2
-        x: 1438
-        y: 130
-        width: 77
-        height: 55
+        x: 1536
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -503,12 +503,12 @@ TextureImporter:
       name: wraith_red_13
       rect:
         serializedVersion: 2
-        x: 1493
-        y: 146
-        width: 30
-        height: 18
+        x: 1664
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -525,12 +525,12 @@ TextureImporter:
       name: wraith_red_14
       rect:
         serializedVersion: 2
-        x: 1566
-        y: 130
-        width: 85
-        height: 55
+        x: 1792
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -547,12 +547,12 @@ TextureImporter:
       name: wraith_red_15
       rect:
         serializedVersion: 2
-        x: 1693
-        y: 129
-        width: 75
-        height: 56
+        x: 1920
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -569,12 +569,12 @@ TextureImporter:
       name: wraith_red_16
       rect:
         serializedVersion: 2
-        x: 1818
-        y: 129
-        width: 74
-        height: 56
+        x: 2048
+        y: 128
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -591,12 +591,12 @@ TextureImporter:
       name: wraith_red_17
       rect:
         serializedVersion: 2
-        x: 1946
-        y: 128
-        width: 72
-        height: 57
+        x: 0
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -613,12 +613,12 @@ TextureImporter:
       name: wraith_red_18
       rect:
         serializedVersion: 2
-        x: 2077
-        y: 128
-        width: 63
-        height: 57
+        x: 128
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -635,12 +635,12 @@ TextureImporter:
       name: wraith_red_19
       rect:
         serializedVersion: 2
-        x: 31
-        y: 65
-        width: 67
-        height: 56
+        x: 256
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -657,12 +657,12 @@ TextureImporter:
       name: wraith_red_20
       rect:
         serializedVersion: 2
-        x: 160
-        y: 65
-        width: 66
-        height: 56
+        x: 384
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -679,12 +679,12 @@ TextureImporter:
       name: wraith_red_21
       rect:
         serializedVersion: 2
-        x: 289
-        y: 65
-        width: 65
-        height: 56
+        x: 512
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -701,12 +701,12 @@ TextureImporter:
       name: wraith_red_22
       rect:
         serializedVersion: 2
-        x: 417
+        x: 640
         y: 64
-        width: 65
-        height: 56
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -723,12 +723,12 @@ TextureImporter:
       name: wraith_red_23
       rect:
         serializedVersion: 2
-        x: 542
-        y: 63
-        width: 66
-        height: 56
+        x: 768
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -745,12 +745,12 @@ TextureImporter:
       name: wraith_red_24
       rect:
         serializedVersion: 2
-        x: 670
-        y: 63
-        width: 66
-        height: 56
+        x: 896
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -767,12 +767,12 @@ TextureImporter:
       name: wraith_red_25
       rect:
         serializedVersion: 2
-        x: 797
-        y: 63
-        width: 67
-        height: 56
+        x: 1024
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -789,12 +789,12 @@ TextureImporter:
       name: wraith_red_26
       rect:
         serializedVersion: 2
-        x: 922
-        y: 63
-        width: 70
-        height: 56
+        x: 1152
+        y: 64
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -811,12 +811,12 @@ TextureImporter:
       name: wraith_red_27
       rect:
         serializedVersion: 2
-        x: 1050
-        y: 64
-        width: 72
-        height: 56
+        x: 0
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -833,12 +833,12 @@ TextureImporter:
       name: wraith_red_28
       rect:
         serializedVersion: 2
-        x: 1181
-        y: 64
-        width: 69
-        height: 57
+        x: 128
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -855,12 +855,12 @@ TextureImporter:
       name: wraith_red_29
       rect:
         serializedVersion: 2
-        x: 31
-        y: 1
-        width: 66
-        height: 56
+        x: 256
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -877,12 +877,12 @@ TextureImporter:
       name: wraith_red_30
       rect:
         serializedVersion: 2
-        x: 160
-        y: 2
-        width: 65
-        height: 55
+        x: 384
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -899,12 +899,12 @@ TextureImporter:
       name: wraith_red_31
       rect:
         serializedVersion: 2
-        x: 289
-        y: 3
-        width: 64
-        height: 54
+        x: 512
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -921,12 +921,12 @@ TextureImporter:
       name: wraith_red_32
       rect:
         serializedVersion: 2
-        x: 417
-        y: 1
-        width: 63
-        height: 55
+        x: 640
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -943,12 +943,12 @@ TextureImporter:
       name: wraith_red_33
       rect:
         serializedVersion: 2
-        x: 542
-        y: 2
-        width: 63
-        height: 53
+        x: 768
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -965,12 +965,12 @@ TextureImporter:
       name: wraith_red_34
       rect:
         serializedVersion: 2
-        x: 670
-        y: 2
-        width: 63
-        height: 53
+        x: 896
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -987,12 +987,12 @@ TextureImporter:
       name: wraith_red_35
       rect:
         serializedVersion: 2
-        x: 797
-        y: 1
-        width: 64
-        height: 54
+        x: 1024
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1009,12 +1009,12 @@ TextureImporter:
       name: wraith_red_36
       rect:
         serializedVersion: 2
-        x: 922
-        y: 1
-        width: 67
-        height: 54
+        x: 1152
+        y: 0
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1027,55 +1027,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: wraith_red_37
-      rect:
-        serializedVersion: 2
-        x: 1050
-        y: 0
-        width: 70
-        height: 56
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 92ea665e55da70a00800000000000000
-      internalID: 722736849648791081
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wraith_red_38
-      rect:
-        serializedVersion: 2
-        x: 1181
-        y: 0
-        width: 68
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f8b780c406fbe7cb0800000000000000
-      internalID: -4864240127200167025
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 372fc7952782c2047b4b7c9560cb0a4a
     internalID: 0
     vertices: []
     indices: 
@@ -1083,7 +1039,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":128.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       wraith_red_0: -1273967820952953634
       wraith_red_1: 5619931063449540227
@@ -1116,8 +1074,6 @@ TextureImporter:
       wraith_red_34: -7449434192716811095
       wraith_red_35: -6747208465911627950
       wraith_red_36: -3973085969461856107
-      wraith_red_37: 722736849648791081
-      wraith_red_38: -4864240127200167025
       wraith_red_4: 1516235216278402029
       wraith_red_5: -3761405465132439197
       wraith_red_6: 7572265230214616216

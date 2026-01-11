@@ -710,7 +710,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterSpawnManager
   monsterSpawnSettings: {fileID: 11400000, guid: ccb9129bbe8b5234b8972a5502518280, type: 2}
+  hordeLength: 30
   hordeSpawnRate: 0.25
+  deathMonster: {fileID: 11400000, guid: b83004cec55b653489766104df473f7f, type: 2}
   randomWaveSpawnDelay: 2
   spawnRetryDelay: 0.5
   maxSpawnRetryTime: 5

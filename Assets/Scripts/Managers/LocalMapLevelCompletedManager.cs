@@ -31,6 +31,8 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
     public delegate void RequiredUnitsPassed();
     public RequiredUnitsPassed onRequiredUnitsPassed;
 
+    private bool hoardStarted;
+
     private void Start()
     {
         WaitForHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToEndOfGameCheck, 1f);
@@ -62,6 +64,9 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         if (!tilePlayerFinishedPlaying)
             return;
 
+        if (hoardStarted)
+            return;
+
         //Units on map
         if (UnitSpawningManager.Instance.SpawnedUnits.NotNull().Count() > 0)
         {
@@ -70,7 +75,8 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
         if(unitsPassed >= RequiredNumberOfUnitsToPass)
         {
-            MonsterSpawnManager.Instance.StartHorde(20, 60f);
+            hoardStarted = true;
+            MonsterSpawnManager.Instance.StartHorde(20);
         }
         else
         {
@@ -105,6 +111,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         unitsPassed = 0;
         tilePlayerFinishedPlaying = false;
         CurrentlyPlayingLocalLevel = false;
+        hoardStarted = false;
     }
 
     

@@ -12,7 +12,7 @@ namespace Monsters
 
     public class MonsterMovement : BaseMovement
     {
-        public Vector2Int StationaryPosition;
+        public Vector2Int StationaryPosition { private set; get; }
 
         [SerializeField]
         private LayerMask directTargetLayerMask;
@@ -26,8 +26,13 @@ namespace Monsters
         [SerializeField]
         private bool mirrorWhenTargetToTheLeft = false;
 
+        public bool Moving { set; get; } = true;
+
         public override void HandleFixedUpdateMovement()
         {
+            if (!Moving)
+                return;
+
             switch (movementType)
             {
                 case MonsterMovementType.Stationary:
@@ -45,7 +50,7 @@ namespace Monsters
         }
         private void Start()
         {
-            StationaryPosition =  new Vector2Int(Mathf.RoundToInt(rb.position.x), Mathf.RoundToInt(rb.position.y));
+            StationaryPosition =  new Vector2Int(Mathf.FloorToInt(rb.position.x), Mathf.FloorToInt(rb.position.y));
         }
 
         public void Setup(MonsterSO monsterSO)
