@@ -112,4 +112,22 @@ namespace Heros
             stat.AddBuff("Hero", HeroManager.Instance.Stats.Get(heroStats));
         }
     }
+
+    public class FireCircleHeroAttack : HeroAttack
+    {
+        protected override bool Attack()
+        {
+            
+        }
+
+        protected override void InheritLevelSetup()
+        {
+            
+        }
+
+        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        {
+            
+        }
+    }
 }

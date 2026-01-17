@@ -5,8 +5,6 @@ namespace Heros
     public class MeleeHeroAttack : HeroAttack
     {
         private HeroMovement heroMovement;
-
-        [SerializeField]
         private MeleeAttackSpawn meleeAttackPrefab;
 
         private void Awake()

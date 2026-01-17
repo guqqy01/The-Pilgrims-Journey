@@ -1026,7 +1026,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: c3ff552e93f5ea0c
+  m_ApplyToSortingLayers: c3ff552e93f5ea0c00000000
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1763,8 +1763,66 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 9
   m_TargetDisplay: 0
+--- !u!1001 &5374757811373747707
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1715.2704
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 698.0852
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281194753464465041, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7661504601724314130, guid: c570671a2fde41447801665e8385d66d, type: 3}
+      propertyPath: m_Name
+      value: Fire Circle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c570671a2fde41447801665e8385d66d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1895229814}
+  - {fileID: 5374757811373747707}
