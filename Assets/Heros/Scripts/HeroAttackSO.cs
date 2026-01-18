@@ -78,6 +78,12 @@ namespace Heros
         public Buff size;
 
     }
+    [Serializable]
+    public class OrbitalWeaponStatsAtLevel : WeaponStatsAtLevel
+    {
+        public Buff numberOfOrbitals;
+        public Buff orbitalSpeed;
+    }
 
     [CustomEditor(typeof(HeroAttackSO), true)]
     public class HeroAttackEditor : Editor

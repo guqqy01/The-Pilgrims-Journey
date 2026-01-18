@@ -10,27 +10,31 @@ public class MeleeAttackSpawn : MonoBehaviour
 
     private readonly List<GameObject> hitGameObjects = new List<GameObject>();
 
-    int damage;
-    float knockback;
+    private int damage;
+    private float knockback;
 
-    public void Init(int damage, float knockbackMultiplier = 0f)
+    private bool destroyProjectiles;
+
+    public void Init(int damage, bool destroyProjectiles, float knockbackMultiplier = 0f)
     {
         this.damage = damage;
+        this.destroyProjectiles = destroyProjectiles;
         knockback = knockbackMultiplier;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (hitLayerMask.ContainsLayer(collision.gameObject.layer))
+        if (!hitLayerMask.ContainsLayer(collision.gameObject.layer))
+            return;
+
+        if (destroyProjectiles && collision.gameObject.TryGetComponent(out Projectile projectile))
         {
-            if (collision.gameObject.TryGetComponent(out Projectile projectile))
-            {
-                Destroy(projectile.gameObject);
-                return;
-            }
+            Destroy(projectile.gameObject);
+            return;
         }
 
-        if (!hitGameObjects.Contains(collision.gameObject) && hitLayerMask.ContainsLayer(collision.gameObject.layer))
+        if (!hitGameObjects.Contains(collision.gameObject))
         {
             if(collision.gameObject.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
             {

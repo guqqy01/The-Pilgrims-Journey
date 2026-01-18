@@ -27,7 +27,7 @@ namespace Heros
                 HeroStats.CriticalChance => projectileWeaponStatsAtLevels[level - 1].criticalChance,
                 HeroStats.CriticalDamageMultiplier => projectileWeaponStatsAtLevels[level - 1].criticalDamageMultiplier,
                 HeroStats.Knockback => projectileWeaponStatsAtLevels[level - 1].knockback,
-                HeroStats.NumberOfProjectiles => projectileWeaponStatsAtLevels[level - 1].numberOfProjectiles,
+                HeroStats.NumberOfAttacks => projectileWeaponStatsAtLevels[level - 1].numberOfProjectiles,
                 HeroStats.AttackSize => projectileWeaponStatsAtLevels[level - 1].size,
                 HeroStats.ProjectileSpeed => projectileWeaponStatsAtLevels[level - 1].projectileSpeed,
                 HeroStats.ProjectileTurnSpeed => projectileWeaponStatsAtLevels[level - 1].projectileTurnSpeed,

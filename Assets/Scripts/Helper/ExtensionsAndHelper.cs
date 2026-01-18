@@ -121,7 +121,7 @@ public static class ExtensionsAndHelper
             HeroStats.Health => true,
             HeroStats.Shield => true,
             HeroStats.Damage => true,
-            HeroStats.NumberOfProjectiles => true,
+            HeroStats.NumberOfAttacks => true,
 
             _ => false,
         };
@@ -190,7 +190,11 @@ public static class ExtensionsAndHelper
     {
         return (layerMask & (1 << layer)) != 0;
     }
-    
+
+    public static int NotNullCount<T>(this IEnumerable<T> list)
+    {
+        return list.Count(x => x != null);
+    }
     public static object GetRandom(this System.Array array)
     {
         return array.GetValue(Random.Range(0, array.Length));

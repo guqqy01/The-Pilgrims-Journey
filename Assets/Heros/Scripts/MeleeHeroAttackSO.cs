@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.VolumeComponent;
 
 namespace Heros
 {
@@ -15,29 +14,8 @@ namespace Heros
 
         public MeleeAttackSpawn meleeAttackSpawn;
 
-        public override Buff GetBuff(HeroStats heroStats, int level)
-        {
-            int index = level - 1;
-            return heroStats switch
-            {
-                HeroStats.Damage => weaponStats[index].damage,
-                HeroStats.AttackSpeed => weaponStats[index].attackSpeed,
-                HeroStats.CriticalChance => weaponStats[index].criticalChance,
-                HeroStats.CriticalDamageMultiplier => weaponStats[index].criticalDamageMultiplier,
-                HeroStats.Knockback => weaponStats[index].knockback,
-                HeroStats.AttackSize => weaponStats[index].size,
-                _ => null,
-            };
-        }
-    }
+        public bool destroyProjectiles;
 
-    public class FireCircleHeroAttackSO : HeroAttackSO
-    {
-        public override Type HeroAttackType => typeof(FireCircleHeroAttack);
-        [SerializeField]
-        private List<WeaponStatsAtLevel> weaponStats = new List<WeaponStatsAtLevel>();
-        public override List<WeaponStatsAtLevel> WeaponStats => weaponStats;
-        public FireCircleAttackSpawn fireCircleAttackSpawn;
         public override Buff GetBuff(HeroStats heroStats, int level)
         {
             int index = level - 1;

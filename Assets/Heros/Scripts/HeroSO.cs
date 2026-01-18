@@ -72,7 +72,7 @@ namespace Heros
                 HeroStats.Damage => DamageBuff,
                 HeroStats.AttackSpeed => AttackSpeed,
 
-                HeroStats.NumberOfProjectiles => NumberOfAttacks,
+                HeroStats.NumberOfAttacks => NumberOfAttacks,
                 HeroStats.CriticalChance => CriticalChance,
                 HeroStats.CriticalDamageMultiplier => CriticalDamageMultiplier,
                 HeroStats.AttackSize => AttackSize,

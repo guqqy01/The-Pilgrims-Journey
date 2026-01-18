@@ -6,6 +6,8 @@ namespace Heros
     {
         private HeroMovement heroMovement;
         private MeleeAttackSpawn meleeAttackPrefab;
+        private bool destroyProjectiles;
+
 
         private void Awake()
         {
@@ -37,7 +39,7 @@ namespace Heros
 
             var attack = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
 
-            attack.Init(damage, knockback);
+            attack.Init(damage, destroyProjectiles, knockback);
 
             return true;
         }
@@ -50,6 +52,7 @@ namespace Heros
             }
 
             meleeAttackPrefab = meleeAttack.meleeAttackSpawn;
+            destroyProjectiles = meleeAttack.destroyProjectiles;
         }
 
         protected override void InheritLevelSetup()

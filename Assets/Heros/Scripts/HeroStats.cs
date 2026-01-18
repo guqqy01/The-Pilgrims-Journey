@@ -14,7 +14,7 @@
         //Attack
         AttackSpeed,
         Damage,
-        NumberOfProjectiles,
+        NumberOfAttacks,
         CriticalChance,
         CriticalDamageMultiplier,
         AttackSize,

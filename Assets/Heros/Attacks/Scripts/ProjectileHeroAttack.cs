@@ -87,7 +87,7 @@ namespace Heros
             if (heroAttackSO is not ProjectileHeroAttackSO projectileHeroAttackSO)
                 return;
 
-            SetupBuffableStat(ref numberOfProjectiles, HeroStats.NumberOfProjectiles);
+            SetupBuffableStat(ref numberOfProjectiles, HeroStats.NumberOfAttacks);
             SetupBuffableStat(ref projectileSpeed, HeroStats.ProjectileSpeed);
             SetupBuffableStat(ref projectileTurnSpeed, HeroStats.ProjectileTurnSpeed);
 
@@ -98,7 +98,7 @@ namespace Heros
 
         protected override void InheritLevelSetup()
         {
-            numberOfProjectiles.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.NumberOfProjectiles, Level));
+            numberOfProjectiles.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.NumberOfAttacks, Level));
             projectileSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileSpeed, Level));
             projectileTurnSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileTurnSpeed, Level));
         }

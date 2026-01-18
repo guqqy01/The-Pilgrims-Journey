@@ -62,7 +62,7 @@ public class HeroStatsUI : MonoBehaviour
 
         DamageText.text = "Damage Buff: " + ((int)HeroStatContainer.Get(HeroStats.Damage)).ToString();
         AttackSpeedText.text = "Attack Speed: " + ((float)HeroStatContainer.Get(HeroStats.AttackSpeed)).ToString();
-        NumberOfProjectilesText.text = "Number of Projectiles: " + ((int)HeroStatContainer.Get(HeroStats.NumberOfProjectiles)).ToString();
+        NumberOfProjectilesText.text = "Number of Projectiles: " + ((int)HeroStatContainer.Get(HeroStats.NumberOfAttacks)).ToString();
         CriticalChanceText.text = "Critical Chance: " + ((float)HeroStatContainer.Get(HeroStats.CriticalChance)).ToString() + "%";
         CriticalDamageText.text = "Critical Damage: " + ((float)HeroStatContainer.Get(HeroStats.CriticalDamageMultiplier)).ToString() + "%";
         SizeText.text = "Attack Size: " + ((float)HeroStatContainer.Get(HeroStats.AttackSize)).ToString();

@@ -14,7 +14,7 @@ public class BuffPropertyDrawer : PropertyDrawer
     private static readonly Dictionary<Type, Func<int, bool>> EnumMappings =
     new Dictionary<Type, Func<int, bool>> {
         { typeof(UnitStatsEnum), index => index == (int)UnitStatsEnum.Health || index == (int)UnitStatsEnum.Shield },
-        { typeof(HeroStats), index => index == (int)HeroStats.Health || index == (int)HeroStats.Shield || index == (int)HeroStats.Damage || index == (int)HeroStats.NumberOfProjectiles }
+        { typeof(HeroStats), index => index == (int)HeroStats.Health || index == (int)HeroStats.Shield || index == (int)HeroStats.Damage || index == (int)HeroStats.NumberOfAttacks }
     };
 
 

@@ -60,9 +60,14 @@ namespace Heros
             {
                 if (Attack())
                 {
-                    nextAttackTime = Time.time + Cooldown;
+                    ResetAttackTimer();
                 }
             }
+        }
+
+        protected void ResetAttackTimer()
+        {
+            nextAttackTime = Time.time + Cooldown;
         }
 
         protected abstract bool Attack();
@@ -110,24 +115,6 @@ namespace Heros
             stat = new BuffableStat(heroStats.IsIntStat() ? 0 : 0f);
             stat.AddBuff("Weapon", HeroAttackSO.GetBuff(heroStats, Level));
             stat.AddBuff("Hero", HeroManager.Instance.Stats.Get(heroStats));
-        }
-    }
-
-    public class FireCircleHeroAttack : HeroAttack
-    {
-        protected override bool Attack()
-        {
-            
-        }
-
-        protected override void InheritLevelSetup()
-        {
-            
-        }
-
-        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
-        {
-            
         }
     }
 }
