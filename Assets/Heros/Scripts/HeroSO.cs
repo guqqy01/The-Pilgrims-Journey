@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
+using Heros.Attacks;
+
 namespace Heros
 {
     [CreateAssetMenu()]

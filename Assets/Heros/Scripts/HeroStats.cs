@@ -21,6 +21,9 @@
         Knockback,
         ProjectileSpeed,
         ProjectileTurnSpeed,
+
+        Accuracy,
+        AttackDurability,
     }
 }
 

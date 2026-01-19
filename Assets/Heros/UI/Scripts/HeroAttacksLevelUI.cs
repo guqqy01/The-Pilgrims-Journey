@@ -3,69 +3,73 @@ using Heros;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroAttacksLevelUI : Singleton<HeroAttacksLevelUI>
+namespace Heros.Attacks.UI
 {
-    [SerializeField]
-    private HeroAttackItemUI heroAttackItemPrefab;
-
-    [SerializeField]
-    private Transform heroAttacksHolderTransform;
-
-    private Dictionary<HeroAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<HeroAttack, HeroAttackItemUI>();
-
-    public override void InitiateSingleton()
+    public class HeroAttacksLevelUI : Singleton<HeroAttacksLevelUI>
     {
-        base.InitiateSingleton();
-        WaitForHelper.WaitForObjectThenPerformAction(() => HeroAttacksManager.Instance, SubscribeToHeroAttacksManager);
-    }
+        [SerializeField]
+        private HeroAttackItemUI heroAttackItemPrefab;
 
-    private void OnDestroy()
-    {
-        if (HeroAttacksManager.Instance == null)
-            return;
+        [SerializeField]
+        private Transform heroAttacksHolderTransform;
 
-        HeroAttacksManager.Instance.onAddHeroAttack -= CreateHeroAttackItemUI;
-        HeroAttacksManager.Instance.onHeroAttackLevelChange -= UpdateHeroAttackItemUI;
-        HeroAttacksManager.Instance.onRemoveHeroAttack -= RemoveHeroAttackItemUI;
-    }
+        private Dictionary<HeroAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<HeroAttack, HeroAttackItemUI>();
 
-    private void SubscribeToHeroAttacksManager()
-    {
-        HeroAttacksManager.Instance.onAddHeroAttack += CreateHeroAttackItemUI;
-        HeroAttacksManager.Instance.onHeroAttackLevelChange += UpdateHeroAttackItemUI;
-        HeroAttacksManager.Instance.onRemoveHeroAttack += RemoveHeroAttackItemUI;
-    }
-
-    public void CreateHeroAttackItemUI(HeroAttack heroAttack)
-    {
-        if(heroAttackItemUIs.ContainsKey(heroAttack))
+        public override void InitiateSingleton()
         {
-            if(heroAttackItemUIs[heroAttack] != null)
-            {
-                UpdateHeroAttackItemUI(heroAttack);
-                return;
-            }
-            else
-            {
-                heroAttackItemUIs.Remove(heroAttack);
-            }
+            base.InitiateSingleton();
+            WaitForHelper.WaitForObjectThenPerformAction(() => HeroAttacksManager.Instance, SubscribeToHeroAttacksManager);
         }
 
-        HeroAttackItemUI heroAttackItemUI = Instantiate(heroAttackItemPrefab, heroAttacksHolderTransform);
-        heroAttackItemUI.UpdateUI(heroAttack);
+        private void OnDestroy()
+        {
+            if (HeroAttacksManager.Instance == null)
+                return;
+
+            HeroAttacksManager.Instance.onAddHeroAttack -= CreateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onHeroAttackLevelChange -= UpdateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onRemoveHeroAttack -= RemoveHeroAttackItemUI;
+        }
+
+        private void SubscribeToHeroAttacksManager()
+        {
+            HeroAttacksManager.Instance.onAddHeroAttack += CreateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onHeroAttackLevelChange += UpdateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onRemoveHeroAttack += RemoveHeroAttackItemUI;
+        }
+
+        public void CreateHeroAttackItemUI(HeroAttack heroAttack)
+        {
+            if (heroAttackItemUIs.ContainsKey(heroAttack))
+            {
+                if (heroAttackItemUIs[heroAttack] != null)
+                {
+                    UpdateHeroAttackItemUI(heroAttack);
+                    return;
+                }
+                else
+                {
+                    heroAttackItemUIs.Remove(heroAttack);
+                }
+            }
+
+            HeroAttackItemUI heroAttackItemUI = Instantiate(heroAttackItemPrefab, heroAttacksHolderTransform);
+            heroAttackItemUI.UpdateUI(heroAttack);
 
 
-        heroAttackItemUIs.Add(heroAttack, heroAttackItemUI);
+            heroAttackItemUIs.Add(heroAttack, heroAttackItemUI);
+        }
+
+        public void UpdateHeroAttackItemUI(HeroAttack heroAttack)
+        {
+            heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
+        }
+
+        public void RemoveHeroAttackItemUI(HeroAttack heroAttack)
+        {
+            Destroy(heroAttackItemUIs[heroAttack].gameObject);
+            heroAttackItemUIs.Remove(heroAttack);
+        }
     }
 
-    public void UpdateHeroAttackItemUI(HeroAttack heroAttack)
-    {
-        heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
-    }
-
-    public void RemoveHeroAttackItemUI(HeroAttack heroAttack)
-    {
-        Destroy(heroAttackItemUIs[heroAttack].gameObject);
-        heroAttackItemUIs.Remove(heroAttack);
-    }
 }

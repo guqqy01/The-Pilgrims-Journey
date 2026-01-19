@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Heros
+namespace Heros.Attacks
 {
     public abstract class HeroAttack : MonoBehaviour
     {

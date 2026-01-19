@@ -213,7 +213,7 @@ MonoBehaviour:
     - monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
       count: 1
       range: 10
-  - triggerTime: 40
+  - triggerTime: 70
     entries:
     - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
       count: 40
@@ -221,7 +221,7 @@ MonoBehaviour:
     - monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
       count: 2
       range: 10
-  - triggerTime: 100
+  - triggerTime: 180
     entries:
     - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
       count: 80

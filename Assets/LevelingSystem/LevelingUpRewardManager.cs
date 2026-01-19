@@ -4,6 +4,7 @@ using Relics;
 using Heros;
 using Unity.VisualScripting;
 using System.Linq;
+using Heros.Attacks;
 namespace LevelingSystem
 {
     public class LevelingUpRewardManager : Singleton<LevelingUpRewardManager>

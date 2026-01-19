@@ -191,10 +191,20 @@ public static class ExtensionsAndHelper
         return (layerMask & (1 << layer)) != 0;
     }
 
-    public static int NotNullCount<T>(this IEnumerable<T> list)
+    public static int NotNullCount<T>(this IEnumerable<T> source) where T : class
     {
-        return list.Count(x => x != null);
+        if (source == null)
+            return 0;
+
+        int count = 0;
+        foreach (var item in source)
+        {
+            if (item != null)
+                count++;
+        }
+        return count;
     }
+
     public static object GetRandom(this System.Array array)
     {
         return array.GetValue(Random.Range(0, array.Length));

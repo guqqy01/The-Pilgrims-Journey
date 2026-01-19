@@ -2,44 +2,49 @@ using Heros;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-public class HeroAttackItemUI : MonoBehaviour
+
+namespace Heros.Attacks.UI
 {
-    [SerializeField]
-    private Image itemImage;
-
-    [SerializeField]
-    private Transform levelsHolderTransform;
-
-    [SerializeField]
-    private Image levelPrefab;
-
-    private List<Image> levelPrefabs = new List<Image>();
-
-    [SerializeField]
-    private Sprite leveledSprite;
-    [SerializeField]
-    private Sprite unleveledSprite;
-
-    public void UpdateUI(HeroAttack heroAttack)
+    public class HeroAttackItemUI : MonoBehaviour
     {
-        HeroAttackSO heroAttackSO = heroAttack.HeroAttackSO;
+        [SerializeField]
+        private Image itemImage;
 
-        itemImage.sprite = heroAttack.HeroAttackSO.icon;
+        [SerializeField]
+        private Transform levelsHolderTransform;
 
-        levelPrefabs.DestroyAndClearList();
+        [SerializeField]
+        private Image levelPrefab;
 
-        for (int i = 0; i < heroAttack.Level; i++)
+        private List<Image> levelPrefabs = new List<Image>();
+
+        [SerializeField]
+        private Sprite leveledSprite;
+        [SerializeField]
+        private Sprite unleveledSprite;
+
+        public void UpdateUI(HeroAttack heroAttack)
         {
-            Image spawnedLevelImage = Instantiate(levelPrefab, levelsHolderTransform);
-            spawnedLevelImage.sprite = leveledSprite;
-            levelPrefabs.Add(spawnedLevelImage);
-        }
+            HeroAttackSO heroAttackSO = heroAttack.HeroAttackSO;
 
-        for (int i = 0; i < heroAttackSO.MaxLevel - heroAttack.Level; i++)
-        {
-            Image spawnedLevelImage = Instantiate(levelPrefab, levelsHolderTransform);
-            spawnedLevelImage.sprite = unleveledSprite;
-            levelPrefabs.Add(spawnedLevelImage);
+            itemImage.sprite = heroAttack.HeroAttackSO.icon;
+
+            levelPrefabs.DestroyAndClearList();
+
+            for (int i = 0; i < heroAttack.Level; i++)
+            {
+                Image spawnedLevelImage = Instantiate(levelPrefab, levelsHolderTransform);
+                spawnedLevelImage.sprite = leveledSprite;
+                levelPrefabs.Add(spawnedLevelImage);
+            }
+
+            for (int i = 0; i < heroAttackSO.MaxLevel - heroAttack.Level; i++)
+            {
+                Image spawnedLevelImage = Instantiate(levelPrefab, levelsHolderTransform);
+                spawnedLevelImage.sprite = unleveledSprite;
+                levelPrefabs.Add(spawnedLevelImage);
+            }
         }
     }
+
 }
