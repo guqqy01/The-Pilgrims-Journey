@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Heros.Attacks.Orbital
 {
@@ -136,7 +134,10 @@ namespace Heros.Attacks.Orbital
 
             OrbitalHeroAttackSpawn orbitalHeroAttackSpawn = Instantiate(orbitalHeroAttackSpawnPrefab, transform.position, Quaternion.identity, transform);
 
-            orbitalHeroAttackSpawn.Init(targetWithoutOrbital, damage, attackSpeed, orbitalSpeed, destroyProjectiles, knockback, amountOfHits, projectilesCountToHits);
+            OrbitalHeroAttackInitContext initContext = new OrbitalHeroAttackInitContext(targetWithoutOrbital);
+            OrbitalHeroAttackStatsContext statsContext = new OrbitalHeroAttackStatsContext(damage, orbitalSpeed, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
+
+            orbitalHeroAttackSpawn.Init(initContext, statsContext);
             orbitalHeroAttackSpawn.onDestroyed += OnOrbitalDestroyed;
 
             slots[targetWithoutOrbital] = orbitalHeroAttackSpawn;
@@ -164,7 +165,9 @@ namespace Heros.Attacks.Orbital
 
                 if(orbital == null) continue;
 
-                orbital.SetupStats(damage, attackSpeed, orbitalSpeed, destroyProjectiles, knockback, amountOfHits, projectilesCountToHits);
+                OrbitalHeroAttackStatsContext statsContext = new OrbitalHeroAttackStatsContext(damage, orbitalSpeed, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
+
+                orbital.SetupStats(statsContext);
             }
         }
 

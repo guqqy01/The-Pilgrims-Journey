@@ -4,51 +4,27 @@ using UnityEngine;
 
 namespace Heros.Attacks.Orbital
 {
-    public class OrbitalHeroAttackSpawn : MonoBehaviour
+    public class OrbitalHeroAttackSpawn : HeroAttackSpawn<OrbitalHeroAttackInitContext, OrbitalHeroAttackStatsContext>
     {
-        [SerializeField]
-        private new Collider2D collider2D;
-
-        [SerializeField]
-        private LayerMask hitLayerMask;
-
         private Transform targetPositionTransform;
 
-        private readonly Dictionary<HealthAndShieldManager, float> timeToNextDmg = new Dictionary<HealthAndShieldManager, float>();
-
-        private readonly List<HealthAndShieldManager> toRemove = new List<HealthAndShieldManager>();
-
-        private int damage;
-        private float knockback;
         private float orbitSpeed;
-        private float attackSpeed;
-        private bool destroyProjectiles;
-        private int currentAmountOfHits;
-        private int? amountOfHits;
-        private bool projectilesCountAsHits;
 
         public delegate void OnDestroyed(OrbitalHeroAttackSpawn orbitalDestroyed, Transform target);
         public OnDestroyed onDestroyed;
 
-        public void Init(Transform targetPositionTransform, int damage, float attackSpeed, float orbitSpeed, bool destroyProjectiles, float knockbackMultiplier = 0f, int? amountOfHits = null, bool projectilesCountAsHits = false)
+        protected override void InheritInit(OrbitalHeroAttackInitContext context)
         {
-            this.targetPositionTransform = targetPositionTransform;
-            SetupStats(damage, attackSpeed, orbitSpeed, destroyProjectiles, knockbackMultiplier, amountOfHits, projectilesCountAsHits);
+            targetPositionTransform = context.targetPositionTransform;
         }
 
-        public void SetupStats(int damage, float attackSpeed, float orbitSpeed, bool destroyProjectiles, float knockbackMultiplier = 0f, int? amountOfHits = null, bool projectilesCountAsHits = false)
+        protected override void InheritSetupStats(OrbitalHeroAttackStatsContext heroAttackContext)
         {
-            this.damage = damage;
-            this.attackSpeed = attackSpeed;
             //Multiplied by 1.25 so it can catch up to the target if it needs to, otherwise the orbit speed will be controlled by the OrbitalHeroAttack through the targetTransform
             this.orbitSpeed = orbitSpeed * 1.25f;
-            this.destroyProjectiles = destroyProjectiles;
-            knockback = knockbackMultiplier;
-            this.amountOfHits = amountOfHits;
-            this.projectilesCountAsHits = projectilesCountAsHits;
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdateMovement()
         {
             if (targetPositionTransform == null)
             {
@@ -71,128 +47,37 @@ namespace Heros.Attacks.Orbital
             }
         }
 
-        private void Update()
-        {
-            toRemove.Clear();
-
-            foreach (var kvp in timeToNextDmg)
-            {
-                HealthAndShieldManager hit = kvp.Key;
-                float time = kvp.Value;
-
-                if(hit == null)
-                    toRemove.Add(kvp.Key);
-            }
-
-            foreach(var hit in toRemove)
-            {
-                timeToNextDmg.Remove(hit);
-            }
-        }
-
-        private void OnEnemyDie(Health health)
-        {
-            if (health == null)
-                return;
-
-            if(health.TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
-            {
-                timeToNextDmg.Remove(healthAndShieldManager);
-            }
-            
-            health.onDie -= OnEnemyDie;
-        }
-
-        private void HandleColliderHits(Collider2D collision)
-        {
-            if (!hitLayerMask.ContainsLayer(collision.gameObject.layer))
-                return;
-
-            if (!collision.gameObject.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
-                return;
-
-            bool inDict = timeToNextDmg.ContainsKey(healthAndShieldManager);
-
-            if (timeToNextDmg.TryGetValue(healthAndShieldManager, out float nextTime) && nextTime > Time.time)
-                return;
-
-            Vector2 hitDirection = healthAndShieldManager.transform.position - transform.position;
-            healthAndShieldManager.Damage(damage, hitDirection, knockback);
-
-            float timeToNextAttack = attackSpeed != 0 ? Time.time + 1f / attackSpeed : float.MaxValue;
-
-            if (inDict)
-            {
-                timeToNextDmg[healthAndShieldManager] = timeToNextAttack;
-            }
-            else
-            {
-                timeToNextDmg.Add(healthAndShieldManager, timeToNextAttack);
-                healthAndShieldManager.Health.onDie += OnEnemyDie;
-            }
-
-            HandleAmountOfHits();
-        }
-
-        private void OnTriggerStay2D(Collider2D collision)
-        {
-            HandleColliderHits(collision);
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (HandleProjectiles(collision))
-            {
-                HandleAmountOfHits();
-            }
-        }
-
-        private void HandleAmountOfHits()
-        {
-            if (amountOfHits == null)
-                return;
-
-            currentAmountOfHits++;
-
-            if (currentAmountOfHits >= amountOfHits)
-            {
-                DestroyAttack();
-            }
-        }
-
-        private bool HandleProjectiles(Collider2D collision)
-        {
-            if (!hitLayerMask.ContainsLayer(collision.gameObject.layer))
-                return false;
-
-            if (!destroyProjectiles)
-                return false;
-
-            if (!collision.gameObject.TryGetComponent(out Projectile projectile))
-                return false;
-
-            Destroy(projectile.gameObject);
-
-            return projectilesCountAsHits;
-        }
-
-        public void DestroyAttack()
+        public override void DestroyAttack()
         {
             onDestroyed?.Invoke(this, targetPositionTransform);
 
-            Destroy(gameObject);
+            base.OnDestroy();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            foreach (var kvp in timeToNextDmg)
-            {
-                if (kvp.Key != null)
-                    kvp.Key.Health.onDie -= OnEnemyDie;
-            }
-
-            timeToNextDmg.Clear();
+            base.OnDestroy();
             onDestroyed = null;
+        }
+    }
+
+    public class OrbitalHeroAttackStatsContext : HeroAttackStatsContext
+    {
+        public readonly float orbitSpeed;
+
+        public OrbitalHeroAttackStatsContext(int damage, float orbitSpeed, float knockback, float hitSpeed, bool destroyProjectiles = false, int? amountOfHits = null, bool projectilesCountAsHit = false) : base(damage, knockback, hitSpeed, destroyProjectiles, amountOfHits, projectilesCountAsHit)
+        {
+            this.orbitSpeed = orbitSpeed;
+        }
+    }
+
+    public class OrbitalHeroAttackInitContext : HeroAttackInitContext
+    {
+        public readonly Transform targetPositionTransform;
+
+        public OrbitalHeroAttackInitContext(Transform targetPositionTransform)
+        {
+            this.targetPositionTransform = targetPositionTransform;
         }
     }
 }

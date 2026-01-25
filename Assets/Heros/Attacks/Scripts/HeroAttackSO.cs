@@ -14,7 +14,24 @@ namespace Heros.Attacks
         public abstract List<WeaponStatsAtLevel> WeaponStats { get; }
         public int MaxLevel => WeaponStats.Count;
 
-        public abstract Buff GetBuff(HeroStats heroStats, int level);
+        public virtual Buff GetBuff(HeroStats heroStats, int level)
+        {
+            int index = level - 1;
+
+            if (index < 0 || index >= WeaponStats.Count)
+                return null;
+
+            return heroStats switch
+            {
+                HeroStats.Damage => WeaponStats[index].damage,
+                HeroStats.AttackSpeed => WeaponStats[index].attackSpeed,
+                HeroStats.CriticalChance => WeaponStats[index].criticalChance,
+                HeroStats.CriticalDamageMultiplier => WeaponStats[index].criticalDamageMultiplier,
+                HeroStats.Knockback => WeaponStats[index].knockback,
+                HeroStats.AttackSize => WeaponStats[index].size,
+                _ => null,
+            };
+        }
 
         public string GetStatsDescription(int level)
         {

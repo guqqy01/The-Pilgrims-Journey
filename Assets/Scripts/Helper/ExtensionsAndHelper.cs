@@ -186,6 +186,11 @@ public static class ExtensionsAndHelper
         return list[Random.Range(0, list.Count)];
     }
 
+    public static bool Approximately(this Vector2 v, Vector2 other)
+    {
+        return Mathf.Approximately(v.x,other.x) && Mathf.Approximately(v.y,other.y);
+    }
+
     public static bool ContainsLayer(this LayerMask layerMask, int layer)
     {
         return (layerMask & (1 << layer)) != 0;
