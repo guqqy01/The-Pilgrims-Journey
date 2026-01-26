@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections;
 
-[Serializable]
+    [Serializable]
 public class WeightedChanceList<T>
 {
     public List<WeightedChanceObject<T>> weightedList;

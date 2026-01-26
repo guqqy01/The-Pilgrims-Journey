@@ -21,7 +21,7 @@ namespace Heros.Attacks.Orbital
         protected override void InheritSetupStats(OrbitalHeroAttackStatsContext heroAttackContext)
         {
             //Multiplied by 1.25 so it can catch up to the target if it needs to, otherwise the orbit speed will be controlled by the OrbitalHeroAttack through the targetTransform
-            this.orbitSpeed = orbitSpeed * 1.25f;
+            this.orbitSpeed = heroAttackContext.orbitSpeed * 1.25f;
         }
 
         protected override void FixedUpdateMovement()
@@ -51,7 +51,7 @@ namespace Heros.Attacks.Orbital
         {
             onDestroyed?.Invoke(this, targetPositionTransform);
 
-            base.OnDestroy();
+            base.DestroyAttack();
         }
 
         protected override void OnDestroy()

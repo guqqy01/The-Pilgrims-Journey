@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Heros.Attacks.Spot;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -58,10 +59,11 @@ namespace Heros.Attacks
         public void SetupStats(TStatsContext context)
         {
             damage = context.heroAttackStats.damage;
-            hitSpeed = context.heroAttackStats.hitSpeed;
+            hitSpeed = context.heroAttackStats.hitRefreshSpeed;
             destroyProjectiles = context.heroAttackStats.destroyProjectiles;
             knockback = context.heroAttackStats.knockback;
             amountOfHits = context.heroAttackStats.amountOfHits;
+
             projectilesCountAsHits = context.heroAttackStats.projectilesCountAsHits;
 
             InheritSetupStats(context);
@@ -78,6 +80,9 @@ namespace Heros.Attacks
             bool exists = timeToNextDmg.TryGetValue(healthAndShieldManager, out float nextTime);
 
             if (exists && nextTime > Time.time)
+                return;
+
+            if (amountOfHits < currentAmountOfHits)
                 return;
 
             Vector2 hitDirection = ((Vector2)(healthAndShieldManager.transform.position - transform.position)).normalized;
@@ -116,7 +121,7 @@ namespace Heros.Attacks
             if (amountOfHits == null)
                 return;
 
-            currentAmountOfHits++;
+            currentAmountOfHits++; 
 
             if (currentAmountOfHits >= amountOfHits)
             {

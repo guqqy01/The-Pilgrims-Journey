@@ -104,17 +104,15 @@ namespace Heros.Attacks
         public Buff orbitalSpeed;
     }
 
-    [SerializeField]
+    [Serializable]
     public class SpotWeaponStatsAtLevel : WeaponStatsAtLevel
     {
         [BuffType(false)]
         public Buff spawnAccuracy;
         [BuffType(false)]
-        public Buff spotSpeed;
+        public Buff lifeTime;
         [BuffType(false)]
-        public Buff chaoticMovement;
-        [BuffType(false)]
-        public Buff SpawnRate;
+        public Buff refreshHitRate;
     }
 
     [CustomEditor(typeof(HeroAttackSO), true)]

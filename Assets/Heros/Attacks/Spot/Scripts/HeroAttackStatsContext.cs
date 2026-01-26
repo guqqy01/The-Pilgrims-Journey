@@ -2,21 +2,21 @@
 
 namespace Heros.Attacks
 {
-    [Serializable]
+    
     public struct HeroAttackStats
     {
         public int damage;
         public float knockback;
-        public float hitSpeed;
+        public float hitRefreshSpeed;
         public bool destroyProjectiles;
         public int? amountOfHits;
         public bool projectilesCountAsHits;
 
-        public HeroAttackStats(int damage, float knockback, float hitSpeed, bool destroyProjectiles = false, int? amountOfHits = null, bool projectilesCountAsHit = false)
+        public HeroAttackStats(int damage, float knockback, float hitRefreshSpeed, bool destroyProjectiles = false, int? amountOfHits = null, bool projectilesCountAsHit = false)
         {
             this.damage = damage;
             this.knockback = knockback;
-            this.hitSpeed = hitSpeed;
+            this.hitRefreshSpeed = hitRefreshSpeed;
             this.destroyProjectiles = destroyProjectiles;
             this.amountOfHits = amountOfHits;
             this.projectilesCountAsHits = projectilesCountAsHit;

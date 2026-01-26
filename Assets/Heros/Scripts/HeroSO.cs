@@ -92,6 +92,9 @@ namespace Heros
             {
                 Buff buff = GetBuff(stat);
 
+                if (buff == null)
+                    continue;
+
                 string buffDescription;
 
                 if (stat == HeroStats.Health || 

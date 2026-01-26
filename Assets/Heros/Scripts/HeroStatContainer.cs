@@ -6,7 +6,17 @@ namespace Heros
     {
         private readonly Dictionary<HeroStats, BuffableStat> stats;
 
-        public BuffableStat Get(HeroStats stat) => stats[stat];
+        public BuffableStat Get(HeroStats stat)
+        {
+            if(stats.TryGetValue(stat, out var buff))
+            {
+                return buff;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public delegate void OnStatChanged();
         public OnStatChanged statChanged;

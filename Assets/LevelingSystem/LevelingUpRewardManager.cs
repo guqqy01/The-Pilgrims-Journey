@@ -14,7 +14,7 @@ namespace LevelingSystem
 
         [SerializeField] private WeightedChanceList<RelicSO> unitStatRelics;
         [SerializeField] private WeightedChanceList<RelicSO> heroStatRelics;
-        [SerializeField] private WeightedChanceList<HeroAttackSO> heroWeaponRelics;
+        [SerializeField] private WeightedChanceList<HeroAttackSO> heroWeaponRelicsTest;
 
         private int unitWeight = 1;
         private int heroWeight = 0;
@@ -68,7 +68,7 @@ namespace LevelingSystem
                 {
                     RewardPool.Unit => new RelicReward(unitStatRelics.GetRandom()),
                     RewardPool.Hero => new RelicReward(heroStatRelics.GetRandom()),
-                    RewardPool.Weapon => new HeroWeaponReward(heroWeaponRelics.GetRandom()),
+                    RewardPool.Weapon => new HeroWeaponReward(heroWeaponRelicsTest.GetRandom()),
                     _ => null
                 };
 

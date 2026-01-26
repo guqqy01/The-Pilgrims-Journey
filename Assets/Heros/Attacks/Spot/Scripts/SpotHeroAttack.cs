@@ -1,70 +1,92 @@
 ﻿using Heros.Attacks.Orbital;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace Heros.Attacks.Spot
 {
-    public class SpotHeroAttack<TSpotAttackSpawn> : HeroAttack where TSpotAttackSpawn : SpotAttackStatsContext
+    public abstract class SpotHeroAttack<TSpawn, TInit, TStats> : HeroAttack
+        where TSpawn : SpotAttackSpawn<TStats>
+        where TInit : SpotAttackInitContext
+        where TStats : SpotAttackStatsContext
     {
-        private BuffableStat spawnAccuracy;
+        protected BuffableStat spawnAccuracy;
 
-        private SpotAttackSpawn<TSpotAttackSpawn> spotAttackSpawnPrefab;
+        protected BuffableStat hitRefreshStat;
 
-        private readonly List<SpotAttackSpawn<TSpotAttackSpawn>> spotAttackSpawns = new List<SpotAttackSpawn<TSpotAttackSpawn>>();
+        protected SpotChaoticMovementStats SpotChaoticMovementStats;
+
+        protected TSpawn spawnPrefab;
+
+        private readonly List<TSpawn> spotAttackSpawns = new List<TSpawn>();
 
         private bool destroyProjectiles;
         private int? amountOfHits;
         private bool projectilesCountToHits;
+        private float? lifeTime;
 
-        private bool SpawnSpotAttack()
-        {
-            SpotAttackSpawn<TSpotAttackSpawn> orbitalHeroAttackSpawn = Instantiate(spotAttackSpawnPrefab, transform.position, Quaternion.identity, transform);
-
-            SpotAttackInitContext initContext = new SpotAttackInitContext();
-
-            HeroAttackStats heroStats = new HeroAttackStats(damage, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
-
-            SpotChaoticMovementStats spotChaoticMovementStats = new SpotChaoticMovementStats();
-
-            SpotAttackStatsContext statsContext = new SpotAttackStatsContext(heroStats, );
-
-            orbitalHeroAttackSpawn.Init(initContext, statsContext);
-
-            spotAttackSpawns.Add(orbitalHeroAttackSpawn);
-
-            return true;
-        }
 
         protected override bool Attack()
         {
-            return SpawnSpotAttack();
+            Transform target = GetTarget();
+            if (target == null)
+                return false;
+
+            SpawnAttack(target);
+            return true;
+        }
+
+        protected virtual void SpawnAttack(Transform target)
+        {
+            TSpawn spawn = Instantiate(spawnPrefab);
+
+            TInit initContext = BuildInitContext(target, lifeTime);
+            TStats statsContext = BuildStatsContext();
+
+            spawn.Init(initContext, statsContext);
+        }
+
+        protected abstract TInit BuildInitContext(Transform target, float? lifeTime);
+        protected abstract TStats BuildStatsContext();
+
+        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        {
+            if(heroAttackSO is not SpotHeroAttackSOBase spotHeroAttackSO)
+                return;
+
+            SpotChaoticMovementStats = spotHeroAttackSO.spotChaoticMovementStats;
+
+            SetupBuffableStat(ref spawnAccuracy, HeroStats.Accuracy);
+            SetupBuffableStat(ref hitRefreshStat, HeroStats.AttackSpeed);
+
+            spawnPrefab = spotHeroAttackSO.SpawnPrefab.GetComponent<TSpawn>();
+            destroyProjectiles = spotHeroAttackSO.destroyProjectiles;
+            amountOfHits = spotHeroAttackSO.amountOfHits == 0 ? null : spotHeroAttackSO.amountOfHits;
+            projectilesCountToHits = spotHeroAttackSO.projectilesCountToHits;
+            lifeTime = spotHeroAttackSO.lifeTime == 0 ? null : spotHeroAttackSO.lifeTime;
         }
 
         protected override void InheritLevelSetup()
         {
-            foreach (var spotAttack in spotAttackSpawns)
-            {
-                if (spotAttack == null) continue;
-
-                SpotAttackStatsContext statsContext = new SpotAttackStatsContext(damage, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
-
-                spotAttack.SetupStats(statsContext);
-            }
+            
         }
 
-        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        protected HeroAttackStats BuildBaseHeroAttackStats()
         {
-            if (heroAttackSO is not SpotHeroAttackSO spotHeroAttackSO)
-                return;
+            float hitRefreshRate = HeroAttackSO.WeaponStats.Select(x => (SpotWeaponStatsAtLevel)x).ToArray()[Level - 1].refreshHitRate.Value(0);
 
-            SetupBuffableStat(ref spawnAccuracy, HeroStats.Accuracy);
-
-
-            spotAttackSpawnPrefab = spotHeroAttackSO.spotAttackSpawnPrefab;
-            destroyProjectiles = spotHeroAttackSO.destroyProjectiles;
-            amountOfHits = spotHeroAttackSO.amountOfHits == 0 ? null : spotHeroAttackSO.amountOfHits;
-            projectilesCountToHits = spotHeroAttackSO.projectilesCountToHits;
+            return new HeroAttackStats(
+                damage.Value,
+                knockback.Value,
+                attackSpeed.Value,
+                destroyProjectiles,
+                amountOfHits,
+                projectilesCountToHits
+            );
         }
+
     }
+
 }

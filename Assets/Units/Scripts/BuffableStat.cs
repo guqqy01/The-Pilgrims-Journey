@@ -62,6 +62,8 @@ public class BuffableStat: IBuffSource
         Buff combined = null;
         foreach (var buffSource in buffs.Values)
         {
+            if(buffSource == null)
+                continue;
             Buff buff = buffSource.Buff;
             combined = combined == null ? buff : combined + buff;
         }

@@ -2,6 +2,5 @@
 {
     public class StationarySpotAttackSpawn : SpotAttackSpawn<SpotAttackStatsContext>
     {
-
     }
 }

@@ -6,7 +6,7 @@ namespace Heros.Attacks.Spot
 
     public class SpotAttackSpawn<TSpotStatsContext> : HeroAttackSpawn<SpotAttackInitContext, TSpotStatsContext> where TSpotStatsContext : SpotAttackStatsContext
     {
-        protected float lifeEndTime;
+        protected float? lifeEndTime;
 
         protected float movementSpeed;
 
@@ -33,11 +33,15 @@ namespace Heros.Attacks.Spot
 
         private void HandleLifeTime()
         {
+            if (lifeEndTime == null)
+                return;
+
             if (Time.time < lifeEndTime)
                 return;
 
             DestroyAttack();
         }
+
 
 
         #region Chaotic Movement
@@ -81,7 +85,8 @@ namespace Heros.Attacks.Spot
 
         protected override void InheritInit(SpotAttackInitContext heroAttackContext)
         {
-
+            mainCurrentPosition = heroAttackContext.currentPosition;
+            lifeEndTime = heroAttackContext.lifeTimeEnd;
         }
 
         protected override void InheritSetupStats(TSpotStatsContext heroAttackContext)
@@ -119,12 +124,10 @@ namespace Heros.Attacks.Spot
         public float chaoticMovementRadius;
 
         public Vector2 chaoticChangeMovementTimeRange;
-        public float timeToNextChaoticMovement;
 
-        public SpotChaoticMovementStats(float chaoricMovementSpeed, float chaoticMovementRadius, Vector2 chaoticChangeMovementTimeRange, float timeToNextChaoticMovement)
+        public SpotChaoticMovementStats(float chaoricMovementSpeed, float chaoticMovementRadius, Vector2 chaoticChangeMovementTimeRange)
         {
             this.chaoticMovementSpeed = chaoricMovementSpeed;
-            this.timeToNextChaoticMovement = timeToNextChaoticMovement;
             this.chaoticMovementRadius = chaoticMovementRadius;
             this.chaoticChangeMovementTimeRange = chaoticChangeMovementTimeRange;
         }
@@ -132,11 +135,13 @@ namespace Heros.Attacks.Spot
 
     public class SpotAttackInitContext : HeroAttackInitContext
     {
-        public readonly HeroSpotMovementType spotMovementType;
+        public readonly Vector2 currentPosition;
+        public readonly float? lifeTimeEnd;
 
-        public SpotAttackInitContext(HeroSpotMovementType type)
+        public SpotAttackInitContext(Vector2 currentPosition, float? lifeTimeEnd)
         {
-            spotMovementType = type;
+            this.currentPosition = currentPosition;
+            this.lifeTimeEnd = lifeTimeEnd;
         }
     }
 

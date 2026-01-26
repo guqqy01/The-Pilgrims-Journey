@@ -5,23 +5,20 @@ using UnityEngine;
 
 namespace Heros.Attacks.Spot
 {
-    [CreateAssetMenu(menuName = "Hero Attack/Spot")]
-    public class SpotHeroAttackSO : HeroAttackSO
+
+    public class SpotHeroAttackSO<TAttack, TSpawn, TInit, TStats> : SpotHeroAttackSOBase
+        where TAttack : SpotHeroAttack<TSpawn, TInit, TStats>
+        where TSpawn : SpotAttackSpawn<TStats>
+        where TInit : SpotAttackInitContext
+        where TStats : SpotAttackStatsContext
     {
-        public override Type HeroAttackType => typeof(SpotHeroAttack);
+        public override Type HeroAttackType => typeof(TAttack);
         [SerializeField]
         private List<SpotWeaponStatsAtLevel> weaponStats = new List<SpotWeaponStatsAtLevel>();
         public override List<WeaponStatsAtLevel> WeaponStats => weaponStats.Select(x => x as WeaponStatsAtLevel).ToList();
-        public StationarySpotAttackSpawn spotAttackSpawnPrefab;
+        public TSpawn spotAttackSpawnPrefab;
 
-        public HeroSpotMovementType movementType;
-
-        public float chaoticMovementRange;
-        public float attackRange;
-
-        public bool destroyProjectiles;
-        public int amountOfHits;
-        public bool projectilesCountToHits;
+        public override GameObject SpawnPrefab => spotAttackSpawnPrefab.gameObject;
 
         public override Buff GetBuff(HeroStats heroStats, int level)
         {

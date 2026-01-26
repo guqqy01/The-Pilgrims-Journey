@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775adaae39bbd2e42a8a7c8c1a682040, type: 3}
+  m_Name: Test Stationary Spot Attack
+  m_EditorClassIdentifier: Assembly-CSharp::Heros.Attacks.Spot.StationarySpotHeroAttackSO
+  icon: {fileID: 7194823425934522416, guid: 31588a4a94ee1a341accd2f05400fa55, type: 3}
+  description: 
+  findTargetDistance: 20
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  spotChaoticMovementStats:
+    chaoticMovementSpeed: 0.5
+    chaoticMovementRadius: 2
+    chaoticChangeMovementTimeRange: {x: 0.1, y: 0.5}
+  attackRange: 20
+  destroyProjectiles: 0
+  amountOfHits: 0
+  projectilesCountToHits: 0
+  lifeTime: 5
+  weaponStats:
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 2
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0.2
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 50
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    spawnAccuracy:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    lifeTime:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    refreshHitRate:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  spotAttackSpawnPrefab: {fileID: 7913750227135152283, guid: ff813f76db353d543a4458ab8e2abfa7, type: 3}
