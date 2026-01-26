@@ -112,7 +112,7 @@ namespace Heros.Attacks
         [BuffType(false)]
         public Buff lifeTime;
         [BuffType(false)]
-        public Buff refreshHitRate;
+        public Buff hitRefreshRate;
     }
 
     [CustomEditor(typeof(HeroAttackSO), true)]

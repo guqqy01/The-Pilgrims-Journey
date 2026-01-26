@@ -67,6 +67,20 @@ public class Buff: IBuffSource
 
     public static Buff operator +(Buff a, Buff b)
     {
+        if (a == null && b == null)
+            return null;
+
+        if(a == null)
+        {
+            return b;
+        }
+
+        if(b == null)
+        {
+            return a;
+        }
+
+
         if (a.IsInt)
         {
             return new Buff(

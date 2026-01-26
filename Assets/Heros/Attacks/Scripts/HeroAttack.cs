@@ -110,11 +110,11 @@ namespace Heros.Attacks
             InheritSetup(heroSO, heroAttackSO);
         }
 
-        protected void SetupBuffableStat(ref BuffableStat stat, HeroStats heroStats)
+        protected void SetupBuffableStat(ref BuffableStat stat, HeroStats heroStats, AddBuffParameters addBuffParameters = AddBuffParameters.All)
         {
             stat = new BuffableStat(heroStats.IsIntStat() ? 0 : 0f);
-            stat.AddBuff("Weapon", HeroAttackSO.GetBuff(heroStats, Level));
-            stat.AddBuff("Hero", HeroManager.Instance.Stats.Get(heroStats));
+            stat.AddBuff("Weapon", HeroAttackSO.GetBuff(heroStats, Level), addBuffParameters);
+            stat.AddBuff("Hero", HeroManager.Instance.Stats.Get(heroStats), addBuffParameters);
         }
     }
 }

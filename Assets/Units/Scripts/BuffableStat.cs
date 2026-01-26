@@ -8,7 +8,7 @@ public class BuffableStat: IBuffSource
     private readonly IntOrFloatObject baseStat;
     public IntOrFloatObject Value { get; private set; }
 
-    private readonly Dictionary<string, IBuffSource> buffs = new();
+    private readonly Dictionary<string, AddedBuffAndParameters> buffs = new();
     public bool IsIntStat => baseStat.IsInt;
 
     public Buff Buff => ConvertToBuff();
@@ -25,12 +25,12 @@ public class BuffableStat: IBuffSource
         Value = baseStat;
     }
 
-    public void AddBuff(string reference, IBuffSource buffSource)
+    public void AddBuff(string reference, IBuffSource buffSource, AddBuffParameters parameters = AddBuffParameters.All)
     {
-        if (buffs.TryGetValue(reference, out var old) && old is BuffableStat oldStat)
+        if (buffs.TryGetValue(reference, out var old) && old.BuffSource is BuffableStat oldStat)
             oldStat.onValueChange -= RefreshValue;
 
-        buffs[reference] = buffSource;
+        buffs[reference] = new AddedBuffAndParameters(buffSource, parameters);
 
         if(buffSource is BuffableStat buffableStat)
             buffableStat.onValueChange += RefreshValue;
@@ -43,7 +43,7 @@ public class BuffableStat: IBuffSource
         if (!buffs.TryGetValue(reference, out var buffSource))
             return;
 
-        if(buffSource is BuffableStat buffableStat)
+        if(buffSource.BuffSource is BuffableStat buffableStat)
             buffableStat.onValueChange -= RefreshValue;
 
         buffs.Remove(reference);
@@ -64,7 +64,7 @@ public class BuffableStat: IBuffSource
         {
             if(buffSource == null)
                 continue;
-            Buff buff = buffSource.Buff;
+            Buff buff = buffSource.GetBuff();
             combined = combined == null ? buff : combined + buff;
         }
 
@@ -79,7 +79,7 @@ public class BuffableStat: IBuffSource
 
         foreach(var buffSource in buffs.Values)
         {
-            Buff buff = buffSource.Buff;
+            Buff buff = buffSource.GetBuff();
             combined += buff;
         }
 
@@ -99,6 +99,62 @@ public class BuffableStat: IBuffSource
 
 
     public static implicit operator Buff(BuffableStat obj) => obj.ConvertToBuff();
+}
+
+[Flags]
+public enum AddBuffParameters
+{
+    None = 0,
+    Multiplier = 1,
+    Base = 2,
+    Additional = 4,
+    All = Multiplier | Base | Additional
+}
+
+public class AddedBuffAndParameters
+{
+    public IBuffSource BuffSource { get; set; }
+    public AddBuffParameters AddBuffParameters { get; set; }
+
+    public Buff GetBuff()
+    {
+        if (BuffSource == null)
+            return null;
+
+        Buff buff = BuffSource.Buff;
+
+        if (AddBuffParameters == AddBuffParameters.All)
+            return buff;
+
+        bool isInt = buff.IsInt;
+
+        float multiplier = 0f;
+        IntOrFloatObject baseBuff = new IntOrFloatObject(isInt ? 0 : 0f);
+        IntOrFloatObject additionalBuff = new IntOrFloatObject(isInt ? 0 : 0f);
+
+        if (AddBuffParameters.HasFlag(AddBuffParameters.Multiplier))
+        {
+            multiplier = buff.Multiplier;
+        }
+
+        if (AddBuffParameters.HasFlag(AddBuffParameters.Base))
+        {
+            baseBuff = buff.BaseBuff;
+        }
+
+        if (AddBuffParameters.HasFlag(AddBuffParameters.Additional))
+        {
+            additionalBuff = buff.AdditionalBuff;
+        }
+
+        return new Buff(multiplier, baseBuff, additionalBuff);
+    }
+
+    public AddedBuffAndParameters(IBuffSource buffSource, AddBuffParameters addBuffParameters = AddBuffParameters.All)
+    {
+        BuffSource = buffSource;
+        AddBuffParameters = addBuffParameters;
+    }
 }
 
 public interface IBuffSource

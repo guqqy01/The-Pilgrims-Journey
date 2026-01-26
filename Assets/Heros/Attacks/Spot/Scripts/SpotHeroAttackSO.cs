@@ -6,15 +6,14 @@ using UnityEngine;
 namespace Heros.Attacks.Spot
 {
 
-    public class SpotHeroAttackSO<TAttack, TSpawn, TInit, TStats> : SpotHeroAttackSOBase
+    public abstract class SpotHeroAttackSO<TAttack, TSpawn, TInit, TStats> : SpotHeroAttackSOBase
         where TAttack : SpotHeroAttack<TSpawn, TInit, TStats>
         where TSpawn : SpotAttackSpawn<TStats>
         where TInit : SpotAttackInitContext
         where TStats : SpotAttackStatsContext
     {
         public override Type HeroAttackType => typeof(TAttack);
-        [SerializeField]
-        private List<SpotWeaponStatsAtLevel> weaponStats = new List<SpotWeaponStatsAtLevel>();
+        
         public override List<WeaponStatsAtLevel> WeaponStats => weaponStats.Select(x => x as WeaponStatsAtLevel).ToList();
         public TSpawn spotAttackSpawnPrefab;
 

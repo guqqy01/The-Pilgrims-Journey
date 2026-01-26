@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Heros.Attacks.Spot
 {
@@ -11,6 +12,8 @@ namespace Heros.Attacks.Spot
         public int amountOfHits;
         public bool projectilesCountToHits;
         public float lifeTime;
+
+        public List<SpotWeaponStatsAtLevel> weaponStats = new List<SpotWeaponStatsAtLevel>();
 
         public abstract GameObject SpawnPrefab { get; }
     }

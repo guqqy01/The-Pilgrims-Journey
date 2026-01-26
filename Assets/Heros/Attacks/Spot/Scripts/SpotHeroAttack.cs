@@ -13,7 +13,6 @@ namespace Heros.Attacks.Spot
         where TStats : SpotAttackStatsContext
     {
         protected BuffableStat spawnAccuracy;
-
         protected BuffableStat hitRefreshStat;
 
         protected SpotChaoticMovementStats SpotChaoticMovementStats;
@@ -59,8 +58,9 @@ namespace Heros.Attacks.Spot
             SpotChaoticMovementStats = spotHeroAttackSO.spotChaoticMovementStats;
 
             SetupBuffableStat(ref spawnAccuracy, HeroStats.Accuracy);
-            SetupBuffableStat(ref hitRefreshStat, HeroStats.AttackSpeed);
+            SetupBuffableStat(ref hitRefreshStat, HeroStats.AttackSpeed, AddBuffParameters.Multiplier);
 
+            hitRefreshStat.AddBuff("hitRefresh", spotHeroAttackSO.weaponStats[Level - 1].hitRefreshRate);
             spawnPrefab = spotHeroAttackSO.SpawnPrefab.GetComponent<TSpawn>();
             destroyProjectiles = spotHeroAttackSO.destroyProjectiles;
             amountOfHits = spotHeroAttackSO.amountOfHits == 0 ? null : spotHeroAttackSO.amountOfHits;
@@ -75,12 +75,12 @@ namespace Heros.Attacks.Spot
 
         protected HeroAttackStats BuildBaseHeroAttackStats()
         {
-            float hitRefreshRate = HeroAttackSO.WeaponStats.Select(x => (SpotWeaponStatsAtLevel)x).ToArray()[Level - 1].refreshHitRate.Value(0);
+            float hitRefreshRate = HeroAttackSO.WeaponStats.Select(x => (SpotWeaponStatsAtLevel)x).ToArray()[Level - 1].hitRefreshRate.Value(0);
 
             return new HeroAttackStats(
                 damage.Value,
                 knockback.Value,
-                attackSpeed.Value,
+                hitRefreshRate,
                 destroyProjectiles,
                 amountOfHits,
                 projectilesCountToHits
