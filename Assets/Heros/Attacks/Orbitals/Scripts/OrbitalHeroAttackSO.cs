@@ -6,12 +6,9 @@ using UnityEngine;
 namespace Heros.Attacks.Orbital
 {
     [CreateAssetMenu(menuName = "Hero Attack/Orbital")]
-    public class OrbitalHeroAttackSO : HeroAttackSO
+    public class OrbitalHeroAttackSO : HeroAttackSO<OrbitalWeaponStatsAtLevel>
     {
         public override Type HeroAttackType => typeof(OrbitalHeroAttack);
-        [SerializeField]
-        private List<OrbitalWeaponStatsAtLevel> weaponStats = new List<OrbitalWeaponStatsAtLevel>();
-        public override List<WeaponStatsAtLevel> WeaponStats => weaponStats.Select(x => x as WeaponStatsAtLevel).ToList();
         public OrbitalHeroAttackSpawn OrbitalHeroAttackSpawnPrefab;
 
         public Transform targetTransformPrefab;
@@ -25,23 +22,12 @@ namespace Heros.Attacks.Orbital
         public bool clockwise;
 
 
-        public override Buff GetBuff(HeroStats heroStats, int level)
+        public override Buff GetBuffAtIndex(HeroStats heroStats, int index)
         {
-            int index = level - 1;
-
-            if (index < 0 || index >= weaponStats.Count)
-                return null;
-
             return heroStats switch
             {
-                HeroStats.Damage => weaponStats[index].damage,
-                HeroStats.AttackSpeed => weaponStats[index].attackSpeed,
-                HeroStats.CriticalChance => weaponStats[index].criticalChance,
-                HeroStats.CriticalDamageMultiplier => weaponStats[index].criticalDamageMultiplier,
-                HeroStats.Knockback => weaponStats[index].knockback,
-                HeroStats.AttackSize => weaponStats[index].size,
-                HeroStats.NumberOfAttacks => weaponStats[index].numberOfOrbitals,
-                HeroStats.ProjectileTurnSpeed => weaponStats[index].orbitalSpeed,
+                HeroStats.NumberOfAttacks => WeaponStatsAtLevel[index].numberOfOrbitals,
+                HeroStats.ProjectileTurnSpeed => WeaponStatsAtLevel[index].orbitalSpeed,
                 _ => null,
             };
         }

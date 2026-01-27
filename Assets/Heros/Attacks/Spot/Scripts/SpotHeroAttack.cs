@@ -13,7 +13,7 @@ namespace Heros.Attacks.Spot
         where TStats : SpotAttackStatsContext
     {
         protected BuffableStat spawnAccuracy;
-        protected BuffableStat hitRefreshStat;
+        protected BuffableStat hitRefreshRate;
 
         protected SpotChaoticMovementStats SpotChaoticMovementStats;
 
@@ -50,7 +50,7 @@ namespace Heros.Attacks.Spot
         protected abstract TInit BuildInitContext(Transform target, float? lifeTime);
         protected abstract TStats BuildStatsContext();
 
-        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
         {
             if(heroAttackSO is not SpotHeroAttackSOBase spotHeroAttackSO)
                 return;
@@ -58,9 +58,8 @@ namespace Heros.Attacks.Spot
             SpotChaoticMovementStats = spotHeroAttackSO.spotChaoticMovementStats;
 
             SetupBuffableStat(ref spawnAccuracy, HeroStats.Accuracy);
-            SetupBuffableStat(ref hitRefreshStat, HeroStats.AttackSpeed, AddBuffParameters.Multiplier);
+            SetupBuffableStat(ref hitRefreshRate, HeroStats.SpotHitRefreshRate);
 
-            hitRefreshStat.AddBuff("hitRefresh", spotHeroAttackSO.weaponStats[Level - 1].hitRefreshRate);
             spawnPrefab = spotHeroAttackSO.SpawnPrefab.GetComponent<TSpawn>();
             destroyProjectiles = spotHeroAttackSO.destroyProjectiles;
             amountOfHits = spotHeroAttackSO.amountOfHits == 0 ? null : spotHeroAttackSO.amountOfHits;
@@ -75,12 +74,10 @@ namespace Heros.Attacks.Spot
 
         protected HeroAttackStats BuildBaseHeroAttackStats()
         {
-            float hitRefreshRate = HeroAttackSO.WeaponStats.Select(x => (SpotWeaponStatsAtLevel)x).ToArray()[Level - 1].hitRefreshRate.Value(0);
-
             return new HeroAttackStats(
                 damage.Value,
                 knockback.Value,
-                hitRefreshRate,
+                hitRefreshRate.Value,
                 destroyProjectiles,
                 amountOfHits,
                 projectilesCountToHits

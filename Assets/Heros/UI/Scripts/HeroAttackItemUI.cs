@@ -25,7 +25,7 @@ namespace Heros.Attacks.UI
 
         public void UpdateUI(HeroAttack heroAttack)
         {
-            HeroAttackSO heroAttackSO = heroAttack.HeroAttackSO;
+            BaseHeroAttackSO heroAttackSO = heroAttack.HeroAttackSO;
 
             itemImage.sprite = heroAttack.HeroAttackSO.icon;
 

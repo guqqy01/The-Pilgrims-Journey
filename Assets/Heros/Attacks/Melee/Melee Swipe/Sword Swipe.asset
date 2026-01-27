@@ -19,7 +19,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  weaponStats:
+  WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
       baseBuff:
@@ -34,7 +34,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.5
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 10
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.5
+        floatValue: 1.2
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.75
+        floatValue: 1.1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 20
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.5
+        floatValue: 1.4
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 1.2
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 30
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.5
+        floatValue: 1.6
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2.25
+        floatValue: 1.3
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -224,7 +224,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 40
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.5
+        floatValue: 1.8
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -274,7 +274,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2.5
+        floatValue: 1.4
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 50
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.5
+        floatValue: 2
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -314,10 +314,11 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
   meleeAttackSpawn: {fileID: 8618847770750187054, guid: cb4a6af23b60420428e5ac3428cb68af, type: 3}
+  destroyProjectiles: 0

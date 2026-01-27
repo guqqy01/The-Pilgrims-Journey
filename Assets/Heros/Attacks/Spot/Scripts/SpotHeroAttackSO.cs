@@ -14,26 +14,16 @@ namespace Heros.Attacks.Spot
     {
         public override Type HeroAttackType => typeof(TAttack);
         
-        public override List<WeaponStatsAtLevel> WeaponStats => weaponStats.Select(x => x as WeaponStatsAtLevel).ToList();
         public TSpawn spotAttackSpawnPrefab;
 
         public override GameObject SpawnPrefab => spotAttackSpawnPrefab.gameObject;
 
-        public override Buff GetBuff(HeroStats heroStats, int level)
+        public override Buff GetBuffAtIndex(HeroStats heroStats, int index)
         {
-            Buff baseBuff = base.GetBuff(heroStats, level);
-
-            if (baseBuff != null)
-                return baseBuff;
-
-            int index = level - 1;
-
-            if (index < 0 || index >= weaponStats.Count)
-                return null;
-
             return heroStats switch
             {
-                HeroStats.Accuracy => weaponStats[index].spawnAccuracy,
+                HeroStats.Accuracy => WeaponStatsAtLevel[index].spawnAccuracy,
+                HeroStats.SpotHitRefreshRate => WeaponStatsAtLevel[index].hitRefreshRate,
                 _ => null,
             };
         }

@@ -15,7 +15,7 @@ namespace Heros
 
         public Hero prefab;
 
-        public HeroAttackSO startingAttack;
+        public BaseHeroAttackSO startingAttack;
 
         public SpriteLibraryAsset spriteLibrary;
 

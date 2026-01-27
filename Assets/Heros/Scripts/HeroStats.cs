@@ -24,6 +24,8 @@
 
         Accuracy,
         AttackDurability,
+
+        SpotHitRefreshRate
     }
 }
 

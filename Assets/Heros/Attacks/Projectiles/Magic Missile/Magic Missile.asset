@@ -18,7 +18,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  projectileWeaponStatsAtLevels:
+  WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
       baseBuff:
@@ -43,7 +43,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 5
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
+        floatValue: 6
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 2
+        intValue: 3
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -133,7 +133,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 10
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 60
+        intValue: 50
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -163,97 +163,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfProjectiles:
-      Multiplier: 0
-      baseBuff:
-        intValue: 1
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    projectileSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 7
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    projectileTurnSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 3
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 2.5
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 15
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 70
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
         floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -283,97 +193,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 3
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 20
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 80
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfProjectiles:
-      Multiplier: 0
-      baseBuff:
-        intValue: 1
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    projectileSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 9
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    projectileTurnSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
+        floatValue: 6
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -393,7 +213,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3.5
+        floatValue: 2.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -403,7 +223,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 25
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -412,7 +232,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 90
+        intValue: 50
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -433,7 +253,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -463,97 +283,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 4
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 4
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 30
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 100
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfProjectiles:
-      Multiplier: 0
-      baseBuff:
-        intValue: 1
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    projectileSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 11
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    projectileTurnSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
+        floatValue: 6
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -573,7 +303,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 4.5
+        floatValue: 3
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -583,7 +313,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 35
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -592,7 +322,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 110
+        intValue: 50
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -613,7 +343,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -643,97 +373,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 5
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 5
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 40
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 120
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfProjectiles:
-      Multiplier: 0
-      baseBuff:
-        intValue: 1
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    projectileSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 13
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    projectileTurnSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
+        floatValue: 6
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -753,7 +393,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 5.5
+        floatValue: 3.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -763,7 +403,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 45
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -772,7 +412,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 130
+        intValue: 50
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -793,7 +433,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -823,97 +463,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 6
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
         floatValue: 6
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 50
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 150
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfProjectiles:
-      Multiplier: 0
-      baseBuff:
-        intValue: 1
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    projectileSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 15
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    projectileTurnSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
         isInt: 0
       additionalBuff:
         intValue: 0

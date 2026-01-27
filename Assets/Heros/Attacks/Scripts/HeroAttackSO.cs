@@ -8,30 +8,55 @@ using UnityEngine;
 
 namespace Heros.Attacks
 {
-    public abstract class HeroAttackSO : ScriptableObject
+    public abstract class HeroAttackSO<TStatsAtLevel> : BaseHeroAttackSO where TStatsAtLevel : BaseWeaponStatsAtLevel
     {
-        public abstract Type HeroAttackType { get; }
-        public abstract List<WeaponStatsAtLevel> WeaponStats { get; }
-        public int MaxLevel => WeaponStats.Count;
+        
+        public List<TStatsAtLevel> WeaponStatsAtLevel;
+        public override int MaxLevel => WeaponStatsAtLevel.Count;
 
-        public virtual Buff GetBuff(HeroStats heroStats, int level)
+        public abstract Buff GetBuffAtIndex(HeroStats heroStats, int index);
+
+        public override Buff GetBuff(HeroStats heroStats, int level)
         {
             int index = level - 1;
 
-            if (index < 0 || index >= WeaponStats.Count)
+            if (index < 0 || index >= WeaponStatsAtLevel.Count)
                 return null;
 
-            return heroStats switch
+            Buff buff = heroStats switch
             {
-                HeroStats.Damage => WeaponStats[index].damage,
-                HeroStats.AttackSpeed => WeaponStats[index].attackSpeed,
-                HeroStats.CriticalChance => WeaponStats[index].criticalChance,
-                HeroStats.CriticalDamageMultiplier => WeaponStats[index].criticalDamageMultiplier,
-                HeroStats.Knockback => WeaponStats[index].knockback,
-                HeroStats.AttackSize => WeaponStats[index].size,
+                HeroStats.Damage => WeaponStatsAtLevel[index].damage,
+                HeroStats.AttackSpeed => WeaponStatsAtLevel[index].attackSpeed,
+                HeroStats.CriticalChance => WeaponStatsAtLevel[index].criticalChance,
+                HeroStats.CriticalDamageMultiplier => WeaponStatsAtLevel[index].criticalDamageMultiplier,
+                HeroStats.Knockback => WeaponStatsAtLevel[index].knockback,
+                HeroStats.AttackSize => WeaponStatsAtLevel[index].size,
                 _ => null,
             };
+
+            if (buff != null)
+                return buff;
+
+            return GetBuffAtIndex(heroStats, index);
         }
+    }
+
+    public abstract class BaseHeroAttackSO : ScriptableObject
+    {
+        public abstract Type HeroAttackType { get; }
+        public abstract int MaxLevel { get; }
+
+        public Sprite icon;
+
+        [TextArea]
+        public string description;
+
+        public float findTargetDistance;
+
+        public LayerMask enemyLayerMask;
+
+        public abstract Buff GetBuff(HeroStats heroStats, int level);
+
 
         public string GetStatsDescription(int level)
         {
@@ -40,7 +65,7 @@ namespace Heros.Attacks
             {
                 Buff buff = GetBuff(stat, level);
 
-                if(buff == null)
+                if (buff == null)
                     continue;
 
                 string buffDescription = buff.GetSimpleDescription();
@@ -55,19 +80,11 @@ namespace Heros.Attacks
 
             return str;
         }
-
-        public Sprite icon;
-
-        [TextArea]
-        public string description;
-
-        public float findTargetDistance;
-
-        public LayerMask enemyLayerMask;
     }
 
+
     [Serializable]
-    public class ProjectileWeaponStatsAtLevel : WeaponStatsAtLevel
+    public class ProjectileWeaponStatsAtLevel : BaseWeaponStatsAtLevel
     {
         [BuffType(true)]
         public Buff numberOfProjectiles;
@@ -76,8 +93,9 @@ namespace Heros.Attacks
         [BuffType(false)]
         public Buff projectileTurnSpeed;
     }
+
     [Serializable]
-    public class WeaponStatsAtLevel
+    public class BaseWeaponStatsAtLevel
     {
         [BuffType(true)]
         public Buff damage;
@@ -96,7 +114,7 @@ namespace Heros.Attacks
     }
 
     [Serializable]
-    public class OrbitalWeaponStatsAtLevel : WeaponStatsAtLevel
+    public class OrbitalWeaponStatsAtLevel : BaseWeaponStatsAtLevel
     {
         [BuffType(true)]
         public Buff numberOfOrbitals;
@@ -105,7 +123,7 @@ namespace Heros.Attacks
     }
 
     [Serializable]
-    public class SpotWeaponStatsAtLevel : WeaponStatsAtLevel
+    public class SpotWeaponStatsAtLevel : BaseWeaponStatsAtLevel
     {
         [BuffType(false)]
         public Buff spawnAccuracy;
@@ -114,7 +132,7 @@ namespace Heros.Attacks
         [BuffType(false)]
         public Buff hitRefreshRate;
     }
-
+    /*
     [CustomEditor(typeof(HeroAttackSO), true)]
     public class HeroAttackEditor : Editor
     {
@@ -147,8 +165,8 @@ namespace Heros.Attacks
                 for (int i = 0; i < heroAttackSO.WeaponStats.Count; i++)
                 {
                     EditorGUILayout.LabelField($"Level {i + 1} Stats:");
-                    WeaponStatsAtLevel stats = heroAttackSO.WeaponStats[i];
-                    WeaponStatsAtLevel previousStats = (i>0) ? heroAttackSO.WeaponStats[i - 1] : null;
+                    BaseWeaponStatsAtLevel stats = heroAttackSO.WeaponStats[i];
+                    BaseWeaponStatsAtLevel previousStats = (i>0) ? heroAttackSO.WeaponStats[i - 1] : null;
                     DrawBuff("Damage", stats.damage, previousStats?.damage);
                     DrawBuff("Attack Speed", stats.attackSpeed, previousStats?.attackSpeed);
                     DrawBuff("Critical Chance", stats.criticalChance, previousStats?.criticalChance);
@@ -221,6 +239,6 @@ namespace Heros.Attacks
             }
             return lineCount;
         }
-    }
+    }*/
 }
 

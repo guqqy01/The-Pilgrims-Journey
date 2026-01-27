@@ -83,7 +83,7 @@ namespace Heros.Attacks.Projectiles
             newMissile.Init(projectileStats, projectileHoming, direction, enemyLayerMask, target);
         }
 
-        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
         {
             if (heroAttackSO is not ProjectileHeroAttackSO projectileHeroAttackSO)
                 return;

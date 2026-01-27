@@ -12,26 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775adaae39bbd2e42a8a7c8c1a682040, type: 3}
   m_Name: Test Stationary Spot Attack
   m_EditorClassIdentifier: Assembly-CSharp::Heros.Attacks.Spot.StationarySpotHeroAttackSO
-  icon: {fileID: 7194823425934522416, guid: 31588a4a94ee1a341accd2f05400fa55, type: 3}
+  icon: {fileID: -1891844296, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: 
   findTargetDistance: 20
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  spotChaoticMovementStats:
-    chaoticMovementSpeed: 0.5
-    chaoticMovementRadius: 2
-    chaoticChangeMovementTimeRange: {x: 0.1, y: 0.5}
-  attackRange: 20
-  destroyProjectiles: 0
-  amountOfHits: 0
-  projectilesCountToHits: 0
-  lifeTime: 5
-  weaponStats:
+  WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 2
+        intValue: 3
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -42,7 +33,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0.2
+        floatValue: 0.1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -52,7 +43,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 50
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -102,20 +93,389 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
+        floatValue: 4
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    hitRefreshRate:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
         floatValue: 5
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
-    refreshHitRate:
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 4
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 0.12
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 50
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 60
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    spawnAccuracy:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    lifeTime:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 4
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    hitRefreshRate:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 4
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0.14
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 50
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 70
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    spawnAccuracy:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    lifeTime:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 4
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    hitRefreshRate:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 5
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0.16
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 50
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 80
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    spawnAccuracy:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    lifeTime:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 4
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    hitRefreshRate:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 6
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0.18
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 50
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 90
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    spawnAccuracy:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    lifeTime:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 4
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    hitRefreshRate:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  spotChaoticMovementStats:
+    chaoticMovementSpeed: 0.5
+    chaoticMovementRadius: 2
+    chaoticChangeMovementTimeRange: {x: 0.1, y: 0.5}
+  attackRange: 20
+  destroyProjectiles: 0
+  amountOfHits: 0
+  projectilesCountToHits: 0
+  lifeTime: 5
   spotAttackSpawnPrefab: {fileID: 7913750227135152283, guid: ff813f76db353d543a4458ab8e2abfa7, type: 3}

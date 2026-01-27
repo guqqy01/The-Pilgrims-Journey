@@ -4,7 +4,7 @@ namespace Heros.Attacks
 {
     public abstract class HeroAttack : MonoBehaviour
     {
-        public HeroAttackSO HeroAttackSO { get; private set; }
+        public BaseHeroAttackSO HeroAttackSO { get; private set; }
 
         public int Level { private set; get; } = 1;
 
@@ -72,7 +72,7 @@ namespace Heros.Attacks
 
         protected abstract bool Attack();
 
-        protected abstract void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO);
+        protected abstract void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO);
 
         protected abstract void InheritLevelSetup();
 
@@ -90,7 +90,7 @@ namespace Heros.Attacks
             InheritLevelSetup();
         }
 
-        public void Setup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        public void Setup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
         {
             HeroAttackSO = heroAttackSO;
 

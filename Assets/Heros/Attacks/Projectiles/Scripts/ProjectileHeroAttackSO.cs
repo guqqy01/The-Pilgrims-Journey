@@ -6,34 +6,25 @@ using System.Linq;
 namespace Heros.Attacks.Projectiles
 {
     [CreateAssetMenu(menuName = "Hero Attack/Projectile")]
-    public class ProjectileHeroAttackSO : HeroAttackSO
+    public class ProjectileHeroAttackSO : HeroAttackSO<ProjectileWeaponStatsAtLevel>
     {
         public override Type HeroAttackType => typeof(ProjectileHeroAttack);
-
-        [SerializeField]
-        private List<ProjectileWeaponStatsAtLevel> projectileWeaponStatsAtLevels = new List<ProjectileWeaponStatsAtLevel>();
-        public override List<WeaponStatsAtLevel> WeaponStats => projectileWeaponStatsAtLevels.Select(x => x as WeaponStatsAtLevel).ToList();
 
         public Projectile projectilePrefab;
 
         public bool projectileHoming;
 
-        public override Buff GetBuff(HeroStats heroStats, int level)
+        public override Buff GetBuffAtIndex(HeroStats heroStats, int index)
         {
             return heroStats switch
             {
-                HeroStats.Damage => projectileWeaponStatsAtLevels[level - 1].damage,
-                HeroStats.AttackSpeed => projectileWeaponStatsAtLevels[level - 1].attackSpeed,
-                HeroStats.CriticalChance => projectileWeaponStatsAtLevels[level - 1].criticalChance,
-                HeroStats.CriticalDamageMultiplier => projectileWeaponStatsAtLevels[level - 1].criticalDamageMultiplier,
-                HeroStats.Knockback => projectileWeaponStatsAtLevels[level - 1].knockback,
-                HeroStats.NumberOfAttacks => projectileWeaponStatsAtLevels[level - 1].numberOfProjectiles,
-                HeroStats.AttackSize => projectileWeaponStatsAtLevels[level - 1].size,
-                HeroStats.ProjectileSpeed => projectileWeaponStatsAtLevels[level - 1].projectileSpeed,
-                HeroStats.ProjectileTurnSpeed => projectileWeaponStatsAtLevels[level - 1].projectileTurnSpeed,
+                HeroStats.NumberOfAttacks => WeaponStatsAtLevel[index].numberOfProjectiles,
+                HeroStats.ProjectileSpeed => WeaponStatsAtLevel[index].projectileSpeed,
+                HeroStats.ProjectileTurnSpeed => WeaponStatsAtLevel[index].projectileTurnSpeed,
                 _ => null,
             };
-        }   
+        }
+
     }
 }
 

@@ -18,7 +18,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  projectileWeaponStatsAtLevels:
+  WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
       baseBuff:
@@ -43,7 +43,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 10
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 60
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -63,7 +63,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.2
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 20
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 80
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -153,7 +153,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 10
+        floatValue: 11
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.4
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 30
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 100
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -243,7 +243,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -273,7 +273,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 10
+        floatValue: 12
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -303,7 +303,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.6
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 40
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -322,7 +322,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 120
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -333,7 +333,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -363,7 +363,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 10
+        floatValue: 13
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -393,7 +393,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 50
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -412,7 +412,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 140
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -423,7 +423,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -433,7 +433,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -453,7 +453,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 10
+        floatValue: 14
         isInt: 0
       additionalBuff:
         intValue: 0

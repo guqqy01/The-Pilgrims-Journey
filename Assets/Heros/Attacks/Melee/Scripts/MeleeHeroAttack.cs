@@ -44,7 +44,7 @@ namespace Heros.Attacks.Melee
             return true;
         }
 
-        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
         {
             if(heroAttackSO is not MeleeHeroAttackSO meleeAttack)
             {

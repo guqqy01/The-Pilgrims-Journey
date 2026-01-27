@@ -176,7 +176,7 @@ namespace Heros.Attacks.Orbital
             SetupAmountOfTargetTransforms();
         }
 
-        protected override void InheritSetup(HeroSO heroSO, HeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
         {
             if (heroAttackSO is not OrbitalHeroAttackSO orbitalHeroAttackSO)
                 return;

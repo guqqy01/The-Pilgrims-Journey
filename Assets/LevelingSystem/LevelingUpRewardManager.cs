@@ -14,7 +14,7 @@ namespace LevelingSystem
 
         [SerializeField] private WeightedChanceList<RelicSO> unitStatRelics;
         [SerializeField] private WeightedChanceList<RelicSO> heroStatRelics;
-        [SerializeField] private WeightedChanceList<HeroAttackSO> heroWeaponRelicsTest;
+        [SerializeField] private WeightedChanceList<BaseHeroAttackSO> heroWeaponRelicsTest;
 
         private int unitWeight = 1;
         private int heroWeight = 0;
@@ -173,12 +173,12 @@ namespace LevelingSystem
 
     public class HeroWeaponReward : ILevelingUpReward
     {
-        public HeroAttackSO HeroAttackSO { get; }
+        public BaseHeroAttackSO HeroAttackSO { get; }
         public Sprite Sprite => HeroAttackSO.icon;
 
         public ScriptableObject Source => HeroAttackSO;
 
-        public HeroWeaponReward(HeroAttackSO relicSO)
+        public HeroWeaponReward(BaseHeroAttackSO relicSO)
         {
             HeroAttackSO = relicSO;
         }

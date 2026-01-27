@@ -18,167 +18,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  weaponStats:
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 1
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 50
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfOrbitals:
-      Multiplier: 0
-      baseBuff:
-        intValue: 8
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    orbitalSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 1
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1.5
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 50
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfOrbitals:
-      Multiplier: 0
-      baseBuff:
-        intValue: 10
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    orbitalSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
+  WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
       baseBuff:
@@ -242,6 +82,86 @@ MonoBehaviour:
     numberOfOrbitals:
       Multiplier: 0
       baseBuff:
+        intValue: 8
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    orbitalSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 2
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 3
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 50
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfOrbitals:
+      Multiplier: 0
+      baseBuff:
         intValue: 12
         floatValue: 0
         isInt: 1
@@ -253,7 +173,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
+        floatValue: 2
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -262,247 +182,7 @@ MonoBehaviour:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 2
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 2.5
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 50
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfOrbitals:
-      Multiplier: 0
-      baseBuff:
-        intValue: 14
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    orbitalSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 2
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 50
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfOrbitals:
-      Multiplier: 0
-      baseBuff:
-        intValue: 16
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    orbitalSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 2
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3.5
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 50
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    numberOfOrbitals:
-      Multiplier: 0
-      baseBuff:
-        intValue: 18
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    orbitalSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 3
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 3
+        intValue: 1
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -562,6 +242,86 @@ MonoBehaviour:
     numberOfOrbitals:
       Multiplier: 0
       baseBuff:
+        intValue: 16
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    orbitalSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 2
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 50
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfOrbitals:
+      Multiplier: 0
+      baseBuff:
         intValue: 20
         floatValue: 0
         isInt: 1
@@ -573,7 +333,87 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
+        floatValue: 2
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 6
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 50
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    numberOfOrbitals:
+      Multiplier: 0
+      baseBuff:
+        intValue: 24
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    orbitalSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 2
         isInt: 0
       additionalBuff:
         intValue: 0

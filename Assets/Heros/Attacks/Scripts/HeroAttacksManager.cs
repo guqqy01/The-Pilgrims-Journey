@@ -13,7 +13,7 @@ namespace Heros.Attacks
         private Hero ActiveHero => HeroManager.Instance.ActiveHero;
 
         [SerializeField]
-        private Dictionary<HeroAttackSO, HeroAttack> attacks = new Dictionary<HeroAttackSO, HeroAttack>();
+        private Dictionary<BaseHeroAttackSO, HeroAttack> attacks = new Dictionary<BaseHeroAttackSO, HeroAttack>();
 
         public delegate void OnAddHeroAttack(HeroAttack heroAttack);
         public OnAddHeroAttack onAddHeroAttack;
@@ -37,12 +37,12 @@ namespace Heros.Attacks
             onHeroAttackLevelChange = null;
         }
 
-        public bool HasHeroAttack(HeroAttackSO heroAttackSO)
+        public bool HasHeroAttack(BaseHeroAttackSO heroAttackSO)
         {
             return attacks.ContainsKey(heroAttackSO);
         }
 
-        public void AddHeroAttack(HeroAttackSO heroAttackSO)
+        public void AddHeroAttack(BaseHeroAttackSO heroAttackSO)
         {
             if (attacks.ContainsKey(heroAttackSO))
                 return;
@@ -63,7 +63,7 @@ namespace Heros.Attacks
 
         
 
-        public void RemoveHeroAttack(HeroAttackSO heroAttackSO)
+        public void RemoveHeroAttack(BaseHeroAttackSO heroAttackSO)
         {
             if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
             {
@@ -75,7 +75,7 @@ namespace Heros.Attacks
             }
         }
         
-        public int GetHeroAttackLevel(HeroAttackSO heroAttackSO)
+        public int GetHeroAttackLevel(BaseHeroAttackSO heroAttackSO)
         {
             if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
             {
@@ -84,7 +84,7 @@ namespace Heros.Attacks
             return 0;
         }
 
-        public void LevelUpOrAddHeroAttack(HeroAttackSO heroAttackSO)
+        public void LevelUpOrAddHeroAttack(BaseHeroAttackSO heroAttackSO)
         {
             int heroAttackLevel = GetHeroAttackLevel(heroAttackSO);
 
@@ -98,7 +98,7 @@ namespace Heros.Attacks
             }
         }
 
-        public void SetHeroAttackLevel(HeroAttackSO heroAttackSO, int level)
+        public void SetHeroAttackLevel(BaseHeroAttackSO heroAttackSO, int level)
         {
             if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
             {
@@ -120,11 +120,5 @@ namespace Heros.Attacks
 
     }
 
-    [Serializable]
-    internal class HeroAttackTest
-    {
-        public HeroAttackSO heroAttackSO;
-        public KeyCode KeyCode;
-    }
 }
 
