@@ -13,7 +13,7 @@ namespace Heros.Attacks.UI
         [SerializeField]
         private Transform heroAttacksHolderTransform;
 
-        private Dictionary<HeroAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<HeroAttack, HeroAttackItemUI>();
+        private Dictionary<BaseHeroAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<BaseHeroAttack, HeroAttackItemUI>();
 
         public override void InitiateSingleton()
         {
@@ -38,7 +38,7 @@ namespace Heros.Attacks.UI
             HeroAttacksManager.Instance.onRemoveHeroAttack += RemoveHeroAttackItemUI;
         }
 
-        public void CreateHeroAttackItemUI(HeroAttack heroAttack)
+        public void CreateHeroAttackItemUI(BaseHeroAttack heroAttack)
         {
             if (heroAttackItemUIs.ContainsKey(heroAttack))
             {
@@ -60,12 +60,12 @@ namespace Heros.Attacks.UI
             heroAttackItemUIs.Add(heroAttack, heroAttackItemUI);
         }
 
-        public void UpdateHeroAttackItemUI(HeroAttack heroAttack)
+        public void UpdateHeroAttackItemUI(BaseHeroAttack heroAttack)
         {
             heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
         }
 
-        public void RemoveHeroAttackItemUI(HeroAttack heroAttack)
+        public void RemoveHeroAttackItemUI(BaseHeroAttack heroAttack)
         {
             Destroy(heroAttackItemUIs[heroAttack].gameObject);
             heroAttackItemUIs.Remove(heroAttack);

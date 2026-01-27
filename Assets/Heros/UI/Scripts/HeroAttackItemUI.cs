@@ -23,11 +23,11 @@ namespace Heros.Attacks.UI
         [SerializeField]
         private Sprite unleveledSprite;
 
-        public void UpdateUI(HeroAttack heroAttack)
+        public void UpdateUI(BaseHeroAttack heroAttack)
         {
-            BaseHeroAttackSO heroAttackSO = heroAttack.HeroAttackSO;
+            BaseHeroAttackSO heroAttackSO = heroAttack.BaseHeroAttackSO;
 
-            itemImage.sprite = heroAttack.HeroAttackSO.icon;
+            itemImage.sprite = heroAttack.BaseHeroAttackSO.icon;
 
             levelPrefabs.DestroyAndClearList();
 

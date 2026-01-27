@@ -13,15 +13,15 @@ namespace Heros.Attacks
         private Hero ActiveHero => HeroManager.Instance.ActiveHero;
 
         [SerializeField]
-        private Dictionary<BaseHeroAttackSO, HeroAttack> attacks = new Dictionary<BaseHeroAttackSO, HeroAttack>();
+        private Dictionary<BaseHeroAttackSO, BaseHeroAttack> attacks = new Dictionary<BaseHeroAttackSO, BaseHeroAttack>();
 
-        public delegate void OnAddHeroAttack(HeroAttack heroAttack);
+        public delegate void OnAddHeroAttack(BaseHeroAttack heroAttack);
         public OnAddHeroAttack onAddHeroAttack;
 
-        public delegate void OnRemoveHeroAttack(HeroAttack heroAttack);
+        public delegate void OnRemoveHeroAttack(BaseHeroAttack heroAttack);
         public OnAddHeroAttack onRemoveHeroAttack;
 
-        public delegate void OnHeroAttackLevelChange(HeroAttack heroAttack);
+        public delegate void OnHeroAttackLevelChange(BaseHeroAttack heroAttack);
         public OnHeroAttackLevelChange onHeroAttackLevelChange;
         
         private void Update()
@@ -47,13 +47,13 @@ namespace Heros.Attacks
             if (attacks.ContainsKey(heroAttackSO))
                 return;
 
-            if (!typeof(HeroAttack).IsAssignableFrom(heroAttackSO.HeroAttackType))
+            if (!typeof(BaseHeroAttack).IsAssignableFrom(heroAttackSO.HeroAttackType))
             {
                 Debug.LogError($"Type {heroAttackSO.HeroAttackType} is not a HeroAttack!");
                 return;
             }
 
-            var attack = (HeroAttack)ActiveHero.gameObject.AddComponent(heroAttackSO.HeroAttackType);
+            var attack = (BaseHeroAttack)ActiveHero.gameObject.AddComponent(heroAttackSO.HeroAttackType);
             attack.Setup(HeroManager.Instance.HeroSO, heroAttackSO);
 
             attacks.Add(heroAttackSO, attack);
@@ -65,7 +65,7 @@ namespace Heros.Attacks
 
         public void RemoveHeroAttack(BaseHeroAttackSO heroAttackSO)
         {
-            if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
+            if (attacks.TryGetValue(heroAttackSO, out BaseHeroAttack heroAttack))
             {
                 onRemoveHeroAttack?.Invoke(heroAttack);
 
@@ -77,7 +77,7 @@ namespace Heros.Attacks
         
         public int GetHeroAttackLevel(BaseHeroAttackSO heroAttackSO)
         {
-            if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
+            if (attacks.TryGetValue(heroAttackSO, out BaseHeroAttack heroAttack))
             {
                 return heroAttack.Level;
             }
@@ -100,7 +100,7 @@ namespace Heros.Attacks
 
         public void SetHeroAttackLevel(BaseHeroAttackSO heroAttackSO, int level)
         {
-            if (attacks.TryGetValue(heroAttackSO, out HeroAttack heroAttack))
+            if (attacks.TryGetValue(heroAttackSO, out BaseHeroAttack heroAttack))
             {
                 heroAttack.SetHeroAttackLevel(level);
 

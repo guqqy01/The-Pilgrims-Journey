@@ -2,11 +2,11 @@
 
 namespace Heros.Attacks
 {
-    public abstract class HeroAttack : MonoBehaviour
+    public abstract class BaseHeroAttack : MonoBehaviour
     {
-        public BaseHeroAttackSO HeroAttackSO { get; private set; }
+        public abstract BaseHeroAttackSO BaseHeroAttackSO { get; }
 
-        public int Level { private set; get; } = 1;
+        public int Level { protected set; get; } = 1;
 
         [SerializeField]
         protected BuffableStat damage;
@@ -72,27 +72,36 @@ namespace Heros.Attacks
 
         protected abstract bool Attack();
 
-        protected abstract void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO);
+        public abstract void Setup<TBaseHeroAttackSO>(HeroSO heroSO, TBaseHeroAttackSO heroAttackSO) where TBaseHeroAttackSO : BaseHeroAttackSO;
 
         protected abstract void InheritLevelSetup();
 
         public void SetHeroAttackLevel(int level)
         {
-            Level = Mathf.Clamp(level, 1, HeroAttackSO.MaxLevel);
+            Level = Mathf.Clamp(level, 1, BaseHeroAttackSO.MaxLevel);
 
-            damage.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.Damage, Level));
-            attackSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.AttackSpeed, Level));
-            criticalChance.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.CriticalChance, Level));
-            criticalDamageMultiplier.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.CriticalDamageMultiplier, Level));
-            knockback.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.Knockback, Level));
-            size.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.AttackSize, Level));
+            damage.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.Damage, Level));
+            attackSpeed.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.AttackSpeed, Level));
+            criticalChance.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.CriticalChance, Level));
+            criticalDamageMultiplier.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.CriticalDamageMultiplier, Level));
+            knockback.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.Knockback, Level));
+            size.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.AttackSize, Level));
 
             InheritLevelSetup();
         }
+    }
 
-        public void Setup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
+    public abstract class HeroAttack<THeroAttackSO> : BaseHeroAttack where THeroAttackSO : BaseHeroAttackSO
+    {
+        public THeroAttackSO HeroAttackSO { get; private set; }
+
+        public override BaseHeroAttackSO BaseHeroAttackSO => HeroAttackSO;
+
+        protected abstract void InheritSetup(HeroSO heroSO, THeroAttackSO heroAttackSO);
+
+        public override void Setup<TBaseHeroAttackSO>(HeroSO heroSO, TBaseHeroAttackSO heroAttackSO)
         {
-            HeroAttackSO = heroAttackSO;
+            HeroAttackSO = heroAttackSO as THeroAttackSO;
 
             Level = 1;
 
@@ -107,7 +116,7 @@ namespace Heros.Attacks
 
             enemyLayerMask = heroAttackSO.enemyLayerMask;
 
-            InheritSetup(heroSO, heroAttackSO);
+            InheritSetup(heroSO, HeroAttackSO);
         }
 
         protected void SetupBuffableStat(ref BuffableStat stat, HeroStats heroStats, AddBuffParameters addBuffParameters = AddBuffParameters.All)

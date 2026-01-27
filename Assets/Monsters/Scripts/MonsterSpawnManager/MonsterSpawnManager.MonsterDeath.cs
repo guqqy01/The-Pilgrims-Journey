@@ -50,6 +50,11 @@ namespace Monsters
         private void HandleRespawnDelay(MonsterSO monster)
         {
             var spawn = monsterSpawnSettings.rangeAndMonster.Find(s => s.monster == monster);
+            
+            if(spawn.monster == null || spawn.maxAmountVSLevel == null)
+            {
+                return;
+            }
 
             int previous = aliveCountByMonster[monster];
             int maxAllowed = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));

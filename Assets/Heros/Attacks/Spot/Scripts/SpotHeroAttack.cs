@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Heros.Attacks.Spot
 {
-    public abstract class SpotHeroAttack<TSpawn, TInit, TStats> : HeroAttack
+    public abstract class SpotHeroAttack<TSpawn, TInit, TStats> : HeroAttack<SpotHeroAttackSOBase>
         where TSpawn : SpotAttackSpawn<TStats>
         where TInit : SpotAttackInitContext
         where TStats : SpotAttackStatsContext
@@ -50,11 +50,8 @@ namespace Heros.Attacks.Spot
         protected abstract TInit BuildInitContext(Transform target, float? lifeTime);
         protected abstract TStats BuildStatsContext();
 
-        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, SpotHeroAttackSOBase spotHeroAttackSO)
         {
-            if(heroAttackSO is not SpotHeroAttackSOBase spotHeroAttackSO)
-                return;
-
             SpotChaoticMovementStats = spotHeroAttackSO.spotChaoticMovementStats;
 
             SetupBuffableStat(ref spawnAccuracy, HeroStats.Accuracy);

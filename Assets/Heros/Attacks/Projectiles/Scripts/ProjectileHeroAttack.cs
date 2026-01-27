@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Heros.Attacks.Projectiles
 {
-    public class ProjectileHeroAttack : HeroAttack
+    public class ProjectileHeroAttack : HeroAttack<ProjectileHeroAttackSO>
     {
         [SerializeField]
         protected Projectile projectilePrefab;
@@ -83,11 +83,8 @@ namespace Heros.Attacks.Projectiles
             newMissile.Init(projectileStats, projectileHoming, direction, enemyLayerMask, target);
         }
 
-        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, ProjectileHeroAttackSO projectileHeroAttackSO)
         {
-            if (heroAttackSO is not ProjectileHeroAttackSO projectileHeroAttackSO)
-                return;
-
             SetupBuffableStat(ref numberOfProjectiles, HeroStats.NumberOfAttacks);
             SetupBuffableStat(ref projectileSpeed, HeroStats.ProjectileSpeed);
             SetupBuffableStat(ref projectileTurnSpeed, HeroStats.ProjectileTurnSpeed);

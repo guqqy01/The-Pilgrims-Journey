@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Heros.Attacks.Orbital
 {
-    public class OrbitalHeroAttack : HeroAttack
+    public class OrbitalHeroAttack : HeroAttack<OrbitalHeroAttackSO>
     {
         private BuffableStat numberOfOrbitals;
         private BuffableStat orbitalSpeed;
@@ -176,11 +176,8 @@ namespace Heros.Attacks.Orbital
             SetupAmountOfTargetTransforms();
         }
 
-        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, OrbitalHeroAttackSO orbitalHeroAttackSO)
         {
-            if (heroAttackSO is not OrbitalHeroAttackSO orbitalHeroAttackSO)
-                return;
-
             SetupBuffableStat(ref numberOfOrbitals, HeroStats.NumberOfAttacks);
             SetupBuffableStat(ref orbitalSpeed, HeroStats.ProjectileTurnSpeed);
 

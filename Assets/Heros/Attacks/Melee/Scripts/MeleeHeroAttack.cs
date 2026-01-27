@@ -2,7 +2,7 @@
 
 namespace Heros.Attacks.Melee
 {
-    public class MeleeHeroAttack : HeroAttack
+    public class MeleeHeroAttack : HeroAttack<MeleeHeroAttackSO>
     {
         private HeroMovement heroMovement;
         private MeleeAttackSpawn meleeAttackPrefab;
@@ -44,15 +44,10 @@ namespace Heros.Attacks.Melee
             return true;
         }
 
-        protected override void InheritSetup(HeroSO heroSO, BaseHeroAttackSO heroAttackSO)
+        protected override void InheritSetup(HeroSO heroSO, MeleeHeroAttackSO heroAttackSO)
         {
-            if(heroAttackSO is not MeleeHeroAttackSO meleeAttack)
-            {
-                return;
-            }
-
-            meleeAttackPrefab = meleeAttack.meleeAttackSpawn;
-            destroyProjectiles = meleeAttack.destroyProjectiles;
+            meleeAttackPrefab = heroAttackSO.meleeAttackSpawn;
+            destroyProjectiles = heroAttackSO.destroyProjectiles;
         }
 
         protected override void InheritLevelSetup()

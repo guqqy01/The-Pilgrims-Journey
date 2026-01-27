@@ -26,7 +26,7 @@ namespace LevelingSystem
         {
             Level++;
             CurrentExperience = 0;
-            LevelingUpRewardManager.Instance.SetupRelicsChoices();
+            LevelingUpRewardManager.Instance.SetupRewardChoices();
         }
 
         public void AddExperience(float amount)

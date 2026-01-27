@@ -54,13 +54,22 @@ namespace LevelingSystem
             return selected;
         }
 
-        public void SetupRelicsChoices()
+        public void SetupRewardChoices()
         {
             Rewards.Clear();
 
             RewardPool pool = GetRandomPool();
-
             int breaker = 100;
+            while (!IsValidPool(pool) && breaker > 0)
+            {
+                pool = GetRandomPool();
+                breaker--;
+            }
+
+            if (!IsValidPool(pool))
+                return;
+
+            breaker = 100;
 
             while (Rewards.Count < OverallStatsManager.Instance.AmountOfRelicToChooseFrom && breaker > 0)
             {
@@ -83,6 +92,29 @@ namespace LevelingSystem
 
             onShowUI?.Invoke(Rewards);
             Time.timeScale = 0f;
+        }
+
+        private bool IsValidPool(RewardPool pool)
+        {
+            List<ILevelingUpReward> rewardPool  = pool switch
+            {
+                RewardPool.Unit => unitStatRelics.weightedList.Select(x => new RelicReward(x.item) as ILevelingUpReward).ToList(),
+                RewardPool.Hero => heroStatRelics.weightedList.Select(x => new RelicReward(x.item) as ILevelingUpReward).ToList(),
+                RewardPool.Weapon => heroWeaponRelicsTest.weightedList.Select(x => new HeroWeaponReward(x.item) as ILevelingUpReward).ToList(),
+                _ => null
+            };
+
+            bool hasValidReward = false;
+
+            foreach (ILevelingUpReward reward in rewardPool)
+            {
+                if (IsRewardValid(reward))
+                {
+                    hasValidReward = true;
+                }
+            }
+
+            return hasValidReward;
         }
 
         private bool IsRewardValid(ILevelingUpReward reward)
