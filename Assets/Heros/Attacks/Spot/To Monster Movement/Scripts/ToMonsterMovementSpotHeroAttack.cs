@@ -20,7 +20,7 @@ namespace Heros.Attacks.Spot
             if (HeroAttackSO is not ToMonsterMovementSpotHeroAttackSO toMonsterSO)
                 return null;
 
-            RandomMovementStats randomMovementStats = new RandomMovementStats(toMonsterSO.randomChangeMovementTimeRange);
+            RandomMovementStats randomMovementStats = new RandomMovementStats(toMonsterSO.randomChangeMovementTimeRange.randomChangeMovementTimeRange);
 
             return new ToMonsterMovementSpotAttackStatsContext(heroAttackStats, SpotChaoticMovementStats, randomMovementStats, toMonsterSO.toMonsterMovementStats);
         }

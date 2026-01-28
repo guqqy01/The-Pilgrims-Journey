@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System;
 namespace Heros.Attacks.Spot
 {
     [CreateAssetMenu(menuName = "Hero Attack/Spot/Stationary")]

@@ -14,7 +14,8 @@ namespace Heros.Attacks.Spot
 
         protected SpotChaoticMovementStats SpotChaoticMovementStats;
 
-        protected SpotAttackSpawn<SpotAttackStatsContext> spawnPrefab;
+        // store prefab GameObject instead of a generic typed component
+        protected GameObject spawnPrefabGameObject;
 
         private readonly List<ISpotAttackSpawn> spotAttackSpawns = new List<ISpotAttackSpawn>();
 
@@ -36,18 +37,18 @@ namespace Heros.Attacks.Spot
 
         protected virtual void SpawnAttack(Transform target)
         {
-            if (spawnPrefab == null)
+            if (spawnPrefabGameObject == null)
             {
                 Debug.LogError("Spawn prefab not set on SpotHeroAttack");
                 return;
             }
 
-            GameObject instance = Instantiate(spawnPrefab.gameObject);
+            GameObject instance = Instantiate(spawnPrefabGameObject);
 
             var spawn = instance.GetComponent<ISpotAttackSpawn>();
             if (spawn == null)
             {
-                Debug.LogError($"Spawn prefab {spawnPrefab.gameObject.name} does not implement ISpotAttackSpawn");
+                Debug.LogError($"Spawn prefab {spawnPrefabGameObject.name} does not implement ISpotAttackSpawn");
                 Destroy(instance);
                 return;
             }
@@ -77,26 +78,9 @@ namespace Heros.Attacks.Spot
             SetupBuffableStat(ref spawnAccuracy, HeroStats.Accuracy);
             SetupBuffableStat(ref hitRefreshRate, HeroStats.SpotHitRefreshRate);
 
-            var go = spotHeroAttackSO.SpawnPrefab;
-            if (go == null)
-            {
-                Debug.LogError("SpotHeroAttackSO SpawnPrefab is null");
-            }
-            else
-            {
-                var comp = go.GetComponent<SpotAttackSpawn<SpotAttackStatsContext>>();
-                if (comp != null)
-                {
-                    spawnPrefab = comp;
-                }
-                else
-                {
-                    // try to find any SpotAttackSpawn on the prefab
-                    var any = go.GetComponentInChildren<SpotAttackSpawn<SpotAttackStatsContext>>();
-                    if (any != null)
-                        spawnPrefab = any;
-                }
-            }
+            // Use the SO's SpawnPrefab GameObject directly. Don't try to get a generic component from the prefab,
+            // because concrete spawn components use different generic type parameters and GetComponent<T> won't match.
+            spawnPrefabGameObject = spotHeroAttackSO.SpawnPrefab;
 
             destroyProjectiles = spotHeroAttackSO.destroyProjectiles;
             amountOfHits = spotHeroAttackSO.amountOfHits == 0 ? null : spotHeroAttackSO.amountOfHits;

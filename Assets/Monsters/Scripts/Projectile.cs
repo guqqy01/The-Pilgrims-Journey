@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour
 
     private bool homing;
 
+    private bool bounce;
+
     private Transform target;
 
     private Vector2 direction;
@@ -26,16 +28,20 @@ public class Projectile : MonoBehaviour
 
     private readonly HashSet<HealthAndShieldManager> hitHealth = new HashSet<HealthAndShieldManager>();
      
+    //private readonly Dictionary<HealthAndShieldManager, float> hitHealthAndRefreshTime = 
+
     private const float projectileLifetime = 20f;
     private float lifeTimeEnd;
 
     private HashSet<HealthAndShieldManager> ignoreExceptions;
 
-    public void Init(ProjectileStats projectileHitStats,bool homing, Vector2 direction, LayerMask layerMask, Transform target = null, params HealthAndShieldManager[] ignoreExceptions)
+    public void Init(ProjectileStats projectileHitStats, bool homing, Vector2 direction, LayerMask layerMask, bool bounce = false, Transform target = null, params HealthAndShieldManager[] ignoreExceptions)
     {
         projectileStats = projectileHitStats;
         this.homing = homing;
         this.target = target;
+        this.bounce = bounce;
+
         this.direction = direction;
         this.layerMask = layerMask;
         transform.right = direction;

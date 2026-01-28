@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 namespace Heros.Attacks.Spot
 {
     [CreateAssetMenu(menuName = "Hero Attack/Spot/Random Movement")]
@@ -6,7 +7,6 @@ namespace Heros.Attacks.Spot
     {
         public SpotAttackSpawn<RandomMovementSpotAttackStatsContext> spotAttackSpawnPrefab;
         public Vector2 randomChangeMovementTimeRange;
-        public ToMonsterMovementStats toMonsterMovementStats;
 
         public override Type HeroAttackType => typeof(RandomMovementSpotHeroAttack);
         public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
