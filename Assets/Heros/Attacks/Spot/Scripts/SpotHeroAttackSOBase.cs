@@ -12,6 +12,7 @@ namespace Heros.Attacks.Spot
         public int amountOfHits;
         public bool projectilesCountToHits;
         public float lifeTime;
+        public float movementSpeed;
 
         public abstract GameObject SpawnPrefab { get; }
     }

@@ -2,7 +2,7 @@
 using UnityEngine;
 namespace Heros.Attacks.Spot
 {
-    public class ToMonsterMovementSpotAttackSpawn : RandomMovementSpotAttackSpawn<ToMonsterMovementSpotAttackStatsContext>
+    public class ToMonsterMovementSpotAttackSpawn : BaseRandomMovementSpotAttackSpawn<ToMonsterMovementSpotAttackStatsContext>
     {
         private ToMonsterMovementStats toMonsterMovementStats;
 

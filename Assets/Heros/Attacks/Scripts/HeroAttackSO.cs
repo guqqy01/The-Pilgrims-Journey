@@ -10,7 +10,6 @@ namespace Heros.Attacks
 {
     public abstract class HeroAttackSO<TStatsAtLevel> : BaseHeroAttackSO where TStatsAtLevel : BaseWeaponStatsAtLevel
     {
-        
         public List<TStatsAtLevel> WeaponStatsAtLevel;
         public override int MaxLevel => WeaponStatsAtLevel.Count;
 

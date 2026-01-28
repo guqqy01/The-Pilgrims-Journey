@@ -25,7 +25,7 @@ namespace Heros.Attacks.Spot
         private int? amountOfHits;
         private bool projectilesCountToHits;
         private float? lifeTime;
-
+        private float movementSpeed;
 
         protected override bool Attack()
         {
@@ -41,13 +41,13 @@ namespace Heros.Attacks.Spot
         {
             TSpawn spawn = Instantiate(spawnPrefab);
 
-            TInit initContext = BuildInitContext(target, lifeTime);
+            TInit initContext = BuildInitContext(target, lifeTime, movementSpeed);
             TStats statsContext = BuildStatsContext();
 
             spawn.Init(initContext, statsContext);
         }
 
-        protected abstract TInit BuildInitContext(Transform target, float? lifeTime);
+        protected abstract TInit BuildInitContext(Transform target, float? lifeTime, float movementSpeed);
         protected abstract TStats BuildStatsContext();
 
         protected override void InheritSetup(HeroSO heroSO, SpotHeroAttackSOBase spotHeroAttackSO)
@@ -62,6 +62,7 @@ namespace Heros.Attacks.Spot
             amountOfHits = spotHeroAttackSO.amountOfHits == 0 ? null : spotHeroAttackSO.amountOfHits;
             projectilesCountToHits = spotHeroAttackSO.projectilesCountToHits;
             lifeTime = spotHeroAttackSO.lifeTime == 0 ? null : spotHeroAttackSO.lifeTime;
+            movementSpeed = spotHeroAttackSO.movementSpeed;
         }
 
         protected override void InheritLevelSetup()
