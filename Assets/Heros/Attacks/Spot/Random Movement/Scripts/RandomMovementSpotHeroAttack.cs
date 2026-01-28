@@ -2,7 +2,7 @@
 using Random = UnityEngine.Random;
 namespace Heros.Attacks.Spot
 {
-    public class RandomMovementSpotHeroAttack : SpotHeroAttack<BaseRandomMovementSpotAttackSpawn<RandomMovementSpotAttackStatsContext>, SpotAttackInitContext, RandomMovementSpotAttackStatsContext>
+    public class RandomMovementSpotHeroAttack : SpotHeroAttack
     {
         protected override SpotAttackInitContext BuildInitContext(Transform target, float? lifeTime, float movementSpeed)
         {
@@ -13,7 +13,7 @@ namespace Heros.Attacks.Spot
             return new SpotAttackInitContext(currentPos, lifeTimeEnd, movementSpeed);
         }
 
-        protected override RandomMovementSpotAttackStatsContext BuildStatsContext()
+        protected override SpotAttackStatsContext BuildStatsContext()
         {
             HeroAttackStats heroAttackStats = BuildBaseHeroAttackStats();
 

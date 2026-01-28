@@ -2,7 +2,7 @@
 
 namespace Heros.Attacks.Spot
 {
-    public class StationarySpotHeroAttack : SpotHeroAttack<StationarySpotAttackSpawn, SpotAttackInitContext, SpotAttackStatsContext>
+    public class StationarySpotHeroAttack : SpotHeroAttack
     {
         protected override SpotAttackInitContext BuildInitContext(Transform target, float? lifeTime, float movementSpeed)
         {

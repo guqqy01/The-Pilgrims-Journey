@@ -6,17 +6,13 @@ using UnityEngine;
 namespace Heros.Attacks.Spot
 {
 
-    public abstract class SpotHeroAttackSO<TAttack, TSpawn, TInit, TStats> : SpotHeroAttackSOBase
-        where TAttack : SpotHeroAttack<TSpawn, TInit, TStats>
-        where TSpawn : SpotAttackSpawn<TStats>
-        where TInit : SpotAttackInitContext
-        where TStats : SpotAttackStatsContext
+    public abstract class SpotHeroAttackSO : SpotHeroAttackSOBase
     {
-        public override Type HeroAttackType => typeof(TAttack);
-        
-        public TSpawn spotAttackSpawnPrefab;
+        public SpotAttackSpawn<SpotAttackStatsContext> spotAttackSpawnPrefab;
 
-        public override GameObject SpawnPrefab => spotAttackSpawnPrefab.gameObject;
+        public override Type HeroAttackType => null; // concrete SOs should override this if needed
+
+        public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
 
         public override Buff GetBuffAtIndex(HeroStats heroStats, int index)
         {
@@ -28,4 +24,5 @@ namespace Heros.Attacks.Spot
             };
         }
     }
+
 }

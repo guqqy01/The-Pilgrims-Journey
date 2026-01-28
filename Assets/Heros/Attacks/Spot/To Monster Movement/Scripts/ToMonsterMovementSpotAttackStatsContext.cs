@@ -13,11 +13,4 @@
             this.toMonsterMovementStats = toMonsterMovementStats;
         }
     }
-
-    public class ToMonsterMovementSpotHeroAttack : BaseRandomMovementSpotAttackSpawn<ToMonsterMovementSpotAttackStatsContext>
-    {
-
-    }
-
-    //public class ToMonsterMovementSpotHeroAttackSO : SpotHeroAttackSO<>
 }
