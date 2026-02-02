@@ -98,6 +98,8 @@ public class Projectile : MonoBehaviour
 
         OnHitInfo info = healthAndShieldManager.Damage(projectileStats.attackStats, damageDirection);
 
+        HandleBounce(collision);
+
         onHit?.Invoke(info);
 
         if (oneHit)
@@ -105,6 +107,20 @@ public class Projectile : MonoBehaviour
             hit = true;
             Destroy(gameObject);
         }
+    }
+
+    private void HandleBounce(Collider2D collider2D)
+    {
+        if (!bounce)
+            return;
+
+        Vector2 currentDirection = transform.right;
+
+        Vector2 directionToHitTarget = (collider2D.transform.position - transform.position).normalized;
+
+        Vector2 reflectionVector = Vector2.Reflect(currentDirection, -directionToHitTarget);
+
+        transform.right = reflectionVector;
     }
 }
 
