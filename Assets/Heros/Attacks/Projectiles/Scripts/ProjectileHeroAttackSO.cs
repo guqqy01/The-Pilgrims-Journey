@@ -13,7 +13,7 @@ namespace Heros.Attacks.Projectiles
         public Projectile projectilePrefab;
 
         public bool projectileHoming;
-
+        public bool bounce;
         public override Buff GetBuffAtIndex(HeroStats heroStats, int index)
         {
             return heroStats switch

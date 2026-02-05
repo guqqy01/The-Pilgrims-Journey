@@ -23,6 +23,8 @@ namespace Heros.Attacks.Projectiles
         [SerializeField]
         protected bool projectileHoming;
 
+        protected bool bounce;
+
         [SerializeField]
         private float coneAngle = 40f;
 
@@ -79,8 +81,8 @@ namespace Heros.Attacks.Projectiles
             newMissile.transform.localScale =  new Vector3(newSizeX, newSizeY, newMissile.transform.localScale.z);
 
             ProjectileStats projectileStats = new ProjectileStats(damage, criticalChance, criticalDamageMultiplier, knockback, projectileSpeed, projectileTurnSpeed);
-
-            newMissile.Init(projectileStats, projectileHoming, direction, enemyLayerMask, target);
+            
+            newMissile.Init(projectileStats, projectileHoming, direction, enemyLayerMask, bounce, target);
         }
 
         protected override void InheritSetup(HeroSO heroSO, ProjectileHeroAttackSO projectileHeroAttackSO)
@@ -92,6 +94,8 @@ namespace Heros.Attacks.Projectiles
             projectilePrefab = projectileHeroAttackSO.projectilePrefab;
 
             projectileHoming = projectileHeroAttackSO.projectileHoming;
+
+            bounce = projectileHeroAttackSO.bounce;
         }
 
         protected override void InheritLevelSetup()

@@ -9,24 +9,13 @@ namespace LevelingSystem.UI
     public class LevelingUpRewardUIItem : MonoBehaviour
     {
         private ILevelingUpReward reward;
+        public ILevelingUpReward Reward => reward;
         private int levelsIncrease;
 
         [SerializeField] private Image rewardImage;
         [SerializeField] private TextMeshProUGUI rewardNameText;
         [SerializeField] private TextMeshProUGUI increaseAmountText;
         [SerializeField] private float spriteSize = 50f;
-
-        public System.Action<ILevelingUpReward> onButtonClick;
-
-        public void ButtonClick()
-        {
-            onButtonClick?.Invoke(reward);
-        }
-
-        private void OnDestroy()
-        {
-            onButtonClick = null;
-        }
 
         public void Setup(ILevelingUpReward reward, int levelsIncrease)
         {

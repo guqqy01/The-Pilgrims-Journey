@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33854cc7f62789d4ea6751293711f671, type: 3}
+  m_Name: Gold outline black inside 2
+  m_EditorClassIdentifier: Assembly-CSharp::UI.WindowStyles.UIWindowStyle
+  parentStyle: {fileID: 0}
+  styleItems:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 8f09f93f2308ae34db204e95f32c8718, type: 2}
+      Value: {fileID: 1459854968, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}
+    - Key: {fileID: 11400000, guid: a9e28c8f7ca686247b93844b46d786ed, type: 2}
+      Value: {fileID: -293003168, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}
+    - Key: {fileID: 11400000, guid: be29125ed3cabf042b99e33384e25146, type: 2}
+      Value: {fileID: -1074630812, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}
+    - Key: {fileID: 11400000, guid: 7e953087ccb53e641bb6d6b61304e003, type: 2}
+      Value: {fileID: 1131605272, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}
+    - Key: {fileID: 11400000, guid: b0eb514475db8ff47aeae1b78da8203d, type: 2}
+      Value: {fileID: 539037463, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}
+    - Key: {fileID: 11400000, guid: 41381d7255a49ee479570dbeee3fb113, type: 2}
+      Value: {fileID: 594639311, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}
+    - Key: {fileID: 11400000, guid: c5f6296365f6c7b4e9a425d3b04b5c8f, type: 2}
+      Value: {fileID: 1961804379, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}
+    - Key: {fileID: 11400000, guid: c58f4439a35b95a49a9b2abbd7f156eb, type: 2}
+      Value: {fileID: -1814026382, guid: 143242b30ec4cd64aaa414aebfb01f8d, type: 3}

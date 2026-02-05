@@ -69,7 +69,7 @@ public class Projectile : MonoBehaviour
             );
         }
 
-        transform.position += transform.right * projectileStats.speed * Time.deltaTime;
+        transform.position += projectileStats.speed * Time.deltaTime * transform.right;
 
         if(Time.time > lifeTimeEnd)
         {

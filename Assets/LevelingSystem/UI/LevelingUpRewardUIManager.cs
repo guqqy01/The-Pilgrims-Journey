@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LevelingSystem;
 using Relics.UI;
+using UI.CardCarousel;
 
 namespace LevelingSystem.UI
 {
@@ -9,6 +10,9 @@ namespace LevelingSystem.UI
     {
         [SerializeField]
         private LevelingUpRewardUIItem levelingUpRelicUIItemPrefab;
+
+        [SerializeField]
+        private AdvancedCarousel carousel;
 
         private readonly List<LevelingUpRewardUIItem> uiItems = new();
 
@@ -33,22 +37,41 @@ namespace LevelingSystem.UI
         {
             uiItems.DestroyAndClearList();
 
+            List<CarouselCard> cards = new List<CarouselCard>();
+
             foreach (var rewardPair in rewards)
             {
                 LevelingUpRewardUIItem uiItem =
                     Instantiate(levelingUpRelicUIItemPrefab, uiItemsHolder);
 
+                if(uiItem.TryGetComponent(out CarouselCard card))
+                {
+                    cards.Add(card);
+                }
+
                 uiItem.Setup(rewardPair.Key, rewardPair.Value);
-                uiItem.onButtonClick += OnButtonClick;
 
                 uiItems.Add(uiItem);
             }
+
+            carousel.AddCards(cards);
 
             BlurBackgroundController.Instance.EnableBlur();
             window.SetActive(true);
         }
 
-        private void OnButtonClick(ILevelingUpReward reward)
+        public void Select()
+        {
+            if (carousel.CurrentSelectedCard == null)
+                return;
+
+            if(!carousel.CurrentSelectedCard.TryGetComponent(out LevelingUpRewardUIItem item))
+                return;
+
+            OnSelectReward(item.Reward);
+        }
+
+        private void OnSelectReward(ILevelingUpReward reward)
         {
             LevelingUpRewardManager.Instance.SelectReward(reward);
 
