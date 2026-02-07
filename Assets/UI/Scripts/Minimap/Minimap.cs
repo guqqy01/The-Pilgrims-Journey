@@ -20,8 +20,8 @@ namespace UI.Minimap
 
         private Image heroPoint;
 
-        private readonly List<MinimapEntity> monsterEntities = new();
-        private readonly List<MinimapEntity> unitEntities = new();
+        private readonly Dictionary<Transform, MinimapEntity> monsterEntities = new();
+        private readonly Dictionary<Transform, MinimapEntity> unitEntities = new();
 
         private readonly Stack<Image> pointPool = new();
 
@@ -90,15 +90,13 @@ namespace UI.Minimap
 
             UpdateEntityTargets(
                 MonsterSpawnManager.Instance?.Monsters,
-                monsterPoints,
-                monsterTargets,
+                monsterEntities,
                 monsterPointSprite
-            );
+);
 
             UpdateEntityTargets(
                 UnitSpawningManager.Instance?.SpawnedUnits,
-                unitPoints,
-                unitTargets,
+                unitEntities,
                 unitPointSprite
             );
 
@@ -106,52 +104,82 @@ namespace UI.Minimap
         }
 
         private void UpdateEntityTargets<T>(
-        IReadOnlyList<T> entities,
-        Dictionary<Transform, Image> pointMap,
-        Dictionary<Image, Vector2> targetMap,
-        Sprite sprite
-    ) where T : MonoBehaviour
+            IReadOnlyList<T> entities,
+            Dictionary<Transform, MinimapEntity> entityMap,
+            Sprite sprite
+        ) where T : MonoBehaviour
         {
             if (entities == null)
                 return;
 
-            foreach (var kvp in pointMap)
-                kvp.Value.enabled = false;
-
-            targetMap.Clear();
+            // Disable all first
+            foreach (var kvp in entityMap)
+            {
+                if (kvp.Value.image != null)
+                    kvp.Value.image.enabled = false;
+            }
 
             for (int i = 0; i < entities.Count; i++)
             {
                 Transform t = entities[i].transform;
 
-                if (!pointMap.TryGetValue(t, out var img))
+                if (!entityMap.TryGetValue(t, out var entity))
                 {
-                    img = GetPoint();
+                    var img = GetPoint();
                     img.sprite = sprite;
                     img.NativeRatioScaleHeightToSize(20f);
-                    pointMap.Add(t, img);
+
+                    entity = new MinimapEntity
+                    {
+                        transform = t,
+                        image = img,
+                        previousPos = img.rectTransform.anchoredPosition
+                    };
+
+                    entityMap.Add(t, entity);
                 }
 
-                img.enabled = true;
+                entity.image.enabled = true;
 
-                targetMap[img] =
-                    GetPositionOnMinimap(t.position);
+                entity.previousPos = entity.targetPos;
+                entity.targetPos = GetPositionOnMinimap(t.position);
+                entity.lastWorldPos = t.position;
             }
 
-            RemoveDeadEntries(pointMap);
+            RemoveDeadEntities(entityMap);
         }
 
-        private void SmoothPointMap(Dictionary<Image, Vector2> targets, float t)
+        private void RemoveDeadEntities(Dictionary<Transform, MinimapEntity> map)
         {
-            foreach (var kvp in targets)
+            _deadBuffer.Clear();
+
+            foreach (var kvp in map)
             {
                 if (kvp.Key == null)
+                    _deadBuffer.Add(kvp.Key);
+            }
+
+            for (int i = 0; i < _deadBuffer.Count; i++)
+            {
+                var entity = map[_deadBuffer[i]];
+                ReturnPoint(entity.image);
+                map.Remove(_deadBuffer[i]);
+            }
+        }
+
+        private void SmoothEntityMap(Dictionary<Transform, MinimapEntity> entities, float t)
+        {
+            foreach (var kvp in entities)
+            {
+                var entity = kvp.Value;
+
+                if (entity.image == null)
                     continue;
 
-                var rt = kvp.Key.rectTransform;
+                var rt = entity.image.rectTransform;
 
                 rt.anchoredPosition =
-                    Vector2.Lerp(rt.anchoredPosition, kvp.Value, t);
+                    Vector2.Lerp(rt.anchoredPosition, entity.targetPos, t);
             }
         }
 
@@ -189,8 +217,8 @@ namespace UI.Minimap
                     Vector2.Lerp(heroPoint.rectTransform.anchoredPosition, heroTargetPos, t);
             }
 
-            SmoothPointMap(monsterTargets, t);
-            SmoothPointMap(unitTargets, t);
+            SmoothEntityMap(monsterEntities, t);
+            SmoothEntityMap(unitEntities, t);
 
             cameraDisplayRect.anchoredPosition =
                 Vector2.Lerp(cameraDisplayRect.anchoredPosition, cameraTargetPos, t);

@@ -34,7 +34,9 @@ namespace Relics
 
                 foreach(RelicEffect relicEffect in relicEffects)
                 {
-                    if(relicEffect != null)
+                    EnsureRelicEffectSetup(relicEffect);
+
+                    if (relicEffect != null)
                         relicEffect.OnLevelChangeRelic();
                 }
             }
@@ -49,27 +51,31 @@ namespace Relics
         { 
             get
             {
-                foreach(RelicEffect effect in relicEffects)
+                foreach(RelicEffect relicEffect in relicEffects)
                 {
-                    if(effect.GetBottomText() != "")
+                    EnsureRelicEffectSetup(relicEffect);
+
+                    if (relicEffect.GetBottomText() != "")
                     {
-                        return effect.GetBottomText();
+                        return relicEffect.GetBottomText();
                     }
                 }
 
                 return "";
             } 
         }
-
+        
         public string TopText
         {
             get
             {
-                foreach (RelicEffect effect in relicEffects)
+                foreach (RelicEffect relicEffect in relicEffects)
                 {
-                    if (effect.GetTopText() != "")
+                    EnsureRelicEffectSetup(relicEffect);
+
+                    if (relicEffect.GetTopText() != "")
                     {
-                        return effect.GetTopText();
+                        return relicEffect.GetTopText();
                     }
                 }
 
@@ -87,6 +93,20 @@ namespace Relics
 
         [SerializeReference]
         public List<RelicEffect> relicEffects = new List<RelicEffect>();
+
+        private void EnsureRelicEffectSetup(RelicEffect effect)
+        {
+            if(effect == null)
+            {
+                Debug.LogWarning($"Relic effect is null in Relic: {this}");
+                return;
+            }
+
+            if (effect.Relic == null)
+                return;
+
+            effect.Init(this);
+        }
 
         public Relic(RelicSO relicSO, int level = 1)
         {

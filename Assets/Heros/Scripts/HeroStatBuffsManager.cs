@@ -7,7 +7,7 @@ using GameManagerCalls;
 
 namespace Heros
 {
-    public class HeroStatBuffsManager : Singleton<HeroStatBuffsManager>, ISaveLoad, IOnSave, IOnLoad, IOnClear
+    public class HeroStatBuffsManager : Singleton<HeroStatBuffsManager>, IOnClear
     {
         private HeroStatContainer container;
 
@@ -355,8 +355,6 @@ namespace Heros
 
         public void Clear()
         {
-            Debug.Log("[HeroLoad] HeroStatBuffsManager.Clear called");
-
             // Remove buffs applied to container
             if (container != null)
             {

@@ -8,7 +8,7 @@ using UnityEngine;
 using static LevelingSystem.ExperienceOrbManager;
 namespace Heros.Attacks
 {
-    public class HeroAttacksManager : Singleton<HeroAttacksManager>, ISaveLoad, IOnSave, IOnLoad, IOnClear
+    public class HeroAttacksManager : Singleton<HeroAttacksManager>, IOnClear
     {
         private Hero ActiveHero => HeroManager.Instance.ActiveHero;
 

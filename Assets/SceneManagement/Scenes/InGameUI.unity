@@ -119,6 +119,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &27835770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 27835771}
+  - component: {fileID: 27835772}
+  m_Layer: 0
+  m_Name: HeroManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &27835771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27835770}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1875.4323, y: 880.829, z: -15.607784}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 347878695}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &27835772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27835770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64db0d3bf1d04f0489a99f7ebaf0d23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroManager
 --- !u!1 &30002102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,6 +1399,50 @@ MonoBehaviour:
   startEquipment: []
   priority: 0
   saveLoadInventory: 0
+--- !u!1 &113097624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113097625}
+  - component: {fileID: 113097626}
+  m_Layer: 0
+  m_Name: Hero Save Load Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &113097625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113097624}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 347878695}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &113097626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113097624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c70a32ed74641409ebc9a5e0121585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroSaveLoadService
 --- !u!1001 &119462638
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4183,6 +4271,41 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &347878694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347878695}
+  m_Layer: 0
+  m_Name: Hero Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &347878695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347878694}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 712847846}
+  - {fileID: 113097625}
+  - {fileID: 27835771}
+  - {fileID: 1597868031}
+  m_Father: {fileID: 412035605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &355942433
 GameObject:
   m_ObjectHideFlags: 0
@@ -5172,10 +5295,9 @@ Transform:
   - {fileID: 1718404808}
   - {fileID: 1121056835}
   - {fileID: 633149109}
-  - {fileID: 1597868031}
   - {fileID: 682797022}
   - {fileID: 1980612276}
-  - {fileID: 712847846}
+  - {fileID: 347878695}
   m_Father: {fileID: 1724326376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424068699
@@ -9459,12 +9581,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712847845}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 412035605}
+  m_Father: {fileID: 347878695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &712847847
 MonoBehaviour:
@@ -24260,6 +24382,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e67b01019bdabb439fca59fe251c458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.UnitBuffManager
+  Health:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  Shield:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  MovementSpeed:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  SpawnRate:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ShieldCooldown:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ShieldRegeneration:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
 --- !u!1 &1558217526
 GameObject:
   m_ObjectHideFlags: 0
@@ -24740,12 +24892,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597868030}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 412035605}
+  m_Father: {fileID: 347878695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1597868032
 MonoBehaviour:

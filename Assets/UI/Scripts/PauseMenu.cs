@@ -43,7 +43,6 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitMainMenuButton()
     {
-        GameManager.Instance.Save();
         SceneLoader.Instance.LoadMainMenuScene();
         gameObject.SetActive(false);
     }

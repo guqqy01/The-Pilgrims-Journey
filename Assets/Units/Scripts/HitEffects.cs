@@ -78,8 +78,15 @@ namespace Units
 
         private void HitHealth(StatChangeInfo healthChangeInfo)
         {
+            if (healthChangeInfo == null)
+                return;
+
+            if (!gameObject.activeInHierarchy)
+                return;
+
             if (healthChangeInfo.HitInfoType == HitInfoType.Heal)
                 return;
+
 
             StartCoroutine(SmoothKnockBack(healthChangeInfo.HitDirection, healthChangeInfo.KnockBackMultiplier));
             StartCoroutine(FlashMaterial());

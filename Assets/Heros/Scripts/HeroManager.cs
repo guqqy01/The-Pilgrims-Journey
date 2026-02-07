@@ -15,7 +15,7 @@ using UnityEditor;
 
 namespace Heros
 {
-    public class HeroManager : Singleton<HeroManager>, IOnAfterCreateLocalMap
+    public class HeroManager : Singleton<HeroManager>, IOnAfterCreateLocalMap, IOnClear
     {
         public HeroStatContainer Stats { get; private set; }
 
@@ -82,38 +82,8 @@ namespace Heros
             HeroAttacksManager.Instance.AddHeroAttack(HeroSO.startingAttack);
         }
 
-        public void EnsureStatsFromHeroSO()
-        {
-            if (HeroSO == null)
-                return;
-
-            if (Stats == null)
-            {
-                Stats = new HeroStatContainer(HeroSO);
-                Stats.EnsureDefaults(HeroSO);
-            }
-        }
-
-        public void SetStatsBound(bool bound)
-        {
-            statsBound = bound;
-        }
-
-        public void SetEquipmentApplied(bool applied)
-        {
-            equipmentApplied = applied;
-        }
-
-        // Public API used by HeroLoadCoordinator to spawn and start attack setup
-        public void SpawnAndStartAttackSetup()
-        {
-            HandleSpawnHero();
-        }
-
         public void SelectHero(HeroSO heroSO)
         {
-            Debug.Log($"HeroManager.SelectHero called with: {heroSO?.name}");
-
             this.HeroSO = heroSO;
 
             // reset binding flags when selecting a new hero
@@ -130,15 +100,11 @@ namespace Heros
 
         public void AfterCreateLocalMap()
         {
-            Debug.Log($"HeroManager.AfterCreateLocalMap called. HeroSO currently: {(HeroSO != null ? HeroSO.name : "<null>")} ");
-
             if (ActiveHero == null)
             {
                 // If we've already selected a hero, ensure stats and equipment subscriptions are applied before spawning
                 if (HeroSO != null)
                 {
-                    Debug.Log("HeroManager.AfterCreateLocalMap: HeroSO present, ensuring Stats and subscriptions before spawning.");
-
                     // Ensure Stats exists
                     if (Stats == null)
                     {
@@ -158,7 +124,6 @@ namespace Heros
                 }
                 else
                 {
-                    Debug.Log("HeroManager.AfterCreateLocalMap: HeroSO not present, waiting for selection...");
                     WaitForHelper.WaitForObjectThenPerformAction(() => HeroSO, () => HandleSpawnHero());
                 }
             }
@@ -170,18 +135,17 @@ namespace Heros
 
         private void HandleSpawnHero()
         {
-            Debug.Log($"HeroManager.HandleSpawnHero invoked. HeroSO: {(HeroSO != null ? HeroSO.name : "<null>")}");
             SpawnHero();
 
             // Wait for full readiness: hero instance, stats bound and attack manager available
-            WaitForHelper.WaitForConditionThenPerformAction(() => HeroAttacksManager.Instance != null &&
-                                                               HeroManager.Instance != null &&
-                                                               HeroManager.Instance.ActiveHero != null &&
-                                                               HeroManager.Instance.Stats != null &&
-                                                               statsBound && equipmentApplied &&
-                                                               HeroStatBuffsManager.Instance != null &&
-                                                               HeroEquipmentManager.Instance != null,
-                                                               SetupHeroAttack);
+            WaitForHelper.WaitForConditionThenPerformAction(() => 
+                HeroAttacksManager.Instance != null &&
+                ActiveHero != null &&
+                Stats != null &&
+                statsBound && equipmentApplied &&
+                HeroStatBuffsManager.Instance != null &&
+                HeroEquipmentManager.Instance != null,
+                SetupHeroAttack);
         }
 
         private void RemoveHero()
@@ -196,20 +160,13 @@ namespace Heros
         private void SpawnHero()
         {
             // Ensure all required stat entries are present before instantiating the hero.
-            if (Stats == null || Stats.Get(HeroStats.Health) == null || Stats.Get(HeroStats.Shield) == null || Stats.Get(HeroStats.ShieldRegeneration) == null || Stats.Get(HeroStats.ShieldCooldown) == null)
+            if (Stats == null)
             {
-                Debug.Log("HeroManager.SpawnHero: required stats not ready, waiting...");
                 WaitForHelper.WaitForConditionThenPerformAction(() =>
-                    HeroManager.Instance != null && HeroManager.Instance.Stats != null &&
-                    HeroManager.Instance.Stats.Get(HeroStats.Health) != null &&
-                    HeroManager.Instance.Stats.Get(HeroStats.Shield) != null &&
-                    HeroManager.Instance.Stats.Get(HeroStats.ShieldRegeneration) != null &&
-                    HeroManager.Instance.Stats.Get(HeroStats.ShieldCooldown) != null,
+                    Stats != null,
                     SpawnHero);
                 return;
             }
-
-            Debug.Log($"HeroManager.SpawnHero called. HeroSO: {(HeroSO != null ? HeroSO.name : "<null>" )}, prefab: {(HeroSO != null ? (HeroSO.prefab != null ? HeroSO.prefab.name : "<prefab null>") : "<no so>")}");
 
             if (HeroSO == null || HeroSO.prefab == null)
             {
@@ -226,8 +183,6 @@ namespace Heros
             ActiveHero.HealthAndShieldManager.Health.onDie += OnHeroDie;
 
             onHeroSpawned?.Invoke(ActiveHero);
-
-            Debug.Log($"Hero spawned: {ActiveHero?.name} at {position}");
         }
 
         private void ResetHero()
@@ -242,16 +197,9 @@ namespace Heros
             GameManager.Instance.EndGame();
         }
 
-        public void HeroLeftMap()
-        {
-            LocalMapLevelCompletedManager.Instance.CompleteLevel();
-        }
-
         // Public method for persistence manager to clear hero state
         public void ClearHeroState()
         {
-            Debug.Log($"HeroManager.ClearHeroState called. Current HeroSO: {(HeroSO != null ? HeroSO.name : "<null>")}. Caller stack:\n{Environment.StackTrace}");
-
             RemoveHero();
             Stats = null;
             HeroSO = null;
@@ -259,29 +207,13 @@ namespace Heros
             equipmentApplied = false;
         }
 
-        [ContextMenu("Debug Spawn Hero")]
-        private void DebugSpawnHero()
+        public void Clear()
         {
-            if (HeroSO == null || HeroSO.prefab == null)
-            {
-                Debug.LogError("DebugSpawnHero aborted: HeroSO or prefab is null.");
-                return;
-            }
-
-            ActiveHero = Instantiate(HeroSO.prefab, new Vector2(0, 0), Quaternion.identity);
-
-            ActiveHero.Setup(HeroSO, Stats);
-
-            Debug.Log($"DebugSpawnHero: Hero spawned: {ActiveHero?.name}");
-        }
-
-        private void OnValidate()
-        {
-            // Ensure that HeroSO can be assigned in the inspector
-            if (HeroSO == null)
-            {
-                Debug.LogWarning($"HeroManager.OnValidate: HeroSO is not assigned.", this);
-            }
+            RemoveHero();
+            Stats = null;
+            HeroSO = null;
+            statsBound = false;
+            equipmentApplied = false;
         }
     }
 }
