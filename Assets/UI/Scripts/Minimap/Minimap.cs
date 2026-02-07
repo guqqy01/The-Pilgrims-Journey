@@ -2,233 +2,340 @@ using Heros;
 using LocalMap;
 using Monsters;
 using System.Collections.Generic;
-using System.Linq;
-using Units;
-using Unity.Burst;
 using UnityEngine;
 using UnityEngine.UI;
-public class Minimap : MonoBehaviour
+
+namespace UI.Minimap
 {
-    [SerializeField] private Image pointPrefab;
-    [SerializeField] private Sprite heroPointSprite;
-    [SerializeField] private Sprite monsterPointSprite;
-    [SerializeField] private Sprite unitPointSprite;
-    [SerializeField] private RectTransform cameraDisplayRect;
-    [SerializeField] private RectTransform minimapTransform;
-
-    private Camera cachedCam;
-
-    private Image heroPoint;
-
-    private readonly Dictionary<Transform, Image> monsterPoints = new();
-    private readonly Dictionary<Transform, Image> unitPoints = new();
-
-    private readonly Stack<Image> pointPool = new();
-
-    private float minX, maxX, minY, maxY;
-    private float halfWidth, halfHeight;
-
-
-    private static readonly List<Transform> _deadBuffer = new();
-
-    private float updateTimer;
-    private const float UPDATE_INTERVAL = 0.1f; // 10 FPS
-
-    private void RemoveDeadEntries(Dictionary<Transform, Image> map)
+    public class Minimap : MonoBehaviour
     {
-        _deadBuffer.Clear();
+        [SerializeField] private Image pointPrefab;
+        [SerializeField] private Sprite heroPointSprite;
+        [SerializeField] private Sprite monsterPointSprite;
+        [SerializeField] private Sprite unitPointSprite;
+        [SerializeField] private RectTransform cameraDisplayRect;
+        [SerializeField] private RectTransform minimapTransform;
 
-        foreach (var kvp in map)
+        private Camera cachedCam;
+
+        private Image heroPoint;
+
+        private readonly List<MinimapEntity> monsterEntities = new();
+        private readonly List<MinimapEntity> unitEntities = new();
+
+        private readonly Stack<Image> pointPool = new();
+
+        private float minX, maxX, minY, maxY;
+        private float halfWidth, halfHeight;
+
+        private Vector2 heroTargetPos;
+
+        private readonly Dictionary<Image, Vector2> monsterTargets = new();
+        private readonly Dictionary<Image, Vector2> unitTargets = new();
+
+        private Vector2 cameraTargetPos;
+        private Vector2 cameraTargetSize;
+
+        private static readonly List<Transform> _deadBuffer = new();
+
+        private float updateTimer;
+        private const float UPDATE_INTERVAL = 0.1f; // 10 FPS
+
+        private void RemoveDeadEntries(Dictionary<Transform, Image> map)
         {
-            if (kvp.Key == null)
-                _deadBuffer.Add(kvp.Key);
+            _deadBuffer.Clear();
+
+            foreach (var kvp in map)
+            {
+                if (kvp.Key == null)
+                    _deadBuffer.Add(kvp.Key);
+            }
+
+            for (int i = 0; i < _deadBuffer.Count; i++)
+            {
+                var img = map[_deadBuffer[i]];
+                ReturnPoint(img);
+                map.Remove(_deadBuffer[i]);
+            }
         }
 
-        for (int i = 0; i < _deadBuffer.Count; i++)
+        private void Awake()
         {
-            var img = map[_deadBuffer[i]];
-            ReturnPoint(img);
-            map.Remove(_deadBuffer[i]);
-        }
-    }
-
-    private void Awake()
-    {
-        cachedCam = Camera.main;
-    }
-
-    private void Start()
-    {
-        CacheMapBounds();
-    }
-
-    private void Update()
-    {
-        updateTimer += Time.unscaledDeltaTime;
-        if (updateTimer < UPDATE_INTERVAL)
-            return;
-
-        updateTimer = 0f;
-
-        HandleHeroPoint();
-        UpdateEntityPoints(
-            MonsterSpawnManager.Instance?.Monsters,
-            monsterPoints,
-            monsterPointSprite
-        );
-
-        UpdateEntityPoints(
-            UnitSpawningManager.Instance?.SpawnedUnits,
-            unitPoints,
-            unitPointSprite
-        );
-
-        HandleCameraDisplayRect();
-    }
-
-    private void CacheMapBounds()
-    {
-        if (LocalMapGenerator.Instance == null)
-            return;
-
-        minX = -0.5f;
-        maxX = LocalMapGenerator.Instance.MapSizeX - 0.5f;
-        minY = -0.5f;
-        maxY = LocalMapGenerator.Instance.MapSizeY - 0.5f;
-
-        halfWidth = minimapTransform.sizeDelta.x * 0.5f;
-        halfHeight = minimapTransform.sizeDelta.y * 0.5f;
-    }
-
-    private float GetVerticalWorldPadding(float pixelPadding)
-    {
-        if (cachedCam == null)
-            return 0f;
-        
-        float unitsPerPixel = (cachedCam.orthographicSize * 2f) / (float)Screen.height;
-        return pixelPadding * unitsPerPixel;
-    }
-
-    private void HandleCameraDisplayRect()
-    {
-        if (cachedCam == null || LocalMapGenerator.Instance == null)
-            return;
-
-        // Get camera world-space bounds (orthographic assumed)
-
-        float verticalPadding = GetVerticalWorldPadding(LocalCameraMovementManager.Instance.BottomPaddingPixels + LocalCameraMovementManager.Instance.TopPaddingPixels);
-
-        float camHeight = cachedCam.orthographicSize * 2f - verticalPadding;
-        float camWidth = (camHeight + verticalPadding) * cachedCam.aspect;
-
-        Vector3 camPos = cachedCam.transform.position;
-
-        // World-space corners
-        Vector3 bottomLeft = new Vector3(camPos.x - camWidth / 2f, camPos.y - camHeight / 2f);
-        Vector3 topRight = new Vector3(camPos.x + camWidth / 2f, camPos.y + camHeight / 2f);
-
-        // Convert to minimap space
-        Vector2 bottomLeftOnMap = GetPositionOnMinimap(bottomLeft);
-        Vector2 topRightOnMap = GetPositionOnMinimap(topRight);
-
-        // Calculate rect size and position
-        Vector2 size = topRightOnMap - bottomLeftOnMap;
-        Vector2 center = (topRightOnMap + bottomLeftOnMap) / 2f;
-
-        cameraDisplayRect.sizeDelta = new Vector2(Mathf.Abs(size.x), Mathf.Abs(size.y));
-        cameraDisplayRect.anchoredPosition = center;
-    }
-
-    private Image GetPoint()
-    {
-        if (pointPool.Count > 0)
-        {
-            var img = pointPool.Pop();
-            img.gameObject.SetActive(true);
-            return img;
+            cachedCam = Camera.main;
         }
 
-        return Instantiate(pointPrefab, minimapTransform);
-    }
-
-    private void ReturnPoint(Image img)
-    {
-        img.gameObject.SetActive(false);
-        pointPool.Push(img);
-    }
-
-    private void HandleHeroPoint()
-    {
-        var hero = HeroManager.Instance?.ActiveHero;
-
-        if (hero == null)
+        private void Start()
         {
+            CacheMapBounds();
+        }
+
+        private void Update()
+        {
+            // Always smooth visuals
+            SmoothVisuals();
+
+            // Only compute targets periodically
+            updateTimer += Time.unscaledDeltaTime;
+            if (updateTimer < UPDATE_INTERVAL)
+                return;
+
+            updateTimer = 0f;
+
+            UpdateTargets();
+        }
+
+        private void UpdateTargets()
+        {
+            CalculateHeroTarget();
+
+            UpdateEntityTargets(
+                MonsterSpawnManager.Instance?.Monsters,
+                monsterPoints,
+                monsterTargets,
+                monsterPointSprite
+            );
+
+            UpdateEntityTargets(
+                UnitSpawningManager.Instance?.SpawnedUnits,
+                unitPoints,
+                unitTargets,
+                unitPointSprite
+            );
+
+            CalculateCameraTargets();
+        }
+
+        private void UpdateEntityTargets<T>(
+        IReadOnlyList<T> entities,
+        Dictionary<Transform, Image> pointMap,
+        Dictionary<Image, Vector2> targetMap,
+        Sprite sprite
+    ) where T : MonoBehaviour
+        {
+            if (entities == null)
+                return;
+
+            foreach (var kvp in pointMap)
+                kvp.Value.enabled = false;
+
+            targetMap.Clear();
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Transform t = entities[i].transform;
+
+                if (!pointMap.TryGetValue(t, out var img))
+                {
+                    img = GetPoint();
+                    img.sprite = sprite;
+                    img.NativeRatioScaleHeightToSize(20f);
+                    pointMap.Add(t, img);
+                }
+
+                img.enabled = true;
+
+                targetMap[img] =
+                    GetPositionOnMinimap(t.position);
+            }
+
+            RemoveDeadEntries(pointMap);
+        }
+
+        private void SmoothPointMap(Dictionary<Image, Vector2> targets, float t)
+        {
+            foreach (var kvp in targets)
+            {
+                if (kvp.Key == null)
+                    continue;
+
+                var rt = kvp.Key.rectTransform;
+
+                rt.anchoredPosition =
+                    Vector2.Lerp(rt.anchoredPosition, kvp.Value, t);
+            }
+        }
+
+        private void CalculateHeroTarget()
+        {
+            var hero = HeroManager.Instance?.ActiveHero;
+
+            if (hero == null)
+            {
+                if (heroPoint != null)
+                {
+                    ReturnPoint(heroPoint);
+                    heroPoint = null;
+                }
+                return;
+            }
+
+            if (heroPoint == null)
+            {
+                heroPoint = GetPoint();
+                heroPoint.sprite = heroPointSprite;
+                heroPoint.NativeRatioScaleHeightToSize(20f);
+            }
+
+            heroTargetPos = GetPositionOnMinimap(hero.transform.position);
+        }
+
+        private void SmoothVisuals()
+        {
+            float t = 12f * Time.unscaledDeltaTime; // smoothing speed
+
             if (heroPoint != null)
             {
-                ReturnPoint(heroPoint);
-                heroPoint = null;
+                heroPoint.rectTransform.anchoredPosition =
+                    Vector2.Lerp(heroPoint.rectTransform.anchoredPosition, heroTargetPos, t);
             }
-            return;
+
+            SmoothPointMap(monsterTargets, t);
+            SmoothPointMap(unitTargets, t);
+
+            cameraDisplayRect.anchoredPosition =
+                Vector2.Lerp(cameraDisplayRect.anchoredPosition, cameraTargetPos, t);
+
+            cameraDisplayRect.sizeDelta =
+                Vector2.Lerp(cameraDisplayRect.sizeDelta, cameraTargetSize, t);
         }
 
-        if (heroPoint == null)
+        private void CacheMapBounds()
         {
-            heroPoint = GetPoint();
-            heroPoint.sprite = heroPointSprite;
-            heroPoint.NativeRatioScaleHeightToSize(20f);
-        }
-
-        heroPoint.rectTransform.anchoredPosition =
-            GetPositionOnMinimap(hero.transform.position);
-    }
-
-    private void UpdateEntityPoints<T>(
-    IReadOnlyList<T> entities,
-    Dictionary<Transform, Image> pointMap,
-    Sprite sprite
-) where T : MonoBehaviour
-    {
-        if (entities == null)
-            return;
-
-        // Mark all existing points as unused
-        foreach (var kvp in pointMap)
-            kvp.Value.enabled = false;
-
-        // Add / update
-        for (int i = 0; i < entities.Count; i++)
-        {
-            Transform t = entities[i].transform;
-
-            if (!pointMap.TryGetValue(t, out var img))
+            if (LocalMapGenerator.Instance == null)
             {
-                img = GetPoint();
-                img.sprite = sprite;
-                img.NativeRatioScaleHeightToSize(20f);
-                pointMap.Add(t, img);
+                Debug.Log("LocalMapGenerator.Instance is null");
+                return;
             }
 
-            img.enabled = true;
-            img.rectTransform.anchoredPosition = GetPositionOnMinimap(t.position);
+            minX = -0.5f;
+            maxX = LocalMapGenerator.Instance.MapSizeX - 0.5f;
+            minY = -0.5f;
+            maxY = LocalMapGenerator.Instance.MapSizeY - 0.5f;
+
+
+            halfWidth = minimapTransform.rect.width * 0.5f;
+            halfHeight = minimapTransform.rect.height * 0.5f;
         }
 
-        // Cleanup dead transforms
-        RemoveDeadEntries(pointMap);
+        private float GetVerticalWorldPadding(float pixelPadding)
+        {
+            if (cachedCam == null)
+                return 0f;
+
+            float unitsPerPixel = (cachedCam.orthographicSize * 2f) / (float)Screen.height;
+            return pixelPadding * unitsPerPixel;
+        }
+
+        private void CalculateCameraTargets()
+        {
+            if (cachedCam == null || LocalMapGenerator.Instance == null)
+                return;
+
+            // Get camera world-space bounds (orthographic assumed)
+
+            float bottomPadding = GetVerticalWorldPadding(LocalCameraMovementManager.Instance.BottomPaddingPixels);
+            float topPadding = GetVerticalWorldPadding(LocalCameraMovementManager.Instance.TopPaddingPixels);
+
+            float fullHeight = cachedCam.orthographicSize * 2f;
+            float fullWidth = fullHeight * cachedCam.aspect;
+
+            float camHeight = fullHeight - bottomPadding - topPadding;
+            float camWidth = fullWidth;
+
+            /*float camHeight = cachedCam.orthographicSize * 2f - verticalPadding;
+            float camWidth = (camHeight + verticalPadding) * cachedCam.aspect;*/
+            /*float camHeight = cachedCam.orthographicSize * 2f - verticalPadding;
+            float camWidth = cachedCam.orthographicSize * 2f * cachedCam.aspect;*/
+
+
+            Vector3 camPos = cachedCam.transform.position;
+
+            // World-space corners
+            Vector3 bottomLeft = new Vector3(
+                camPos.x - camWidth * 0.5f,
+                camPos.y - fullHeight * 0.5f + bottomPadding);
+
+            Vector3 topRight = new Vector3(
+                camPos.x + camWidth * 0.5f,
+                camPos.y + fullHeight * 0.5f - topPadding);
+
+            // Convert to minimap space
+            Vector2 bottomLeftOnMap = GetPositionOnMinimap(bottomLeft);
+            Vector2 topRightOnMap = GetPositionOnMinimap(topRight);
+
+            // Calculate rect size and position
+            Vector2 size = topRightOnMap - bottomLeftOnMap;
+            Vector2 center = (topRightOnMap + bottomLeftOnMap) / 2f;
+
+            cameraTargetSize = new Vector2(Mathf.Abs(size.x), Mathf.Abs(size.y));
+            cameraTargetPos = center;
+        }
+
+        private Image GetPoint()
+        {
+            if (pointPool.Count > 0)
+            {
+                var img = pointPool.Pop();
+                img.gameObject.SetActive(true);
+                return img;
+            }
+
+            return Instantiate(pointPrefab, minimapTransform);
+        }
+
+        private void ReturnPoint(Image img)
+        {
+            img.gameObject.SetActive(false);
+            pointPool.Push(img);
+        }
+
+        private void HandleHeroPoint()
+        {
+            var hero = HeroManager.Instance?.ActiveHero;
+
+            if (hero == null)
+            {
+                if (heroPoint != null)
+                {
+                    ReturnPoint(heroPoint);
+                    heroPoint = null;
+                }
+                return;
+            }
+
+            if (heroPoint == null)
+            {
+                heroPoint = GetPoint();
+                heroPoint.sprite = heroPointSprite;
+                heroPoint.NativeRatioScaleHeightToSize(20f);
+            }
+
+            heroPoint.rectTransform.anchoredPosition =
+                GetPositionOnMinimap(hero.transform.position);
+        }
+
+        private Vector2 GetPositionOnMinimap(Vector3 worldPos)
+        {
+            float x = Mathf.InverseLerp(minX, maxX, worldPos.x);
+            float y = Mathf.InverseLerp(minY, maxY, worldPos.y);
+
+            return new Vector2(
+                Mathf.Lerp(-halfWidth, halfWidth, x),
+                Mathf.Lerp(-halfHeight, halfHeight, y)
+            );
+        }
     }
 
-    private Vector2 GetPositionOnMinimap(Transform targetTransform)
+    class MinimapEntity
     {
-        return GetPositionOnMinimap(targetTransform.position);
-    }
+        public Transform transform;
+        public Image image;
 
-    private Vector2 GetPositionOnMinimap(Vector3 worldPos)
-    {
-        float x = Mathf.InverseLerp(minX, maxX, worldPos.x);
-        float y = Mathf.InverseLerp(minY, maxY, worldPos.y);
+        public Vector2 previousPos;
+        public Vector2 targetPos;
 
-        return new Vector2(
-            Mathf.Lerp(-halfWidth, halfWidth, x),
-            Mathf.Lerp(-halfHeight, halfHeight, y)
-        );
+        public Vector3 lastWorldPos;
     }
 }
+
+
