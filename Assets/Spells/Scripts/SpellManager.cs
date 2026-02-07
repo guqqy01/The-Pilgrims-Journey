@@ -254,7 +254,7 @@ namespace Spells
 
 
         [Serializable]
-        private record SaveData : SaveProfileData
+        private class SaveData : SaveProfileData
         {
             public List<Spell> Spells;
 

@@ -1,13 +1,15 @@
-using System.Collections.Generic;
-using UnityEngine;
-using GlobalMap;
-using System;
 using Equipment;
-using Tiles;
-using Random = UnityEngine.Random;
 using GameManagerCalls;
-using RandomEvents;
+using GlobalMap;
+using Helper.Wait;
+using Heros;
 using LocalMap;
+using RandomEvents;
+using System;
+using System.Collections.Generic;
+using Tiles;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour, ISaveLoad
 {
@@ -43,12 +45,18 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     #region Start New Journey
 
-    public void StartNewJourney()
+    public void StartNewJourney(HeroSO heroSO)
     {
         InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
-
+        WaitForHelper.WaitForObjectThenPerformAction(() => HeroManager.Instance, () => SetupHero(heroSO));
         currentSeed = Random.Range(int.MinValue, int.MaxValue);
+
         GenerateGlobalMap(currentSeed);
+    }
+
+    private void SetupHero(HeroSO heroSO)
+    {
+        HeroManager.Instance.SelectHero(heroSO);
     }
 
     private void GenerateGlobalMap(int seed)
@@ -61,7 +69,6 @@ public class GameManager : MonoBehaviour, ISaveLoad
     private void SetupFirstLocalMap()
     {
         Delete();
-        InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
 
         Setup();
 
@@ -155,7 +162,6 @@ public class GameManager : MonoBehaviour, ISaveLoad
     public void EndGame()
     {
         InterfaceCaller.CallInterfaces<IOnGameEnd>(x => x.OnGameEnd());
-        InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
 
         Delete();
     }
@@ -195,7 +201,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
     }
 
     [Serializable]
-    private record SaveData : SaveProfileData
+    private class SaveData : SaveProfileData
     {
         public int Level;
         public int Seed;

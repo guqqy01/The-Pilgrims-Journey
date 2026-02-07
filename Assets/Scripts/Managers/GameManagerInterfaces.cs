@@ -82,31 +82,80 @@ namespace GameManagerCalls
         public void OnUnitPassed(int totalPassed, int requiredToPass);
     }
 
+    // Central registry that components can optionally register with for deterministic discovery.
+    public static class InterfaceRegistry<T> where T : IGameManagerCallInterface
+    {
+        private static readonly List<T> registered = new List<T>();
+
+        public static void Register(T item)
+        {
+            if (item == null) return;
+            if (registered.Contains(item)) return;
+            registered.Add(item);
+        }
+
+        public static void Unregister(T item)
+        {
+            if (item == null) return;
+            registered.Remove(item);
+        }
+
+        public static IReadOnlyList<T> GetAll() => registered.AsReadOnly();
+
+        public static bool HasAny => registered.Count > 0;
+
+        public static void Clear() => registered.Clear();
+    }
+
     public static class InterfaceFinder
     {
+        // Find interfaces by scanning all MonoBehaviours. This is the fallback used when no registry entries exist.
         public static List<T> FindInterfaces<T>() where T : IGameManagerCallInterface
         {
-            List<T> returnList = new List<T>();
-            foreach (var mono in UnityEngine.Object.FindObjectsByType(typeof(MonoBehaviour), FindObjectsInactive.Include, FindObjectsSortMode.None))
+            // If components have explicitly registered, return those to ensure deterministic order.
+            if (InterfaceRegistry<T>.HasAny)
             {
-                if (mono is IGameManagerCallInterface gameManagerCallInterface && gameManagerCallInterface is T obj)
-                {
-                    returnList.Add(obj);
-                }
+                return new List<T>(InterfaceRegistry<T>.GetAll());
             }
 
-            return returnList;
+            var results = new List<T>();
+
+            // Use Unity's search to include inactive objects too. Keep this as a single place for discovery.
+            foreach (var mono in UnityEngine.Object.FindObjectsByType(typeof(MonoBehaviour), FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (mono is IGameManagerCallInterface g && g is T typed)
+                    results.Add(typed);
+            }
+
+            return results;
         }
     }
 
     public static class InterfaceCaller
     {
+        // Call interfaces safely. Exceptions in one handler won't prevent others from running.
         public static void CallInterfaces<T>(Action<T> action) where T : IGameManagerCallInterface
         {
+            if (action == null) return;
+
             List<T> interfaces = InterfaceFinder.FindInterfaces<T>();
+
+            if (interfaces == null || interfaces.Count == 0)
+            {
+                // No listeners found - that's fine. Avoid spamming logs in normal flow.
+                return;
+            }
+
             foreach (T interfaceInstance in interfaces)
             {
-                action(interfaceInstance);
+                try
+                {
+                    action(interfaceInstance);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Exception while calling interface {typeof(T).Name} on {interfaceInstance}: {ex}");
+                }
             }
         }
     }

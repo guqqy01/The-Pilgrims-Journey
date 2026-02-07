@@ -332,7 +332,7 @@ namespace Equipment
 
 
         [Serializable]
-        private record SaveData : SaveProfileData
+        private class SaveData : SaveProfileData
         {
             public List<ContainerSave> equipment;
             public SaveData(List<ContainerSave> equipment)

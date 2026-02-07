@@ -64,8 +64,8 @@ public class HealthAndShieldManager : MonoBehaviour
 
         UnitMat.SetColor("_Tint", invunrabilityColor);
     }
-
-    private void RemoveInvunrability()
+    
+    public void RemoveInvunrability()
     {
         Invunrable = false;
 

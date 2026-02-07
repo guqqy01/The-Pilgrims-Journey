@@ -26,7 +26,7 @@ namespace LevelingSystem
             Collider2D = GetComponent<Collider2D>();
         }
 
-        public void Initialize(int experienceAmount, ExperienceOrbPool pool)
+        public void Initialize(int experienceAmount, ExperienceOrbPool pool, bool doBounce = true)
         {
             OnReleased = null;
             ExperienceAmount = experienceAmount;
@@ -37,7 +37,7 @@ namespace LevelingSystem
 
             gameObject.SetActive(true);
 
-            if (TryGetComponent(out bounce))
+            if (doBounce && (bounce != null || TryGetComponent(out bounce)))
             {
                 bounce.ResetBounces();
                 bounce.OnSettled = OnSettled;

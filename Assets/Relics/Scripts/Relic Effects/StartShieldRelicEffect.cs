@@ -48,6 +48,11 @@ namespace Relics
 
         private void AddShieldToUnit(Unit unit)
         {
+            if(Relic == null)
+            {
+                return;
+            }
+
             if (Time.time >= timeToStop)
             {
                 UnitSpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;

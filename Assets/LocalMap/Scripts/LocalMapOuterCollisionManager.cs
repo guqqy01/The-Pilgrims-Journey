@@ -1,6 +1,7 @@
 using UnityEngine;
 using GameManagerCalls;
 using LocalMap;
+using Heros;
 
 public class LocalMapOuterCollisionManager : Singleton<LocalMapOuterCollisionManager>, IOnAfterCreateLocalMap
 {
@@ -24,6 +25,16 @@ public class LocalMapOuterCollisionManager : Singleton<LocalMapOuterCollisionMan
     public void AfterCreateLocalMap()
     {
         SetupColliders();
+
+        if(HeroManager.Instance == null || HeroManager.Instance.ActiveHero == null)
+        {
+            return;
+        }
+
+        if (HeroManager.Instance.ActiveHero.TryGetComponent(out HealthAndShieldManager healthAndShieldManager))
+        {
+            healthAndShieldManager.RemoveInvunrability();
+        }
     }
 
     private void SetupColliders()

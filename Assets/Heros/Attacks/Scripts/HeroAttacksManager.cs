@@ -1,16 +1,18 @@
-using UnityEngine;
-using System.Collections.Generic;
+using GameManagerCalls;
+using Helper.Wait;
+using LevelingSystem;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using Unity.Collections;
-using UnityEditor.SceneManagement;
-
+using UnityEngine;
+using static LevelingSystem.ExperienceOrbManager;
 namespace Heros.Attacks
 {
-    public class HeroAttacksManager : Singleton<HeroAttacksManager>
+    public class HeroAttacksManager : Singleton<HeroAttacksManager>, ISaveLoad, IOnSave, IOnLoad, IOnClear
     {
         private Hero ActiveHero => HeroManager.Instance.ActiveHero;
+
+        public string SaveFileName => "HeroAttackManager";
 
         [SerializeField]
         private Dictionary<BaseHeroAttackSO, BaseHeroAttack> attacks = new Dictionary<BaseHeroAttackSO, BaseHeroAttack>();
@@ -44,6 +46,15 @@ namespace Heros.Attacks
 
         public void AddHeroAttack(BaseHeroAttackSO heroAttackSO)
         {
+            // If hero or stats are not ready, defer adding until they are
+            if (HeroManager.Instance == null || HeroManager.Instance.ActiveHero == null || HeroManager.Instance.Stats == null)
+            {
+                Debug.Log($"HeroAttacksManager.AddHeroAttack: delaying AddHeroAttack for {heroAttackSO.name} until hero and stats ready");
+                WaitForHelper.WaitForConditionThenPerformAction(() => HeroManager.Instance != null && HeroManager.Instance.ActiveHero != null && HeroManager.Instance.Stats != null,
+                                                                 () => AddHeroAttack(heroAttackSO));
+                return;
+            }
+
             if (attacks.ContainsKey(heroAttackSO))
                 return;
 
@@ -54,7 +65,18 @@ namespace Heros.Attacks
             }
 
             var attack = (BaseHeroAttack)ActiveHero.gameObject.AddComponent(heroAttackSO.HeroAttackType);
-            attack.Setup(HeroManager.Instance.HeroSO, heroAttackSO);
+
+            // Guard: if Stats or HeroSO missing, schedule setup after they become available
+            if (HeroManager.Instance == null || HeroManager.Instance.HeroSO == null || HeroManager.Instance.Stats == null)
+            {
+                Debug.LogWarning($"HeroAttacksManager.AddHeroAttack: Deferring Setup for {heroAttackSO.name} because HeroSO/Stats not ready");
+                WaitForHelper.WaitForConditionThenPerformAction(() => HeroManager.Instance != null && HeroManager.Instance.HeroSO != null && HeroManager.Instance.Stats != null,
+                                                                 () => attack.Setup(HeroManager.Instance.HeroSO, heroAttackSO));
+            }
+            else
+            {
+                attack.Setup(HeroManager.Instance.HeroSO, heroAttackSO);
+            }
 
             attacks.Add(heroAttackSO, attack);
 
@@ -100,6 +122,11 @@ namespace Heros.Attacks
 
         public void SetHeroAttackLevel(BaseHeroAttackSO heroAttackSO, int level)
         {
+            if(!attacks.ContainsKey(heroAttackSO))
+            {
+                AddHeroAttack(heroAttackSO);
+            }
+
             if (attacks.TryGetValue(heroAttackSO, out BaseHeroAttack heroAttack))
             {
                 heroAttack.SetHeroAttackLevel(level);
@@ -108,17 +135,81 @@ namespace Heros.Attacks
             }
         }
 
-        private void ClearAllAttacks()
+        public void Save()
         {
-            foreach (var attack in attacks.Values)
-            {
-                onRemoveHeroAttack?.Invoke(attack);
-                Destroy(attack);
-            }
-            attacks.Clear();
+            SaveManager.IfFileExistsDelete(SaveFileName);
+            SaveData saveData = new SaveData(attacks.Values.ToList());
+            SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
+            SaveManager.SaveOver(saveProfile);
         }
 
+        public void Load()
+        {
+            if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+            {
+                SaveData saveData = outSaveProfile.saveData;
+
+                List<HeroAttackInfo> heroAttackInfo = saveData.heroAttackData;
+
+                // Wait for hero instance AND stats to be ready before applying saved attacks
+                WaitForHelper.WaitForConditionThenPerformAction(() => HeroManager.Instance != null && 
+                                                                    HeroManager.Instance.ActiveHero != null && 
+                                                                    HeroManager.Instance.ActiveHero.gameObject != null &&
+                                                                    HeroManager.Instance.Stats != null,
+                                                                        () => LoadAfterHeroExists(heroAttackInfo));
+            }
+            else
+            {
+                Debug.LogWarning($"No save data found for {SaveFileName}");
+                return;
+            }
+        }
+
+        private void LoadAfterHeroExists(List<HeroAttackInfo> heroAttackInfo)
+        {
+            if(HeroManager.Instance.ActiveHero == null)
+            {
+                Debug.Log("It still null even after all that");
+                return;
+            }
+
+            foreach (HeroAttackInfo info in heroAttackInfo)
+            {
+                SetHeroAttackLevel(info.HeroAttackSO, info.Level);
+            }
+        }
+
+        public void Clear()
+        {
+            List<BaseHeroAttackSO> heroAttackSOs = attacks.Keys.ToList();
+            foreach (BaseHeroAttackSO heroAttackSO in heroAttackSOs)
+            {
+                RemoveHeroAttack(heroAttackSO);
+            }
+        }
+
+        [Serializable]
+        public class SaveData : SaveProfileData
+        {
+            public List<HeroAttackInfo> heroAttackData;
+
+            public SaveData(List<BaseHeroAttack> heroAttacks)
+            {
+                heroAttackData = heroAttacks.Select(ha => new HeroAttackInfo(ha.BaseHeroAttackSO, ha.Level)).ToList();
+            }
+        }
     }
 
+    [Serializable]
+    public class HeroAttackInfo
+    {
+        public BaseHeroAttackSO HeroAttackSO;
+        public int Level;
+        public HeroAttackInfo(BaseHeroAttackSO heroAttackSO, int level)
+        {
+            HeroAttackSO = heroAttackSO;
+            Level = level;
+        }
+    }
 }
 

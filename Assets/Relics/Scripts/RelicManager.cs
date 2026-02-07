@@ -182,7 +182,7 @@ namespace Relics
        
 
         [Serializable]
-        private record SaveData : SaveProfileData
+        private class SaveData : SaveProfileData
         {
             public List<Relic> relics;
 

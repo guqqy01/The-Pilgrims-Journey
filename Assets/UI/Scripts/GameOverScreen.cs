@@ -1,4 +1,5 @@
 using GameManagerCalls;
+using Heros;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGam
 
     public void TryAgainButton()
     {
-        GameManager.Instance.StartNewJourney();
+        GameManager.Instance.StartNewJourney(HeroManager.Instance.HeroSO);
     }
 
     public void ExitMainMenuButton()

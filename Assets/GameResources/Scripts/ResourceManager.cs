@@ -134,7 +134,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMa
     }
 
     [Serializable]
-    private record SaveData : SaveProfileData
+    private class SaveData : SaveProfileData
     {
         public int Gold;
         public int UpgradePoints;

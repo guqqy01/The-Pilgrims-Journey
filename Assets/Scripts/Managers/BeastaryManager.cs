@@ -115,7 +115,7 @@ namespace Monsters
         }
 
         [Serializable]
-        private record SaveData : SaveProfileData
+        private class SaveData : SaveProfileData
         {
             public SerializableDictionary<MonsterSO, BeastaryItem> beastaryItems;
 

@@ -325,7 +325,7 @@ namespace Tiles
         }
 
         [Serializable]
-        private record SaveData : SaveProfileData
+        private class SaveData : SaveProfileData
         {
             public List<TileSave> tileSaveDatas;
 

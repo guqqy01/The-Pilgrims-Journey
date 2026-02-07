@@ -19,7 +19,7 @@ public sealed class SaveProfile<T> where T : SaveProfileData
 }
 
 [Serializable]
-public abstract record SaveProfileData { }
+public abstract class SaveProfileData { }
 
 
 public interface ISaveLoad

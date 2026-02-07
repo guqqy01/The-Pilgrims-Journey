@@ -72,17 +72,14 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
         if(heroSO == null)
             return;
 
-        WaitForHelper.WaitForObjectThenPerformAction(() => HeroManager.Instance, () => SetupHero(heroSO));
         gameObject.SetActive(false);
 
-        GameManager.Instance.StartNewJourney();
+        GameManager.Instance.StartNewJourney(heroSO);
+        
         Time.timeScale = 1.0f;
     }
 
-    private void SetupHero(HeroSO heroSO)
-    {
-        HeroManager.Instance.SelectHero(heroSO);
-    }
+    
 
     private void UpdateDescriptionUI()
     {

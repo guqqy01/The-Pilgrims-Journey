@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using GameManagerCalls;
-
+using System;
+using Random = UnityEngine.Random;
 namespace LevelingSystem
 {
-    public class ExperienceOrbManager : Singleton<ExperienceOrbManager>, IOnCompletedLevel
+    public class ExperienceOrbManager : Singleton<ExperienceOrbManager>, IOnCompletedLevel, ISaveLoad, IOnSave, IOnLoad, IOnClear
     {
         #region Inspector Fields
 
@@ -47,6 +48,8 @@ namespace LevelingSystem
         private readonly List<ExperienceOrb> clusterBuffer = new();
 
         private float nextMergeCheck;
+
+        public string SaveFileName => "ExperienceOrbManager";
 
         #endregion
 
@@ -98,7 +101,7 @@ namespace LevelingSystem
 
         #region Spawning
 
-        public void SpawnOrbs(int totalXP, Vector3 position)
+        public void SpawnOrbs(int totalXP, Vector3 position, bool doBounce = true)
         {
             for (int i = sortedValues.Count - 1; i >= 0; i--)
             {
@@ -113,6 +116,7 @@ namespace LevelingSystem
                 {
                     Vector3 offset = Random.insideUnitCircle * 0.2f;
                     var orb = pool.Get(position + offset);
+                    orb.Initialize(value, pool, doBounce);
                     orb.OnReleased += HandleOrbReleased;
                     spawnedOrbs.Add(orb);
                 }
@@ -256,6 +260,62 @@ namespace LevelingSystem
             spawnedOrbs.Clear();
         }
 
+        public void Save()
+        {
+            SaveManager.IfFileExistsDelete(SaveFileName);
+            SaveData saveData = new SaveData(spawnedOrbs.Select(orb => new OrbSaveInfo(orb.ExperienceAmount, orb.transform.position)).ToList());
+            SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
+            SaveManager.SaveOver(saveProfile);
+        }
+
+        public void Load()
+        {
+            if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
+            {
+                SaveData saveData = outSaveProfile.saveData;
+
+                List<OrbSaveInfo> orbSaveInfo = saveData.orbSaveInfos;
+
+                foreach (var info in orbSaveInfo)
+                    SpawnOrbs(info.ExperienceAmount, info.Position, false);
+            }
+            else
+            {
+                Debug.LogWarning($"No save data found for {SaveFileName}");
+                return;
+            }
+        }
+
+        public void Clear()
+        {
+            foreach (var orb in spawnedOrbs.ToArray())
+                orb.Release();
+        }
+
+        [Serializable]
+        public class SaveData : SaveProfileData
+        {
+            public List<OrbSaveInfo> orbSaveInfos;
+
+            public SaveData(List<OrbSaveInfo> orbSaveInfos)
+            {
+                this.orbSaveInfos = orbSaveInfos;
+            }
+        }
+
         #endregion
+    }
+
+    [Serializable]
+    public class OrbSaveInfo
+    {
+        public int ExperienceAmount;
+        public Vector3 Position;
+
+        public OrbSaveInfo(int experienceAmount, Vector3 position)
+        {
+            ExperienceAmount = experienceAmount;
+            Position = position;
+        }
     }
 }

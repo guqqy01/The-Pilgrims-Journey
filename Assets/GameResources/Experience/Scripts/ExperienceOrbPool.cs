@@ -39,8 +39,6 @@ namespace LevelingSystem
 
         private void OnGet(ExperienceOrb orb)
         {
-            orb.Initialize(experienceValue, this);
-
             orb.Collider2D.enabled = true;
         }
 

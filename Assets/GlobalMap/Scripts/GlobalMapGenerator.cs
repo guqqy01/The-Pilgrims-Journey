@@ -370,7 +370,7 @@ namespace GlobalMap
         }
 
         [Serializable]
-        private record SaveData : SaveProfileData
+        private class SaveData : SaveProfileData
         {
             public int Seed;
             public Vector2Int CurrentPosition;

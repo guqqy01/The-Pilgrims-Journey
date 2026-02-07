@@ -246,7 +246,7 @@ public class ShopManager : Singleton<ShopManager>, ISaveLoad, IOnSave, IOnLoadAf
     }
 
     [Serializable]
-    private record SaveData : SaveProfileData
+    private class SaveData : SaveProfileData
     {
         public List<ShopItem.ShopItemSave> shopItemSaves;
 

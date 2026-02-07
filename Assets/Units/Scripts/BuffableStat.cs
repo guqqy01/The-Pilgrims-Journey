@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class BuffableStat: IBuffSource
+public class BuffableStat: IBuffSource, ISerializationCallbackReceiver
 {
-    private readonly IntOrFloatObject baseStat;
+    // made non-readonly so we can restore value after Unity deserialization
+    private IntOrFloatObject baseStat;
     public IntOrFloatObject Value { get; private set; }
 
     private readonly Dictionary<string, AddedBuffAndParameters> buffs = new();
     public bool IsIntStat => baseStat.IsInt;
 
+    // Guard to avoid recursive re-entry when computing Buff from other BuffableStats
+    [NonSerialized]
+    private bool _isComputingBuff = false;
+
     public Buff Buff => ConvertToBuff();
 
     public delegate void OnValueChange();
     public OnValueChange onValueChange;
+
+    // Serialization backing fields
+    [SerializeField]
+    private IntOrFloatObject serializedBaseStat;
 
     public BuffableStat(int baseStat) : this(new IntOrFloatObject(baseStat)) { }
     public BuffableStat(float baseStat) : this(new IntOrFloatObject(baseStat)) { }
@@ -65,30 +74,74 @@ public class BuffableStat: IBuffSource
             if(buffSource == null)
                 continue;
             Buff buff = buffSource.GetBuff();
+            if (buff == null)
+                continue;
             combined = combined == null ? buff : combined + buff;
         }
 
-        Value = combined.Value(baseStat);
+        if (combined == null)
+        {
+            // No valid buffs provided; fallback to baseStat
+            Value = baseStat;
+        }
+        else
+        {
+            Value = combined.Value(baseStat);
+        }
 
         onValueChange?.Invoke();
     }
 
     private Buff ConvertToBuff()
     {
-        Buff combined = new Buff(0f, baseStat, baseStat.IsInt ? 0 : 0f);
+        // Prevent recursive re-entry which can happen when BuffableStat.Buff is requested
+        // while computing another BuffableStat that depends on this one.
+        if (_isComputingBuff)
+            return null;
 
-        foreach(var buffSource in buffs.Values)
+        _isComputingBuff = true;
+        try
         {
-            Buff buff = buffSource.GetBuff();
-            combined += buff;
-        }
+            // Start from neutral buff
+            // Ensure baseStat is initialized
+            var bs = baseStat;
 
-        return combined;
+            Buff combined = new Buff(0f, bs, bs.IsInt ? new IntOrFloatObject(0) : new IntOrFloatObject(0f));
+
+            foreach(var buffSource in buffs.Values)
+            {
+                if (buffSource == null)
+                    continue;
+                Buff buff = buffSource.GetBuff();
+                if (buff == null)
+                    continue;
+                combined += buff;
+            }
+
+            return combined;
+        }
+        finally
+        {
+            _isComputingBuff = false;
+        }
     }
 
     public IntOrFloatObject Evaluate(IntOrFloatObject baseValue)
     {
         return Value;
+    }
+
+    // Simple serialization: preserve baseStat only. Dynamic buffs are runtime-only and won't be persisted.
+    public void OnBeforeSerialize()
+    {
+        serializedBaseStat = baseStat;
+    }
+
+    public void OnAfterDeserialize()
+    {
+        // Restore baseStat after Unity deserialization
+        baseStat = serializedBaseStat;
+        Value = baseStat;
     }
 
     public static implicit operator BuffableStat(int value) => new BuffableStat(value);
@@ -121,28 +174,52 @@ public class AddedBuffAndParameters
         if (BuffSource == null)
             return null;
 
-        Buff buff = BuffSource.Buff;
+        Buff buff = null;
+        try
+        {
+            buff = BuffSource.Buff;
+        }
+        catch (Exception)
+        {
+            // If retrieving the buff causes recursion or other issues, treat as no buff
+            buff = null;
+        }
+
+        // If we couldn't get a Buff object but the source is a BuffableStat, create a snapshot Buff from its current Value
+        if (buff == null && BuffSource is BuffableStat bs)
+        {
+            try
+            {
+                var val = bs.Value;
+                // Create a simple Buff that represents the current numeric value as baseBuff (no multiplier)
+                return new Buff(0f, val, val.IsInt ? new IntOrFloatObject(0) : new IntOrFloatObject(0f));
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         if (AddBuffParameters == AddBuffParameters.All)
             return buff;
 
-        bool isInt = buff.IsInt;
+        bool isInt = buff?.IsInt ?? false;
 
         float multiplier = 0f;
         IntOrFloatObject baseBuff = new IntOrFloatObject(isInt ? 0 : 0f);
         IntOrFloatObject additionalBuff = new IntOrFloatObject(isInt ? 0 : 0f);
 
-        if (AddBuffParameters.HasFlag(AddBuffParameters.Multiplier))
+        if (buff != null && AddBuffParameters.HasFlag(AddBuffParameters.Multiplier))
         {
             multiplier = buff.Multiplier;
         }
 
-        if (AddBuffParameters.HasFlag(AddBuffParameters.Base))
+        if (buff != null && AddBuffParameters.HasFlag(AddBuffParameters.Base))
         {
             baseBuff = buff.BaseBuff;
         }
 
-        if (AddBuffParameters.HasFlag(AddBuffParameters.Additional))
+        if (buff != null && AddBuffParameters.HasFlag(AddBuffParameters.Additional))
         {
             additionalBuff = buff.AdditionalBuff;
         }

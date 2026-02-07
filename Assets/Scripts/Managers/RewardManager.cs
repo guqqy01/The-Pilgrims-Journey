@@ -292,7 +292,7 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
     }
 
     [Serializable]
-    private record SaveData : SaveProfileData
+    private class SaveData : SaveProfileData
     {
         public SerializableDictionary<Direction, SerializableDictionary<Reward, int>> LevelRewards;
     }

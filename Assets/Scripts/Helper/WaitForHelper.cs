@@ -47,13 +47,13 @@ namespace Helper.Wait
 
     internal class WaitForCondition : MonoBehaviour
     {
-        private Func<bool> _getObject;
+        private Func<bool> _condition;
         private Action _onReady;
         private float _checkInterval;
 
-        public void Setup(Func<bool> getObject, Action onReady, float checkInterval = 0f)
+        public void Setup(Func<bool> condition, Action onReady, float checkInterval = 0f)
         {
-            _getObject = getObject ?? throw new ArgumentNullException(nameof(getObject));
+            _condition = condition ?? throw new ArgumentNullException(nameof(condition));
             _onReady = onReady;
             _checkInterval = checkInterval;
         }
@@ -70,11 +70,11 @@ namespace Helper.Wait
             {
                 if (_checkInterval <= 0f)
                 {
-                    yield return new WaitUntil(() => _getObject() == true);
+                    yield return new WaitUntil(_condition);
                 }
                 else
                 {
-                    while (_getObject() == false)
+                    while (_condition() == false)
                     {
                         yield return new WaitForSeconds(_checkInterval);
                     }
