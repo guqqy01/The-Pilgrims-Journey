@@ -167,7 +167,7 @@ namespace Heros.Attacks
 
         private void LoadAfterHeroExists(List<HeroAttackInfo> heroAttackInfo)
         {
-            if(HeroManager.Instance.ActiveHero == null)
+            if (HeroManager.Instance.ActiveHero == null)
             {
                 Debug.Log("It still null even after all that");
                 return;
@@ -177,6 +177,9 @@ namespace Heros.Attacks
             {
                 SetHeroAttackLevel(info.HeroAttackSO, info.Level);
             }
+
+            //Save to rewrite overridden save from early Save that happens when loading new map.
+            Save();
         }
 
         public void Clear()

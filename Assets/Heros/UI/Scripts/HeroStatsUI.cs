@@ -48,6 +48,7 @@ public class HeroStatsUI : MonoBehaviour
     private void HeroStatsSetup(HeroStatContainer heroStatContainer)
     {
         heroStats = heroStatContainer;
+        SubscribeToStatChange();
     }
 
     private void SubscribeToStatChange()

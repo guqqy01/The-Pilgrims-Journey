@@ -144,21 +144,24 @@ namespace LocalMap
                 pathPickerPoints.Add(pickerPoint.transform, endPoint.Key);
             }
 
-            if (pathPickerPoints.Count == 1)
+            if(pathPickerPoints.Count <= 0)
             {
-                Direction direction = pathPickerPoints.Values.ToList()[0];
-
-                PickDirection(direction);
+                Debug.LogError("Path picker points has less than zero options");
+                return;
             }
-            else if(PickedDirection.HasValue && !MapGenerator.pathway.ToDirections.Contains((Direction)PickedDirection))
-            {
-                Direction direction = pathPickerPoints.Values.ToList()[0];
 
-                PickDirection(direction);
+            if(pathPickerPoints.Count != 1 && 
+                PickedDirection.HasValue && 
+                MapGenerator.pathway.ToDirections.Contains((Direction)PickedDirection
+                ))
+            {
+                PickDirection((Direction)PickedDirection);
             }
             else
             {
-                PickDirection((Direction)PickedDirection);
+                Direction direction = pathPickerPoints.Values.ToList()[0];
+
+                PickDirection(direction);
             }
         }
 

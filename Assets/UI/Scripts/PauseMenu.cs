@@ -38,6 +38,7 @@ public class PauseMenu : MonoBehaviour
             SaveManager.IfFileExistsDelete("GameManagerSave"); 
             SceneLoader.Instance.LoadMainMenuScene();
             gameObject.SetActive(false);
+            BlurBackgroundController.Instance.DisableBlur();
         }
     }
 
@@ -45,6 +46,7 @@ public class PauseMenu : MonoBehaviour
     {
         SceneLoader.Instance.LoadMainMenuScene();
         gameObject.SetActive(false);
+        BlurBackgroundController.Instance.DisableBlur();
     }
 
     public void ExitDesktopButton()

@@ -2,6 +2,7 @@
 using Units;
 using LevelingSystem;
 using System;
+
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Normal")]
@@ -38,9 +39,15 @@ namespace Relics
             UnitBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buff);
         }
 
-        public override void OnLevelChangeRelic()
+        public override void OnLevelChangeRelic(int currentLevel)
         {
-            Buff buff = buffIncreasePerLevel * Relic.Level;
+            if (Relic == null)
+            {
+                Debug.LogError($"Relic empty in relicEffect: {this}");
+                return;
+            }
+
+            Buff buff = buffIncreasePerLevel * currentLevel;
 
             UnitBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buff);
         }

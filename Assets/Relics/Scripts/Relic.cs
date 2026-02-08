@@ -37,7 +37,7 @@ namespace Relics
                     EnsureRelicEffectSetup(relicEffect);
 
                     if (relicEffect != null)
-                        relicEffect.OnLevelChangeRelic();
+                        relicEffect.OnLevelChangeRelic(level);
                 }
             }
             get => level;
@@ -115,6 +115,8 @@ namespace Relics
 
         public void Init(RelicSO relicSO, int level = 1)
         {
+            relicEffects.Clear();
+
             this.relicSO = relicSO;
             baseValue = relicSO.baseValue;
 

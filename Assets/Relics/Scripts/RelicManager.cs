@@ -5,6 +5,7 @@ using UnityEngine;
 using Tiles;
 using static GameManager;
 using GameManagerCalls;
+using System.Linq;
 
 namespace Relics
 {
@@ -144,11 +145,6 @@ namespace Relics
             }
         }
 
-        public void SetupContinueGameAfterMapPointLoad()
-        {
-            
-        }
-
         public void Delete()
         {
             SaveManager.IfFileExistsDelete(SaveFileName);
@@ -157,7 +153,7 @@ namespace Relics
         public void Save()
         {
             SaveManager.IfFileExistsDelete(SaveFileName);
-            SaveData saveData = new SaveData(relics);
+            SaveData saveData = new SaveData(relics.Select(x => new RelicSave(x.relicSO, x.Level)).ToList());
             SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
             SaveManager.SaveOver(saveProfile);
         }
@@ -168,27 +164,49 @@ namespace Relics
             {
                 SaveData saveData = outSaveProfile.saveData;
 
-                relics = saveData.relics;
+                List<RelicSave> relicsSaves = saveData.relicSaves;
 
-                foreach(Relic relic in relics)
+                if(relicsSaves == null)
                 {
-                    relic.Init(relic.relicSO, relic.Level);
+                    Debug.LogError($"Relic manager Relic Saves null, load failed");
+                    return;
+                }
+
+                foreach(RelicSave relicSave in relicsSaves)
+                {
+                    AddRelic(relicSave.relicSO, relicSave.level);
                 }
 
                 updateUI?.Invoke();
             }
+            else
+            {
+                Debug.LogWarning($"Relic Manager save failed");
+            }
         }
 
-       
 
         [Serializable]
         private class SaveData : SaveProfileData
         {
-            public List<Relic> relics;
+            public List<RelicSave> relicSaves;
 
-            public SaveData(List<Relic> relics)
+            public SaveData(List<RelicSave> relics)
             {
-                this.relics = relics;
+                this.relicSaves = relics;
+            }
+        }
+
+        [Serializable]
+        private class RelicSave 
+        {
+            public RelicSO relicSO;
+            public int level;
+
+            public RelicSave(RelicSO relicSO, int level)
+            {
+                this.relicSO = relicSO;
+                this.level = level;
             }
         }
     }

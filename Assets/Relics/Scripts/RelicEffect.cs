@@ -25,7 +25,7 @@ namespace Relics
 
         public virtual void OnGainRelic() { }
         public virtual void OnRemoveRelic() { }
-        public virtual void OnLevelChangeRelic() { }
+        public virtual void OnLevelChangeRelic(int currentLevel) { }
 
         public virtual string GetBottomText() { return ""; }
         public virtual string GetTopText() { return ""; }

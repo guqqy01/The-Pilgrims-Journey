@@ -1,5 +1,6 @@
 ﻿using LevelingSystem;
 using System;
+using Debug = UnityEngine.Debug;
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Experience")]
@@ -32,9 +33,15 @@ namespace Relics
             OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.ExperienceGain);
         }
 
-        public override void OnLevelChangeRelic()
+        public override void OnLevelChangeRelic(int currentLevel)
         {
-            Buff buff = buffIncreasePerLevel * Relic.Level;
+            if (Relic == null)
+            {
+                Debug.LogError($"Relic empty in relicEffect: {this}");
+                return;
+            }
+
+            Buff buff = buffIncreasePerLevel * currentLevel;
 
             OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.ExperienceGain);
         }

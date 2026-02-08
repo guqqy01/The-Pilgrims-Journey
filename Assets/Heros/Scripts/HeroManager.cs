@@ -95,11 +95,7 @@ namespace Heros
             statsBound = false;
             equipmentApplied = false;
 
-            Stats = new HeroStatContainer(HeroSO);
-            // Ensure defaults are present so subsequent bind/spawn sees all stats
-            Stats.EnsureDefaults(HeroSO);
-
-            onStatsSetup?.Invoke(Stats);
+            CreateNewStats();
 
             WaitForHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
             WaitForHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
@@ -115,8 +111,7 @@ namespace Heros
                     // Ensure Stats exists
                     if (Stats == null)
                     {
-                        Stats = new HeroStatContainer(HeroSO);
-                        Stats.EnsureDefaults(HeroSO);
+                        CreateNewStats();
                     }
 
                     // Wait for the buff managers to be available and subscribe, then spawn
@@ -138,6 +133,13 @@ namespace Heros
             {
                 ResetHero();
             }
+        }
+
+        private void CreateNewStats()
+        {
+            Stats = new HeroStatContainer(HeroSO);
+            Stats.EnsureDefaults(HeroSO);
+            onStatsSetup?.Invoke(Stats);
         }
 
         private void HandleSpawnHero()

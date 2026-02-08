@@ -15,7 +15,6 @@ namespace Heros
     public class HeroSaveLoadService : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad
     {
         private HeroManager heroManager;
-        private HeroStatContainer heroStatContainer;
 
         public string SaveFileName => "HeroManager";
 
@@ -36,7 +35,6 @@ namespace Heros
         public void Save()
         {
             if (heroManager == null) heroManager = HeroManager.Instance;
-            if (heroStatContainer == null) heroStatContainer = heroManager.Stats;
 
             var data = new SaveData();
             data.heroSO = heroManager?.HeroSO;
@@ -97,7 +95,6 @@ namespace Heros
         public void Load()
         {
             if (heroManager == null) heroManager = HeroManager.Instance;
-            if (heroStatContainer == null) heroStatContainer = heroManager.Stats;
 
             if (!SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outProfile))
             {
@@ -128,25 +125,31 @@ namespace Heros
 
             // Now ensure buff manager and equipment manager exist, then load/bind/apply in order
             WaitForHelper.WaitForConditionThenPerformAction(
-                () => HeroStatBuffsManager.Instance != null && 
-                    HeroEquipmentManager.Instance != null,
-                () =>
-                {
-                    // Load buff save so manager has entries
-                    HeroStatBuffsManager.Instance.Load();
+                CheckInstancesSetup,
+                LoadOther);
+        }
 
-                    // Bind the container so buffs apply to runtime stats
-                    if (heroManager.Stats != null)
-                    {
-                        HeroStatBuffsManager.Instance.Bind(heroManager.Stats);
-                    }
+        private bool CheckInstancesSetup()
+        {
+            return HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null;
+        }
 
-                    // Reapply equipment-based buffs
-                    HeroEquipmentManager.Instance.ApplyEquipmentBuffs();
+        private void LoadOther()
+        {
+            // Load buff save so manager has entries
+            HeroStatBuffsManager.Instance.Load();
 
-                    // Load attacks (they will reapply when hero exists)
-                    HeroAttacksManager.Instance?.Load();
-                });
+            // Bind the container so buffs apply to runtime stats
+            if (heroManager.Stats != null)
+            {
+                HeroStatBuffsManager.Instance.Bind(heroManager.Stats);
+            }
+
+            // Reapply equipment-based buffs
+            HeroEquipmentManager.Instance.ApplyEquipmentBuffs();
+
+            // Load attacks (they will reapply when hero exists)
+            HeroAttacksManager.Instance?.Load();
         }
     }
 }
