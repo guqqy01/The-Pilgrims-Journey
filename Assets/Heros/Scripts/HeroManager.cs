@@ -8,6 +8,8 @@ using LocalMap;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Heros.HeroManager;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -48,6 +50,9 @@ namespace Heros
 
         public delegate void OnHeroSpawned(Hero hero);
         public OnHeroSpawned onHeroSpawned;
+
+        public delegate void OnStatsSetup(HeroStatContainer stats);
+        public OnStatsSetup onStatsSetup;
 
         // Flags to indicate that post-load subscriptions have been applied
         private bool statsBound = false;
@@ -93,6 +98,8 @@ namespace Heros
             Stats = new HeroStatContainer(HeroSO);
             // Ensure defaults are present so subsequent bind/spawn sees all stats
             Stats.EnsureDefaults(HeroSO);
+
+            onStatsSetup?.Invoke(Stats);
 
             WaitForHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
             WaitForHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
@@ -195,16 +202,6 @@ namespace Heros
         public void OnHeroDie(Health health)
         {
             GameManager.Instance.EndGame();
-        }
-
-        // Public method for persistence manager to clear hero state
-        public void ClearHeroState()
-        {
-            RemoveHero();
-            Stats = null;
-            HeroSO = null;
-            statsBound = false;
-            equipmentApplied = false;
         }
 
         public void Clear()

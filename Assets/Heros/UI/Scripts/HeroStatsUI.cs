@@ -26,45 +26,67 @@ public class HeroStatsUI : MonoBehaviour
 
 
     private HeroStatContainer heroStats;
-    public HeroStatContainer HeroStatContainer
-    {
-        get
-        {
-            if(heroStats == null && HeroManager.Instance != null)
-                heroStats = HeroManager.Instance.Stats;
-
-            return heroStats;
-        }
-    }
+    private HeroManager HeroManager => HeroManager.Instance;
 
     private void Awake()
     {
-        WaitForHelper.WaitForConditionThenPerformAction(() => HeroStatContainer != null, SubscribeToStatChange);
+        WaitForHelper.WaitForObjectThenPerformAction(() => HeroManager.Instance, SubscribeToHeroStatsSetup);
+        WaitForHelper.WaitForConditionThenPerformAction(() => heroStats != null, SubscribeToStatChange);
+    }
+
+    private void SubscribeToHeroStatsSetup()
+    {
+        if (heroStats != null)
+            heroStats.statChanged -= UpdateHeroStatsUI;
+
+        HeroManager.onStatsSetup -= HeroStatsSetup;
+        HeroManager.onStatsSetup += HeroStatsSetup;
+        HeroStatsSetup(HeroManager.Stats);
+
+    }
+
+    private void HeroStatsSetup(HeroStatContainer heroStatContainer)
+    {
+        heroStats = heroStatContainer;
     }
 
     private void SubscribeToStatChange()
     {
-        HeroStatContainer.statChanged += UpdateHeroStatsUI;
+        heroStats.statChanged -= UpdateHeroStatsUI;
+        heroStats.statChanged += UpdateHeroStatsUI;
         UpdateHeroStatsUI();
     }
 
     public void UpdateHeroStatsUI()
     {
-        if (HeroStatContainer == null)
+        if (heroStats == null)
             return;
 
-        maxHealthText.text = "Max Health: " + ((int)HeroStatContainer.Get(HeroStats.Health)).ToString();
-        maxShieldText.text = "Max Shield: " + ((int)HeroStatContainer.Get(HeroStats.Shield)).ToString();
-        ShieldRegenerationText.text = "Shield Regeneration: " + ((float)HeroStatContainer.Get(HeroStats.ShieldRegeneration)).ToString();
-        ShieldCooldownText.text = "Shield Cooldown: " + ((float)HeroStatContainer.Get(HeroStats.ShieldCooldown)).ToString();
+        maxHealthText.text = "Max Health: " + ((int)heroStats.Get(HeroStats.Health)).ToString();
+        maxShieldText.text = "Max Shield: " + ((int)heroStats.Get(HeroStats.Shield)).ToString();
+        ShieldRegenerationText.text = "Shield Regeneration: " + ((float)heroStats.Get(HeroStats.ShieldRegeneration)).ToString();
+        ShieldCooldownText.text = "Shield Cooldown: " + ((float)heroStats.Get(HeroStats.ShieldCooldown)).ToString();
 
-        MovementSpeedText.text = "Movement Speed: " + ((float)HeroStatContainer.Get(HeroStats.MovementSpeed)).ToString();
+        MovementSpeedText.text = "Movement Speed: " + ((float)heroStats.Get(HeroStats.MovementSpeed)).ToString();
 
-        DamageText.text = "Damage Buff: " + ((int)HeroStatContainer.Get(HeroStats.Damage)).ToString();
-        AttackSpeedText.text = "Attack Speed: " + ((float)HeroStatContainer.Get(HeroStats.AttackSpeed)).ToString();
-        NumberOfProjectilesText.text = "Number of Projectiles: " + ((int)HeroStatContainer.Get(HeroStats.NumberOfAttacks)).ToString();
-        CriticalChanceText.text = "Critical Chance: " + ((float)HeroStatContainer.Get(HeroStats.CriticalChance)).ToString() + "%";
-        CriticalDamageText.text = "Critical Damage: " + ((float)HeroStatContainer.Get(HeroStats.CriticalDamageMultiplier)).ToString() + "%";
-        SizeText.text = "Attack Size: " + ((float)HeroStatContainer.Get(HeroStats.AttackSize)).ToString();
+        DamageText.text = "Damage Buff: " + ((int)heroStats.Get(HeroStats.Damage)).ToString();
+        AttackSpeedText.text = "Attack Speed: " + ((float)heroStats.Get(HeroStats.AttackSpeed)).ToString();
+        NumberOfProjectilesText.text = "Number of Projectiles: " + ((int)heroStats.Get(HeroStats.NumberOfAttacks)).ToString();
+        CriticalChanceText.text = "Critical Chance: " + ((float)heroStats.Get(HeroStats.CriticalChance)).ToString() + "%";
+        CriticalDamageText.text = "Critical Damage: " + ((float)heroStats.Get(HeroStats.CriticalDamageMultiplier)).ToString() + "%";
+        SizeText.text = "Attack Size: " + ((float)heroStats.Get(HeroStats.AttackSize)).ToString();
+    }
+
+    private void OnDestroy()
+    {
+        if(heroStats != null)
+        {
+            heroStats.statChanged -= UpdateHeroStatsUI;
+        }
+
+        if(HeroManager != null)
+        {
+            HeroManager.onStatsSetup -= HeroStatsSetup;
+        }
     }
 }
