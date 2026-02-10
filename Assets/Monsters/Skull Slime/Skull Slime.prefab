@@ -137,7 +137,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -5883668552645195124, guid: fc3355f521c27694cb27bf1c3677b5a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -640,7 +640,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
   visualTransform: {fileID: 3622240147882513081}
-  StationaryPosition: {x: 0, y: 0}
   directTargetLayerMask:
     serializedVersion: 2
     m_Bits: 32768
@@ -748,7 +747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterCollisionAttack
   damage: 3
   knockback: 1
-  attackCooldown: 0.5
+  attackCooldown: 1.5
   layerMask:
     serializedVersion: 2
     m_Bits: 32832

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     public WeightedChanceList<TileSO> Tiles;
 
-    public bool LocalMapPlaying;
+    public bool LocalMapPlaying => LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel;
 
     private int currentSeed;
 

@@ -7,24 +7,26 @@ namespace Relics
 
     public class DemonItemRelicEffect : RelicEffect
     {
-        public override string Description
+        public override string Description(Relic relic)
         {
-            get
-            {
-                return $"Not implemented";
-            }
+            return $"Not implemented";
         }
 
-        public DemonItemRelicEffect(Relic relic, Action updateUI = null) : base(relic, updateUI)
+        public override string Description(RelicSO relic)
+        {
+            return $"Not implemented";
+        }
+
+        public DemonItemRelicEffect(Action updateUI = null) : base(updateUI)
         {
         }
 
-        public override RelicEffect CreateInstance()
+        public override RelicEffect CreateInstance(Relic relic)
         {
-            return new DemonItemRelicEffect(Relic, updateUI);
+            return new DemonItemRelicEffect(updateUI);
         }
 
-        public override void OnGainRelic()
+        public override void OnGainRelic(Relic relic)
         {
 
         }

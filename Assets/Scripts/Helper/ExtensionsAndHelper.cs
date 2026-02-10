@@ -338,6 +338,25 @@ public static class ExtensionsAndHelper
         return returnList;
     }
 
+    public static string AddStringWithCarriageReturn(this string str, string addStr, int amountOfReturns = 1)
+    {
+        if (string.IsNullOrEmpty(str))
+            return addStr;
+
+        if (string.IsNullOrEmpty(addStr))
+        {
+            return str;
+        }
+
+        string carriageReturns = string.Empty;
+        for (int i = 0; i < amountOfReturns; i++)
+        {
+            carriageReturns += "\r\n";
+        }
+
+        return str + carriageReturns + addStr;
+    }
+
     public static void RemoveDuplicates<T>(this List<T> list)
     {
         list.Distinct().ToList();

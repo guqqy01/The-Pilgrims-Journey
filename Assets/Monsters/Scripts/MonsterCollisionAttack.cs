@@ -14,7 +14,7 @@ public class MonsterCollisionAttack : MonoBehaviour
         = new Dictionary<HealthAndShieldManager, float>();
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (!layerMask.ContainsLayer(collision.gameObject.layer))
             return;

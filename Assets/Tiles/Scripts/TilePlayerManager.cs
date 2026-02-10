@@ -7,7 +7,7 @@ using LocalMap;
 
 namespace Tiles
 {
-    public class TilePlayerManager : Singleton<TilePlayerManager>, IOnCompleteLocalMapLevel, IOnSetupNewGame
+    public class TilePlayerManager : Singleton<TilePlayerManager>, IOnCompleteLocalMapLevel, IOnSetupNewGame, IOnClear
     {
         public float CurrentPlayingPosition { private set; get; }
 
@@ -226,6 +226,11 @@ namespace Tiles
         }
 
         public void OnCompleteLocalMapLevel()
+        {
+            StopPlaying();
+        }
+
+        public void Clear()
         {
             StopPlaying();
         }

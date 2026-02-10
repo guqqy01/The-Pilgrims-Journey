@@ -8,47 +8,43 @@ namespace Relics
     {
         public override string StatString => "Experience Gain";
 
-        public override string Description
+        public override string Description(Relic r)
         {
-            get
-            {
-                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSignedSimpleDescription()}";
-            }
+            return $"{StatString}: {(buffIncreasePerLevel * r.Level).GetSignedSimpleDescription()}";
         }
 
-        public IncreaseExperienceRelicEffect(Relic relic, Buff buffIncreasePerLevel, Action updateUI = null) : base(relic, buffIncreasePerLevel, updateUI)
+        public override string Description(RelicSO relicSO)
+        {
+            return $"{StatString} increase per Level: {buffIncreasePerLevel.GetSignedSimpleDescription()}";
+        }
+
+        public IncreaseExperienceRelicEffect(Buff buffIncreasePerLevel, Action updateUI = null) : base(buffIncreasePerLevel, updateUI)
         {
         }
 
-        public override RelicEffect CreateInstance()
+        public override RelicEffect CreateInstance(Relic relic)
         {
-            return new IncreaseExperienceRelicEffect(Relic, buffIncreasePerLevel, updateUI);
+            return new IncreaseExperienceRelicEffect(buffIncreasePerLevel, updateUI);
             
         }
 
-        public override void OnGainRelic()
+        public override void OnGainRelic(Relic relic)
         {
-            Buff buff = buffIncreasePerLevel * Relic.Level;
+            Buff buff = buffIncreasePerLevel * relic.Level;
 
-            OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.ExperienceGain);
+            OverallStatsManager.Instance.AddBuff(relic.relicSO.name, buff, OverallStats.ExperienceGain);
         }
 
-        public override void OnLevelChangeRelic(int currentLevel)
+        public override void OnLevelChangeRelic(Relic relic, int currentLevel)
         {
-            if (Relic == null)
-            {
-                Debug.LogError($"Relic empty in relicEffect: {this}");
-                return;
-            }
-
             Buff buff = buffIncreasePerLevel * currentLevel;
 
-            OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.ExperienceGain);
+            OverallStatsManager.Instance.AddBuff(relic.relicSO.name, buff, OverallStats.ExperienceGain);
         }
 
-        public override void OnRemoveRelic()
+        public override void OnRemoveRelic(Relic relic)
         {
-            OverallStatsManager.Instance.RemoveBuff(Relic.relicSO.name, OverallStats.ExperienceGain);
+            OverallStatsManager.Instance.RemoveBuff(relic.relicSO.name, OverallStats.ExperienceGain);
         }
     }
 }

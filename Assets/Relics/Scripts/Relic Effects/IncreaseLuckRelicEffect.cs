@@ -10,35 +10,36 @@ namespace Relics
     {
         public override string StatString => "Luck";
 
-        public override string Description
+        public override string Description(Relic relic)
         {
-            get
-            {
-                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSignedSimpleDescription()}";
-            }
+            return $"{StatString}: {(buffIncreasePerLevel * relic.Level).GetSignedSimpleDescription()}";
         }
 
-       
-        public IncreaseLuckRelicEffect(Relic relic, Buff buffIncreasePerLevel, Action updateUI = null) : base(relic, buffIncreasePerLevel, updateUI)
+        public override string Description(RelicSO relicSO)
+        {
+            return $"{StatString} Increase Per Level: {(buffIncreasePerLevel).GetSignedSimpleDescription()}";
+        }
+
+        public IncreaseLuckRelicEffect(Buff buffIncreasePerLevel, Action updateUI = null) : base(buffIncreasePerLevel, updateUI)
         {
             
         }
 
-        public override RelicEffect CreateInstance()
+        public override RelicEffect CreateInstance(Relic relic)
         {
-            return new IncreaseLuckRelicEffect(Relic, buffIncreasePerLevel, updateUI);
+            return new IncreaseLuckRelicEffect(buffIncreasePerLevel, updateUI);
         }
 
-        public override void OnGainRelic()
+        public override void OnGainRelic(Relic relic)
         {
-            Buff buff = buffIncreasePerLevel * Relic.Level;
+            Buff buff = buffIncreasePerLevel * relic.Level;
 
-            OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.Luck);
+            OverallStatsManager.Instance.AddBuff(relic.relicSO.name, buff, OverallStats.Luck);
         }
 
-        public override void OnLevelChangeRelic(int currentLevel)
+        public override void OnLevelChangeRelic(Relic relic, int currentLevel)
         {
-            if (Relic == null)
+            if (relic == null)
             {
                 Debug.LogError($"Relic empty in relicEffect: {this}");
                 return;
@@ -46,12 +47,12 @@ namespace Relics
 
             Buff buff = buffIncreasePerLevel * currentLevel;
 
-            OverallStatsManager.Instance.AddBuff(Relic.relicSO.name, buff, OverallStats.Luck);
+            OverallStatsManager.Instance.AddBuff(relic.relicSO.name, buff, OverallStats.Luck);
         }
 
-        public override void OnRemoveRelic()
+        public override void OnRemoveRelic(Relic relic)
         {
-            OverallStatsManager.Instance.RemoveBuff(Relic.relicSO.name, OverallStats.Luck);
+            OverallStatsManager.Instance.RemoveBuff(relic.relicSO.name, OverallStats.Luck);
         }
 
         

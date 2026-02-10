@@ -41,24 +41,6 @@ namespace UI.Minimap
         private float updateTimer;
         private const float UPDATE_INTERVAL = 0.1f; // 10 FPS
 
-        private void RemoveDeadEntries(Dictionary<Transform, Image> map)
-        {
-            _deadBuffer.Clear();
-
-            foreach (var kvp in map)
-            {
-                if (kvp.Key == null)
-                    _deadBuffer.Add(kvp.Key);
-            }
-
-            for (int i = 0; i < _deadBuffer.Count; i++)
-            {
-                var img = map[_deadBuffer[i]];
-                ReturnPoint(img);
-                map.Remove(_deadBuffer[i]);
-            }
-        }
-
         private void Awake()
         {
             cachedCam = Camera.main;

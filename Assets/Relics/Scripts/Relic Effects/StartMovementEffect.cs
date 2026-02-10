@@ -14,27 +14,29 @@ namespace Relics
 
         private float timeToStop;
 
-        public override string Description
+        public override string Description(Relic relic)
         {
-            get
-            {
-                return $"Gives the units spawned in the first {unitTime} seconds a speed boost of {movementAmountPerLevel * Relic.Level}";
-            }
+                return $"Gives the units spawned in the first {unitTime} seconds a speed boost of {movementAmountPerLevel * relic.Level}";
         }
 
-        public override RelicEffect CreateInstance()
+        public override string Description(RelicSO relicSO)
         {
-            return new StartMovementEffect(Relic, movementAmountPerLevel, unitTime, movementBuffTime, updateUI);
+            return $"Gives the units spawned in the first {unitTime} seconds a speed boost of ({movementAmountPerLevel}) per level";
         }
 
-        public StartMovementEffect(Relic relic, float movementAmountPerLevel, float unitTime, float movementBuffTime, Action updateUI = null) : base(relic, updateUI)
+        public override RelicEffect CreateInstance(Relic relic)
+        {
+            return new StartMovementEffect(movementAmountPerLevel, unitTime, movementBuffTime, updateUI);
+        }
+
+        public StartMovementEffect(float movementAmountPerLevel, float unitTime, float movementBuffTime, Action updateUI = null) : base(updateUI)
         {
             this.movementAmountPerLevel = movementAmountPerLevel;
             this.unitTime = unitTime;
             this.movementBuffTime = movementBuffTime;
         }
 
-        public override void OnPlayEffect()
+        public override void OnPlayEffect(Relic relic)
         {
             timeToStop = Time.time + unitTime;
 

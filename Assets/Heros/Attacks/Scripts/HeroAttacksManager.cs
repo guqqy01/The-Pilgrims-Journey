@@ -4,6 +4,7 @@ using LevelingSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using static LevelingSystem.ExperienceOrbManager;
 namespace Heros.Attacks
@@ -25,7 +26,9 @@ namespace Heros.Attacks
 
         public delegate void OnHeroAttackLevelChange(BaseHeroAttack heroAttack);
         public OnHeroAttackLevelChange onHeroAttackLevelChange;
-        
+
+        private bool loading = false;
+
         private void Update()
         {
             if(attacks.Count != 0)
@@ -137,6 +140,9 @@ namespace Heros.Attacks
 
         public void Save()
         {
+            if (loading)
+                return;
+
             SaveManager.IfFileExistsDelete(SaveFileName);
             SaveData saveData = new SaveData(attacks.Values.ToList());
             SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
@@ -147,6 +153,8 @@ namespace Heros.Attacks
         {
             if (SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outSaveProfile))
             {
+                loading = true;
+
                 SaveData saveData = outSaveProfile.saveData;
 
                 List<HeroAttackInfo> heroAttackInfo = saveData.heroAttackData;
@@ -178,8 +186,7 @@ namespace Heros.Attacks
                 SetHeroAttackLevel(info.HeroAttackSO, info.Level);
             }
 
-            //Save to rewrite overridden save from early Save that happens when loading new map.
-            Save();
+            loading = false;
         }
 
         public void Clear()

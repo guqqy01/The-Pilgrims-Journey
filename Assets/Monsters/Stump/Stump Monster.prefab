@@ -89,7 +89,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 1338533859, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -164,12 +164,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
   visualTransform: {fileID: 5667121558266182341}
-  StationaryPosition: {x: 0, y: 0}
   directTargetLayerMask:
     serializedVersion: 2
     m_Bits: 32832
   directStoppingDistance: 0
   movementType: 1
+  mirrorWhenTargetToTheLeft: 0
 --- !u!114 &1066040152469048916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,9 +282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff5103b39b68184bae7ddf3b93ac337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterCollisionAttack
-  damage: 3
+  damage: 1
   knockback: 0.3
-  attackCooldown: 0.5
+  attackCooldown: 1.5
   layerMask:
     serializedVersion: 2
     m_Bits: 32832
@@ -304,7 +304,6 @@ MonoBehaviour:
   knockBackDuration: 0.2
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.1
-  damagePopupPrefab: {fileID: 3616214638791460713, guid: f26cfdc90fcec80428d02d590d2b8146, type: 3}
 --- !u!114 &740907183039731
 MonoBehaviour:
   m_ObjectHideFlags: 0

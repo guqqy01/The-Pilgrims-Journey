@@ -54,7 +54,7 @@ namespace Relics
                 foreach (RelicEffect effect in relic.relicEffects)
                 {
                     if(effect != null)
-                        effect.AfterPlayEffect();
+                        effect.AfterPlayEffect(relic);
                 }
             }
 
@@ -62,7 +62,7 @@ namespace Relics
             {
                 foreach (RelicEffect effect in relic.relicEffects)
                 {
-                    effect.Reset();
+                    effect.Reset(relic);
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Relics
             {
                 foreach (RelicEffect effect in relic.relicEffects)
                 {
-                    effect.OnPlayEffect();
+                    effect.OnPlayEffect(relic);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace Relics
         {
             foreach(RelicEffect effect in relic.relicEffects)
             {
-                effect.OnRemoveRelic();
+                effect.OnRemoveRelic(relic);
             }
 
             relics.Remove(relic);

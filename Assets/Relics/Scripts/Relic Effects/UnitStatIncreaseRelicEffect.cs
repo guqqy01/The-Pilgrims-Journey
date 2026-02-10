@@ -12,49 +12,45 @@ namespace Relics
         private UnitStatsEnum stat;
         public UnitStatsEnum Stat => stat;
 
-        public override RelicEffect CreateInstance()
+        public override RelicEffect CreateInstance(Relic relic)
         {
-            return new UnitStatIncreaseRelicEffect(Relic, buffIncreasePerLevel, stat, updateUI);
+            return new UnitStatIncreaseRelicEffect(buffIncreasePerLevel, stat, updateUI);
         }
 
         public override string StatString => Stat.ToString().AddSpacesBeforeCapsRegex();
 
-        public override string Description
+        public override string Description(Relic relic)
         {
-            get
-            {
-                return $"{StatString}: {(buffIncreasePerLevel * Relic.Level).GetSignedSimpleDescription()}";
-            }
+            return $"{StatString}: {(buffIncreasePerLevel * relic.Level).GetSignedSimpleDescription()}";
         }
 
-        public UnitStatIncreaseRelicEffect(Relic relic, Buff buff, UnitStatsEnum stat, Action updateUI = null) : base(relic, buff, updateUI)
+        public override string Description(RelicSO relicSO)
+        {
+            return $"{StatString} Increase Per Level: {(buffIncreasePerLevel).GetSignedSimpleDescription()}";
+        }
+
+        public UnitStatIncreaseRelicEffect(Buff buff, UnitStatsEnum stat, Action updateUI = null) : base(buff, updateUI)
         {
             this.stat = stat;
         }
 
-        public override void OnGainRelic()
+        public override void OnGainRelic(Relic relic)
         {
-            Buff buff = buffIncreasePerLevel * Relic.Level;
+            Buff buff = buffIncreasePerLevel * relic.Level;
 
-            UnitBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buff);
+            UnitBuffManager.Instance.AddStatBuff(relic.relicSO.name, stat, buff);
         }
 
-        public override void OnLevelChangeRelic(int currentLevel)
+        public override void OnLevelChangeRelic(Relic relic, int currentLevel)
         {
-            if (Relic == null)
-            {
-                Debug.LogError($"Relic empty in relicEffect: {this}");
-                return;
-            }
-
             Buff buff = buffIncreasePerLevel * currentLevel;
 
-            UnitBuffManager.Instance.AddStatBuff(Relic.relicSO.name, stat, buff);
+            UnitBuffManager.Instance.AddStatBuff(relic.relicSO.name, stat, buff);
         }
 
-        public override void OnRemoveRelic()
+        public override void OnRemoveRelic(Relic relic)
         {
-            UnitBuffManager.Instance.RemoveStatBuff(Relic.relicSO.name, stat);
+            UnitBuffManager.Instance.RemoveStatBuff(relic.relicSO.name, stat);
         }
 
         

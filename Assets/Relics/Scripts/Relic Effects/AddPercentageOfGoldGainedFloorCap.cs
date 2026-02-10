@@ -42,24 +42,26 @@ namespace Relics
 
         private bool reset;
 
-        internal AddPercentageOfGoldGainedFloorCap(float percentageOfGoldExtra, int numberOfRoundsToGainGold, GoldGainEnum goldGain, Relic relic, Action updateUI = null) : base(relic, updateUI)
+        internal AddPercentageOfGoldGainedFloorCap(float percentageOfGoldExtra, int numberOfRoundsToGainGold, GoldGainEnum goldGain, Action updateUI = null) : base(updateUI)
         {
             this.percentageOfGoldExtra = percentageOfGoldExtra;
             this.numberOfRoundsToGainGold = numberOfRoundsToGainGold;
             this.goldGain = goldGain;
         }
 
-        public override RelicEffect CreateInstance()
+        public override RelicEffect CreateInstance(Relic r)
         {
-            return new AddPercentageOfGoldGainedFloorCap(percentageOfGoldExtra, numberOfRoundsToGainGold, goldGain, Relic, updateUI);
+            return new AddPercentageOfGoldGainedFloorCap(percentageOfGoldExtra, numberOfRoundsToGainGold, goldGain, updateUI);
         }
 
-        public override string Description
+        public override string Description(Relic relic)
         {
-            get
-            {
-                return $"Grants you {percentageOfGoldExtra}% of the gold difference between {numberOfRoundsToGainGold} rounds. Current Amount of gold to be gained in {numberOfRoundsRemaining} rounds is {CurrentAmountOfGoldToBeGained}";
-            }
+            return $"Grants you {percentageOfGoldExtra}% of the gold difference between {numberOfRoundsToGainGold} rounds. Current Amount of gold to be gained in {numberOfRoundsRemaining} rounds is {CurrentAmountOfGoldToBeGained}";
+        }
+
+        public override string Description(RelicSO relic)
+        {
+            return $"Grants you {percentageOfGoldExtra}% of the gold difference between {numberOfRoundsToGainGold} rounds. Current Amount of gold to be gained in {numberOfRoundsRemaining} rounds is {CurrentAmountOfGoldToBeGained}";
         }
 
         public override string GetTopText()
@@ -74,7 +76,7 @@ namespace Relics
             return goldGained.ToString();
         }
 
-        public override void OnGainRelic()
+        public override void OnGainRelic(Relic relic)
         {
             startGold = ResourceManager.Instance.Gold;
             numberOfRoundsRemaining = numberOfRoundsToGainGold;
@@ -86,7 +88,7 @@ namespace Relics
             updateUI?.Invoke();
         }
 
-        public override void AfterPlayEffect()
+        public override void AfterPlayEffect(Relic relic)
         {
             //Debug.Log("AfterPlayEffect");
 
@@ -106,7 +108,7 @@ namespace Relics
             updateUI?.Invoke();
         }
 
-        public override void Reset()
+        public override void Reset(Relic relic)
         {
             if (!reset)
                 return;

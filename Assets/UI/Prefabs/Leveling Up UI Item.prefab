@@ -177,12 +177,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
+  m_fontSize: 18
   m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 12
+  m_fontSizeMax: 18
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 0
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 12
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 0
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 8770926927737757349}
   - component: {fileID: 4590906309132085685}
   m_Layer: 5
-  m_Name: Leveling Up Relic UI Item
+  m_Name: Leveling Up UI Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -513,7 +513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.UI.LevelingUpRelicUIItem
   rewardImage: {fileID: 7441414558791517045}
   rewardNameText: {fileID: 1208071695422310600}
-  increaseAmountText: {fileID: 950982383888142064}
+  descriptionText: {fileID: 950982383888142064}
   spriteSize: 30
 --- !u!114 &9108056418650492710
 MonoBehaviour:

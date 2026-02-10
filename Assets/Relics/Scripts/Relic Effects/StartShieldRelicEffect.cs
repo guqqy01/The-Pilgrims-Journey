@@ -12,47 +12,43 @@ namespace Relics
 
         private float timeToStop;
 
-        public override string Description
-        {
-            get
-            {
-                if (Relic == null)
-                    return "";
+        private int relicLevel;
 
-                return $"Gives the units spawned in the first {unitTime} seconds a shield of {shieldAmountPerLevel * Relic.Level}";
-            }
+        public override string Description(Relic relic)
+        {
+                return $"Gives the units spawned in the first {unitTime} seconds a shield of {shieldAmountPerLevel * relic.Level}";
         }
 
-        public override RelicEffect CreateInstance()
+        public override string Description(RelicSO relicSO)
         {
-            return new StartShieldRelicEffect(Relic, shieldAmountPerLevel, unitTime, updateUI);
+            return $"Gives the units spawned in the first {unitTime} seconds a shield of ({shieldAmountPerLevel}) per level";
         }
 
-        public StartShieldRelicEffect(Relic relic, int shieldAmountPerLevel, float unitTime, Action updateUI = null) : base(relic, updateUI)
+        public override RelicEffect CreateInstance(Relic relic)
+        {
+            return new StartShieldRelicEffect(shieldAmountPerLevel, unitTime, updateUI);
+        }
+
+        public StartShieldRelicEffect(int shieldAmountPerLevel, float unitTime, Action updateUI = null) : base(updateUI)
         {
             this.shieldAmountPerLevel = shieldAmountPerLevel;
             this.unitTime = unitTime;
         }
 
-        public override void OnPlayEffect()
+        public override void OnPlayEffect(Relic relic)
         {
             timeToStop = Time.time + unitTime;
-
+            relicLevel = relic.Level;
             UnitSpawningManager.Instance.onUnitSpawned += AddShieldToUnit;
         }
 
-        public override void Reset()
+        public override void Reset(Relic relic)
         {
             UnitSpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;
         }
 
         private void AddShieldToUnit(Unit unit)
         {
-            if(Relic == null)
-            {
-                return;
-            }
-
             if (Time.time >= timeToStop)
             {
                 UnitSpawningManager.Instance.onUnitSpawned -= AddShieldToUnit;
@@ -62,7 +58,7 @@ namespace Relics
             Buff shieldBuff = new Buff(
                 0f,
                 new IntOrFloatObject(0),
-                new IntOrFloatObject(shieldAmountPerLevel * Relic.Level)
+                new IntOrFloatObject(shieldAmountPerLevel * relicLevel)
             );
 
 

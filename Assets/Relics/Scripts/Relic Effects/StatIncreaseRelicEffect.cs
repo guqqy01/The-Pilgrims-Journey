@@ -10,7 +10,7 @@ namespace Relics
 
         public abstract string StatString { get; }
 
-        public StatIncreaseRelicEffect(Relic relic, Buff buffIncreasePerLevel, Action updateUI = null) : base(relic, updateUI)
+        public StatIncreaseRelicEffect(Buff buffIncreasePerLevel, Action updateUI = null) : base(updateUI)
         {
             this.buffIncreasePerLevel = buffIncreasePerLevel;
         }

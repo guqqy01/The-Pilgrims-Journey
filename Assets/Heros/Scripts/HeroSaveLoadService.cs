@@ -37,16 +37,16 @@ namespace Heros
             if (heroManager == null) heroManager = HeroManager.Instance;
 
             var data = new SaveData();
-            data.heroSO = heroManager?.HeroSO;
-            data.heroSOName = heroManager?.HeroSO != null ? heroManager.HeroSO.name : string.Empty;
+            data.heroSO = heroManager.HeroSO;
+            data.heroSOName = heroManager.HeroSO != null ? heroManager.HeroSO.name : string.Empty;
 
             // Write base file
             var profile = new SaveProfile<SaveData>(SaveFileName, data);
             SaveManager.SaveOver(profile);
 
             // Save related managers
-            HeroStatBuffsManager.Instance?.Save();
-            HeroAttacksManager.Instance?.Save();
+            HeroStatBuffsManager.Instance.Save();
+            HeroAttacksManager.Instance.Save();
         }
 
         private HeroSO GetResolvedHeroSO(SaveData saveData)

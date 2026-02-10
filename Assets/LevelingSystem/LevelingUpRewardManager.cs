@@ -185,7 +185,49 @@ namespace LevelingSystem
         public RelicSO RelicSO { get; }
 
         public ScriptableObject Source => RelicSO;
+
         public Sprite Sprite => RelicSO.Sprite;
+
+        public string Name => RelicSO.name;
+
+        public string Description(int levelsIncrease)
+        {
+            string relicMainDescription = RelicSO.description;
+
+            if (RelicManager.Instance == null)
+                return relicMainDescription;
+
+            relicMainDescription = relicMainDescription.AddStringWithCarriageReturn(GetRelicStatIncrease(levelsIncrease), 2);
+
+            return relicMainDescription;
+        }
+
+        private string GetRelicStatIncrease(int levelsIncrease)
+        {
+            StatIncreaseRelicEffect statIncreaseEffect =
+                RelicSO.relicEffects.Find(x => x is StatIncreaseRelicEffect)
+                as StatIncreaseRelicEffect;
+
+            if (statIncreaseEffect == null)
+            {
+                return string.Empty;
+            }
+            string returnString = string.Empty;
+
+            int currentLevel = 0;
+
+            if (RelicManager.Instance.TryGetRelic(RelicSO, out Relic relic))
+                currentLevel = relic.Level;
+
+            Buff fromBuff = statIncreaseEffect.BuffIncreasePerLevel * currentLevel;
+            Buff toBuff = statIncreaseEffect.BuffIncreasePerLevel * (currentLevel + levelsIncrease);
+
+            returnString =
+                $"{statIncreaseEffect.StatString}: {Buff.SimpleCompareString(fromBuff, toBuff)}";
+
+            return returnString;
+        }
+
         public RelicReward(RelicSO relicSO)
         {
             RelicSO = relicSO;
@@ -207,9 +249,29 @@ namespace LevelingSystem
     public class HeroWeaponReward : ILevelingUpReward
     {
         public BaseHeroAttackSO HeroAttackSO { get; }
+        public ScriptableObject Source => HeroAttackSO;
         public Sprite Sprite => HeroAttackSO.icon;
 
-        public ScriptableObject Source => HeroAttackSO;
+        public string Name => HeroAttackSO.name;
+
+        public string Description(int levelsIncrease)
+        {
+            string heroAttackDescription = HeroAttackSO.description;
+
+            if (HeroAttacksManager.Instance == null)
+                return heroAttackDescription;
+
+            int currentAttackLevel = HeroAttacksManager.Instance.GetHeroAttackLevel(HeroAttackSO);
+
+            heroAttackDescription = heroAttackDescription.AddStringWithCarriageReturn(GetWeaponAttackStats(currentAttackLevel), 2);
+
+            return heroAttackDescription;
+        }
+
+        private string GetWeaponAttackStats(int currentAttackLevel)
+        {
+            return HeroAttackSO.GetComparedStatsDescription(currentAttackLevel, currentAttackLevel + 1);
+        }
 
         public HeroWeaponReward(BaseHeroAttackSO relicSO)
         {
@@ -225,8 +287,10 @@ namespace LevelingSystem
 
     public interface ILevelingUpReward
     {
-        ScriptableObject Source { get; }
+        public ScriptableObject Source { get; }
         public Sprite Sprite { get; }
+        public string Name { get; }
+        public string Description(int levelsIncrease);
         void Apply(int amount);
     }
 }

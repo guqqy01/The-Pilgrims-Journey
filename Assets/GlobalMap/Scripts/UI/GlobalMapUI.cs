@@ -45,7 +45,7 @@ namespace GlobalMap.UI
         [SerializeField] private Transform lineParentTransform;
         [SerializeField] private GlobalMapLineUI MapLinePrefab;
         [SerializeField] private float lineColorChangeSpeed = 1;
-        private Dictionary<GlobalMapPoint, Dictionary<GlobalMapPoint, GlobalMapLineUI>> toPointFromPointLine = new ();
+        private readonly Dictionary<GlobalMapPoint, Dictionary<GlobalMapPoint, GlobalMapLineUI>> toPointFromPointLine = new ();
         [SerializeField] private float lineWidth;
         [SerializeField] private Color defaultPathColor;
         [SerializeField] private Color takenPathColor;

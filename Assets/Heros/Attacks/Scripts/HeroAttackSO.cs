@@ -79,6 +79,39 @@ namespace Heros.Attacks
 
             return str;
         }
+
+        public string GetComparedStatsDescription(int fromLevel, int toLevel)
+        {
+            string str = "";
+
+            foreach (HeroStats stat in Enum.GetValues(typeof(HeroStats)))
+            {
+                Buff fromBuff = GetBuff(stat, fromLevel);
+                Buff toBuff = GetBuff(stat, toLevel);
+
+                if (fromBuff == null && toBuff == null)
+                    continue;
+
+                bool isInt = fromBuff?.IsInt ?? toBuff?.IsInt ?? false;
+
+                fromBuff ??= new Buff(isInt);
+                toBuff ??= new Buff(isInt);
+
+                string buffDescription = fromLevel == 0 ? toBuff.GetSignedSimpleDescription() : Buff.SimpleCompareString(fromBuff, toBuff);
+
+                if (string.IsNullOrEmpty(buffDescription))
+                    continue;
+
+                string buffStr =
+                    stat.ToString().AddSpacesBeforeCapsRegex() +
+                    ": " +
+                    buffDescription;
+
+                buffStr.AppendLineToTarget(ref str);
+            }
+
+            return str;
+        }
     }
 
 

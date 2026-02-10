@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Spells;
+using Unity.VisualScripting;
 
 
 /*
@@ -37,7 +38,7 @@ namespace Relics
                     EnsureRelicEffectSetup(relicEffect);
 
                     if (relicEffect != null)
-                        relicEffect.OnLevelChangeRelic(level);
+                        relicEffect.OnLevelChangeRelic(this, level);
                 }
             }
             get => level;
@@ -85,7 +86,7 @@ namespace Relics
 
         public string Title => relicSO.Title;
 
-        public string MainDescription => relicSO.MainDescription;
+        public string MainDescription => GetDescriptionString();
 
         public Sprite Sprite => relicSO.Sprite;
 
@@ -94,6 +95,20 @@ namespace Relics
         [SerializeReference]
         public List<RelicEffect> relicEffects = new List<RelicEffect>();
 
+        private string GetDescriptionString()
+        {
+            string returnString = relicSO.description;
+
+            foreach (RelicEffect relicEffect in relicEffects)
+            {
+                if (returnString != "")
+                    returnString += "\r\n";
+                returnString += relicEffect.Description(this);
+            }
+
+            return returnString;
+        }
+
         private void EnsureRelicEffectSetup(RelicEffect effect)
         {
             if(effect == null)
@@ -101,9 +116,6 @@ namespace Relics
                 Debug.LogWarning($"Relic effect is null in Relic: {this}");
                 return;
             }
-
-            if (effect.Relic == null)
-                return;
 
             effect.Init(this);
         }
@@ -127,7 +139,7 @@ namespace Relics
                 if (effect == null)
                     continue;
 
-                RelicEffect clonedEffect = effect.CreateInstance();
+                RelicEffect clonedEffect = effect.CreateInstance(this);
                 clonedEffect.Init(this);
                 relicEffects.Add(clonedEffect);
             }

@@ -41,6 +41,11 @@ public class MainMenu : Singleton<MainMenu>
         Deactivated = false;
     }
 
+    private void OnEnable()
+    {
+        Setup();
+    }
+
     public void Setup()
     {
         continueJourneyButton.interactable = SaveManager.FileExists("GameManagerSave");
@@ -86,6 +91,12 @@ public class MainMenu : Singleton<MainMenu>
             return;
 
         Deactivated = true;
+
+        if (!SaveManager.FileExists("GameManagerSave"))
+        {
+            Setup();
+            return;
+        }
 
         GameManager.Instance.ContinueJourney();
         Time.timeScale = 1.0f;

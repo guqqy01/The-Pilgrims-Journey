@@ -47,11 +47,19 @@ public class PauseMenu : MonoBehaviour
         SceneLoader.Instance.LoadMainMenuScene();
         gameObject.SetActive(false);
         BlurBackgroundController.Instance.DisableBlur();
+
+        if (!GameManager.Instance.LocalMapPlaying)
+        {
+            GameManager.Instance.Save();
+        }
     }
 
     public void ExitDesktopButton()
     {
-        GameManager.Instance.Save();
+        if (!GameManager.Instance.LocalMapPlaying)
+        {
+            GameManager.Instance.Save();
+        }
         Application.Quit();
     }
 }

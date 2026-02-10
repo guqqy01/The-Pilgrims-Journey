@@ -14,30 +14,27 @@ namespace LevelingSystem.UI
 
         [SerializeField] private Image rewardImage;
         [SerializeField] private TextMeshProUGUI rewardNameText;
-        [SerializeField] private TextMeshProUGUI increaseAmountText;
+        [SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private float spriteSize = 50f;
 
         public void Setup(ILevelingUpReward reward, int levelsIncrease)
         {
-
             this.reward = reward;
             this.levelsIncrease = levelsIncrease;
 
-            // All rewards must expose a source SO
-            ScriptableObject source = reward.Source;
-
-            rewardNameText.text = source.name;
+            rewardNameText.text = reward.Name;
+            descriptionText.text = reward.Description(levelsIncrease);
             rewardImage.sprite = reward.Sprite;
             rewardImage.NativeRatioScaleToSize(spriteSize);
 
-            if (source is RelicSO relicSO)
+            /*if (source is RelicSO relicSO)
             {
                 SetupRelicUI(relicSO);
             }
             else
             {
                 SetupGenericRewardUI(source);
-            }
+            }*/
         }
 
         // -------------------------
@@ -51,7 +48,7 @@ namespace LevelingSystem.UI
 
             if (statIncreaseEffect == null)
             {
-                increaseAmountText.text = string.Empty;
+                descriptionText.text = string.Empty;
                 return;
             }
 
@@ -63,7 +60,7 @@ namespace LevelingSystem.UI
             Buff fromBuff = statIncreaseEffect.BuffIncreasePerLevel * currentLevel;
             Buff toBuff = statIncreaseEffect.BuffIncreasePerLevel * (currentLevel + levelsIncrease);
 
-            increaseAmountText.text =
+            descriptionText.text =
                 $"{statIncreaseEffect.StatString}: {Buff.SimpleCompareString(fromBuff, toBuff)}";
         }
 
@@ -72,7 +69,7 @@ namespace LevelingSystem.UI
         // -------------------------
         private void SetupGenericRewardUI(ScriptableObject source)
         {
-            increaseAmountText.text = $"+{levelsIncrease}";
+            descriptionText.text = $"+{levelsIncrease}";
         }
     }
 }

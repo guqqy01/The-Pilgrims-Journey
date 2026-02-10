@@ -1,38 +1,34 @@
 ﻿using System;
 namespace Relics
 {
-
     [Serializable]
     public abstract class RelicEffect
     {
-        public Relic Relic { private set; get; }
-
         public Action updateUI;
 
         public void Init(Relic relic)
         {
-            Relic = relic;
-            OnGainRelic();
+            OnGainRelic(relic);
         }
 
-        public RelicEffect(Relic relic, Action updateUI = null)
+        public RelicEffect(Action updateUI = null)
         {
-            Relic = relic;
             this.updateUI = updateUI;
         }
 
-        public abstract RelicEffect CreateInstance();
+        public abstract RelicEffect CreateInstance(Relic relic);
 
-        public virtual void OnGainRelic() { }
-        public virtual void OnRemoveRelic() { }
-        public virtual void OnLevelChangeRelic(int currentLevel) { }
+        public virtual void OnGainRelic(Relic relic) { }
+        public virtual void OnRemoveRelic(Relic relic) { }
+        public virtual void OnLevelChangeRelic(Relic relic, int currentLevel) { }
 
         public virtual string GetBottomText() { return ""; }
         public virtual string GetTopText() { return ""; }
-        public virtual void OnPlayEffect() { }
-        public virtual void AfterPlayEffect() { }
-        public virtual void Reset() { }
+        public virtual void OnPlayEffect(Relic relic) { }
+        public virtual void AfterPlayEffect(Relic relic) { }
+        public virtual void Reset(Relic relic) { }
 
-        public abstract string Description { get; }
+        public abstract string Description(Relic relic);
+        public abstract string Description(RelicSO relicSO);
     }
 }
