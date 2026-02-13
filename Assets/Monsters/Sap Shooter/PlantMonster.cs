@@ -34,14 +34,14 @@ namespace Monsters
         {
             base.Update();
 
-            if (target == null || Vector2.Distance(target.position, transform.position) > range)
+            if (target == null || Vector2.Distance(target.position, transform.position) > rangeToFindTarget)
                 target = GetClosestTargetInRange();
 
             if (target != null)
             {
                 if (Time.time >= nextAttackTime)
                 {
-                    ani.SetTrigger("Shoot");
+                    animator.SetTrigger("Shoot");
 
                     Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
@@ -49,7 +49,7 @@ namespace Monsters
 
                     ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                    project.Init(projectileStats, false, target.position - transform.position, targetMask, target);
+                    project.Init(projectileStats, false, target.position - transform.position, findTargetMask, false, target);
 
                     audioSource?.Play();
 

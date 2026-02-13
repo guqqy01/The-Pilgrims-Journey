@@ -123,7 +123,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -175,12 +175,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 12
-        width: 34
-        height: 25
+        x: 0
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -197,12 +197,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_1
       rect:
         serializedVersion: 2
-        x: 79
-        y: 12
-        width: 32
-        height: 25
+        x: 64
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -219,12 +219,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_2
       rect:
         serializedVersion: 2
-        x: 146
-        y: 12
-        width: 29
-        height: 25
+        x: 128
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -241,12 +241,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_3
       rect:
         serializedVersion: 2
-        x: 211
-        y: 23
-        width: 28
-        height: 17
+        x: 192
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -263,12 +263,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_4
       rect:
         serializedVersion: 2
-        x: 276
-        y: 25
-        width: 28
-        height: 17
+        x: 256
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -285,12 +285,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_5
       rect:
         serializedVersion: 2
-        x: 341
-        y: 26
-        width: 28
-        height: 17
+        x: 320
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -307,12 +307,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_6
       rect:
         serializedVersion: 2
-        x: 405
-        y: 26
-        width: 28
-        height: 17
+        x: 384
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -329,12 +329,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_7
       rect:
         serializedVersion: 2
-        x: 461
+        x: 448
         y: 0
-        width: 40
+        width: 64
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -351,12 +351,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_8
       rect:
         serializedVersion: 2
-        x: 525
-        y: 2
-        width: 50
-        height: 39
+        x: 512
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -373,12 +373,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_9
       rect:
         serializedVersion: 2
-        x: 596
-        y: 10
-        width: 33
-        height: 36
+        x: 576
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -395,12 +395,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_10
       rect:
         serializedVersion: 2
-        x: 627
-        y: 34
-        width: 6
-        height: 10
+        x: 640
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -417,12 +417,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_11
       rect:
         serializedVersion: 2
-        x: 649
+        x: 704
         y: 0
-        width: 55
+        width: 64
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -439,12 +439,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_12
       rect:
         serializedVersion: 2
-        x: 211
-        y: 9
-        width: 29
-        height: 15
+        x: 768
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -461,12 +461,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_13
       rect:
         serializedVersion: 2
-        x: 276
-        y: 6
-        width: 29
-        height: 16
+        x: 832
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -483,12 +483,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_14
       rect:
         serializedVersion: 2
-        x: 341
-        y: 5
-        width: 29
-        height: 16
+        x: 896
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -505,12 +505,12 @@ TextureImporter:
       name: pj3_demon_bite_impact_large_violet_15
       rect:
         serializedVersion: 2
-        x: 405
-        y: 5
-        width: 29
-        height: 16
+        x: 960
+        y: 0
+        width: 64
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -523,209 +523,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_16
-      rect:
-        serializedVersion: 2
-        x: 585
-        y: 21
-        width: 18
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 59619f6203ba9bc00800000000000000
-      internalID: 916952222447244949
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_17
-      rect:
-        serializedVersion: 2
-        x: 626
-        y: 21
-        width: 15
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 28de69fb1c1d09a80800000000000000
-      internalID: -8462033069755929214
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_18
-      rect:
-        serializedVersion: 2
-        x: 729
-        y: 15
-        width: 27
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9686bb76451925450800000000000000
-      internalID: 6076078638979836009
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_19
-      rect:
-        serializedVersion: 2
-        x: 793
-        y: 15
-        width: 27
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a9d1534c73e0a54f0800000000000000
-      internalID: -839342747873370726
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_20
-      rect:
-        serializedVersion: 2
-        x: 858
-        y: 16
-        width: 25
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2ac7cab970d0b78e0800000000000000
-      internalID: -1694746508447155038
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_21
-      rect:
-        serializedVersion: 2
-        x: 923
-        y: 17
-        width: 23
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4895511ea63c27950800000000000000
-      internalID: 6445428880530823556
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_22
-      rect:
-        serializedVersion: 2
-        x: 988
-        y: 19
-        width: 21
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ae6e5b7677bdc9a00800000000000000
-      internalID: 764727342633707242
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_23
-      rect:
-        serializedVersion: 2
-        x: 591
-        y: 1
-        width: 7
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8ecc96b2a73f1b510800000000000000
-      internalID: 1563298251714186472
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pj3_demon_bite_impact_large_violet_24
-      rect:
-        serializedVersion: 2
-        x: 627
-        y: 0
-        width: 6
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cb79f74a1c6434420800000000000000
-      internalID: 2613010006307477436
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: dc6838f29ff2402468dd85d834e96f1b
     internalID: 0
     vertices: []
     indices: 
@@ -733,7 +535,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       pj3_demon_bite_impact_large_violet_0: -8242067340026293503
       pj3_demon_bite_impact_large_violet_1: 1765622571242675890
@@ -743,16 +547,7 @@ TextureImporter:
       pj3_demon_bite_impact_large_violet_13: 1056238810921867263
       pj3_demon_bite_impact_large_violet_14: -5747403793802145788
       pj3_demon_bite_impact_large_violet_15: 4531777008092199718
-      pj3_demon_bite_impact_large_violet_16: 916952222447244949
-      pj3_demon_bite_impact_large_violet_17: -8462033069755929214
-      pj3_demon_bite_impact_large_violet_18: 6076078638979836009
-      pj3_demon_bite_impact_large_violet_19: -839342747873370726
       pj3_demon_bite_impact_large_violet_2: 8433945324435078813
-      pj3_demon_bite_impact_large_violet_20: -1694746508447155038
-      pj3_demon_bite_impact_large_violet_21: 6445428880530823556
-      pj3_demon_bite_impact_large_violet_22: 764727342633707242
-      pj3_demon_bite_impact_large_violet_23: 1563298251714186472
-      pj3_demon_bite_impact_large_violet_24: 2613010006307477436
       pj3_demon_bite_impact_large_violet_3: -6283564347689262558
       pj3_demon_bite_impact_large_violet_4: -4921969965349278011
       pj3_demon_bite_impact_large_violet_5: 4023842271861591857

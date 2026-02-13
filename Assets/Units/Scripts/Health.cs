@@ -76,7 +76,10 @@ public class Health : MonoBehaviour
         {
             onDie?.Invoke(this);
 
-            Destroy(gameObject);
+            if(gameObject != null)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -84,6 +87,7 @@ public class Health : MonoBehaviour
     {
         onDie = null;
         onHealthChange = null;
+        maxHealth.onValueChange -= OnMaxHealthChanged;
     }
 }
 

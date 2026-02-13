@@ -7,8 +7,10 @@ using UnityEngine;
 [Serializable]
 public class SceneReference
 {
-    public SceneAsset sceneAsset;
     public string sceneName;
+
+#if UNITY_EDITOR
+    private SceneAsset sceneAsset;
 
     public void OnValidate()
     {
@@ -17,10 +19,11 @@ public class SceneReference
             sceneName = sceneAsset.name;
         }
     }
-
+#endif
 
 }
 
+#if UNITY_EDITOR
 
 [CustomPropertyDrawer(typeof(SceneReference))]
 public class SceneReferenceDrawer : PropertyDrawer
@@ -46,3 +49,4 @@ public class SceneReferenceDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif

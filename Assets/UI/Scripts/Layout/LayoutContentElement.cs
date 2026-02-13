@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static Unity.VisualScripting.Metadata;
 
 //If Both controlling children with layoutGroup and getting controlled by parent layoutGroup
 

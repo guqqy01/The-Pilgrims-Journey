@@ -45,6 +45,7 @@ public class SceneLoader : MonoBehaviour
             InitialSetup();
     }
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         foreach(SceneReference sceneReference in dontUnloadScenes)
@@ -53,7 +54,7 @@ public class SceneLoader : MonoBehaviour
                 sceneReference.OnValidate();
         }
     }
-
+#endif
     public void InitialSetup()
     {
         if (!InitialSetupDone)

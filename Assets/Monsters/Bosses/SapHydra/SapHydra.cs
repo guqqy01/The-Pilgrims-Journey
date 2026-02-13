@@ -35,24 +35,24 @@ namespace Monsters
                 switch (value)
                 {
                     case State.Idle:
-                        ani.SetBool("Rapid", false);
-                        ani.SetBool("Multi", false);
-                        ani.SetBool("Burst", false);
+                        animator.SetBool("Rapid", false);
+                        animator.SetBool("Multi", false);
+                        animator.SetBool("Burst", false);
                         break;
                     case State.Burst:
-                        ani.SetBool("Rapid", false);
-                        ani.SetBool("Multi", false);
-                        ani.SetBool("Burst", true);
+                        animator.SetBool("Rapid", false);
+                        animator.SetBool("Multi", false);
+                        animator.SetBool("Burst", true);
                         break;
                     case State.Multi:
-                        ani.SetBool("Rapid", false);
-                        ani.SetBool("Multi", true);
-                        ani.SetBool("Burst", false);
+                        animator.SetBool("Rapid", false);
+                        animator.SetBool("Multi", true);
+                        animator.SetBool("Burst", false);
                         break;
                     case State.Rapid:
-                        ani.SetBool("Rapid", true);
-                        ani.SetBool("Multi", false);
-                        ani.SetBool("Burst", false);
+                        animator.SetBool("Rapid", true);
+                        animator.SetBool("Multi", false);
+                        animator.SetBool("Burst", false);
                         break;
                 }
             }
@@ -97,7 +97,7 @@ namespace Monsters
         {
             base.Update();
 
-            if (target == null || Vector2.Distance(target.position, transform.position) > range)
+            if (target == null || Vector2.Distance(target.position, transform.position) > rangeToFindTarget)
                 target = GetClosestTargetInRange();
 
             HandleAttacks();
@@ -178,7 +178,7 @@ namespace Monsters
             project.onHit += OnDamageUnit;
             ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-            project.Init(projectileStats, false, target.position - transform.position, targetMask, target);
+            project.Init(projectileStats, false, target.position - transform.position, findTargetMask, target);
 
             audioSource?.Play();
         }
@@ -200,7 +200,7 @@ namespace Monsters
                 project.onHit += OnDamageUnit;
                 ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                project.Init(projectileStats, false, currentDirection, targetMask, target);
+                project.Init(projectileStats, false, currentDirection, findTargetMask, target);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }
@@ -226,7 +226,7 @@ namespace Monsters
                 project.onHit += OnDamageUnit;
                 ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                project.Init(projectileStats, false, currentDirection, targetMask, target);
+                project.Init(projectileStats, false, currentDirection, findTargetMask, target);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }

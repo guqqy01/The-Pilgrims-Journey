@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbadc714ae35dd64eb3dacc370bd2bc9, type: 3}
+  m_Name: Skull Beetle
+  m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterSO
+  name: Skull Beetle
+  summary: 
+  description: 
+  sprite: {fileID: -2817039684044771042, guid: a0284bf9b78c0c4448bbd2da0848bbd8, type: 3}
+  prefab: {fileID: 3434082733278752612, guid: 3929be87d67127f46ae684bb3bc701eb, type: 3}
+  size: {x: 5, y: 5}
+  movementType: 1
+  movementSpeed: 3
+  health: 1500
+  shield: 100
+  shieldCooldown: 2
+  shieldRegeneration: 10

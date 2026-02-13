@@ -27,11 +27,11 @@ namespace Monsters
 
             if (Time.time >= nextAttackTime)
             {
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, range, targetMask);
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, rangeToFindTarget, findTargetMask);
 
                 if (colliders.Length > 0)
                 {
-                    ani.SetTrigger("Attack");
+                    animator.SetTrigger("Attack");
 
                     nextAttackTime = Time.time + 1f / attackSpeed;
                 }
@@ -44,11 +44,11 @@ namespace Monsters
 
             popSource.Play();
 
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, range, targetMask);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, rangeToFindTarget, findTargetMask);
 
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (1 << colliders[i].gameObject.layer == targetMask)
+                if (1 << colliders[i].gameObject.layer == findTargetMask)
                 {
                     if (colliders[i].TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
                     {

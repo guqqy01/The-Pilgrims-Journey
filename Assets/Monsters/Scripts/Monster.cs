@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Units;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 namespace Monsters
@@ -15,10 +16,13 @@ namespace Monsters
         public Material MonsterMat {  get; private set; }
 
         [SerializeField]
-        protected float range = 3f;
-        public LayerMask targetMask;
+        [FormerlySerializedAs("range")]
+        protected float rangeToFindTarget = 3f;
+        [FormerlySerializedAs("targetMask")]
+        public LayerMask findTargetMask;
         [SerializeField]
-        protected Animator ani;
+        [FormerlySerializedAs("ani")]
+        protected Animator animator;
 
         public bool Shocked { private set; get; }
         private const float percentageOfRemainingTimeToStartFlickering = 0.3f;
@@ -84,7 +88,7 @@ namespace Monsters
 
         public Transform GetClosestTargetInRange()
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, range, targetMask);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, rangeToFindTarget, findTargetMask);
 
             float closestDistance = float.MaxValue;
             Transform closestTarget = null;
@@ -104,7 +108,7 @@ namespace Monsters
 
         public Transform GetClosestTargetInRange(List<Transform> transforms)
         {
-            float closestDistance = range;
+            float closestDistance = rangeToFindTarget;
             Transform closestTarget = null;
 
             foreach (Transform transf in transforms)
@@ -151,14 +155,14 @@ namespace Monsters
             MonsterMat.SetFloat("_EffectAmount", 1);
             MonsterMat.SetColor("_Tint", shockedColor);
 
-            ani.speed = 0f;
+            animator.speed = 0f;
         }
 
         private void RemoveShock()
         {
             Shocked = false;
-            if(ani != null)
-                ani.speed = 1f;
+            if(animator != null)
+                animator.speed = 1f;
 
             if(MonsterMat != null)
             {

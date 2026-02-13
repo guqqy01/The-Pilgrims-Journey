@@ -1,10 +1,8 @@
 ﻿using Equipment;
 using UnityEngine;
 using GameManagerCalls;
-using static UnityEditor.Progress;
 using System.Linq;
 using System.Collections.Generic;
-using Equipment.UI;
 namespace Heros
 {
     [RequireComponent(typeof(EquipmentInventory))]

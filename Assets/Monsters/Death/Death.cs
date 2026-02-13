@@ -9,7 +9,7 @@ namespace Monsters
         private static readonly int AttackHash = Animator.StringToHash("Attack");
 
         [SerializeField]
-        private DeathAnimationHelper deathAnimationHelper;
+        private MonsterAnimationHelper deathAnimationHelper;
 
         [SerializeField]
         private float attackSpeed = 1f;
@@ -38,7 +38,7 @@ namespace Monsters
         {
             base.Update();
 
-            if (target == null || Vector2.Distance(target.position, transform.position) > range)
+            if (target == null || Vector2.Distance(target.position, transform.position) > rangeToFindTarget)
                 target = GetClosestTargetInRange();
 
             if (target != null)
@@ -80,7 +80,7 @@ namespace Monsters
 
         private void PlayAttackAnimation()
         {
-            ani.SetTrigger(AttackHash);
+            animator.SetTrigger(AttackHash);
 
             MonsterMovement.Moving = false;
 

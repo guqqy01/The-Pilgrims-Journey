@@ -1,8 +1,5 @@
-using GlobalMap;
 using Heros;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace LocalMap
 {

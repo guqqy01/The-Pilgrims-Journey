@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
-using static UnityEngine.ParticleSystem;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 
 namespace GlobalMap
 {

@@ -14,7 +14,7 @@ namespace Monsters
             HealthAndShieldManager.Shield.onDestroy += OnShieldDestroyed;
             HealthAndShieldManager.Shield.onShieldRestored += OnShieldRestored;
 
-            ani.SetBool(HasShieldHash, true);
+            animator.SetBool(HasShieldHash, true);
         }
 
         private void OnDestroy()
@@ -34,19 +34,19 @@ namespace Monsters
             if (shouldMove != isMoving)
             {
                 isMoving = shouldMove;
-                ani.SetBool(MovingHash, isMoving);
+                animator.SetBool(MovingHash, isMoving);
             }
         }
         private void OnShieldDestroyed()
         {
-            ani.SetBool(HasShieldHash, false);
+            animator.SetBool(HasShieldHash, false);
 
             MonsterMovement.Speed.AddBuff("Exposed", new Buff(-100f, 0f, 0f));
         }
 
         private void OnShieldRestored()
         {
-            ani.SetBool(HasShieldHash, true);
+            animator.SetBool(HasShieldHash, true);
 
             MonsterMovement.Speed.RemoveBuff("Exposed");
         }

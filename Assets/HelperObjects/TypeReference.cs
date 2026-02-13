@@ -1,18 +1,24 @@
 ﻿using System;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [Serializable]
 public struct TypeReference
 {
+#if UNITY_EDITOR
     [SerializeField] private MonoScript script;
+#endif
     [SerializeField, HideInInspector] private string assemblyQualifiedName;
 
     public Type Type
     {
         get
         {
+#if UNITY_EDITOR
             if (string.IsNullOrEmpty(assemblyQualifiedName))
             {
                 if (script == null)
@@ -20,7 +26,7 @@ public struct TypeReference
 
                 SetupAsseblyQualifiedName();
             }
-
+#endif
             return Type.GetType(assemblyQualifiedName);
         }
     }
@@ -30,7 +36,7 @@ public struct TypeReference
     {
         SetupAsseblyQualifiedName();
     }
-#endif
+
 
     private void SetupAsseblyQualifiedName()
     {
@@ -40,5 +46,6 @@ public struct TypeReference
             assemblyQualifiedName = type?.AssemblyQualifiedName;
         }
     }
+#endif
 }
 

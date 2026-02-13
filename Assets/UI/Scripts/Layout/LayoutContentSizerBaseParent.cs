@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine.UI;
-using JetBrains.Annotations;
-using NUnit.Framework;
-using UnityEditor.Rendering.LookDev;
 using System.Collections;
 
 public class LayoutContentSizerBaseParent : LayoutContentElement

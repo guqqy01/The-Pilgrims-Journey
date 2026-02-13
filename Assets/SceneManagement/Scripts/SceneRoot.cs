@@ -35,13 +35,13 @@ public class SceneRoot : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
+#if UNITY_EDITOR
     private void OnValidate()
     {
         if (commonScene != null)
             commonScene.OnValidate();
     }
-
+#endif
     public static Scene[] GetAllScenes()
     {
         Scene[] returnList = new Scene[SceneManager.sceneCount];

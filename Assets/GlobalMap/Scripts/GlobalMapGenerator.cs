@@ -98,7 +98,7 @@ namespace GlobalMap
         }
 
         // Create or return existing map point at position. If pathPoints provided, the point is added there.
-        private GlobalMapPoint CreateOrGetMapPoint(Vector2Int position, List<GlobalMapPoint>? pathPoints)
+        private GlobalMapPoint CreateOrGetMapPoint(Vector2Int position, List<GlobalMapPoint> pathPoints)
         {
             GlobalMapPoint mapPoint;
             if (mapPoints[position.x, position.y] == null)
@@ -296,7 +296,7 @@ namespace GlobalMap
         #endregion
 
         #region Gizmos
-
+#if UNITY_EDITOR
         [Header("Gizmos")]
         [SerializeField]
         private bool showGizmos;
@@ -331,8 +331,8 @@ namespace GlobalMap
                 }
             }
         }
-
-        #endregion
+#endif
+#endregion
 
         #region Save and Load
 

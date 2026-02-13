@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Monsters
 {
-    public class DeathAnimationHelper : MonoBehaviour
+    public class MonsterAnimationHelper : MonoBehaviour
     {
         public delegate void Helper();
         public Helper onAttack;

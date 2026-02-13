@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1070266199
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 4856351295673977021, guid: 32834b51f84e10c4b9dfc6b0dd5a5050, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -195,4 +195,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89986bb310121ff42b3343e33f5fb054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.Projectile
-  oneHit: 1
+  amountOfHits: 1
+  canHitSameTargetMultipleTimes: 0

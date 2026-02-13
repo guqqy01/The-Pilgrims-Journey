@@ -542,12 +542,12 @@ public static class ExtensionsAndHelper
     {
         return Mathf.Max(v3.x, v3.y, v3.z);
     }
-
+#if UNITY_EDITOR
     public static bool EqualContents(this SerializedProperty serializedProperty1, SerializedProperty serializedProperty2)
     {
         return SerializedProperty.EqualContents(serializedProperty1, serializedProperty2);
     }
-
+#endif
     public static bool Between(this int interger, int minInclusive, int maxInclusive)
     {
         if (interger < minInclusive || interger > maxInclusive)
@@ -555,7 +555,7 @@ public static class ExtensionsAndHelper
 
         return true;
     }
-
+#if UNITY_EDITOR
     public static object GetTargetObjectOfProperty(this SerializedProperty prop)
     {
         if (prop == null) return null;
@@ -614,7 +614,7 @@ public static class ExtensionsAndHelper
         return parentSerializedProperty;
     }
 
-
+#endif
     public static bool CloseTo(this float f, float other, float limit = 0.0001f) 
     {
         if (f == other) return true;

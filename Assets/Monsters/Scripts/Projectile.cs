@@ -19,9 +19,14 @@ public class Projectile : MonoBehaviour
     private LayerMask layerMask;
 
     [SerializeField]
-    private bool oneHit = true;
+    private int amountOfHits = 0;
 
-    private bool hit = false;
+    private int currentAmountOfHits = 0;
+
+    [SerializeField]
+    private bool canHitSameTargetMultipleTimes = false;
+
+    private bool deactivated = false;
 
     public delegate void OnHit(OnHitInfo hitInfo);
     public OnHit onHit;
@@ -77,21 +82,39 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual bool AttackActive(Collider2D collision)
     {
-        if (hit)
-            return;
+        return true;
+    }
+
+    private bool CollisionValid(Collider2D collision, out HealthAndShieldManager healthAndShieldManager)
+    {
+        healthAndShieldManager = null;
+
+        if (deactivated)
+            return false;
 
         if (!layerMask.ContainsLayer(collision.gameObject.layer))
-            return;
+            return false;
 
-        if (!collision.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
-            return;
+        if (!collision.TryGetComponentInParent(out healthAndShieldManager))
+            return false;
 
         if (ignoreExceptions.Contains(healthAndShieldManager))
-            return;
+            return false;
 
         if (!hitHealth.Add(healthAndShieldManager))
+            return false;
+
+        if (!AttackActive(collision))
+            return false;
+
+        return true;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!CollisionValid(collision, out HealthAndShieldManager healthAndShieldManager))
             return;
 
         Vector2 damageDirection = (healthAndShieldManager.transform.position - transform.position).normalized;
@@ -102,11 +125,30 @@ public class Projectile : MonoBehaviour
 
         onHit?.Invoke(info);
 
-        if (oneHit)
+        currentAmountOfHits++;
+
+        if (amountOfHits > 0 && currentAmountOfHits >= amountOfHits)
         {
-            hit = true;
+            deactivated = true;
             Destroy(gameObject);
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!canHitSameTargetMultipleTimes)
+            return;
+
+        if (deactivated)
+            return;
+
+        if (!layerMask.ContainsLayer(collision.gameObject.layer))
+            return;
+
+        if (!collision.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
+            return;
+
+        hitHealth.Remove(healthAndShieldManager);
     }
 
     private void HandleBounce(Collider2D collider2D)

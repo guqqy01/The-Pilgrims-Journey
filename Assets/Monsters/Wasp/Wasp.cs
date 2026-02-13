@@ -66,7 +66,7 @@ namespace Monsters
         {
             base.Update();
 
-            if (target == null || Vector2.Distance(target.position, transform.position) > range)
+            if (target == null || Vector2.Distance(target.position, transform.position) > rangeToFindTarget)
             {
                 if(targets.ContainsKey(this))
                 {
@@ -93,7 +93,7 @@ namespace Monsters
 
                     ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                    project.Init(projectileStats, true, target.position - transform.position, targetMask, target);
+                    project.Init(projectileStats, true, target.position - transform.position, findTargetMask, target);
 
                     audioSource?.Play();
 

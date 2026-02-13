@@ -161,16 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89986bb310121ff42b3343e33f5fb054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  speed: 0
-  homing: 0
-  target: {fileID: 0}
-  direction: {x: 0, y: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  oneHit: 1
-  pointInTravelDirection: 1
+  amountOfHits: 1
+  canHitSameTargetMultipleTimes: 0
 --- !u!50 &-4451028745424373752
 Rigidbody2D:
   serializedVersion: 5
