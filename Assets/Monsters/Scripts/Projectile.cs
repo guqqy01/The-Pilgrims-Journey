@@ -40,6 +40,11 @@ public class Projectile : MonoBehaviour
 
     private HashSet<HealthAndShieldManager> ignoreExceptions;
 
+    private void OnDestroy()
+    {
+        onHit = null;
+    }
+
     public void Init(ProjectileStats projectileHitStats, bool homing, Vector2 direction, LayerMask layerMask, bool bounce = false, Transform target = null, params HealthAndShieldManager[] ignoreExceptions)
     {
         projectileStats = projectileHitStats;

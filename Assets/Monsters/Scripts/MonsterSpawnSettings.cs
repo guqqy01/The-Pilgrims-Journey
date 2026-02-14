@@ -34,6 +34,8 @@ namespace Monsters
     {
         public int range;
         public MonsterSO boss;
+
+        public List<MonsterSpawn> bossMinionSpawns;
     }
 
     [Serializable]

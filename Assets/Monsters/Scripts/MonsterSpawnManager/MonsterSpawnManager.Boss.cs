@@ -8,16 +8,18 @@ namespace Monsters
     /// </summary>
     public partial class MonsterSpawnManager
     {
-        private void SpawnBoss(BossMonsterSpawn boss)
+        public Monster BossMonster { get; private set; }
+
+        private void SpawnBoss(BossMonsterSpawn bossSpawn)
         {
             int index = 0;
             int limit = Map.MapSizeX * Map.MapSizeY;
 
-            Vector2Int p = weightMap[boss.range, limit - 1];
-            while (SpotOccupied(p, boss.boss.size, out Vector2 spawnPos) && limit-- > 0)
+            Vector2Int p = weightMap[bossSpawn.range, limit - 1];
+            while (SpotOccupied(p, bossSpawn.boss.size, out Vector2 spawnPos) && limit-- > 0)
             {
                 index++;
-                p = weightMap[boss.range, Map.MapSizeX * Map.MapSizeY - 1 - index];
+                p = weightMap[bossSpawn.range, Map.MapSizeX * Map.MapSizeY - 1 - index];
             }
 
             if (limit <= 0)
@@ -26,10 +28,22 @@ namespace Monsters
                 return;
             }
 
-            SpawnMonster(boss.boss, p);
-            MarkOccupied(p, boss.boss.size);
+            Monster bossMonster = SpawnMonster(bossSpawn.boss, p);
+            BossMonster = bossMonster;
+            BossMonster.HealthAndShieldManager.Health.onDie += OnBossDie;
+            MarkOccupied(p, bossSpawn.boss.size);
         }
 
+        private void HandleSpawnBossMinions()
+        {
+
+        }
+
+        private void OnBossDie(Health health)
+        {
+            BossMonster.HealthAndShieldManager.Health.onDie -= OnBossDie;
+            BossMonster = null;
+        }
     }
 
 }

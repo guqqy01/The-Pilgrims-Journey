@@ -15,7 +15,7 @@ namespace Monsters
     {
         private WeightMap weightMap;
 
-        private void SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
+        private Monster SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
         {
             EnsureMonsterTrackingExists(monsterSO);
 
@@ -30,6 +30,8 @@ namespace Monsters
 
                 aliveCountByMonster[monsterSO] =
                     aliveCountByMonster.GetValueOrDefault(monsterSO) + 1;
+
+            return m;
         }
 
         private void EnsureMonsterTrackingExists(MonsterSO monster)
