@@ -288,7 +288,28 @@ namespace GlobalMap
 
         public void OnLevelCompleted()
         {
-            CurrentMapPoint = CurrentMapPoint.connectedToPoints[nextDirection];
+            if(CurrentMapPoint.connectedToPoints.TryGetValue(nextDirection, out GlobalMapPoint nextPoint))
+            {
+                CurrentMapPoint = nextPoint; 
+            }
+            else
+            {
+                Debug.LogWarning("Global map generator :Couldnt get value in direction, trying to use fallback");
+
+                if (CurrentMapPoint.connectedToPoints.Count <= 0)
+                {
+                    throw new Exception("Current map point has no connected to-points to fall back on");
+                }
+
+                GlobalMapPoint fallbackPoint = CurrentMapPoint.connectedToPoints.First().Value;
+
+                if(fallbackPoint == null)
+                {
+                    throw new Exception("fallback global map point is null");
+                }
+
+                CurrentMapPoint = fallbackPoint;
+            }
 
             updateUI?.Invoke();
         }

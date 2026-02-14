@@ -233,8 +233,11 @@ namespace Monsters
                 return;
             }
 
+            Matrix4x4 localMatrix = transform.worldToLocalMatrix;
 
-            lineRenderer.SetPositions(new Vector3[2] {transform.position, boss.transform.position});
+
+
+            lineRenderer.SetPositions(new Vector3[2] { localMatrix.MultiplyPoint(transform.position), localMatrix.MultiplyPoint(boss.transform.position)});
         }
 
         protected override void ShockEffect(float shockTime)

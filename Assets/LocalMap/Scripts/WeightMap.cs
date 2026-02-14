@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.IO;
 using System.Linq;
 using Monsters;
 
@@ -24,6 +23,12 @@ namespace LocalMap
             foreach (var boss in monsterSpawnSettings.bossMonsters)
                 maxRange = Mathf.Max(maxRange, boss.range);
 
+            List<MonsterSpawn> iterator = new List<MonsterSpawn>();
+
+            monsterSpawnSettings.bossMonsters.ForEach(x => iterator.AddRange(x.bossMinionSpawns));
+
+            foreach (var bossMinion in iterator)
+                maxRange = Mathf.Max(maxRange, bossMinion.range);
 
             rangeAndPoints = new Dictionary<int, MapWeightPoint[]>();
             rangeAndCoordsAndIndex = new Dictionary<int, Dictionary<Vector2Int, int>>();
@@ -83,7 +88,7 @@ namespace LocalMap
             if (rangeAndPoints == null) return new List<KeyValuePair<int, List<Vector2Int>>>();
             if (range < 0 || range >= rangeAndPoints.Count) return new List<KeyValuePair<int, List<Vector2Int>>>();
 
-            if (rangeAndPoints.TryGetValue(range, out var mapPointsAtRange))
+            if (!rangeAndPoints.TryGetValue(range, out var mapPointsAtRange))
                 return new List<KeyValuePair<int, List<Vector2Int>>>();
 
             if (mapPointsAtRange == null || mapPointsAtRange.Length == 0)

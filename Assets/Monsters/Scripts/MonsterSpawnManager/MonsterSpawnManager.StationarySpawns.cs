@@ -14,6 +14,9 @@ namespace Monsters
             MonsterSpawn spawn,
             List<KeyValuePair<int, List<Vector2Int>>> weightedPoints)
         {
+            if (spawn.monster == null)
+                return false;
+
             foreach (var (_, points) in weightedPoints)
             {
                 var shuffled = points.OrderBy(_ => seededRandom.Next()).ToList();
