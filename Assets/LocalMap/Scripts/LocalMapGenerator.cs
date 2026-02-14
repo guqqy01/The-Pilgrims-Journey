@@ -551,16 +551,16 @@ namespace LocalMap
                 switch (kvp.Key)
                 {
                     case Direction.South:
-                        position += new Vector2(ExtensionsAndHelper.RandomSign(), 1);
+                        position += new Vector2(CompatibilityExtensions.RandomSign(), 1);
                         break;
                     case Direction.North:
-                        position += new Vector2(ExtensionsAndHelper.RandomSign(), -1);
+                        position += new Vector2(CompatibilityExtensions.RandomSign(), -1);
                         break;
                     case Direction.West:
-                        position += new Vector2(1, ExtensionsAndHelper.RandomSign());
+                        position += new Vector2(1, CompatibilityExtensions.RandomSign());
                         break;
                     case Direction.East:
-                        position += new Vector2(-1, ExtensionsAndHelper.RandomSign());
+                        position += new Vector2(-1, CompatibilityExtensions.RandomSign());
                         break;
                 }
 
