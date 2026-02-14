@@ -139,7 +139,14 @@ namespace Monsters
                 EnsureMonsterTrackingExists(spawn.monster);
 
             if (boss.HasValue)
+            {
+                currentBossSpawn = boss.Value;
                 SpawnBoss(boss.Value);
+            }
+            else
+            {
+                currentBossSpawn = null;
+            }
 
             PreSpawnStationaryMonsters();
 

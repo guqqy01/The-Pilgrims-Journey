@@ -34,9 +34,37 @@ namespace Monsters
             MarkOccupied(p, bossSpawn.boss.size);
         }
 
-        private void HandleSpawnBossMinions()
+        private void HandleSpawnBossMinions(float now)
         {
+            // Only run if this level has a boss spawn and boss is present
+            if (!currentBossSpawn.HasValue || BossMonster == null)
+                return;
 
+            var minionSpawns = currentBossSpawn.Value.bossMinionSpawns;
+            if (minionSpawns == null)
+                return;
+
+            foreach (var spawn in minionSpawns)
+            {
+                // safety: skip invalid entries
+                if (spawn.monster == null)
+                    continue;
+
+                var monster = spawn.monster;
+
+                EnsureMonsterTrackingExists(monster);
+
+                if (!CanSpawnMore(monster, spawn))
+                    continue;
+
+                if (now < nextSpawnTimeByMonster[monster])
+                    continue;
+
+                TrySpawnOne(spawn);
+
+                nextSpawnTimeByMonster[monster] =
+                    now + GetNextSpawnDelay(spawn);
+            }
         }
 
         private void OnBossDie(Health health)

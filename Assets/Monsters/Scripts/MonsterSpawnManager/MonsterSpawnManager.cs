@@ -74,6 +74,7 @@ namespace Monsters
             ProcessWaveTriggers(now);
             ProcessHordeTimer(now);
             ProcessNormalSpawns(now);
+            HandleSpawnBossMinions(now);
         }
     }
 

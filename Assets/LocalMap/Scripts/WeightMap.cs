@@ -83,7 +83,9 @@ namespace LocalMap
             if (rangeAndPoints == null) return new List<KeyValuePair<int, List<Vector2Int>>>();
             if (range < 0 || range >= rangeAndPoints.Count) return new List<KeyValuePair<int, List<Vector2Int>>>();
 
-            var mapPointsAtRange = rangeAndPoints[range];
+            if (rangeAndPoints.TryGetValue(range, out var mapPointsAtRange))
+                return new List<KeyValuePair<int, List<Vector2Int>>>();
+
             if (mapPointsAtRange == null || mapPointsAtRange.Length == 0)
                 return new List<KeyValuePair<int, List<Vector2Int>>>();
 

@@ -21,6 +21,9 @@ namespace Monsters
 
         private readonly System.Random seededRandom = new();
 
+        // current boss spawn definition for this level (if any)
+        private BossMonsterSpawn? currentBossSpawn;
+
         private void ResetState()
         {
             isSpawning = false;
@@ -36,6 +39,8 @@ namespace Monsters
 
             nextWaveIndex = 0;
             hordeActive = false;
+
+            currentBossSpawn = null;
         }
     }
 
