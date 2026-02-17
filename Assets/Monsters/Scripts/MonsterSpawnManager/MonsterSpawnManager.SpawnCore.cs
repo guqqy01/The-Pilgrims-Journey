@@ -17,6 +17,9 @@ namespace Monsters
 
         private Monster SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
         {
+            if (monsterSO == null || monsterSO.prefab == null)
+                return null;
+
             EnsureMonsterTrackingExists(monsterSO);
 
             Monster m = Instantiate(monsterSO.prefab, (Vector3)spawnPos, Quaternion.identity, transform);
