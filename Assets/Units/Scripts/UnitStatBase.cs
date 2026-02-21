@@ -17,7 +17,7 @@ namespace Units
 
             if (tile != null)
             {
-                buffableStat.AddBuff("Tile", tile.GetTileBuff(stat));
+                buffableStat.AddBuff("Tile", tile.TileModel.GetTileBuff(stat));
             }
 
             EquipmentSO[] equipmentSOs = tile.Equipment;

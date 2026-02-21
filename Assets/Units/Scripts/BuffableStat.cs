@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class BuffableStat: IBuffSource, ISerializationCallbackReceiver
+public class BuffableStat: IBuffSource, ISerializationCallbackReceiver, IDisposable
 {
     // made non-readonly so we can restore value after Unity deserialization
     private IntOrFloatObject baseStat;
@@ -142,6 +142,11 @@ public class BuffableStat: IBuffSource, ISerializationCallbackReceiver
         // Restore baseStat after Unity deserialization
         baseStat = serializedBaseStat;
         Value = baseStat;
+    }
+
+    public void Dispose()
+    {
+        onValueChange = null;
     }
 
     public static implicit operator BuffableStat(int value) => new BuffableStat(value);

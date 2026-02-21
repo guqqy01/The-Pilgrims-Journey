@@ -7,16 +7,18 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private InputQuery inputQuery;
 
+    private const string pauseReference = "Pause Menu";
+
     public void OpenPauseMenuButton()
     {
-        Time.timeScale = 0f;
+        TimeManager.Instance.PauseTime(pauseReference);
         BlurBackgroundController.Instance.EnableBlur();
     }
 
     public void ContinueButton()
     {
         gameObject.SetActive(false);
-        Time.timeScale = 1.0f;
+        TimeManager.Instance.RemovePauseRequest(pauseReference);
         BlurBackgroundController.Instance.DisableBlur();
     }
 

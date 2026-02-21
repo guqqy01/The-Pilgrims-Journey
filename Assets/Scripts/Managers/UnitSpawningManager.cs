@@ -122,7 +122,7 @@ public class UnitSpawningManager
         UpdateGlobalSpawnTime();
         onUnitSpawned?.Invoke(unit);
 
-        if (tile.currentAmountOfUnitsInTile <= 0)
+        if (tile.TileModel.CurrentAmountOfUnitsInTile <= 0)
             RemoveTileFromSpawnLists(tile);
     }
 
@@ -208,7 +208,7 @@ public class UnitSpawningManager
         foreach (var kvp in tileNextSpawnTimes)
         {
             Tile tile = kvp.Key;
-            if (tile.currentAmountOfUnitsInTile > 0 &&
+            if (tile.TileModel.CurrentAmountOfUnitsInTile > 0 &&
                 spawningTilesAndSize.ContainsKey(tile))
             {
                 preservedTimes[tile] = kvp.Value;
@@ -222,7 +222,7 @@ public class UnitSpawningManager
         foreach (var kvp in spawningTilesAndSize)
         {
             Tile tile = kvp.Key;
-            if (tile.currentAmountOfUnitsInTile <= 0)
+            if (tile.TileModel.CurrentAmountOfUnitsInTile <= 0)
                 continue;
 
             // restore or create new spawn time
@@ -249,7 +249,7 @@ public class UnitSpawningManager
 
         foreach (var kvp in tileSpawnRates)
         {
-            if (kvp.Key.currentAmountOfUnitsInTile > 0)
+            if (kvp.Key.TileModel.CurrentAmountOfUnitsInTile > 0)
                 totalSpawnRate += kvp.Value;
         }
     }

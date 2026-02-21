@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Monsters;
 using Unity.VisualScripting;
+using Helper.Wait;
 
 public class MainMenu : Singleton<MainMenu>
 {
@@ -99,7 +100,7 @@ public class MainMenu : Singleton<MainMenu>
         }
 
         GameManager.Instance.ContinueJourney();
-        Time.timeScale = 1.0f;
+        WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, TimeManager.Instance.OverrideUnpauseTime);
     }
 
     public void UpgradeButton()

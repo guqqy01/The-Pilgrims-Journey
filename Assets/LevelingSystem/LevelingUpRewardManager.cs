@@ -23,6 +23,8 @@ namespace LevelingSystem
 
         public Dictionary<ILevelingUpReward, int> Rewards { get; private set; } = new();
 
+        private const string pauseReference = "LevelingUpReward";
+
         protected override void CleanUp()
         {
             onShowUI = null;
@@ -92,7 +94,7 @@ namespace LevelingSystem
             }
 
             onShowUI?.Invoke(Rewards);
-            Time.timeScale = 0f;
+            TimeManager.Instance.PauseTime(pauseReference);
         }
 
         private bool IsValidPool(RewardPool pool)
@@ -143,7 +145,7 @@ namespace LevelingSystem
         public void SelectReward(ILevelingUpReward reward)
         {
             reward.Apply(Rewards[reward]);
-            Time.timeScale = 1f;
+            TimeManager.Instance.RemovePauseRequest(pauseReference);
         }
         private int GetAmountOfLevelsGained()
         {

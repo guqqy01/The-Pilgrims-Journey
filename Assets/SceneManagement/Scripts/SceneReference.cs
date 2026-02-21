@@ -10,6 +10,7 @@ public class SceneReference
     public string sceneName;
 
 #if UNITY_EDITOR
+    [SerializeField]
     private SceneAsset sceneAsset;
 
     public void OnValidate()
@@ -38,12 +39,15 @@ public class SceneReferenceDrawer : PropertyDrawer
 
         // Draw scene asset field
         var sceneRect = new Rect(position.x, position.y, position.width, position.height);
-        EditorGUI.PropertyField(sceneRect, sceneAssetProp, label);
-
-        // Update sceneName automatically
-        if (sceneAssetProp.objectReferenceValue != null)
+        if(sceneAssetProp != null)
         {
-            sceneNameProp.stringValue = sceneAssetProp.objectReferenceValue.name;
+            EditorGUI.PropertyField(sceneRect, sceneAssetProp, label);
+
+            // Update sceneName automatically
+            if (sceneAssetProp.objectReferenceValue != null)
+            {
+                sceneNameProp.stringValue = sceneAssetProp.objectReferenceValue.name;
+            }
         }
 
         EditorGUI.EndProperty();

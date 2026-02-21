@@ -13,26 +13,29 @@ namespace Tiles
     public class Tile : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
         public RectTransform RectTransform { private set; get; }
-        public TileSO TileSO { private set; get; }
 
-        private UnitSO unitSO;
+        public TileModel TileModel { private set; get; }
+
         public UnitSO UnitSO
         {
             get
             {
-                return unitSO;
+                return TileModel.UnitSO;
             }
             set
             {
-                unitSO = value;
+                TileModel.SetupNewUnitSO(value);
 
                 if (unitGraphics == null)
                     unitGraphics = unitUITransform.GetComponent<Image>();
 
-                unitGraphics.sprite = unitSO.sprite;
+                unitGraphics.sprite = TileModel.UnitSO.sprite;
                 onUpdateUI?.Invoke();
             }
         }
+
+        public EquipmentSO[] Equipment => TileModel.Equipment;
+
 
         [SerializeField]
         private RectTransform unitUITransform;
@@ -43,20 +46,11 @@ namespace Tiles
 
         public bool locked;
 
-        public EquipmentSO[] Equipment { private set; get; } = new EquipmentSO[4];
-
         public delegate void OnUpdateUI();
         public OnUpdateUI onUpdateUI;
-        
-
+        public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
 
         public TileGrid tileGrid;
-
-        public delegate void OnTileSelected(Tile tile);
-        public static OnTileSelected onTileSelected;
-
-        public delegate void OnDragTile(Tile tile);
-        public static OnDragTile onDragTile;
 
         public float Rotation
         {
@@ -77,7 +71,7 @@ namespace Tiles
         {
             get
             {
-                return TileSO.Shape.Rotate(Rotation);
+                return TileModel.TileSO.Shape.Rotate(Rotation);
             }
         }
 
@@ -90,10 +84,6 @@ namespace Tiles
             }
         }
 
-        
-
-        public Buff GetTileBuff(UnitStatsEnum stat) => TileManager.Instance.GetBuff(stat, Level);
-
         public bool Selected { private set; get; } = false;
 
         private void Awake()
@@ -104,7 +94,7 @@ namespace Tiles
 
         private void Start()
         {
-            onTileSelected += Highlight;
+            TileEventBus.OnTileSelected += Highlight;
             tileGraphics.alphaHitTestMinimumThreshold = 0.2f;
         }
 
@@ -126,25 +116,13 @@ namespace Tiles
 
         private void OnDestroy()
         {
-            onTileSelected -= Highlight;
+            TileEventBus.OnTileSelected -= Highlight;
+            onUpdateUI = null;
         }
 
         #region Leveling and health
 
-        [Header("Leveling and Tile Health")]
-        public int Level { private set; get; } = 1;
-        public bool IsMaxLevel => Level == 5;
-
-        public int currentAmountOfUnitsInTile;
-        public int MaxAmountOfUnitsInTile;
-
-
-        public int AmountOfUnitsSpawned { private set; get; }
-        public int AmountOfUnitsEscapedNeededToLevel { private set; get; }
-        public int CurrentAmountOfUnitsEscaped { private set; get; }
-
-        public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
-
+        
         public static float AmountOfAdditionalUnitsPerLevelFunction(int Level)
         {
             return Level * Level * 0.2f + 1f;
@@ -152,60 +130,27 @@ namespace Tiles
 
         public void OnUnitDie(Health _)
         {
-            if (gameObject == null)
-                return;
+            TileModel.OnUnitDie();
 
-            if (currentAmountOfUnitsInTile <= 0 && AmountOfUnitsSpawned <= 0)
+            if (TileModel.CurrentAmountOfUnitsInTile <= 0 && TileModel.AmountOfUnitsSpawned <= 0)
             {
                 DestroyTile();
             }
-
-            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned--);
         }
 
         public void OnUnitEscape()
         {
-            CurrentAmountOfUnitsEscaped = Mathf.Clamp(CurrentAmountOfUnitsEscaped + 1, 0, AmountOfUnitsEscapedNeededToLevel);
-
-            onUpdateLevelUnitsAndHealthUI?.Invoke();
-
-            if (CurrentAmountOfUnitsEscaped >= AmountOfUnitsEscapedNeededToLevel)
-            {
-                LevelUp();
-            }
-
-            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned--);
-            currentAmountOfUnitsInTile = Mathf.Clamp(currentAmountOfUnitsInTile + 1, 0, MaxAmountOfUnitsInTile);
+            TileModel.OnUnitEscape();
         }
 
         public void OnUnitSpawn()
         {
-            if (gameObject == null)
-                return;
-
-            currentAmountOfUnitsInTile = Mathf.Clamp(currentAmountOfUnitsInTile - 1, 0, MaxAmountOfUnitsInTile);
-
-            onUpdateLevelUnitsAndHealthUI?.Invoke();
-
-            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned + 1);
+            TileModel.OnUnitSpawn();
         }
 
         public void DestroyTile()
         {
             Destroy(gameObject);
-        }
-
-        public void LevelUp()
-        {
-            Level = Mathf.Clamp(Level + 1, 1, 5);
-
-            CurrentAmountOfUnitsEscaped = 0;
-            AmountOfUnitsEscapedNeededToLevel = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * UnitSO.numberOfUnitsEscapedToLevelUp * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            MaxAmountOfUnitsInTile = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * UnitSO.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            currentAmountOfUnitsInTile = MaxAmountOfUnitsInTile;
-            onUpdateLevelUnitsAndHealthUI?.Invoke();
-
-            onUpdateUI?.Invoke();
         }
 
         #endregion
@@ -242,7 +187,7 @@ namespace Tiles
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            onTileSelected?.Invoke(this);
+            TileEventBus.RaiseTileSelected(this);
             AudioManager.Instance.PlaySelectTile();
         }
 
@@ -282,8 +227,7 @@ namespace Tiles
         {
             if (!Input.GetKeyDown(KeyCode.Escape))
                 return;
-
-            onTileSelected?.Invoke(null);
+            TileEventBus.RaiseTileSelected(null);
 
             AudioManager.Instance.PlayCancelMoveTile();
         }
@@ -362,16 +306,14 @@ namespace Tiles
             Dragging = true;
             RectTransform.SetParent(TileUIManager.Canvas.transform, true);
             canvasGroup.blocksRaycasts = false;
-
-            onDragTile?.Invoke(this);
+            TileEventBus.RaiseDragTile(this);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             if (!Dragging)
                 return;
-
-            onDragTile?.Invoke(null);
+            TileEventBus.RaiseDragTile(null);
 
             Dragging = false;
             canvasGroup.blocksRaycasts = true;
@@ -398,144 +340,58 @@ namespace Tiles
 
         #region Stats
 
-        [SerializeField]
-        private GameObject highlight;
-
-        private IntOrFloatObject GetStat(UnitStatsEnum stat)
-        {
-            // Start with base stat
-            var baseValue = unitSO.GetStat(stat);
-
-            // Collect buffs
-            List<Buff> allBuffs = new List<Buff>
-            {
-                GetTileBuff(stat),
-                UpgradeManager.Instance.GetBuff(stat),
-                UnitBuffManager.Instance.GetBuff(stat)
-            };
-
-            foreach (var equipment in Equipment)
-            {
-                if (equipment != null && equipment.TryGetUnitBuff(stat, out Buff outBuff))
-                {
-                    allBuffs.Add(outBuff);
-                }
-            }
-
-            // Combine buffs if any
-            if (allBuffs.Count == 0)
-                return baseValue;
-
-            Buff combined = allBuffs[0];
-
-            for (int i = 1; i < allBuffs.Count; i++)
-            {
-                combined += allBuffs[i];
-            }
-
-            var returnValue = combined.Value(baseValue);
-
-            // Apply buffs to base value
-            return returnValue;
-        }
-
-
-
-        /// <summary>
-        /// The amount of spawns per second
-        /// </summary>
-        public float SpawnRateValue
-        {
-            get
-            {
-                return Mathf.Max(GetStat(UnitStatsEnum.SpawnRate), 0f);
-            }
-        }
-
-        public float MovementValue
-        {
-            get
-            {
-                return Mathf.Max(GetStat(UnitStatsEnum.MovementSpeed), 0f);
-            }
-        }
-
-        public int HealthValue
-        {
-            get
-            {
-                return Mathf.Max(GetStat(UnitStatsEnum.Health), 0);
-            }
-        }
-
-        public int ShieldValue
-        {
-            get
-            {
-                return Mathf.Max(GetStat(UnitStatsEnum.Shield), 0);
-            }
-        }
-
-
-        public float ShieldRegenerationValue
-        {
-            get
-            {
-                return Mathf.Max(GetStat(UnitStatsEnum.ShieldRegeneration), 0f);
-            }
-        }
-
-        public float ShieldCooldownValue
-        {
-            get
-            {
-                return Mathf.Max(GetStat(UnitStatsEnum.ShieldCooldown), 0f);
-            }
-        }
+        public float SpawnRateValue => TileModel.SpawnRate;
+        public float MovementValue => TileModel.Movement;
+        public int HealthValue => TileModel.Health;
+        public int ShieldValue => TileModel.Shield;
+        public float ShieldRegenerationValue => TileModel.ShieldRegen;
+        public float ShieldCooldownValue => TileModel.ShieldCooldown;
 
         #endregion
 
-        
+        [SerializeField]
+        private GameObject highlight;
+
         public void Highlight(bool highlighted)
         {
             highlight.SetActive(highlighted);
         }
 
-        
-        public string Title => $"{UnitSO.name} {TileSO.name}";
+        public string Title => $"{TileModel.UnitSO.name} {TileModel.TileSO.name}";
 
-        public string Description => UnitSO.Description;
+        public string Description => TileModel.UnitSO.Description;
 
         public string GoldAmount => (Shape.Count * 100).ToString();
-
 
         #region Init
 
         public void BaseInit(TileSO tileSO, UnitSO unit)
         {
-            TileSO = tileSO;
             UnitSO = unit;
             tileGraphics.sprite = tileSO.TileSprite;
 
-            AmountOfUnitsEscapedNeededToLevel = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * unit.numberOfUnitsEscapedToLevelUp * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            MaxAmountOfUnitsInTile = Mathf.RoundToInt(AmountOfAdditionalUnitsPerLevelFunction(Level) * unit.numberOfUnitsAbleToSpawn * TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier * Shape.Count);
-            currentAmountOfUnitsInTile = MaxAmountOfUnitsInTile;
+            TileModel = new TileModel(tileSO, unit);
+
+            TileModel.OnModelChanged += () =>
+            {
+                onUpdateUI?.Invoke();
+            };
+
+            TileModel.OnLevelHealthChanged += () =>
+            {
+                onUpdateLevelUnitsAndHealthUI?.Invoke();
+            };
+
             tileGraphics.SetNativeSize();
         }
 
         public void TileSaveInit(TileSave tileSave)
         {
-            Level = tileSave.level;
-
             BaseInit(tileSave.tile, tileSave.unit);
 
-            currentAmountOfUnitsInTile = tileSave.tileHealth;
-
-            CurrentAmountOfUnitsEscaped = tileSave.tileExp;
-
+            TileModel.SetupFromSave(tileSave);
 
             RotateTo(tileSave.rotation);
-            Equipment = tileSave.equipment;
         }
 
         #endregion
@@ -545,4 +401,161 @@ namespace Tiles
             return Shape.Count.CompareTo(obj);
         }
     }
-}
+
+    public class TileModel
+    {
+        public TileSO TileSO { get; }
+        public UnitSO UnitSO { get; private set; }
+
+        public EquipmentSO[] Equipment { get; private set; } = new EquipmentSO[4];
+
+        public int Level { get; private set; } = 1;
+        public bool IsMaxLevel => Level == 5;
+
+        public int CurrentAmountOfUnitsInTile { get; private set; }
+        public int MaxAmountOfUnitsInTile { get; private set; }
+
+        public int AmountOfUnitsSpawned { get; private set; }
+        public int AmountOfUnitsEscapedNeededToLevel { get; private set; }
+        public int CurrentAmountOfUnitsEscaped { get; private set; }
+
+        public event Action OnModelChanged;
+        public event Action OnLevelHealthChanged;
+
+        public TileModel(TileSO tileSO, UnitSO unitSO)
+        {
+            TileSO = tileSO;
+            UnitSO = unitSO;
+
+            RecalculateLevelValues();
+        }
+
+        public void SetupNewUnitSO(UnitSO unitSO)
+        {
+            UnitSO = unitSO;
+
+            RecalculateLevelValues();
+        }
+
+        #region Leveling
+
+        private static float AdditionalUnitsPerLevel(int level)
+        {
+            return level * level * 0.2f + 1f;
+        }
+
+        private void RecalculateLevelValues()
+        {
+            AmountOfUnitsEscapedNeededToLevel =
+                Mathf.RoundToInt(
+                    AdditionalUnitsPerLevel(Level) *
+                    UnitSO.numberOfUnitsEscapedToLevelUp *
+                    TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier *
+                    TileSO.Shape.Count);
+
+            MaxAmountOfUnitsInTile =
+                Mathf.RoundToInt(
+                    AdditionalUnitsPerLevel(Level) *
+                    UnitSO.numberOfUnitsAbleToSpawn *
+                    TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier *
+                    TileSO.Shape.Count);
+
+            CurrentAmountOfUnitsInTile = MaxAmountOfUnitsInTile;
+        }
+
+        public void OnUnitSpawn()
+        {
+            CurrentAmountOfUnitsInTile = Mathf.Clamp(CurrentAmountOfUnitsInTile - 1, 0, MaxAmountOfUnitsInTile);
+            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned + 1);
+            OnLevelHealthChanged?.Invoke();
+        }
+
+        public void OnUnitDie()
+        {
+            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned - 1);
+        }
+
+        public void OnUnitEscape()
+        {
+            CurrentAmountOfUnitsEscaped =
+                Mathf.Clamp(CurrentAmountOfUnitsEscaped + 1, 0, AmountOfUnitsEscapedNeededToLevel);
+
+            if (CurrentAmountOfUnitsEscaped >= AmountOfUnitsEscapedNeededToLevel)
+            {
+                LevelUp();
+            }
+
+            AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned - 1);
+            CurrentAmountOfUnitsInTile =
+                Mathf.Clamp(CurrentAmountOfUnitsInTile + 1, 0, MaxAmountOfUnitsInTile);
+
+            OnLevelHealthChanged?.Invoke();
+        }
+
+        private void LevelUp()
+        {
+            Level = Mathf.Clamp(Level + 1, 1, 5);
+            CurrentAmountOfUnitsEscaped = 0;
+            RecalculateLevelValues();
+            OnModelChanged?.Invoke();
+        }
+
+        public void SetupFromSave(TileSave tileSave)
+        {
+            Level = tileSave.level;
+            RecalculateLevelValues();
+            CurrentAmountOfUnitsEscaped = tileSave.tileExp;
+            CurrentAmountOfUnitsInTile = tileSave.tileHealth;
+            OnModelChanged?.Invoke();
+            Equipment = tileSave.equipment;
+        }
+
+        #endregion
+
+        #region Stats
+
+        public Buff GetTileBuff(UnitStatsEnum stat)
+        {
+            return TileManager.Instance.GetBuff(stat, Level);
+        }
+
+        private IntOrFloatObject GetStat(UnitStatsEnum stat)
+        {
+            var baseValue = UnitSO.GetStat(stat);
+
+            List<Buff> buffs = new()
+        {
+            GetTileBuff(stat),
+            UpgradeManager.Instance.GetBuff(stat),
+            UnitBuffManager.Instance.GetBuff(stat)
+        };
+
+            foreach (var equipment in Equipment)
+            {
+                if (equipment != null && equipment.TryGetUnitBuff(stat, out Buff outBuff))
+                {
+                    buffs.Add(outBuff);
+                }
+            }
+
+            if (buffs.Count == 0)
+                return baseValue;
+
+            Buff combined = buffs[0];
+            for (int i = 1; i < buffs.Count; i++)
+                combined += buffs[i];
+
+            return combined.Value(baseValue);
+        }
+
+        public float SpawnRate => Mathf.Max(GetStat(UnitStatsEnum.SpawnRate), 0f);
+        public float Movement => Mathf.Max(GetStat(UnitStatsEnum.MovementSpeed), 0f);
+        public int Health => Mathf.Max(GetStat(UnitStatsEnum.Health), 0);
+        public int Shield => Mathf.Max(GetStat(UnitStatsEnum.Shield), 0);
+        public float ShieldRegen => Mathf.Max(GetStat(UnitStatsEnum.ShieldRegeneration), 0f);
+        public float ShieldCooldown => Mathf.Max(GetStat(UnitStatsEnum.ShieldCooldown), 0f);
+
+        #endregion
+    }
+ }
+

@@ -11,7 +11,7 @@ namespace Monsters
 
         protected override void Start()
         {
-            HealthAndShieldManager.Shield.onDestroy += OnShieldDestroyed;
+            HealthAndShieldManager.Shield.onShieldDestroyed += OnShieldDestroyed;
             HealthAndShieldManager.Shield.onShieldRestored += OnShieldRestored;
 
             animator.SetBool(HasShieldHash, true);
@@ -21,7 +21,7 @@ namespace Monsters
         {
             if (HealthAndShieldManager != null && HealthAndShieldManager.Shield != null)
             {
-                HealthAndShieldManager.Shield.onDestroy -= OnShieldDestroyed;
+                HealthAndShieldManager.Shield.onShieldDestroyed -= OnShieldDestroyed;
                 HealthAndShieldManager.Shield.onShieldRestored -= OnShieldRestored;
             }
         }

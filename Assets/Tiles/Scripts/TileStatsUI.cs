@@ -107,7 +107,7 @@ namespace Tiles
 
             for (int i = 0; i < Containers.Length; i++)
             {
-                Containers[i].Active = tile.Level > i;
+                Containers[i].Active = tile.TileModel.Level > i;
             }
 
             spawnRateText.text = tile.SpawnRateValue.ToString();
@@ -124,17 +124,17 @@ namespace Tiles
             if (tile == null)
                 return;
 
-            totalNumberOfUnits.text = $"Total units: {tile.currentAmountOfUnitsInTile}/{tile.MaxAmountOfUnitsInTile}";
+            totalNumberOfUnits.text = $"Total units: {tile.TileModel.CurrentAmountOfUnitsInTile}/{tile.TileModel.MaxAmountOfUnitsInTile}";
 
-            if (tile.IsMaxLevel)
+            if (tile.TileModel.IsMaxLevel)
             {
                 levelText.text = "Level: Max";
                 numberOfUnitsToNextLevel.text = "Units to upgrade: Max Level";
             }
             else
             {
-                levelText.text = $"Level: {tile.Level}";
-                numberOfUnitsToNextLevel.text = $"Units to upgrade: {tile.CurrentAmountOfUnitsEscaped}/{tile.AmountOfUnitsEscapedNeededToLevel}";
+                levelText.text = $"Level: {tile.TileModel.Level}";
+                numberOfUnitsToNextLevel.text = $"Units to upgrade: {tile.TileModel.CurrentAmountOfUnitsInTile}/{tile.TileModel.AmountOfUnitsEscapedNeededToLevel}";
             }
         }
 
@@ -177,14 +177,14 @@ namespace Tiles
         {
             DeselectTile();
 
-            Tile.onTileSelected += TileSelected;
+            TileEventBus.OnTileSelected += TileSelected;
             
         }
 
         protected override void OnDestroy()
         {
             DeselectTile();
-            Tile.onTileSelected -= TileSelected;
+            TileEventBus.OnTileSelected -= TileSelected;
             base.OnDestroy();
         }
     }

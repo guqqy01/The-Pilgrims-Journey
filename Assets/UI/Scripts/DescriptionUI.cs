@@ -29,7 +29,10 @@ public class DescriptionUI : MonoBehaviour
     {
         Info.onInfoSelected += UpdateUI;
     }
-
+    private void OnDestroy()
+    {
+        Info.onInfoSelected -= UpdateUI;
+    }
     public void UpdateUI(IDescriptable descriptable)
     {
         titleText.text = descriptable.Title;

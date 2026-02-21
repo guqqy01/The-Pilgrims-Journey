@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameManagerCalls;
+using System;
 using UnityEngine;
 
 namespace Equipment
@@ -115,10 +116,10 @@ namespace Equipment
         public void Deactivate()
         {
             Active = false;
-            Clear();
+            ClearEquipment();
         }
 
-        public void Clear()
+        public void ClearEquipment()
         {
             TryChangeEquipment(null);
         }

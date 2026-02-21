@@ -34,13 +34,13 @@ namespace Tiles
 
         protected void Awake()
         {
-            Tile.onDragTile += DraggingTile;
+            TileEventBus.OnDragTile += DraggingTile;
 
         }
 
         protected override void CleanUp()
         {
-            Tile.onDragTile -= DraggingTile;
+            TileEventBus.OnDragTile -= DraggingTile;
         }
 
         private void Update()
@@ -52,7 +52,7 @@ namespace Tiles
 
         private void DraggingTile(Tile tile)
         {
-            if (tile != null && tilesNotToShowHelper.Contains(tile.TileSO))
+            if (tile != null && tilesNotToShowHelper.Contains(tile.TileModel.TileSO))
             {
                 tile = null;
             }

@@ -22,6 +22,12 @@ namespace Units
         private ParticleSystem poisonPS;
         public ParticleSystem PoisonPS => poisonPS;
 
+        private void OnDestroy()
+        {
+            onPoisoned = null;
+            onCured = null;
+        }
+
         private void Awake()
         {
             healthAndShieldManager = GetComponent<HealthAndShieldManager>();

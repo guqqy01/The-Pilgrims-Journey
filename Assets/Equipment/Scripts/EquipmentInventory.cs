@@ -70,6 +70,8 @@ namespace Equipment
                     kvp.Key.onEquipmentChanged -= kvp.Value;
             }
             containerChangeHandlers.Clear();
+            onEquipmentChanged = null;
+            onContainerSizeChanged = null;
         }
 
 
@@ -180,7 +182,7 @@ namespace Equipment
 
             for (int i = 0; i < Containers.Length; i++)
             {
-                Containers[i]?.Clear();
+                Containers[i]?.ClearEquipment();
             }
         }
 

@@ -35,14 +35,21 @@ public class Shield : MonoBehaviour
     public delegate void OnShieldRestored();
     public OnShieldRestored onShieldRestored;
 
-    public delegate void OnDestroy();
-    public OnDestroy onDestroy;
+    public delegate void OnShieldDestroyed();
+    public OnShieldDestroyed onShieldDestroyed;
 
     public delegate void OnShieldChange(StatChangeInfo statChangeInfo);
     public OnShieldChange onShieldChange;
 
     [SerializeField]
     private ParticleSystem shieldBrokenPS;
+
+    private void OnDestroy()
+    {
+        onShieldRestored = null;
+        onShieldDestroyed = null;
+        onShieldChange = null;
+    }
 
     public void Init(int maxShield, float regeneration, float shieldCooldown)
     {
@@ -180,7 +187,7 @@ public class Shield : MonoBehaviour
 
         if (CurrentShield == 0 && amount != leftOverDmg)
         {
-            onDestroy?.Invoke();
+            onShieldDestroyed?.Invoke();
             if(shieldBrokenPS != null)
                 shieldBrokenPS?.Play();
         }

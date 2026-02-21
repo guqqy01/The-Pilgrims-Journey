@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -19,5 +20,10 @@ public static class Info
         CurrentlySelected.Select();
 
         onInfoSelected?.Invoke(CurrentlySelected);
+    }
+
+    public static void Dispose()
+    {
+        onInfoSelected = null;
     }
 }
