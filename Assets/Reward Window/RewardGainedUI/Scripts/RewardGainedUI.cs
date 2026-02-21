@@ -17,6 +17,8 @@ public class RewardGainedUI : Singleton<RewardGainedUI>
 
     [SerializeField] private float itemShowtime = 1f;
 
+    private const string blurRequestReference = "Reward Gained UI";
+
     public void Setup(IDescriptable descriptable)
     {
         gameObject.SetActive(true);
@@ -48,7 +50,7 @@ public class RewardGainedUI : Singleton<RewardGainedUI>
         itemImage.sprite = sprite;
         itemText.text = itemName;
 
-        BlurBackgroundController.Instance.EnableBlur();
+        BlurBackgroundController.Instance.EnableBlur(blurRequestReference);
 
         glowAnimator.SetTrigger("StartGlow");
         itemAnimator.SetTrigger("ShowItem");
@@ -66,7 +68,7 @@ public class RewardGainedUI : Singleton<RewardGainedUI>
     {
         yield return new WaitForSeconds(itemShowtime);
 
-        BlurBackgroundController.Instance.DisableBlur();
+        BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
 
         glowAnimator.SetTrigger("FadeGlow");
 

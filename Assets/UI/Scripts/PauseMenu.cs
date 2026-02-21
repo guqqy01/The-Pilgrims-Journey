@@ -7,19 +7,21 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private InputQuery inputQuery;
 
-    private const string pauseReference = "Pause Menu";
+    private const string pauseRequestReference = "Pause Menu";
+
+    private const string blurRequestReference = "Pause Menu";
 
     public void OpenPauseMenuButton()
     {
-        TimeManager.Instance.PauseTime(pauseReference);
-        BlurBackgroundController.Instance.EnableBlur();
+        TimeManager.Instance.PauseTime(pauseRequestReference);
+        BlurBackgroundController.Instance.EnableBlur(blurRequestReference);
     }
 
     public void ContinueButton()
     {
         gameObject.SetActive(false);
-        TimeManager.Instance.RemovePauseRequest(pauseReference);
-        BlurBackgroundController.Instance.DisableBlur();
+        TimeManager.Instance.RemovePauseRequest(pauseRequestReference);
+        BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
     }
 
     public void OptionsButton()
@@ -40,7 +42,7 @@ public class PauseMenu : MonoBehaviour
             SaveManager.IfFileExistsDelete("GameManagerSave"); 
             SceneLoader.Instance.LoadMainMenuScene();
             gameObject.SetActive(false);
-            BlurBackgroundController.Instance.DisableBlur();
+            BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
         }
     }
 
@@ -48,7 +50,7 @@ public class PauseMenu : MonoBehaviour
     {
         SceneLoader.Instance.LoadMainMenuScene();
         gameObject.SetActive(false);
-        BlurBackgroundController.Instance.DisableBlur();
+        BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
 
         if (!GameManager.Instance.LocalMapPlaying)
         {

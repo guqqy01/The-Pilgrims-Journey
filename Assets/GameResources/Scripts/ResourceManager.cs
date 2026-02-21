@@ -70,7 +70,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMa
     }
 
 
-    public void SetupNewGame()
+    public void RemoveBlurOverride()
     {
         Gold = startGold;
 

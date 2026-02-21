@@ -32,16 +32,14 @@ public class TimeManager : Singleton<TimeManager>
 
     public void RemovePauseRequest(string reference)
     {
-        if (!IsPaused || pausedTimeSources.Count > 1)
+        pausedTimeSources.Remove(reference);
+
+        if (!IsPaused || pausedTimeSources.Count >= 1)
         {
-            pausedTimeSources.Remove(reference);
             return;
         }
 
-        if (pausedTimeSources.Count == 0)
-        {
-            IsPaused = false;
-        }
+        IsPaused = false;
     }
 
     public void OverrideUnpauseTime()

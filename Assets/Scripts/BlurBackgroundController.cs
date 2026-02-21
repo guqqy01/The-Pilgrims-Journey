@@ -3,9 +3,12 @@ using UnityEngine.UI;
 using UnityEngine.Rendering;
 using System.Collections;
 using GameManagerCalls;
+using System.Collections.Generic;
 
 public class BlurBackgroundController : Singleton< BlurBackgroundController>, IOnSetupNewGame
 {
+    private readonly HashSet<string> blurRequests = new HashSet<string>();
+
     [SerializeField]
     private Volume blurVolume;
 
@@ -15,16 +18,23 @@ public class BlurBackgroundController : Singleton< BlurBackgroundController>, IO
 
     private Coroutine currentCoroutine;
 
-    public void EnableBlur()
+    public void EnableBlur(string reference)
     {
-        if(currentCoroutine != null)
+        blurRequests.Add(reference);
+
+        if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
 
         currentCoroutine = StartCoroutine(Blur(true));
     }
 
-    public void DisableBlur()
+    public void RemoveBlurRequest(string reference)
     {
+        blurRequests.Remove(reference);
+
+        if (blurRequests.Count > 0)
+            return;
+
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
 
@@ -43,8 +53,9 @@ public class BlurBackgroundController : Singleton< BlurBackgroundController>, IO
         }
     }
 
-    public void SetupNewGame()
+    public void RemoveBlurOverride()
     {
+        blurRequests.Clear();
         blurVolume.weight = 0;
     }
 }

@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
     {
         Level = 1;
 
-        InterfaceCaller.CallInterfaces<IOnSetupNewGame>(x => x.SetupNewGame());
+        InterfaceCaller.CallInterfaces<IOnSetupNewGame>(x => x.RemoveBlurOverride());
     } 
 
 

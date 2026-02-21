@@ -186,7 +186,7 @@ namespace Equipment
             }
         }
 
-        public void SetupNewGame()
+        public void RemoveBlurOverride()
         {
             AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded();
 

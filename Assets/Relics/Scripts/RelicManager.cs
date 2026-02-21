@@ -137,7 +137,7 @@ namespace Relics
             updateUI?.Invoke();
         }
 
-        public void SetupNewGame()
+        public void RemoveBlurOverride()
         {
             foreach(RelicSO relicSO in startRelics)
             {

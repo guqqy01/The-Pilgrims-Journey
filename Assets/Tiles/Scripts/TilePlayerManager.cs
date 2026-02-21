@@ -111,7 +111,7 @@ namespace Tiles
             }
         }
 
-        public void SetupNewGame()
+        public void RemoveBlurOverride()
         {
             StopPlaying();
 

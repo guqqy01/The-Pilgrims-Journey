@@ -22,6 +22,8 @@ namespace LevelingSystem.UI
         [SerializeField]
         private GameObject window;
 
+        private const string blurRequestReference = "Leveling Up Reward UI manager";
+
         private void Awake()
         {
             LevelingUpRewardManager.Instance.onShowUI += ShowUI;
@@ -56,7 +58,7 @@ namespace LevelingSystem.UI
 
             carousel.AddCards(cards);
 
-            BlurBackgroundController.Instance.EnableBlur();
+            BlurBackgroundController.Instance.EnableBlur(blurRequestReference);
             window.SetActive(true);
         }
 
@@ -76,7 +78,7 @@ namespace LevelingSystem.UI
             LevelingUpRewardManager.Instance.SelectReward(reward);
 
             window.SetActive(false);
-            BlurBackgroundController.Instance.DisableBlur();
+            BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
         }
     }
 }

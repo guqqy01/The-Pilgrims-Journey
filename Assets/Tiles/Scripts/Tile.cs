@@ -122,12 +122,6 @@ namespace Tiles
 
         #region Leveling and health
 
-        
-        public static float AmountOfAdditionalUnitsPerLevelFunction(int Level)
-        {
-            return Level * Level * 0.2f + 1f;
-        }
-
         public void OnUnitDie(Health _)
         {
             TileModel.OnUnitDie();
@@ -367,11 +361,7 @@ namespace Tiles
 
         public void BaseInit(TileSO tileSO, UnitSO unit)
         {
-            UnitSO = unit;
-            tileGraphics.sprite = tileSO.TileSprite;
-
             TileModel = new TileModel(tileSO, unit);
-
             TileModel.OnModelChanged += () =>
             {
                 onUpdateUI?.Invoke();
@@ -381,6 +371,11 @@ namespace Tiles
             {
                 onUpdateLevelUnitsAndHealthUI?.Invoke();
             };
+
+            UnitSO = unit;
+            tileGraphics.sprite = tileSO.TileSprite;
+
+
 
             tileGraphics.SetNativeSize();
         }

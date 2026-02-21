@@ -3,8 +3,6 @@ using DialogueSystem;
 using GlobalMap;
 using System.Collections.Generic;
 
-using LocalMap;
-
 public class DirectionChoiceManager : Singleton<DirectionChoiceManager>
 {
     public Prompt directionChoicePrompt;
