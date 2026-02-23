@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 5d60bec43d43a264caf12e7745385336, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,6 +129,8 @@ GameObject:
   - component: {fileID: 3076039495272145849}
   - component: {fileID: 6791586161697317795}
   - component: {fileID: 3214928192119567349}
+  - component: {fileID: 4813222353747743167}
+  - component: {fileID: 8796534757442160029}
   m_Layer: 12
   m_Name: Mini Mudman
   m_TagString: Untagged
@@ -282,7 +284,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -298,6 +300,40 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.8753052, y: 0.9198532}
   m_EdgeRadius: 0
+--- !u!114 &4813222353747743167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7074285777259253557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
+  knockBackSpeed: 1
+  knockBackDuration: 0.2
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+--- !u!114 &8796534757442160029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7074285777259253557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ff5103b39b68184bae7ddf3b93ac337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterCollisionAttack
+  damage: 2
+  knockback: 1
+  attackCooldown: 1.5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!1001 &9081591285499563436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -346,6 +382,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4412884489020705949, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: shield
+      value: 
+      objectReference: {fileID: 529703686781253931}
     - target: {fileID: 5510701799781508390, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_SortingLayerID
       value: 1034681899
@@ -430,6 +470,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6942453347269526542, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 2471307502750699463}
     - target: {fileID: 7588242973675327176, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_Name
       value: HealthAndShieldUI

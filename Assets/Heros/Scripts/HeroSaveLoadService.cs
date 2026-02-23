@@ -44,8 +44,6 @@ namespace Heros
 
         private void SaveAfterLoad()
         {
-            Debug.Log("Save");
-
             if (heroManager == null) heroManager = HeroManager.Instance;
 
             var data = new SaveData();
@@ -108,8 +106,6 @@ namespace Heros
         {
             loading = true;
 
-            Debug.Log("Begin Load");
-
             if (heroManager == null) heroManager = HeroManager.Instance;
 
             if (!SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outProfile))
@@ -168,7 +164,6 @@ namespace Heros
             HeroAttacksManager.Instance.Load();
 
             loading = false;
-            Debug.Log("End Load");
         }
 
         public void LoadAfterMapPointSceneLoad()

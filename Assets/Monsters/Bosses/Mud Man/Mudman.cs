@@ -29,7 +29,7 @@ namespace Monsters
 
         private const string shrunkBuffReference = "shrunk Buff";
 
-        private bool shrunk
+        private bool Shrunk
         {
             get
             {
@@ -55,7 +55,8 @@ namespace Monsters
         {
             base.Update();
 
-            HandleShrinkAndGrow();
+            HandleShrink();
+            HandleGrow();
             HandleSpawningMiniMudman();
 
             bool shouldMove = HeroManager.Instance.ActiveHero != null;
@@ -68,10 +69,10 @@ namespace Monsters
 
         private void HandleShrink()
         {
-            if (shrunk || Time.time < nextTimeToShrinkAndMove)
+            if (Shrunk || Time.time < nextTimeToShrinkAndMove)
                 return;
 
-            shrunk = true;
+            Shrunk = true;
 
             MonsterMovement.Speed.AddBuff(shrunkBuffReference, shrunkSpeedBuff);
 
@@ -86,23 +87,15 @@ namespace Monsters
             return new Vector2(Random.Range(0f, LocalMapGenerator.Instance.MapSizeX), Random.Range(0f, LocalMapGenerator.Instance.MapSizeY));
         }
 
-        private void HandleMoveWhileShrunk()
-        {
-            if (!shrunk)
-                return;
-
-            if (MonsterMovement.AtTargetPosition)
-            {
-                HandleGrow();
-            }
-        }
-
         private void HandleGrow()
         {
-            if (!shrunk)
+            if (!Shrunk)
                 return;
 
-            shrunk = false;
+            if (!MonsterMovement.AtTargetPosition)
+                return;
+
+            Shrunk = false;
             nextTimeToShrinkAndMove = Time.time + Random.Range(timeToMove.Start, timeToMove.End);
             MonsterMovement.Speed.RemoveBuff(shrunkBuffReference);
 
@@ -112,12 +105,6 @@ namespace Monsters
             }
         }
 
-        private void HandleShrinkAndGrow()
-        {
-            HandleShrink();
-            HandleMoveWhileShrunk();
-            HandleGrow();
-        }
 
         private void HandleSpawningMiniMudman()
         {
