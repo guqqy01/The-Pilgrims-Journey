@@ -12,41 +12,32 @@ namespace LocalMap
     {
         public Pathway pathway;
 
-        [SerializeField]
-        private MapTile mapTilePrefab;
+        [SerializeField] private MapTile mapTilePrefab;
+        [SerializeField] private GameObject roadSignPrefab;
+        [SerializeField] private Transform maptileParent;
 
-        public MinMaxCurve targetDirectionVSLevelCurve;
-        public MinMaxCurve traverseDirectionVSLevelCurve;
+        [SerializeField] private int mapSizeX = 32;
+        [SerializeField] private int mapSizeY = 18;
 
-        public MapTile[,] Tiles { private set; get; }
         [SerializeField, HideInInspector]
         public List<GameObject> mapObjectGOs;
 
         [SerializeField]
-        private GameObject roadSignPrefab;
-        public Dictionary<GameObject, Direction> RoadSigns { get; private set; } = new Dictionary<GameObject, Direction>();
-
-        [SerializeField]
         private Dictionary<string, int> mapObjects = new Dictionary<string, int>();
 
-        private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
+        public MinMaxCurve targetDirectionVSLevelCurve;
+        public MinMaxCurve traverseDirectionVSLevelCurve;
 
         public LocalMapGenerationSettings generationSettings;
 
+        public MapTile[,] Tiles { private set; get; }
+        public Dictionary<GameObject, Direction> RoadSigns { get; private set; } = new Dictionary<GameObject, Direction>();
+
+        private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
         public List<Direction> TargetDirections => pathway.ToDirections;
-
         public Direction StartWall { get; private set; }
-
-        [SerializeField]
-        private int mapSizeX = 32;
         public int MapSizeX => mapSizeX;
-
-        [SerializeField]
-        private int mapSizeY = 18;
         public int MapSizeY => mapSizeY;
-
-        [SerializeField]
-        private Transform maptileParent;
 
         private int randomTargetDirection 
         {
@@ -61,6 +52,7 @@ namespace LocalMap
                 return Mathf.Max(Mathf.RoundToInt(targetDirectionVSLevelCurve.Evaluate(time, UnityEngine.Random.value)), 1);
             }
         }
+
         private int randomTraverseDirection
         {
             get
@@ -241,7 +233,6 @@ namespace LocalMap
                 occupiedSpots = new List<Vector2Int>();
             }
 
-
             foreach (OverlayMapObject mapObject in generationSettings.mapObjects)
             {
                 int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));
@@ -250,28 +241,12 @@ namespace LocalMap
 
                 while (amountToPlace > 0 && breaker > 0)
                 {
-                    int i = UnityEngine.Random.Range(0, mapSizeX);
-                    int j = UnityEngine.Random.Range(0, mapSizeY);
+                    int xPos = UnityEngine.Random.Range(0, mapSizeX);
+                    int yPos = UnityEngine.Random.Range(0, mapSizeY);
 
-                    bool canPlace = true;
-
-                    for (int x = 0; x < mapObject.size.x; x++)
+                    if (SpotOccupied(new Vector2Int(xPos, yPos), mapObject.size))
                     {
-                        for (int y = 0; y < mapObject.size.y; y++)
-                        {
-                            if (occupiedSpots.Contains(new Vector2Int(i + x, j + y)) ||
-                                i + x > mapSizeX ||
-                                j + y > mapSizeY ||
-                                (pathway != null && pathway.ContainsStep(new Vector2Int(i + x, j + y))))
-                            {
-                                canPlace = false;
-                            }
-                        }
-                    }
-
-                    if (canPlace)
-                    {
-                        mapObjectGOs.Add(Instantiate(mapObject.overlay, new Vector3(i + (mapObject.size.x - 1) / 2f, j + (mapObject.size.y - 1) / 2f), Quaternion.identity, transform));
+                        mapObjectGOs.Add(Instantiate(mapObject.overlay, new Vector3(xPos + (mapObject.size.x - 1) / 2f, yPos + (mapObject.size.y - 1) / 2f), Quaternion.identity, transform));
 
                         if (mapObjects.ContainsKey(mapObject.name))
                         {
@@ -286,7 +261,7 @@ namespace LocalMap
                         {
                             for (int y = 0; y < mapObject.size.y; y++)
                             {
-                                occupiedSpots.Add(new Vector2Int(i + x, j + y));
+                                occupiedSpots.Add(new Vector2Int(xPos + x, yPos + y));
                             }
                         }
 
@@ -302,23 +277,21 @@ namespace LocalMap
         }
 
 
-        private bool SpotOccupied(Vector2Int point, Vector2Int size, out Vector2 spawnPosition)
+        private bool SpotOccupied(Vector2Int point, Vector2Int size)
         {
-            spawnPosition = point;
-
-            for (int i = 0; i < size.x; i++)
+            for (int x = 0; x < size.x; x++)
             {
-                for (int j = 0; j < size.y; j++)
+                for (int y = 0; y < size.y; y++)
                 {
-                    if (occupiedSpots.Contains(point + new Vector2Int(i, j)) || pathway.ContainsStep(point + new Vector2Int(i, j)))
+                    if (occupiedSpots.Contains(new Vector2Int(point.x + x, point.y + y)) ||
+                        point.x + x > mapSizeX ||
+                        point.y + y > mapSizeY ||
+                        (pathway != null && pathway.ContainsStep(new Vector2Int(point.x + x, point.y + y))))
+                    {
                         return true;
-
-                    if (point.x + i > mapSizeX || point.y + j > mapSizeY)
-                        return true;
+                    }
                 }
             }
-
-            spawnPosition = (Vector2)point + ((Vector2)size / 2f);
 
             return false;
         }
@@ -509,22 +482,24 @@ namespace LocalMap
 
             generationSettings.SetupSeeds();
 
-            for (int i = 0; i < mapSizeX; i++)
+            for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
-                for (int j = 0; j < mapSizeY; j++)
+                for (int yPos = 0; yPos < mapSizeY; yPos++)
                 {
-                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, maptileParent != null ? maptileParent : transform);
+                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(xPos, yPos), Quaternion.identity, maptileParent != null ? maptileParent : transform);
 
-                    if (pathway.ContainsStep(new Vector2Int(i, j)))
+                    Vector2Int position = new Vector2Int(xPos, yPos);
+
+                    if (pathway.ContainsStep(position))
                     {
-                        mapTile.Init(generationSettings.GetPathTileSprite(), new Vector2Int(i, j));
+                        mapTile.Init(generationSettings.GetPathTileSprite(), position);
                     }
                     else
                     {
-                        mapTile.Init(generationSettings.GetMapTileSprite(new Vector2Int(i, j)), new Vector2Int(i, j));
+                        mapTile.Init(generationSettings.GetMapTileSprite(position), position);
                     }
 
-                    Tiles[i, j] = mapTile;
+                    Tiles[xPos, yPos] = mapTile;
                 }
             }
         }

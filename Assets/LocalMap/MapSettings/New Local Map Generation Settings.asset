@@ -68,6 +68,31 @@ MonoBehaviour:
           m_RotationOrder: 0
         m_ConstantMin: 0
         m_ConstantMax: 5
+  autoBaseTiles:
+    TopLeft: {fileID: 1276579637814787883, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopCenter: {fileID: -1192822868109277135, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopRight: {fileID: 5499102808811291059, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopAndLeft: {fileID: 3232860104348983722, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopAndRight: {fileID: 1849632053031277170, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    CenterLeft: {fileID: 5289853148265052101, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    CenterRight: {fileID: 1533450810422165619, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomAndLeft: {fileID: 1231773538799002104, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomAndRight: {fileID: -3056819783025541151, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomLeft: {fileID: 7791781323704072601, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomCenter: {fileID: 7394485116440896489, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomRight: {fileID: 7804948303357740356, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopLeftOutline: {fileID: -4508080095157486718, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopCenterOutline: {fileID: -279746236, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopRightOutline: {fileID: 8615210923307656285, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopAndLeftOutline: {fileID: 2036788486, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopAndRightOutline: {fileID: -3491790923311383947, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    CenterLeftOutline: {fileID: -1813908198, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    CenterRightOutline: {fileID: -3491790923311383947, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomAndLeftOutline: {fileID: 697377541, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomAndRightOutline: {fileID: 6693665350190009555, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomLeftOutline: {fileID: -3027338058270526890, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomCenterOutline: {fileID: 5798898111997052417, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    BottomRightOutline: {fileID: -5976151654131014378, guid: 375230237df55ab45b69587840a8d73a, type: 3}
   pathTiles:
     weightedList:
     - item: {fileID: -1075239852, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
@@ -394,7 +419,10 @@ MonoBehaviour:
   - name: Grass
     priority: 2
     scale: {x: 0.1, y: 0.1}
-    items: []
+    items:
+    - perlinNoiseRange: {x: 0, y: 0}
+      list:
+        weightedList: []
   - name: Rocks
     priority: 3
     scale: {x: 0.1, y: 0.1}
