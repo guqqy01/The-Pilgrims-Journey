@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2002732257371014247}
   - component: {fileID: 1852068231971348684}
+  - component: {fileID: 2010504562107859208}
+  - component: {fileID: 2704158800428039408}
   m_Layer: 12
   m_Name: Wasp
   m_TagString: Untagged
@@ -46,18 +48,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1794fb3b9032a54d9dd3338de292993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3
-  targetMask:
+  rangeToFindTarget: 3
+  findTargetMask:
     serializedVersion: 2
     m_Bits: 64
-  ani: {fileID: 1504567050523718740}
+  animator: {fileID: 1504567050523718740}
   audioSource: {fileID: 1595912474976293606}
   attackSpeed: 0.2
   projectileSpeed: 5
+  projectileTurnSpeed: 10
   damage: 1
+  knockbackMultiplier: 0.1
   poisonDamage: 5
   poisonTime: 5
   waspStinger: {fileID: -8378863092065669376, guid: 48b1e36f9a532164589f8bffd241f8fe, type: 3}
+--- !u!50 &2010504562107859208
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &2704158800428039408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ffc8e4ab8a94ff4c8b1b3b3b01327fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Monsters.StationaryMonsterMovement
+  visualTransform: {fileID: 1746546131186657141}
+  mirrorWhenTargetToTheLeft: 1
 --- !u!1 &7735234267438490888
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +310,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -1582189006, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

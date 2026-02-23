@@ -139,6 +139,11 @@ namespace Heros
             Vector2 newPos = rb.position + move * SpeedValue * Time.fixedDeltaTime;
             rb.MovePosition(newPos);
         }
+
+        protected override bool GetIfAtTargetPosition()
+        {
+            return input.sqrMagnitude > 0.1f;
+        }
     }
 
 }

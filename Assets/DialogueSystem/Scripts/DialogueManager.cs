@@ -118,7 +118,9 @@ namespace DialogueSystem
 
             currentDialogue.initialPrompt.Initialize();
 
-            currentDialogue?.startDialogueEvent.Raise("Start Dialogue");
+            currentDialogue.startDialogueEvent.Raise("Start Dialogue");
+
+            history.ClearHistory();
 
             StartNewPrompt(dialogue.initialPrompt, dialogue.settings);
         }

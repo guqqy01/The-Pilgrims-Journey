@@ -100,7 +100,7 @@ public class MainMenu : Singleton<MainMenu>
         }
 
         GameManager.Instance.ContinueJourney();
-        WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, TimeManager.Instance.OverrideUnpauseTime);
+        WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());
     }
 
     public void UpgradeButton()

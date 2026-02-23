@@ -203,60 +203,8 @@ MonoBehaviour:
     maxSpawnDistance: 30
   bossMonsters:
   - range: 6
-    boss: {fileID: 11400000, guid: 07bd63e250a52554babb39d0ffb7f8dc, type: 2}
-    bossMinionSpawns:
-    - range: 5
-      maxAmountVSLevel:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 4
-          inSlope: 0.1
-          outSlope: 0.1
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 20
-          value: 6
-          inSlope: 0.1
-          outSlope: 0.1
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      spawnRateVSLevel:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 10
-          inSlope: -0.25
-          outSlope: -0.25
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 20
-          value: 5
-          inSlope: -0.25
-          outSlope: -0.25
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      monster: {fileID: 11400000, guid: 0cd5877b7890a8740a1b980c2923d36d, type: 2}
-      minSpawnDistance: 20
-      maxSpawnDistance: 50
+    boss: {fileID: 11400000, guid: 1336c490713e32441ae5e38a50724b15, type: 2}
+    bossMinionSpawns: []
   waves:
   - triggerTime: 15
     entries:

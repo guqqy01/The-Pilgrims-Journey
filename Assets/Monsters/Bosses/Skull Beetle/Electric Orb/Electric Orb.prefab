@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 8409989224171011802}
   - component: {fileID: 6120797073984727151}
   - component: {fileID: 429996407816338407}
-  - component: {fileID: 72251570786456746}
   - component: {fileID: 7213313248069535122}
   - component: {fileID: 7551027533330952127}
   - component: {fileID: 7492785384763953315}
   - component: {fileID: 6373501031945108109}
   - component: {fileID: 2898101997379671493}
+  - component: {fileID: 7190820705821832223}
   m_Layer: 12
   m_Name: Electric Orb
   m_TagString: Untagged
@@ -105,25 +105,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.62
---- !u!114 &72251570786456746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060869861810547035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
-  visualTransform: {fileID: 8634579618525210084}
-  directTargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  directStoppingDistance: 0
-  movementType: 1
-  mirrorWhenTargetToTheLeft: 0
 --- !u!114 &7213313248069535122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +188,24 @@ MonoBehaviour:
   knockBackDuration: 0.2
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.1
+--- !u!114 &7190820705821832223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060869861810547035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c535e47c6dee8d468dc3321bd06a494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Monsters.DirectMonsterMovement
+  visualTransform: {fileID: 8634579618525210084}
+  mirrorWhenTargetToTheLeft: 0
+  directTargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  directStoppingDistance: 0
 --- !u!1 &2524795278473388748
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +624,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -638,6 +641,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}

@@ -94,6 +94,11 @@ namespace Units
 
             transform.position += (Vector3)toVector.normalized * distanceToMove;
         }
+
+        protected override bool GetIfAtTargetPosition()
+        {
+            return finishedPath;
+        }
     }
 }
 

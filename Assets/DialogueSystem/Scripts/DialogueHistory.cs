@@ -29,4 +29,11 @@ public class DialogueHistory : MonoBehaviour
             }
         }
     }
+
+    public void ClearHistory()
+    {
+        history.Clear();
+        UpdateText();
+    }
+
 }

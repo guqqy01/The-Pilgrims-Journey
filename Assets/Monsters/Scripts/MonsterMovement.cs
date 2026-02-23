@@ -1,5 +1,7 @@
-﻿using Heros;
+﻿using Spells;
+using TMPro;
 using UnityEngine;
+using static UnityEngine.UI.ScrollRect;
 
 
 namespace Monsters
@@ -10,124 +12,58 @@ namespace Monsters
         Direct,
     }
 
-    public class MonsterMovement : BaseMovement
+    public abstract class MonsterMovement : BaseMovement
     {
-        public Vector2Int StationaryPosition { private set; get; }
-
         [SerializeField]
-        private LayerMask directTargetLayerMask;
-
-        [SerializeField]
-        private float directStoppingDistance;
-
-        [SerializeField]
-        private MonsterMovementType movementType;
-
-        [SerializeField]
-        private bool mirrorWhenTargetToTheLeft = false;
-
-        public bool Moving { set; get; } = true;
-
-        public override void HandleFixedUpdateMovement()
-        {
-            if (!Moving)
-                return;
-
-            switch (movementType)
-            {
-                case MonsterMovementType.Stationary:
-                    HandleStationaryMovement();
-                    break;
-                case MonsterMovementType.Direct:
-                    HandleDirectMovement();
-                    break;
-            }
-        }
-
-        public void OverrideToDirect()
-        {
-            this.movementType = MonsterMovementType.Direct;
-        }
-        private void Start()
-        {
-            StationaryPosition =  new Vector2Int(Mathf.FloorToInt(rb.position.x), Mathf.FloorToInt(rb.position.y));
-        }
+        protected bool mirrorWhenTargetToTheLeft = false;
 
         public void Setup(MonsterSO monsterSO)
         {
             BaseInit(monsterSO.movementSpeed);
         }
 
-        private void HandleStationaryMovement()
+        protected abstract Vector2? GetTargetPosition();
+
+        public override void HandleFixedUpdateMovement()
         {
-            Vector2 toVector = StationaryPosition - rb.position;
+            Vector2? nullableTargetPosition = GetTargetPosition();
+
+            if (!nullableTargetPosition.HasValue)
+                return;
+
+            Vector2 targetPosition = nullableTargetPosition.Value;
+
+            Vector2 toVector = targetPosition - rb.position;
             float sqrDistance = toVector.sqrMagnitude;
 
             if (sqrDistance == 0f) return;
 
-            Vector2 direction = toVector / Mathf.Sqrt(sqrDistance); // or just normalized
+            Vector2 direction = toVector.normalized;
             Vector2 moveVector = Speed * Time.fixedDeltaTime * direction;
 
+            HandleMoveMonster(moveVector, targetPosition, sqrDistance);
+
+            HandleMirroring(moveVector.x);
+        }
+
+        private void HandleMoveMonster(Vector2 moveVector, Vector2 targetPos, float sqrDistance)
+        {
             if (moveVector.sqrMagnitude >= sqrDistance)
             {
-                rb.MovePosition(StationaryPosition);
+                rb.MovePosition(targetPos);
             }
             else
             {
                 rb.MovePosition(moveVector + rb.position);
-            }
-
-            if (visualTransform != null && mirrorWhenTargetToTheLeft)
-            {
-                if (moveVector.x > 0)
-                {
-                    visualTransform.localScale = new Vector3(initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
-                }
-                else
-                {
-                    visualTransform.localScale = new Vector3(-initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
-                }
             }
         }
 
-        private void HandleDirectMovement()
+        private void HandleMirroring(float xMovement)
         {
-            Hero activeHero = HeroManager.Instance.ActiveHero;
-
-            if (activeHero == null)
+            if (visualTransform == null || !mirrorWhenTargetToTheLeft)
                 return;
 
-            Vector3 direction = (activeHero.transform.position - transform.position).normalized;
-
-            Vector2 TargetPosition = activeHero.transform.position - direction * directStoppingDistance;
-
-            float distance = Vector2.Distance(TargetPosition, rb.position);
-
-            if (distance == 0)
-                return;
-
-            Vector2 moveVector = Speed * Time.fixedDeltaTime * direction;
-
-            if (moveVector.sqrMagnitude > distance * distance)
-            {
-                rb.MovePosition(TargetPosition);
-            }
-            else
-            {
-                rb.MovePosition(moveVector + rb.position);
-            }
-
-            if(visualTransform != null && mirrorWhenTargetToTheLeft)
-            {
-                if (moveVector.x > 0)
-                {
-                    visualTransform.localScale = new Vector3(initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
-                }
-                else
-                {
-                    visualTransform.localScale = new Vector3(-initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
-                }
-            }
+            visualTransform.localScale = new Vector3((xMovement > 0 ? 1 : -1 ) * initialXScale, visualTransform.localScale.y, visualTransform.localScale.z);
         }
     }
 }

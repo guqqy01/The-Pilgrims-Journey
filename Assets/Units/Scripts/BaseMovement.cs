@@ -16,6 +16,16 @@ public abstract class BaseMovement : MonoBehaviour
 
     public Rigidbody2D rb { protected set; get; }
 
+    public bool Moving { set; get; } = true;
+
+    public bool AtTargetPosition
+    {
+        get
+        {
+            return GetIfAtTargetPosition();
+        }
+    }
+
     protected virtual void Awake()
     {
         if(visualTransform != null)
@@ -40,10 +50,15 @@ public abstract class BaseMovement : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if (!Moving)
+            return;
+
         HandleFixedUpdateMovement();
     }
 
     public abstract void HandleFixedUpdateMovement();
+
+    protected abstract bool GetIfAtTargetPosition();
 
     private void HandleAdditionalTimedBuff()
     {

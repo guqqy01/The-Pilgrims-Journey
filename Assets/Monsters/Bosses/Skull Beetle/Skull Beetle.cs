@@ -77,11 +77,6 @@ namespace Monsters
             }
         }
 
-        private void HandleSpawnShieldOrbs()
-        {
-            
-        }
-
         public void FromAnimatorShootProjectiles()
         {
             if (HeroManager.Instance.ActiveHero == null)

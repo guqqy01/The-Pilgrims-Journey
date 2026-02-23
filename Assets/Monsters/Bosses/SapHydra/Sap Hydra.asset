@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Sap Hydra
   summary: Big bad guy
-  description: quite then big bad guy
+  description: quite the big bad guy
   sprite: {fileID: 9201089360226870837, guid: cd54315a5682db44e8d09b6cb2ce6a45, type: 3}
   prefab: {fileID: -2171456752396955241, guid: 4fc87dbac8bb0c64d9c54d94026938ba, type: 3}
   size: {x: 3, y: 3}
   movementType: 0
   movementSpeed: 1
-  health: 50
-  shield: 20
-  shieldCooldown: 6
-  shieldRegeneration: 1
+  health: 500
+  shield: 200
+  shieldCooldown: 5
+  shieldRegeneration: 0.5

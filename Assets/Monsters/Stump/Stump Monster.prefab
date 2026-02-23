@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1729947601315022640}
   - component: {fileID: 7198392524472754871}
   - component: {fileID: 7940217677454814008}
-  - component: {fileID: 3799841092788156277}
   - component: {fileID: 1066040152469048916}
   - component: {fileID: 669447232774169832}
   - component: {fileID: 3927271593214692764}
@@ -21,6 +20,7 @@ GameObject:
   - component: {fileID: 537846680898563994}
   - component: {fileID: 734443397913311538}
   - component: {fileID: 740907183039731}
+  - component: {fileID: 7401381062099899489}
   m_Layer: 12
   m_Name: Stump Monster
   m_TagString: Untagged
@@ -151,25 +151,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3799841092788156277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 608093838665869098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
-  visualTransform: {fileID: 5667121558266182341}
-  directTargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 32832
-  directStoppingDistance: 0
-  movementType: 1
-  mirrorWhenTargetToTheLeft: 0
 --- !u!114 &1066040152469048916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85432af488da79e47b47efd5b339dd54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.StumpMonster
-  range: 3
-  targetMask:
+  rangeToFindTarget: 3
+  findTargetMask:
     serializedVersion: 2
     m_Bits: 32832
-  ani: {fileID: 7198392524472754871}
+  animator: {fileID: 7198392524472754871}
 --- !u!114 &669447232774169832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +302,24 @@ MonoBehaviour:
     maxLimit: 5
     start: 1
     length: 2
+--- !u!114 &7401381062099899489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608093838665869098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c535e47c6dee8d468dc3321bd06a494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Monsters.DirectMonsterMovement
+  visualTransform: {fileID: 5667121558266182341}
+  mirrorWhenTargetToTheLeft: 1
+  directTargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  directStoppingDistance: 0
 --- !u!1001 &3971554817273352068
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,6 +337,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -351,6 +354,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}

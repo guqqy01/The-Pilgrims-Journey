@@ -33,7 +33,7 @@ namespace Monsters
 
         private void HandleStationaryDeath(Monster m)
         {
-            if (!m.TryGetComponent(out MonsterMovement movement))
+            if (!m.TryGetComponent(out StationaryMonsterMovement movement))
                 return;
 
             Vector2Int pos = movement.StationaryPosition;

@@ -19,8 +19,16 @@ namespace DialogueSystem
         [SerializeField]
         private Button button;
 
+        private bool clicked;
+
         public void OnClick()
         {
+            if (clicked)
+            {
+                button.interactable = false;
+                return;
+            }
+
             response.GoneDownPromptPath = true;
             DialogueManager.AddDialogueHistory(response.response);
             response.responseEvent.Raise("Response");
@@ -37,10 +45,14 @@ namespace DialogueSystem
             {
                 DialogueManager.CompleteCurrentDialogue();
             }
+
+            clicked = true;
+            button.interactable = false;
         }
 
         public void Setup(DialogueManager dialogueManager, PromptResponse response)
         {
+            clicked = false;
             this.response = response;
             DialogueManager = dialogueManager;
             responseText.text = response.response;

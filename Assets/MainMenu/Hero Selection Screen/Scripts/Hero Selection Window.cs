@@ -76,7 +76,7 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
 
         GameManager.Instance.StartNewJourney(heroSO);
 
-        WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, TimeManager.Instance.OverrideUnpauseTime);
+        WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());
     }
 
     

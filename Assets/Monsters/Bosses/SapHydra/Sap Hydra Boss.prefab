@@ -14,10 +14,13 @@ GameObject:
   - component: {fileID: 8159676589301376512}
   - component: {fileID: 2055764091639679189}
   - component: {fileID: 3275587002273573101}
-  - component: {fileID: 7232546740907649666}
   - component: {fileID: 3469759198544345358}
   - component: {fileID: 6387184386242238071}
   - component: {fileID: 4616395715166032218}
+  - component: {fileID: 3964044229897788002}
+  - component: {fileID: 3205683253513830115}
+  - component: {fileID: 5664748496191993543}
+  - component: {fileID: 7378953299825782563}
   m_Layer: 12
   m_Name: Sap Hydra Boss
   m_TagString: Untagged
@@ -85,8 +88,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1034681899
-  m_SortingLayer: 3
+  m_SortingLayerID: 480325165
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_Sprite: {fileID: 9201089360226870837, guid: cd54315a5682db44e8d09b6cb2ce6a45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -111,11 +114,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ec1d95faec62b4990892207893e50a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 15
-  targetMask:
+  rangeToFindTarget: 15
+  findTargetMask:
     serializedVersion: 2
-    m_Bits: 64
-  ani: {fileID: 8159676589301376512}
+    m_Bits: 32832
+  animator: {fileID: 8159676589301376512}
   audioSource: {fileID: 2055764091639679189}
   projectileSpeed: 5
   projectileTurnSpeed: 10
@@ -177,7 +180,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         m_ConstantMin: 0
         m_ConstantMax: 1
-  knockbackMultiplier: 0
+  knockbackMultiplier: 1
   rapidAttackDamage: 1
   minAndMaxTimeToDoRapidAttack: {x: 3, y: 5}
   multishotAttackDamage: 1
@@ -313,7 +316,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4232727847357412824}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -331,26 +334,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &7232546740907649666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4232727847357412824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
-  visualTransform: {fileID: 0}
-  StationaryPosition: {x: 0, y: 0}
-  directTargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  directStoppingDistance: 0
-  movementType: 0
+  m_Constraints: 4
 --- !u!114 &3469759198544345358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +372,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8af59a99d23f942b7e140558f9de5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthAndShieldManager
+--- !u!61 &3964044229897788002
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232727847357412824}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.007760763, y: -0.35700262}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 2.9375}
+    newSize: {x: 0.48, y: 0.47}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.5188231, y: 2.2234948}
+  m_EdgeRadius: 0
+--- !u!114 &3205683253513830115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232727847357412824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c0a2e734c18f74bb05f6b7ee8ae99b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.ExperienceOrbDropper
+  experienceWorth:
+    minLimit: 100
+    maxLimit: 500
+    start: 150
+    length: 100
+--- !u!114 &5664748496191993543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232727847357412824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
+  knockBackSpeed: 1
+  knockBackDuration: 0.2
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+--- !u!114 &7378953299825782563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232727847357412824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ffc8e4ab8a94ff4c8b1b3b3b01327fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Monsters.StationaryMonsterMovement
+  visualTransform: {fileID: 7139957204314646235}
+  mirrorWhenTargetToTheLeft: 1
 --- !u!1001 &3820215309968361552
 PrefabInstance:
   m_ObjectHideFlags: 0

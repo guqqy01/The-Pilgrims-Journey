@@ -15,7 +15,7 @@ namespace Monsters
     {
         private WeightMap weightMap;
 
-        private Monster SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
+        public Monster SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
         {
             if (monsterSO == null || monsterSO.prefab == null)
                 return null;

@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 4853730080817472106}
   - component: {fileID: 3019113797934983628}
   - component: {fileID: 293350617359689474}
-  - component: {fileID: 8527300395849525213}
   - component: {fileID: 6495602782445255804}
   - component: {fileID: 5576585235031850374}
+  - component: {fileID: 1344650795149287947}
   m_Layer: 12
   m_Name: Sap Shooter
   m_TagString: Untagged
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 1709180350, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -136,17 +136,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1c647d5289f8c49b849bfceb772622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3.5
-  targetMask:
+  rangeToFindTarget: 3.5
+  findTargetMask:
     serializedVersion: 2
     m_Bits: 32832
-  ani: {fileID: 4957495057371097058}
+  animator: {fileID: 4957495057371097058}
   audioSource: {fileID: 4861480678793185777}
   attackSpeed: 1
   projectileSpeed: 6
   projectileTurnSpeed: 10
   damage: 1
-  knockbackMultiplier: 0
+  knockbackMultiplier: 0.5
   projectile: {fileID: 2067198908419732263, guid: f8b4233d2ec11014c969b3d153a08be2, type: 3}
   target: {fileID: 0}
 --- !u!114 &6334555571237156668
@@ -177,7 +177,6 @@ MonoBehaviour:
   knockBackDuration: 0.2
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.1
-  damagePopupPrefab: {fileID: 3616214638791460713, guid: f26cfdc90fcec80428d02d590d2b8146, type: 3}
 --- !u!114 &4853730080817472106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,26 +229,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8527300395849525213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4957495057371097057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
-  visualTransform: {fileID: 4957495057371096988}
-  StationaryPosition: {x: 0, y: 0}
-  directTargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  directStoppingDistance: 0
-  movementType: 0
-  mirrorWhenTargetToTheLeft: 0
 --- !u!58 &6495602782445255804
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -303,6 +282,20 @@ MonoBehaviour:
     maxLimit: 5
     start: 1
     length: 2
+--- !u!114 &1344650795149287947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4957495057371097057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ffc8e4ab8a94ff4c8b1b3b3b01327fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Monsters.StationaryMonsterMovement
+  visualTransform: {fileID: 4957495057371096988}
+  mirrorWhenTargetToTheLeft: 0
 --- !u!1 &6795605464711786627
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +442,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -462,6 +459,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}

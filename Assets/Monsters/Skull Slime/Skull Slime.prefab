@@ -568,7 +568,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2327789788930495362}
   - component: {fileID: 7884914421685287635}
-  - component: {fileID: 4298195587729711400}
   - component: {fileID: 3936140286809718750}
   - component: {fileID: 8420232417412304343}
   - component: {fileID: 4545701797785649344}
@@ -576,6 +575,7 @@ GameObject:
   - component: {fileID: 2116941925107198043}
   - component: {fileID: 6167861658862398802}
   - component: {fileID: 1936421918602381769}
+  - component: {fileID: 6519323085588954316}
   m_Layer: 12
   m_Name: Skull Slime
   m_TagString: Untagged
@@ -627,25 +627,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4298195587729711400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5804196276765678143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e06d1134c8b90408cc13af1b46be6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterMovement
-  visualTransform: {fileID: 3622240147882513081}
-  directTargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  directStoppingDistance: 0
-  movementType: 1
-  mirrorWhenTargetToTheLeft: 1
 --- !u!114 &3936140286809718750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,11 +676,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50dd0c72449df0a449e58a75086be0c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.SkullSlime
-  range: 3
-  targetMask:
+  rangeToFindTarget: 3
+  findTargetMask:
     serializedVersion: 2
     m_Bits: 32768
-  ani: {fileID: 209680096813346734}
+  animator: {fileID: 209680096813346734}
 --- !u!114 &2116941925107198043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,6 +732,24 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 32832
+--- !u!114 &6519323085588954316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5804196276765678143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c535e47c6dee8d468dc3321bd06a494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Monsters.DirectMonsterMovement
+  visualTransform: {fileID: 3622240147882513081}
+  mirrorWhenTargetToTheLeft: 1
+  directTargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  directStoppingDistance: 0
 --- !u!1 &6013579093196881789
 GameObject:
   m_ObjectHideFlags: 0

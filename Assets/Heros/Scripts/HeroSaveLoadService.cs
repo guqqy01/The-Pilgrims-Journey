@@ -18,6 +18,8 @@ namespace Heros
 
         public string SaveFileName => "HeroManager";
 
+        private bool loading;
+
         [Serializable]
         public class SaveData : SaveProfileData
         {
@@ -33,6 +35,14 @@ namespace Heros
         }
 
         public void Save()
+        {
+            if (loading)
+                return;
+
+            WaitForHelper.WaitForConditionThenPerformAction(() => !loading, () => SaveAfterLoad());
+        }
+
+        private void SaveAfterLoad()
         {
             if (heroManager == null) heroManager = HeroManager.Instance;
 
@@ -94,11 +104,14 @@ namespace Heros
 
         public void Load()
         {
+            loading = true;
+
             if (heroManager == null) heroManager = HeroManager.Instance;
 
             if (!SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outProfile))
             {
                 Debug.LogWarning("[HeroPersistence] No hero save found");
+                loading = false;
                 return;
             }
 
@@ -106,6 +119,7 @@ namespace Heros
             if (saveData == null)
             {
                 Debug.LogWarning("[HeroPersistence] Hero save payload null");
+                loading = false;
                 return;
             }
 
@@ -120,6 +134,7 @@ namespace Heros
             else
             {
                 Debug.LogWarning("[HeroPersistence] Could not resolve HeroSO from save. Hero selection skipped.");
+                loading = false;
                 return;
             }
 
@@ -131,7 +146,7 @@ namespace Heros
 
         private bool CheckInstancesSetup()
         {
-            return HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null;
+            return HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null && HeroAttacksManager.Instance != null && heroManager.Stats != null;
         }
 
         private void LoadOther()
@@ -140,16 +155,15 @@ namespace Heros
             HeroStatBuffsManager.Instance.Load();
 
             // Bind the container so buffs apply to runtime stats
-            if (heroManager.Stats != null)
-            {
-                HeroStatBuffsManager.Instance.Bind(heroManager.Stats);
-            }
+            HeroStatBuffsManager.Instance.Bind(heroManager.Stats);
 
             // Reapply equipment-based buffs
             HeroEquipmentManager.Instance.ApplyEquipmentBuffs();
 
             // Load attacks (they will reapply when hero exists)
-            HeroAttacksManager.Instance?.Load();
+            HeroAttacksManager.Instance.Load();
+
+            loading = false;
         }
     }
 }
