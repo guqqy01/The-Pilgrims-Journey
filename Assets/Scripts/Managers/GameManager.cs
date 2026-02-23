@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     #endregion
 
-    
 
     public void CompleteLevel()
     {
@@ -191,6 +190,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
             Level = saveData.Level;
             currentSeed = saveData.Seed;
 
+            Debug.Log("Call Load");
             InterfaceCaller.CallInterfaces<IOnLoad>(x => x.Load());
         }
         else

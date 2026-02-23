@@ -12,7 +12,7 @@ namespace Heros
     // - Save/Load hero base data (HeroSO reference + stats)
     // - Trigger HeroStatBuffsManager and HeroEquipmentManager to load/bind/apply in a deterministic order
     // - Keep logs concise and readable for debugging
-    public class HeroSaveLoadService : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad
+    public class HeroSaveLoadService : MonoBehaviour, ISaveLoad, IOnSave, IOnLoad, IOnLoadAfterMapPointSceneLoad
     {
         private HeroManager heroManager;
 
@@ -44,6 +44,8 @@ namespace Heros
 
         private void SaveAfterLoad()
         {
+            Debug.Log("Save");
+
             if (heroManager == null) heroManager = HeroManager.Instance;
 
             var data = new SaveData();
@@ -106,6 +108,8 @@ namespace Heros
         {
             loading = true;
 
+            Debug.Log("Begin Load");
+
             if (heroManager == null) heroManager = HeroManager.Instance;
 
             if (!SaveManager.TryLoad(SaveFileName, out SaveProfile<SaveData> outProfile))
@@ -164,6 +168,12 @@ namespace Heros
             HeroAttacksManager.Instance.Load();
 
             loading = false;
+            Debug.Log("End Load");
+        }
+
+        public void LoadAfterMapPointSceneLoad()
+        {
+            Load();
         }
     }
 }
