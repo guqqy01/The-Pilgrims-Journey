@@ -7,19 +7,23 @@ namespace LocalMap
     [CreateAssetMenu()]
     public class LocalMapGenerationSettings : ScriptableObject
     {
-        [SerializeField]
         public WeightedChanceList<Sprite> baseTiles;
 
-        [SerializeField]
         public AutoBaseTiles autoBaseTiles;
 
-        [SerializeField]
         public WeightedChanceList<Sprite> pathTiles;
 
         public List<OverlayMapObject> mapObjects;
 
-        [SerializeField]
         public List<TerrainNoise> terrainNoiseLists;
+
+        public Vector2 pathWidthRange = new Vector2(1f, 3f);
+
+        public Vector2 pathNoiseScale = new Vector2(50f, 50f);
+
+        public Vector2 pathNoiseTiling;
+
+        public float cullingAmount = 0.2f;
 
         public void SetupSeeds()
         {

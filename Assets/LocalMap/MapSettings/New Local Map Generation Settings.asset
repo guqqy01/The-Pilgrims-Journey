@@ -85,7 +85,7 @@ MonoBehaviour:
     TopCenterOutline: {fileID: -279746236, guid: 375230237df55ab45b69587840a8d73a, type: 3}
     TopRightOutline: {fileID: 8615210923307656285, guid: 375230237df55ab45b69587840a8d73a, type: 3}
     TopAndLeftOutline: {fileID: 2036788486, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopAndRightOutline: {fileID: -3491790923311383947, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopAndRightOutline: {fileID: -1525412736, guid: 375230237df55ab45b69587840a8d73a, type: 3}
     CenterLeftOutline: {fileID: -1813908198, guid: 375230237df55ab45b69587840a8d73a, type: 3}
     CenterRightOutline: {fileID: -3491790923311383947, guid: 375230237df55ab45b69587840a8d73a, type: 3}
     BottomAndLeftOutline: {fileID: 697377541, guid: 375230237df55ab45b69587840a8d73a, type: 3}
@@ -749,3 +749,7 @@ MonoBehaviour:
               m_RotationOrder: 0
             m_ConstantMin: 0
             m_ConstantMax: 1
+  pathWidthRange: {x: 1, y: 1.5}
+  pathNoiseScale: {x: 0.8, y: 0.8}
+  pathNoiseTiling: {x: 0, y: 0}
+  cullingAmount: 0.3

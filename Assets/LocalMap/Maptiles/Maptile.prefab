@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d411cac1b0afb468719e7247b80eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graphic: {fileID: 418317731535794501}
   highlight: {fileID: 590484780988136708}
   highlightLeft: {fileID: 3893763548045455575}
   highlightUp: {fileID: 2182067574819383933}
@@ -63,7 +64,6 @@ MonoBehaviour:
   highlightRightUpCorner: {fileID: 4599605665917385379}
   highlightLeftDownCorner: {fileID: 6666903855730297788}
   highlightRightDownCorner: {fileID: 5138849082071976894}
-  graphic: {fileID: 418317731535794501}
 --- !u!1001 &544522494890374611
 PrefabInstance:
   m_ObjectHideFlags: 0

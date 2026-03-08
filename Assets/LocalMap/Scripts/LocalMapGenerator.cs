@@ -6,6 +6,7 @@ using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using GlobalMap;
 using Heros;
+using Unity.VisualScripting;
 namespace LocalMap
 {
     public class LocalMapGenerator : Singleton<LocalMapGenerator>, IOnClear, IOnCreateLocalMap
@@ -482,6 +483,8 @@ namespace LocalMap
 
             generationSettings.SetupSeeds();
 
+            bool[,] pathGrid = GetPathGrid();
+
             for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
                 for (int yPos = 0; yPos < mapSizeY; yPos++)
@@ -490,9 +493,30 @@ namespace LocalMap
 
                     Vector2Int position = new Vector2Int(xPos, yPos);
 
-                    if (pathway.ContainsStep(position))
+                    if (pathGrid[xPos, yPos])
                     {
                         mapTile.Init(generationSettings.GetPathTileSprite(), position);
+
+                        Grid3x3<bool> boolGrid = new Grid3x3<bool>();
+
+                        //Top
+                        //(xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
+
+                        boolGrid.TopLeft = xPos - 1 < 0 || yPos + 1 >= MapSizeY ? false : !pathGrid[xPos - 1, yPos + 1];
+                        boolGrid.TopCenter = yPos + 1 >= MapSizeY ? false : !pathGrid[xPos, yPos + 1];
+                        boolGrid.TopRight = xPos + 1 >= MapSizeX || yPos + 1 >= MapSizeY ? false : !pathGrid[xPos + 1, yPos + 1];
+
+                        //Center
+
+                        boolGrid.CenterLeft = xPos - 1 < 0 ? false : !pathGrid[xPos - 1, yPos];
+                        boolGrid.CenterRight = xPos + 1 >= MapSizeX ? false : !pathGrid[xPos + 1, yPos];
+
+                        //Bottom
+                        boolGrid.BottomLeft = xPos - 1 < 0 || yPos - 1 < 0 ? false : !pathGrid[xPos - 1, yPos - 1];
+                        boolGrid.BottomCenter = yPos - 1 < 0 ? false : !pathGrid[xPos, yPos - 1];
+                        boolGrid.BottomRight = xPos + 1 >= MapSizeX || yPos - 1 < 0 ? false : !pathGrid[xPos + 1, yPos - 1];
+
+                        mapTile.SetupAutoTiles(generationSettings.autoBaseTiles, boolGrid);
                     }
                     else
                     {
@@ -502,6 +526,155 @@ namespace LocalMap
                     Tiles[xPos, yPos] = mapTile;
                 }
             }
+        }
+
+        private bool[,] GetPathGrid()
+        {
+            bool[,] returnGrid = new bool[mapSizeX, mapSizeY];
+
+            bool[,] mainPathGrid = new bool[mapSizeX, mapSizeY];
+            float[,] noiseGrid = new float[mapSizeX, mapSizeY];
+
+            for (int xPos = 0; xPos < mapSizeX; xPos++)
+            {
+                for (int yPos = 0; yPos < mapSizeY; yPos++)
+                {
+                    bool containsStep = pathway.ContainsStep(new Vector2Int(xPos, yPos));
+                    mainPathGrid[xPos, yPos] = containsStep;
+                    noiseGrid[xPos, yPos] = containsStep ? 1f : 0f;
+                }
+            }
+
+            for (int xPos = 0; xPos < mapSizeX; xPos++)
+            {
+                for (int yPos = 0; yPos < mapSizeY; yPos++)
+                {
+                    if(mainPathGrid[xPos, yPos])
+                    {
+                        Blur(xPos, yPos, generationSettings.pathWidthRange.Min(), generationSettings.pathWidthRange.Max());
+                    }
+                }
+            }
+
+            for (int xPos = 0; xPos < mapSizeX; xPos++)
+            {
+                for (int yPos = 0; yPos < mapSizeY; yPos++)
+                {
+                    Noise(xPos, yPos);
+                }
+            }
+
+            for (int xPos = 0; xPos < mapSizeX; xPos++)
+            {
+                for (int yPos = 0; yPos < mapSizeY; yPos++)
+                {
+                    noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], mainPathGrid[xPos, yPos] ? 1 : 0);
+                }
+            }
+
+            for (int xPos = 0; xPos < mapSizeX; xPos++)
+            {
+                for (int yPos = 0; yPos < mapSizeY; yPos++)
+                {
+                    returnGrid[xPos, yPos] = noiseGrid[xPos, yPos] >= generationSettings.cullingAmount;
+                }
+            }
+
+            void Blur(int startXPos, int startYPos, float minRange, float maxRange)
+            {
+                for (int xPos = startXPos - Mathf.FloorToInt(minRange); xPos <= startXPos + minRange; xPos++)
+                {
+                    for (int yPos = startYPos - Mathf.FloorToInt(minRange); yPos <= startYPos + minRange; yPos++)
+                    {
+                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
+                            continue;
+
+                        noiseGrid[xPos, yPos] = 1f;
+                    }
+                }
+
+                for (int xPos = startXPos - Mathf.FloorToInt(maxRange); xPos <= startXPos - minRange; xPos++)
+                {
+                    for (int yPos = startYPos - Mathf.FloorToInt(maxRange); yPos <= startYPos - minRange; yPos++)
+                    {
+                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
+                            continue;
+
+                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
+
+                        float range = relativePos.magnitude;
+
+                        float t = Mathf.InverseLerp(minRange, maxRange, range);
+
+                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
+                    }
+                }
+
+                for (int xPos = startXPos + Mathf.FloorToInt(minRange); xPos <= startXPos + maxRange; xPos++)
+                {
+                    for (int yPos = startYPos + Mathf.FloorToInt(minRange); yPos <= startYPos + maxRange; yPos++)
+                    {
+                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
+                            continue;
+
+                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
+
+                        float range = relativePos.magnitude;
+
+                        float t = Mathf.InverseLerp(minRange, maxRange, range);
+
+                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
+                    }
+                }
+                
+                for (int xPos = startXPos + Mathf.FloorToInt(minRange); xPos <= startXPos + maxRange; xPos++)
+                {
+                    for (int yPos = startYPos - Mathf.FloorToInt(maxRange); yPos <= startYPos - minRange; yPos++)
+                    {
+                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
+                            continue;
+
+                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
+
+                        float range = relativePos.magnitude;
+
+                        float t = Mathf.InverseLerp(minRange, maxRange, range);
+
+                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
+                    }
+                }
+
+                for (int xPos = startXPos - Mathf.FloorToInt(maxRange); xPos <= startXPos - minRange; xPos++)
+                {
+                    for (int yPos = startYPos + Mathf.FloorToInt(minRange); yPos <= startYPos + maxRange; yPos++)
+                    {
+                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
+                            continue;
+
+                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
+
+                        float range = relativePos.magnitude;
+
+                        float t = Mathf.InverseLerp(minRange, maxRange, range);
+
+                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
+                    }
+                }
+            }
+
+            void Noise(int xPos, int yPos)
+            {
+                float noiseX = xPos * generationSettings.pathNoiseScale.x + generationSettings.pathNoiseTiling.x;
+                float noiseY = yPos * generationSettings.pathNoiseScale.y + generationSettings.pathNoiseTiling.y;
+
+                float noise = Mathf.PerlinNoise(noiseX, noiseY);
+
+                noiseGrid[xPos, yPos] *= noise;
+                //Debug.Log($"XPos: {xPos}, YPos: {yPos}, XNoisePos: {noiseX}, YNoisePos: {noiseY}, Noise: {noise}");
+                //noiseGrid[xPos, yPos] = noise;
+            }
+
+            return returnGrid;
         }
 
         private void DestoryRoadSigns()
