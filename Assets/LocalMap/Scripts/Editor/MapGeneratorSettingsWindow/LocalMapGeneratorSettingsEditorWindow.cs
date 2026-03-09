@@ -155,6 +155,8 @@ namespace LocalMap
                     ShowPathTilesSubTab(); break;
             }
 
+            //ShowPathNoiseSettings();
+
             void ShowMapTilesSubTab()
             {
                 if (_generationSettings == null || _baseTilesList == null)
@@ -171,6 +173,40 @@ namespace LocalMap
                 _pathTilesList.DoList(BaseTilePropertyRect);
             }
         }
+
+        /*private void ShowPathNoiseSettings()
+        {
+            if (_generationSettings == null || _serializedObject == null) return;
+
+            _serializedObject.Update();
+
+            float lineH = EditorGUIUtility.singleLineHeight;
+            float spacing = 2f;
+
+            // Position below the list content
+            Rect baseRect = new Rect(ContentExcludingMainToolbarRect);
+
+            // We need to offset below whichever list is showing - use a fixed offset or calculate
+            float listHeight = _baseTilesToolbarIndex == 0
+                ? (_baseTilesList?.GetHeight() ?? 0f)
+                : (_pathTilesList?.GetHeight() ?? 0f);
+
+            float yStart = MainToolbarRect.yMax + 2f * EditorGUIUtility.singleLineHeight + listHeight + 8f;
+
+            Rect labelRect = new Rect(baseRect) { yMin = yStart, height = lineH };
+            Rect pathWidthRect = new Rect(baseRect) { yMin = labelRect.yMax + spacing, height = lineH };
+            Rect pathNoiseScaleRect = new Rect(baseRect) { yMin = pathWidthRect.yMax + spacing, height = lineH };
+            Rect pathNoiseTilingRect = new Rect(baseRect) { yMin = pathNoiseScaleRect.yMax + spacing, height = lineH };
+            Rect cullingRect = new Rect(baseRect) { yMin = pathNoiseTilingRect.yMax + spacing, height = lineH };
+
+            EditorGUI.LabelField(labelRect, "Path Noise Settings", EditorStyles.boldLabel);
+            EditorGUI.PropertyField(pathWidthRect, _serializedObject.FindProperty("pathWidthRange"));
+            EditorGUI.PropertyField(pathNoiseScaleRect, _serializedObject.FindProperty("pathNoiseScale"));
+            EditorGUI.PropertyField(pathNoiseTilingRect, _serializedObject.FindProperty("pathNoiseTiling"));
+            EditorGUI.PropertyField(cullingRect, _serializedObject.FindProperty("cullingAmount"));
+
+            _serializedObject.ApplyModifiedProperties();
+        }*/
 
         private void DrawBaseTile(Rect rect, SerializedProperty baseTileProperty, int index)
         {
@@ -340,6 +376,9 @@ namespace LocalMap
 
         private void DrawTerrainNoiseElement(Rect rect, SerializedProperty terrainNoiseProperty, int index)
         {
+            if (terrainNoiseProperty == null)
+                return;
+
             SerializedProperty nameProperty = terrainNoiseProperty.FindPropertyRelative("name");
             SerializedProperty priorityProperty = terrainNoiseProperty.FindPropertyRelative("priority");
             SerializedProperty scaleProperty = terrainNoiseProperty.FindPropertyRelative("scale");
@@ -390,6 +429,13 @@ namespace LocalMap
 
             _serializedObject.Update();
             EditorGUI.PropertyField(rect, perlinNoiseRangeSerializedProperty);
+            /*float xValue = perlinNoiseRangeSerializedProperty.vector2Value.x;
+            float yValue = perlinNoiseRangeSerializedProperty.vector2Value.y;
+            GUIContent label = new GUIContent(perlinNoiseRangeSerializedProperty.displayName);
+            EditorGUI.MinMaxSlider(rect, label, ref xValue, ref yValue, 0f, 1f);
+
+            perlinNoiseRangeSerializedProperty.vector2Value = new Vector2(xValue, yValue);*/
+
             _serializedObject.ApplyModifiedProperties();
 
             SetupTerrainNoiseSpriteLists(spriteListSerializedProperty, terrainNoiseIndex, 64f);
@@ -523,7 +569,7 @@ namespace LocalMap
 
             previewSettings = (MapGenerationPreviewSettings)EditorGUI.EnumFlagsField(enumRect, previewSettings);
 
-            if (previewSettings.HasFlag(MapGenerationPreviewSettings.TerrainNoise))
+            if (previewSettings.HasFlag(MapGenerationPreviewSettings.TerrainNoise) && terrainNoiseNames.Length > 0)
             {
                 Rect terrainRect = new Rect(enumRect) { position = enumRect.position + new Vector2(0, enumRect.height + 2f) };
 

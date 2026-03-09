@@ -750,6 +750,6 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
   pathWidthRange: {x: 1, y: 1.5}
-  pathNoiseScale: {x: 0.8, y: 0.8}
+  pathNoiseScale: {x: 0.05, y: 0.05}
   pathNoiseTiling: {x: 0, y: 0}
-  cullingAmount: 0.3
+  cullingAmount: 0.2

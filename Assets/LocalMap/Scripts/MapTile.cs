@@ -104,6 +104,7 @@ namespace LocalMap
             highlightRightDownCorner.color = color;
         }
 
+
         public void SetupAutoTiles(AutoBaseTiles autoBaseTiles, Grid3x3<bool> boolGrid)
         {
             //Straights
@@ -188,12 +189,19 @@ namespace LocalMap
 
         public void SpawnAutoTile(Sprite normal, Sprite outline)
         {
-            SpriteRenderer normalTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
-            normalTile.sprite = normal;
-            normalTile.sortingOrder = 1;
-            SpriteRenderer outlineTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
-            outlineTile.sprite = outline;
-            outlineTile.sortingOrder = 2;
+            if(normal != null)
+            {
+                SpriteRenderer normalTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
+                normalTile.sprite = normal;
+                normalTile.sortingOrder = 1;
+            }
+
+            if (outline != null)
+            {
+                SpriteRenderer outlineTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
+                outlineTile.sprite = outline;
+                outlineTile.sortingOrder = 2;
+            }
         }
     }
 }

@@ -1,0 +1,879 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6136bf08549a94f43b24955c8ed7b078, type: 3}
+  m_Name: Desert
+  m_EditorClassIdentifier: 
+  baseTiles:
+    weightedList:
+    - item: {fileID: -898463107, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1662535437, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -826868787, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1887740450, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: -1816528647, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+  autoBaseTiles:
+    TopLeft: {fileID: 971263032, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    TopCenter: {fileID: 1495799813, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    TopRight: {fileID: -2019334304, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    TopAndLeft: {fileID: 1701031663, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    TopAndRight: {fileID: -606150720, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    CenterLeft: {fileID: 845647618, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    CenterRight: {fileID: 2051338097, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    BottomAndLeft: {fileID: 1878497491, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    BottomAndRight: {fileID: -646392619, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    BottomLeft: {fileID: 892783855, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    BottomCenter: {fileID: 1188204486, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    BottomRight: {fileID: 927951942, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    TopLeftOutline: {fileID: 0}
+    TopCenterOutline: {fileID: 0}
+    TopRightOutline: {fileID: 0}
+    TopAndLeftOutline: {fileID: 0}
+    TopAndRightOutline: {fileID: 0}
+    CenterLeftOutline: {fileID: 0}
+    CenterRightOutline: {fileID: 0}
+    BottomAndLeftOutline: {fileID: 0}
+    BottomAndRightOutline: {fileID: 0}
+    BottomLeftOutline: {fileID: 0}
+    BottomCenterOutline: {fileID: 0}
+    BottomRightOutline: {fileID: 0}
+  pathTiles:
+    weightedList:
+    - item: {fileID: 1875037000, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 1988396242, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 0
+  mapObjects:
+  - name: Tent
+    overlay: {fileID: 8242683995244539426, guid: a450f8bff03132a44a1b000dec0e7977, type: 3}
+    size: {x: 3, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: Cactus 1
+    overlay: {fileID: 7080116926586565512, guid: d5a1664d4ded84644b8649fc8f6967f4, type: 3}
+    size: {x: 1, y: 2}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: Cactus 2
+    overlay: {fileID: 7696464368552521557, guid: cb4c82a755b3db84cba442e3586a6b2c, type: 3}
+    size: {x: 1, y: 2}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: Tree 1
+    overlay: {fileID: 7575542835595703117, guid: 4c97a8c7dea7a3c4e9a1eace9c29165b, type: 3}
+    size: {x: 2, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: Tree 2
+    overlay: {fileID: 53022298986774726, guid: 01d7084edad784e448359f4be0545f4a, type: 3}
+    size: {x: 2, y: 3}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - name: Tree 2
+    overlay: {fileID: 4042626194561515889, guid: 2a4578a46e46ea7419b975b54a3579b7, type: 3}
+    size: {x: 3, y: 4}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  terrainNoiseLists:
+  - name: Rocks 1
+    priority: 2
+    scale: {x: 0.2, y: 0.2}
+    items:
+    - perlinNoiseRange: {x: 0.2, y: 0.25}
+      list:
+        weightedList:
+        - item: {fileID: 1830192241, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: -2052003121, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.25, y: 0.35}
+      list:
+        weightedList:
+        - item: {fileID: 518821306, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: -582284037, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 523315417, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+  - name: Rocks 2
+    priority: 1
+    scale: {x: 0.2, y: 0.2}
+    items:
+    - perlinNoiseRange: {x: 0, y: 0.15}
+      list:
+        weightedList:
+        - item: {fileID: -832100134, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: -438809010, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 214870765, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+  - name: Grass
+    priority: 0
+    scale: {x: 0.2, y: 0.2}
+    items:
+    - perlinNoiseRange: {x: 0, y: 0.2}
+      list:
+        weightedList:
+        - item: {fileID: -659925621, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 2
+        - item: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.2, y: 0.25}
+      list:
+        weightedList:
+        - item: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.25, y: 0.3}
+      list:
+        weightedList:
+        - item: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: -573964703, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 3
+  - name: Flowers 1
+    priority: 0
+    scale: {x: 0.2, y: 0.2}
+    items:
+    - perlinNoiseRange: {x: 0, y: 0.2}
+      list:
+        weightedList:
+        - item: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 5
+        - item: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.2, y: 0.25}
+      list:
+        weightedList:
+        - item: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.25, y: 0.3}
+      list:
+        weightedList:
+        - item: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 5
+  - name: Flowers 2
+    priority: 0
+    scale: {x: 0.2, y: 0.2}
+    items:
+    - perlinNoiseRange: {x: 0, y: 0.2}
+      list:
+        weightedList:
+        - item: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 5
+        - item: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.2, y: 0.25}
+      list:
+        weightedList:
+        - item: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.25, y: 0.3}
+      list:
+        weightedList:
+        - item: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 0
+              m_PostInfinity: 0
+              m_RotationOrder: 0
+            m_ConstantMin: 0
+            m_ConstantMax: 5
+  pathWidthRange: {x: 1, y: 1.5}
+  pathNoiseScale: {x: 0.05, y: 0.05}
+  pathNoiseTiling: {x: 0, y: 0}
+  cullingAmount: 0.2

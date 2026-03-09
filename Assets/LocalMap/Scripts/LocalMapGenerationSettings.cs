@@ -33,22 +33,7 @@ namespace LocalMap
             }
         }
 
-        public Sprite GetMapTileSprite(Vector2Int position)
-        {
-            terrainNoiseLists.Sort(new Comparison<TerrainNoise>((x, y) => x.priority.CompareTo(y.priority)));
-
-            for (int i = 0; i < terrainNoiseLists.Count; i++)
-            {
-                Sprite sprite = terrainNoiseLists[i].GetTile(position);
-
-                if(sprite != null)
-                    return sprite;
-            }
-
-            return baseTiles.GetRandom(GameManager.Instance.Level);
-        }
-
-        public Sprite GetMapTileSpriteForPreview(Vector2Int position, MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
+        public Sprite GetMapTileSpriteForPreview(Vector2Int position, float? level, MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
         {
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.TerrainNoise) && terrainNoiseIndecies != null && terrainNoiseIndecies.Count > 0)
             {
@@ -71,14 +56,14 @@ namespace LocalMap
             }
 
             if(previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
-                return baseTiles.GetRandom();
+                return level.HasValue ? baseTiles.GetRandom(level.Value): baseTiles.GetRandom();
 
             return null;
         }
 
-        public Sprite GetPathTileSprite()
+        public Sprite GetPathTileSprite(float? level)
         {
-            return pathTiles.GetRandom(GameManager.Instance.Level);
+            return level.HasValue ? pathTiles.GetRandom(level.Value) : pathTiles.GetRandom();
         }
 
     }

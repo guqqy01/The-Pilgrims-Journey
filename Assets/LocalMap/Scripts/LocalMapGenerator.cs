@@ -40,6 +40,11 @@ namespace LocalMap
         public int MapSizeX => mapSizeX;
         public int MapSizeY => mapSizeY;
 
+        /// <summary>
+        /// x and y are positions, returns if part of visual path, which will be bigger than the actual path taken.
+        /// </summary>
+        bool[,] pathGrid;
+
         private int randomTargetDirection 
         {
             get
@@ -85,23 +90,8 @@ namespace LocalMap
         
         public void ShowMapPreview(Camera previewCamera, LocalMapGenerationSettings generationSettings, MapGenerationPreviewSettings previewSettings, List<int> terrainIndecies = null)
         {
-            Clear();
-
-            StartWall = Direction.West;
-
-            if (previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
-            {
-                CreatePath(StartWall, new List<Direction>() { Direction.East }, new List<Direction>());
-                pathway.CreatePaths();
-            }
-
-            GeneratePreviewMap(generationSettings, previewSettings, terrainIndecies);
-
-            if(previewSettings.HasFlag(MapGenerationPreviewSettings.MapObjects))
-            {
-                SpawnMapObjects(generationSettings);
-            }
-
+            this.generationSettings = generationSettings;
+            CreateMap(Direction.West, new List<Direction>() { Direction.East }, new List<Direction>(), UnityEngine.Random.Range(0, 100000), terrainIndecies, previewSettings);
             SetupCamera(previewCamera);
         }
 
@@ -109,43 +99,6 @@ namespace LocalMap
         {
             camera.transform.position = new Vector3(MapSizeX / 2f - 0.5f, MapSizeY / 2f - 0.5f, -10f);
             camera.orthographicSize = MapSizeY / 1.6f;
-        }
-
-        private void GeneratePreviewMap(LocalMapGenerationSettings generationSettings, MapGenerationPreviewSettings previewSettings, List<int> terrainIndecies)
-        {
-            DestroyTiles();
-
-            Tiles = new MapTile[mapSizeX, mapSizeY];
-
-            generationSettings.SetupSeeds();
-
-            for (int i = 0; i < mapSizeX; i++)
-            {
-                for (int j = 0; j < mapSizeY; j++)
-                {
-                    Vector2Int position = new Vector2Int(i, j);
-
-                    MapTile mapTile = null;
-
-                    if (pathway != null && pathway.ContainsStep(position) && previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
-                    {
-                        mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, transform);
-                        mapTile.Init(generationSettings.pathTiles.GetRandom(), position);
-                    }
-                    else
-                    {
-                        Sprite sprite = generationSettings.GetMapTileSpriteForPreview(position, previewSettings, terrainIndecies);
-
-                        if (sprite != null)
-                        {
-                            mapTile = Instantiate(mapTilePrefab, new Vector3(i, j), Quaternion.identity, transform);
-                            mapTile.Init(sprite, position);
-                        }
-                    }
-
-                    Tiles[i, j] = mapTile;
-                }
-            }
         }
 
         #endif
@@ -180,32 +133,58 @@ namespace LocalMap
                 }
             }
 
-            CreateMap(startWall);
+            GlobalMapPoint currentMapPoint = generator.CurrentMapPoint;
+
+            List<Direction> toDirections = currentMapPoint.GetOtherToDirections(startWall);
+            List<Direction> otherFromDirections = currentMapPoint.GetOtherFromDirections(startWall);
+
+            int seed = currentMapPoint.Seed;
+
+            List<int> terrainIndecies = new List<int>();
+
+            for (int i = 0; i < generationSettings.terrainNoiseLists.Count; i++)
+            {
+                terrainIndecies.Add(i);
+            }
+
+            CreateMap(startWall, toDirections, otherFromDirections, seed, terrainIndecies);
         }
 
-        public void CreateMap(Direction startWall)
+        public void CreateMap(Direction startWall, 
+            List<Direction> toDirections, 
+            List<Direction> otherFromDirections, 
+            int seed,
+            List<int> terrainNoiseIndecies = null,
+            MapGenerationPreviewSettings previewSettings = MapGenerationPreviewSettings.MapObjects | 
+                                                                        MapGenerationPreviewSettings.BaseTiles | 
+                                                                        MapGenerationPreviewSettings.TerrainNoise
+            )
         {
             Clear();
 
             StartWall = startWall;
 
-            UnityEngine.Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
+            UnityEngine.Random.InitState(seed);
 
-            LocalCameraMovementManager.Instance.FullZoomCamera();
+            if(LocalCameraMovementManager.Instance != null)
+                LocalCameraMovementManager.Instance.FullZoomCamera();
 
-            occupiedSpots.Clear();
+            if (previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
+            {
+                CreatePath(startWall, toDirections, otherFromDirections);
+                pathway.CreatePaths();
+                PlaceRoadSigns();
+            }
 
-            CreatePath(startWall, GlobalMapGenerator.Instance.CurrentMapPoint.GetOtherToDirections(startWall), GlobalMapGenerator.Instance.CurrentMapPoint.GetOtherFromDirections(startWall));
+            PlaceTiles(previewSettings, terrainNoiseIndecies);
 
-            pathway.CreatePaths();
+            if (previewSettings.HasFlag(MapGenerationPreviewSettings.MapObjects))
+            {
+                SpawnMapObjects(generationSettings);
+            }
 
-            PlaceTiles();
-
-            PlaceRoadSigns();
-
-            SpawnMapObjects(generationSettings);
-
-            PathPicker.Instance.Setup();
+            if (PathPicker.Instance != null)
+                PathPicker.Instance.Setup();
         }
 
         private void DestroyMapObjects()
@@ -245,7 +224,7 @@ namespace LocalMap
                     int xPos = UnityEngine.Random.Range(0, mapSizeX);
                     int yPos = UnityEngine.Random.Range(0, mapSizeY);
 
-                    if (SpotOccupied(new Vector2Int(xPos, yPos), mapObject.size))
+                    if (!SpotOccupied(new Vector2Int(xPos, yPos), mapObject.size, true))
                     {
                         mapObjectGOs.Add(Instantiate(mapObject.overlay, new Vector3(xPos + (mapObject.size.x - 1) / 2f, yPos + (mapObject.size.y - 1) / 2f), Quaternion.identity, transform));
 
@@ -277,17 +256,20 @@ namespace LocalMap
             }
         }
 
-
-        private bool SpotOccupied(Vector2Int point, Vector2Int size)
+        private bool SpotOccupied(Vector2Int point, Vector2Int size, bool useVisualPath)
         {
-            for (int x = 0; x < size.x; x++)
+            for (int xPos = point.x; xPos < point.x + size.x; xPos++)
             {
-                for (int y = 0; y < size.y; y++)
+                for (int yPos = point.y; yPos < point.y + size.y; yPos++)
                 {
-                    if (occupiedSpots.Contains(new Vector2Int(point.x + x, point.y + y)) ||
-                        point.x + x > mapSizeX ||
-                        point.y + y > mapSizeY ||
-                        (pathway != null && pathway.ContainsStep(new Vector2Int(point.x + x, point.y + y))))
+                    if (
+                            occupiedSpots.Contains(new Vector2Int(xPos, yPos)) ||
+                            xPos > mapSizeX ||
+                            yPos > mapSizeY ||
+                            (useVisualPath ? 
+                                pathGrid != null && xPos < pathGrid.GetLength(0) && yPos < pathGrid.GetLength(1) && pathGrid[xPos, yPos] : 
+                                pathway != null && pathway.ContainsStep(new Vector2Int(xPos, yPos)))
+                        )
                     {
                         return true;
                     }
@@ -475,7 +457,7 @@ namespace LocalMap
             }
         }
 
-        private void PlaceTiles()
+        private void PlaceTiles(MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
         {
             DestroyTiles();
 
@@ -483,7 +465,7 @@ namespace LocalMap
 
             generationSettings.SetupSeeds();
 
-            bool[,] pathGrid = GetPathGrid();
+            pathGrid = pathway != null ? GetPathGrid() : null;
 
             for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
@@ -493,37 +475,60 @@ namespace LocalMap
 
                     Vector2Int position = new Vector2Int(xPos, yPos);
 
-                    if (pathGrid[xPos, yPos])
+                    int? level = null;
+                    if (GameManager.Instance != null)
+                        level = GameManager.Instance.Level;
+
+                    if (pathGrid != null && pathGrid[xPos, yPos] && previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
                     {
-                        mapTile.Init(generationSettings.GetPathTileSprite(), position);
+                        mapTile.Init(generationSettings.GetPathTileSprite(level), position);
 
                         Grid3x3<bool> boolGrid = new Grid3x3<bool>();
 
-                        //Top
-                        //(xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
-
-                        boolGrid.TopLeft = xPos - 1 < 0 || yPos + 1 >= MapSizeY ? false : !pathGrid[xPos - 1, yPos + 1];
-                        boolGrid.TopCenter = yPos + 1 >= MapSizeY ? false : !pathGrid[xPos, yPos + 1];
-                        boolGrid.TopRight = xPos + 1 >= MapSizeX || yPos + 1 >= MapSizeY ? false : !pathGrid[xPos + 1, yPos + 1];
-
-                        //Center
-
-                        boolGrid.CenterLeft = xPos - 1 < 0 ? false : !pathGrid[xPos - 1, yPos];
-                        boolGrid.CenterRight = xPos + 1 >= MapSizeX ? false : !pathGrid[xPos + 1, yPos];
-
-                        //Bottom
-                        boolGrid.BottomLeft = xPos - 1 < 0 || yPos - 1 < 0 ? false : !pathGrid[xPos - 1, yPos - 1];
-                        boolGrid.BottomCenter = yPos - 1 < 0 ? false : !pathGrid[xPos, yPos - 1];
-                        boolGrid.BottomRight = xPos + 1 >= MapSizeX || yPos - 1 < 0 ? false : !pathGrid[xPos + 1, yPos - 1];
+                        FillBoolGrid(boolGrid, xPos, yPos);
 
                         mapTile.SetupAutoTiles(generationSettings.autoBaseTiles, boolGrid);
                     }
                     else
                     {
-                        mapTile.Init(generationSettings.GetMapTileSprite(position), position);
+                        mapTile.Init(generationSettings.GetMapTileSpriteForPreview(position, level, previewSettings, terrainNoiseIndecies), position);
                     }
 
                     Tiles[xPos, yPos] = mapTile;
+                }
+            }
+
+            void FillBoolGrid(Grid3x3<bool> boolGrid, int xPos, int yPos)
+            {
+                //Top
+                boolGrid.TopLeft =      DownShiftXValid() ||    UpShiftYValid() ? false : !pathGrid[xPos - 1, yPos + 1];
+                boolGrid.TopCenter =                            UpShiftYValid() ? false : !pathGrid[xPos, yPos + 1];
+                boolGrid.TopRight =     UpShiftXValid()   ||    UpShiftYValid() ? false : !pathGrid[xPos + 1, yPos + 1];
+
+                //Center
+                boolGrid.CenterLeft =   DownShiftXValid() ? false : !pathGrid[xPos - 1, yPos];
+                boolGrid.CenterRight =  UpShiftXValid() ? false : !pathGrid[xPos + 1, yPos];
+
+                //Bottom
+                boolGrid.BottomLeft =   DownShiftXValid() ||    DownShiftYValid() ? false : !pathGrid[xPos - 1, yPos - 1];
+                boolGrid.BottomCenter =                         DownShiftYValid() ? false : !pathGrid[xPos, yPos - 1];
+                boolGrid.BottomRight =  UpShiftXValid() ||      DownShiftYValid() ? false : !pathGrid[xPos + 1, yPos - 1];
+
+                bool DownShiftXValid()
+                {
+                    return xPos - 1 < 0;
+                }
+                bool UpShiftXValid()
+                {
+                    return xPos + 1 >= MapSizeX;
+                }
+                bool DownShiftYValid()
+                {
+                    return yPos - 1 < 0;
+                }
+                bool UpShiftYValid()
+                {
+                    return yPos + 1 >= MapSizeY;
                 }
             }
         }
@@ -545,11 +550,13 @@ namespace LocalMap
                 }
             }
 
+            bool[,] originalPathGrid = (bool[,])mainPathGrid.Clone();
+
             for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
                 for (int yPos = 0; yPos < mapSizeY; yPos++)
                 {
-                    if(mainPathGrid[xPos, yPos])
+                    if (originalPathGrid[xPos, yPos])
                     {
                         Blur(xPos, yPos, generationSettings.pathWidthRange.Min(), generationSettings.pathWidthRange.Max());
                     }
@@ -568,110 +575,51 @@ namespace LocalMap
             {
                 for (int yPos = 0; yPos < mapSizeY; yPos++)
                 {
-                    noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], mainPathGrid[xPos, yPos] ? 1 : 0);
-                }
-            }
-
-            for (int xPos = 0; xPos < mapSizeX; xPos++)
-            {
-                for (int yPos = 0; yPos < mapSizeY; yPos++)
-                {
                     returnGrid[xPos, yPos] = noiseGrid[xPos, yPos] >= generationSettings.cullingAmount;
                 }
             }
 
             void Blur(int startXPos, int startYPos, float minRange, float maxRange)
             {
-                for (int xPos = startXPos - Mathf.FloorToInt(minRange); xPos <= startXPos + minRange; xPos++)
+                int extent = Mathf.FloorToInt(maxRange);
+
+                for (int xPos = startXPos - extent; xPos <= startXPos + extent; xPos++)
                 {
-                    for (int yPos = startYPos - Mathf.FloorToInt(minRange); yPos <= startYPos + minRange; yPos++)
+                    for (int yPos = startYPos - extent; yPos <= startYPos + extent; yPos++)
                     {
                         if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
                             continue;
 
-                        noiseGrid[xPos, yPos] = 1f;
-                    }
-                }
+                        float range = new Vector2(xPos - startXPos, yPos - startYPos).magnitude;
 
-                for (int xPos = startXPos - Mathf.FloorToInt(maxRange); xPos <= startXPos - minRange; xPos++)
-                {
-                    for (int yPos = startYPos - Mathf.FloorToInt(maxRange); yPos <= startYPos - minRange; yPos++)
-                    {
-                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
-                            continue;
+                        if (range > maxRange) continue;
 
-                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
-
-                        float range = relativePos.magnitude;
-
-                        float t = Mathf.InverseLerp(minRange, maxRange, range);
-
-                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
-                    }
-                }
-
-                for (int xPos = startXPos + Mathf.FloorToInt(minRange); xPos <= startXPos + maxRange; xPos++)
-                {
-                    for (int yPos = startYPos + Mathf.FloorToInt(minRange); yPos <= startYPos + maxRange; yPos++)
-                    {
-                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
-                            continue;
-
-                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
-
-                        float range = relativePos.magnitude;
-
-                        float t = Mathf.InverseLerp(minRange, maxRange, range);
-
-                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
-                    }
-                }
-                
-                for (int xPos = startXPos + Mathf.FloorToInt(minRange); xPos <= startXPos + maxRange; xPos++)
-                {
-                    for (int yPos = startYPos - Mathf.FloorToInt(maxRange); yPos <= startYPos - minRange; yPos++)
-                    {
-                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
-                            continue;
-
-                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
-
-                        float range = relativePos.magnitude;
-
-                        float t = Mathf.InverseLerp(minRange, maxRange, range);
-
-                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
-                    }
-                }
-
-                for (int xPos = startXPos - Mathf.FloorToInt(maxRange); xPos <= startXPos - minRange; xPos++)
-                {
-                    for (int yPos = startYPos + Mathf.FloorToInt(minRange); yPos <= startYPos + maxRange; yPos++)
-                    {
-                        if (xPos < 0 || yPos < 0 || xPos >= mapSizeX || yPos >= mapSizeY)
-                            continue;
-
-                        Vector2 relativePos = new Vector2(xPos - startXPos, yPos - startYPos);
-
-                        float range = relativePos.magnitude;
-
-                        float t = Mathf.InverseLerp(minRange, maxRange, range);
-
-                        noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], Mathf.Lerp(0f, 1f, t));
+                        if (range <= minRange)
+                        {
+                            // Core path - always solid, noise cannot erode this
+                            noiseGrid[xPos, yPos] = 1f;
+                            mainPathGrid[xPos, yPos] = true;
+                        }
+                        else
+                        {
+                            // Edge band - set to falloff value, Perlin noise will erode this later
+                            float t = Mathf.InverseLerp(minRange, maxRange, range);
+                            float falloff = Mathf.Lerp(1f, 0f, t);
+                            noiseGrid[xPos, yPos] = Mathf.Max(noiseGrid[xPos, yPos], falloff);
+                        }
                     }
                 }
             }
 
             void Noise(int xPos, int yPos)
             {
+                // Don't erode core path tiles
+                if (mainPathGrid[xPos, yPos]) return;
+
                 float noiseX = xPos * generationSettings.pathNoiseScale.x + generationSettings.pathNoiseTiling.x;
                 float noiseY = yPos * generationSettings.pathNoiseScale.y + generationSettings.pathNoiseTiling.y;
 
-                float noise = Mathf.PerlinNoise(noiseX, noiseY);
-
-                noiseGrid[xPos, yPos] *= noise;
-                //Debug.Log($"XPos: {xPos}, YPos: {yPos}, XNoisePos: {noiseX}, YNoisePos: {noiseY}, Noise: {noise}");
-                //noiseGrid[xPos, yPos] = noise;
+                noiseGrid[xPos, yPos] *= Mathf.PerlinNoise(noiseX, noiseY);
             }
 
             return returnGrid;
@@ -681,7 +629,10 @@ namespace LocalMap
         {
             foreach (GameObject obj in RoadSigns.Keys)
             {
-                Destroy(obj);
+                if(Application.isPlaying)
+                    Destroy(obj);
+                else
+                    DestroyImmediate(obj);
             }
             RoadSigns.Clear();
         }
