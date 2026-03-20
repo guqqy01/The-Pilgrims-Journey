@@ -6,8 +6,10 @@ using UnityEditor.Presets;
 
 namespace LocalMap 
 {
+    [Serializable]
     public class LocalMapGeneratorSettingsEditorWindow : EditorWindow
     {
+        [SerializeField]
         private LocalMapGenerationSettings _generationSettings;
 
         private SerializedObject _serializedObject;
@@ -22,6 +24,8 @@ namespace LocalMap
         private readonly List<ReordableFoldoutList> _terrainNoiseSpriteLists = new List<ReordableFoldoutList>();
 
         private VerticalSeperator verticalSeperator;
+
+        private Vector2 _mainWindowScrollPosition;
 
         public Rect WindowRect
         {
@@ -63,7 +67,8 @@ namespace LocalMap
         {
             "Base Tiles",
             "Map Objects",
-            "Terrain Noise"
+            "Terrain Noise",
+            "Other Settings"
         };
 
         private readonly List<string> _baseTilesToolbarTitles = new List<string>()
@@ -119,7 +124,7 @@ namespace LocalMap
                 SetupLists();
             }
 
-            if (verticalSeperator.DoSeperator(new Rect() { width = position.width, height = position.height }))
+            if (verticalSeperator != null && verticalSeperator.DoSeperator(new Rect() { width = position.width, height = position.height }))
             {
                 Repaint();
             }
@@ -162,7 +167,13 @@ namespace LocalMap
                 if (_generationSettings == null || _baseTilesList == null)
                     return;
 
-                _baseTilesList.DoList(BaseTilePropertyRect);
+                Rect baseTilesListPosition = new Rect(BaseTilePropertyRect) { height = _baseTilesList.Height, xMax = BaseTilePropertyRect.xMax - 15f};
+
+                _mainWindowScrollPosition =  GUI.BeginScrollView(BaseTilePropertyRect, _mainWindowScrollPosition, baseTilesListPosition);
+
+                _baseTilesList.DoList(baseTilesListPosition);
+
+                GUI.EndScrollView();
             }
 
             void ShowPathTilesSubTab()
@@ -170,7 +181,13 @@ namespace LocalMap
                 if (_generationSettings == null)
                     return;
 
-                _pathTilesList.DoList(BaseTilePropertyRect);
+                Rect baseTilesListPosition = new Rect(BaseTilePropertyRect) { height = _pathTilesList.Height, xMax = BaseTilePropertyRect.xMax - 15f };
+
+                _mainWindowScrollPosition = GUI.BeginScrollView(BaseTilePropertyRect, _mainWindowScrollPosition, baseTilesListPosition);
+
+                _pathTilesList.DoList(baseTilesListPosition);
+
+                GUI.EndScrollView();
             }
         }
 
@@ -236,7 +253,13 @@ namespace LocalMap
             if (_generationSettings == null || _overlayMapObjectList == null)
                 return;
 
-            _overlayMapObjectList.DoList(ContentExcludingMainToolbarRect);
+            Rect baseTilesListPosition = new Rect(ContentExcludingMainToolbarRect) { height = _overlayMapObjectList.Height, xMax = ContentExcludingMainToolbarRect.xMax - 15f };
+
+            _mainWindowScrollPosition = GUI.BeginScrollView(ContentExcludingMainToolbarRect, _mainWindowScrollPosition, baseTilesListPosition);
+
+            _overlayMapObjectList.DoList(baseTilesListPosition);
+
+            GUI.EndScrollView();
         }
 
         private Texture2D GetOverlayPreview(GameObject go)
@@ -357,9 +380,45 @@ namespace LocalMap
 
             _scrollableToolbar.HandleScrollableToolbar(scrollableToolbarRect, terrainPropertyTitles);
 
-            Rect terrainContentRect = new Rect(ContentExcludingMainToolbarRect) { yMin = scrollableToolbarRect.yMax };
+            // Compute scrollable inner rect height for the selected terrain element and use a scroll view similar to other tabs
+            int selectedIndex = Mathf.Clamp(_scrollableToolbar.SelectedIndex, 0, Math.Max(terrainProperty.arraySize - 1, 0));
+            SerializedProperty selectedTerrainProp = terrainProperty.arraySize > 0 ? terrainProperty.GetArrayElementAtIndex(selectedIndex) : null;
 
-            DrawTerrainNoiseElement(terrainContentRect, terrainProperty.GetArrayElementAtIndex(_scrollableToolbar.SelectedIndex), _scrollableToolbar.SelectedIndex);
+            // Baseline height calculation for name, priority and scale fields plus paddings (must match DrawTerrainNoiseElement layout)
+            float lineH = EditorGUIUtility.singleLineHeight;
+            float topBaselineHeightBeforeList = 10f + 4f * lineH; // derived from spacing and field heights in DrawTerrainNoiseElement
+
+            float itemsHeight = 0f;
+
+            if (selectedTerrainProp != null)
+            {
+                SerializedProperty terrainNoiseItemsProperty = selectedTerrainProp.FindPropertyRelative("items");
+
+                // Ensure the terrain item list is set up so we can measure its height
+                SetupTerrainNoiseItemsList(terrainNoiseItemsProperty, selectedIndex, 256f);
+
+                if (_terrainNoiseItemLists.Count > selectedIndex && _terrainNoiseItemLists[selectedIndex] != null)
+                    itemsHeight = _terrainNoiseItemLists[selectedIndex].Height;
+            }
+
+            // Do not include the toolbar height in the scrollable content height - toolbar should remain static above the scroll area
+            float totalInnerHeight = topBaselineHeightBeforeList + itemsHeight + 10f;
+
+            // Viewport starts below the toolbar so content won't scroll over it
+            float viewportHeight = Mathf.Max(10f, ContentExcludingMainToolbarRect.height - scrollableToolbarRect.height);
+            Rect viewportRect = new Rect(ContentExcludingMainToolbarRect) { yMin = scrollableToolbarRect.yMax, height = viewportHeight };
+
+            Rect terrainInnerRect = new Rect(viewportRect) { height = Math.Max(totalInnerHeight, viewportRect.height), xMax = viewportRect.xMax - 15f };
+
+            _mainWindowScrollPosition = GUI.BeginScrollView(viewportRect, _mainWindowScrollPosition, terrainInnerRect);
+
+            if (selectedTerrainProp != null)
+            {
+                Rect terrainContentRect = new Rect(terrainInnerRect) { yMin = terrainInnerRect.yMin };
+                DrawTerrainNoiseElement(terrainContentRect, selectedTerrainProp, selectedIndex);
+            }
+
+            GUI.EndScrollView();
 
             _serializedObject.ApplyModifiedProperties();
 
@@ -371,7 +430,7 @@ namespace LocalMap
             if(_terrainNoiseSpriteLists.Count <= index)
                 return 0;
 
-            return _terrainNoiseSpriteLists[index].GetHeight();
+            return _terrainNoiseSpriteLists[index].Height + EditorGUIUtility.singleLineHeight * 3f + 4f;
         }
 
         private void DrawTerrainNoiseElement(Rect rect, SerializedProperty terrainNoiseProperty, int index)
@@ -404,12 +463,8 @@ namespace LocalMap
             {
                 _terrainNoiseItemLists.Add(null);
             }
-            if (_terrainNoiseItemLists.Count <= index)
-            {
-                ReordableFoldoutList list = new ReordableFoldoutList(_serializedObject, terrainNoiseItemsProperty, (index) => GetTerrainNoiseSpriteElementHeight(index), DrawTerrainNoiseItemElements, "Terrain Noise");
-                _terrainNoiseItemLists.Add(list);
-            }
-            else if(_terrainNoiseItemLists[index] == null)
+
+            if(_terrainNoiseItemLists[index] == null)
             {
                 _terrainNoiseItemLists[index] = new ReordableFoldoutList(_serializedObject, terrainNoiseItemsProperty, (index) => GetTerrainNoiseSpriteElementHeight(index), DrawTerrainNoiseItemElements, "Terrain Noise");
             }
@@ -517,14 +572,6 @@ namespace LocalMap
             GeneratePreviewMap();
         }
 
-
-
-
-
-
-
-
-
         private void OnDisable()
         {
             _previewLocalMapGenerator.Clear();
@@ -585,8 +632,13 @@ namespace LocalMap
         private void GeneratePreviewMap()
         {
             if(_previewLocalMapGenerator != null && _generationSettings != null)
-
-            _previewLocalMapGenerator.ShowMapPreview(_previewRenderUtility.camera, _generationSettings, previewSettings, GetSelectedIndices(selectedTerrain, _generationSettings.terrainNoiseLists.Count));
+            {
+                _previewLocalMapGenerator.ShowMapPreview(
+                    _previewRenderUtility.camera, 
+                    _generationSettings, 
+                    previewSettings, 
+                    GetSelectedIndices(selectedTerrain, _generationSettings.terrainNoiseLists.Count));
+            }
         }
 
         List<int> GetSelectedIndices(int selectedMask, int optionCount)

@@ -20,6 +20,7 @@ public class ReordableFoldoutList
 
     private bool _listExpanded = true;
 
+    public float Height => _reorderableList.GetHeight();
 
     public ReordableFoldoutList(SerializedObject serializedObject, SerializedProperty listProperty, Func<int, float> elementHeightFunction, Action<Rect, SerializedProperty, int> drawElementAction, string header = "")
     {
@@ -44,12 +45,13 @@ public class ReordableFoldoutList
         _serializedObject.Update();
 
         float listHeight = _reorderableList.GetHeight();
-        Rect listRect = new Rect(rect) { height = listHeight, xMax = rect.xMax - 15 };
-        _scrollPosition = GUI.BeginScrollView(rect, _scrollPosition, listRect);
+        Rect listRect = new Rect() { height = listHeight, width = rect.width };
+
+        GUI.BeginGroup(rect);
 
         _reorderableList.DoList(listRect);
 
-        GUI.EndScrollView();
+        GUI.EndGroup();
 
         _serializedObject.ApplyModifiedProperties();
     }
