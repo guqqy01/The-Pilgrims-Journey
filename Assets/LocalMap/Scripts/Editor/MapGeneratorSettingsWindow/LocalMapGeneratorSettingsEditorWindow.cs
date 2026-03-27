@@ -3,8 +3,11 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 using UnityEditor.Presets;
+using NUnit.Framework;
+using JetBrains.Annotations;
+using UnityEngine.UI;
 
-namespace LocalMap 
+namespace LocalMap.Editor
 {
     [Serializable]
     public class LocalMapGeneratorSettingsEditorWindow : EditorWindow
@@ -13,77 +16,27 @@ namespace LocalMap
         private LocalMapGenerationSettings _generationSettings;
 
         private SerializedObject _serializedObject;
+        private VerticalSeparator verticalSeparator;
 
-        private ReordableFoldoutList _baseTilesList;
-        private ReordableFoldoutList _pathTilesList;
-        private ReordableFoldoutList _overlayMapObjectList;
-
-        private ScrollableToolbar _scrollableToolbar;
-        
-        private readonly List<ReordableFoldoutList> _terrainNoiseItemLists = new List<ReordableFoldoutList>();
-        private readonly List<ReordableFoldoutList> _terrainNoiseSpriteLists = new List<ReordableFoldoutList>();
-
-        private VerticalSeperator verticalSeperator;
-
-        private Vector2 _mainWindowScrollPosition;
-
-        public Rect WindowRect
-        {
-            get
-            {
-                if (verticalSeperator == null)
-                {
-                    Rect wholeRect = new Rect() { width = position.width, height = position.height };
-                    verticalSeperator = new VerticalSeperator(wholeRect);
-                }
-
-                return verticalSeperator.topRect;
-            }
-        }
+        public Rect WindowRect => EnsureVerticalSeparator().topRect;
+        public Rect PreviewWindowRect => EnsureVerticalSeparator().bottomRect;
         public Rect GeneratorSettingsRect => new Rect(WindowRect) { yMin = WindowRect.yMin + 2, height = EditorGUIUtility.singleLineHeight };
-        public Rect MainToolbarRect => new Rect(WindowRect) { yMin = GeneratorSettingsRect.yMax + 2, height = 2f * EditorGUIUtility.singleLineHeight };
-        private Rect BaseTilesToolbarRect => new Rect(WindowRect) { yMin = MainToolbarRect.yMax, height = 2f * EditorGUIUtility.singleLineHeight };
-        private Rect BaseTilePropertyRect => new Rect(WindowRect) { yMin = BaseTilesToolbarRect.yMax };
-        private Rect ContentExcludingMainToolbarRect => new Rect(WindowRect) { yMin = MainToolbarRect.yMax };
 
-        private Rect PreviewWindowRect
+        private VerticalSeparator EnsureVerticalSeparator()
         {
-            get
-            {
-                if (verticalSeperator == null)
-                {
-                    Rect wholeRect = new Rect() { width = position.width, height = position.height };
-                    verticalSeperator = new VerticalSeperator(wholeRect);
-                }
+            if (verticalSeparator == null)
+                verticalSeparator = new VerticalSeparator(new Rect { width = position.width, height = position.height });
 
-                return verticalSeperator.bottomRect;
-            }
+            return verticalSeparator;
         }
-
-        private int _mainToolbarIndex = 0;
-        private int _baseTilesToolbarIndex = 0;
-
-        private readonly List<string> _mainToolbarTitles = new List<string>()
-        {
-            "Base Tiles",
-            "Map Objects",
-            "Terrain Noise",
-            "Other Settings"
-        };
-
-        private readonly List<string> _baseTilesToolbarTitles = new List<string>()
-        {
-            "Map Tiles",
-            "Path Tiles",
-        };
 
         #region Init And Setup
 
-        public static void Init(SerializedProperty audioDialogueProperty)
+        public static void Init(SerializedProperty MapGenerationSettingsSerializedProperty)
         {
             LocalMapGeneratorSettingsEditorWindow window = (LocalMapGeneratorSettingsEditorWindow)EditorWindow.GetWindow(typeof(LocalMapGeneratorSettingsEditorWindow));
 
-            window.Setup(audioDialogueProperty);
+            window.Setup(MapGenerationSettingsSerializedProperty);
         }
 
         [MenuItem("Window/Custom Windows/Map Generator Settings")]
@@ -92,25 +45,24 @@ namespace LocalMap
             LocalMapGeneratorSettingsEditorWindow window = (LocalMapGeneratorSettingsEditorWindow)EditorWindow.GetWindow(typeof(LocalMapGeneratorSettingsEditorWindow));
         }
 
+        public static void Init(LocalMapGenerationSettings settings)
+        {
+            LocalMapGeneratorSettingsEditorWindow window = (LocalMapGeneratorSettingsEditorWindow)EditorWindow.GetWindow(typeof(LocalMapGeneratorSettingsEditorWindow));
+
+            window._generationSettings = settings;
+        }
+
         public void Setup(SerializedProperty MapGenerationSettingsSerializedProperty)
         {
             _generationSettings = (LocalMapGenerationSettings)MapGenerationSettingsSerializedProperty.GetTargetObjectOfProperty();
         }
 
-        private void SetupLists()
+        private void SetupSerializedObject()
         {
             if (_generationSettings == null) return;
 
             _serializedObject = new SerializedObject(_generationSettings);
-
-            SerializedProperty baseTilesProperty = _serializedObject.FindProperty("baseTiles").FindPropertyRelative("weightedList");
-            _baseTilesList = new ReordableFoldoutList(_serializedObject, baseTilesProperty, (index) => 64f, DrawBaseTile, "Map Tiles");
-
-            SerializedProperty pathTilesProperty = _serializedObject.FindProperty("pathTiles").FindPropertyRelative("weightedList");
-            _pathTilesList = new ReordableFoldoutList(_serializedObject, pathTilesProperty, (index) => 64f, DrawBaseTile, "Path Tiles");
-
-            SerializedProperty mapObjectsProp = _serializedObject.FindProperty("mapObjects");
-            _overlayMapObjectList = new ReordableFoldoutList(_serializedObject, mapObjectsProp, (index) => 128f, DrawOverlayMapObject, "Map Objects");
+            _mainToolbarWindow = null;
         }
 
         #endregion
@@ -121,419 +73,62 @@ namespace LocalMap
 
             if (_generationSettings != null && (_serializedObject == null || _serializedObject.targetObject != _generationSettings))
             {
-                SetupLists();
+                SetupSerializedObject();
             }
 
-            if (verticalSeperator != null && verticalSeperator.DoSeperator(new Rect() { width = position.width, height = position.height }))
+            if (verticalSeparator != null && verticalSeparator.DoSeperator(new Rect() { width = position.width, height = position.height }))
             {
                 Repaint();
             }
 
-            _mainToolbarIndex = GUI.Toolbar(MainToolbarRect, _mainToolbarIndex, _mainToolbarTitles.ToArray());
 
-            switch (_mainToolbarIndex)
+            if(_serializedObject != null)
             {
-                case 0:
-                    ShowBaseTileTab(); break;
-                case 1:
-                    ShowMapObjectsTab(); break;
-                case 2:
-                    ShowTerrainNoiseTab(); break;
+                SetupEditorMenuToolbarWindow();
+                Rect rect = new Rect(WindowRect) { yMin = GeneratorSettingsRect.yMax + 2 };
+                _mainToolbarWindow.DrawToolbarWindow(rect);
             }
-
-            
 
             ShowPreviewWindow();
         }
 
-        #region Base Tiles Tab
+        private EditorMenuToolbarWindow _mainToolbarWindow;
+        private TerrainNoiseParentTab _terrainNoiseParentTab;
 
-        private void ShowBaseTileTab()
+
+        [SerializeField]
+        private LocalMapEditorWindowOtherTab _otherTab;
+
+        private void SetupEditorMenuToolbarWindow()
         {
-            _baseTilesToolbarIndex = GUI.Toolbar(BaseTilesToolbarRect, _baseTilesToolbarIndex, _baseTilesToolbarTitles.ToArray());
-
-            switch (_baseTilesToolbarIndex)
-            {
-                case 0:
-                    ShowMapTilesSubTab(); break;
-                case 1:
-                    ShowPathTilesSubTab(); break;
-            }
-
-            //ShowPathNoiseSettings();
-
-            void ShowMapTilesSubTab()
-            {
-                if (_generationSettings == null || _baseTilesList == null)
-                    return;
-
-                Rect baseTilesListPosition = new Rect(BaseTilePropertyRect) { height = _baseTilesList.Height, xMax = BaseTilePropertyRect.xMax - 15f};
-
-                _mainWindowScrollPosition =  GUI.BeginScrollView(BaseTilePropertyRect, _mainWindowScrollPosition, baseTilesListPosition);
-
-                _baseTilesList.DoList(baseTilesListPosition);
-
-                GUI.EndScrollView();
-            }
-
-            void ShowPathTilesSubTab()
-            {
-                if (_generationSettings == null)
-                    return;
-
-                Rect baseTilesListPosition = new Rect(BaseTilePropertyRect) { height = _pathTilesList.Height, xMax = BaseTilePropertyRect.xMax - 15f };
-
-                _mainWindowScrollPosition = GUI.BeginScrollView(BaseTilePropertyRect, _mainWindowScrollPosition, baseTilesListPosition);
-
-                _pathTilesList.DoList(baseTilesListPosition);
-
-                GUI.EndScrollView();
-            }
-        }
-
-        /*private void ShowPathNoiseSettings()
-        {
-            if (_generationSettings == null || _serializedObject == null) return;
-
-            _serializedObject.Update();
-
-            float lineH = EditorGUIUtility.singleLineHeight;
-            float spacing = 2f;
-
-            // Position below the list content
-            Rect baseRect = new Rect(ContentExcludingMainToolbarRect);
-
-            // We need to offset below whichever list is showing - use a fixed offset or calculate
-            float listHeight = _baseTilesToolbarIndex == 0
-                ? (_baseTilesList?.GetHeight() ?? 0f)
-                : (_pathTilesList?.GetHeight() ?? 0f);
-
-            float yStart = MainToolbarRect.yMax + 2f * EditorGUIUtility.singleLineHeight + listHeight + 8f;
-
-            Rect labelRect = new Rect(baseRect) { yMin = yStart, height = lineH };
-            Rect pathWidthRect = new Rect(baseRect) { yMin = labelRect.yMax + spacing, height = lineH };
-            Rect pathNoiseScaleRect = new Rect(baseRect) { yMin = pathWidthRect.yMax + spacing, height = lineH };
-            Rect pathNoiseTilingRect = new Rect(baseRect) { yMin = pathNoiseScaleRect.yMax + spacing, height = lineH };
-            Rect cullingRect = new Rect(baseRect) { yMin = pathNoiseTilingRect.yMax + spacing, height = lineH };
-
-            EditorGUI.LabelField(labelRect, "Path Noise Settings", EditorStyles.boldLabel);
-            EditorGUI.PropertyField(pathWidthRect, _serializedObject.FindProperty("pathWidthRange"));
-            EditorGUI.PropertyField(pathNoiseScaleRect, _serializedObject.FindProperty("pathNoiseScale"));
-            EditorGUI.PropertyField(pathNoiseTilingRect, _serializedObject.FindProperty("pathNoiseTiling"));
-            EditorGUI.PropertyField(cullingRect, _serializedObject.FindProperty("cullingAmount"));
-
-            _serializedObject.ApplyModifiedProperties();
-        }*/
-
-        private void DrawBaseTile(Rect rect, SerializedProperty baseTileProperty, int index)
-        {
-            float spriteLength = rect.height - 2;
-            Rect spriteRect = new Rect(rect) { yMin = rect.yMin + 2, height = spriteLength, width = spriteLength };
-            Rect spriteObjectPickerRect = new Rect(rect) {xMin = spriteRect.xMax, yMin = rect.yMin + 2, height = EditorGUIUtility.singleLineHeight };
-            Rect weightRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = spriteObjectPickerRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
-
-            SerializedProperty spriteProperty = baseTileProperty.FindPropertyRelative("item");
-            SerializedProperty weightCurveProperty = baseTileProperty.FindPropertyRelative("weightCurve");
-            
-            Sprite sprite = spriteProperty.objectReferenceValue as Sprite;
-
-            sprite.DrawSpriteInRect(spriteRect);
-
-            EditorGUI.ObjectField(spriteObjectPickerRect, spriteProperty, new GUIContent("Tile"));
-
-            EditorGUI.PropertyField(weightRect, weightCurveProperty);
-        }
-
-        #endregion
-
-        #region Map Objects Tab
-
-        private void ShowMapObjectsTab()
-        {
-            if (_generationSettings == null || _overlayMapObjectList == null)
+            if (_mainToolbarWindow != null)
                 return;
 
-            Rect baseTilesListPosition = new Rect(ContentExcludingMainToolbarRect) { height = _overlayMapObjectList.Height, xMax = ContentExcludingMainToolbarRect.xMax - 15f };
-
-            _mainWindowScrollPosition = GUI.BeginScrollView(ContentExcludingMainToolbarRect, _mainWindowScrollPosition, baseTilesListPosition);
-
-            _overlayMapObjectList.DoList(baseTilesListPosition);
-
-            GUI.EndScrollView();
-        }
-
-        private Texture2D GetOverlayPreview(GameObject go)
-        {
-            if (go == null) return null;
-            Texture2D tex = AssetPreview.GetAssetPreview(go);
-            if (tex == null)
-                tex = AssetPreview.GetMiniThumbnail(go);
-            return tex;
-        }
-
-        private void DrawOverlayMapObject(Rect rect, SerializedProperty element, int index)
-        {
-            rect.y += 2;
-            rect.height -= 4;
-
-            SerializedProperty nameProp = element.FindPropertyRelative("name");
-            SerializedProperty overlayProp = element.FindPropertyRelative("overlay");
-            SerializedProperty sizeProp = element.FindPropertyRelative("size");
-            SerializedProperty curveProp = element.FindPropertyRelative("amountToSpawnCurve");
-
-            float previewSize = rect.height - EditorGUIUtility.singleLineHeight;
-
-            // --- Left: preview ---
-            Rect previewRect = new Rect(rect.x, rect.y, previewSize, previewSize);
-
-
-            Texture2D previewTex = null;
-            if (overlayProp != null && overlayProp.objectReferenceValue != null)
-            {
-                GameObject go = overlayProp.objectReferenceValue as GameObject;
-                if (go != null)
-                {
-                    previewTex = GetOverlayPreview(go);
-                }
-            }
-
-            if (previewTex != null)
-                GUI.Label(previewRect, previewTex);
-
-            // --- Under preview: ObjectField for overlay ---
-            Rect overlayFieldRect = new Rect(rect.x, rect.yMax - EditorGUIUtility.singleLineHeight, previewSize, EditorGUIUtility.singleLineHeight);
-            EditorGUI.PropertyField(overlayFieldRect, overlayProp, GUIContent.none);
-
-            // --- Right side: other fields ---
-            float rightX = previewRect.xMax + 6;
-            float rightWidth = rect.width - previewSize - 6;
-
-            float lineHeight = EditorGUIUtility.singleLineHeight;
-            float spacing = 2;
-
-            Rect nameRect = new Rect(rightX, rect.y, rightWidth, lineHeight);
-            Rect sizeRect = new Rect(rightX, nameRect.yMax + spacing, rightWidth, lineHeight * 2);
-            Rect curveRect = new Rect(rightX, sizeRect.yMax + spacing, rightWidth, lineHeight);
-
-            EditorGUI.PropertyField(nameRect, nameProp);
-            EditorGUI.PropertyField(sizeRect, sizeProp);
-            EditorGUI.PropertyField(curveRect, curveProp);
-        }
-
-
-
-        #endregion
-
-        #region Terrain Noise Tab
-
-        private void ShowTerrainNoiseTab()
-        {
-            if (_generationSettings == null || _baseTilesList == null)
+            if (_serializedObject == null)
                 return;
 
-            EditorGUI.indentLevel++;
+            BaseAndPathTilesTab baseTilesTab = new BaseAndPathTilesTab(_serializedObject);
+            MapObjectsTab mapObjectsTab = new MapObjectsTab(_serializedObject);
+            _terrainNoiseParentTab = new TerrainNoiseParentTab(_serializedObject);
+            _terrainNoiseParentTab.OnTabChange += Repaint;
 
-            _serializedObject.Update();
-
-            if (_scrollableToolbar == null)
-                _scrollableToolbar = new ScrollableToolbar();
-
-            Rect scrollableToolbarRect = new Rect(ContentExcludingMainToolbarRect) { height = 2f * EditorGUIUtility.singleLineHeight, xMax = ContentExcludingMainToolbarRect.xMax - 100f};
-
-            Rect addButtonRect = new Rect(scrollableToolbarRect) { xMin = scrollableToolbarRect.xMax + 10f ,xMax = (scrollableToolbarRect.xMax + ContentExcludingMainToolbarRect.xMax) / 2f - 2f};
-            Rect removeButtonRect = new Rect(scrollableToolbarRect) { xMin = addButtonRect.xMax , width = addButtonRect.width}; ;
-
-            SerializedProperty terrainProperty = _serializedObject.FindProperty("terrainNoiseLists");
-
-            if(GUI.Button(addButtonRect, new GUIContent("+")))
+            if(_otherTab == null)
             {
-                _serializedObject.Update();
-
-                terrainProperty.InsertArrayElementAtIndex(terrainProperty.arraySize);
-
-                _serializedObject.ApplyModifiedProperties();
+                _otherTab = new LocalMapEditorWindowOtherTab(_serializedObject);
+            }
+            else
+            {
+                _otherTab.EnsureSerializedObject(_serializedObject);
             }
 
-            if (GUI.Button(removeButtonRect, new GUIContent("-")))
-            {
-                _serializedObject.Update();
-
-                _terrainNoiseSpriteLists.Clear();
-                _terrainNoiseItemLists.Clear();
-
-                terrainProperty.DeleteArrayElementAtIndex(_scrollableToolbar.SelectedIndex);
-
-                if (_scrollableToolbar.SelectedIndex >= terrainProperty.arraySize)
-                    _scrollableToolbar.SelectedIndex--;
-
-
-                _serializedObject.ApplyModifiedProperties();
-            }
-
-
-            string[] terrainPropertyTitles = new string[terrainProperty.arraySize];
-
-            for (int i = 0; i < terrainProperty.arraySize; i++)
-            {
-                terrainPropertyTitles[i] = terrainProperty.GetArrayElementAtIndex(i).displayName;
-            }
-
-            _scrollableToolbar.HandleScrollableToolbar(scrollableToolbarRect, terrainPropertyTitles);
-
-            // Compute scrollable inner rect height for the selected terrain element and use a scroll view similar to other tabs
-            int selectedIndex = Mathf.Clamp(_scrollableToolbar.SelectedIndex, 0, Math.Max(terrainProperty.arraySize - 1, 0));
-            SerializedProperty selectedTerrainProp = terrainProperty.arraySize > 0 ? terrainProperty.GetArrayElementAtIndex(selectedIndex) : null;
-
-            // Baseline height calculation for name, priority and scale fields plus paddings (must match DrawTerrainNoiseElement layout)
-            float lineH = EditorGUIUtility.singleLineHeight;
-            float topBaselineHeightBeforeList = 10f + 4f * lineH; // derived from spacing and field heights in DrawTerrainNoiseElement
-
-            float itemsHeight = 0f;
-
-            if (selectedTerrainProp != null)
-            {
-                SerializedProperty terrainNoiseItemsProperty = selectedTerrainProp.FindPropertyRelative("items");
-
-                // Ensure the terrain item list is set up so we can measure its height
-                SetupTerrainNoiseItemsList(terrainNoiseItemsProperty, selectedIndex, 256f);
-
-                if (_terrainNoiseItemLists.Count > selectedIndex && _terrainNoiseItemLists[selectedIndex] != null)
-                    itemsHeight = _terrainNoiseItemLists[selectedIndex].Height;
-            }
-
-            // Do not include the toolbar height in the scrollable content height - toolbar should remain static above the scroll area
-            float totalInnerHeight = topBaselineHeightBeforeList + itemsHeight + 10f;
-
-            // Viewport starts below the toolbar so content won't scroll over it
-            float viewportHeight = Mathf.Max(10f, ContentExcludingMainToolbarRect.height - scrollableToolbarRect.height);
-            Rect viewportRect = new Rect(ContentExcludingMainToolbarRect) { yMin = scrollableToolbarRect.yMax, height = viewportHeight };
-
-            Rect terrainInnerRect = new Rect(viewportRect) { height = Math.Max(totalInnerHeight, viewportRect.height), xMax = viewportRect.xMax - 15f };
-
-            _mainWindowScrollPosition = GUI.BeginScrollView(viewportRect, _mainWindowScrollPosition, terrainInnerRect);
-
-            if (selectedTerrainProp != null)
-            {
-                Rect terrainContentRect = new Rect(terrainInnerRect) { yMin = terrainInnerRect.yMin };
-                DrawTerrainNoiseElement(terrainContentRect, selectedTerrainProp, selectedIndex);
-            }
-
-            GUI.EndScrollView();
-
-            _serializedObject.ApplyModifiedProperties();
-
-            EditorGUI.indentLevel--;
+            _mainToolbarWindow = new EditorMenuToolbarWindow(baseTilesTab, mapObjectsTab, _terrainNoiseParentTab, _otherTab);
         }
 
-        private float GetTerrainNoiseSpriteElementHeight(int index)
+        private void OnDestroy()
         {
-            if(_terrainNoiseSpriteLists.Count <= index)
-                return 0;
-
-            return _terrainNoiseSpriteLists[index].Height + EditorGUIUtility.singleLineHeight * 3f + 4f;
+            _terrainNoiseParentTab.OnTabChange -= Repaint;
+            _terrainNoiseParentTab.Dispose();
         }
-
-        private void DrawTerrainNoiseElement(Rect rect, SerializedProperty terrainNoiseProperty, int index)
-        {
-            if (terrainNoiseProperty == null)
-                return;
-
-            SerializedProperty nameProperty = terrainNoiseProperty.FindPropertyRelative("name");
-            SerializedProperty priorityProperty = terrainNoiseProperty.FindPropertyRelative("priority");
-            SerializedProperty scaleProperty = terrainNoiseProperty.FindPropertyRelative("scale");
-            SerializedProperty terrainNoiseItemsProperty = terrainNoiseProperty.FindPropertyRelative("items");
-
-            Rect nameRect = new Rect(rect) { yMin = rect.yMin + 2f, height = EditorGUIUtility.singleLineHeight };
-            Rect priorityRect = new Rect(rect) { yMin = nameRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
-            Rect scaleRect = new Rect(rect) { yMin = priorityRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight * 2f + 2f };
-            Rect terrainNoiseItemsRect = new Rect(rect) { yMin = scaleRect.yMax + 2f, xMax = rect.xMax};
-            _serializedObject.Update();
-            EditorGUI.PropertyField(nameRect, nameProperty);
-            EditorGUI.PropertyField(priorityRect, priorityProperty);
-            EditorGUI.PropertyField(scaleRect, scaleProperty);
-            _serializedObject.ApplyModifiedProperties();
-            SetupTerrainNoiseItemsList(terrainNoiseItemsProperty, index, 256f);
-
-            _terrainNoiseItemLists[index].DoList(terrainNoiseItemsRect);
-        }
-
-        private void SetupTerrainNoiseItemsList(SerializedProperty terrainNoiseItemsProperty, int index, float height)
-        {
-            while(_terrainNoiseItemLists.Count <= index)
-            {
-                _terrainNoiseItemLists.Add(null);
-            }
-
-            if(_terrainNoiseItemLists[index] == null)
-            {
-                _terrainNoiseItemLists[index] = new ReordableFoldoutList(_serializedObject, terrainNoiseItemsProperty, (index) => GetTerrainNoiseSpriteElementHeight(index), DrawTerrainNoiseItemElements, "Terrain Noise");
-            }
-            else if (!_terrainNoiseItemLists[index]._listProperty.EqualContents(terrainNoiseItemsProperty))
-            {
-                _terrainNoiseItemLists[index] = new ReordableFoldoutList(_serializedObject, terrainNoiseItemsProperty, (index) => GetTerrainNoiseSpriteElementHeight(index), DrawTerrainNoiseItemElements, "Terrain Noise");
-            }
-        }
-
-        private void DrawTerrainNoiseItemElements(Rect rect, SerializedProperty terrainNoiseItemProperty, int terrainNoiseIndex)
-        {
-            SerializedProperty perlinNoiseRangeSerializedProperty = terrainNoiseItemProperty.FindPropertyRelative("perlinNoiseRange");
-            SerializedProperty spriteListSerializedProperty = terrainNoiseItemProperty.FindPropertyRelative("list").FindPropertyRelative("weightedList");
-
-            Rect perloinNoiseRangeRect = new Rect(rect) { height = 2f * EditorGUIUtility.singleLineHeight };
-            Rect spriteListRect = new Rect(rect) { yMin = perloinNoiseRangeRect.yMax + 4f };
-
-            _serializedObject.Update();
-            EditorGUI.PropertyField(rect, perlinNoiseRangeSerializedProperty);
-            /*float xValue = perlinNoiseRangeSerializedProperty.vector2Value.x;
-            float yValue = perlinNoiseRangeSerializedProperty.vector2Value.y;
-            GUIContent label = new GUIContent(perlinNoiseRangeSerializedProperty.displayName);
-            EditorGUI.MinMaxSlider(rect, label, ref xValue, ref yValue, 0f, 1f);
-
-            perlinNoiseRangeSerializedProperty.vector2Value = new Vector2(xValue, yValue);*/
-
-            _serializedObject.ApplyModifiedProperties();
-
-            SetupTerrainNoiseSpriteLists(spriteListSerializedProperty, terrainNoiseIndex, 64f);
-            _terrainNoiseSpriteLists[terrainNoiseIndex].DoList(spriteListRect);
-        }
-
-        private void SetupTerrainNoiseSpriteLists(SerializedProperty terrainNoiseItemProperty, int terrainNoiseIndex, float height)
-        {
-            while(_terrainNoiseSpriteLists.Count <= terrainNoiseIndex)
-            {
-                _terrainNoiseSpriteLists.Add(null);
-            }
-
-            try
-            {
-                if (_terrainNoiseSpriteLists.Count <= terrainNoiseIndex)
-                {
-                    ReordableFoldoutList list = new ReordableFoldoutList(_serializedObject, terrainNoiseItemProperty, (index) => height, DrawBaseTile, "Terrain Sprites");
-                    _terrainNoiseSpriteLists.Add(list);
-                }
-                else if (_terrainNoiseSpriteLists[terrainNoiseIndex] == null)
-                {
-                    _terrainNoiseSpriteLists[terrainNoiseIndex] = new ReordableFoldoutList(_serializedObject, terrainNoiseItemProperty, (index) => height, DrawBaseTile, "Terrain Sprites");
-                }
-                else if (_terrainNoiseSpriteLists[terrainNoiseIndex]._listProperty == null)
-                {
-                    _terrainNoiseSpriteLists[terrainNoiseIndex] = new ReordableFoldoutList(_serializedObject, terrainNoiseItemProperty, (index) => height, DrawBaseTile, "Terrain Sprites");
-                }
-                else if (!_terrainNoiseSpriteLists[terrainNoiseIndex]._listProperty.EqualContents(terrainNoiseItemProperty))
-                {
-                    _terrainNoiseSpriteLists[terrainNoiseIndex] = new ReordableFoldoutList(_serializedObject, terrainNoiseItemProperty, (index) => height, DrawBaseTile, "Terrain Sprites");
-                }
-            }
-            catch(Exception e)
-            {
-                Debug.Log($"Terrain Noise Index: {terrainNoiseIndex}, Terrain Noise Item Property DisplayName: {terrainNoiseItemProperty.propertyPath}");
-
-                throw e;
-            }
-            
-        }
-
-        #endregion
 
         #region Preview Window
 
@@ -637,7 +232,11 @@ namespace LocalMap
                     _previewRenderUtility.camera, 
                     _generationSettings, 
                     previewSettings, 
-                    GetSelectedIndices(selectedTerrain, _generationSettings.terrainNoiseLists.Count));
+                    GetSelectedIndices(selectedTerrain, _generationSettings.terrainNoiseLists.Count),
+                    _otherTab.PreviewSettings.StartWall,
+                    _otherTab.PreviewSettings.ToDirections,
+                    _otherTab.PreviewSettings.OtherFromDirections,
+                    _otherTab.PreviewSettings.NullableSeed);
             }
         }
 
@@ -655,5 +254,4 @@ namespace LocalMap
         #endregion
     }
 
-    
 }

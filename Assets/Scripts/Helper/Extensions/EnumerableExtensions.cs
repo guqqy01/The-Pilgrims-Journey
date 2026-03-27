@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-
+using System;
+using static Unity.VisualScripting.Member;
 public static class EnumerableExtensions
 {
     public static int NotNullCount<T>(this IEnumerable<T> source) where T : class
@@ -51,6 +52,100 @@ public static class EnumerableExtensions
         }
 
         return returnlist;
+    }
+
+    public enum AddNewElementType
+    {
+        Default,
+        LastElement,
+        CustomFunction,
+    }
+
+    public static void MatchAmount<A, B>(this List<A> source, ICollection<B> other, AddNewElementType addNewElementType, Func<A> getDefaultCall = null)
+    {
+        if (source == null)
+            throw new ArgumentNullException(nameof(source));
+
+        if (other == null)
+            throw new ArgumentNullException(nameof(other));
+
+        int sourceCount = source.Count;
+        int otherCount = other.Count;
+
+        if (sourceCount == otherCount)
+        {
+            return;
+        }
+
+        if (sourceCount < otherCount)
+        {
+            for (int i = 0; i < otherCount - sourceCount; i++)
+            {
+                A addA = addNewElementType switch
+                {
+                    AddNewElementType.LastElement => source.Last(),
+                    AddNewElementType.Default => default,
+                    AddNewElementType.CustomFunction => getDefaultCall != null ? getDefaultCall() : default,
+                    _ => default,
+                };
+
+                source.Add(addA);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < sourceCount - otherCount; i++)
+            {
+                source.RemoveFromEnd();
+            }
+        }
+    }
+
+    public static void MatchAmount<A, B>(this List<A> source, ICollection<B> other, Func<A> getDefaultCall = null)
+    {
+        if(source == null)
+            throw new ArgumentNullException(nameof(source));
+
+        if(other == null)
+            throw new ArgumentNullException(nameof(other));
+
+        int sourceCount = source.Count;
+        int otherCount = other.Count;
+
+        if (sourceCount == otherCount)
+        {
+            return;
+        }
+
+        if(sourceCount < otherCount)
+        {
+            for (int i = 0; i < otherCount - sourceCount; i++)
+            {
+                A addA = default;
+
+                if(getDefaultCall != null)
+                {
+                    addA = getDefaultCall();
+                }
+
+                source.Add(addA);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < sourceCount - otherCount; i++)
+            {
+                source.RemoveFromEnd();
+            }
+        }
+    }
+
+    public static void RemoveFromEnd<T>(this List<T> list)
+    {
+        if (list == null)
+            throw new ArgumentNullException(nameof(list));
+
+        list.RemoveAt(list.Count - 1);
     }
 
     public static T GetRandom<T>(this List<T> list)

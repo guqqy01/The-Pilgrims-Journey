@@ -88,10 +88,33 @@ namespace LocalMap
         #region Preview Settings
         #if UNITY_EDITOR
         
-        public void ShowMapPreview(Camera previewCamera, LocalMapGenerationSettings generationSettings, MapGenerationPreviewSettings previewSettings, List<int> terrainIndecies = null)
+        public void ShowMapPreview(Camera previewCamera, 
+            LocalMapGenerationSettings generationSettings, 
+            MapGenerationPreviewSettings previewSettings, 
+            List<int> terrainIndecies = null,
+            Direction startWall = Direction.West, 
+            List<Direction> toDirections = null,
+            List<Direction> otherFromDirections = null,
+            int? nullableSeed = null)
         {
+            if(startWall == default)
+                startWall = Direction.West;
+
+            if(toDirections == null || toDirections.Count == 0)
+            {
+                toDirections = new List<Direction>() { startWall.OppositeDirection() };
+            }
+
+
+            otherFromDirections ??= new List<Direction>();
+
+            toDirections.RemoveAll(x => x == startWall);
+            otherFromDirections.RemoveAll(x => x == startWall);
+
+            int seed = nullableSeed.HasValue ? nullableSeed.Value : UnityEngine.Random.Range(0, 100000);
+
             this.generationSettings = generationSettings;
-            CreateMap(Direction.West, new List<Direction>() { Direction.East }, new List<Direction>(), UnityEngine.Random.Range(0, 100000), terrainIndecies, previewSettings);
+            CreateMap(startWall, toDirections, otherFromDirections, seed, terrainIndecies, previewSettings);
             SetupCamera(previewCamera);
         }
 

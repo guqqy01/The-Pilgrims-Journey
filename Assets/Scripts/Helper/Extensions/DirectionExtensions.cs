@@ -20,4 +20,48 @@ public static class DirectionExtensions
 
         return returnList;
     }
+
+    public static List<Direction> ConvertToListOfDirections(this FlagedDirection flagedDirection)
+    {
+        List<Direction> returnList = new List<Direction>();
+
+        if (flagedDirection.HasFlag(FlagedDirection.North))
+        {
+            returnList.Add(Direction.North);
+        }
+
+        if (flagedDirection.HasFlag(FlagedDirection.South))
+        {
+            returnList.Add(Direction.South);
+        }
+
+        if (flagedDirection.HasFlag(FlagedDirection.East))
+        {
+            returnList.Add(Direction.East);
+        }
+
+        if (flagedDirection.HasFlag(FlagedDirection.West))
+        {
+            returnList.Add(Direction.West);
+        }
+
+        return returnList;
+    }
+
+    public static FlagedDirection ConvertToFlagedDirection(this Direction flagedDirection)
+    {
+        switch (flagedDirection)
+        {
+            case Direction.North:
+                return FlagedDirection.North;
+            case Direction.South:
+                return FlagedDirection.South;
+            case Direction.West:
+                return FlagedDirection.West;
+            case Direction.East:
+                return FlagedDirection.East;
+            default:
+                return default;
+        }
+    }
 }

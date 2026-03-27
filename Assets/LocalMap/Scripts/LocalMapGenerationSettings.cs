@@ -9,7 +9,7 @@ namespace LocalMap
     {
         public WeightedChanceList<Sprite> baseTiles;
 
-        public AutoBaseTiles autoBaseTiles;
+        public AutoTile autoBaseTiles;
 
         public WeightedChanceList<Sprite> pathTiles;
 
@@ -67,48 +67,6 @@ namespace LocalMap
         }
 
     }
-
-    [Serializable]
-    public class AutoBaseTiles
-    {
-        [Header("Normal")]
-        public Sprite TopLeft;
-        public Sprite TopCenter;
-        public Sprite TopRight;
-
-        public Sprite TopAndLeft;
-        public Sprite TopAndRight;
-
-        public Sprite CenterLeft;
-        public Sprite CenterRight;
-
-        public Sprite BottomAndLeft;
-        public Sprite BottomAndRight;
-
-        public Sprite BottomLeft;
-        public Sprite BottomCenter;
-        public Sprite BottomRight;
-
-        [Header("Outline")]
-        public Sprite TopLeftOutline;
-        public Sprite TopCenterOutline;
-        public Sprite TopRightOutline;
-
-        public Sprite TopAndLeftOutline;
-        public Sprite TopAndRightOutline;
-
-        public Sprite CenterLeftOutline;
-        public Sprite CenterRightOutline;
-
-        public Sprite BottomAndLeftOutline;
-        public Sprite BottomAndRightOutline;
-
-        public Sprite BottomLeftOutline;
-        public Sprite BottomCenterOutline;
-        public Sprite BottomRightOutline;
-    }
-
-
 
     [Serializable]
     public class OverlayMapObject
