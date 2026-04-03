@@ -32,13 +32,6 @@ namespace LocalMap.Editor
 
         #region Init And Setup
 
-        public static void Init(SerializedProperty MapGenerationSettingsSerializedProperty)
-        {
-            LocalMapGeneratorSettingsEditorWindow window = (LocalMapGeneratorSettingsEditorWindow)EditorWindow.GetWindow(typeof(LocalMapGeneratorSettingsEditorWindow));
-
-            window.Setup(MapGenerationSettingsSerializedProperty);
-        }
-
         [MenuItem("Window/Custom Windows/Map Generator Settings")]
         public static void Init()
         {
@@ -50,11 +43,6 @@ namespace LocalMap.Editor
             LocalMapGeneratorSettingsEditorWindow window = (LocalMapGeneratorSettingsEditorWindow)EditorWindow.GetWindow(typeof(LocalMapGeneratorSettingsEditorWindow));
 
             window._generationSettings = settings;
-        }
-
-        public void Setup(SerializedProperty MapGenerationSettingsSerializedProperty)
-        {
-            _generationSettings = (LocalMapGenerationSettings)MapGenerationSettingsSerializedProperty.GetTargetObjectOfProperty();
         }
 
         private void SetupSerializedObject()
@@ -126,8 +114,11 @@ namespace LocalMap.Editor
 
         private void OnDestroy()
         {
-            _terrainNoiseParentTab.OnTabChange -= Repaint;
-            _terrainNoiseParentTab.Dispose();
+            if(_terrainNoiseParentTab != null)
+            {
+                _terrainNoiseParentTab.OnTabChange -= Repaint;
+                _terrainNoiseParentTab.Dispose();
+            }
         }
 
         #region Preview Window
@@ -135,7 +126,6 @@ namespace LocalMap.Editor
         private PreviewRenderUtility _previewRenderUtility;
         [SerializeField]
         private LocalMapGenerator _previewLocalMapGenerator;
-
 
         [SerializeField]
         private MapGenerationPreviewSettings previewSettings;

@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using LocalMap.Editor;
+using NUnit.Framework;
 
 namespace LocalMap
 {
     [CreateAssetMenu()]
     public class LocalMapGenerationSettings : ScriptableObject
     {
-        public WeightedChanceList<Sprite> baseTiles;
+        public AutoTileSettings autoBaseTileSettings;
 
-        public AutoTile autoBaseTiles;
-
-        public WeightedChanceList<Sprite> pathTiles;
+        public WeightedChanceList<TileTypeAndSprite> baseTilesAndType;
+        public WeightedChanceList<TileTypeAndSprite> pathTilesAndType;
 
         public List<OverlayMapObject> mapObjects;
 
@@ -33,7 +34,7 @@ namespace LocalMap
             }
         }
 
-        public Sprite GetMapTileSpriteForPreview(Vector2Int position, float? level, MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
+        public TileTypeAndSprite GetMapTileSprite(Vector2Int position, float? level, MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
         {
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.TerrainNoise) && terrainNoiseIndecies != null && terrainNoiseIndecies.Count > 0)
             {
@@ -48,24 +49,23 @@ namespace LocalMap
 
                 for (int i = 0; i < includedNoise.Count; i++)
                 {
-                    Sprite sprite = includedNoise[i].GetTile(position);
+                    TileTypeAndSprite tileTypeAndSprite = includedNoise[i].GetTile(position);
 
-                    if (sprite != null)
-                        return sprite;
+                    if (tileTypeAndSprite != null)
+                        return tileTypeAndSprite;
                 }
             }
 
             if(previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
-                return level.HasValue ? baseTiles.GetRandom(level.Value): baseTiles.GetRandom();
+                return level.HasValue ? baseTilesAndType.GetRandom(level.Value): baseTilesAndType.GetRandom();
 
             return null;
         }
 
-        public Sprite GetPathTileSprite(float? level)
+        public TileTypeAndSprite GetPathTileSprite(float? level)
         {
-            return level.HasValue ? pathTiles.GetRandom(level.Value) : pathTiles.GetRandom();
+            return level.HasValue ? pathTilesAndType.GetRandom(level.Value) : pathTilesAndType.GetRandom();
         }
-
     }
 
     [Serializable]

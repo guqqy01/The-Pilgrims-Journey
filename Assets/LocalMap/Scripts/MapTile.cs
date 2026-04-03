@@ -1,6 +1,9 @@
+using LocalMap.Editor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace LocalMap
 {
@@ -64,6 +67,15 @@ namespace LocalMap
             }
         }
 
+        public void Init(TileTypeAndSprite tileTypeAndSprite, Vector2Int position)
+        {
+            graphic.sprite = tileTypeAndSprite.Sprite;
+            Highlighted = false;
+            Position = position;
+
+            TileType = tileTypeAndSprite.TileType;
+        }
+
         public void Init(Sprite graphicSprite, Vector2Int position, TileType tileType = TileType.Grass)
         {
             graphic.sprite = graphicSprite;
@@ -109,103 +121,95 @@ namespace LocalMap
         }
 
 
-        public void SetupAutoTiles(AutoTile autoBaseTiles, Grid3x3<bool> boolGrid)
+        public void SetupAutoTiles(AutoTileSettings autoTilesSettings, Grid3x3<TileType> tileGrid)
         {
-            //Straights
+            if (autoTilesSettings == null)
+                return;
 
-            if (boolGrid.TopCenter &&
-                (!boolGrid.CenterLeft || boolGrid.BottomRight) &&
-                (!boolGrid.CenterRight || boolGrid.BottomLeft))
+            TileType underType = TileType;
+
+            HashSet<TileType> neighbourTypes = new HashSet<TileType>();
+            neighbourTypes.Add(tileGrid.TopLeft);
+            neighbourTypes.Add(tileGrid.TopCenter);
+            neighbourTypes.Add(tileGrid.TopRight);
+            neighbourTypes.Add(tileGrid.CenterLeft);
+            neighbourTypes.Add(tileGrid.CenterRight);
+            neighbourTypes.Add(tileGrid.BottomLeft);
+            neighbourTypes.Add(tileGrid.BottomCenter);
+            neighbourTypes.Add(tileGrid.BottomRight);
+            neighbourTypes.Remove(underType);
+            neighbourTypes.Remove(TileType.Nothing);
+
+            foreach (TileType overType in neighbourTypes)
             {
-                SpawnAutoTile(autoBaseTiles.TopCenter, autoBaseTiles.TopCenterOutline);
-            }
+                AutoTile autoTile = autoTilesSettings.GetAutoTile(underType, overType);
+                if (autoTile == null)
+                    continue;
 
-            if (boolGrid.CenterLeft && 
-                (!boolGrid.TopCenter || boolGrid.BottomRight) && 
-                (!boolGrid.BottomCenter || boolGrid.TopRight))
-            {
-                SpawnAutoTile(autoBaseTiles.CenterLeft, autoBaseTiles.CenterLeftOutline);
-            }
+                Grid3x3<bool> boolGrid = BuildBoolGrid(tileGrid, overType);
 
-            if (boolGrid.CenterRight && 
-                (!boolGrid.TopCenter || boolGrid.BottomLeft) && 
-                (!boolGrid.BottomCenter || boolGrid.TopLeft))
-            {
-                SpawnAutoTile(autoBaseTiles.CenterRight, autoBaseTiles.CenterRightOutline);
-            }
+                int sortingOrder = 2 * autoTilesSettings.drawOrderForType.IndexOf(overType);
 
-            if (boolGrid.BottomCenter && 
-                (!boolGrid.CenterLeft || boolGrid.TopRight) && 
-                (!boolGrid.CenterRight || boolGrid.TopLeft))
-            {
-                SpawnAutoTile(autoBaseTiles.BottomCenter, autoBaseTiles.BottomCenterOutline);
-            }
+                if (AutoTile.StraightTopCenter(boolGrid)) SpawnAutoTile(autoTile.TopCenter, autoTile.TopCenterOutline, sortingOrder);
+                if (AutoTile.StraightCenterLeft(boolGrid)) SpawnAutoTile(autoTile.CenterLeft, autoTile.CenterLeftOutline, sortingOrder);
+                if (AutoTile.StraightCenterRight(boolGrid)) SpawnAutoTile(autoTile.CenterRight, autoTile.CenterRightOutline, sortingOrder);
+                if (AutoTile.StraightBottomCenter(boolGrid)) SpawnAutoTile(autoTile.BottomCenter, autoTile.BottomCenterOutline, sortingOrder);
 
-            //Small Corners
+                if (AutoTile.SmallCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopLeft, autoTile.TopLeftOutline, sortingOrder);
+                if (AutoTile.SmallCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopRight, autoTile.TopRightOutline, sortingOrder);
+                if (AutoTile.SmallCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomLeft, autoTile.BottomLeftOutline, sortingOrder);
+                if (AutoTile.SmallCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomRight, autoTile.BottomRightOutline, sortingOrder);
 
-            if (boolGrid.TopLeft && (!boolGrid.TopCenter && !boolGrid.CenterLeft))
-            {
-                SpawnAutoTile(autoBaseTiles.TopLeft, autoBaseTiles.TopLeftOutline);
-            }
-
-            if (boolGrid.TopRight && (!boolGrid.TopCenter && !boolGrid.CenterRight))
-            {
-                SpawnAutoTile(autoBaseTiles.TopRight, autoBaseTiles.TopRightOutline);
-            }
-
-            if (boolGrid.BottomLeft && (!boolGrid.BottomCenter && !boolGrid.CenterLeft))
-            {
-                SpawnAutoTile(autoBaseTiles.BottomLeft, autoBaseTiles.BottomLeftOutline);
-            }
-
-            if (boolGrid.BottomRight && (!boolGrid.BottomCenter && !boolGrid.CenterRight))
-            {
-                SpawnAutoTile(autoBaseTiles.BottomRight, autoBaseTiles.BottomRightOutline);
-            }
-
-            //Big Corners
-
-            //Top And Left
-            if (boolGrid.CenterLeft && boolGrid.TopCenter && !boolGrid.BottomRight)
-            {
-                SpawnAutoTile(autoBaseTiles.TopAndLeft, autoBaseTiles.TopAndLeftOutline);
-            }
-
-            //Top And Right
-            if (boolGrid.CenterRight && boolGrid.TopCenter && !boolGrid.BottomLeft)
-            {
-                SpawnAutoTile(autoBaseTiles.TopAndRight, autoBaseTiles.TopAndRightOutline);
-            }
-
-            //Bottom And Left
-            if (boolGrid.CenterLeft && boolGrid.BottomCenter && !boolGrid.TopRight)
-            {
-                SpawnAutoTile(autoBaseTiles.BottomAndLeft, autoBaseTiles.BottomAndLeftOutline);
-            }
-
-            //Bottom And Right
-            if (boolGrid.CenterRight && boolGrid.BottomCenter && !boolGrid.TopLeft)
-            {
-                SpawnAutoTile(autoBaseTiles.BottomAndRight, autoBaseTiles.BottomAndRightOutline);
+                if (AutoTile.BigCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopAndLeft, autoTile.TopAndLeftOutline, sortingOrder);
+                if (AutoTile.BigCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopAndRight, autoTile.TopAndRightOutline, sortingOrder);
+                if (AutoTile.BigCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomAndLeft, autoTile.BottomAndLeftOutline, sortingOrder);
+                if (AutoTile.BigCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomAndRight, autoTile.BottomAndRightOutline, sortingOrder);
             }
         }
 
+        private static Grid3x3<bool> BuildBoolGrid(Grid3x3<TileType> tileGrid, TileType overType)
+        {
+            return new Grid3x3<bool>()
+            {
+                TopLeft = tileGrid.TopLeft == overType,
+                TopCenter = tileGrid.TopCenter == overType,
+                TopRight = tileGrid.TopRight == overType,
+                CenterLeft = tileGrid.CenterLeft == overType,
+                CenterRight = tileGrid.CenterRight == overType,
+                BottomLeft = tileGrid.BottomLeft == overType,
+                BottomCenter = tileGrid.BottomCenter == overType,
+                BottomRight = tileGrid.BottomRight == overType,
+            };
+        }
 
-        public void SpawnAutoTile(Sprite normal, Sprite outline)
+        public void SpawnAutoTile(Sprite normal, Sprite outline, int sortingOrder)
         {
             if(normal != null)
             {
                 SpriteRenderer normalTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
                 normalTile.sprite = normal;
-                normalTile.sortingOrder = 1;
+                normalTile.sortingOrder = sortingOrder;
             }
 
             if (outline != null)
             {
                 SpriteRenderer outlineTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
                 outlineTile.sprite = outline;
-                outlineTile.sortingOrder = 2;
+                outlineTile.sortingOrder = sortingOrder + 1;
             }
+        }
+    }
+
+    [Serializable]
+    public class TileTypeAndSprite
+    {
+        public Sprite Sprite;
+        public TileType TileType;
+
+        public TileTypeAndSprite(Sprite sprite, TileType tileType)
+        {
+            this.Sprite = sprite;
+            this.TileType = tileType;
         }
     }
 }

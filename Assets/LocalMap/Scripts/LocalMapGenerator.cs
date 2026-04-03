@@ -505,37 +505,45 @@ namespace LocalMap
                     if (pathGrid != null && pathGrid[xPos, yPos] && previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
                     {
                         mapTile.Init(generationSettings.GetPathTileSprite(level), position);
-
-                        Grid3x3<bool> boolGrid = new Grid3x3<bool>();
-
-                        FillBoolGrid(boolGrid, xPos, yPos);
-
-                        mapTile.SetupAutoTiles(generationSettings.autoBaseTiles, boolGrid);
                     }
                     else
                     {
-                        mapTile.Init(generationSettings.GetMapTileSpriteForPreview(position, level, previewSettings, terrainNoiseIndecies), position);
+                        mapTile.Init(generationSettings.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies), position);
                     }
 
                     Tiles[xPos, yPos] = mapTile;
                 }
             }
 
-            void FillBoolGrid(Grid3x3<bool> boolGrid, int xPos, int yPos)
+            for (int xPos = 0; xPos < mapSizeX; xPos++)
+            {
+                for (int yPos = 0; yPos < mapSizeY; yPos++)
+                {
+                    Grid3x3<TileType> tileTypeGrid = new Grid3x3<TileType>();
+
+                    FillTileTypeGrid(tileTypeGrid, xPos, yPos);
+
+                    MapTile mapTile = Tiles[xPos, yPos];
+
+                    mapTile.SetupAutoTiles(generationSettings.autoBaseTileSettings, tileTypeGrid);
+                }
+            }
+
+            void FillTileTypeGrid(Grid3x3<TileType> boolGrid, int xPos, int yPos)
             {
                 //Top
-                boolGrid.TopLeft =      DownShiftXValid() ||    UpShiftYValid() ? false : !pathGrid[xPos - 1, yPos + 1];
-                boolGrid.TopCenter =                            UpShiftYValid() ? false : !pathGrid[xPos, yPos + 1];
-                boolGrid.TopRight =     UpShiftXValid()   ||    UpShiftYValid() ? false : !pathGrid[xPos + 1, yPos + 1];
+                boolGrid.TopLeft =      DownShiftXValid() ||    UpShiftYValid() ? TileType.Nothing : Tiles[xPos - 1, yPos + 1].TileType;
+                boolGrid.TopCenter =                            UpShiftYValid() ? TileType.Nothing : Tiles[xPos, yPos + 1].TileType;
+                boolGrid.TopRight =     UpShiftXValid()   ||    UpShiftYValid() ? TileType.Nothing : Tiles[xPos + 1, yPos + 1].TileType;
 
                 //Center
-                boolGrid.CenterLeft =   DownShiftXValid() ? false : !pathGrid[xPos - 1, yPos];
-                boolGrid.CenterRight =  UpShiftXValid() ? false : !pathGrid[xPos + 1, yPos];
+                boolGrid.CenterLeft =   DownShiftXValid() ? TileType.Nothing : Tiles[xPos - 1, yPos].TileType;
+                boolGrid.CenterRight =  UpShiftXValid() ? TileType.Nothing : Tiles[xPos + 1, yPos].TileType;
 
                 //Bottom
-                boolGrid.BottomLeft =   DownShiftXValid() ||    DownShiftYValid() ? false : !pathGrid[xPos - 1, yPos - 1];
-                boolGrid.BottomCenter =                         DownShiftYValid() ? false : !pathGrid[xPos, yPos - 1];
-                boolGrid.BottomRight =  UpShiftXValid() ||      DownShiftYValid() ? false : !pathGrid[xPos + 1, yPos - 1];
+                boolGrid.BottomLeft =   DownShiftXValid() ||    DownShiftYValid() ? TileType.Nothing : Tiles[xPos - 1, yPos - 1].TileType;
+                boolGrid.BottomCenter =                         DownShiftYValid() ? TileType.Nothing : Tiles[xPos, yPos - 1].TileType;
+                boolGrid.BottomRight =  UpShiftXValid() ||      DownShiftYValid() ? TileType.Nothing : Tiles[xPos + 1, yPos - 1].TileType;
 
                 bool DownShiftXValid()
                 {

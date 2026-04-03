@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using Codice.Client.Common.GameUI;
-
+using LocalMap;
+using System;
 public class TileTab : IEditorMenuToolbarTab
 {
+    private const float itemHeight = 80f;
+
     public TileTab(string name, SerializedObject serializedObject, string property, string header)
     {
         Name = name;
         _serializedObject = serializedObject;
 
         SerializedProperty baseTilesProperty = serializedObject.FindProperty(property).FindPropertyRelative("weightedList");
-        _tilesList = new ReordableFoldoutList(serializedObject, baseTilesProperty, (index) => 64f, DrawTile, header);
+        _tilesList = new ReorderableFoldoutList(serializedObject, baseTilesProperty, (index) => itemHeight, DrawTile, header);
     }
 
     protected readonly SerializedObject _serializedObject;
 
     public string Name { get; set; }
 
-    private ReordableFoldoutList _tilesList;
+    private ReorderableFoldoutList _tilesList;
 
     public virtual void DrawTab(Rect rect)
     {
@@ -33,17 +36,23 @@ public class TileTab : IEditorMenuToolbarTab
     {
         float spriteLength = rect.height - 2;
         Rect spriteRect = new Rect(rect) { yMin = rect.yMin + 2, height = spriteLength, width = spriteLength };
-        Rect spriteObjectPickerRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = rect.yMin + 2, height = EditorGUIUtility.singleLineHeight };
-        Rect weightRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = spriteObjectPickerRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
+        Rect spriteObjectPickerRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = rect.yMin + 2f, height = EditorGUIUtility.singleLineHeight };
+        Rect tileTypeRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = spriteObjectPickerRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
+        Rect weightRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = tileTypeRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
 
-        SerializedProperty spriteProperty = baseTileProperty.FindPropertyRelative("item");
+        SerializedProperty tileTypeAndSpriteProperty = baseTileProperty.FindPropertyRelative("item");
         SerializedProperty weightCurveProperty = baseTileProperty.FindPropertyRelative("weightCurve");
+
+        SerializedProperty tileTypeProperty = tileTypeAndSpriteProperty.FindPropertyRelative("TileType");
+        SerializedProperty spriteProperty = tileTypeAndSpriteProperty.FindPropertyRelative("Sprite");
 
         Sprite sprite = spriteProperty.objectReferenceValue as Sprite;
 
         sprite.DrawSpriteInRect(spriteRect);
 
         EditorGUI.ObjectField(spriteObjectPickerRect, spriteProperty, new GUIContent("Tile"));
+
+        tileTypeProperty.enumValueFlag = (int)(TileType)EditorGUI.EnumPopup(tileTypeRect, new GUIContent(tileTypeProperty.displayName), (TileType)tileTypeProperty.enumValueFlag);
 
         EditorGUI.PropertyField(weightRect, weightCurveProperty);
     }

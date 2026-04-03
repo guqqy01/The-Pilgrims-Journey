@@ -13,160 +13,136 @@ MonoBehaviour:
   m_Name: Desert
   m_EditorClassIdentifier: 
   baseTiles:
+    weightedList: []
+  baseTilesAndType:
     weightedList:
-    - item: {fileID: -898463107, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    - item:
+        Sprite: {fileID: -898463107, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        TileType: 4
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-    - item: {fileID: 1662535437, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    - item:
+        Sprite: {fileID: 1662535437, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        TileType: 4
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-    - item: {fileID: -826868787, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    - item:
+        Sprite: {fileID: -826868787, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        TileType: 4
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-    - item: {fileID: 1887740450, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    - item:
+        Sprite: {fileID: 1887740450, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        TileType: 4
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-    - item: {fileID: -1816528647, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    - item:
+        Sprite: {fileID: -1816528647, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        TileType: 4
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-  autoBaseTiles:
-    TopLeft: {fileID: 971263032, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopCenter: {fileID: 1495799813, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopRight: {fileID: -2019334304, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopAndLeft: {fileID: 1701031663, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopAndRight: {fileID: -606150720, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    CenterLeft: {fileID: 845647618, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    CenterRight: {fileID: 2051338097, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    BottomAndLeft: {fileID: 1878497491, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    BottomAndRight: {fileID: -646392619, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    BottomLeft: {fileID: 892783855, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    BottomCenter: {fileID: 1188204486, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    BottomRight: {fileID: 927951942, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopLeftOutline: {fileID: 0}
-    TopCenterOutline: {fileID: 0}
-    TopRightOutline: {fileID: 0}
-    TopAndLeftOutline: {fileID: 0}
-    TopAndRightOutline: {fileID: 0}
-    CenterLeftOutline: {fileID: 0}
-    CenterRightOutline: {fileID: 0}
-    BottomAndLeftOutline: {fileID: 0}
-    BottomAndRightOutline: {fileID: 0}
-    BottomLeftOutline: {fileID: 0}
-    BottomCenterOutline: {fileID: 0}
-    BottomRightOutline: {fileID: 0}
+  baseWeights: 0100000001000000010000000100000001000000
+  autoBaseTileSettings: {fileID: 11400000, guid: d3368a0be9805ab49a243736db106833, type: 2}
   pathTiles:
+    weightedList: []
+  pathTilesAndType:
     weightedList:
-    - item: {fileID: 1875037000, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+    - item:
+        Sprite: {fileID: 1875037000, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        TileType: 16
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
         m_CurveMin:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_CurveMax:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-    - item: {fileID: 1988396242, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-      weightCurve:
-        m_Mode: 0
-        m_CurveMultiplier: 0
-        m_CurveMin:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
-        m_CurveMax:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 0
-          m_PostInfinity: 0
-          m_RotationOrder: 0
-        m_ConstantMin: 0
-        m_ConstantMax: 0
+  pathWeights: 0100000000000000
   mapObjects:
   - name: Tent
     overlay: {fileID: 8242683995244539426, guid: a450f8bff03132a44a1b000dec0e7977, type: 3}
@@ -337,98 +313,114 @@ MonoBehaviour:
     items:
     - perlinNoiseRange: {x: 0.2, y: 0.25}
       list:
+        weightedList: []
+      weights: 0100000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: 1830192241, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 1830192241, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: -2052003121, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -2052003121, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.35}
       list:
+        weightedList: []
+      weights: 010000000100000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: 518821306, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 518821306, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: -582284037, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -582284037, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 523315417, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 523315417, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
   - name: Rocks 2
@@ -437,59 +429,68 @@ MonoBehaviour:
     items:
     - perlinNoiseRange: {x: 0, y: 0.15}
       list:
+        weightedList: []
+      weights: 010000000100000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -832100134, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -832100134, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: -438809010, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -438809010, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 214870765, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 214870765, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
   - name: Grass
@@ -498,137 +499,160 @@ MonoBehaviour:
     items:
     - perlinNoiseRange: {x: 0, y: 0.2}
       list:
+        weightedList: []
+      weights: 0200000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -659925621, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -659925621, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 2
-        - item: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.2, y: 0.25}
       list:
+        weightedList: []
+      weights: 0100000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.3}
       list:
+        weightedList: []
+      weights: 010000000100000003000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: -573964703, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -573964703, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 3
   - name: Flowers 1
@@ -637,119 +661,140 @@ MonoBehaviour:
     items:
     - perlinNoiseRange: {x: 0, y: 0.2}
       list:
+        weightedList: []
+      weights: 0500000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 5
-        - item: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.2, y: 0.25}
       list:
+        weightedList: []
+      weights: 0100000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.3}
       list:
+        weightedList: []
+      weights: 0100000005000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 5
   - name: Flowers 2
@@ -758,122 +803,143 @@ MonoBehaviour:
     items:
     - perlinNoiseRange: {x: 0, y: 0.2}
       list:
+        weightedList: []
+      weights: 0500000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 5
-        - item: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.2, y: 0.25}
       list:
+        weightedList: []
+      weights: 0100000001000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.3}
       list:
+        weightedList: []
+      weights: 0100000005000000
+      tileTypeAndSpriteList:
         weightedList:
-        - item: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 1
-        - item: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        - item:
+            Sprite: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            TileType: 4
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
             m_CurveMin:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_CurveMax:
               serializedVersion: 2
               m_Curve: []
-              m_PreInfinity: 0
-              m_PostInfinity: 0
-              m_RotationOrder: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
             m_ConstantMin: 0
             m_ConstantMax: 5
   pathWidthRange: {x: 1, y: 1.5}
   pathNoiseScale: {x: 0.05, y: 0.05}
   pathNoiseTiling: {x: 0, y: 0}
-  cullingAmount: 0.2
+  cullingAmount: 0.5

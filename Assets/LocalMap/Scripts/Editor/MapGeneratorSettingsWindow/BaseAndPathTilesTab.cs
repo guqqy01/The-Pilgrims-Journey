@@ -9,8 +9,8 @@ public class BaseAndPathTilesTab : EditorMenuToolbarWindow, IEditorMenuToolbarTa
     {
         _tabs.Clear();
 
-        TileTab mapTilesTab = new TileTab("Map Tiles", serializedObject, "baseTiles", "Map Tiles");
-        PathSettingsTileTab pathTilesTab = new PathSettingsTileTab("Path Tiles", serializedObject, "pathTiles", "Path Tiles");
+        TileTab mapTilesTab = new TileTab("Map Tiles", serializedObject, "baseTilesAndType", "Map Tiles");
+        PathSettingsTileTab pathTilesTab = new PathSettingsTileTab("Path Tiles", serializedObject, "pathTilesAndType", "Path Tiles");
 
         _tabs.Add(mapTilesTab);
         _tabs.Add(pathTilesTab);

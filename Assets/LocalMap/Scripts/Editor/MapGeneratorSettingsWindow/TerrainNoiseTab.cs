@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using System;
+using LocalMap;
+
 public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
 {
     private readonly SerializedObject _serializedObject;
@@ -9,13 +11,13 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
 
     public string Name => "Terrain Noise";
 
-    private ReordableFoldoutList _terrainNoiseItemList;
-    private readonly List<ReordableFoldoutList> _terrainNoiseSpriteLists = new List<ReordableFoldoutList>();
+    private ReorderableFoldoutList _terrainNoiseItemList;
+    private readonly List<ReorderableFoldoutList> _terrainNoiseSpriteLists = new List<ReorderableFoldoutList>();
 
     private const float FieldPadding = 2f;
     private const float SectionPadding = 4f;
     private const float HeaderFieldCount = 4f;
-    private const float TilePreviewHeight = 64f;
+    private const float TilePreviewHeight = 80f;
 
     private bool _needsHeightRefresh = true;
 
@@ -28,7 +30,7 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
 
         SerializedProperty itemsProperty = terrainProperty.FindPropertyRelative("items");
 
-        _terrainNoiseItemList = new ReordableFoldoutList(
+        _terrainNoiseItemList = new ReorderableFoldoutList(
             _serializedObject,
             itemsProperty,
             (index) => GetTerrainNoiseSpriteElementHeight(index),
@@ -59,7 +61,7 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
 
         if (NeedsRebuild(_terrainNoiseItemList, terrainNoiseItemsProperty))
         {
-            _terrainNoiseItemList = new ReordableFoldoutList(
+            _terrainNoiseItemList = new ReorderableFoldoutList(
                 _serializedObject,
                 terrainNoiseItemsProperty,
                 (index) => GetTerrainNoiseSpriteElementHeight(index),
@@ -92,7 +94,7 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
     private void DrawTerrainNoiseItemElements(Rect rect, SerializedProperty terrainNoiseItemProperty, int terrainNoiseIndex)
     {
         SerializedProperty perlinNoiseRangeProp = terrainNoiseItemProperty.FindPropertyRelative("perlinNoiseRange");
-        SerializedProperty spriteListProp = terrainNoiseItemProperty.FindPropertyRelative("list").FindPropertyRelative("weightedList");
+        SerializedProperty spriteListProp = terrainNoiseItemProperty.FindPropertyRelative("tileTypeAndSpriteList").FindPropertyRelative("weightedList");
 
         Rect perlinNoiseRangeRect = new Rect(rect) { height = 2f * EditorGUIUtility.singleLineHeight };
         Rect spriteListRect = new Rect(rect) { yMin = perlinNoiseRangeRect.yMax + SectionPadding };
@@ -105,7 +107,7 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
         _terrainNoiseSpriteLists[terrainNoiseIndex].DoList(spriteListRect);
     }
 
-    private bool NeedsRebuild(ReordableFoldoutList list, SerializedProperty property)
+    private bool NeedsRebuild(ReorderableFoldoutList list, SerializedProperty property)
     {
         return list == null
         || list._listProperty == null
@@ -119,7 +121,7 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
 
         if(NeedsRebuild(_terrainNoiseSpriteLists[terrainNoiseIndex], terrainNoiseItemProperty))
         {
-            _terrainNoiseSpriteLists[terrainNoiseIndex] = new ReordableFoldoutList(
+            _terrainNoiseSpriteLists[terrainNoiseIndex] = new ReorderableFoldoutList(
                 _serializedObject,
                 terrainNoiseItemProperty,
                 (index) => height,
@@ -133,15 +135,22 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
         float spriteLength = rect.height - FieldPadding;
         Rect spriteRect = new Rect(rect) { yMin = rect.yMin + FieldPadding, height = spriteLength, width = spriteLength };
         Rect spriteObjectPickerRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = rect.yMin + FieldPadding, height = EditorGUIUtility.singleLineHeight };
-        Rect weightRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = spriteObjectPickerRect.yMax + FieldPadding, height = EditorGUIUtility.singleLineHeight };
+        Rect tileTypeRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = spriteObjectPickerRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
+        Rect weightRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = tileTypeRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
 
-        SerializedProperty spriteProperty = baseTileProperty.FindPropertyRelative("item");
+        SerializedProperty tileTypeAndSpriteProperty = baseTileProperty.FindPropertyRelative("item");
         SerializedProperty weightCurveProperty = baseTileProperty.FindPropertyRelative("weightCurve");
+
+        SerializedProperty tileTypeProperty = tileTypeAndSpriteProperty.FindPropertyRelative("TileType");
+        SerializedProperty spriteProperty = tileTypeAndSpriteProperty.FindPropertyRelative("Sprite");
 
         Sprite sprite = spriteProperty.objectReferenceValue as Sprite;
         sprite.DrawSpriteInRect(spriteRect);
 
         EditorGUI.ObjectField(spriteObjectPickerRect, spriteProperty, new GUIContent("Tile"));
+
+        tileTypeProperty.enumValueFlag = (int)(TileType)EditorGUI.EnumPopup(tileTypeRect, new GUIContent(tileTypeProperty.displayName), (TileType)tileTypeProperty.enumValueFlag);
+
         EditorGUI.PropertyField(weightRect, weightCurveProperty);
     }
 

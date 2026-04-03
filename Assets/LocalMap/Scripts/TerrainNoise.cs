@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using Unity.VisualScripting;
 namespace LocalMap
 {
     [Serializable]
@@ -21,7 +22,7 @@ namespace LocalMap
             seed = new Vector2(Random.Range(0, 100f), Random.Range(0, 100f));
         }
 
-        public Sprite GetTile(Vector2Int position)
+        public TileTypeAndSprite GetTile(Vector2Int position)
         {
             float x = (seed.x + (float)position.x) * scale.x;
             float y = (seed.y + (float)position.y) * scale.y;
@@ -36,21 +37,22 @@ namespace LocalMap
                     itemsInRange.Add(item);
             }
 
-            WeightedChanceList<Sprite> itemsInListWeightList = new WeightedChanceList<Sprite>();
+            WeightedChanceList<TileTypeAndSprite> itemsInListWeightList = new WeightedChanceList<TileTypeAndSprite>();
             foreach (TerrainNoiseItem terrainNoiseListItem in itemsInRange)
             {
-                itemsInListWeightList.weightedList.AddRange(terrainNoiseListItem.list.weightedList);
+                itemsInListWeightList.weightedList.AddRange(terrainNoiseListItem.tileTypeAndSpriteList.weightedList);
             }
 
             return itemsInListWeightList.GetRandom();
         }
     }
 
+
     [Serializable]
     public class TerrainNoiseItem
     {
         public Vector2 perlinNoiseRange;
-        public WeightedChanceList<Sprite> list;
+        public WeightedChanceList<TileTypeAndSprite> tileTypeAndSpriteList;
     }
 }
 

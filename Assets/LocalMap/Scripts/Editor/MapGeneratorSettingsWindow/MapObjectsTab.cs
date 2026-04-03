@@ -5,12 +5,12 @@ public class MapObjectsTab : IEditorMenuToolbarTab
 {
     public string Name => "Map Objects";
 
-    private ReordableFoldoutList _overlayMapObjectList;
+    private ReorderableFoldoutList _overlayMapObjectList;
 
     public MapObjectsTab(SerializedObject serializedObject)
     {
         SerializedProperty mapObjectsProp = serializedObject.FindProperty("mapObjects");
-        _overlayMapObjectList = new ReordableFoldoutList(serializedObject, mapObjectsProp, (index) => 128f, DrawOverlayMapObject, "Map Objects");
+        _overlayMapObjectList = new ReorderableFoldoutList(serializedObject, mapObjectsProp, (index) => 128f, DrawOverlayMapObject, "Map Objects");
     }
 
     public void DrawTab(Rect rect)

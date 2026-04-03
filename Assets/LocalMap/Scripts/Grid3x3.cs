@@ -45,11 +45,11 @@ public class Grid3x3<T>
     {
         get
         {
-            return this[0, 0];
+            return this[0, 2];
         }
         set
         {
-            grid[0, 0] = value;
+            grid[0, 2] = value;
         }
     }
 
@@ -57,11 +57,11 @@ public class Grid3x3<T>
     {
         get
         {
-            return this[1, 0];
+            return this[1, 2];
         }
         set
         {
-            grid[1, 0] = value;
+            grid[1, 2] = value;
         }
     }
 
@@ -69,11 +69,11 @@ public class Grid3x3<T>
     {
         get
         {
-            return this[2, 0];
+            return this[2, 2];
         }
         set
         {
-            grid[2, 0] = value;
+            grid[2, 2] = value;
         }
     }
 
@@ -117,11 +117,11 @@ public class Grid3x3<T>
     {
         get
         {
-            return this[0, 2];
+            return this[0, 0];
         }
         set
         {
-            grid[0, 2] = value;
+            grid[0, 0] = value;
         }
     }
 
@@ -129,11 +129,11 @@ public class Grid3x3<T>
     {
         get
         {
-            return this[1, 2];
+            return this[1, 0];
         }
         set
         {
-            grid[1, 2] = value;
+            grid[1, 0] = value;
         }
     }
 
@@ -141,15 +141,38 @@ public class Grid3x3<T>
     {
         get
         {
-            return this[2, 2];
+            return this[2, 0];
         }
         set
         {
-            grid[2, 2] = value;
+            grid[2, 0] = value;
         }
     }
 
     #endregion
+
+    public Grid3x3<T> ShiftContent(int xShift, int yShift)
+    {
+        Grid3x3<T> returnGrid = new Grid3x3<T>();
+
+        if(xShift < -3 || xShift > 3 ||  yShift < -3 || yShift > 3) { return returnGrid; }
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                int xSource = i - xShift;
+                int ySource = j - yShift;
+
+                if (xSource < 0 || xSource > 2 || ySource < 0 || ySource > 2)
+                    continue;
+
+                returnGrid[i, j] = grid[xSource, ySource];
+            }
+        }
+
+        return returnGrid;
+    }
 
     public static implicit operator Grid3x3<T>(T[,] value) => new Grid3x3<T>(value);
     public static implicit operator T[,](Grid3x3<T> value) => value.grid;

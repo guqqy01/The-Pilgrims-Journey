@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using System;
 
-public class ReordableFoldoutList
+public class ReorderableFoldoutList
 {
     public readonly SerializedObject _serializedObject;
     public readonly SerializedProperty _listProperty;
@@ -22,7 +22,7 @@ public class ReordableFoldoutList
 
     public float Height => _reorderableList.GetHeight();
 
-    public ReordableFoldoutList(SerializedObject serializedObject, SerializedProperty listProperty, Func<int, float> elementHeightFunction, Action<Rect, SerializedProperty, int> drawElementAction, string header = "")
+    public ReorderableFoldoutList(SerializedObject serializedObject, SerializedProperty listProperty, Func<int, float> elementHeightFunction, Action<Rect, SerializedProperty, int> drawElementAction, string header = "")
     {
         _serializedObject = serializedObject;
         _listProperty = listProperty.Copy();
