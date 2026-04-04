@@ -27,7 +27,7 @@ public class SectionalAudioClipDraggableRect : TimeLineDraggableRect
 
     public override void BeforeDrag()
     {
-        ignoreDragRects = new List<Rect> { AudioClipRect };
+        _ignoreDragRects = new List<Rect> { AudioClipRect };
     }
 
     private void DrawAudioClipObject()

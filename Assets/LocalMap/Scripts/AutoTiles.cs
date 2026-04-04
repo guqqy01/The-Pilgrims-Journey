@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LocalMap
 {
     [Serializable]
-    public class AutoTile
+    public class AutoTiles
     {
         public TileType OverTileType;
         public TileType UnderTileType;
@@ -13,43 +14,20 @@ namespace LocalMap
         public Sprite OverBase;
         public Sprite UnderBase;
 
-        [Header("Normal")]
-        [Header("Straight", order = 1)]
-        public Sprite TopCenter;
-        public Sprite CenterLeft;
-        public Sprite CenterRight;
-        public Sprite BottomCenter;
+        public AutoTileSpriteAndWalkability TopCenterAutoTile;
+        public AutoTileSpriteAndWalkability CenterLeftAutoTile;
+        public AutoTileSpriteAndWalkability CenterRightAutoTile;
+        public AutoTileSpriteAndWalkability BottomCenterAutoTile;
 
-        [Header("Small Corner")]
-        public Sprite TopRight;
-        public Sprite TopLeft;
-        public Sprite BottomLeft;
-        public Sprite BottomRight;
+        public AutoTileSpriteAndWalkability TopRightAutoTile;
+        public AutoTileSpriteAndWalkability TopLeftAutoTile;
+        public AutoTileSpriteAndWalkability BottomLeftAutoTile;
+        public AutoTileSpriteAndWalkability BottomRightAutoTile;
 
-        [Header("Big Corner")]
-        public Sprite TopAndLeft;
-        public Sprite TopAndRight;
-        public Sprite BottomAndLeft;
-        public Sprite BottomAndRight;
-
-        [Header("Outline")]
-        [Header("Straight", order = 1)]
-        public Sprite TopCenterOutline;
-        public Sprite CenterLeftOutline;
-        public Sprite CenterRightOutline;
-        public Sprite BottomCenterOutline;
-
-        [Header("Small Corner")]
-        public Sprite TopLeftOutline;
-        public Sprite TopRightOutline;
-        public Sprite BottomLeftOutline;
-        public Sprite BottomRightOutline;
-
-        [Header("Big Corner")]
-        public Sprite TopAndLeftOutline;
-        public Sprite TopAndRightOutline;
-        public Sprite BottomAndLeftOutline;
-        public Sprite BottomAndRightOutline;
+        public AutoTileSpriteAndWalkability TopAndLeftAutoTile;
+        public AutoTileSpriteAndWalkability TopAndRightAutoTile;
+        public AutoTileSpriteAndWalkability BottomAndLeftAutoTile;
+        public AutoTileSpriteAndWalkability BottomAndRightAutoTile;
 
         public List<Sprite> GetNormalSprites(Grid3x3<bool> boolGrid)
         {
@@ -57,62 +35,62 @@ namespace LocalMap
 
             if (StraightBottomCenter(boolGrid))
             {
-                returnList.Add(BottomCenter);
+                returnList.Add(BottomCenterAutoTile.BaseSprite);
             }
 
             if (StraightCenterLeft(boolGrid))
             {
-                returnList.Add(CenterLeft);
+                returnList.Add(CenterLeftAutoTile.BaseSprite);
             }
 
             if (StraightCenterRight(boolGrid))
             {
-                returnList.Add(CenterRight);
+                returnList.Add(CenterRightAutoTile.BaseSprite);
             }
 
             if (StraightTopCenter(boolGrid))
             {
-                returnList.Add(TopCenter);
+                returnList.Add(TopCenterAutoTile.BaseSprite);
             }
 
             if (SmallCornerBottomLeft(boolGrid))
             {
-                returnList.Add(BottomLeft);
+                returnList.Add(BottomLeftAutoTile.BaseSprite);
             }
 
             if (SmallCornerBottomRight(boolGrid))
             {
-                returnList.Add(BottomRight);
+                returnList.Add(BottomRightAutoTile.BaseSprite);
             }
 
             if (SmallCornerTopLeft(boolGrid))
             {
-                returnList.Add(TopLeft);
+                returnList.Add(TopLeftAutoTile.BaseSprite);
             }
 
             if (SmallCornerTopRight(boolGrid))
             {
-                returnList.Add(TopRight);
+                returnList.Add(TopRightAutoTile.BaseSprite);
             }
 
             if (BigCornerBottomLeft(boolGrid))
             {
-                returnList.Add(BottomAndLeft);
+                returnList.Add(BottomAndLeftAutoTile.BaseSprite);
             }
 
             if (BigCornerBottomRight(boolGrid))
             {
-                returnList.Add(BottomAndRight);
+                returnList.Add(BottomAndRightAutoTile.BaseSprite);
             }
 
             if (BigCornerTopLeft(boolGrid))
             {
-                returnList.Add(TopAndLeft);
+                returnList.Add(TopAndLeftAutoTile.BaseSprite);
             }
 
             if (BigCornerTopRight(boolGrid))
             {
-                returnList.Add(TopAndRight);
+                returnList.Add(TopAndRightAutoTile.BaseSprite);
             }
 
             return returnList;
@@ -124,62 +102,62 @@ namespace LocalMap
 
             if (StraightBottomCenter(boolGrid))
             {
-                returnList.Add(BottomCenterOutline);
+                returnList.Add(BottomCenterAutoTile.OutlineSprite);
             }
 
             if (StraightCenterLeft(boolGrid))
             {
-                returnList.Add(CenterLeftOutline);
+                returnList.Add(CenterLeftAutoTile.OutlineSprite);
             }
 
             if (StraightCenterRight(boolGrid))
             {
-                returnList.Add(CenterRightOutline);
+                returnList.Add(CenterRightAutoTile.OutlineSprite);
             }
 
             if (StraightTopCenter(boolGrid))
             {
-                returnList.Add(TopCenterOutline);
+                returnList.Add(TopCenterAutoTile.OutlineSprite);
             }
 
             if (SmallCornerBottomLeft(boolGrid))
             {
-                returnList.Add(BottomLeftOutline);
+                returnList.Add(BottomLeftAutoTile.OutlineSprite);
             }
 
             if (SmallCornerBottomRight(boolGrid))
             {
-                returnList.Add(BottomRightOutline);
+                returnList.Add(BottomRightAutoTile.OutlineSprite);
             }
 
             if (SmallCornerTopLeft(boolGrid))
             {
-                returnList.Add(TopLeftOutline);
+                returnList.Add(TopLeftAutoTile.OutlineSprite);
             }
 
             if (SmallCornerTopRight(boolGrid))
             {
-                returnList.Add(TopRightOutline);
+                returnList.Add(TopRightAutoTile.OutlineSprite);
             }
 
             if (BigCornerBottomLeft(boolGrid))
             {
-                returnList.Add(BottomAndLeftOutline);
+                returnList.Add(BottomAndLeftAutoTile.OutlineSprite);
             }
 
             if (BigCornerBottomRight(boolGrid))
             {
-                returnList.Add(BottomAndRightOutline);
+                returnList.Add(BottomAndRightAutoTile.OutlineSprite);
             }
 
             if (BigCornerTopLeft(boolGrid))
             {
-                returnList.Add(TopAndLeftOutline);
+                returnList.Add(TopAndLeftAutoTile.OutlineSprite);
             }
 
             if (BigCornerTopRight(boolGrid))
             {
-                returnList.Add(TopAndRightOutline);
+                returnList.Add(TopAndRightAutoTile.OutlineSprite);
             }
 
             return returnList;
@@ -420,7 +398,69 @@ namespace LocalMap
                 TopLeft = false,
             };
         }
+
+        
     }
 
+    [Serializable]
+    public class AutoTileSpriteAndWalkability
+    {
+        public Sprite BaseSprite;
+        public Sprite OutlineSprite;
 
+        public List<AutoTileWalkability> walkabilityBounds;
+
+        public bool IsWalkable(Vector2 relativePosition)
+        {
+            return walkabilityBounds.Any(b => b.Contains(relativePosition));
+        }
+    }
+
+    [Serializable]
+    public class AutoTileWalkability : IDraggableRectCompatible
+    {
+        public Vector2 Size;
+        public Vector2 Position;
+
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
+
+        public Vector2 GetSize()
+        {
+            return Size;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            Position = position;
+        }
+
+        public void SetSize(Vector2 size)
+        {
+            Size = size;
+        }
+
+        public bool Contains(Vector2 position)
+        {
+            Rect rect = new Rect() { position = Position, size = Size };
+
+            return rect.Contains(position);
+        }
+    }
+}
+
+public interface IDraggableRectCompatible
+{
+    public Vector2 GetSize();
+    public void SetSize(Vector2 size);
+
+    public Vector2 GetPosition();
+    public void SetPosition(Vector2 position);
+
+    public Rect GetRect()
+    {
+        return new Rect() { position = GetPosition(), size = GetSize() };
+    }
 }

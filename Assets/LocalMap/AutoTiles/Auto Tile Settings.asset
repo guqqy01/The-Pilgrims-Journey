@@ -17,168 +17,314 @@ MonoBehaviour:
     UnderTileType: 28
     OverBase: {fileID: 1224797063, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
     UnderBase: {fileID: -1075239852, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopCenter: {fileID: -1192822868109277135, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    CenterLeft: {fileID: 5289853148265052101, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    CenterRight: {fileID: 1533450810422165619, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomCenter: {fileID: 7394485116440896489, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopRight: {fileID: 5499102808811291059, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopLeft: {fileID: 1276579637814787883, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomLeft: {fileID: 7791781323704072601, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomRight: {fileID: 7804948303357740356, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopAndLeft: {fileID: 3232860104348983722, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopAndRight: {fileID: 1849632053031277170, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomAndLeft: {fileID: 1231773538799002104, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomAndRight: {fileID: -3056819783025541151, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopCenterOutline: {fileID: -279746236, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    CenterLeftOutline: {fileID: -1813908198, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    CenterRightOutline: {fileID: -3491790923311383947, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomCenterOutline: {fileID: 5798898111997052417, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopLeftOutline: {fileID: -4508080095157486718, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopRightOutline: {fileID: 8615210923307656285, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomLeftOutline: {fileID: -3027338058270526890, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomRightOutline: {fileID: -5976151654131014378, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopAndLeftOutline: {fileID: 2036788486, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    TopAndRightOutline: {fileID: -1525412736, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomAndLeftOutline: {fileID: 697377541, guid: 375230237df55ab45b69587840a8d73a, type: 3}
-    BottomAndRightOutline: {fileID: 6693665350190009555, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+    TopCenterAutoTile:
+      BaseSprite: {fileID: -1192822868109277135, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: -279746236, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds:
+      - Size: {x: 101, y: 43.6}
+        Position: {x: 358.77777, y: 336.1111}
+    CenterLeftAutoTile:
+      BaseSprite: {fileID: 5289853148265052101, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: -1813908198, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    CenterRightAutoTile:
+      BaseSprite: {fileID: 1533450810422165619, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: -3491790923311383947, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    BottomCenterAutoTile:
+      BaseSprite: {fileID: 7394485116440896489, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: 5798898111997052417, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    TopRightAutoTile:
+      BaseSprite: {fileID: 5499102808811291059, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: 8615210923307656285, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    TopLeftAutoTile:
+      BaseSprite: {fileID: 1276579637814787883, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: -4508080095157486718, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    BottomLeftAutoTile:
+      BaseSprite: {fileID: 7791781323704072601, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: -3027338058270526890, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    BottomRightAutoTile:
+      BaseSprite: {fileID: 7804948303357740356, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: -5976151654131014378, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    TopAndLeftAutoTile:
+      BaseSprite: {fileID: 3232860104348983722, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: 2036788486, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    TopAndRightAutoTile:
+      BaseSprite: {fileID: 1849632053031277170, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: -1525412736, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    BottomAndLeftAutoTile:
+      BaseSprite: {fileID: 1231773538799002104, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: 697377541, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
+    BottomAndRightAutoTile:
+      BaseSprite: {fileID: -3056819783025541151, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      OutlineSprite: {fileID: 6693665350190009555, guid: 375230237df55ab45b69587840a8d73a, type: 3}
+      walkabilityBounds: []
   - OverTileType: 8
     UnderTileType: 6
     OverBase: {fileID: 241605978, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
     UnderBase: {fileID: -1572650292, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopCenter: {fileID: -8559865168976696288, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    CenterLeft: {fileID: 5752799259157941258, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    CenterRight: {fileID: 1002243057, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    BottomCenter: {fileID: -710113940, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    TopRight: {fileID: -1285249917679344834, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    TopLeft: {fileID: -3574176167338345140, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    BottomLeft: {fileID: -2328300512701219205, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    BottomRight: {fileID: 3141536780724884891, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    TopAndLeft: {fileID: 3384703777647819924, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    TopAndRight: {fileID: 674545411, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    BottomAndLeft: {fileID: 833784866, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    BottomAndRight: {fileID: -137776202, guid: c485f18c09f9c1448880287a043e5b9f, type: 3}
-    TopCenterOutline: {fileID: 0}
-    CenterLeftOutline: {fileID: 0}
-    CenterRightOutline: {fileID: 0}
-    BottomCenterOutline: {fileID: 0}
-    TopLeftOutline: {fileID: 0}
-    TopRightOutline: {fileID: 0}
-    BottomLeftOutline: {fileID: 0}
-    BottomRightOutline: {fileID: 0}
-    TopAndLeftOutline: {fileID: 0}
-    TopAndRightOutline: {fileID: 0}
-    BottomAndLeftOutline: {fileID: 0}
-    BottomAndRightOutline: {fileID: 0}
+    TopCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
   - OverTileType: 32
     UnderTileType: 1
     OverBase: {fileID: 1527310793, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
     UnderBase: {fileID: -1652869321, guid: b8e0bb3322bdb3e4cbc2fcbbf0556ab3, type: 3}
-    TopCenter: {fileID: -753368604, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    CenterLeft: {fileID: -453338420, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    CenterRight: {fileID: 1988065767, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomCenter: {fileID: 1367927814, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopRight: {fileID: -1124853195, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopLeft: {fileID: -6196031197903921715, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomLeft: {fileID: -641512084, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomRight: {fileID: 343965011, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopAndLeft: {fileID: -1869759190, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopAndRight: {fileID: 934358801, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomAndLeft: {fileID: -100657045, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomAndRight: {fileID: -275752978, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopCenterOutline: {fileID: -1743419595, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    CenterLeftOutline: {fileID: 1860997437, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    CenterRightOutline: {fileID: -619404410, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomCenterOutline: {fileID: 1789289351, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopLeftOutline: {fileID: 6584601168830695082, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopRightOutline: {fileID: 647951850746277987, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomLeftOutline: {fileID: 71480963, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomRightOutline: {fileID: 1106420121, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopAndLeftOutline: {fileID: -1393154248, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    TopAndRightOutline: {fileID: 195760105, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomAndLeftOutline: {fileID: -2099074936, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-    BottomAndRightOutline: {fileID: 478055567, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
+    TopCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
   - OverTileType: 16
     UnderTileType: 14
     OverBase: {fileID: -422568466, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
     UnderBase: {fileID: -1572650292, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-    TopCenter: {fileID: 3727265024522937520, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    CenterLeft: {fileID: -294809579422843959, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    CenterRight: {fileID: 1677057770, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    BottomCenter: {fileID: 32069599, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    TopRight: {fileID: 3170992792573294145, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    TopLeft: {fileID: -601783056023007265, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    BottomLeft: {fileID: -8012713065235921396, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    BottomRight: {fileID: 942185385, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    TopAndLeft: {fileID: 4680059092858436629, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    TopAndRight: {fileID: 872326934, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    BottomAndLeft: {fileID: 709877882, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    BottomAndRight: {fileID: -1839415941, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
-    TopCenterOutline: {fileID: 0}
-    CenterLeftOutline: {fileID: 0}
-    CenterRightOutline: {fileID: 0}
-    BottomCenterOutline: {fileID: 0}
-    TopLeftOutline: {fileID: 0}
-    TopRightOutline: {fileID: 0}
-    BottomLeftOutline: {fileID: 0}
-    BottomRightOutline: {fileID: 0}
-    TopAndLeftOutline: {fileID: 0}
-    TopAndRightOutline: {fileID: 0}
-    BottomAndLeftOutline: {fileID: 0}
-    BottomAndRightOutline: {fileID: 0}
+    TopCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
   - OverTileType: 8
     UnderTileType: 1
     OverBase: {fileID: -1849351730, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
     UnderBase: {fileID: -1652869321, guid: b8e0bb3322bdb3e4cbc2fcbbf0556ab3, type: 3}
-    TopCenter: {fileID: -613582643, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    CenterLeft: {fileID: -528213677, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    CenterRight: {fileID: 575348049, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomCenter: {fileID: 1286500725, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopRight: {fileID: -791273268909212789, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopLeft: {fileID: -2478650239931899009, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomLeft: {fileID: 563049693, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomRight: {fileID: -16584359, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopAndLeft: {fileID: -439315979, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopAndRight: {fileID: -511765475, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomAndLeft: {fileID: -1313306941, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomAndRight: {fileID: 549390584, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopCenterOutline: {fileID: -1773250773, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    CenterLeftOutline: {fileID: -1429188708, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    CenterRightOutline: {fileID: 1471269211, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomCenterOutline: {fileID: 541986967, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopLeftOutline: {fileID: -2003576457199578786, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopRightOutline: {fileID: -5887050553384028278, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomLeftOutline: {fileID: 871762273173541467, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomRightOutline: {fileID: 1829897022933741765, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopAndLeftOutline: {fileID: 605775672, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    TopAndRightOutline: {fileID: 837819673, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomAndLeftOutline: {fileID: 6033356, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
-    BottomAndRightOutline: {fileID: 432362031, guid: a28a35172dfcfec42bba5cb2dad35ec7, type: 3}
+    TopCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
   - OverTileType: 16
     UnderTileType: 1
     OverBase: {fileID: 5146210543634190687, guid: 8eaaa6365821386458914033af009a37, type: 3}
     UnderBase: {fileID: -1652869321, guid: b8e0bb3322bdb3e4cbc2fcbbf0556ab3, type: 3}
-    TopCenter: {fileID: 545557582, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    CenterLeft: {fileID: -1358665681, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    CenterRight: {fileID: -131469280, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomCenter: {fileID: -1185040126, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopRight: {fileID: 1243825000775872133, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopLeft: {fileID: -8005004014958433004, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomLeft: {fileID: 1395957599, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomRight: {fileID: -627738171, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopAndLeft: {fileID: -2118813891, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopAndRight: {fileID: -758145722, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomAndLeft: {fileID: -1630546608, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomAndRight: {fileID: -1485815745, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopCenterOutline: {fileID: -2144903667, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    CenterLeftOutline: {fileID: 1298457466, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    CenterRightOutline: {fileID: -2079795627, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomCenterOutline: {fileID: 110427644, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopLeftOutline: {fileID: 5960253721432233231, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopRightOutline: {fileID: -3744934263447315006, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomLeftOutline: {fileID: -6269501832897786321, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomRightOutline: {fileID: 1484567937, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopAndLeftOutline: {fileID: -606845735, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    TopAndRightOutline: {fileID: 1494283658, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomAndLeftOutline: {fileID: -1300230251, guid: 8eaaa6365821386458914033af009a37, type: 3}
-    BottomAndRightOutline: {fileID: -538592669, guid: 8eaaa6365821386458914033af009a37, type: 3}
-  drawOrderForType: 00000000010000000200000004000000080000001000000020000000
+    TopCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    CenterRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomCenterAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    TopAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndLeftAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+    BottomAndRightAutoTile:
+      BaseSprite: {fileID: 0}
+      OutlineSprite: {fileID: 0}
+      walkabilityBounds: []
+  drawOrderForType: 01000000000000000200000004000000080000001000000020000000

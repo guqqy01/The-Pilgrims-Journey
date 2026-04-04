@@ -1,19 +1,110 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using NUnit.Framework;
-using static UnityEditor.Rendering.FilterWindow;
-using Codice.Client.BaseCommands;
-using UnityEditor.XR;
 using System.Linq;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static DraggableArea;
+
+public class DraggableArea<T> : DraggableArea where T : IDraggableRectCompatible
+{
+    private readonly List<T> _list;
+
+    private readonly Dictionary<DraggableRect, T> _draggableRectAndItem = new Dictionary<DraggableRect, T>();
+
+    public Vector2 rectAreaScale;
+
+    public DraggableArea(List<T> compatibleList)
+    {
+        _list = compatibleList;
+        protectedOnDraggingRect += SyncDraggedItemToRect;
+    }
+
+    public override void HandleDraggableRects(Event e)
+    {
+        HandleAmountOfDraggableRects();
+        SetRectValues();
+        base.HandleDraggableRects(e);
+    }
+
+    private Rect ClampRectToArea(Rect rect)
+    {
+        if (limitXSizeToRect)
+            rect.width = Mathf.Min(rect.width, AreaRect.width);
+        if (limitYSizeToRect)
+            rect.height = Mathf.Min(rect.height, AreaRect.height);
+        if (limitXPositionToRect)
+            rect.x = Mathf.Clamp(rect.x, AreaRect.xMin, AreaRect.xMax - rect.width);
+        if (limitYPositionToRect)
+            rect.y = Mathf.Clamp(rect.y, AreaRect.yMin, AreaRect.yMax - rect.height);
+
+        return rect;
+    }
+
+    protected void SyncDraggedItemToRect(DraggableRect draggedRect)
+    {
+        if (!_draggableRectAndItem.TryGetValue(draggedRect, out T item))
+            return;
+
+        item.SetPosition(draggedRect.rect.position);
+        item.SetSize(draggedRect.rect.size);
+    }
+
+    private void SetRectValues()
+    {
+        foreach (DraggableRect draggableRect in _draggableRects)
+        {
+            if (!_draggableRectAndItem.TryGetValue(draggableRect, out T item))
+                continue;
+
+            draggableRect.rect = ClampRectToArea(item.GetRect());
+
+            item.SetPosition(draggableRect.rect.position);
+            item.SetSize(draggableRect.rect.size);
+        }
+    }
+
+    protected void HandleAmountOfDraggableRects()
+    {
+        //Remove draggable rects
+
+        List<DraggableRect> draggableRectsToRemove = new List<DraggableRect>();
+
+        foreach(DraggableRect draggableRect in _draggableRects)
+        {
+            if (!_draggableRectAndItem.TryGetValue(draggableRect, out T item) || !_list.Contains(item))
+                draggableRectsToRemove.Add(draggableRect);
+        }
+        
+        for (int i = 0; i < draggableRectsToRemove.Count; i++)
+        {
+            _draggableRects.Remove(draggableRectsToRemove[i]);
+            _draggableRectAndItem.Remove(draggableRectsToRemove[i]);
+        }
+
+        //Add draggable rects
+
+        if (_list == null)
+            return;
+
+        for (int i = 0; i < _list.Count; i++)
+        {
+            T item = _list[i];
+
+            if (!_draggableRectAndItem.ContainsValue(item))
+            {
+                DraggableRect draggableRect = new DraggableRect(item.GetRect(), DefaultConstrainX , DefaultConstrainY, defaultInnerColor, defaultOuterColor, defaultIgnoreOtherDraggableRects);
+                Add(0, draggableRect);
+                _draggableRectAndItem.Add(draggableRect, item);
+            }
+        }
+    }
+}
+
+
 
 public class DraggableArea
 {
-    public Rect areaRect;
+    public Rect AreaRect;
 
-    protected readonly List<DraggableRect> draggableRects = new List<DraggableRect>();
+    protected readonly List<DraggableRect> _draggableRects = new List<DraggableRect>();
     protected readonly SortedDictionary<int, List<DraggableRect>> layerAndDrawOrders = new SortedDictionary<int, List<DraggableRect>>();
 
     public Color backgroundColorInner = Color.grey;
@@ -25,10 +116,13 @@ public class DraggableArea
     public bool defaultIgnoreOtherDraggableRects;
     public bool fillOtherAxis;
 
-    public bool DraggingRect { private set; get; }
-    public DraggableRect currentlyDraggingRect;
+    public bool DefaultConstrainX = false;
+    public bool DefaultConstrainY = false;
 
-    public List<Rect> avaliableRectsForDraggedRectToMoveWithin = new List<Rect>();
+    public bool DraggingRect { private set; get; }
+    public DraggableRect CurrentlyDraggingRect { private set; get; }
+
+    private List<Rect> _avaliableRectsForDraggedRectToMoveWithin = new List<Rect>();
 
     public delegate void BeforeDraw(Rect rect);
     public BeforeDraw beforeDraw;
@@ -41,7 +135,7 @@ public class DraggableArea
     public delegate void AfterDrag();
     public AfterDrag afterDrag;
 
-    protected delegate void ProtectedOnDraggingRect();
+    protected delegate void ProtectedOnDraggingRect(DraggableRect draggingRect);
     protected ProtectedOnDraggingRect protectedOnDraggingRect;
 
     public Dictionary<string, GenericMenu.MenuFunction> rightClickSpaceOptions = new Dictionary<string, GenericMenu.MenuFunction>();
@@ -50,12 +144,15 @@ public class DraggableArea
     public delegate void OnRightClickRect(DraggableRect rectClicked);
     public OnRightClickRect onRightClickRect;
 
-    public bool rightClickedItem;
-    public Vector2 positionClicked;
-    public DraggableRect rectRightClicked;
+    private bool _rightClickedItem;
+    public Vector2 PositionClicked { private set; get; }
+    public DraggableRect RectRightClicked { private set; get; }
 
     public bool limitXPositionToRect = true;
     public bool limitYPositionToRect = true;
+
+    public bool limitXSizeToRect = true;
+    public bool limitYSizeToRect = true;
 
     public DraggableArea() { }
 
@@ -63,13 +160,13 @@ public class DraggableArea
     {
         get
         {
-            return draggableRects[i];
+            return _draggableRects[i];
         }
     }
 
     public List<DraggableRect> GetDraggableRects()
     {
-        return draggableRects;
+        return _draggableRects;
     }
 
     public List<DraggableRect> GetDraggableRects(int layer)
@@ -96,24 +193,24 @@ public class DraggableArea
 
         DrawBackground();
 
-        beforeDraw?.Invoke(areaRect);
+        beforeDraw?.Invoke(AreaRect);
 
         if (DraggingRect)
         {
-            protectedOnDraggingRect?.Invoke();
+            protectedOnDraggingRect?.Invoke(CurrentlyDraggingRect);
             GUI.changed = true;
         }
 
         DrawRects(e);
 
-        afterDraw?.Invoke(areaRect);
+        afterDraw?.Invoke(AreaRect);
     }
 
     private void HandleBeforeDrag()
     {
         beforeDrag?.Invoke();
 
-        foreach(DraggableRect rect in draggableRects)
+        foreach(DraggableRect rect in _draggableRects)
         {
             rect.BeforeDrag();
         }
@@ -123,7 +220,7 @@ public class DraggableArea
     {
         afterDrag?.Invoke();
 
-        foreach (DraggableRect rect in draggableRects)
+        foreach (DraggableRect rect in _draggableRects)
         {
             rect.AfterDrag();
         }
@@ -132,7 +229,7 @@ public class DraggableArea
     private void DrawBackground()
     {
         Handles.color = Color.white;
-        Handles.DrawSolidRectangleWithOutline(areaRect, backgroundColorInner, backgroundColorOuter);
+        Handles.DrawSolidRectangleWithOutline(AreaRect, backgroundColorInner, backgroundColorOuter);
     }
 
     private void HandleRightClick(Event e)
@@ -140,9 +237,9 @@ public class DraggableArea
         if (e.type != EventType.MouseDown || e.button != 1)
             return;
 
-        rightClickedItem = false;
+        _rightClickedItem = false;
 
-        positionClicked = e.mousePosition;
+        PositionClicked = e.mousePosition;
 
         foreach(var layerAndDrawOrder in layerAndDrawOrders)
         {
@@ -150,8 +247,8 @@ public class DraggableArea
             {
                 if (rect.rect.Contains(e.mousePosition))
                 {
-                    rightClickedItem = true;
-                    rectRightClicked = rect;
+                    _rightClickedItem = true;
+                    RectRightClicked = rect;
 
                     onRightClickRect?.Invoke(rect);
 
@@ -171,7 +268,7 @@ public class DraggableArea
             }
         }
         
-        if (!rightClickedItem && areaRect.Contains(e.mousePosition))
+        if (!_rightClickedItem && AreaRect.Contains(e.mousePosition))
         {
             GenericMenu menu = new GenericMenu();
             foreach (KeyValuePair<string, GenericMenu.MenuFunction> kvp in rightClickSpaceOptions)
@@ -194,7 +291,7 @@ public class DraggableArea
         {
             foreach (var rect in drawOrder)
             {
-                if (!draggableRects.Contains(rect))
+                if (!_draggableRects.Contains(rect))
                     toRemove.Add(rect);
             }
 
@@ -204,7 +301,7 @@ public class DraggableArea
             }
         }
 
-        foreach (DraggableRect draggableRect in draggableRects)
+        foreach (DraggableRect draggableRect in _draggableRects)
         {
             bool foundRectInDrawOrder = false;
 
@@ -238,13 +335,13 @@ public class DraggableArea
 
         foreach(DraggableRect draggableRect in layerAndDrawOrders[layer])
         {
-            draggableRects.Remove(draggableRect);
+            _draggableRects.Remove(draggableRect);
         }
     }
 
     public void Add(int layer, DraggableRect draggableRect)
     {
-        draggableRects.Add(draggableRect);
+        _draggableRects.Add(draggableRect);
         if (layerAndDrawOrders.ContainsKey(layer))
         {
             layerAndDrawOrders[layer].Add(draggableRect);
@@ -257,7 +354,7 @@ public class DraggableArea
 
     public void Remove(DraggableRect draggableRect)
     {
-        draggableRects.Remove(draggableRect);
+        _draggableRects.Remove(draggableRect);
     }
 
     private void DrawRects(Event e)
@@ -293,8 +390,7 @@ public class DraggableArea
                 if (drawOrder[j].HandleStartDrag(e))
                 {
                     DraggingRect = true;
-                    currentlyDraggingRect = drawOrder[j];
-                    currentlyDraggingRect.dragging = true;
+                    CurrentlyDraggingRect = drawOrder[j];
                     e.Use();
                     break;
                 }
@@ -304,8 +400,8 @@ public class DraggableArea
 
             if (DraggingRect)
             {
-                drawOrder.Remove(currentlyDraggingRect);
-                drawOrder.Add(currentlyDraggingRect);
+                drawOrder.Remove(CurrentlyDraggingRect);
+                drawOrder.Add(CurrentlyDraggingRect);
                 break;
             }
         }
@@ -313,14 +409,14 @@ public class DraggableArea
         drawOrders.Reverse();
 
         if (DraggingRect)
-            avaliableRectsForDraggedRectToMoveWithin = FindAvaliableRectsForDraggedRectToMoveWithin();
+            _avaliableRectsForDraggedRectToMoveWithin = FindAvaliableRectsForDraggedRectToMoveWithin();
     }
 
     private void HandleEndDrag(Event e)
     {
         if (DraggingRect && ((e.type == EventType.MouseUp && e.button == 0) || (e.type == EventType.MouseEnterWindow)))
         {
-            currentlyDraggingRect.dragging = false;
+            CurrentlyDraggingRect.StopDragging();
             DraggingRect = false;
         }
     }
@@ -340,21 +436,21 @@ public class DraggableArea
         List<float> verticalLines = new List<float>();
         List<float> horizontalLines = new List<float>();
 
-        if (!currentlyDraggingRect.ignoreOtherDraggableRects)
+        if (!CurrentlyDraggingRect.IgnoreOtherDraggableRects)
         {
-            for (int i = 0; i < draggableRects.Count; i++)
+            for (int i = 0; i < _draggableRects.Count; i++)
             {
-                if (draggableRects[i] == currentlyDraggingRect || draggableRects[i].ignoreOtherDraggableRects)
+                if (_draggableRects[i] == CurrentlyDraggingRect || _draggableRects[i].IgnoreOtherDraggableRects)
                     continue;
 
-                Rect rect = draggableRects[i].rect;
-                if (!currentlyDraggingRect.constrainedX)
+                Rect rect = _draggableRects[i].rect;
+                if (!CurrentlyDraggingRect.ConstrainedX)
                 {
                     verticalLines.Add(rect.xMin);
                     verticalLines.Add(rect.xMax);
                 }
 
-                if (!currentlyDraggingRect.constrainedY)
+                if (!CurrentlyDraggingRect.ConstrainedY)
                 {
                     horizontalLines.Add(rect.yMin);
                     horizontalLines.Add(rect.yMax);
@@ -379,30 +475,30 @@ public class DraggableArea
                     {
                         float xMin = (xMinIndex != -1) ?
                             verticalLines[xMinIndex] :
-                            limitXPositionToRect ? areaRect.xMin : float.MinValue;
+                            limitXPositionToRect ? AreaRect.xMin : float.MinValue;
 
                         float xMax = (xMaxIndex != verticalLines.Count) ? 
                             verticalLines[xMaxIndex] :
-                            limitXPositionToRect ? areaRect.xMax : float.MaxValue;
+                            limitXPositionToRect ? AreaRect.xMax : float.MaxValue;
 
                         float yMin = (yMinIndex != -1) ? 
                             horizontalLines[yMinIndex] : 
-                            limitYPositionToRect ? areaRect.yMin : float.MinValue;
+                            limitYPositionToRect ? AreaRect.yMin : float.MinValue;
 
                         float yMax = (yMaxIndex != horizontalLines.Count) ? 
                             horizontalLines[yMaxIndex] :
-                            limitYPositionToRect ? areaRect.yMax : float.MaxValue;
+                            limitYPositionToRect ? AreaRect.yMax : float.MaxValue;
 
 
-                        if (currentlyDraggingRect.constrainedX)
+                        if (CurrentlyDraggingRect.ConstrainedX)
                         {
-                            xMax = currentlyDraggingRect.rect.xMax;
-                            xMin = currentlyDraggingRect.rect.xMin;
+                            xMax = CurrentlyDraggingRect.rect.xMax;
+                            xMin = CurrentlyDraggingRect.rect.xMin;
                         }
-                        if (currentlyDraggingRect.constrainedY)
+                        if (CurrentlyDraggingRect.ConstrainedY)
                         {
-                            yMax = currentlyDraggingRect.rect.yMax;
-                            yMin = currentlyDraggingRect.rect.yMin;
+                            yMax = CurrentlyDraggingRect.rect.yMax;
+                            yMin = CurrentlyDraggingRect.rect.yMin;
                         }
 
                         Rect candidateRect = new Rect() { xMin = xMin, xMax = xMax, yMin = yMin, yMax = yMax };
@@ -433,7 +529,7 @@ public class DraggableArea
 
         foreach (Rect rect in avaliableRects)
         {
-            if (rect.width + 0.0001f < currentlyDraggingRect.rect.width || rect.height + 0.0001f < currentlyDraggingRect.rect.height)
+            if (rect.width + 0.0001f < CurrentlyDraggingRect.rect.width || rect.height + 0.0001f < CurrentlyDraggingRect.rect.height)
                 continue;
 
             foreach (Rect containCheckRect in avaliableRects)
@@ -456,15 +552,15 @@ public class DraggableArea
 
     private void GetCurrentlyDraggingClosestPosition(Event e)
     {
-        Vector2 preferedPosition = e.mousePosition + currentlyDraggingRect.dragOffset;
+        Vector2 preferedPosition = e.mousePosition + CurrentlyDraggingRect.DragOffset;
 
         float closestDistance = float.MaxValue;
-        Vector2 closestPosition = currentlyDraggingRect.rect.center;
+        Vector2 closestPosition = CurrentlyDraggingRect.rect.center;
 
-        foreach (Rect avaliableRect in avaliableRectsForDraggedRectToMoveWithin)
+        foreach (Rect avaliableRect in _avaliableRectsForDraggedRectToMoveWithin)
         {
-            float closestX = Mathf.Clamp(preferedPosition.x, avaliableRect.xMin + currentlyDraggingRect.rect.width / 2f, avaliableRect.xMax - currentlyDraggingRect.rect.width / 2f);
-            float closestY = Mathf.Clamp(preferedPosition.y, avaliableRect.yMin + currentlyDraggingRect.rect.height / 2f, avaliableRect.yMax - currentlyDraggingRect.rect.height / 2f);
+            float closestX = Mathf.Clamp(preferedPosition.x, avaliableRect.xMin + CurrentlyDraggingRect.rect.width / 2f, avaliableRect.xMax - CurrentlyDraggingRect.rect.width / 2f);
+            float closestY = Mathf.Clamp(preferedPosition.y, avaliableRect.yMin + CurrentlyDraggingRect.rect.height / 2f, avaliableRect.yMax - CurrentlyDraggingRect.rect.height / 2f);
             Vector2 position = new Vector2(closestX, closestY);
             float distance = Vector2.Distance(preferedPosition, position);
 
@@ -477,6 +573,6 @@ public class DraggableArea
                     break;
             }
         }
-        currentlyDraggingRect.rect.center = closestPosition;
+        CurrentlyDraggingRect.rect.center = closestPosition;
     }
 }

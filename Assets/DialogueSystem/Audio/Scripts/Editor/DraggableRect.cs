@@ -1,45 +1,36 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Serilog;
-using System.Linq;
 using System.Collections.Generic;
-using UnityEngine.Playables;
-using UnityEditor.AssetImporters;
-using System;
-using UnityEngine.SocialPlatforms;
-
 public class DraggableRect
 {
     public Rect rect;
 
-    public bool constrainedX;
-    public bool constrainedY;
+    public bool ConstrainedX { private set; get; }
+    public bool ConstrainedY { private set; get; }
 
     public Color innerColor;
     public Color outlineColor;
 
-    public bool dragging;
-    public Vector2 dragOffset;
+    public bool Dragging { private set; get; }
+    public Vector2 DragOffset { private set; get; }
 
-    public bool ignoreOtherDraggableRects;
-
-    public Dictionary<string, GenericMenu.MenuFunction> rightClickOptions = new Dictionary<string, GenericMenu.MenuFunction>();
+    public bool IgnoreOtherDraggableRects {  private set; get; }
 
     public delegate void BeforeDraw(Rect rect);
     public BeforeDraw beforeDraw;
     public delegate void AfterDraw(Rect rect);
     public AfterDraw afterDraw;
 
-    public List<Rect> ignoreDragRects = new List<Rect>();
+    protected List<Rect> _ignoreDragRects = new List<Rect>();
 
     public DraggableRect(Rect rect, bool constrainedX, bool constrainedY, Color innerColor, Color outlineColor, bool ignoreOtherDraggableRects)
     {
         this.rect = rect;
-        this.constrainedX = constrainedX;
-        this.constrainedY = constrainedY;
+        this.ConstrainedX = constrainedX;
+        this.ConstrainedY = constrainedY;
         this.innerColor = innerColor;
         this.outlineColor = outlineColor;
-        this.ignoreOtherDraggableRects = ignoreOtherDraggableRects;
+        this.IgnoreOtherDraggableRects = ignoreOtherDraggableRects;
     }
 
     public bool HandleStartDrag(Event e)
@@ -50,16 +41,21 @@ public class DraggableRect
         if (!rect.Contains(e.mousePosition))
             return false;
 
-        foreach (Rect ignoreRect in ignoreDragRects)
+        foreach (Rect ignoreRect in _ignoreDragRects)
         {
             if(ignoreRect.Contains(e.mousePosition)) 
                 return false;
         }
 
-        dragOffset = rect.center - e.mousePosition;
-        dragging = true;
+        DragOffset = rect.center - e.mousePosition;
+        Dragging = true;
 
         return true;
+    }
+
+    public void StopDragging()
+    {
+        Dragging = false;
     }
 
     public virtual void DrawRect(Event e)
@@ -68,16 +64,6 @@ public class DraggableRect
 
         Handles.color = Color.white;
         Handles.DrawSolidRectangleWithOutline(rect, innerColor, outlineColor);
-
-        if (e.type == EventType.MouseDown && e.button == 1 && rect.Contains(e.mousePosition) && rightClickOptions.Count > 0)
-        {
-            GenericMenu menu = new GenericMenu();
-            foreach(KeyValuePair<string, GenericMenu.MenuFunction> kvp in rightClickOptions)
-            {
-                menu.AddItem(new GUIContent(kvp.Key), false, kvp.Value);
-            }
-            menu.ShowAsContext();
-        }
 
         afterDraw?.Invoke(rect);
     }

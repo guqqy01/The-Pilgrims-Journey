@@ -6,13 +6,13 @@ namespace LocalMap.Editor
     [CreateAssetMenu(menuName = "Local Map/Auto Tile Settings")]
     public class AutoTileSettings : ScriptableObject
     {
-        public List<AutoTile> autoTileSetups;
+        public List<AutoTiles> autoTileSetups;
 
         public List<TileType> drawOrderForType;
 
-        public AutoTile GetAutoTile(TileType underType, TileType overType)
+        public AutoTiles GetAutoTile(TileType underType, TileType overType)
         {
-            foreach(AutoTile autoTile in autoTileSetups)
+            foreach(AutoTiles autoTile in autoTileSetups)
             {
                 if(autoTile.OverTileType == overType && autoTile.UnderTileType.HasFlag(underType))
                 {

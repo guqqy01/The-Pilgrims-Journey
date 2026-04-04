@@ -15,6 +15,47 @@ namespace LocalMap.Editor
         private AutoTileSettings _autoTileSettings;
 
         private SerializedObject _serializedObject;
+        private SerializedProperty CurrentlySelectedAutoTilesProp
+        {
+            get
+            {
+                return _serializedObject.FindProperty(nameof(_autoTileSettings.autoTileSetups)).GetArrayElementAtIndex(CurrentlySelectedAutoTileIndex);
+            }
+        }
+
+        private SerializedProperty CurrentlySelectedAutoTileSpriteAndWalkabilityProperty
+        {
+            get
+            {
+                if (CurrentlySelectedAutoTilesProp == null)
+                    return null;
+
+                string propName = _selectedTileOrientation switch
+                {
+                    TileOrientations.StraightTopCenter => nameof(CurrentlySelectedAutoTile.TopCenterAutoTile),
+                    TileOrientations.StraightCenterLeft => nameof(CurrentlySelectedAutoTile.CenterLeftAutoTile),
+                    TileOrientations.StraightCenterRight => nameof(CurrentlySelectedAutoTile.CenterRightAutoTile),
+                    TileOrientations.StraightBottomCenter => nameof(CurrentlySelectedAutoTile.BottomCenterAutoTile),
+                    TileOrientations.SmallCornerTopRight => nameof(CurrentlySelectedAutoTile.TopRightAutoTile),
+                    TileOrientations.SmallCornerTopLeft => nameof(CurrentlySelectedAutoTile.TopLeftAutoTile),
+                    TileOrientations.SmallCornerBottomLeft => nameof(CurrentlySelectedAutoTile.BottomLeftAutoTile),
+                    TileOrientations.SmallCornerBottomRight => nameof(CurrentlySelectedAutoTile.BottomRightAutoTile),
+                    TileOrientations.BigCornerTopAndLeft => nameof(CurrentlySelectedAutoTile.TopAndLeftAutoTile),
+                    TileOrientations.BigCornerTopAndRight => nameof(CurrentlySelectedAutoTile.TopAndRightAutoTile),
+                    TileOrientations.BigCornerBottomAndLeft => nameof(CurrentlySelectedAutoTile.BottomAndLeftAutoTile),
+                    TileOrientations.BigCornerBottomAndRight => nameof(CurrentlySelectedAutoTile.BottomAndRightAutoTile),
+                    _ => null
+                };
+
+                if (propName == null) return null;
+
+                return CurrentlySelectedAutoTilesProp.FindPropertyRelative(propName);
+            }
+        }
+
+        private DraggableArea boundsRectDraggableArea;
+
+        private ReorderableList drawOrderReordableFoldoutList;
 
         private int _currentlySelectedAutoTileIndex;
 
@@ -63,7 +104,7 @@ namespace LocalMap.Editor
             }
         }
 
-        private AutoTile CurrentlySelectedAutoTile
+        private AutoTiles CurrentlySelectedAutoTile
         {
             get
             {
@@ -74,6 +115,32 @@ namespace LocalMap.Editor
                     return null;
 
                 return _autoTileSettings.autoTileSetups[CurrentlySelectedAutoTileIndex];
+            }
+        }
+
+        private AutoTileSpriteAndWalkability SelectedAutoTileSpriteAndWalkability
+        {
+            get
+            {
+                if(CurrentlySelectedAutoTile == null)
+                    return null;
+
+                return _selectedTileOrientation switch
+                {
+                    TileOrientations.StraightTopCenter => CurrentlySelectedAutoTile.TopCenterAutoTile,
+                    TileOrientations.StraightCenterLeft => CurrentlySelectedAutoTile.CenterLeftAutoTile,
+                    TileOrientations.StraightCenterRight => CurrentlySelectedAutoTile.CenterRightAutoTile,
+                    TileOrientations.StraightBottomCenter => CurrentlySelectedAutoTile.BottomCenterAutoTile,
+                    TileOrientations.SmallCornerTopRight => CurrentlySelectedAutoTile.TopRightAutoTile,
+                    TileOrientations.SmallCornerTopLeft => CurrentlySelectedAutoTile.TopLeftAutoTile,
+                    TileOrientations.SmallCornerBottomLeft => CurrentlySelectedAutoTile.BottomLeftAutoTile,
+                    TileOrientations.SmallCornerBottomRight => CurrentlySelectedAutoTile.BottomRightAutoTile,
+                    TileOrientations.BigCornerTopAndLeft => CurrentlySelectedAutoTile.TopAndLeftAutoTile,
+                    TileOrientations.BigCornerTopAndRight => CurrentlySelectedAutoTile.TopAndRightAutoTile,
+                    TileOrientations.BigCornerBottomAndLeft => CurrentlySelectedAutoTile.BottomAndLeftAutoTile,
+                    TileOrientations.BigCornerBottomAndRight => CurrentlySelectedAutoTile.BottomAndRightAutoTile,
+                    _ => null
+                };
             }
         }
 
@@ -153,7 +220,7 @@ namespace LocalMap.Editor
 
             if(GUI.Button(AddRect, new GUIContent("Add auto tiles")))
             {
-                _autoTileSettings.autoTileSetups.Add(new AutoTile());
+                _autoTileSettings.autoTileSetups.Add(new AutoTiles());
 
                 _serializedObject.ApplyModifiedProperties();
                 _serializedObject.Update();
@@ -177,7 +244,7 @@ namespace LocalMap.Editor
 
             GenericMenu menu = new GenericMenu();
             menu.allowDuplicateNames = true;
-            foreach (AutoTile autoTile in _autoTileSettings.autoTileSetups)
+            foreach (AutoTiles autoTile in _autoTileSettings.autoTileSetups)
             {
                 string underString = autoTile.UnderTileType.ToString() == "-1" ? "Everything" :
                     autoTile.UnderTileType == 0 ? "Nothing" :
@@ -198,10 +265,11 @@ namespace LocalMap.Editor
                 menu.DropDown(SelectAutoTileRect);
             }
         }
-
-        private void SelectAutoTile(AutoTile autoTile)
+        
+        private void SelectAutoTile(AutoTiles autoTile)
         {
             CurrentlySelectedAutoTileIndex = _autoTileSettings.autoTileSetups.IndexOf(autoTile);
+            boundsRectDraggableArea = null;
         }
 
         private void DrawGridWindow()
@@ -217,21 +285,23 @@ namespace LocalMap.Editor
             Rect sideRect = new Rect(WindowRect) { xMin = xMin, yMin = SelectAutoTileRect.yMax + gridPadding };
             Rect overTileTypeRect = new Rect(sideRect) { height = SLH };
             Rect underTileTypeRect = new Rect(sideRect) { yMin = overTileTypeRect.yMax + spacing, height = SLH };
-            Rect overBaseSpriteRect = new Rect(sideRect) { yMin = underTileTypeRect.yMax + spacing, height = SLH };
+
+            Rect overBaseSpriteRect = new Rect(sideRect) { yMin = underTileTypeRect.yMax + spacing + SLH, height = SLH };
             Rect underBaseSpriteRect = new Rect(sideRect) { yMin = overBaseSpriteRect.yMax + spacing, height = SLH };
-            Rect tileOrientationRect = new Rect(sideRect) { yMin = underBaseSpriteRect.yMax + spacing, height = SLH };
-            Rect normalSpriteRect = new Rect(sideRect) { yMin = tileOrientationRect.yMax + spacing, height = SLH };
+
+            Rect tileOrientationRect = new Rect(sideRect) { yMin = underBaseSpriteRect.yMax + spacing + SLH, height = SLH };
+
+            Rect normalSpriteRect = new Rect(sideRect) { yMin = tileOrientationRect.yMax + spacing + SLH, height = SLH };
             Rect outlineSpriteRect = new Rect(sideRect) { yMin = normalSpriteRect.yMax + spacing, height = SLH };
 
-            Rect drawOrderRect = new Rect(sideRect) { yMin = outlineSpriteRect.yMax + spacing };
 
-            SerializedProperty selectedAutoTileProp = _serializedObject.FindProperty("autoTileSetups").GetArrayElementAtIndex(CurrentlySelectedAutoTileIndex);
+            SerializedProperty selectedAutoTileProp = CurrentlySelectedAutoTilesProp;
 
             if (selectedAutoTileProp == null)
                 return;
 
-            SerializedProperty overBaseSprite = selectedAutoTileProp.FindPropertyRelative("OverBase");
-            SerializedProperty underBaseSprite = selectedAutoTileProp.FindPropertyRelative("UnderBase");
+            SerializedProperty overBaseSprite = selectedAutoTileProp.FindPropertyRelative(nameof(CurrentlySelectedAutoTile.OverBase));
+            SerializedProperty underBaseSprite = selectedAutoTileProp.FindPropertyRelative(nameof(CurrentlySelectedAutoTile.UnderBase));
 
             EditorGUI.BeginChangeCheck();
 
@@ -240,18 +310,39 @@ namespace LocalMap.Editor
 
             EditorGUI.ObjectField(overBaseSpriteRect, overBaseSprite);
             EditorGUI.ObjectField(underBaseSpriteRect, underBaseSprite);
+            EditorGUI.indentLevel++;
             DrawTileArrangementChoice(tileOrientationRect);
-            DrawOutlineTileObject(outlineSpriteRect, selectedAutoTileProp);
-            DrawNormalTileObject(normalSpriteRect, selectedAutoTileProp);
-            DrawDrawOrderList(drawOrderRect);
 
+            DrawBaseTileObject(normalSpriteRect, selectedAutoTileProp);
+            DrawOutlineTileObject(outlineSpriteRect, selectedAutoTileProp);
+
+            float yMin = DrawBoundEditorReturnsYMin(sideRect, outlineSpriteRect.yMax + spacing + SLH);
+
+            Rect drawOrderRect = new Rect(sideRect) { yMin = yMin + spacing};
+            DrawDrawOrderList(drawOrderRect);
+            EditorGUI.indentLevel--;
             if (EditorGUI.EndChangeCheck())
             {
                 _serializedObject.ApplyModifiedProperties();
             }
         }
 
-        private ReorderableList drawOrderReordableFoldoutList;
+        private float DrawBoundEditorReturnsYMin(Rect sideRect, float yMin)
+        {
+            AutoTileSpriteAndWalkability autoTile = SelectedAutoTileSpriteAndWalkability;
+            SerializedProperty autoTileProp = CurrentlySelectedAutoTileSpriteAndWalkabilityProperty;
+
+            if (autoTile == null || autoTileProp == null)
+                return 0;
+             
+            SerializedProperty boundsProp = autoTileProp.FindPropertyRelative(nameof(SelectedAutoTileSpriteAndWalkability.walkabilityBounds));
+
+            Rect boundsRect = new Rect(sideRect) { yMin = yMin, height = EditorGUI.GetPropertyHeight(boundsProp) };
+
+            EditorGUI.PropertyField(boundsRect, boundsProp);
+
+            return boundsRect.yMax;
+        }
 
         private void DrawDrawOrderList(Rect listRect)
         {
@@ -295,98 +386,20 @@ namespace LocalMap.Editor
             }
         }
 
-        private void DrawNormalTileObject(Rect rect, SerializedProperty selectedAutoTileProp)
+        private void DrawBaseTileObject(Rect rect, SerializedProperty prop) => DrawTileSpriteObject(rect, prop, false);
+        private void DrawOutlineTileObject(Rect rect, SerializedProperty prop) => DrawTileSpriteObject(rect, prop, true);
+
+        private void DrawTileSpriteObject(Rect rect, SerializedProperty prop, bool outline)
         {
-            SerializedProperty tileSpriteProp = null;
+            string tileSpriteType = outline ? "OutlineSprite" : "BaseSprite";
 
-            switch (_selectedTileOrientation)
-            {
-                case TileOrientations.StraightTopCenter:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopCenter");
-                    break;
-                case TileOrientations.StraightCenterLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("CenterLeft");
-                    break;
-                case TileOrientations.StraightCenterRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("CenterRight");
-                    break;
-                case TileOrientations.StraightBottomCenter:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomCenter");
-                    break;
-                case TileOrientations.SmallCornerTopRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopRight");
-                    break;
-                case TileOrientations.SmallCornerTopLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopLeft");
-                    break;
-                case TileOrientations.SmallCornerBottomLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomLeft");
-                    break;
-                case TileOrientations.SmallCornerBottomRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomRight");
-                    break;
-                case TileOrientations.BigCornerTopAndLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopAndLeft");
-                    break;
-                case TileOrientations.BigCornerTopAndRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopAndRight");
-                    break;
-                case TileOrientations.BigCornerBottomAndLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomAndLeft");
-                    break;
-                case TileOrientations.BigCornerBottomAndRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomAndRight");
-                    break;
-            }
+            SerializedProperty autoTileProp = CurrentlySelectedAutoTileSpriteAndWalkabilityProperty;
 
-            EditorGUI.ObjectField(rect, tileSpriteProp);
-        }
+            if (autoTileProp == null) return;
 
-        private void DrawOutlineTileObject(Rect rect, SerializedProperty selectedAutoTileProp)
-        {
-            SerializedProperty tileSpriteProp = null;
+            SerializedProperty spriteProp = autoTileProp.FindPropertyRelative(tileSpriteType);
 
-            switch (_selectedTileOrientation)
-            {
-                case TileOrientations.StraightTopCenter:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopCenterOutline");
-                    break;
-                case TileOrientations.StraightCenterLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("CenterLeftOutline");
-                    break;
-                case TileOrientations.StraightCenterRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("CenterRightOutline");
-                    break;
-                case TileOrientations.StraightBottomCenter:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomCenterOutline");
-                    break;
-                case TileOrientations.SmallCornerTopRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopRightOutline");
-                    break;
-                case TileOrientations.SmallCornerTopLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopLeftOutline");
-                    break;
-                case TileOrientations.SmallCornerBottomLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomLeftOutline");
-                    break;
-                case TileOrientations.SmallCornerBottomRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomRightOutline");
-                    break;
-                case TileOrientations.BigCornerTopAndLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopAndLeftOutline");
-                    break;
-                case TileOrientations.BigCornerTopAndRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("TopAndRightOutline");
-                    break;
-                case TileOrientations.BigCornerBottomAndLeft:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomAndLeftOutline");
-                    break;
-                case TileOrientations.BigCornerBottomAndRight:
-                    tileSpriteProp = selectedAutoTileProp.FindPropertyRelative("BottomAndRightOutline");
-                    break;
-            }
-
-            EditorGUI.ObjectField(rect, tileSpriteProp);
+            EditorGUI.ObjectField(rect, spriteProp, new GUIContent(tileSpriteType.AddSpacesBeforeCapsRegex()));
         }
 
         private void DrawTileArrangementChoice(Rect rect)
@@ -397,13 +410,21 @@ namespace LocalMap.Editor
 
             foreach (TileOrientations ori in tileOrientations)
             {
-                menu.AddItem(new GUIContent(ori.ToString().AddSpacesBeforeCapsRegex()), _selectedTileOrientation == ori, () => _selectedTileOrientation = ori);
+                menu.AddItem(new GUIContent(ori.ToString().AddSpacesBeforeCapsRegex()), _selectedTileOrientation == ori, () => SelectTileOrientation(ori));
             }
+
+            rect = EditorGUI.PrefixLabel(rect, new GUIContent("Tile Orientation"));
 
             if (EditorGUI.DropdownButton(rect, new GUIContent(_selectedTileOrientation.ToString().AddSpacesBeforeCapsRegex()), FocusType.Passive))
             {
                 menu.DropDown(rect);
             }
+        }
+
+        private void SelectTileOrientation(TileOrientations tileOrientation)
+        {
+            _selectedTileOrientation = tileOrientation;
+            boundsRectDraggableArea = null;
         }
 
         private void DrawGrid(Rect gridRect)
@@ -414,27 +435,27 @@ namespace LocalMap.Editor
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    float xPos = gridRect.xMin + x * (cellSize + gridSpacing);
-                    float yPos = gridRect.yMin + y * (cellSize + gridSpacing);
+                    float cellXPos = gridRect.xMin + x * (cellSize + gridSpacing);
+                    float cellYPos = gridRect.yMin + y * (cellSize + gridSpacing);
 
-                    Rect squareRect = new Rect(gridRect) { position = new Vector2(xPos, yPos), size = new Vector2(cellSize, cellSize) };
+                    Rect squareRect = new Rect(gridRect) { position = new Vector2(cellXPos, cellYPos), size = new Vector2(cellSize, cellSize) };
 
                     int gridY = 2 - y;
 
                     Grid3x3<bool?> grid = _selectedTileOrientation switch
                     {
-                        TileOrientations.StraightTopCenter => AutoTile.StraightTopCenterGrid(),
-                        TileOrientations.StraightCenterLeft => AutoTile.StraightCenterLeftGrid(),
-                        TileOrientations.StraightCenterRight => AutoTile.StraightCenterRightGrid(),
-                        TileOrientations.StraightBottomCenter => AutoTile.StraightBottomCenterGrid(),
-                        TileOrientations.SmallCornerTopLeft => AutoTile.SmallCornerTopLeftGrid(),
-                        TileOrientations.SmallCornerTopRight => AutoTile.SmallCornerTopRightGrid(),
-                        TileOrientations.SmallCornerBottomLeft => AutoTile.SmallCornerBottomLeftGrid(),
-                        TileOrientations.SmallCornerBottomRight => AutoTile.SmallCornerBottomRightGrid(),
-                        TileOrientations.BigCornerTopAndLeft => AutoTile.BigCornerTopLeftGrid(),
-                        TileOrientations.BigCornerTopAndRight => AutoTile.BigCornerTopRightGrid(),
-                        TileOrientations.BigCornerBottomAndLeft => AutoTile.BigCornerBottomLeftGrid(),
-                        TileOrientations.BigCornerBottomAndRight => AutoTile.BigCornerBottomRightGrid(),
+                        TileOrientations.StraightTopCenter => AutoTiles.StraightTopCenterGrid(),
+                        TileOrientations.StraightCenterLeft => AutoTiles.StraightCenterLeftGrid(),
+                        TileOrientations.StraightCenterRight => AutoTiles.StraightCenterRightGrid(),
+                        TileOrientations.StraightBottomCenter => AutoTiles.StraightBottomCenterGrid(),
+                        TileOrientations.SmallCornerTopLeft => AutoTiles.SmallCornerTopLeftGrid(),
+                        TileOrientations.SmallCornerTopRight => AutoTiles.SmallCornerTopRightGrid(),
+                        TileOrientations.SmallCornerBottomLeft => AutoTiles.SmallCornerBottomLeftGrid(),
+                        TileOrientations.SmallCornerBottomRight => AutoTiles.SmallCornerBottomRightGrid(),
+                        TileOrientations.BigCornerTopAndLeft => AutoTiles.BigCornerTopLeftGrid(),
+                        TileOrientations.BigCornerTopAndRight => AutoTiles.BigCornerTopRightGrid(),
+                        TileOrientations.BigCornerBottomAndLeft => AutoTiles.BigCornerBottomLeftGrid(),
+                        TileOrientations.BigCornerBottomAndRight => AutoTiles.BigCornerBottomRightGrid(),
                         _ => new Grid3x3<bool?>()
                     };
 
@@ -453,10 +474,43 @@ namespace LocalMap.Editor
                     DrawCell(squareRect, overBase, g.ShiftContent(1 - x, y - 1));
                 }
             }
+
+            float centerCellXPos = gridRect.xMin + (cellSize + gridSpacing);
+            float centerCellYPos = gridRect.yMin + (cellSize + gridSpacing);
+
+            Rect centerCellRect = new Rect(gridRect) { position = new Vector2(centerCellXPos, centerCellYPos), size = new Vector2(cellSize, cellSize) };
+
+            DrawWalkableBounds(centerCellRect);
+        }
+
+        private void DrawWalkableBounds(Rect centerCellRect)
+        {
+            SerializedProperty autoTileProp = CurrentlySelectedAutoTileSpriteAndWalkabilityProperty;
+            AutoTileSpriteAndWalkability autoTile = SelectedAutoTileSpriteAndWalkability;
+
+            if (autoTile == null || autoTileProp == null)
+                return;
+
+            if (boundsRectDraggableArea == null)
+            {
+                boundsRectDraggableArea = new DraggableArea<AutoTileWalkability>(autoTile.walkabilityBounds)
+                {
+                    limitXPositionToRect = true,
+                    limitYPositionToRect = true,
+                    backgroundColorInner = Color.red.SetAlpha(0.3f),
+                    backgroundColorOuter = Color.red,
+                    defaultInnerColor = Color.green.SetAlpha(0.3f),
+                    defaultOuterColor = Color.green,
+                    
+                };
+            }
+
+            boundsRectDraggableArea.AreaRect = centerCellRect;
+            _serializedObject.Update();
+            boundsRectDraggableArea.HandleDraggableRects(Event.current);
+            _serializedObject.ApplyModifiedProperties();
         }
         
-
-
         private void DrawCell(Rect rect, bool overTile, Grid3x3<bool> grid)
         {
             if(CurrentlySelectedAutoTile == null)

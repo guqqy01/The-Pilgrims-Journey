@@ -120,13 +120,13 @@ namespace DialogueSystem
             if (dialogueMixerGroupDraggableArea == null)
                 return;
 
-            dialogueMixerGroupDraggableArea.areaRect = TimeLineRect(rect);
+            dialogueMixerGroupDraggableArea.AreaRect = TimeLineRect(rect);
             dialogueMixerGroupDraggableArea.HandleDraggableRects(e, audioDialogue.audioDialogueMixerGroups);
         }
 
         private void OnRightClickRect(DraggableRect rect)
         {
-            if (dialogueMixerGroupDraggableArea.rectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
+            if (dialogueMixerGroupDraggableArea.RectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
             {
                 currentlyEditingMixerGroupRect = timeLineDraggableRect;
             }
@@ -135,13 +135,13 @@ namespace DialogueSystem
         private void HandleAddDialogueItem(AudioDialogue audioDialogue)
         {
             AudioDialogueMixerGroup newMixerGroup = new AudioDialogueMixerGroup();
-            newMixerGroup.Time = Mathf.Lerp(0, mainTimeLineLength, Mathf.InverseLerp(0, TimeLineRect(rect).width, dialogueMixerGroupDraggableArea.positionClicked.x));
+            newMixerGroup.Time = Mathf.Lerp(0, mainTimeLineLength, Mathf.InverseLerp(0, TimeLineRect(rect).width, dialogueMixerGroupDraggableArea.PositionClicked.x));
             audioDialogue.audioDialogueMixerGroups.Add(newMixerGroup);
         }
 
         private void RemoveDialogueItem(AudioDialogue audioDialogue)
         {
-            if (dialogueMixerGroupDraggableArea.rectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
+            if (dialogueMixerGroupDraggableArea.RectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
             {
                 audioDialogue.audioDialogueMixerGroups.Remove((AudioDialogueMixerGroup)timeLineDraggableRect.ListOverTimeItem);
 
@@ -175,14 +175,14 @@ namespace DialogueSystem
             if (sectionalAudioClipsDraggableArea == null)
                 return;
 
-            sectionalAudioClipsDraggableArea.areaRect = SectionalAudioClipsAreaRect(rect);
+            sectionalAudioClipsDraggableArea.AreaRect = SectionalAudioClipsAreaRect(rect);
 
             sectionalAudioClipsDraggableArea.HandleDraggableRects(e, audioDialogue.sectionalAudioClips);
         }
 
         private void SectionalAudioClipOnRightClickRect(DraggableRect rect)
         {
-            if (sectionalAudioClipsDraggableArea.rectRightClicked is SectionalAudioClipDraggableRect timeLineDraggableRect)
+            if (sectionalAudioClipsDraggableArea.RectRightClicked is SectionalAudioClipDraggableRect timeLineDraggableRect)
             {
                 currentlyEditingSectionalAudioClipRect = timeLineDraggableRect;
             }
@@ -244,7 +244,7 @@ namespace DialogueSystem
 
         private void RemoveAudioClip(AudioDialogue audioDialogue)
         {
-            if (sectionalAudioClipsDraggableArea.rectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
+            if (sectionalAudioClipsDraggableArea.RectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
             {
                 audioDialogue.sectionalAudioClips.Remove((SectionalAudioClip)timeLineDraggableRect.ListOverTimeItem);
 

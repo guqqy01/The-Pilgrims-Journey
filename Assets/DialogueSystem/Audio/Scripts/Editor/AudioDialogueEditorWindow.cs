@@ -531,7 +531,7 @@ namespace DialogueSystem
             dialogueMixerGroupZoomedDraggableArea.timeScale = zoomedViewAmount;
             dialogueMixerGroupZoomedDraggableArea.timeStart = zoomedStartTime;
 
-            dialogueMixerGroupZoomedDraggableArea.areaRect = ZoomedTimeLineRect;
+            dialogueMixerGroupZoomedDraggableArea.AreaRect = ZoomedTimeLineRect;
 
             dialogueMixerGroupZoomedDraggableArea.HandleDraggableRects(e, audioDialogue.audioDialogueMixerGroups);
         }
@@ -541,7 +541,7 @@ namespace DialogueSystem
             if (zoomedAreaOnMainTimeLineDraggableArea == null)
                 return;
 
-            zoomedAreaOnMainTimeLineDraggableArea.areaRect = MainTimeLineRect;
+            zoomedAreaOnMainTimeLineDraggableArea.AreaRect = MainTimeLineRect;
             GetZoomedArea(e);
             zoomedAreaOnMainTimeLineDraggableArea.HandleDraggableRects(e);
             SetZoomedArea(e);
@@ -549,7 +549,7 @@ namespace DialogueSystem
 
         private void OnZoomedRightClickRect(DraggableRect rect)
         {
-            if (dialogueMixerGroupZoomedDraggableArea.rectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
+            if (dialogueMixerGroupZoomedDraggableArea.RectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
             {
                 mixerGroupCurrentlyEditingRect = timeLineDraggableRect;
             }
@@ -597,7 +597,7 @@ namespace DialogueSystem
         private void HandleAddDialogueItemZoomedTimeLine()
         {
             AudioDialogueMixerGroup audioDialogueMixerGroup = new AudioDialogueMixerGroup();
-            audioDialogueMixerGroup.Time = Mathf.Lerp(zoomedStartTime, zoomedStartTime + zoomedViewAmount, Mathf.InverseLerp(0, MainTimeLineRect.width, dialogueMixerGroupZoomedDraggableArea.positionClicked.x));
+            audioDialogueMixerGroup.Time = Mathf.Lerp(zoomedStartTime, zoomedStartTime + zoomedViewAmount, Mathf.InverseLerp(0, MainTimeLineRect.width, dialogueMixerGroupZoomedDraggableArea.PositionClicked.x));
             audioDialogue.audioDialogueMixerGroups.Add(audioDialogueMixerGroup);
         }
 

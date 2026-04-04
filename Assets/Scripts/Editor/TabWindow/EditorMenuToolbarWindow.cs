@@ -71,6 +71,9 @@ public class EditorMenuToolbarWindow
 
         Rect viewRect = new Rect(windowRect) { height = tabHeight, xMax = windowRect.xMax - scrollMinus };
 
+        if (_scrollPositions == null)
+            _scrollPositions = new List<Vector2>();
+
         _scrollPositions.MatchAmount(_tabs);
         _scrollPositions[_mainToolbarIndex] = GUI.BeginScrollView(windowRect, _scrollPositions[_mainToolbarIndex], viewRect);
 

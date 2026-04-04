@@ -80,7 +80,7 @@ namespace DialogueSystem
             timelineArea.timeScale = sectionalAudioClip.audioClip.length;
             timelineArea.timeStart = 0f;
 
-            timelineArea.areaRect = timelineRect;
+            timelineArea.AreaRect = timelineRect;
 
             timelineArea.HandleDraggableRects(e, timeStartAndEnd);
 

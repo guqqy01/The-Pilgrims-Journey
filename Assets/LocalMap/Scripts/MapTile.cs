@@ -142,7 +142,7 @@ namespace LocalMap
 
             foreach (TileType overType in neighbourTypes)
             {
-                AutoTile autoTile = autoTilesSettings.GetAutoTile(underType, overType);
+                AutoTiles autoTile = autoTilesSettings.GetAutoTile(underType, overType);
                 if (autoTile == null)
                     continue;
 
@@ -150,20 +150,20 @@ namespace LocalMap
 
                 int sortingOrder = 2 * autoTilesSettings.drawOrderForType.IndexOf(overType);
 
-                if (AutoTile.StraightTopCenter(boolGrid)) SpawnAutoTile(autoTile.TopCenter, autoTile.TopCenterOutline, sortingOrder);
-                if (AutoTile.StraightCenterLeft(boolGrid)) SpawnAutoTile(autoTile.CenterLeft, autoTile.CenterLeftOutline, sortingOrder);
-                if (AutoTile.StraightCenterRight(boolGrid)) SpawnAutoTile(autoTile.CenterRight, autoTile.CenterRightOutline, sortingOrder);
-                if (AutoTile.StraightBottomCenter(boolGrid)) SpawnAutoTile(autoTile.BottomCenter, autoTile.BottomCenterOutline, sortingOrder);
+                if (AutoTiles.StraightTopCenter(boolGrid)) SpawnAutoTile(autoTile.TopCenterAutoTile, sortingOrder);
+                if (AutoTiles.StraightCenterLeft(boolGrid)) SpawnAutoTile(autoTile.CenterLeftAutoTile, sortingOrder);
+                if (AutoTiles.StraightCenterRight(boolGrid)) SpawnAutoTile(autoTile.CenterRightAutoTile, sortingOrder);
+                if (AutoTiles.StraightBottomCenter(boolGrid)) SpawnAutoTile(autoTile.BottomCenterAutoTile, sortingOrder);
 
-                if (AutoTile.SmallCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopLeft, autoTile.TopLeftOutline, sortingOrder);
-                if (AutoTile.SmallCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopRight, autoTile.TopRightOutline, sortingOrder);
-                if (AutoTile.SmallCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomLeft, autoTile.BottomLeftOutline, sortingOrder);
-                if (AutoTile.SmallCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomRight, autoTile.BottomRightOutline, sortingOrder);
+                if (AutoTiles.SmallCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopLeftAutoTile, sortingOrder);
+                if (AutoTiles.SmallCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopRightAutoTile, sortingOrder);
+                if (AutoTiles.SmallCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomLeftAutoTile, sortingOrder);
+                if (AutoTiles.SmallCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomRightAutoTile, sortingOrder);
 
-                if (AutoTile.BigCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopAndLeft, autoTile.TopAndLeftOutline, sortingOrder);
-                if (AutoTile.BigCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopAndRight, autoTile.TopAndRightOutline, sortingOrder);
-                if (AutoTile.BigCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomAndLeft, autoTile.BottomAndLeftOutline, sortingOrder);
-                if (AutoTile.BigCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomAndRight, autoTile.BottomAndRightOutline, sortingOrder);
+                if (AutoTiles.BigCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopAndLeftAutoTile, sortingOrder);
+                if (AutoTiles.BigCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopAndRightAutoTile, sortingOrder);
+                if (AutoTiles.BigCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomAndLeftAutoTile, sortingOrder);
+                if (AutoTiles.BigCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomAndRightAutoTile, sortingOrder);
             }
         }
 
@@ -182,19 +182,19 @@ namespace LocalMap
             };
         }
 
-        public void SpawnAutoTile(Sprite normal, Sprite outline, int sortingOrder)
+        public void SpawnAutoTile(AutoTileSpriteAndWalkability autoTile, int sortingOrder)
         {
-            if(normal != null)
+            if(autoTile.BaseSprite != null)
             {
                 SpriteRenderer normalTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
-                normalTile.sprite = normal;
+                normalTile.sprite = autoTile.BaseSprite;
                 normalTile.sortingOrder = sortingOrder;
             }
 
-            if (outline != null)
+            if (autoTile.OutlineSprite != null)
             {
                 SpriteRenderer outlineTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
-                outlineTile.sprite = outline;
+                outlineTile.sprite = autoTile.OutlineSprite;
                 outlineTile.sortingOrder = sortingOrder + 1;
             }
         }

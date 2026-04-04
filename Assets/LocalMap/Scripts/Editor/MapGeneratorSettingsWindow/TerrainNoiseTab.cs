@@ -53,11 +53,13 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
         Rect scaleRect = new Rect(rect) { yMin = priorityRect.yMax + FieldPadding, height = EditorGUIUtility.singleLineHeight * 2f + FieldPadding };
         Rect itemsRect = new Rect(rect) { yMin = scaleRect.yMax + FieldPadding, xMax = rect.xMax };
 
+        EditorGUI.indentLevel++;
         _serializedObject.Update();
         EditorGUI.PropertyField(nameRect, nameProperty);
         EditorGUI.PropertyField(priorityRect, priorityProperty);
         EditorGUI.PropertyField(scaleRect, scaleProperty);
         _serializedObject.ApplyModifiedProperties();
+        EditorGUI.indentLevel--;
 
         if (NeedsRebuild(_terrainNoiseItemList, terrainNoiseItemsProperty))
         {

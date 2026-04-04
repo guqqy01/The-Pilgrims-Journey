@@ -25,7 +25,7 @@ public class TimeLineDraggableArea<T> : TimeLineDraggableArea where T : IDraggab
 
     public void RemoveRightClicked()
     {
-        if (rectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
+        if (RectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
         {
             RemoveDraggableRect(list, timeLineDraggableRect);
         }
@@ -43,7 +43,7 @@ public class TimeLineDraggableArea<T> : TimeLineDraggableArea where T : IDraggab
 }
 
 public class TimeLineDraggableArea : DraggableArea
-{
+{ 
     public float timeScale;
     public float timeStart;
 
@@ -79,7 +79,7 @@ public class TimeLineDraggableArea : DraggableArea
         get
         {
             List<TimeLineDraggableRect> returnList = new List<TimeLineDraggableRect>();
-            foreach (var rect in draggableRects)
+            foreach (var rect in _draggableRects)
             {
                 if(rect is TimeLineDraggableRect timeLineDraggableRect)
                 {
@@ -128,7 +128,7 @@ public class TimeLineDraggableArea : DraggableArea
 
         for (int i = 0; i < draggableRectsToRemove.Count; i++)
         {
-            draggableRects.Remove(draggableRectsToRemove[i]);
+            _draggableRects.Remove(draggableRectsToRemove[i]);
         }
 
         draggableRectsToRemove.Clear();
@@ -154,7 +154,7 @@ public class TimeLineDraggableArea : DraggableArea
 
         for (int i = 0; i < draggableRectsToRemove.Count; i++)
         {
-            draggableRects.Remove(draggableRectsToRemove[i]);
+            _draggableRects.Remove(draggableRectsToRemove[i]);
         }
 
         //Add draggable rects
@@ -182,7 +182,7 @@ public class TimeLineDraggableArea : DraggableArea
     protected void AddTimeLineDraggableRect(IDraggableRectTimeItem item)
     {
         Rect newRect = new Rect() { width = defaultDraggableRectSizes.x, height = defaultDraggableRectSizes.y };
-        newRect.position = areaRect.position;
+        newRect.position = AreaRect.position;
 
         bool constrainX = false;
         bool constrainY = false;
@@ -193,14 +193,14 @@ public class TimeLineDraggableArea : DraggableArea
                 constrainY = true;
                 if (fillOtherAxis)
                 {
-                    newRect.height = areaRect.height;
+                    newRect.height = AreaRect.height;
                 }
                 break;
             case DraggableRectAxis.Vertical:
                 constrainX = true;
                 if (fillOtherAxis)
                 {
-                    newRect.width = areaRect.width;
+                    newRect.width = AreaRect.width;
                 }
                 break;
         }
@@ -210,10 +210,10 @@ public class TimeLineDraggableArea : DraggableArea
             switch (lengthItem.Axis)
             {
                 case DraggableRectAxis.Horizontal:
-                    newRect.width = Mathf.Lerp(0, areaRect.width, Mathf.InverseLerp(0f, timeScale + timeStart, lengthItem.Length));
+                    newRect.width = Mathf.Lerp(0, AreaRect.width, Mathf.InverseLerp(0f, timeScale + timeStart, lengthItem.Length));
                     break;
                 case DraggableRectAxis.Vertical:
-                    newRect.height = Mathf.Lerp(0, areaRect.height, Mathf.InverseLerp(0f, timeScale + timeStart, lengthItem.Length));
+                    newRect.height = Mathf.Lerp(0, AreaRect.height, Mathf.InverseLerp(0f, timeScale + timeStart, lengthItem.Length));
                     break;
             }
         }
@@ -224,10 +224,10 @@ public class TimeLineDraggableArea : DraggableArea
                 switch (item.Axis)
                 {
                     case DraggableRectAxis.Horizontal:
-                        newRect.position = new Vector2(Mathf.Lerp(areaRect.xMin, areaRect.xMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)), newRect.position.y);
+                        newRect.position = new Vector2(Mathf.Lerp(AreaRect.xMin, AreaRect.xMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)), newRect.position.y);
                         break;
                     case DraggableRectAxis.Vertical:
-                        newRect.position = new Vector2(newRect.position.x, Mathf.Lerp(areaRect.yMin, areaRect.yMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)));
+                        newRect.position = new Vector2(newRect.position.x, Mathf.Lerp(AreaRect.yMin, AreaRect.yMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)));
                         break;
                 }
                 break;
@@ -235,10 +235,10 @@ public class TimeLineDraggableArea : DraggableArea
                 switch (item.Axis)
                 {
                     case DraggableRectAxis.Horizontal:
-                        newRect.center = new Vector2(Mathf.Lerp(areaRect.xMin, areaRect.xMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)), newRect.center.y);
+                        newRect.center = new Vector2(Mathf.Lerp(AreaRect.xMin, AreaRect.xMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)), newRect.center.y);
                         break;
                     case DraggableRectAxis.Vertical:
-                        newRect.center = new Vector2(newRect.center.x, Mathf.Lerp(areaRect.yMin, areaRect.yMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)));
+                        newRect.center = new Vector2(newRect.center.x, Mathf.Lerp(AreaRect.yMin, AreaRect.yMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)));
                         break;
                 }
                 break;
@@ -246,10 +246,10 @@ public class TimeLineDraggableArea : DraggableArea
                 switch (item.Axis)
                 {
                     case DraggableRectAxis.Horizontal:
-                        newRect.position = new Vector2(Mathf.Lerp(areaRect.xMin, areaRect.xMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)) - newRect.width, newRect.position.y);
+                        newRect.position = new Vector2(Mathf.Lerp(AreaRect.xMin, AreaRect.xMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)) - newRect.width, newRect.position.y);
                         break;
                     case DraggableRectAxis.Vertical:
-                        newRect.position = new Vector2(newRect.position.x, Mathf.Lerp(areaRect.yMin, areaRect.yMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)) - newRect.height);
+                        newRect.position = new Vector2(newRect.position.x, Mathf.Lerp(AreaRect.yMin, AreaRect.yMax, Mathf.InverseLerp(0f, timeScale + timeStart, item.StartTime)) - newRect.height);
                         break;
                 }
                 break;
@@ -260,7 +260,7 @@ public class TimeLineDraggableArea : DraggableArea
 
     public void RemoveRightClicked<T>(List<T> timelineList) where T : IDraggableRectTimeItem
     {
-        if (rectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
+        if (RectRightClicked is TimeLineDraggableRect timeLineDraggableRect)
         {
             RemoveDraggableRect(timelineList, timeLineDraggableRect);
         }
@@ -270,15 +270,15 @@ public class TimeLineDraggableArea : DraggableArea
     {
         for (int i = 0; i < TimelineDraggableRects.Count; i++)
         {
-            TimelineDraggableRects[i].SetRectValues(areaRect, timeScale, timeStart);
+            TimelineDraggableRects[i].SetRectValues(AreaRect, timeScale, timeStart);
         }
     }
 
-    protected void SetObjectValues()
+    protected void SetObjectValues(DraggableRect draggableRect)
     {
-        for (int i = 0; i < TimelineDraggableRects.Count; i++)
+        if(draggableRect is TimeLineDraggableRect timelineDraggableRect)
         {
-            TimelineDraggableRects[i].SetObjectValues(areaRect, timeScale, timeStart);
+            timelineDraggableRect.SetObjectValues(AreaRect, timeScale, timeStart);
         }
     }
 
