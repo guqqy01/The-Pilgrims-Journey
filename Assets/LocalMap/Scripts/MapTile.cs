@@ -2,6 +2,7 @@ using LocalMap.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -24,6 +25,9 @@ namespace LocalMap
         public SpriteRenderer highlightRightUpCorner;
         public SpriteRenderer highlightLeftDownCorner;
         public SpriteRenderer highlightRightDownCorner;
+
+        private bool _walkable;
+        private readonly List<AutoTileWalkability> _autoTileWalkability = new List<AutoTileWalkability>();
 
         public TileType TileType;
 
@@ -67,22 +71,62 @@ namespace LocalMap
             }
         }
 
-        public void Init(TileTypeAndSprite tileTypeAndSprite, Vector2Int position)
+        public void Init(TileTypeAndSprite tileTypeAndSprite, Vector2Int position, bool walkable)
         {
             graphic.sprite = tileTypeAndSprite.Sprite;
             Highlighted = false;
             Position = position;
-
+            _walkable = walkable;
             TileType = tileTypeAndSprite.TileType;
         }
 
-        public void Init(Sprite graphicSprite, Vector2Int position, TileType tileType = TileType.Grass)
+        internal bool IsWalkable(Vector2 position)
         {
-            graphic.sprite = graphicSprite;
-            Highlighted = false;
-            Position = position;
+            if (position.V2ToV2Int() == Position && _walkable)
+                return true;
 
-            TileType = tileType;
+            foreach(AutoTileWalkability autoTileWalkability in _autoTileWalkability)
+            {
+                if (autoTileWalkability.Contains(position - (Vector2)Position))
+                    return true;
+            }
+
+            return false;
+        }
+
+        internal bool TryGetWalkablePosition(Vector2 searchOriginPosition, out Vector2 walkablePos)
+        {
+            if (_walkable)
+            {
+                walkablePos = Position;
+                return true;
+            }
+
+            Vector2 relativePosition = searchOriginPosition - (Vector2)Position;
+
+            if(_autoTileWalkability.Count == 0)
+            {
+                walkablePos = searchOriginPosition;
+                return false;
+            }
+
+            walkablePos = searchOriginPosition;
+            float minDistanceToClosestWalkable = float.MaxValue;
+
+            foreach (AutoTileWalkability autoTileWalkability in _autoTileWalkability)
+            {
+                Vector2 relativeWalkablePos = autoTileWalkability.GetClosestPoint(relativePosition);
+                walkablePos = (Vector2)Position + relativeWalkablePos;
+                float distanceToClosestWalkable = Vector2.Distance(searchOriginPosition, walkablePos);
+
+                if(distanceToClosestWalkable < minDistanceToClosestWalkable)
+                {
+                    walkablePos = relativeWalkablePos + (Vector2)Position;
+                    minDistanceToClosestWalkable = distanceToClosestWalkable;
+                }
+            }
+
+            return true;
         }
 
         public void HighlightWithColor(Color color, Grid3x3<bool> boolGrid)
@@ -128,15 +172,17 @@ namespace LocalMap
 
             TileType underType = TileType;
 
-            HashSet<TileType> neighbourTypes = new HashSet<TileType>();
-            neighbourTypes.Add(tileGrid.TopLeft);
-            neighbourTypes.Add(tileGrid.TopCenter);
-            neighbourTypes.Add(tileGrid.TopRight);
-            neighbourTypes.Add(tileGrid.CenterLeft);
-            neighbourTypes.Add(tileGrid.CenterRight);
-            neighbourTypes.Add(tileGrid.BottomLeft);
-            neighbourTypes.Add(tileGrid.BottomCenter);
-            neighbourTypes.Add(tileGrid.BottomRight);
+            HashSet<TileType> neighbourTypes = new HashSet<TileType>()
+            {
+                tileGrid.TopLeft,
+                tileGrid.TopCenter,
+                tileGrid.TopRight,
+                tileGrid.CenterLeft,
+                tileGrid.CenterRight,
+                tileGrid.BottomLeft,
+                tileGrid.BottomCenter,
+                tileGrid.BottomRight,
+            };
             neighbourTypes.Remove(underType);
             neighbourTypes.Remove(TileType.Nothing);
 
@@ -197,6 +243,8 @@ namespace LocalMap
                 outlineTile.sprite = autoTile.OutlineSprite;
                 outlineTile.sortingOrder = sortingOrder + 1;
             }
+
+            _autoTileWalkability.AddRange(autoTile.walkabilityBounds);
         }
     }
 

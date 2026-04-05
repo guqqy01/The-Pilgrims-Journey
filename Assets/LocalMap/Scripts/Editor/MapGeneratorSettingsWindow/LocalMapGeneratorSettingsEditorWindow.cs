@@ -82,10 +82,8 @@ namespace LocalMap.Editor
 
         private EditorMenuToolbarWindow _mainToolbarWindow;
         private TerrainNoiseParentTab _terrainNoiseParentTab;
-
-
-        [SerializeField]
-        private LocalMapEditorWindowOtherTab _otherTab;
+        
+        private LocalMapEditorWindowOtherTab _otherSettingsTab;
 
         private void SetupEditorMenuToolbarWindow()
         {
@@ -100,16 +98,16 @@ namespace LocalMap.Editor
             _terrainNoiseParentTab = new TerrainNoiseParentTab(_serializedObject);
             _terrainNoiseParentTab.OnTabChange += Repaint;
 
-            if(_otherTab == null)
+            if(_otherSettingsTab == null)
             {
-                _otherTab = new LocalMapEditorWindowOtherTab(_serializedObject);
+                _otherSettingsTab = new LocalMapEditorWindowOtherTab(_serializedObject);
             }
             else
             {
-                _otherTab.EnsureSerializedObject(_serializedObject);
+                _otherSettingsTab.EnsureSerializedObject(_serializedObject);
             }
 
-            _mainToolbarWindow = new EditorMenuToolbarWindow(baseTilesTab, mapObjectsTab, _terrainNoiseParentTab, _otherTab);
+            _mainToolbarWindow = new EditorMenuToolbarWindow(baseTilesTab, mapObjectsTab, _terrainNoiseParentTab, _otherSettingsTab);
         }
 
         private void OnDestroy()
@@ -216,18 +214,32 @@ namespace LocalMap.Editor
 
         private void GeneratePreviewMap()
         {
-            if(_previewLocalMapGenerator != null && _generationSettings != null)
+            if (_previewLocalMapGenerator == null || _generationSettings == null)
+                return;
+            
+            if(_otherSettingsTab == null || _otherSettingsTab.PreviewSettings == null)
             {
-                _previewLocalMapGenerator.ShowMapPreview(
-                    _previewRenderUtility.camera, 
-                    _generationSettings, 
-                    previewSettings, 
-                    GetSelectedIndices(selectedTerrain, _generationSettings.terrainNoiseLists.Count),
-                    _otherTab.PreviewSettings.StartWall,
-                    _otherTab.PreviewSettings.ToDirections,
-                    _otherTab.PreviewSettings.OtherFromDirections,
-                    _otherTab.PreviewSettings.NullableSeed);
+                Debug.LogWarning("Other tab is null, cannot generate preview map");
+                return;
             }
+
+            if(_previewRenderUtility == null)
+            {
+                Debug.LogWarning("Preview Render Utility is null, cannot generate preview map");
+                return;
+            }
+
+
+            _previewLocalMapGenerator.ShowMapPreview(
+                _previewRenderUtility.camera, 
+                _generationSettings, 
+                previewSettings, 
+                GetSelectedIndices(selectedTerrain, _generationSettings.terrainNoiseLists.Count),
+                _otherSettingsTab.PreviewSettings.StartWall,
+                _otherSettingsTab.PreviewSettings.ToDirections,
+                _otherSettingsTab.PreviewSettings.OtherFromDirections,
+                _otherSettingsTab.PreviewSettings.NullableSeed);
+            
         }
 
         List<int> GetSelectedIndices(int selectedMask, int optionCount)

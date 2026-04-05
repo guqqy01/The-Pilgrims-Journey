@@ -1,10 +1,9 @@
-using UnityEngine;
-using UnityEditor;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using UnityEngine.Tilemaps;
+using System.Linq;
+using UnityEditor;
 using UnityEditorInternal;
+using UnityEngine;
 
 namespace LocalMap.Editor
 {
@@ -478,13 +477,32 @@ namespace LocalMap.Editor
             float centerCellXPos = gridRect.xMin + (cellSize + gridSpacing);
             float centerCellYPos = gridRect.yMin + (cellSize + gridSpacing);
 
-            Rect centerCellRect = new Rect(gridRect) { position = new Vector2(centerCellXPos, centerCellYPos), size = new Vector2(cellSize, cellSize) };
+            float topRightCellXPos = gridRect.xMin + 2 * (cellSize + gridSpacing) + spacing;
+            float topRightCellYPos = gridRect.yMin + spacing;
 
+            Rect drawWalkabilityBoundsButtonRect = new Rect(gridRect) 
+            { 
+                position = new Vector2(topRightCellXPos, topRightCellYPos),  
+                size = new Vector2(cellSize - 2 * spacing, EditorGUIUtility.singleLineHeight) 
+            };
+            DrawWalkabilityDrawButton(drawWalkabilityBoundsButtonRect);
+
+            Rect centerCellRect = new Rect(gridRect) { position = new Vector2(centerCellXPos, centerCellYPos), size = new Vector2(cellSize, cellSize) };
             DrawWalkableBounds(centerCellRect);
+        }
+
+        private bool drawWalkabilityBounds = false;
+
+        private void DrawWalkabilityDrawButton(Rect rect)
+        {
+            drawWalkabilityBounds = GUI.Toggle(rect, drawWalkabilityBounds, new GUIContent("Draw bounds"), EditorStyles.toolbarButton);
         }
 
         private void DrawWalkableBounds(Rect centerCellRect)
         {
+            if (!drawWalkabilityBounds)
+                return;
+
             SerializedProperty autoTileProp = CurrentlySelectedAutoTileSpriteAndWalkabilityProperty;
             AutoTileSpriteAndWalkability autoTile = SelectedAutoTileSpriteAndWalkability;
 
@@ -501,13 +519,15 @@ namespace LocalMap.Editor
                     backgroundColorOuter = Color.red,
                     defaultInnerColor = Color.green.SetAlpha(0.3f),
                     defaultOuterColor = Color.green,
-                    
+                    defaultIgnoreOtherDraggableRects = true,
                 };
             }
 
-            boundsRectDraggableArea.AreaRect = centerCellRect;
             _serializedObject.Update();
+
+            boundsRectDraggableArea.AreaRect = centerCellRect;
             boundsRectDraggableArea.HandleDraggableRects(Event.current);
+
             _serializedObject.ApplyModifiedProperties();
         }
         

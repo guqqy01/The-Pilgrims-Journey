@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using LocalMap;
 using UnityEngine;
 
 namespace Heros
@@ -137,7 +138,18 @@ namespace Heros
             if (move.sqrMagnitude > 1f) move = move.normalized; // prevents faster diagonal speed
 
             Vector2 newPos = rb.position + move * SpeedValue * Time.fixedDeltaTime;
-            rb.MovePosition(newPos);
+
+            if (LocalMapGenerator.Instance.IsWalkable(newPos))
+            {
+                rb.MovePosition(newPos);
+            }
+            else
+            {
+                if(LocalMapGenerator.Instance.TryFindNearestWalkable(newPos, out Vector2 nearestWalkable, 1))
+                {
+                    rb.MovePosition(nearestWalkable);
+                }
+            }
         }
 
         protected override bool GetIfAtTargetPosition()

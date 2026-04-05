@@ -85,9 +85,163 @@ namespace LocalMap
             }
         }
 
+        public bool IsWalkable(Vector2 position)
+        {
+            Vector2Int v2IntPos = position.V2ToV2Int();
+
+            if (v2IntPos.x > Tiles.GetLength(0) || v2IntPos.x < 0 || v2IntPos.y > Tiles.GetLength(1) || v2IntPos.y < 0)
+            {
+                //Out of bounds. which means character is moving to new map
+                //Allow them to move.
+                Debug.Log("Out of bounds. which means character is moving to new map. Allowing them to move");
+                return true;
+            }
+
+            return Tiles[v2IntPos.x, v2IntPos.y].IsWalkable(position);
+        }
+
+        public bool TryFindNearestWalkable(Vector2 givenPos, out Vector2 walkablePosition, int maxSearchRadius = -1)
+        {
+            if (IsWalkable(givenPos))
+            {
+                walkablePosition = givenPos;
+                return true;
+            }
+
+            Vector2Int centerTile = new Vector2Int(
+                Mathf.Clamp(Mathf.FloorToInt(givenPos.x), 0, mapSizeX - 1),
+                Mathf.Clamp(Mathf.FloorToInt(givenPos.y), 0, mapSizeY - 1)
+            );
+
+            int maxRadius = maxSearchRadius >= 0 ? maxSearchRadius : Mathf.Max(mapSizeX, mapSizeY);
+
+            for (int radius = 0; radius <= maxRadius; radius++)
+            {
+                if (radius == 0)
+                {
+                    if (TryGetWalkablePositionInTile(centerTile, givenPos, out walkablePosition))
+                    {
+                        return true;
+                    }
+                    continue;
+                }
+
+                for (int x = -radius; x <= radius; x++)
+                {
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, -radius), givenPos, out walkablePosition))
+                    {
+                        return true;
+                    }
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, radius), givenPos, out walkablePosition))
+                    {
+                        return true;
+                    }
+                }
+                for (int y = -radius + 1; y <= radius - 1; y++)
+                {
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(-radius, y), givenPos, out walkablePosition))
+                    {
+                        return true;
+                    }
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(radius, y), givenPos, out walkablePosition))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            walkablePosition = default;
+            return false;
+        }
+
+        private bool TryGetWalkablePositionInTile(Vector2Int tilePos, Vector2 searchOrigin, out Vector2 walkablePosition)
+        {
+            walkablePosition = default;
+
+            if (tilePos.x < 0 || tilePos.x >= mapSizeX || tilePos.y < 0 || tilePos.y >= mapSizeY)
+                return false;
+
+            // Reject tiles not connected to the path network
+            if (_connectedToPath != null && !_connectedToPath[tilePos.x, tilePos.y])
+                return false;
+
+            return Tiles[tilePos.x, tilePos.y].TryGetWalkablePosition(searchOrigin, out walkablePosition);
+        }
+
+        #region Walkability
+
+        private bool[,] _connectedToPath;
+
+        private void BuildConnectedRegion()
+        {
+            _connectedToPath = new bool[mapSizeX, mapSizeY];
+
+            if (pathGrid == null)
+                return;
+
+            Queue<Vector2Int> frontier = new Queue<Vector2Int>();
+
+            // Seed from all path tiles
+            for (int x = 0; x < mapSizeX; x++)
+            {
+                for (int y = 0; y < mapSizeY; y++)
+                {
+                    if (pathGrid[x, y])
+                    {
+                        _connectedToPath[x, y] = true;
+                        frontier.Enqueue(new Vector2Int(x, y));
+                    }
+                }
+            }
+
+            // BFS outward to all orthogonally adjacent walkable tiles
+            while (frontier.Count > 0)
+            {
+                Vector2Int current = frontier.Dequeue();
+
+                foreach (Vector2Int neighbour in GetAdjacentNeighbours(current))
+                {
+                    if (_connectedToPath[neighbour.x, neighbour.y])
+                        continue;
+
+                    if (!Tiles[neighbour.x, neighbour.y].TileType.IsWalkable())
+                        continue;
+
+                    _connectedToPath[neighbour.x, neighbour.y] = true;
+                    frontier.Enqueue(neighbour);
+                }
+            }
+        }
+
+        private IEnumerable<Vector2Int> GetAdjacentNeighbours(Vector2Int pos)
+        {
+            if (pos.x > 0) yield return new Vector2Int(pos.x - 1, pos.y);
+            if (pos.x < mapSizeX - 1) yield return new Vector2Int(pos.x + 1, pos.y);
+            if (pos.y > 0) yield return new Vector2Int(pos.x, pos.y - 1);
+            if (pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x, pos.y + 1);
+
+            if (pos.x > 0 && pos.y > 0) yield return new Vector2Int(pos.x - 1, pos.y - 1);
+            if (pos.x < mapSizeX - 1 && pos.y > 0) yield return new Vector2Int(pos.x + 1, pos.y - 1);
+            if (pos.x > 0 && pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x - 1, pos.y + 1);
+            if (pos.x < mapSizeX - 1 && pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x + 1, pos.y + 1);
+        }
+
+        public bool IsConnectedToPath(Vector2Int tilePos)
+        {
+            if (_connectedToPath == null)
+                return false;
+
+            if (tilePos.x < 0 || tilePos.x >= mapSizeX || tilePos.y < 0 || tilePos.y >= mapSizeY)
+                return false;
+
+            return _connectedToPath[tilePos.x, tilePos.y];
+        }
+
+        #endregion
+
         #region Preview Settings
-        #if UNITY_EDITOR
-        
+#if UNITY_EDITOR
+
         public void ShowMapPreview(Camera previewCamera, 
             LocalMapGenerationSettings generationSettings, 
             MapGenerationPreviewSettings previewSettings, 
@@ -200,6 +354,8 @@ namespace LocalMap
             }
 
             PlaceTiles(previewSettings, terrainNoiseIndecies);
+
+            BuildConnectedRegion();
 
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.MapObjects))
             {
@@ -504,11 +660,12 @@ namespace LocalMap
 
                     if (pathGrid != null && pathGrid[xPos, yPos] && previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
                     {
-                        mapTile.Init(generationSettings.GetPathTileSprite(level), position);
+                        mapTile.Init(generationSettings.GetPathTileSprite(level), position, true);
                     }
                     else
                     {
-                        mapTile.Init(generationSettings.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies), position);
+                        TileTypeAndSprite tileTypeAndSprite = generationSettings.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies);
+                        mapTile.Init(tileTypeAndSprite, position, tileTypeAndSprite.TileType.IsWalkable());
                     }
 
                     Tiles[xPos, yPos] = mapTile;
@@ -754,6 +911,19 @@ namespace LocalMap
         BaseTiles = 1,
         MapObjects = 2,
         TerrainNoise = 4,
+    }
+
+    public static class TileTypeExtensions
+    {
+        public static bool IsWalkable(this TileType tileType)
+        {
+            return tileType switch
+            {
+                TileType.Water => false,
+                TileType.Nothing => false,
+                _ => true
+            };
+        }
     }
 }
 

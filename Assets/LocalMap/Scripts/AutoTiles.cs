@@ -448,6 +448,16 @@ namespace LocalMap
 
             return rect.Contains(position);
         }
+
+        public Vector2 GetClosestPoint(Vector2 originPosition)
+        {
+            Rect rect = new Rect() { position = Position, size = Size };
+
+            return new Vector2(
+                Mathf.Clamp(originPosition.x, rect.xMin, rect.xMax),
+                Mathf.Clamp(originPosition.y, rect.yMin, rect.yMax)
+            );
+        }
     }
 }
 
