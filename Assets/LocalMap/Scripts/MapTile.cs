@@ -85,7 +85,7 @@ namespace LocalMap
             if (position.V2ToV2Int() == Position && _walkable)
                 return true;
 
-            foreach(AutoTileWalkability autoTileWalkability in _autoTileWalkability)
+            foreach (AutoTileWalkability autoTileWalkability in _autoTileWalkability)
             {
                 if (autoTileWalkability.Contains(position - (Vector2)Position))
                     return true;
@@ -98,7 +98,7 @@ namespace LocalMap
         {
             if (_walkable)
             {
-                walkablePos = Position;
+                walkablePos = searchOriginPosition;
                 return true;
             }
 
