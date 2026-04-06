@@ -135,21 +135,29 @@ namespace Heros
             if (rb == null) return;
 
             Vector2 move = input;
-            if (move.sqrMagnitude > 1f) move = move.normalized; // prevents faster diagonal speed
+            if (move.sqrMagnitude > 1f) move = move.normalized;
 
             Vector2 newPos = rb.position + move * SpeedValue * Time.fixedDeltaTime;
 
             if (LocalMapGenerator.Instance.IsWalkable(newPos))
             {
                 rb.MovePosition(newPos);
+                return;
             }
-            else
+
+            // Try sliding along each axis independently
+            Vector2 newPosX = rb.position + new Vector2(move.x, 0) * SpeedValue * Time.fixedDeltaTime;
+            Vector2 newPosY = rb.position + new Vector2(0, move.y) * SpeedValue * Time.fixedDeltaTime;
+
+            if (LocalMapGenerator.Instance.IsWalkable(newPosX))
             {
-                if(LocalMapGenerator.Instance.TryFindNearestWalkable(newPos, out Vector2 nearestWalkable, 1))
-                {
-                    rb.MovePosition(nearestWalkable);
-                }
+                rb.MovePosition(newPosX);
             }
+            else if (LocalMapGenerator.Instance.IsWalkable(newPosY))
+            {
+                rb.MovePosition(newPosY);
+            }
+            // else: fully blocked, don't move at all
         }
 
         protected override bool GetIfAtTargetPosition()

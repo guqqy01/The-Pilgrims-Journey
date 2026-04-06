@@ -89,7 +89,7 @@ namespace LocalMap
         {
             Vector2Int v2IntPos = position.V2ToV2Int();
 
-            if (v2IntPos.x > Tiles.GetLength(0) || v2IntPos.x < 0 || v2IntPos.y > Tiles.GetLength(1) || v2IntPos.y < 0)
+            if (v2IntPos.x > Tiles.GetUpperBound(0) || v2IntPos.x < 0 || v2IntPos.y > Tiles.GetUpperBound(1) || v2IntPos.y < 0)
             {
                 //Out of bounds. which means character is moving to new map
                 //Allow them to move.
@@ -109,8 +109,8 @@ namespace LocalMap
             }
 
             Vector2Int centerTile = new Vector2Int(
-                Mathf.Clamp(Mathf.FloorToInt(givenPos.x), 0, mapSizeX - 1),
-                Mathf.Clamp(Mathf.FloorToInt(givenPos.y), 0, mapSizeY - 1)
+                Mathf.Clamp(Mathf.RoundToInt(givenPos.x), 0, mapSizeX - 1),
+                Mathf.Clamp(Mathf.RoundToInt(givenPos.y), 0, mapSizeY - 1)
             );
 
             int maxRadius = maxSearchRadius >= 0 ? maxSearchRadius : Mathf.Max(mapSizeX, mapSizeY);
@@ -126,27 +126,67 @@ namespace LocalMap
                     continue;
                 }
 
+                Vector2 candidateWalkablePos;
+                Vector2 closestWalkablePosition = default;
+                bool foundWalkable = false;
+                float minDistance = float.MaxValue;
+
                 for (int x = -radius; x <= radius; x++)
                 {
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, -radius), givenPos, out walkablePosition))
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, -radius), givenPos, out candidateWalkablePos))
                     {
-                        return true;
+                        float distance = Vector2.Distance(candidateWalkablePos, givenPos);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestWalkablePosition = candidateWalkablePos;
+                        }
+                        foundWalkable = true;
                     }
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, radius), givenPos, out walkablePosition))
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, radius), givenPos, out candidateWalkablePos))
                     {
-                        return true;
+                        float distance = Vector2.Distance(candidateWalkablePos, givenPos);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestWalkablePosition = candidateWalkablePos;
+                        }
+                        foundWalkable = true;
                     }
                 }
+
                 for (int y = -radius + 1; y <= radius - 1; y++)
                 {
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(-radius, y), givenPos, out walkablePosition))
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(-radius, y), givenPos, out candidateWalkablePos))
                     {
-                        return true;
+                        float distance = Vector2.Distance(candidateWalkablePos, givenPos);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestWalkablePosition = candidateWalkablePos;
+                        }
+                        foundWalkable = true;
                     }
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(radius, y), givenPos, out walkablePosition))
+                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(radius, y), givenPos, out candidateWalkablePos))
                     {
-                        return true;
+                        float distance = Vector2.Distance(candidateWalkablePos, givenPos);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestWalkablePosition = candidateWalkablePos;
+                        }
+                        foundWalkable = true;
                     }
+                }
+
+                if (foundWalkable)
+                {
+                    walkablePosition = closestWalkablePosition;
+                    return true;
                 }
             }
 
