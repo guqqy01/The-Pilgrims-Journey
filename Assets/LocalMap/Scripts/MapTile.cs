@@ -87,7 +87,7 @@ namespace LocalMap
 
             foreach (AutoTileWalkability autoTileWalkability in _autoTileWalkability)
             {
-                if (autoTileWalkability.Contains(position - (Vector2)Position))
+                if (autoTileWalkability.Contains(position - (Vector2)Position - Vector2.one / 2f))
                     return true;
             }
 
