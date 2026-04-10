@@ -185,7 +185,7 @@ namespace Heros
 
             Vector2 position = new Vector2(LocalMapGenerator.Instance.MapSizeX / 2f, LocalMapGenerator.Instance.MapSizeY / 2f);
 
-            if (!LocalMapGenerator.Instance.IsWalkable(position))
+            if (!LocalMapGenerator.Instance.IsPositionWalkable(position))
             {
                 if (LocalMapGenerator.Instance.TryFindNearestWalkable(position, out Vector2 walkablePositon))
                 {

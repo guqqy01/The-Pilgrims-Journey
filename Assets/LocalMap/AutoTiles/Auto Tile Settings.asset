@@ -176,51 +176,83 @@ MonoBehaviour:
     TopCenterAutoTile:
       BaseSprite: {fileID: -753368604, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: -1743419595, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 1, y: 0.36507013}
+        Position: {x: 0, y: 0}
     CenterLeftAutoTile:
       BaseSprite: {fileID: -453338420, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 1860997437, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0, y: 0}
     CenterRightAutoTile:
       BaseSprite: {fileID: 1988065767, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: -619404410, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.29848132, y: 0.9999999}
+        Position: {x: 0.7015187, y: 0}
     BottomCenterAutoTile:
       BaseSprite: {fileID: 1367927814, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 1789289351, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 1, y: 0.24240646}
+        Position: {x: 0, y: 0.7575935}
     TopRightAutoTile:
       BaseSprite: {fileID: -1124853195, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 647951850746277987, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.24240646, y: 0.36507013}
+        Position: {x: 0.7575936, y: 0}
     TopLeftAutoTile:
       BaseSprite: {fileID: -6196031197903921715, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 6584601168830695082, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.27394858, y: 0.36507013}
+        Position: {x: 0, y: 0}
     BottomLeftAutoTile:
       BaseSprite: {fileID: -641512084, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 71480963, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.2318926, y: 0.23539722}
+        Position: {x: 0, y: 0.7646027}
     BottomRightAutoTile:
       BaseSprite: {fileID: 343965011, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 1106420121, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.19334112, y: 0.2494157}
+        Position: {x: 0.80665886, y: 0.75058424}
     TopAndLeftAutoTile:
       BaseSprite: {fileID: -1869759190, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: -1393154248, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0, y: 0}
+      - Size: {x: 1, y: 0.35806063}
+        Position: {x: 0, y: 0}
     TopAndRightAutoTile:
       BaseSprite: {fileID: 934358801, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 195760105, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 1, y: 0.3790886}
+        Position: {x: 0, y: 0}
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0.6999999, y: 0}
     BottomAndLeftAutoTile:
       BaseSprite: {fileID: -100657045, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: -2099074936, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.26, y: 1}
+        Position: {x: 0, y: 0}
+      - Size: {x: 1, y: 0.29999992}
+        Position: {x: 0, y: 0.70000005}
     BottomAndRightAutoTile:
       BaseSprite: {fileID: -275752978, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
       OutlineSprite: {fileID: 478055567, guid: 109fed78ca2a3844db48c1764ae00580, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 1, y: 0.24240646}
+        Position: {x: 0, y: 0.7575935}
+      - Size: {x: 0.22838785, y: 0.9999999}
+        Position: {x: 0.77161217, y: 0}
   - OverTileType: 16
     UnderTileType: 14
     OverBase: {fileID: -422568466, guid: c20c824ae2c16eb41bd8036ea378b700, type: 3}
@@ -332,49 +364,85 @@ MonoBehaviour:
     TopCenterAutoTile:
       BaseSprite: {fileID: 545557582, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: -2144903667, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 1, y: 0.4071261}
+        Position: {x: 0, y: 0}
     CenterLeftAutoTile:
       BaseSprite: {fileID: -1358665681, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: 1298457466, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0, y: 0}
     CenterRightAutoTile:
       BaseSprite: {fileID: -131469280, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: -2079795627, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0.6999999, y: 0}
     BottomCenterAutoTile:
       BaseSprite: {fileID: -1185040126, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: 110427644, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 1, y: 0.21436897}
+        Position: {x: 0, y: 0.785631}
     TopRightAutoTile:
       BaseSprite: {fileID: 1243825000775872133, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: -3744934263447315006, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.39310735}
+        Position: {x: 0.7, y: 0}
     TopLeftAutoTile:
       BaseSprite: {fileID: -8005004014958433004, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: 5960253721432233231, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.3089953, y: 0.39310735}
+        Position: {x: 0, y: 0}
     BottomLeftAutoTile:
       BaseSprite: {fileID: 1395957599, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: -6269501832897786321, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.2003505}
+        Position: {x: 0, y: 0.7996495}
     BottomRightAutoTile:
       BaseSprite: {fileID: -627738171, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: 1484567937, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.29848132, y: 0.24240646}
+        Position: {x: 0.7015187, y: 0.7575935}
     TopAndLeftAutoTile:
       BaseSprite: {fileID: -2118813891, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: -606845735, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0, y: 0}
+      - Size: {x: 1, y: 0.3790886}
+        Position: {x: 0, y: 0}
     TopAndRightAutoTile:
       BaseSprite: {fileID: -758145722, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: 1494283658, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 1, y: 0.38609812}
+        Position: {x: 0, y: 0}
+      - Size: {x: 0.3195093, y: 0.9999999}
+        Position: {x: 0.68049073, y: 0}
     BottomAndLeftAutoTile:
       BaseSprite: {fileID: -1630546608, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: -1300230251, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0, y: 0}
+      - Size: {x: 1, y: 0.24240646}
+        Position: {x: 0, y: 0.7575935}
+      - Size: {x: 0.3, y: 0.3}
+        Position: {x: 0.17523365, y: 0.54672915}
     BottomAndRightAutoTile:
       BaseSprite: {fileID: -1485815745, guid: 8eaaa6365821386458914033af009a37, type: 3}
       OutlineSprite: {fileID: -538592669, guid: 8eaaa6365821386458914033af009a37, type: 3}
-      walkabilityBounds: []
+      walkabilityBounds:
+      - Size: {x: 0.30000004, y: 0.9999999}
+        Position: {x: 0.6999999, y: 0}
+      - Size: {x: 1, y: 0.22838771}
+        Position: {x: 0, y: 0.7716123}
+      - Size: {x: 0.3, y: 0.3}
+        Position: {x: 0.5397196, y: 0.51168215}
   drawOrderForType: 01000000000000000200000004000000080000001000000020000000

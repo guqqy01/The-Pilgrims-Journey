@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 namespace LocalMap
 {
@@ -28,6 +29,8 @@ namespace LocalMap
 
         private bool _walkable;
         private readonly List<AutoTileWalkability> _autoTileWalkability = new List<AutoTileWalkability>();
+
+        public bool HasAutoTileWalkability => _autoTileWalkability.Count > 0;
 
         public TileType TileType;
 
@@ -80,29 +83,39 @@ namespace LocalMap
             TileType = tileTypeAndSprite.TileType;
         }
 
-        internal bool IsWalkable(Vector2 position)
+        internal bool IsPositionWalkable(Vector2 position)
         {
-            if (position.V2ToV2Int() == Position && _walkable)
+            //Position must be within tile bounds to be walkable
+            if (position.V2ToV2Int() != Position)
+                return false;
+
+            if (_walkable)
                 return true;
 
             foreach (AutoTileWalkability autoTileWalkability in _autoTileWalkability)
             {
-                if (autoTileWalkability.Contains(position - (Vector2)Position - Vector2.one / 2f))
+                Vector2 relativePosition = position - (Vector2)Position - Vector2.one / 2f;
+                if (autoTileWalkability.Contains(relativePosition))
+                {
+                    Debug.Log($"Tile in Position: {Position} is walkable from autotile");
                     return true;
+                }
             }
 
             return false;
         }
 
-        internal bool TryGetWalkablePosition(Vector2 searchOriginPosition, out Vector2 walkablePos)
+        internal bool TryGetNearestWalkablePosition(Vector2 searchOriginPosition, out Vector2 walkablePos)
         {
             if (_walkable)
             {
-                walkablePos = searchOriginPosition;
+                float xPos = Mathf.Clamp(searchOriginPosition.x, Position.x - 0.5f, Position.x + 0.5f);
+                float yPos = Mathf.Clamp(searchOriginPosition.y, Position.y - 0.5f, Position.y + 0.5f);
+                walkablePos = new Vector2(xPos, yPos);
                 return true;
             }
 
-            Vector2 relativePosition = searchOriginPosition - (Vector2)Position;
+            Vector2 relativePosition = searchOriginPosition - (Vector2)Position + Vector2.one / 2f;
 
             if(_autoTileWalkability.Count == 0)
             {
@@ -116,12 +129,12 @@ namespace LocalMap
             foreach (AutoTileWalkability autoTileWalkability in _autoTileWalkability)
             {
                 Vector2 relativeWalkablePos = autoTileWalkability.GetClosestPoint(relativePosition);
-                walkablePos = (Vector2)Position + relativeWalkablePos;
-                float distanceToClosestWalkable = Vector2.Distance(searchOriginPosition, walkablePos);
+                Vector2 worldWalkablePos = (Vector2)Position + relativeWalkablePos - Vector2.one / 2f;
+                float distanceToClosestWalkable = Vector2.Distance(searchOriginPosition, worldWalkablePos);
 
-                if(distanceToClosestWalkable < minDistanceToClosestWalkable)
+                if (distanceToClosestWalkable < minDistanceToClosestWalkable)
                 {
-                    walkablePos = relativeWalkablePos + (Vector2)Position;
+                    walkablePos = worldWalkablePos;
                     minDistanceToClosestWalkable = distanceToClosestWalkable;
                 }
             }

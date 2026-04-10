@@ -85,7 +85,7 @@ namespace LocalMap
             }
         }
 
-        public bool IsWalkable(Vector2 position)
+        public bool IsPositionWalkable(Vector2 position)
         {
             Vector2Int v2IntPos = position.V2ToV2Int();
 
@@ -97,12 +97,12 @@ namespace LocalMap
                 return true;
             }
 
-            return Tiles[v2IntPos.x, v2IntPos.y].IsWalkable(position);
+            return Tiles[v2IntPos.x, v2IntPos.y].IsPositionWalkable(position);
         }
 
         public bool TryFindNearestWalkable(Vector2 givenPos, out Vector2 walkablePosition, int maxSearchRadius = -1)
         {
-            if (IsWalkable(givenPos))
+            if (IsPositionWalkable(givenPos))
             {
                 walkablePosition = givenPos;
                 return true;
@@ -119,8 +119,9 @@ namespace LocalMap
             {
                 if (radius == 0)
                 {
-                    if (TryGetWalkablePositionInTile(centerTile, givenPos, out walkablePosition))
+                    if (TryGetNearestWalkablePositionInTile(centerTile, givenPos, out walkablePosition))
                     {
+                        Debug.Log(1);
                         return true;
                     }
                     continue;
@@ -133,7 +134,7 @@ namespace LocalMap
 
                 for (int x = -radius; x <= radius; x++)
                 {
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, -radius), givenPos, out candidateWalkablePos))
+                    if (TryGetNearestWalkablePositionInTile(centerTile + new Vector2Int(x, -radius), givenPos, out candidateWalkablePos))
                     {
                         float distance = Vector2.Distance(candidateWalkablePos, givenPos);
 
@@ -144,7 +145,7 @@ namespace LocalMap
                         }
                         foundWalkable = true;
                     }
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(x, radius), givenPos, out candidateWalkablePos))
+                    if (TryGetNearestWalkablePositionInTile(centerTile + new Vector2Int(x, radius), givenPos, out candidateWalkablePos))
                     {
                         float distance = Vector2.Distance(candidateWalkablePos, givenPos);
 
@@ -159,7 +160,7 @@ namespace LocalMap
 
                 for (int y = -radius + 1; y <= radius - 1; y++)
                 {
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(-radius, y), givenPos, out candidateWalkablePos))
+                    if (TryGetNearestWalkablePositionInTile(centerTile + new Vector2Int(-radius, y), givenPos, out candidateWalkablePos))
                     {
                         float distance = Vector2.Distance(candidateWalkablePos, givenPos);
 
@@ -170,7 +171,7 @@ namespace LocalMap
                         }
                         foundWalkable = true;
                     }
-                    if (TryGetWalkablePositionInTile(centerTile + new Vector2Int(radius, y), givenPos, out candidateWalkablePos))
+                    if (TryGetNearestWalkablePositionInTile(centerTile + new Vector2Int(radius, y), givenPos, out candidateWalkablePos))
                     {
                         float distance = Vector2.Distance(candidateWalkablePos, givenPos);
 
@@ -185,6 +186,7 @@ namespace LocalMap
 
                 if (foundWalkable)
                 {
+                    Debug.Log(2);
                     walkablePosition = closestWalkablePosition;
                     return true;
                 }
@@ -194,7 +196,7 @@ namespace LocalMap
             return false;
         }
 
-        private bool TryGetWalkablePositionInTile(Vector2Int tilePos, Vector2 searchOrigin, out Vector2 walkablePosition)
+        private bool TryGetNearestWalkablePositionInTile(Vector2Int tilePos, Vector2 searchOrigin, out Vector2 walkablePosition)
         {
             walkablePosition = default;
 
@@ -203,9 +205,11 @@ namespace LocalMap
 
             // Reject tiles not connected to the path network
             if (_connectedToPath != null && !_connectedToPath[tilePos.x, tilePos.y])
+            {
                 return false;
+            }
 
-            return Tiles[tilePos.x, tilePos.y].TryGetWalkablePosition(searchOrigin, out walkablePosition);
+            return Tiles[tilePos.x, tilePos.y].TryGetNearestWalkablePosition(searchOrigin, out walkablePosition);
         }
 
         #region Walkability
@@ -244,7 +248,9 @@ namespace LocalMap
                     if (_connectedToPath[neighbour.x, neighbour.y])
                         continue;
 
-                    if (!Tiles[neighbour.x, neighbour.y].TileType.IsWalkable())
+                    MapTile neighbourTile = Tiles[neighbour.x, neighbour.y];
+
+                    if (!neighbourTile.TileType.IsWalkable() && !neighbourTile.HasAutoTileWalkability)
                         continue;
 
                     _connectedToPath[neighbour.x, neighbour.y] = true;

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LocalMap
 {
@@ -422,6 +423,16 @@ namespace LocalMap
         public Vector2 Size;
         public Vector2 Position;
 
+        public Vector2 ConvertToRectSpace(Vector2 position)
+        {
+            return new Vector2(position.x, 1 - position.y);
+        }
+
+        public Vector2 ConvertToGameSpace(Vector2 rectPosition)
+        {
+            return new Vector2(rectPosition.x, 1 - rectPosition.y);
+        }
+
         public Vector2 GetPosition()
         {
             return Position;
@@ -442,21 +453,27 @@ namespace LocalMap
             Size = size;
         }
 
-        public bool Contains(Vector2 position)
+        public bool Contains(Vector2 relativePosition)
         {
+            Vector2 convertedToRectSpacePosition = ConvertToRectSpace(relativePosition);
+
             Rect rect = new Rect() { position = Position, size = Size };
 
-            return rect.Contains(position);
+            return rect.Contains(convertedToRectSpacePosition);
         }
 
-        public Vector2 GetClosestPoint(Vector2 originPosition)
+        public Vector2 GetClosestPoint(Vector2 relativePosition)
         {
+            Vector2 convertedToRectSpacePosition = ConvertToRectSpace(relativePosition);
+
             Rect rect = new Rect() { position = Position, size = Size };
 
-            return new Vector2(
-                Mathf.Clamp(originPosition.x, rect.xMin, rect.xMax),
-                Mathf.Clamp(originPosition.y, rect.yMin, rect.yMax)
+            Vector2 closestRectSpacePosition = new Vector2(
+                Mathf.Clamp(convertedToRectSpacePosition.x, rect.xMin, rect.xMax),
+                Mathf.Clamp(convertedToRectSpacePosition.y, rect.yMin, rect.yMax)
             );
+
+            return ConvertToGameSpace(closestRectSpacePosition);
         }
     }
 }
