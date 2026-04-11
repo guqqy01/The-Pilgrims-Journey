@@ -46,7 +46,9 @@ namespace Monsters
             HandleMirroring(moveVector.x);
         }
 
-        private void HandleMoveMonster(Vector2 moveVector, Vector2 targetPos, float sqrDistance)
+
+
+        protected void HandleMoveMonster(Vector2 moveVector, Vector2 targetPos, float sqrDistance)
         {
             if (moveVector.sqrMagnitude >= sqrDistance)
             {
@@ -58,7 +60,7 @@ namespace Monsters
             }
         }
 
-        private void HandleMirroring(float xMovement)
+        protected void HandleMirroring(float xMovement)
         {
             if (visualTransform == null || !mirrorWhenTargetToTheLeft)
                 return;

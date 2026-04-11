@@ -185,25 +185,17 @@ namespace Heros
 
             Vector2 position = new Vector2(LocalMapGenerator.Instance.MapSizeX / 2f, LocalMapGenerator.Instance.MapSizeY / 2f);
 
-            if (!LocalMapGenerator.Instance.IsPositionWalkable(position))
+            if (LocalMapGenerator.Instance.TryFindNearestWalkable(position, out Vector2 walkablePositon))
             {
-                if (LocalMapGenerator.Instance.TryFindNearestWalkable(position, out Vector2 walkablePositon))
-                {
-                    position = walkablePositon;
-                    Debug.Log($"found new walkable position {position}");
-                }
-                else
-                {
-                    Debug.LogError("Could not find walkable spot");
-                    return;
-                }
+                position = walkablePositon;
             }
             else
             {
-                Debug.Log("Is walkable");
+                Debug.LogError("Could not find walkable spot");
+                return;
             }
 
-                ActiveHero = Instantiate(HeroSO.prefab, position, Quaternion.identity, transform);
+            ActiveHero = Instantiate(HeroSO.prefab, position, Quaternion.identity, transform);
 
             ActiveHero.Setup(HeroSO, Stats);
 

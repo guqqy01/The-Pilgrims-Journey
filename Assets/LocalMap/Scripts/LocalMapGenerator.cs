@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using GlobalMap;
-using Heros;
 using Unity.VisualScripting;
 namespace LocalMap
 {
@@ -115,22 +114,27 @@ namespace LocalMap
 
             int maxRadius = maxSearchRadius >= 0 ? maxSearchRadius : Mathf.Max(mapSizeX, mapSizeY);
 
-            for (int radius = 0; radius <= maxRadius; radius++)
+            for (int radius = 1; radius <= maxRadius; radius++)
             {
-                if (radius == 0)
-                {
-                    if (TryGetNearestWalkablePositionInTile(centerTile, givenPos, out walkablePosition))
-                    {
-                        Debug.Log(1);
-                        return true;
-                    }
-                    continue;
-                }
-
                 Vector2 candidateWalkablePos;
                 Vector2 closestWalkablePosition = default;
                 bool foundWalkable = false;
                 float minDistance = float.MaxValue;
+
+                if(radius == 1)
+                {
+                    if (TryGetNearestWalkablePositionInTile(centerTile, givenPos, out candidateWalkablePos))
+                    {
+                        float distance = Vector2.Distance(candidateWalkablePos, givenPos);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestWalkablePosition = candidateWalkablePos;
+                        }
+                        foundWalkable = true;
+                    }
+                }
 
                 for (int x = -radius; x <= radius; x++)
                 {
@@ -186,7 +190,6 @@ namespace LocalMap
 
                 if (foundWalkable)
                 {
-                    Debug.Log(2);
                     walkablePosition = closestWalkablePosition;
                     return true;
                 }
@@ -259,7 +262,7 @@ namespace LocalMap
             }
         }
 
-        private IEnumerable<Vector2Int> GetAdjacentNeighbours(Vector2Int pos)
+        public IEnumerable<Vector2Int> GetAdjacentNeighbours(Vector2Int pos)
         {
             if (pos.x > 0) yield return new Vector2Int(pos.x - 1, pos.y);
             if (pos.x < mapSizeX - 1) yield return new Vector2Int(pos.x + 1, pos.y);
@@ -957,19 +960,6 @@ namespace LocalMap
         BaseTiles = 1,
         MapObjects = 2,
         TerrainNoise = 4,
-    }
-
-    public static class TileTypeExtensions
-    {
-        public static bool IsWalkable(this TileType tileType)
-        {
-            return tileType switch
-            {
-                TileType.Water => false,
-                TileType.Nothing => false,
-                _ => true
-            };
-        }
     }
 }
 

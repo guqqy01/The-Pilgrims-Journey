@@ -1,4 +1,5 @@
 ﻿using Heros;
+using LocalMap;
 using UnityEngine;
 
 
@@ -9,12 +10,17 @@ namespace Monsters
         [SerializeField]
         private LayerMask directTargetLayerMask;
 
+
+
         [SerializeField]
         private float directStoppingDistance;
 
         private Transform _target;
         private Vector2? _targetPosition;
 
+        [SerializeField] private float separationRadius = 0.8f;
+        [SerializeField] private float separationStrength = 1.5f;
+        [SerializeField] private LayerMask enemyLayerMask;
         public Vector2? TargetPosition
         {
             get
@@ -40,6 +46,53 @@ namespace Monsters
                     return _targetPosition;
                 }
             }
+        }
+
+        public override void HandleFixedUpdateMovement()
+        {
+            Vector2? nullableTargetPosition = GetTargetPosition();
+
+            if (!nullableTargetPosition.HasValue)
+                return;
+
+            Vector2 targetPosition = nullableTargetPosition.Value;
+
+            Vector2 toVector = targetPosition - rb.position;
+            float sqrDistance = toVector.sqrMagnitude;
+
+            if (sqrDistance == 0f) return;
+
+            Vector2 flowDir = FlowFieldManager.Instance.CurrentField?
+            .SampleDirection(transform.position) ?? Vector2.zero;
+
+            Vector2 separation = GetSeparationForce();
+
+            Vector2 finalDir = (flowDir + separation).normalized;
+            Vector2 moveVector = Speed * Time.fixedDeltaTime * finalDir;
+
+            HandleMoveMonster(moveVector, targetPosition, sqrDistance);
+
+            HandleMirroring(moveVector.x);
+        }
+
+        private Vector2 GetSeparationForce()
+        {
+            Vector2 force = Vector2.zero;
+
+            // OverlapCircleNonAlloc to avoid allocations
+            Collider2D[] hits = Physics2D.OverlapCircleAll(
+                transform.position, separationRadius, enemyLayerMask);
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (hits[i].gameObject == gameObject) continue;
+
+                Vector2 away = (Vector2)transform.position - (Vector2)hits[i].transform.position;
+                float strength = 1f - (away.magnitude / separationRadius);
+                force += away.normalized * strength;
+            }
+
+            return force * separationStrength;
         }
 
         public void SetTarget(Transform target)

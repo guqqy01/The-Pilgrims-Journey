@@ -63,7 +63,7 @@ namespace Monsters
 
         private bool TrySpawnOne(MonsterSpawn spawn)
         {
-            var points = weightMap.WeightAndMapPoints(spawn.range);
+            var points = weightMap.WeightAndMapPointsConnectedToPath(spawn.range);
             if (points == null || points.Count == 0)
                 return false;
 

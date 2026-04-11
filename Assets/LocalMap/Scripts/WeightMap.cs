@@ -80,7 +80,7 @@ namespace LocalMap
             Sort();
         }
 
-        public List<KeyValuePair<int, List<Vector2Int>>> WeightAndMapPoints(int range)
+        public List<KeyValuePair<int, List<Vector2Int>>> WeightAndMapPointsConnectedToPath(int range)
         {
             var result = new Dictionary<int, List<Vector2Int>>();
 
@@ -97,6 +97,10 @@ namespace LocalMap
             for (int i = 0; i < mapPointsAtRange.Length; i++)
             {
                 var mp = mapPointsAtRange[i];
+
+                if (!LocalMapGenerator.Instance.IsConnectedToPath(mp.coords))
+                    continue;
+
                 if (!result.TryGetValue(mp.weight, out var list))
                 {
                     list = new List<Vector2Int>();
@@ -104,6 +108,8 @@ namespace LocalMap
                 }
                 list.Add(mp.coords);
             }
+
+
 
             // Convert to a list of KeyValuePair and order descending by key (highest weight first)
             var ordered = result
