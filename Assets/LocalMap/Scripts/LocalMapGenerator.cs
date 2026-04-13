@@ -84,6 +84,18 @@ namespace LocalMap
             }
         }
 
+        public bool IsPositionOnFullyWalkableTile(Vector2 position)
+        {
+            Vector2Int v2IntPos = position.V2ToV2Int();
+
+            if (v2IntPos.x > Tiles.GetUpperBound(0) || v2IntPos.x < 0 || v2IntPos.y > Tiles.GetUpperBound(1) || v2IntPos.y < 0)
+            {
+                return true;
+            }
+
+            return Tiles[v2IntPos.x, v2IntPos.y].FullyWalkable;
+        }
+
         public bool IsPositionWalkable(Vector2 position)
         {
             Vector2Int v2IntPos = position.V2ToV2Int();
@@ -92,11 +104,78 @@ namespace LocalMap
             {
                 //Out of bounds. which means character is moving to new map
                 //Allow them to move.
-                Debug.Log("Out of bounds. which means character is moving to new map. Allowing them to move");
                 return true;
             }
 
             return Tiles[v2IntPos.x, v2IntPos.y].IsPositionWalkable(position);
+        }
+
+        public bool TryFindNearestFullyWalkable(Vector2 givenPos, out Vector2 walkablePosition, int maxSearchRadius = -1)
+        {
+            walkablePosition = Vector2.zero;
+
+            if (IsPositionOnFullyWalkableTile(givenPos))
+            {
+                walkablePosition = givenPos;
+                return true;
+            }
+
+            Vector2Int centerTile = new Vector2Int(
+                Mathf.Clamp(Mathf.RoundToInt(givenPos.x), 0, mapSizeX - 1),
+                Mathf.Clamp(Mathf.RoundToInt(givenPos.y), 0, mapSizeY - 1)
+            );
+
+            int maxRadius = maxSearchRadius >= 0 ? maxSearchRadius : Mathf.Max(mapSizeX, mapSizeY);
+
+            for (int radius = 1; radius <= maxRadius; radius++)
+            {
+                Vector2Int bestTile = default;
+                bool foundTile = false;
+                float minDistance = float.MaxValue;
+
+                void CheckTile(Vector2Int tilePos)
+                {
+                    if (tilePos.x < 0 || tilePos.x >= mapSizeX || tilePos.y < 0 || tilePos.y >= mapSizeY)
+                        return;
+
+                    if (!IsConnectedToPath(tilePos))
+                        return;
+
+                    if (!Tiles[tilePos.x, tilePos.y].FullyWalkable)
+                        return;
+
+                    float distance = Vector2.Distance(givenPos, (Vector2)(Vector2)tilePos);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        bestTile = tilePos;
+                        foundTile = true;
+                    }
+                }
+
+                if (radius == 1)
+                    CheckTile(centerTile);
+
+                for (int x = -radius; x <= radius; x++)
+                {
+                    CheckTile(centerTile + new Vector2Int(x, -radius));
+                    CheckTile(centerTile + new Vector2Int(x, radius));
+                }
+
+                for (int y = -radius + 1; y <= radius - 1; y++)
+                {
+                    CheckTile(centerTile + new Vector2Int(-radius, y));
+                    CheckTile(centerTile + new Vector2Int(radius, y));
+                }
+
+                if (foundTile)
+                {
+                    walkablePosition = (Vector2)bestTile;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool TryFindNearestWalkable(Vector2 givenPos, out Vector2 walkablePosition, int maxSearchRadius = -1)

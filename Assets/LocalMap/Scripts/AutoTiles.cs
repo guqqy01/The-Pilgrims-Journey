@@ -423,6 +423,16 @@ namespace LocalMap
         public Vector2 Size;
         public Vector2 Position;
 
+        public Vector2 BottomLeft => Position;
+        public Vector2 BottomRight => new Vector2(Position.x + Size.x, Position.y);
+        public Vector2 TopRight => Position + Size;
+        public Vector2 TopLeft => new Vector2(Position.x, Position.y + Size.y);
+
+        public float Top => Position.y + Size.y;
+        public float Bottom => Position.y;
+        public float Left => Position.x;
+        public float Right => Position.x + Size.x;
+
         public Vector2 ConvertToRectSpace(Vector2 position)
         {
             return new Vector2(position.x, 1 - position.y);

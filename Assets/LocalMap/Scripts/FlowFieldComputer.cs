@@ -4,6 +4,13 @@ namespace LocalMap
 {
     public class FlowFieldComputer
     {
+        const float edgeTolerance = 0.05f;
+
+        public static FlowField Compute(Vector2Int heroWorldPos, MapTile[,] tiles)
+        {
+            return Compute((Vector2)heroWorldPos, tiles);
+        }
+
         public static FlowField Compute(Vector2 heroWorldPos, MapTile[,] tiles)
         {
             int width = tiles.GetLength(0);
@@ -32,12 +39,35 @@ namespace LocalMap
 
                 foreach (Vector2Int neighbour in LocalMapGenerator.Instance.GetAdjacentNeighbours(current))
                 {
+                    Vector2Int delta = neighbour - current;
+                    if (delta.x != 0 && delta.y != 0)
+                    {
+                        // This is a diagonal move - check both orthogonal neighbours are walkable
+                        Vector2Int orthA = new Vector2Int(current.x + delta.x, current.y);
+                        Vector2Int orthB = new Vector2Int(current.x, current.y + delta.y);
+
+                        bool orthAWalkable = LocalMapGenerator.Instance.IsConnectedToPath(orthA) &&
+                                             (tiles[orthA.x, orthA.y].TileType.IsWalkable() ||
+                                              tiles[orthA.x, orthA.y].HasAutoTileWalkability);
+
+                        bool orthBWalkable = LocalMapGenerator.Instance.IsConnectedToPath(orthB) &&
+                                             (tiles[orthB.x, orthB.y].TileType.IsWalkable() ||
+                                              tiles[orthB.x, orthB.y].HasAutoTileWalkability);
+
+                        if (!orthAWalkable || !orthBWalkable)
+                            continue;
+                    }
+
                     if (!LocalMapGenerator.Instance.IsConnectedToPath(neighbour))
                         continue;
 
-                    if (!tiles[neighbour.x, neighbour.y].TileType.IsWalkable()
-                        && !tiles[neighbour.x, neighbour.y].HasAutoTileWalkability)
+                    MapTile tile = tiles[neighbour.x, neighbour.y];
+
+
+                    if (!tile.TileType.IsWalkable())
+                    {
                         continue;
+                    }
 
                     float newCost = costs[current.x, current.y] + 1;
                     if (newCost < costs[neighbour.x, neighbour.y])

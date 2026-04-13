@@ -62,13 +62,38 @@ namespace Monsters
 
             if (sqrDistance == 0f) return;
 
-            Vector2 flowDir = FlowFieldManager.Instance.CurrentField?
-            .SampleDirection(transform.position) ?? Vector2.zero;
+            FlowField currentFlowField = FlowFieldManager.Instance.CurrentField;
+
+            Vector2 flowDir = Vector2.zero;
+
+            if (currentFlowField != null)
+            {
+                flowDir = currentFlowField.SampleDirection(rb.position);
+            }
+            
+            if(currentFlowField == null || flowDir == Vector2.zero)
+            {
+                if (LocalMapGenerator.Instance.TryFindNearestFullyWalkable(transform.position, out Vector2 walkablePosition))
+                {
+                    flowDir = (walkablePosition - (Vector2)transform.position).normalized;
+                }
+                else
+                {
+                    flowDir = toVector.normalized;
+
+                }
+            }
 
             Vector2 separation = GetSeparationForce();
 
             Vector2 finalDir = (flowDir + separation).normalized;
             Vector2 moveVector = Speed * Time.fixedDeltaTime * finalDir;
+
+            if(finalDir == Vector2.zero && LocalMapGenerator.Instance.TryFindNearestFullyWalkable(moveVector, out Vector2 closestToMoveVector))
+            {
+                Vector2 toClosestDir = (closestToMoveVector - rb.position).normalized;
+                moveVector  = Speed * Time.fixedDeltaTime * toClosestDir;
+            }
 
             HandleMoveMonster(moveVector, targetPosition, sqrDistance);
 

@@ -100,6 +100,8 @@ namespace Monsters
                     break;
             }
 
+            result.RemoveAll(x => !LocalMapGenerator.Instance.IsConnectedToPath(x));
+
             return result;
         }
 
@@ -113,6 +115,9 @@ namespace Monsters
             foreach (var p in positions)
             {
                 if (SpotOccupied(p, monster.size, out Vector2 pos))
+                    continue;
+
+                if (!LocalMapGenerator.Instance.IsConnectedToPath(p))
                     continue;
 
                 SpawnMonster(monster, pos);
