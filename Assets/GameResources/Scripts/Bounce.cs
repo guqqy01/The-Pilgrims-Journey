@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bounce : MonoBehaviour
@@ -23,7 +23,9 @@ public class Bounce : MonoBehaviour
 
     private bool bouncing = true;
 
-    public System.Action OnSettled;
+    public Action OnSettled;
+
+    public Action OnBounce;
 
     private void Awake()
     {
@@ -87,5 +89,7 @@ public class Bounce : MonoBehaviour
         rb.AddForce(new Vector2(xForce * Mathf.Cos(Mathf.Deg2Rad * angle), yForce * (numberOfBounces - (num - 1))), ForceMode2D.Impulse);
         num++;
         timeToNextBounce = Time.time + timeMultiplier * (numberOfBounces - (num - 1));
+
+        OnBounce?.Invoke();
     }
 }

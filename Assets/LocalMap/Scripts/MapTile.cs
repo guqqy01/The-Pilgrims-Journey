@@ -1,11 +1,8 @@
 using LocalMap.Editor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 namespace LocalMap
 {
@@ -34,7 +31,11 @@ namespace LocalMap
 
         public bool HasAutoTileWalkability => _autoTileWalkability.Count > 0;
 
-        public TileType TileType;
+        public TileTypeAndVisual TileTypeAndVisual;
+        public TileType TileType => TileTypeAndVisual.TileType;
+        public TileVisualType TileVisualType => TileTypeAndVisual.TileVisualType;
+        private int currentFrameIndex = 0;
+        private float timeToChangeSprite;
 
         private bool highlighted;
         public bool Highlighted
@@ -76,13 +77,43 @@ namespace LocalMap
             }
         }
 
-        public void Init(TileTypeAndSprite tileTypeAndSprite, Vector2Int position, bool walkable)
+        public void Init(TileTypeAndVisual tileTypeAndSprite, Vector2Int position, bool walkable)
         {
-            graphic.sprite = tileTypeAndSprite.Sprite;
+            TileTypeAndVisual = tileTypeAndSprite;
+
+            switch (tileTypeAndSprite.TileVisualType)
+            {
+                case TileVisualType.SingleSprite:
+                    graphic.sprite = tileTypeAndSprite.Sprite;
+                    break;
+                case TileVisualType.SpriteAnimation:
+                    if(tileTypeAndSprite.SpriteAnimation.Frames != null && tileTypeAndSprite.SpriteAnimation.Frames.Length > 0)
+                        graphic.sprite = tileTypeAndSprite.SpriteAnimation.Frames[0];
+                    break;
+            }
+            timeToChangeSprite = Time.time;
+
             Highlighted = false;
             Position = position;
             _walkable = walkable;
-            TileType = tileTypeAndSprite.TileType;
+        }
+
+        private void Update()
+        {
+            if (TileVisualType != TileVisualType.SpriteAnimation)
+                return;
+            
+            if (timeToChangeSprite > Time.time)
+                return;
+
+            if (TileTypeAndVisual.SpriteAnimation.Frames == null || TileTypeAndVisual.SpriteAnimation.Frames.Length == 0)
+                return;
+
+            currentFrameIndex = (currentFrameIndex + 1) % TileTypeAndVisual.SpriteAnimation.Frames.Length;
+
+            graphic.sprite = (Sprite)TileTypeAndVisual.SpriteAnimation.Frames.GetRandom();
+
+            timeToChangeSprite = Time.time + 1f / TileTypeAndVisual.SpriteAnimation.FramesPerSecond;
         }
 
         internal bool IsPositionWalkable(Vector2 position)
@@ -185,7 +216,7 @@ namespace LocalMap
             if (autoTilesSettings == null)
                 return;
 
-            TileType underType = TileType;
+            TileType underType = TileTypeAndVisual.TileType;
 
             HashSet<TileType> neighbourTypes = new HashSet<TileType>()
             {
@@ -263,16 +294,32 @@ namespace LocalMap
         }
     }
 
-    [Serializable]
-    public class TileTypeAndSprite
+    public enum TileVisualType
     {
-        public Sprite Sprite;
+        SingleSprite,
+        SpriteAnimation,
+    }
+
+    [Serializable]
+    public class TileTypeAndVisual
+    {
         public TileType TileType;
 
-        public TileTypeAndSprite(Sprite sprite, TileType tileType)
+        public TileVisualType TileVisualType;
+        public Sprite Sprite;
+        public SpriteAnimation SpriteAnimation;
+        
+        public TileTypeAndVisual(Sprite sprite, TileType tileType)
         {
             this.Sprite = sprite;
             this.TileType = tileType;
         }
+    }
+
+    [Serializable]
+    public class SpriteAnimation
+    {
+        public Sprite[] Frames;
+        public float FramesPerSecond;
     }
 }

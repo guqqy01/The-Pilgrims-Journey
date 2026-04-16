@@ -22,7 +22,7 @@ namespace LocalMap
             seed = new Vector2(Random.Range(0, 100f), Random.Range(0, 100f));
         }
 
-        public TileTypeAndSprite GetTile(Vector2Int position)
+        public TileTypeAndVisual GetTile(Vector2Int position)
         {
             float x = (seed.x + (float)position.x) * scale.x;
             float y = (seed.y + (float)position.y) * scale.y;
@@ -37,7 +37,7 @@ namespace LocalMap
                     itemsInRange.Add(item);
             }
 
-            WeightedChanceList<TileTypeAndSprite> itemsInListWeightList = new WeightedChanceList<TileTypeAndSprite>();
+            WeightedChanceList<TileTypeAndVisual> itemsInListWeightList = new WeightedChanceList<TileTypeAndVisual>();
             foreach (TerrainNoiseItem terrainNoiseListItem in itemsInRange)
             {
                 itemsInListWeightList.weightedList.AddRange(terrainNoiseListItem.tileTypeAndSpriteList.weightedList);
@@ -52,7 +52,7 @@ namespace LocalMap
     public class TerrainNoiseItem
     {
         public Vector2 perlinNoiseRange;
-        public WeightedChanceList<TileTypeAndSprite> tileTypeAndSpriteList;
+        public WeightedChanceList<TileTypeAndVisual> tileTypeAndSpriteList;
     }
 }
 

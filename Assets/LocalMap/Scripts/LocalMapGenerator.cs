@@ -6,6 +6,7 @@ using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using GlobalMap;
 using Unity.VisualScripting;
+
 namespace LocalMap
 {
     public class LocalMapGenerator : Singleton<LocalMapGenerator>, IOnClear, IOnCreateLocalMap
@@ -792,7 +793,7 @@ namespace LocalMap
                     }
                     else
                     {
-                        TileTypeAndSprite tileTypeAndSprite = generationSettings.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies);
+                        TileTypeAndVisual tileTypeAndSprite = generationSettings.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies);
                         mapTile.Init(tileTypeAndSprite, position, tileTypeAndSprite.TileType.IsWalkable());
                     }
 

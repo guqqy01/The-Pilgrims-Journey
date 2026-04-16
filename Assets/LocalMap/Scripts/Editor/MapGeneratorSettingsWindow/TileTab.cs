@@ -1,19 +1,21 @@
-﻿using UnityEngine;
-using UnityEditor;
-using Codice.Client.Common.GameUI;
+﻿using Codice.Client.Common.GameUI;
 using LocalMap;
 using System;
+using System.Security.Policy;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 public class TileTab : IEditorMenuToolbarTab
 {
-    private const float itemHeight = 80f;
+    private SerializedProperty _baseTileListProperty;
 
     public TileTab(string name, SerializedObject serializedObject, string property, string header)
     {
         Name = name;
         _serializedObject = serializedObject;
 
-        SerializedProperty baseTilesProperty = serializedObject.FindProperty(property).FindPropertyRelative("weightedList");
-        _tilesList = new ReorderableFoldoutList(serializedObject, baseTilesProperty, (index) => itemHeight, DrawTile, header);
+        _baseTileListProperty = serializedObject.FindProperty(property).FindPropertyRelative("weightedList");
+        _tilesList = new ReorderableFoldoutList(serializedObject, _baseTileListProperty, (index) => HelpDrawLocalMapTileEditor.GetTileHeight(_baseTileListProperty, index), HelpDrawLocalMapTileEditor.DrawTile, header);
     }
 
     protected readonly SerializedObject _serializedObject;
@@ -31,30 +33,97 @@ public class TileTab : IEditorMenuToolbarTab
     {
         return _tilesList.Height;
     }
+}
 
-    private void DrawTile(Rect rect, SerializedProperty baseTileProperty, int index)
+public static class HelpDrawLocalMapTileEditor
+{
+    public static float GetTileHeight(SerializedProperty baseTileWeightedListProperty, int index)
     {
-        float spriteLength = rect.height - 2;
-        Rect spriteRect = new Rect(rect) { yMin = rect.yMin + 2, height = spriteLength, width = spriteLength };
-        Rect spriteObjectPickerRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = rect.yMin + 2f, height = EditorGUIUtility.singleLineHeight };
-        Rect tileTypeRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = spriteObjectPickerRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
-        Rect weightRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = tileTypeRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
+        SerializedProperty baseTileProperty = baseTileWeightedListProperty.GetArrayElementAtIndex(index);
 
         SerializedProperty tileTypeAndSpriteProperty = baseTileProperty.FindPropertyRelative("item");
         SerializedProperty weightCurveProperty = baseTileProperty.FindPropertyRelative("weightCurve");
 
-        SerializedProperty tileTypeProperty = tileTypeAndSpriteProperty.FindPropertyRelative("TileType");
-        SerializedProperty spriteProperty = tileTypeAndSpriteProperty.FindPropertyRelative("Sprite");
+        return EditorGUI.GetPropertyHeight(tileTypeAndSpriteProperty) + EditorGUI.GetPropertyHeight(weightCurveProperty) + EditorGUIUtility.singleLineHeight + 2f;
+    }
 
+    public static void DrawTile(Rect rect, SerializedProperty baseTileProperty, int index)
+    {
+        SerializedProperty tileTypeAndSpriteProperty = baseTileProperty.FindPropertyRelative("item");
+        SerializedProperty weightCurveProperty = baseTileProperty.FindPropertyRelative("weightCurve");
+
+        Rect tileTypeAndSpriteRect = new Rect(rect) { height = EditorGUI.GetPropertyHeight(tileTypeAndSpriteProperty) };
+        Rect weightRect = new Rect(rect) { yMin = tileTypeAndSpriteRect.yMax + 2f, height = EditorGUI.GetPropertyHeight(weightCurveProperty) };
+
+        EditorGUI.PropertyField(tileTypeAndSpriteRect, tileTypeAndSpriteProperty);
+        EditorGUI.PropertyField(weightRect, weightCurveProperty, new GUIContent("Weight"));
+    }
+}
+
+
+[CustomPropertyDrawer(typeof(TileTypeAndVisual))]
+public class TileTypeAndVisualPropertyDrawer : PropertyDrawer
+{
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        float returnHeight = EditorGUIUtility.singleLineHeight * 2f + 2f;
+
+        SerializedProperty tileVisualTypeProperty = property.FindPropertyRelative(nameof(TileTypeAndVisual.TileVisualType));
+
+        switch ((TileVisualType)tileVisualTypeProperty.enumValueFlag)
+        {
+            case TileVisualType.SingleSprite:
+                returnHeight += EditorGUIUtility.singleLineHeight * 2f + 4f;
+                break;
+            case TileVisualType.SpriteAnimation:
+                SerializedProperty spriteAnimationProperty = property.FindPropertyRelative(nameof(TileTypeAndVisual.SpriteAnimation));
+                returnHeight += EditorGUI.GetPropertyHeight(spriteAnimationProperty);
+                break;
+        }
+
+        return returnHeight;
+    }
+
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        SerializedProperty tileTypeProperty = property.FindPropertyRelative(nameof(TileTypeAndVisual.TileType));
+        SerializedProperty tileVisualTypeProperty = property.FindPropertyRelative(nameof(TileTypeAndVisual.TileVisualType));
+
+        Rect tileTypeRect = new Rect(position) { height = EditorGUIUtility.singleLineHeight };
+        Rect tileVisualTypeRect = new Rect(position) { yMin = tileTypeRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
+        tileTypeProperty.enumValueFlag = (int)(TileType)EditorGUI.EnumPopup(tileTypeRect, new GUIContent(tileTypeProperty.displayName), (TileType)tileTypeProperty.enumValueFlag);
+        tileVisualTypeProperty.enumValueIndex = EditorGUI.Popup(tileVisualTypeRect, tileVisualTypeProperty.displayName, tileVisualTypeProperty.enumValueIndex, tileVisualTypeProperty.enumDisplayNames);
+
+        Rect remainingRect = new Rect(position) { yMin = tileVisualTypeRect.yMax + 2f };
+
+        switch ((TileVisualType)tileVisualTypeProperty.enumValueFlag)
+        {
+            case TileVisualType.SingleSprite:
+                DrawSingleSpriteTileVisual(remainingRect, property);
+                break;
+            case TileVisualType.SpriteAnimation:
+                DrawSpriteAnimationVisual(remainingRect, property);
+                break;
+        }
+    }
+
+    private void DrawSingleSpriteTileVisual(Rect rect, SerializedProperty property)
+    {
+        SerializedProperty spriteProperty = property.FindPropertyRelative(nameof(TileTypeAndVisual.Sprite));
         Sprite sprite = spriteProperty.objectReferenceValue as Sprite;
 
+        float spriteLength = rect.height;
+        Rect spriteRect = new Rect(rect) { height = spriteLength, width = spriteLength };
+        Rect spriteObjectPickerRect = new Rect(rect) { xMin = spriteRect.xMax + 2f, yMin = rect.yMin + 2f, height = EditorGUIUtility.singleLineHeight };
+
         sprite.DrawSpriteInRect(spriteRect);
-
         EditorGUI.ObjectField(spriteObjectPickerRect, spriteProperty, new GUIContent("Tile"));
+    }
 
-        tileTypeProperty.enumValueFlag = (int)(TileType)EditorGUI.EnumPopup(tileTypeRect, new GUIContent(tileTypeProperty.displayName), (TileType)tileTypeProperty.enumValueFlag);
-
-        EditorGUI.PropertyField(weightRect, weightCurveProperty);
+    private void DrawSpriteAnimationVisual(Rect rect, SerializedProperty property)
+    {
+        SerializedProperty spriteAnimationProperty = property.FindPropertyRelative(nameof(TileTypeAndVisual.SpriteAnimation));
+        EditorGUI.PropertyField(rect, spriteAnimationProperty, true);
     }
 }
 

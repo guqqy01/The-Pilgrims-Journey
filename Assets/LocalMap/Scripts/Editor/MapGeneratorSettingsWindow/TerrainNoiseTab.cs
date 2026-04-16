@@ -126,34 +126,10 @@ public class TerrainNoiseTab : IEditorMenuToolbarTab, IDisposable
             _terrainNoiseSpriteLists[terrainNoiseIndex] = new ReorderableFoldoutList(
                 _serializedObject,
                 terrainNoiseItemProperty,
-                (index) => height,
-                DrawTile,
+                 (index) => HelpDrawLocalMapTileEditor.GetTileHeight(terrainNoiseItemProperty, index),
+                HelpDrawLocalMapTileEditor.DrawTile,
                 "Terrain Sprites");
         }
-    }
-
-    private void DrawTile(Rect rect, SerializedProperty baseTileProperty, int index)
-    {
-        float spriteLength = rect.height - FieldPadding;
-        Rect spriteRect = new Rect(rect) { yMin = rect.yMin + FieldPadding, height = spriteLength, width = spriteLength };
-        Rect spriteObjectPickerRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = rect.yMin + FieldPadding, height = EditorGUIUtility.singleLineHeight };
-        Rect tileTypeRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = spriteObjectPickerRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
-        Rect weightRect = new Rect(rect) { xMin = spriteRect.xMax, yMin = tileTypeRect.yMax + 2f, height = EditorGUIUtility.singleLineHeight };
-
-        SerializedProperty tileTypeAndSpriteProperty = baseTileProperty.FindPropertyRelative("item");
-        SerializedProperty weightCurveProperty = baseTileProperty.FindPropertyRelative("weightCurve");
-
-        SerializedProperty tileTypeProperty = tileTypeAndSpriteProperty.FindPropertyRelative("TileType");
-        SerializedProperty spriteProperty = tileTypeAndSpriteProperty.FindPropertyRelative("Sprite");
-
-        Sprite sprite = spriteProperty.objectReferenceValue as Sprite;
-        sprite.DrawSpriteInRect(spriteRect);
-
-        EditorGUI.ObjectField(spriteObjectPickerRect, spriteProperty, new GUIContent("Tile"));
-
-        tileTypeProperty.enumValueFlag = (int)(TileType)EditorGUI.EnumPopup(tileTypeRect, new GUIContent(tileTypeProperty.displayName), (TileType)tileTypeProperty.enumValueFlag);
-
-        EditorGUI.PropertyField(weightRect, weightCurveProperty);
     }
 
     public void Dispose()

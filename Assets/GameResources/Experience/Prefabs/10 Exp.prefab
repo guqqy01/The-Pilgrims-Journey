@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2175428144558858312}
   - component: {fileID: 1533086699073714085}
   - component: {fileID: 8602768278049636783}
+  - component: {fileID: 5189242451555268821}
+  - component: {fileID: 2431514284488922164}
   m_Layer: 16
   m_Name: 10 Exp
   m_TagString: Untagged
@@ -81,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1069528663
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: 1971028151, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -186,3 +188,29 @@ MonoBehaviour:
   xForce: 2
   gravityScale: 3
   timeMultiplier: 0.3
+--- !u!114 &5189242451555268821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8925915864083271007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd985ea3beb668049b5217f0cb05b647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalMap.Sinkable
+  Grounded: 0
+--- !u!114 &2431514284488922164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8925915864083271007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e91c5dc6124b347b7e9a7e8bd7deff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BounceSinkableGlue
+  waterRipplePrefab: {fileID: 7754177814016564224, guid: 696fd4872d4416246a9b53b7712ee57a, type: 3}

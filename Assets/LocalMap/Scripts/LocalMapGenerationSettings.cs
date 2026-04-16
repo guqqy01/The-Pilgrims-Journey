@@ -11,8 +11,8 @@ namespace LocalMap
     {
         public AutoTileSettings autoBaseTileSettings;
 
-        public WeightedChanceList<TileTypeAndSprite> baseTilesAndType;
-        public WeightedChanceList<TileTypeAndSprite> pathTilesAndType;
+        public WeightedChanceList<TileTypeAndVisual> baseTilesAndType;
+        public WeightedChanceList<TileTypeAndVisual> pathTilesAndType;
 
         public List<OverlayMapObject> mapObjects;
 
@@ -34,7 +34,7 @@ namespace LocalMap
             }
         }
 
-        public TileTypeAndSprite GetMapTileSprite(Vector2Int position, float? level, MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
+        public TileTypeAndVisual GetMapTileSprite(Vector2Int position, float? level, MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
         {
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.TerrainNoise) && terrainNoiseIndecies != null && terrainNoiseIndecies.Count > 0)
             {
@@ -49,7 +49,7 @@ namespace LocalMap
 
                 for (int i = 0; i < includedNoise.Count; i++)
                 {
-                    TileTypeAndSprite tileTypeAndSprite = includedNoise[i].GetTile(position);
+                    TileTypeAndVisual tileTypeAndSprite = includedNoise[i].GetTile(position);
 
                     if (tileTypeAndSprite != null)
                         return tileTypeAndSprite;
@@ -62,7 +62,7 @@ namespace LocalMap
             return null;
         }
 
-        public TileTypeAndSprite GetPathTileSprite(float? level)
+        public TileTypeAndVisual GetPathTileSprite(float? level)
         {
             return level.HasValue ? pathTilesAndType.GetRandom(level.Value) : pathTilesAndType.GetRandom();
         }

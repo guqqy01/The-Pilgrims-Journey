@@ -1,8 +1,9 @@
+using LocalMap;
 using UnityEngine;
 namespace LevelingSystem
 {
 
-    [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Collider2D), typeof(BounceSinkableGlue))]
     public class ExperienceOrb : MonoBehaviour
     {
         private bool isActive;
@@ -21,9 +22,17 @@ namespace LevelingSystem
 
         public Collider2D Collider2D { get; private set; }
 
+        private Sinkable _sinkable;
+
         private void Awake()
         {
             Collider2D = GetComponent<Collider2D>();
+            _sinkable = GetComponent<Sinkable>();
+        }
+
+        private void Start()
+        {
+            _sinkable.OnSunk += Release;
         }
 
         public void Initialize(int experienceAmount, ExperienceOrbPool pool, bool doBounce = true)
@@ -63,6 +72,13 @@ namespace LevelingSystem
             OnReleased = null;
 
             owningPool.Release(this);
+        }
+
+        private void OnDestroy()
+        {
+            _sinkable.OnSunk -= Release;
+
+            OnReleased = null;
         }
     }
 
