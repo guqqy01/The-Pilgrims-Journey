@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using static Unity.VisualScripting.Member;
+using UnityEngine.UIElements;
 public static class EnumerableExtensions
 {
     public static int NotNullCount<T>(this IEnumerable<T> source) where T : class
@@ -21,6 +22,19 @@ public static class EnumerableExtensions
     public static object GetRandom(this System.Array array)
     {
         return array.GetValue(UnityEngine.Random.Range(0, array.Length));
+    }
+
+    public static bool IsInBounds(this Array source, params int[] indices)
+    {
+        if (indices.Length != source.Rank)
+            throw new ArgumentException($"Expected {source.Rank} indices, got {indices.Length}.");
+
+        for (int i = 0; i < source.Rank; i++)
+        {
+            if (indices[i] < source.GetLowerBound(i) || indices[i] > source.GetUpperBound(i))
+                return false;
+        }
+        return true;
     }
 
     public static List<T> GetRandomAmount<T>(this List<T> list, int amount, bool allowSame = false)

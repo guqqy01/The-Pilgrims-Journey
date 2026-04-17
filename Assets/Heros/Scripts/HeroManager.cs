@@ -206,7 +206,12 @@ namespace Heros
 
         private void ResetHero()
         {
-            ActiveHero.transform.position = new Vector2(LocalMapGenerator.Instance.MapSizeX / 2f, LocalMapGenerator.Instance.MapSizeY / 2f);
+            Vector2 position = new Vector2(LocalMapGenerator.Instance.MapSizeX / 2f, LocalMapGenerator.Instance.MapSizeY / 2f);
+
+            if (LocalMapGenerator.Instance.TryFindNearestWalkable(position, out Vector2 walkablePositon))
+            {
+                position = walkablePositon;
+            }
 
             ActiveHero.ResetHero();
         }

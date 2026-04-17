@@ -21,6 +21,11 @@ namespace LocalMap
             }
         }
         
+        public void MapChanged()
+        {
+            latestMapTilePos = new Vector2Int(-1, -1);
+        }
+
         private bool GetIfSunk(bool grounded)
         {
             if (!grounded)
@@ -29,7 +34,12 @@ namespace LocalMap
             Vector2 position = transform.position;
             Vector2Int tilePos = position.V2ToV2Int();
 
-            MapTile mapTile = LocalMapGenerator.Instance.Tiles[tilePos.x, tilePos.y];
+            MapTile[,] mapTiles = LocalMapGenerator.Instance.Tiles;
+
+            if(!mapTiles.IsInBounds(tilePos.x, tilePos.y))
+                return false;
+
+            MapTile mapTile = mapTiles[tilePos.x, tilePos.y];
             TileType tileType = mapTile.TileType;
 
             if (latestMapTilePos == tilePos && tileType != TileType.Water)

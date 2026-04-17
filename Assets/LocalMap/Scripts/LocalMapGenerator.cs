@@ -333,7 +333,7 @@ namespace LocalMap
 
                     MapTile neighbourTile = Tiles[neighbour.x, neighbour.y];
 
-                    if (!neighbourTile.TileType.IsWalkable() && !neighbourTile.HasAutoTileWalkability)
+                    if (!neighbourTile.TileType.IsWalkable())
                         continue;
 
                     _connectedToPath[neighbour.x, neighbour.y] = true;
