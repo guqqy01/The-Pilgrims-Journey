@@ -6,6 +6,7 @@ using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using GlobalMap;
 using Unity.VisualScripting;
+using LocalMap.Editor;
 
 namespace LocalMap
 {
@@ -13,12 +14,17 @@ namespace LocalMap
     {
         public Pathway pathway;
 
+        public AutoTileSettings autoBaseTileSettings;
+
         [SerializeField] private MapTile mapTilePrefab;
         [SerializeField] private GameObject roadSignPrefab;
         [SerializeField] private Transform maptileParent;
 
         [SerializeField] private int mapSizeX = 32;
         [SerializeField] private int mapSizeY = 18;
+
+        [SerializeField] private float biomeBlendNoiseScale = 0.15f;
+        [SerializeField] private float biomeBlendNoiseStrength = 0.25f;
 
         [SerializeField, HideInInspector]
         public List<GameObject> mapObjectGOs;
@@ -29,7 +35,7 @@ namespace LocalMap
         public MinMaxCurve targetDirectionVSLevelCurve;
         public MinMaxCurve traverseDirectionVSLevelCurve;
 
-        public LocalMapGenerationSettings generationSettings;
+        private List<(Direction direction, LocalMapGenerationSettings settings)> _activeBlends = new List<(Direction, LocalMapGenerationSettings)>();
 
         public MapTile[,] Tiles { private set; get; }
         public Dictionary<GameObject, Direction> RoadSigns { get; private set; } = new Dictionary<GameObject, Direction>();
@@ -85,28 +91,104 @@ namespace LocalMap
             }
         }
 
+        
+        #region Walkability
+
+        private bool[,] _connectedToPath;
+
+        private void BuildConnectedRegion()
+        {
+            _connectedToPath = new bool[mapSizeX, mapSizeY];
+
+            if (pathGrid == null)
+                return;
+
+            Queue<Vector2Int> frontier = new Queue<Vector2Int>();
+
+            // Seed from all path tiles
+            for (int x = 0; x < mapSizeX; x++)
+            {
+                for (int y = 0; y < mapSizeY; y++)
+                {
+                    if (pathGrid[x, y])
+                    {
+                        _connectedToPath[x, y] = true;
+                        frontier.Enqueue(new Vector2Int(x, y));
+                    }
+                }
+            }
+
+            // BFS outward to all orthogonally adjacent walkable tiles
+            while (frontier.Count > 0)
+            {
+                Vector2Int current = frontier.Dequeue();
+
+                foreach (Vector2Int neighbour in GetAdjacentNeighbours(current))
+                {
+                    if (_connectedToPath[neighbour.x, neighbour.y])
+                        continue;
+
+                    MapTile neighbourTile = Tiles[neighbour.x, neighbour.y];
+
+                    if (!neighbourTile.TileType.IsWalkable())
+                        continue;
+
+                    _connectedToPath[neighbour.x, neighbour.y] = true;
+                    frontier.Enqueue(neighbour);
+                }
+            }
+        }
+
+        public IEnumerable<Vector2Int> GetAdjacentNeighbours(Vector2Int pos)
+        {
+            if (pos.x > 0) yield return new Vector2Int(pos.x - 1, pos.y);
+            if (pos.x < mapSizeX - 1) yield return new Vector2Int(pos.x + 1, pos.y);
+            if (pos.y > 0) yield return new Vector2Int(pos.x, pos.y - 1);
+            if (pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x, pos.y + 1);
+
+            if (pos.x > 0 && pos.y > 0) yield return new Vector2Int(pos.x - 1, pos.y - 1);
+            if (pos.x < mapSizeX - 1 && pos.y > 0) yield return new Vector2Int(pos.x + 1, pos.y - 1);
+            if (pos.x > 0 && pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x - 1, pos.y + 1);
+            if (pos.x < mapSizeX - 1 && pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x + 1, pos.y + 1);
+        }
+
+        public bool IsPositionOutOfMap(Vector2 position)
+        {
+            Vector2Int v2IntPos = position.V2ToV2Int();
+            return !Tiles.IsInBounds(v2IntPos.x, v2IntPos.y);
+        }
+
+        public bool IsConnectedToPath(Vector2Int tilePos)
+        {
+            if (_connectedToPath == null)
+                return false;
+
+            if (!_connectedToPath.IsInBounds(tilePos.x, tilePos.y))
+                return false;
+
+            return _connectedToPath[tilePos.x, tilePos.y];
+        }
+
         public bool IsPositionOnFullyWalkableTile(Vector2 position)
         {
             Vector2Int v2IntPos = position.V2ToV2Int();
 
-            if (v2IntPos.x > Tiles.GetUpperBound(0) || v2IntPos.x < 0 || v2IntPos.y > Tiles.GetUpperBound(1) || v2IntPos.y < 0)
-            {
-                return true;
-            }
+            if (!IsConnectedToPath(v2IntPos))
+                return false;
 
-            return Tiles[v2IntPos.x, v2IntPos.y].FullyWalkable;
+            return Tiles[v2IntPos.x, v2IntPos.y].IsFullyWalkable;
         }
 
         public bool IsPositionWalkable(Vector2 position)
         {
             Vector2Int v2IntPos = position.V2ToV2Int();
 
-            if (v2IntPos.x > Tiles.GetUpperBound(0) || v2IntPos.x < 0 || v2IntPos.y > Tiles.GetUpperBound(1) || v2IntPos.y < 0)
-            {
-                //Out of bounds. which means character is moving to new map
-                //Allow them to move.
-                return true;
-            }
+            if (!IsConnectedToPath(v2IntPos))
+                return false;
+
+            MapTile tile = Tiles[v2IntPos.x, v2IntPos.y];
+            if (tile == null)
+                return false;
 
             return Tiles[v2IntPos.x, v2IntPos.y].IsPositionWalkable(position);
         }
@@ -142,7 +224,7 @@ namespace LocalMap
                     if (!IsConnectedToPath(tilePos))
                         return;
 
-                    if (!Tiles[tilePos.x, tilePos.y].FullyWalkable)
+                    if (!Tiles[tilePos.x, tilePos.y].IsFullyWalkable)
                         return;
 
                     float distance = Vector2.Distance(givenPos, (Vector2)(Vector2)tilePos);
@@ -201,7 +283,7 @@ namespace LocalMap
                 bool foundWalkable = false;
                 float minDistance = float.MaxValue;
 
-                if(radius == 1)
+                if (radius == 1)
                 {
                     if (TryGetNearestWalkablePositionInTile(centerTile, givenPos, out candidateWalkablePos))
                     {
@@ -286,118 +368,40 @@ namespace LocalMap
             if (tilePos.x < 0 || tilePos.x >= mapSizeX || tilePos.y < 0 || tilePos.y >= mapSizeY)
                 return false;
 
-            // Reject tiles not connected to the path network
-            if (_connectedToPath != null && !_connectedToPath[tilePos.x, tilePos.y])
-            {
+            if (!IsConnectedToPath(tilePos))
                 return false;
-            }
 
             return Tiles[tilePos.x, tilePos.y].TryGetNearestWalkablePosition(searchOrigin, out walkablePosition);
         }
 
-        #region Walkability
-
-        private bool[,] _connectedToPath;
-
-        private void BuildConnectedRegion()
-        {
-            _connectedToPath = new bool[mapSizeX, mapSizeY];
-
-            if (pathGrid == null)
-                return;
-
-            Queue<Vector2Int> frontier = new Queue<Vector2Int>();
-
-            // Seed from all path tiles
-            for (int x = 0; x < mapSizeX; x++)
-            {
-                for (int y = 0; y < mapSizeY; y++)
-                {
-                    if (pathGrid[x, y])
-                    {
-                        _connectedToPath[x, y] = true;
-                        frontier.Enqueue(new Vector2Int(x, y));
-                    }
-                }
-            }
-
-            // BFS outward to all orthogonally adjacent walkable tiles
-            while (frontier.Count > 0)
-            {
-                Vector2Int current = frontier.Dequeue();
-
-                foreach (Vector2Int neighbour in GetAdjacentNeighbours(current))
-                {
-                    if (_connectedToPath[neighbour.x, neighbour.y])
-                        continue;
-
-                    MapTile neighbourTile = Tiles[neighbour.x, neighbour.y];
-
-                    if (!neighbourTile.TileType.IsWalkable())
-                        continue;
-
-                    _connectedToPath[neighbour.x, neighbour.y] = true;
-                    frontier.Enqueue(neighbour);
-                }
-            }
-        }
-
-        public IEnumerable<Vector2Int> GetAdjacentNeighbours(Vector2Int pos)
-        {
-            if (pos.x > 0) yield return new Vector2Int(pos.x - 1, pos.y);
-            if (pos.x < mapSizeX - 1) yield return new Vector2Int(pos.x + 1, pos.y);
-            if (pos.y > 0) yield return new Vector2Int(pos.x, pos.y - 1);
-            if (pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x, pos.y + 1);
-
-            if (pos.x > 0 && pos.y > 0) yield return new Vector2Int(pos.x - 1, pos.y - 1);
-            if (pos.x < mapSizeX - 1 && pos.y > 0) yield return new Vector2Int(pos.x + 1, pos.y - 1);
-            if (pos.x > 0 && pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x - 1, pos.y + 1);
-            if (pos.x < mapSizeX - 1 && pos.y < mapSizeY - 1) yield return new Vector2Int(pos.x + 1, pos.y + 1);
-        }
-
-        public bool IsConnectedToPath(Vector2Int tilePos)
-        {
-            if (_connectedToPath == null)
-                return false;
-
-            if (tilePos.x < 0 || tilePos.x >= mapSizeX || tilePos.y < 0 || tilePos.y >= mapSizeY)
-                return false;
-
-            return _connectedToPath[tilePos.x, tilePos.y];
-        }
 
         #endregion
 
         #region Preview Settings
 #if UNITY_EDITOR
 
-        public void ShowMapPreview(Camera previewCamera, 
-            LocalMapGenerationSettings generationSettings, 
-            MapGenerationPreviewSettings previewSettings, 
+        public void ShowMapPreview(Camera previewCamera,
+            LocalMapGenerationSettings generationSettings,
+            MapGenerationPreviewSettings previewSettings,
             List<int> terrainIndecies = null,
-            Direction startWall = Direction.West, 
+            Direction startWall = Direction.West,
             List<Direction> toDirections = null,
             List<Direction> otherFromDirections = null,
             int? nullableSeed = null)
         {
-            if(startWall == default)
+            if (startWall == default)
                 startWall = Direction.West;
 
-            if(toDirections == null || toDirections.Count == 0)
-            {
+            if (toDirections == null || toDirections.Count == 0)
                 toDirections = new List<Direction>() { startWall.OppositeDirection() };
-            }
-
 
             otherFromDirections ??= new List<Direction>();
-
             toDirections.RemoveAll(x => x == startWall);
             otherFromDirections.RemoveAll(x => x == startWall);
 
             int seed = nullableSeed.HasValue ? nullableSeed.Value : UnityEngine.Random.Range(0, 100000);
 
-            this.generationSettings = generationSettings;
-            CreateMap(startWall, toDirections, otherFromDirections, seed, terrainIndecies, previewSettings);
+            CreateMap(startWall, toDirections, otherFromDirections, seed, generationSettings, terrainIndecies, previewSettings);
             SetupCamera(previewCamera);
         }
 
@@ -427,7 +431,7 @@ namespace LocalMap
 
             Direction startWall = Direction.West;
 
-            if(generator.takenPath.Count > 1)
+            if (generator.takenPath.Count > 1)
             {
                 foreach (var dirAndPoint in generator.CurrentMapPoint.connectedFromPoints)
                 {
@@ -441,38 +445,65 @@ namespace LocalMap
 
             GlobalMapPoint currentMapPoint = generator.CurrentMapPoint;
 
+            LocalMapGenerationSettings settings = currentMapPoint.GenerationSettings;
+
+            if (settings == null)
+            {
+                Debug.LogError($"LocalMapGenerator: GlobalMapPoint at {currentMapPoint.Position} has no GenerationSettings assigned.");
+                return;
+            }
+
+            List<(Direction direction, LocalMapGenerationSettings settings)> blends
+                = new List<(Direction, LocalMapGenerationSettings)>();
+
+            foreach (var kvp in currentMapPoint.connectedToPoints)
+            {
+                GlobalMapPoint toPoint = kvp.Value;
+
+                // Only show biome blend previews toward eligible point types
+                if (toPoint.Type != GlobalMapPointType.Normal && toPoint.Type != GlobalMapPointType.Relic)
+                    continue;
+
+                if (toPoint.GenerationSettings != null
+                    && toPoint.GenerationSettings != settings)
+                {
+                    blends.Add((kvp.Key, toPoint.GenerationSettings));
+                }
+            }
+
             List<Direction> toDirections = currentMapPoint.GetOtherToDirections(startWall);
             List<Direction> otherFromDirections = currentMapPoint.GetOtherFromDirections(startWall);
 
             int seed = currentMapPoint.Seed;
 
             List<int> terrainIndecies = new List<int>();
-
-            for (int i = 0; i < generationSettings.terrainNoiseLists.Count; i++)
-            {
+            for (int i = 0; i < settings.terrainNoiseLists.Count; i++)
                 terrainIndecies.Add(i);
-            }
 
-            CreateMap(startWall, toDirections, otherFromDirections, seed, terrainIndecies);
+            CreateMap(startWall, toDirections, otherFromDirections, seed, settings, terrainIndecies, blends: blends);
         }
 
-        public void CreateMap(Direction startWall, 
-            List<Direction> toDirections, 
-            List<Direction> otherFromDirections, 
+        public void CreateMap(
+            Direction startWall,
+            List<Direction> toDirections,
+            List<Direction> otherFromDirections,
             int seed,
+            LocalMapGenerationSettings generationSettings,
             List<int> terrainNoiseIndecies = null,
-            MapGenerationPreviewSettings previewSettings = MapGenerationPreviewSettings.MapObjects | 
-                                                                        MapGenerationPreviewSettings.BaseTiles | 
-                                                                        MapGenerationPreviewSettings.TerrainNoise
-            )
+            MapGenerationPreviewSettings previewSettings = MapGenerationPreviewSettings.MapObjects |
+                                                           MapGenerationPreviewSettings.BaseTiles |
+                                                           MapGenerationPreviewSettings.TerrainNoise,
+            List<(Direction direction, LocalMapGenerationSettings settings)> blends = null)
         {
+            _activeBlends = blends ?? new List<(Direction, LocalMapGenerationSettings)>();
+
             Clear();
 
             StartWall = startWall;
 
             UnityEngine.Random.InitState(seed);
 
-            if(LocalCameraMovementManager.Instance != null)
+            if (LocalCameraMovementManager.Instance != null)
                 LocalCameraMovementManager.Instance.FullZoomCamera();
 
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
@@ -482,14 +513,12 @@ namespace LocalMap
                 PlaceRoadSigns();
             }
 
-            PlaceTiles(previewSettings, terrainNoiseIndecies);
+            PlaceTiles(generationSettings, previewSettings, terrainNoiseIndecies);
 
             BuildConnectedRegion();
 
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.MapObjects))
-            {
                 SpawnMapObjects(generationSettings);
-            }
 
             if (PathPicker.Instance != null)
                 PathPicker.Instance.Setup();
@@ -517,42 +546,32 @@ namespace LocalMap
             DestroyMapObjects();
 
             if (occupiedSpots == null)
-            {
                 occupiedSpots = new List<Vector2Int>();
-            }
 
-            foreach (OverlayMapObject mapObject in generationSettings.mapObjects)
+            // Collect all unique map object lists needed across the map,
+            // picking the dominant biome per spawn attempt based on position
+            int breaker;
+
+            // We need to spawn from both base settings and any blended biomes,
+            // using position to determine which biome owns each spawn point
+            List<OverlayMapObject> baseObjects = generationSettings.mapObjects;
+
+            // Spawn base biome objects — they get the whole map but lose spots near blend walls
+            foreach (OverlayMapObject mapObject in baseObjects)
             {
                 int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));
-
-                int breaker = mapSizeX * mapSizeY;
+                breaker = mapSizeX * mapSizeY;
 
                 while (amountToPlace > 0 && breaker > 0)
                 {
                     int xPos = UnityEngine.Random.Range(0, mapSizeX);
                     int yPos = UnityEngine.Random.Range(0, mapSizeY);
+                    Vector2Int spawnPos = new Vector2Int(xPos, yPos);
 
-                    if (!SpotOccupied(new Vector2Int(xPos, yPos), mapObject.size, true))
+                    // Only place if this position is dominated by the base biome
+                    if (!SpotOccupied(spawnPos, mapObject.size, true) && IsBaseDominant(spawnPos))
                     {
-                        mapObjectGOs.Add(Instantiate(mapObject.overlay, new Vector3(xPos + (mapObject.size.x - 1) / 2f, yPos + (mapObject.size.y - 1) / 2f), Quaternion.identity, transform));
-
-                        if (mapObjects.ContainsKey(mapObject.name))
-                        {
-                            mapObjects[mapObject.name]++;
-                        }
-                        else
-                        {
-                            mapObjects.Add(mapObject.name, 1);
-                        }
-
-                        for (int x = 0; x < mapObject.size.x; x++)
-                        {
-                            for (int y = 0; y < mapObject.size.y; y++)
-                            {
-                                occupiedSpots.Add(new Vector2Int(xPos + x, yPos + y));
-                            }
-                        }
-
+                        PlaceMapObject(mapObject, xPos, yPos);
                         breaker = mapSizeX * mapSizeY;
                         amountToPlace--;
                     }
@@ -562,6 +581,110 @@ namespace LocalMap
                     }
                 }
             }
+
+            // Spawn each blended biome's objects in their dominant zones
+            foreach (var (direction, blendSettings) in _activeBlends)
+            {
+                if (blendSettings == null) continue;
+
+                foreach (OverlayMapObject mapObject in blendSettings.mapObjects)
+                {
+                    int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));
+                    breaker = mapSizeX * mapSizeY;
+
+                    while (amountToPlace > 0 && breaker > 0)
+                    {
+                        int xPos = UnityEngine.Random.Range(0, mapSizeX);
+                        int yPos = UnityEngine.Random.Range(0, mapSizeY);
+                        Vector2Int spawnPos = new Vector2Int(xPos, yPos);
+
+                        if (!SpotOccupied(spawnPos, mapObject.size, true)
+                            && GetDominantBlend(spawnPos) == blendSettings)
+                        {
+                            PlaceMapObject(mapObject, xPos, yPos);
+                            breaker = mapSizeX * mapSizeY;
+                            amountToPlace--;
+                        }
+                        else
+                        {
+                            breaker--;
+                        }
+                    }
+                }
+            }
+        }
+
+        private float GetBlendWeight(Direction direction, Vector2Int position)
+        {
+            float baseWeight = direction switch
+            {
+                Direction.West => 1f - (float)position.x / (mapSizeX - 1),
+                Direction.East => (float)position.x / (mapSizeX - 1),
+                Direction.South => 1f - (float)position.y / (mapSizeY - 1),
+                Direction.North => (float)position.y / (mapSizeY - 1),
+                _ => 0f
+            };
+
+            // Sample Perlin noise offset per direction so each boundary has independent variation
+            float noiseOffset = direction switch
+            {
+                Direction.North => 0f,
+                Direction.South => 100f,
+                Direction.East => 200f,
+                Direction.West => 300f,
+                _ => 0f
+            };
+
+            float noise = Mathf.PerlinNoise(
+                position.x * biomeBlendNoiseScale + noiseOffset,
+                position.y * biomeBlendNoiseScale + noiseOffset);
+
+            // Remap noise from 0-1 to -1..1 and apply strength
+            float noiseShift = (noise - 0.5f) * 2f * biomeBlendNoiseStrength;
+
+            return Mathf.Clamp01(baseWeight + noiseShift);
+        }
+
+        private LocalMapGenerationSettings GetDominantBlend(Vector2Int position)
+        {
+            LocalMapGenerationSettings dominant = null;
+            float bestWeight = 0.5f;
+
+            foreach (var (direction, settings) in _activeBlends)
+            {
+                float w = GetBlendWeight(direction, position);
+                if (w > bestWeight)
+                {
+                    bestWeight = w;
+                    dominant = settings;
+                }
+            }
+
+            return dominant; // null means base is dominant
+        }
+
+        private bool IsBaseDominant(Vector2Int position)
+        {
+            return GetDominantBlend(position) == null;
+        }
+
+
+        private void PlaceMapObject(OverlayMapObject mapObject, int xPos, int yPos)
+        {
+            mapObjectGOs.Add(Instantiate(
+                mapObject.overlay,
+                new Vector3(xPos + (mapObject.size.x - 1) / 2f, yPos + (mapObject.size.y - 1) / 2f),
+                Quaternion.identity,
+                transform));
+
+            if (mapObjects.ContainsKey(mapObject.name))
+                mapObjects[mapObject.name]++;
+            else
+                mapObjects.Add(mapObject.name, 1);
+
+            for (int x = 0; x < mapObject.size.x; x++)
+                for (int y = 0; y < mapObject.size.y; y++)
+                    occupiedSpots.Add(new Vector2Int(xPos + x, yPos + y));
         }
 
         private bool SpotOccupied(Vector2Int point, Vector2Int size, bool useVisualPath)
@@ -765,21 +888,27 @@ namespace LocalMap
             }
         }
 
-        private void PlaceTiles(MapGenerationPreviewSettings previewSettings, List<int> terrainNoiseIndecies)
+        private void PlaceTiles(
+            LocalMapGenerationSettings generationSettings,
+            MapGenerationPreviewSettings previewSettings,
+            List<int> terrainNoiseIndecies)
         {
             DestroyTiles();
 
             Tiles = new MapTile[mapSizeX, mapSizeY];
 
             generationSettings.SetupSeeds();
+            foreach (var (_, blendSettings) in _activeBlends)
+                blendSettings?.SetupSeeds();
 
-            pathGrid = pathway != null ? GetPathGrid() : null;
+            pathGrid = pathway != null ? GetPathGrid(generationSettings) : null;
 
             for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
                 for (int yPos = 0; yPos < mapSizeY; yPos++)
                 {
-                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(xPos, yPos), Quaternion.identity, maptileParent != null ? maptileParent : transform);
+                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(xPos, yPos), Quaternion.identity,
+                        maptileParent != null ? maptileParent : transform);
 
                     Vector2Int position = new Vector2Int(xPos, yPos);
 
@@ -789,11 +918,13 @@ namespace LocalMap
 
                     if (pathGrid != null && pathGrid[xPos, yPos] && previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
                     {
-                        mapTile.Init(generationSettings.GetPathTileSprite(level), position, true);
+                        // Path tiles use the dominant biome's path sprite at this position
+                        LocalMapGenerationSettings dominantSettings = GetDominantBlend(position) ?? generationSettings;
+                        mapTile.Init(dominantSettings.GetPathTileSprite(level), position, true);
                     }
                     else
                     {
-                        TileTypeAndVisual tileTypeAndSprite = generationSettings.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies);
+                        TileTypeAndVisual tileTypeAndSprite = GetMapTileSprite(generationSettings, position, level, previewSettings, terrainNoiseIndecies);
                         mapTile.Init(tileTypeAndSprite, position, tileTypeAndSprite.TileType.IsWalkable());
                     }
 
@@ -801,56 +932,63 @@ namespace LocalMap
                 }
             }
 
+            // Autotile pass — unchanged
             for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
                 for (int yPos = 0; yPos < mapSizeY; yPos++)
                 {
                     Grid3x3<TileType> tileTypeGrid = new Grid3x3<TileType>();
-
                     FillTileTypeGrid(tileTypeGrid, xPos, yPos);
-
-                    MapTile mapTile = Tiles[xPos, yPos];
-
-                    mapTile.SetupAutoTiles(generationSettings.autoBaseTileSettings, tileTypeGrid);
+                    Tiles[xPos, yPos].SetupAutoTiles(autoBaseTileSettings, tileTypeGrid);
                 }
             }
 
             void FillTileTypeGrid(Grid3x3<TileType> boolGrid, int xPos, int yPos)
             {
-                //Top
-                boolGrid.TopLeft =      DownShiftXValid() ||    UpShiftYValid() ? TileType.Nothing : Tiles[xPos - 1, yPos + 1].TileType;
-                boolGrid.TopCenter =                            UpShiftYValid() ? TileType.Nothing : Tiles[xPos, yPos + 1].TileType;
-                boolGrid.TopRight =     UpShiftXValid()   ||    UpShiftYValid() ? TileType.Nothing : Tiles[xPos + 1, yPos + 1].TileType;
+                boolGrid.TopLeft = DownShiftXValid() || UpShiftYValid() ? TileType.Nothing : Tiles[xPos - 1, yPos + 1].TileType;
+                boolGrid.TopCenter = UpShiftYValid() ? TileType.Nothing : Tiles[xPos, yPos + 1].TileType;
+                boolGrid.TopRight = UpShiftXValid() || UpShiftYValid() ? TileType.Nothing : Tiles[xPos + 1, yPos + 1].TileType;
+                boolGrid.CenterLeft = DownShiftXValid() ? TileType.Nothing : Tiles[xPos - 1, yPos].TileType;
+                boolGrid.CenterRight = UpShiftXValid() ? TileType.Nothing : Tiles[xPos + 1, yPos].TileType;
+                boolGrid.BottomLeft = DownShiftXValid() || DownShiftYValid() ? TileType.Nothing : Tiles[xPos - 1, yPos - 1].TileType;
+                boolGrid.BottomCenter = DownShiftYValid() ? TileType.Nothing : Tiles[xPos, yPos - 1].TileType;
+                boolGrid.BottomRight = UpShiftXValid() || DownShiftYValid() ? TileType.Nothing : Tiles[xPos + 1, yPos - 1].TileType;
 
-                //Center
-                boolGrid.CenterLeft =   DownShiftXValid() ? TileType.Nothing : Tiles[xPos - 1, yPos].TileType;
-                boolGrid.CenterRight =  UpShiftXValid() ? TileType.Nothing : Tiles[xPos + 1, yPos].TileType;
-
-                //Bottom
-                boolGrid.BottomLeft =   DownShiftXValid() ||    DownShiftYValid() ? TileType.Nothing : Tiles[xPos - 1, yPos - 1].TileType;
-                boolGrid.BottomCenter =                         DownShiftYValid() ? TileType.Nothing : Tiles[xPos, yPos - 1].TileType;
-                boolGrid.BottomRight =  UpShiftXValid() ||      DownShiftYValid() ? TileType.Nothing : Tiles[xPos + 1, yPos - 1].TileType;
-
-                bool DownShiftXValid()
-                {
-                    return xPos - 1 < 0;
-                }
-                bool UpShiftXValid()
-                {
-                    return xPos + 1 >= MapSizeX;
-                }
-                bool DownShiftYValid()
-                {
-                    return yPos - 1 < 0;
-                }
-                bool UpShiftYValid()
-                {
-                    return yPos + 1 >= MapSizeY;
-                }
+                bool DownShiftXValid() => xPos - 1 < 0;
+                bool UpShiftXValid() => xPos + 1 >= MapSizeX;
+                bool DownShiftYValid() => yPos - 1 < 0;
+                bool UpShiftYValid() => yPos + 1 >= MapSizeY;
             }
         }
 
-        private bool[,] GetPathGrid()
+        private TileTypeAndVisual GetMapTileSprite(
+            LocalMapGenerationSettings generationSettings,
+            Vector2Int position,
+            float? level,
+            MapGenerationPreviewSettings previewSettings,
+            List<int> terrainNoiseIndecies)
+        {
+            if (_activeBlends.Count == 0)
+                return generationSettings.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies);
+
+            // Find dominant biome at this position
+            LocalMapGenerationSettings dominant = generationSettings;
+            float bestWeight = 0.5f;
+
+            foreach (var (direction, settings) in _activeBlends)
+            {
+                float w = GetBlendWeight(direction, position);
+                if (w > bestWeight)
+                {
+                    bestWeight = w;
+                    dominant = settings;
+                }
+            }
+
+            return dominant.GetMapTileSprite(position, level, previewSettings, terrainNoiseIndecies);
+        }
+
+        private bool[,] GetPathGrid(LocalMapGenerationSettings generationSettings)
         {
             bool[,] returnGrid = new bool[mapSizeX, mapSizeY];
 

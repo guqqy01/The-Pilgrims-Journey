@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using LocalMap;
 
 namespace GlobalMap
 {
@@ -22,22 +23,82 @@ namespace GlobalMap
 
         public List<GlobalPathSettings> PathSettings = new List<GlobalPathSettings>();
 
-        /*private float Time(float currentXPos) => (1f / (EndOfInnerMapPosition.x - StartRoadLength)) * (currentXPos - StartRoadLength);*/
+        [Header("Biome Settings")]
+        public LocalMapGenerationSettings startingBiome;
+        public List<BiomeEntry> biomePool = new List<BiomeEntry>();
+
+        [Tooltip("Minimum number of consecutive map points that must share the same biome before it can change.")]
+        public int minSameSettingsInARow = 3;
+
+        [Tooltip("Chance per point that the biome changes, once the minimum run length is met.")]
+        [Range(0f, 1f)] public float biomeChangeChance = 0.15f;
+
+        [Tooltip("How much to penalise picking the same biome as the current point. 0 = no penalty, 1 = impossible.")]
+        [Range(0f, 1f)] public float sameAsCurrentPenalty = 0.7f;
+
+        [Tooltip("How much to penalise picking the same biome as a sibling exit on the same point. 0 = no penalty, 1 = impossible.")]
+        [Range(0f, 1f)] public float sameAsSiblingPenalty = 0.5f;
 
         private float Time(float currentXPos)
         {
-            float denom = Mathf.Max(1f, (EndOfInnerMapPosition.x - StartRoadLength));
+            float denom = Mathf.Max(1f, EndOfInnerMapPosition.x - StartRoadLength);
             return Mathf.Clamp01((currentXPos - StartRoadLength) / denom);
         }
 
         private void OnValidate()
         {
             if(MapWidth % 2 == 0)
-            {
                 MapWidth += 1;
-            }
 
             MapWidth = Mathf.Max(1, MapWidth);
+        }
+
+        public LocalMapGenerationSettings PickBiome(
+            float xProgress,
+            LocalMapGenerationSettings currentBiome,
+            List<LocalMapGenerationSettings> siblingBiomes)
+        {
+            List<(LocalMapGenerationSettings settings, float weight)> candidates
+                = new List<(LocalMapGenerationSettings, float)>();
+
+            foreach (BiomeEntry entry in biomePool)
+            {
+                if (entry.settings == null) continue;
+
+                float weight = entry.progressWeightCurve.Evaluate(xProgress);
+
+                if (entry.settings == currentBiome)
+                    weight *= (1f - sameAsCurrentPenalty);
+
+                foreach (LocalMapGenerationSettings sibling in siblingBiomes)
+                {
+                    if (entry.settings == sibling)
+                    {
+                        weight *= (1f - sameAsSiblingPenalty);
+                        break;
+                    }
+                }
+
+                if (weight > 0f)
+                    candidates.Add((entry.settings, weight));
+            }
+
+            if (candidates.Count == 0)
+                return currentBiome;
+
+            float total = 0f;
+            foreach (var c in candidates) total += c.weight;
+
+            float roll = Random.Range(0f, total);
+            float cumulative = 0f;
+            foreach (var (settings, weight) in candidates)
+            {
+                cumulative += weight;
+                if (roll <= cumulative)
+                    return settings;
+            }
+
+            return candidates[candidates.Count - 1].settings;
         }
 
         public Direction GetNextDirection(GlobalPathSettings pathSettings, Direction currentDirection, Vector2Int currentPosition)
@@ -209,5 +270,13 @@ namespace GlobalMap
             int mid = Mathf.FloorToInt(MapSize.y / 2f);
             return y.CompareTo(mid);
         }
+    }
+
+    [System.Serializable]
+    public class BiomeEntry
+    {
+        public LocalMapGenerationSettings settings;
+        [Tooltip("X axis = 0-1 progress along the map. Y axis = relative weight of this biome at that point.")]
+        public AnimationCurve progressWeightCurve = AnimationCurve.Constant(0f, 1f, 1f);
     }
 }

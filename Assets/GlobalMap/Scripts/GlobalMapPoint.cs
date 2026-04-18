@@ -1,13 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using GlobalMap;
-using UnityEngine.Events;
 using System.Collections.Generic;
 using System;
-using JetBrains.Annotations;
-using System.Collections;
-
-
+using LocalMap;
 
 namespace GlobalMap
 {
@@ -15,6 +9,8 @@ namespace GlobalMap
     {
         public Vector2Int Position;
         public int Seed;
+
+        public LocalMapGenerationSettings GenerationSettings;
 
         public GlobalMapPointType Type = GlobalMapPointType.Normal;
 

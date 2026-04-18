@@ -25,7 +25,7 @@ namespace LocalMap
         public SpriteRenderer highlightRightDownCorner;
 
         private bool _walkable;
-        public bool FullyWalkable => _walkable;
+        public bool IsFullyWalkable => _walkable;
         private readonly List<AutoTileWalkability> _autoTileWalkability = new List<AutoTileWalkability>();
         public List<AutoTileWalkability> AutoTileWalkability => _autoTileWalkability;
 

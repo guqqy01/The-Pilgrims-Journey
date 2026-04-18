@@ -213,6 +213,8 @@ namespace Heros
                 position = walkablePositon;
             }
 
+            ActiveHero.transform.position = position;
+
             ActiveHero.ResetHero();
         }
 

@@ -2,15 +2,12 @@
 using System;
 using System.Collections.Generic;
 using LocalMap.Editor;
-using NUnit.Framework;
 
 namespace LocalMap
 {
     [CreateAssetMenu()]
     public class LocalMapGenerationSettings : ScriptableObject
     {
-        public AutoTileSettings autoBaseTileSettings;
-
         public WeightedChanceList<TileTypeAndVisual> baseTilesAndType;
         public WeightedChanceList<TileTypeAndVisual> pathTilesAndType;
 
@@ -42,7 +39,8 @@ namespace LocalMap
 
                 foreach (int i in terrainNoiseIndecies)
                 {
-                    includedNoise.Add(terrainNoiseLists[i]);
+                    if(terrainNoiseLists.IsInBounds(i))
+                        includedNoise.Add(terrainNoiseLists[i]);
                 }
 
                 includedNoise.Sort(new Comparison<TerrainNoise>((x, y) => x.priority.CompareTo(y.priority)));

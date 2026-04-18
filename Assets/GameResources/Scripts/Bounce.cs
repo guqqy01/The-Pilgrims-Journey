@@ -16,7 +16,7 @@ public class Bounce : MonoBehaviour
 
     private float timeToNextBounce = 0f;
 
-    private int num = 0;
+    private int currentNumberOfBounces = 0;
 
     private static Vector2 angleRange = new Vector2(-45, 45);
     private float angle;
@@ -39,7 +39,7 @@ public class Bounce : MonoBehaviour
 
     public void ResetBounces()
     {
-        num = 0;
+        currentNumberOfBounces = 0;
         bouncing = true;
         rb.gravityScale = gravityScale;
         angle = Random.Range(angleRange.x, angleRange.y);
@@ -56,7 +56,7 @@ public class Bounce : MonoBehaviour
         if (!bouncing)
             return;
 
-        if (num - 1 >= numberOfBounces)
+        if (currentNumberOfBounces - 1 >= numberOfBounces)
         {
             RemoveBounce();
             return;
@@ -65,8 +65,9 @@ public class Bounce : MonoBehaviour
         if (Time.time >= timeToNextBounce)
         {
             DoBounce();
+            OnBounce?.Invoke();
 
-            if (num - 1 >= numberOfBounces)
+            if (currentNumberOfBounces - 1 >= numberOfBounces)
             {
                 RemoveBounce();
             }
@@ -86,10 +87,8 @@ public class Bounce : MonoBehaviour
     private void DoBounce()
     {
         rb.linearVelocity = new Vector2();
-        rb.AddForce(new Vector2(xForce * Mathf.Cos(Mathf.Deg2Rad * angle), yForce * (numberOfBounces - (num - 1))), ForceMode2D.Impulse);
-        num++;
-        timeToNextBounce = Time.time + timeMultiplier * (numberOfBounces - (num - 1));
-
-        OnBounce?.Invoke();
+        rb.AddForce(new Vector2(xForce * Mathf.Cos(Mathf.Deg2Rad * angle), yForce * (numberOfBounces - (currentNumberOfBounces - 1))), ForceMode2D.Impulse);
+        currentNumberOfBounces++;
+        timeToNextBounce = Time.time + timeMultiplier * (numberOfBounces - (currentNumberOfBounces - 1));
     }
 }

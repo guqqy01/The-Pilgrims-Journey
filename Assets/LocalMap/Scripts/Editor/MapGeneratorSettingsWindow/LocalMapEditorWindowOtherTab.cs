@@ -60,7 +60,7 @@ namespace LocalMap.Editor
 
         private SerializedObject _serializedObject;
         private LocalMapGenerationSettings _localMapGenerationSettings;
-
+        private AutoTileSettings _autoBaseTileSettings;
         public LocalMapEditorAutoTileSettings(SerializedObject serializedObject)
         {
             _serializedObject = serializedObject;
@@ -73,7 +73,7 @@ namespace LocalMap.Editor
 
             EditorGUI.BeginChangeCheck();
 
-            EditorGUI.ObjectField(autoTileRect, _serializedObject.FindProperty(nameof(_localMapGenerationSettings.autoBaseTileSettings)));
+            _autoBaseTileSettings = (AutoTileSettings)EditorGUI.ObjectField(autoTileRect, _autoBaseTileSettings, typeof(AutoTileSettings), false);
 
             if (EditorGUI.EndChangeCheck())
             {

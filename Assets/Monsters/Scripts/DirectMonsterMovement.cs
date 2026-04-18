@@ -85,18 +85,35 @@ namespace Monsters
             }
 
             Vector2 separation = GetSeparationForce();
-
             Vector2 finalDir = (flowDir + separation).normalized;
             Vector2 moveVector = Speed * Time.fixedDeltaTime * finalDir;
 
-            if(finalDir == Vector2.zero && LocalMapGenerator.Instance.TryFindNearestFullyWalkable(moveVector, out Vector2 closestToMoveVector))
+            // If the intended position isn't walkable, try axis-separated fallback
+            Vector2 intendedPos = rb.position + moveVector;
+            if (!LocalMapGenerator.Instance.IsPositionWalkable(intendedPos))
             {
-                Vector2 toClosestDir = (closestToMoveVector - rb.position).normalized;
-                moveVector  = Speed * Time.fixedDeltaTime * toClosestDir;
+                Vector2 moveX = new Vector2(moveVector.x, 0f);
+                Vector2 moveY = new Vector2(0f, moveVector.y);
+
+                bool xWalkable = LocalMapGenerator.Instance.IsPositionWalkable(rb.position + moveX);
+                bool yWalkable = LocalMapGenerator.Instance.IsPositionWalkable(rb.position + moveY);
+
+                if (xWalkable && !yWalkable)
+                    moveVector = moveX;
+                else if (yWalkable && !xWalkable)
+                    moveVector = moveY;
+                else if (!xWalkable && !yWalkable)
+                    moveVector = Vector2.zero;
+                // if both walkable, keep diagonal but this is an edge case
+            }
+
+            if ((finalDir == Vector2.zero || moveVector == Vector2.zero) && LocalMapGenerator.Instance.TryFindNearestFullyWalkable(rb.position, out Vector2 closestPos))
+            {
+                Vector2 toClosestDir = (closestPos - rb.position).normalized;
+                moveVector = Speed * Time.fixedDeltaTime * toClosestDir;
             }
 
             HandleMoveMonster(moveVector, targetPosition, sqrDistance);
-
             HandleMirroring(moveVector.x);
         }
 

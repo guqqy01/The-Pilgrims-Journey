@@ -70,39 +70,46 @@ namespace Monsters
             }
         }
 
-        private List<Vector2Int> GetAllSideTiles(Direction side)
+        private List<Vector2Int> GetAllSideTiles(Direction side, int maxSearchDepth = -1)
         {
-            List<Vector2Int> result = new();
-
             int w = Map.MapSizeX;
             int h = Map.MapSizeY;
+            LocalMapGenerator map = LocalMapGenerator.Instance;
 
-            switch (side)
+            if (maxSearchDepth < 0)
+                maxSearchDepth = side is Direction.North or Direction.South ? h : w;
+
+            for (int depth = 0; depth < maxSearchDepth; depth++)
             {
-                case Direction.North:
-                    for (int x = 0; x < w; x++)
-                        result.Add(new Vector2Int(x, h - 1));
-                    break;
+                List<Vector2Int> result = new();
 
-                case Direction.South:
-                    for (int x = 0; x < w; x++)
-                        result.Add(new Vector2Int(x, 0));
-                    break;
+                switch (side)
+                {
+                    case Direction.North:
+                        for (int x = 0; x < w; x++)
+                            result.Add(new Vector2Int(x, h - 1 - depth));
+                        break;
+                    case Direction.South:
+                        for (int x = 0; x < w; x++)
+                            result.Add(new Vector2Int(x, depth));
+                        break;
+                    case Direction.East:
+                        for (int y = 0; y < h; y++)
+                            result.Add(new Vector2Int(w - 1 - depth, y));
+                        break;
+                    case Direction.West:
+                        for (int y = 0; y < h; y++)
+                            result.Add(new Vector2Int(depth, y));
+                        break;
+                }
 
-                case Direction.East:
-                    for (int y = 0; y < h; y++)
-                        result.Add(new Vector2Int(w - 1, y));
-                    break;
+                result.RemoveAll(p => !map.IsConnectedToPath(p));
 
-                case Direction.West:
-                    for (int y = 0; y < h; y++)
-                        result.Add(new Vector2Int(0, y));
-                    break;
+                if (result.Count > 0)
+                    return result;
             }
 
-            result.RemoveAll(x => !LocalMapGenerator.Instance.IsConnectedToPath(x));
-
-            return result;
+            return new List<Vector2Int>();
         }
 
         private void TrySpawnHordeMonster(MonsterSO monster, Direction side)

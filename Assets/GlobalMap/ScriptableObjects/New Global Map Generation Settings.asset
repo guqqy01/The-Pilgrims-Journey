@@ -671,3 +671,59 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+  startingBiome: {fileID: 11400000, guid: 6bb5e4dd183a9d04894608c95ec9a548, type: 2}
+  biomePool:
+  - settings: {fileID: 11400000, guid: aa08d622a8f143e4a98989bd94b9c9df, type: 2}
+    progressWeightCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+  - settings: {fileID: 11400000, guid: 6bb5e4dd183a9d04894608c95ec9a548, type: 2}
+    progressWeightCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+  minSameSettingsInARow: 3
+  biomeChangeChance: 0.15
+  sameAsCurrentPenalty: 0.7
+  sameAsSiblingPenalty: 0.5

@@ -139,6 +139,13 @@ namespace Heros
 
             Vector2 newPos = rb.position + move * SpeedValue * Time.fixedDeltaTime;
 
+            if (LocalMapGenerator.Instance.IsPositionOutOfMap(newPos))
+            {
+                //Walking to next stage, allow to happen
+                rb.MovePosition(newPos);
+                return;
+            }
+
             if (LocalMapGenerator.Instance.IsPositionWalkable(newPos))
             {
                 rb.MovePosition(newPos);

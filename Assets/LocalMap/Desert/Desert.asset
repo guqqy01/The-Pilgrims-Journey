@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6136bf08549a94f43b24955c8ed7b078, type: 3}
   m_Name: Desert
   m_EditorClassIdentifier: 
-  baseTiles:
-    weightedList: []
   baseTilesAndType:
     weightedList:
     - item:
+        TileType: 16
+        TileVisualType: 0
         Sprite: {fileID: -898463107, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-        TileType: 4
+        SpriteAnimation:
+          Frames: []
+          FramesPerSecond: 0
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
@@ -37,8 +39,12 @@ MonoBehaviour:
         m_ConstantMin: 0
         m_ConstantMax: 1
     - item:
+        TileType: 16
+        TileVisualType: 0
         Sprite: {fileID: 1662535437, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-        TileType: 4
+        SpriteAnimation:
+          Frames: []
+          FramesPerSecond: 0
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
@@ -57,8 +63,12 @@ MonoBehaviour:
         m_ConstantMin: 0
         m_ConstantMax: 1
     - item:
+        TileType: 16
+        TileVisualType: 0
         Sprite: {fileID: -826868787, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-        TileType: 4
+        SpriteAnimation:
+          Frames: []
+          FramesPerSecond: 0
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
@@ -77,8 +87,12 @@ MonoBehaviour:
         m_ConstantMin: 0
         m_ConstantMax: 1
     - item:
+        TileType: 16
+        TileVisualType: 0
         Sprite: {fileID: 1887740450, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-        TileType: 4
+        SpriteAnimation:
+          Frames: []
+          FramesPerSecond: 0
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
@@ -97,8 +111,12 @@ MonoBehaviour:
         m_ConstantMin: 0
         m_ConstantMax: 1
     - item:
+        TileType: 16
+        TileVisualType: 0
         Sprite: {fileID: -1816528647, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-        TileType: 4
+        SpriteAnimation:
+          Frames: []
+          FramesPerSecond: 0
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
@@ -116,15 +134,15 @@ MonoBehaviour:
           m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-  baseWeights: 0100000001000000010000000100000001000000
-  autoBaseTileSettings: {fileID: 11400000, guid: d3368a0be9805ab49a243736db106833, type: 2}
-  pathTiles:
-    weightedList: []
   pathTilesAndType:
     weightedList:
     - item:
+        TileType: 2
+        TileVisualType: 0
         Sprite: {fileID: 1875037000, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-        TileType: 16
+        SpriteAnimation:
+          Frames: []
+          FramesPerSecond: 0
       weightCurve:
         m_Mode: 0
         m_CurveMultiplier: 0
@@ -142,7 +160,6 @@ MonoBehaviour:
           m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-  pathWeights: 0100000000000000
   mapObjects:
   - name: Tent
     overlay: {fileID: 8242683995244539426, guid: a450f8bff03132a44a1b000dec0e7977, type: 3}
@@ -312,14 +329,15 @@ MonoBehaviour:
     scale: {x: 0.2, y: 0.2}
     items:
     - perlinNoiseRange: {x: 0.2, y: 0.25}
-      list:
-        weightedList: []
-      weights: 0100000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 1830192241, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -338,8 +356,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -2052003121, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -358,14 +380,15 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.35}
-      list:
-        weightedList: []
-      weights: 010000000100000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 518821306, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -384,8 +407,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -582284037, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -404,8 +431,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 523315417, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -428,14 +459,15 @@ MonoBehaviour:
     scale: {x: 0.2, y: 0.2}
     items:
     - perlinNoiseRange: {x: 0, y: 0.15}
-      list:
-        weightedList: []
-      weights: 010000000100000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -832100134, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -454,8 +486,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -438809010, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -474,8 +510,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 214870765, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -498,14 +538,15 @@ MonoBehaviour:
     scale: {x: 0.2, y: 0.2}
     items:
     - perlinNoiseRange: {x: 0, y: 0.2}
-      list:
-        weightedList: []
-      weights: 0200000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -659925621, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -524,8 +565,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 2
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -544,14 +589,15 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.2, y: 0.25}
-      list:
-        weightedList: []
-      weights: 0100000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -570,8 +616,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -590,14 +640,15 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.3}
-      list:
-        weightedList: []
-      weights: 010000000100000003000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 847997658, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -616,8 +667,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 931612652, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -636,8 +691,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -573964703, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -660,14 +719,15 @@ MonoBehaviour:
     scale: {x: 0.2, y: 0.2}
     items:
     - perlinNoiseRange: {x: 0, y: 0.2}
-      list:
-        weightedList: []
-      weights: 0500000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -686,8 +746,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 5
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -706,14 +770,15 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.2, y: 0.25}
-      list:
-        weightedList: []
-      weights: 0100000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -732,8 +797,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -752,14 +821,15 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.3}
-      list:
-        weightedList: []
-      weights: 0100000005000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -998217695, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -778,8 +848,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 1992566878, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -802,14 +876,15 @@ MonoBehaviour:
     scale: {x: 0.2, y: 0.2}
     items:
     - perlinNoiseRange: {x: 0, y: 0.2}
-      list:
-        weightedList: []
-      weights: 0500000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -828,8 +903,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 5
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -848,14 +927,15 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.2, y: 0.25}
-      list:
-        weightedList: []
-      weights: 0100000001000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -874,8 +954,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -894,14 +978,15 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
     - perlinNoiseRange: {x: 0.25, y: 0.3}
-      list:
-        weightedList: []
-      weights: 0100000005000000
       tileTypeAndSpriteList:
         weightedList:
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: -1223656105, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0
@@ -920,8 +1005,12 @@ MonoBehaviour:
             m_ConstantMin: 0
             m_ConstantMax: 1
         - item:
+            TileType: 16
+            TileVisualType: 0
             Sprite: {fileID: 334416341, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            TileType: 4
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
           weightCurve:
             m_Mode: 0
             m_CurveMultiplier: 0

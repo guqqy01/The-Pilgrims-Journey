@@ -453,11 +453,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13bd5f18e8eddcd4e92db568e3d2f042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoBaseTileSettings: {fileID: 11400000, guid: d3368a0be9805ab49a243736db106833, type: 2}
   mapTilePrefab: {fileID: 3893763549323907409, guid: 86e6a1bf1fdb7e14db64027b7eaf6e2f, type: 3}
   roadSignPrefab: {fileID: 255580875787338887, guid: 7e59afde09f0de64db5a22d61696b30c, type: 3}
   maptileParent: {fileID: 1353967887}
   mapSizeX: 50
   mapSizeY: 50
+  biomeBlendNoiseScale: 0.15
+  biomeBlendNoiseStrength: 0.25
   mapObjectGOs: []
   targetDirectionVSLevelCurve:
     m_Mode: 2
@@ -565,7 +568,6 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_ConstantMin: 0
     m_ConstantMax: 3
-  generationSettings: {fileID: 11400000, guid: 6bb5e4dd183a9d04894608c95ec9a548, type: 2}
 --- !u!4 &833186580
 Transform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using static Unity.VisualScripting.Member;
 using UnityEngine.UIElements;
+using System.Diagnostics;
 public static class EnumerableExtensions
 {
     public static int NotNullCount<T>(this IEnumerable<T> source) where T : class
@@ -34,6 +35,17 @@ public static class EnumerableExtensions
             if (indices[i] < source.GetLowerBound(i) || indices[i] > source.GetUpperBound(i))
                 return false;
         }
+        return true;
+    }
+
+    public static bool IsInBounds<T>(this IEnumerable<T> source, int index)
+    {
+        if(source == null)
+            return false;
+
+        if (index < 0 || index > source.Count() - 1)
+            return false;
+
         return true;
     }
 
@@ -164,6 +176,12 @@ public static class EnumerableExtensions
 
     public static T GetRandom<T>(this List<T> list)
     {
+        if(list == null || list.Count == 0)
+        {
+            UnityEngine.Debug.LogWarning("Get random failed, List either null or had no elements");
+            return default;
+        }
+
         return list[UnityEngine.Random.Range(0, list.Count)];
     }
 }

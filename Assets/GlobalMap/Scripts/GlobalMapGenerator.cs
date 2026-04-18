@@ -1,5 +1,6 @@
 using Equipment;
 using GameManagerCalls;
+using LocalMap;
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -27,6 +28,8 @@ namespace GlobalMap
 
         public GlobalMapPoint[,] mapPoints;
         public List<GlobalMapPoint> takenPath = new List<GlobalMapPoint>();
+
+        private Dictionary<GlobalMapPoint, int> _biomeRunLengths = new Dictionary<GlobalMapPoint, int>();
 
         public Vector2Int CurrentPosition { get; private set; }
         public GlobalMapPoint CurrentMapPoint
@@ -70,38 +73,41 @@ namespace GlobalMap
         {
             Seed = seed;
             Random.InitState(Seed);
+            _biomeRunLengths = new Dictionary<GlobalMapPoint, int>();
 
             mapPoints = new GlobalMapPoint[GenerationSettings.MapSize.x, GenerationSettings.MapSize.y];
 
-            // Start Point
             Vector2Int currentPosition = new Vector2Int(0, Mathf.FloorToInt(GenerationSettings.MapSize.y / 2f));
             Direction currentDirection = Direction.East;
 
             GlobalMapPoint previousMapPoint = CreateOrGetMapPoint(currentPosition, null);
             CurrentMapPoint = previousMapPoint;
 
-            // Start road
             GenerateStartRoad(ref currentPosition, ref previousMapPoint);
 
             GlobalMapPoint startMapPoint = previousMapPoint;
             Vector2Int innerMapStartPosition = currentPosition;
 
-            // Generate inner paths and assign special points
             List<GlobalMapPoint> usedPoints = new List<GlobalMapPoint>();
             GeneratePaths(startMapPoint, innerMapStartPosition, ref currentDirection, usedPoints, out Vector2Int endPosition, out GlobalMapPoint endPoint);
 
-            // End road
             currentDirection = Direction.East;
             GenerateEndRoad(ref endPosition, ref endPoint);
+
+            AssignBiomes();
 
             updateUI?.Invoke();
         }
 
         // Create or return existing map point at position. If pathPoints provided, the point is added there.
-        private GlobalMapPoint CreateOrGetMapPoint(Vector2Int position, List<GlobalMapPoint> pathPoints)
+        private GlobalMapPoint CreateOrGetMapPoint(
+    Vector2Int position,
+    List<GlobalMapPoint> pathPoints)
         {
             GlobalMapPoint mapPoint;
-            if (mapPoints[position.x, position.y] == null)
+            bool isNew = mapPoints[position.x, position.y] == null;
+
+            if (isNew)
             {
                 mapPoint = new GlobalMapPoint(position);
                 mapPoints[position.x, position.y] = mapPoint;
@@ -116,6 +122,12 @@ namespace GlobalMap
                 pathPoints.Add(mapPoint);
 
             return mapPoint;
+        }
+
+        private float GetXProgress(int x)
+        {
+            float denom = Mathf.Max(1f, GenerationSettings.EndOfInnerMapPosition.x - GenerationSettings.StartRoadLength);
+            return Mathf.Clamp01((x - GenerationSettings.StartRoadLength) / denom);
         }
 
         private void GenerateStartRoad(ref Vector2Int currentPosition, ref GlobalMapPoint previousMapPoint)
@@ -184,6 +196,84 @@ namespace GlobalMap
                 List<KeyValuePair<float, GlobalMapPoint>> pathPointDictionary = pathPoints.Select(x => new KeyValuePair<float, GlobalMapPoint>((float)x.Position.x / GenerationSettings.MapSize.x, x)).ToList();
 
                 AssignSpecialMapPoints(pathSettings, pathPointDictionary, usedPoints);
+            }
+        }
+
+        private void AssignBiomes()
+        {
+            // Seed the start
+            GlobalMapPoint startPoint = mapPoints[0, Mathf.FloorToInt(GenerationSettings.MapSize.y / 2f)];
+            if (startPoint != null)
+            {
+                startPoint.GenerationSettings = GenerationSettings.startingBiome;
+                _biomeRunLengths[startPoint] = 1;
+            }
+
+            // Walk all points in column order so fromPoint is always already assigned
+            for (int x = 0; x < GenerationSettings.MapSize.x; x++)
+            {
+                for (int y = 0; y < GenerationSettings.MapSize.y; y++)
+                {
+                    GlobalMapPoint mapPoint = mapPoints[x, y];
+
+                    if (mapPoint == null || mapPoint.GenerationSettings != null)
+                        continue;
+
+                    // Find the first connected-from point that already has a biome
+                    GlobalMapPoint fromPoint = null;
+                    foreach (var kvp in mapPoint.connectedFromPoints)
+                    {
+                        if (kvp.Value.GenerationSettings != null)
+                        {
+                            fromPoint = kvp.Value;
+                            break;
+                        }
+                    }
+
+                    if (fromPoint == null)
+                    {
+                        mapPoint.GenerationSettings = GenerationSettings.startingBiome;
+                        _biomeRunLengths[mapPoint] = 1;
+                        continue;
+                    }
+
+                    // Non-eligible types always inherit, never trigger a change
+                    if (mapPoint.Type != GlobalMapPointType.Normal && mapPoint.Type != GlobalMapPointType.Relic)
+                    {
+                        mapPoint.GenerationSettings = fromPoint.GenerationSettings;
+                        _biomeRunLengths[mapPoint] = _biomeRunLengths.TryGetValue(fromPoint, out int inheritedRun)
+                            ? inheritedRun
+                            : 1;
+                        continue;
+                    }
+
+                    // Gather siblings — other points already connected to fromPoint
+                    List<LocalMapGenerationSettings> siblings = new List<LocalMapGenerationSettings>();
+                    foreach (var kvp in fromPoint.connectedToPoints)
+                    {
+                        if (kvp.Value != mapPoint && kvp.Value.GenerationSettings != null)
+                            siblings.Add(kvp.Value.GenerationSettings);
+                    }
+
+                    float xProgress = GetXProgress(x);
+                    int runLength = _biomeRunLengths.TryGetValue(fromPoint, out int r) ? r : 1;
+                    bool canChange = runLength >= GenerationSettings.minSameSettingsInARow;
+                    bool willChange = canChange && Random.value < GenerationSettings.biomeChangeChance;
+
+                    if (willChange)
+                    {
+                        mapPoint.GenerationSettings = GenerationSettings.PickBiome(
+                            xProgress,
+                            fromPoint.GenerationSettings,
+                            siblings);
+                        _biomeRunLengths[mapPoint] = 1;
+                    }
+                    else
+                    {
+                        mapPoint.GenerationSettings = fromPoint.GenerationSettings;
+                        _biomeRunLengths[mapPoint] = runLength + 1;
+                    }
+                }
             }
         }
 
