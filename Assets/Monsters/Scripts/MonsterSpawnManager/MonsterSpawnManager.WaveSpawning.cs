@@ -17,6 +17,7 @@ namespace Monsters
         private struct WaveSpawnRequest
         {
             public MonsterSpawn spawn;
+            public Direction? biomeDirection;
             public float scheduledTime;
             public float expiryTime;
         }
@@ -40,10 +41,24 @@ namespace Monsters
 
             foreach (var entry in wave.entries)
             {
-                MonsterSpawn spawnDef = monsterSpawnSettings.rangeAndMonster
-                    .FirstOrDefault(s => s.monster == entry.monster);
+                // Search all active settings for this monster's spawn definition
+                MonsterSpawn spawnDef = default;
+                Direction? biomeDirection = null;
+                bool found = false;
 
-                if (spawnDef.monster == null)
+                foreach (var (settings, direction) in _allActiveSpawnSettings)
+                {
+                    var match = settings.rangeAndMonster.FirstOrDefault(s => s.monster == entry.monster);
+                    if (match.monster != null)
+                    {
+                        spawnDef = match;
+                        biomeDirection = direction;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
                 {
                     Debug.LogWarning($"No spawn definition for monster {entry.monster.name}");
                     continue;
@@ -54,6 +69,7 @@ namespace Monsters
                     spawnQueue.Add(new WaveSpawnRequest
                     {
                         spawn = spawnDef,
+                        biomeDirection = biomeDirection,
                         scheduledTime = Time.time + Random.Range(0f, randomWaveSpawnDelay),
                         expiryTime = Time.time + maxSpawnRetryTime
                     });
@@ -85,7 +101,7 @@ namespace Monsters
                         continue;
                     }
 
-                    if (TrySpawnOne(request.spawn))
+                    if (TrySpawnOne(request.spawn, request.biomeDirection))
                     {
                         spawnQueue.RemoveAt(i);
                     }

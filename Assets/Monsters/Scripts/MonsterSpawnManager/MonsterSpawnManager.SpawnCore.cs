@@ -1,13 +1,11 @@
 using Heros;
 using LocalMap;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Monsters
 {
-
-
     /// <summary>
     /// Spawn Core
     /// </summary>
@@ -61,25 +59,67 @@ namespace Monsters
             }
         }
 
-        private bool TrySpawnOne(MonsterSpawn spawn)
+        private bool TrySpawnOne(MonsterSpawn spawn, Direction? biomeDirection = null)
         {
             var points = weightMap.WeightAndMapPointsConnectedToPath(spawn.range);
             if (points == null || points.Count == 0)
                 return false;
 
+            // Filter points to the biome's dominant zone
+            if (biomeDirection.HasValue)
+            {
+                points = FilterPointsToBiomeZone(points, biomeDirection.Value);
+                if (points.Count == 0)
+                    return false;
+            }
+            else
+            {
+                // Base biome — only spawn where base is dominant
+                points = FilterPointsToBaseDominantZone(points);
+                if (points.Count == 0)
+                    return false;
+            }
+
             Vector3 heroPos = HeroManager.Instance.ActiveHero != null
                 ? HeroManager.Instance.ActiveHero.transform.position
                 : Vector3.zero;
 
-            Vector2Int heroPosOnGrid = new Vector2Int(Mathf.FloorToInt(heroPos.x), Mathf.FloorToInt(heroPos.y));
+            Vector2Int heroPosOnGrid = new Vector2Int(
+                Mathf.FloorToInt(heroPos.x),
+                Mathf.FloorToInt(heroPos.y));
 
-            bool success = spawn.monster.movementType == MonsterMovementType.Direct
+            return spawn.monster.movementType == MonsterMovementType.Direct
                 ? TrySpawnDirect(spawn, points, heroPosOnGrid)
                 : TrySpawnStationary(spawn, points);
+        }
 
-            
+        private List<KeyValuePair<int, List<Vector2Int>>> FilterPointsToBiomeZone(
+    List<KeyValuePair<int, List<Vector2Int>>> points,
+    Direction blendDirection)
+        {
+            var result = new List<KeyValuePair<int, List<Vector2Int>>>();
+            foreach (var (weight, positions) in points)
+            {
+                var filtered = positions.Where(p =>
+                    LocalMapGenerator.Instance.GetDominantBlendDirection(p) == blendDirection).ToList();
+                if (filtered.Count > 0)
+                    result.Add(new KeyValuePair<int, List<Vector2Int>>(weight, filtered));
+            }
+            return result;
+        }
 
-            return success;
+        private List<KeyValuePair<int, List<Vector2Int>>> FilterPointsToBaseDominantZone(
+            List<KeyValuePair<int, List<Vector2Int>>> points)
+        {
+            var result = new List<KeyValuePair<int, List<Vector2Int>>>();
+            foreach (var (weight, positions) in points)
+            {
+                var filtered = positions.Where(p =>
+                    LocalMapGenerator.Instance.GetDominantBlendDirection(p) == null).ToList();
+                if (filtered.Count > 0)
+                    result.Add(new KeyValuePair<int, List<Vector2Int>>(weight, filtered));
+            }
+            return result;
         }
 
         private bool CanSpawnMore(MonsterSO monster, MonsterSpawn spawn)
@@ -158,58 +198,7 @@ namespace Monsters
             isSpawning = true;
         }
 
-        private void PreSpawnStationaryMonsters()
-        {
-            foreach (var spawn in monsterSpawnSettings.rangeAndMonster
-                         .Where(s => s.monster.movementType == MonsterMovementType.Stationary))
-            {
-                int amount = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
-
-                for (int i = 0; i < amount; i++)
-                {
-                    int idx = i;
-                    int limit = Map.MapSizeX * Map.MapSizeY;
-
-                    Vector2Int p = weightMap[spawn.range, limit - 1];
-
-                    while (SpotOccupied(p, spawn.monster.size, out Vector2 _) && limit-- > 0)
-                    {
-                        idx++;
-                        p = weightMap[spawn.range, Map.MapSizeX * Map.MapSizeY - 1 - idx];
-                    }
-
-                    if (limit <= 0)
-                        break;
-
-                    SpawnMonster(spawn.monster, p);
-                    MarkOccupied(p, spawn.monster.size);
-                }
-            }
-        }
-
         
-        private void DestroyExistingMonsters()
-        {
-            foreach (var m in Monsters)
-            {
-                if (m == null) continue;
-
-                if (m.TryGetComponent(out Health health))
-                    health.onDie -= OnMonsterDie;
-
-#if UNITY_EDITOR
-                if (Application.isPlaying)
-                    Destroy(m.gameObject);
-                else
-                    DestroyImmediate(m.gameObject);
-#else
-                Destroy(m.gameObject);
-#endif
-            }
-
-            Monsters.Clear();
-            occupiedSpots.Clear();
-        }
 
 
 

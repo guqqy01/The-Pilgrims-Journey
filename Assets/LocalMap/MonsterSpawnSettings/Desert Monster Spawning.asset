@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945d5f93844d9ab46baf73a6c9be6cf0, type: 3}
+  m_Name: Desert Monster Spawning
+  m_EditorClassIdentifier: 
+  rangeAndMonster:
+  - range: 2
+    maxAmountVSLevel:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 24.75
+        outSlope: 24.75
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 20
+        value: 500
+        inSlope: 24.75
+        outSlope: 24.75
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    spawnRateVSLevel:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: -0.225
+        outSlope: -0.225
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 20
+        value: 0.5
+        inSlope: -0.225
+        outSlope: -0.225
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
+    minSpawnDistance: 0
+    maxSpawnDistance: 0
+  bossMonsters:
+  - range: 6
+    boss: {fileID: 11400000, guid: 1336c490713e32441ae5e38a50724b15, type: 2}
+    bossMinionSpawns: []
+  waves:
+  - triggerTime: 15
+    entries:
+    - monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
+      count: 20
+      range: 5
+  - triggerTime: 70
+    entries:
+    - monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
+      count: 40
+      range: 5
+  - triggerTime: 180
+    entries:
+    - monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
+      count: 80
+      range: 5

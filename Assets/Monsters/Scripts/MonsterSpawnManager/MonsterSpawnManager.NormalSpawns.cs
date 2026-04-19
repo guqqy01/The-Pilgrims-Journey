@@ -14,22 +14,22 @@ namespace Monsters
         
         private void ProcessNormalSpawns(float now)
         {
-            foreach (var spawn in monsterSpawnSettings.rangeAndMonster)
+            foreach (var (settings, blendDirection) in _allActiveSpawnSettings)
             {
-                var monster = spawn.monster;
+                foreach (var spawn in settings.rangeAndMonster)
+                {
+                    var monster = spawn.monster;
+                    EnsureMonsterTrackingExists(monster);
 
-                EnsureMonsterTrackingExists(monster);
+                    if (!CanSpawnMore(monster, spawn))
+                        continue;
 
-                if (!CanSpawnMore(monster, spawn))
-                    continue;
+                    if (now < nextSpawnTimeByMonster[monster])
+                        continue;
 
-                if (now < nextSpawnTimeByMonster[monster])
-                    continue;
-
-                TrySpawnOne(spawn);
-
-                nextSpawnTimeByMonster[monster] =
-                    now + GetNextSpawnDelay(spawn);
+                    TrySpawnOne(spawn, blendDirection);
+                    nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(spawn);
+                }
             }
         }
 

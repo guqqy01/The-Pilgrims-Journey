@@ -6,7 +6,7 @@ namespace LocalMap
 {
     public class FlowFieldManager : Singleton<FlowFieldManager>, IOnAfterCreateLocalMap
     {
-        public FlowField CurrentField { get; private set; }
+        public FlowField CurrentHeroField { get; private set; }
 
         private Vector2Int _lastHeroTile;
 
@@ -30,28 +30,32 @@ namespace LocalMap
                 Mathf.Clamp(Mathf.RoundToInt(heroPos.y), 0, LocalMapGenerator.Instance.MapSizeY - 1));
 
             // Only recompute when hero crosses a tile boundary
-            if (heroTile == _lastHeroTile && CurrentField != null)
+            if (heroTile == _lastHeroTile && CurrentHeroField != null)
                 return;
 
             _lastHeroTile = heroTile;
-            GetField(heroTile);
+            CurrentHeroField = GetField(heroTile);
         }
 
-        private void GetField(Vector2Int heroTile)
+        public FlowField GetField(Vector2 position)
         {
-            if(_savedFlowFields.TryGetValue(heroTile, out FlowField flowField))
-            {
-                CurrentField = flowField;
-            }
-            else
-            {
-                flowField = FlowFieldComputer.Compute(
-                    heroTile,
-                    LocalMapGenerator.Instance.Tiles);
+            return GetField(position.V2ToV2Int());
+        }
 
-                _savedFlowFields[heroTile] = flowField;
+        public FlowField GetField(Vector2Int tilePosition)
+        {
+            if(_savedFlowFields.TryGetValue(tilePosition, out FlowField flowField))
+            {
+                return flowField;
             }
-            CurrentField = flowField;
+
+            flowField = FlowFieldComputer.Compute(
+                tilePosition,
+                LocalMapGenerator.Instance.Tiles);
+
+            _savedFlowFields[tilePosition] = flowField;
+
+            return flowField;
         }
 
         // Call this when the map changes
@@ -64,6 +68,7 @@ namespace LocalMap
 
         public void AfterCreateLocalMap()
         {
+            _lastHeroTile = new Vector2Int(-1, -1);
             _savedFlowFields.Clear();
         }
     }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using LocalMap.Editor;
+using Monsters;
 
 namespace LocalMap
 {
@@ -22,6 +23,8 @@ namespace LocalMap
         public Vector2 pathNoiseTiling;
 
         public float cullingAmount = 0.2f;
+
+        public MonsterSpawnSettings MonsterSpawnSettings;
 
         public void SetupSeeds()
         {

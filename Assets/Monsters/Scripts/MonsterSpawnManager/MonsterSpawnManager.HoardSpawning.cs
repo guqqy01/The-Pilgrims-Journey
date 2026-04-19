@@ -56,17 +56,19 @@ namespace Monsters
 
         private void SpawnHordeBatch()
         {
-            // Use PathPicker as the authoritative spawn direction
             Direction side = PathPicker.Instance.PickedDirection.Value.OppositeDirection();
 
-            foreach (var spawn in monsterSpawnSettings.rangeAndMonster)
+            foreach (var (settings, blendDirection) in _allActiveSpawnSettings)
             {
-                MonsterSO monster = spawn.monster;
+                foreach (var spawn in settings.rangeAndMonster)
+                {
+                    MonsterSO monster = spawn.monster;
 
-                if(monster.movementType == MonsterMovementType.Stationary)
-                    continue;
+                    if (monster.movementType == MonsterMovementType.Stationary)
+                        continue;
 
-                TrySpawnHordeMonster(monster, side);
+                    TrySpawnHordeMonster(monster, side, blendDirection);
+                }
             }
         }
 
@@ -112,11 +114,18 @@ namespace Monsters
             return new List<Vector2Int>();
         }
 
-        private void TrySpawnHordeMonster(MonsterSO monster, Direction side)
+        private void TrySpawnHordeMonster(MonsterSO monster, Direction side, Direction? biomeDirection)
         {
             List<Vector2Int> positions = GetAllSideTiles(side);
 
-            // Shuffle for randomness
+            // Filter to this monster's biome zone
+            if (biomeDirection.HasValue)
+                positions = positions.Where(p =>
+                    LocalMapGenerator.Instance.GetDominantBlendDirection(p) == biomeDirection).ToList();
+            else
+                positions = positions.Where(p =>
+                    LocalMapGenerator.Instance.GetDominantBlendDirection(p) == null).ToList();
+
             positions = positions.OrderBy(_ => seededRandom.Next()).ToList();
 
             foreach (var p in positions)
@@ -124,11 +133,7 @@ namespace Monsters
                 if (SpotOccupied(p, monster.size, out Vector2 pos))
                     continue;
 
-                if (!LocalMapGenerator.Instance.IsConnectedToPath(p))
-                    continue;
-
                 SpawnMonster(monster, pos);
-
                 return;
             }
         }

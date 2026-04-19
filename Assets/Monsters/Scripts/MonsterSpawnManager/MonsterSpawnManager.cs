@@ -1,6 +1,5 @@
 using GameManagerCalls;
 using GlobalMap;
-using Heros;
 using LocalMap;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,25 +18,59 @@ namespace Monsters
     public partial class MonsterSpawnManager : Singleton<MonsterSpawnManager>,
         IOnPlayLocalLevel, IOnAfterCreateLocalMap, IOnClear, IOnCompleteLocalMapLevel
     {
-        [SerializeField]
-        private MonsterSpawnSettings monsterSpawnSettings;
-
         [SerializeField, HideInInspector]
         public List<Monster> Monsters { private set; get; } = new();
 
         private LocalMapGenerator Map => LocalMapGenerator.Instance;
 
-        private void Awake()
-        {
-            if (monsterSpawnSettings == null)
-                Debug.LogWarning("MonsterSpawnSettings not assigned.");
-        }
+        private MonsterSpawnSettings monsterSpawnSettings;
+        private List<(MonsterSpawnSettings settings, Direction? blendDirection)> _allActiveSpawnSettings
+            = new List<(MonsterSpawnSettings, Direction?)>();
 
         public void AfterCreateLocalMap()
         {
             isSpawning = false;
+            BuildActiveSpawnSettings();
 
-            weightMap = new WeightMap(Map.pathway, monsterSpawnSettings, Map.MapSizeX, Map.MapSizeY);
+            if (monsterSpawnSettings == null)
+                return;
+
+            weightMap = new WeightMap(
+                Map.pathway,
+                _allActiveSpawnSettings.Select(x => x.settings),
+                Map.MapSizeX,
+                Map.MapSizeY);
+        }
+
+        private void BuildActiveSpawnSettings()
+        {
+            _allActiveSpawnSettings.Clear();
+
+            GlobalMapPoint currentPoint = GlobalMapGenerator.Instance.CurrentMapPoint;
+
+            if (currentPoint.GenerationSettings == null)
+            {
+                Debug.LogWarning("MonsterSpawnManager: CurrentMapPoint has no GenerationSettings.");
+                return;
+            }
+
+            monsterSpawnSettings = currentPoint.GenerationSettings.MonsterSpawnSettings;
+
+            if (monsterSpawnSettings == null)
+            {
+                Debug.LogWarning($"MonsterSpawnManager: GenerationSettings at {currentPoint.Position} has no MonsterSpawnSettings.");
+                return;
+            }
+
+            // Base biome — no direction constraint
+            _allActiveSpawnSettings.Add((monsterSpawnSettings, null));
+
+            // Blended biomes — each tied to their direction
+            foreach (var (direction, blendSettings) in LocalMapGenerator.Instance.ActiveBlends)
+            {
+                if (blendSettings?.MonsterSpawnSettings == null) continue;
+                _allActiveSpawnSettings.Add((blendSettings.MonsterSpawnSettings, direction));
+            }
         }
 
         public void Clear()

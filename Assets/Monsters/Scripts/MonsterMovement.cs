@@ -41,15 +41,20 @@ namespace Monsters
             Vector2 direction = toVector.normalized;
             Vector2 moveVector = Speed * Time.fixedDeltaTime * direction;
 
-            HandleMoveMonster(moveVector, targetPosition, sqrDistance);
+            HandleMoveMonster(moveVector);
 
             HandleMirroring(moveVector.x);
         }
 
 
 
-        protected void HandleMoveMonster(Vector2 moveVector, Vector2 targetPos, float sqrDistance)
+        protected void HandleMoveMonster(Vector2 moveVector)
         {
+            Vector2? targetPosition = GetTargetPosition();
+
+            Vector2 targetPos = targetPosition.HasValue ? targetPosition.Value : default;
+            float sqrDistance = (targetPos - rb.position).sqrMagnitude;
+
             if (moveVector.sqrMagnitude >= sqrDistance)
             {
                 rb.MovePosition(targetPos);

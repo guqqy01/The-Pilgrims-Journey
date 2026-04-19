@@ -36,6 +36,7 @@ namespace LocalMap
         public MinMaxCurve traverseDirectionVSLevelCurve;
 
         private List<(Direction direction, LocalMapGenerationSettings settings)> _activeBlends = new List<(Direction, LocalMapGenerationSettings)>();
+        public IReadOnlyList<(Direction direction, LocalMapGenerationSettings settings)> ActiveBlends => _activeBlends;
 
         public MapTile[,] Tiles { private set; get; }
         public Dictionary<GameObject, Direction> RoadSigns { get; private set; } = new Dictionary<GameObject, Direction>();
@@ -612,6 +613,24 @@ namespace LocalMap
                     }
                 }
             }
+        }
+
+        public Direction? GetDominantBlendDirection(Vector2Int position)
+        {
+            Direction? dominant = null;
+            float bestWeight = 0.5f;
+
+            foreach (var (direction, settings) in _activeBlends)
+            {
+                float w = GetBlendWeight(direction, position);
+                if (w > bestWeight)
+                {
+                    bestWeight = w;
+                    dominant = direction;
+                }
+            }
+
+            return dominant; // null means base is dominant
         }
 
         private float GetBlendWeight(Direction direction, Vector2Int position)

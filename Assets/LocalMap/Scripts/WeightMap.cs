@@ -13,29 +13,28 @@ namespace LocalMap
 
         private readonly Dictionary<int, Dictionary<Vector2Int, int>> rangeAndCoordsAndIndex;
 
-        public WeightMap(Pathway pathway, MonsterSpawnSettings monsterSpawnSettings, int xSize, int ySize)
+        public WeightMap(Pathway pathway, IEnumerable<MonsterSpawnSettings> allSettings, int xSize, int ySize)
         {
             int maxRange = 0;
 
-            foreach (var s in monsterSpawnSettings.rangeAndMonster)
-                maxRange = Mathf.Max(maxRange, s.range);
+            foreach (var settings in allSettings)
+            {
+                foreach (var s in settings.rangeAndMonster)
+                    maxRange = Mathf.Max(maxRange, s.range);
 
-            foreach (var boss in monsterSpawnSettings.bossMonsters)
-                maxRange = Mathf.Max(maxRange, boss.range);
-
-            List<MonsterSpawn> iterator = new List<MonsterSpawn>();
-
-            monsterSpawnSettings.bossMonsters.ForEach(x => iterator.AddRange(x.bossMinionSpawns));
-
-            foreach (var bossMinion in iterator)
-                maxRange = Mathf.Max(maxRange, bossMinion.range);
+                foreach (var boss in settings.bossMonsters)
+                {
+                    maxRange = Mathf.Max(maxRange, boss.range);
+                    foreach (var minion in boss.bossMinionSpawns)
+                        maxRange = Mathf.Max(maxRange, minion.range);
+                }
+            }
 
             rangeAndPoints = new Dictionary<int, MapWeightPoint[]>();
             rangeAndCoordsAndIndex = new Dictionary<int, Dictionary<Vector2Int, int>>();
 
             for (int range = 1; range <= maxRange; range++)
             {
-
                 MapWeightPoint[] points = new MapWeightPoint[xSize * ySize];
                 Dictionary<Vector2Int, int> coordsAndIndex = new Dictionary<Vector2Int, int>();
 
@@ -57,6 +56,9 @@ namespace LocalMap
                 {
                     // Skip tiles on path
                     if (pathway.ContainsStep(x, y))
+                        continue;
+
+                    if (!LocalMapGenerator.Instance.IsConnectedToPath(new Vector2Int(x, y)))
                         continue;
 
                     // Weight is based on proximity to the path
@@ -84,9 +86,8 @@ namespace LocalMap
         {
             var result = new Dictionary<int, List<Vector2Int>>();
 
-            // Defensive: ensure rangeAndPoints and entry exist
-            if (rangeAndPoints == null) return new List<KeyValuePair<int, List<Vector2Int>>>();
-            if (range < 0 || range >= rangeAndPoints.Count) return new List<KeyValuePair<int, List<Vector2Int>>>();
+            if (rangeAndPoints == null)
+                return new List<KeyValuePair<int, List<Vector2Int>>>();
 
             if (!rangeAndPoints.TryGetValue(range, out var mapPointsAtRange))
                 return new List<KeyValuePair<int, List<Vector2Int>>>();
@@ -109,14 +110,9 @@ namespace LocalMap
                 list.Add(mp.coords);
             }
 
-
-
-            // Convert to a list of KeyValuePair and order descending by key (highest weight first)
-            var ordered = result
+            return result
                 .OrderByDescending(kv => kv.Key)
                 .ToList();
-
-            return ordered;
         }
 
 

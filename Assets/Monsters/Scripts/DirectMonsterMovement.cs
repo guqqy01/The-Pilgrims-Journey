@@ -10,8 +10,6 @@ namespace Monsters
         [SerializeField]
         private LayerMask directTargetLayerMask;
 
-
-
         [SerializeField]
         private float directStoppingDistance;
 
@@ -50,19 +48,28 @@ namespace Monsters
 
         public override void HandleFixedUpdateMovement()
         {
-            Vector2? nullableTargetPosition = GetTargetPosition();
+            bool targetIsHero = _target != null && HeroManager.Instance.ActiveHero != null
+        && _target == HeroManager.Instance.ActiveHero.transform;
 
-            if (!nullableTargetPosition.HasValue)
-                return;
+            FlowField currentFlowField;
 
-            Vector2 targetPosition = nullableTargetPosition.Value;
+            if (targetIsHero)
+            {
+                currentFlowField = FlowFieldManager.Instance.CurrentHeroField;
+            }
+            else
+            {
+                if (TargetPosition.HasValue)
+                {
+                    currentFlowField = FlowFieldManager.Instance.GetField(TargetPosition.Value);
+                }
+                else
+                {
+                    currentFlowField = null;
+                }
+            }
 
-            Vector2 toVector = targetPosition - rb.position;
-            float sqrDistance = toVector.sqrMagnitude;
-
-            if (sqrDistance == 0f) return;
-
-            FlowField currentFlowField = FlowFieldManager.Instance.CurrentField;
+            
 
             Vector2 flowDir = Vector2.zero;
 
@@ -76,11 +83,6 @@ namespace Monsters
                 if (LocalMapGenerator.Instance.TryFindNearestFullyWalkable(transform.position, out Vector2 walkablePosition))
                 {
                     flowDir = (walkablePosition - (Vector2)transform.position).normalized;
-                }
-                else
-                {
-                    flowDir = toVector.normalized;
-
                 }
             }
 
@@ -113,7 +115,7 @@ namespace Monsters
                 moveVector = Speed * Time.fixedDeltaTime * toClosestDir;
             }
 
-            HandleMoveMonster(moveVector, targetPosition, sqrDistance);
+            HandleMoveMonster(moveVector);
             HandleMirroring(moveVector.x);
         }
 
