@@ -1525,8 +1525,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
   dontUnloadScenes:
-  - sceneAsset: {fileID: 102900000, guid: 1685e8583991d0d468d9c48eef969888, type: 3}
-    sceneName: Common
+  - sceneName: Common
+    sceneAsset: {fileID: 102900000, guid: 1685e8583991d0d468d9c48eef969888, type: 3}
   inGameAsset: {fileID: 11400000, guid: 264edd61e19bc484dbd7e1e7b7aaeeb3, type: 2}
   animator: {fileID: 658387069}
   localMapSceneLoad: {fileID: 11400000, guid: 260cce3e7901053428efd80f4d7335ce, type: 2}

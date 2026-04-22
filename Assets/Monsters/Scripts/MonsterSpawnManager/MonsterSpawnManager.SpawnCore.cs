@@ -11,7 +11,7 @@ namespace Monsters
     /// </summary>
     public partial class MonsterSpawnManager
     {
-        private WeightMap weightMap;
+        private EnemySpawnWeightMap weightMap;
 
         public Monster SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
         {
@@ -185,10 +185,12 @@ namespace Monsters
             {
                 currentBossSpawn = boss.Value;
                 SpawnBoss(boss.Value);
+                HasBossMonsterBeenKilled = false;
             }
             else
             {
                 currentBossSpawn = null;
+                HasBossMonsterBeenKilled = null;
             }
 
             PreSpawnStationaryMonsters();

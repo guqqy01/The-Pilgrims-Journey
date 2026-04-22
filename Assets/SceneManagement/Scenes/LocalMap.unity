@@ -621,6 +621,7 @@ Transform:
   - {fileID: 1505553183}
   - {fileID: 1926203171}
   - {fileID: 1296373693}
+  - {fileID: 1113618212}
   m_Father: {fileID: 1895229814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &987812850
@@ -667,7 +668,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b3fd3a99186964c84461d4063c5fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterSpawnManager
-  monsterSpawnSettings: {fileID: 11400000, guid: ccb9129bbe8b5234b8972a5502518280, type: 2}
   hordeLength: 30
   hordeSpawnRate: 0.25
   deathMonster: {fileID: 11400000, guid: b83004cec55b653489766104df473f7f, type: 2}
@@ -822,6 +822,51 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1113618211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1113618212}
+  - component: {fileID: 1113618213}
+  m_Layer: 0
+  m_Name: DynamicMapObjectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1113618212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113618211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 966335726}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1113618213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113618211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814efe5c67dc20c4eb2150ef4cce6b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalMap.DynamicMapObjectManager
+  spawnedObjects: []
 --- !u!1 &1296373692
 GameObject:
   m_ObjectHideFlags: 0

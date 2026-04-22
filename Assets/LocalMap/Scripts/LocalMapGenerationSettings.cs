@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using LocalMap.Editor;
 using Monsters;
-
 namespace LocalMap
 {
     [CreateAssetMenu()]
@@ -12,7 +11,9 @@ namespace LocalMap
         public WeightedChanceList<TileTypeAndVisual> baseTilesAndType;
         public WeightedChanceList<TileTypeAndVisual> pathTilesAndType;
 
-        public List<OverlayMapObject> mapObjects;
+        public List<MapObject> mapObjects;
+
+        public List<DynamicMapObject> dynamicMapObjects;
 
         public List<TerrainNoise> terrainNoiseLists;
 
@@ -70,7 +71,7 @@ namespace LocalMap
     }
 
     [Serializable]
-    public class OverlayMapObject
+    public class MapObject
     {
         public string name;
 
@@ -81,7 +82,14 @@ namespace LocalMap
         public AnimationCurve amountToSpawnCurve;
     }
 
-   
+    public enum DynamicMapObjectSpawnMethod
+    {
+        RandomInMap,
+        OutsideOfMap,
+        OutsideOfMapHorizontal,
+        OutsideOfMapVertical,
+        SpecificPosition,
+    }
 }
 
 

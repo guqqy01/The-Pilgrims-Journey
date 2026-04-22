@@ -7,13 +7,13 @@ using Monsters;
 namespace LocalMap
 {
     [Serializable]
-    public class WeightMap
+    public class EnemySpawnWeightMap
     {
         private readonly Dictionary<int, MapWeightPoint[]> rangeAndPoints;
 
         private readonly Dictionary<int, Dictionary<Vector2Int, int>> rangeAndCoordsAndIndex;
 
-        public WeightMap(Pathway pathway, IEnumerable<MonsterSpawnSettings> allSettings, int xSize, int ySize)
+        public EnemySpawnWeightMap(Pathway pathway, IEnumerable<MonsterSpawnSettings> allSettings, int xSize, int ySize)
         {
             int maxRange = 0;
 

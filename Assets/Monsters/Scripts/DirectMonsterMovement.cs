@@ -181,7 +181,9 @@ namespace Monsters
             if (!TargetPosition.HasValue)
                 return true;
 
-            return TargetPosition.Value.Approximately(rb.position);
+            Vector2Int targetTilePos = TargetPosition.Value.V2ToV2Int();
+
+            return targetTilePos == rb.position.V2ToV2Int();
         }
     }
 }

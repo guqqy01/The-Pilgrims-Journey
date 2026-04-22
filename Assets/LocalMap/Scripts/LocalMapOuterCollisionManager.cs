@@ -2,6 +2,9 @@ using UnityEngine;
 using GameManagerCalls;
 using LocalMap;
 using Heros;
+using System.Collections;
+using Monsters;
+using Helper.Wait;
 
 public class LocalMapOuterCollisionManager : Singleton<LocalMapOuterCollisionManager>, IOnAfterCreateLocalMap
 {
@@ -11,15 +14,20 @@ public class LocalMapOuterCollisionManager : Singleton<LocalMapOuterCollisionMan
     [SerializeField]
     private LayerMask heroLayerMask;
 
+    private Coroutine activeCoroutine;
+
     private void Awake()
     {
-        LocalMapLevelCompletedManager.Instance.onRequiredUnitsPassed += LetHeroPassInWantedDirection;
+        LocalMapLevelCompletedManager.Instance.onRequiredUnitsPassed += RequiredUnitsPassed;
     }
 
     protected override void CleanUp()
     {
         if (LocalMapLevelCompletedManager.Instance != null)
-            LocalMapLevelCompletedManager.Instance.onRequiredUnitsPassed -= LetHeroPassInWantedDirection;
+            LocalMapLevelCompletedManager.Instance.onRequiredUnitsPassed -= RequiredUnitsPassed;
+
+        if (activeCoroutine != null)
+            StopCoroutine(activeCoroutine);
     }
 
     public void AfterCreateLocalMap()
@@ -57,7 +65,24 @@ public class LocalMapOuterCollisionManager : Singleton<LocalMapOuterCollisionMan
         topCollider.Setup(Direction.North, new Vector2(sizeX, 1f), new Vector2(horizontalCollidersXPos, sizeY));
     }
 
+    private void RequiredUnitsPassed()
+    {
+        WaitForHelper.WaitForConditionThenPerformAction(NoBossAlive, LetHeroPassInWantedDirection);
+    }
 
+    private bool NoBossAlive()
+    {
+        MonsterSpawnManager mSM = MonsterSpawnManager.Instance;
+
+        if (!mSM.HasBossMonsterBeenKilled.HasValue)
+        {
+            return true;
+        }
+        else
+        {
+            return mSM.HasBossMonsterBeenKilled.Value;
+        }
+    }
 
     private void LetHeroPassInWantedDirection()
     {

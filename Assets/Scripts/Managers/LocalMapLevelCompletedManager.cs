@@ -73,6 +73,11 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
             return;
         }
 
+        bool? hasBossMonsterBeenKilled = MonsterSpawnManager.Instance.HasBossMonsterBeenKilled;
+
+        if (hasBossMonsterBeenKilled.HasValue && !hasBossMonsterBeenKilled.Value)
+            return;
+
         if(unitsPassed >= RequiredNumberOfUnitsToPass)
         {
             hoardStarted = true;

@@ -94,7 +94,7 @@ namespace LocalMap.Editor
                 return;
 
             BaseAndPathTilesTab baseTilesTab = new BaseAndPathTilesTab(_serializedObject);
-            MapObjectsTab mapObjectsTab = new MapObjectsTab(_serializedObject);
+            DynamicAndStaticMapObjectTab mapObjectsTab = new DynamicAndStaticMapObjectTab(_serializedObject);
             _terrainNoiseParentTab = new TerrainNoiseParentTab(_serializedObject);
             _terrainNoiseParentTab.OnTabChange += Repaint;
 

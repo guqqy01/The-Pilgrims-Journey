@@ -6,12 +6,12 @@ namespace LocalMap
     {
         const float edgeTolerance = 0.05f;
 
-        public static FlowField Compute(Vector2Int heroWorldPos, MapTile[,] tiles)
+        public static FlowField Compute(Vector2Int targetPos, MapTile[,] tiles)
         {
-            return Compute((Vector2)heroWorldPos, tiles);
+            return Compute((Vector2)targetPos, tiles);
         }
 
-        public static FlowField Compute(Vector2 heroWorldPos, MapTile[,] tiles)
+        public static FlowField Compute(Vector2 targetPos, MapTile[,] tiles)
         {
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
@@ -25,12 +25,12 @@ namespace LocalMap
 
             Queue<Vector2Int> frontier = new Queue<Vector2Int>();
 
-            Vector2Int heroTile = new Vector2Int(
-                Mathf.RoundToInt(heroWorldPos.x),
-                Mathf.RoundToInt(heroWorldPos.y));
+            Vector2Int targetTile = new Vector2Int(
+                Mathf.RoundToInt(targetPos.x),
+                Mathf.RoundToInt(targetPos.y));
 
-            costs[heroTile.x, heroTile.y] = 0;
-            frontier.Enqueue(heroTile);
+            costs[targetTile.x, targetTile.y] = 0;
+            frontier.Enqueue(targetTile);
 
             // BFS outward from hero, only through walkable connected tiles
             while (frontier.Count > 0)
@@ -47,7 +47,9 @@ namespace LocalMap
                     if (!tile.TileTypeAndVisual.TileType.IsWalkable())
                         continue;
 
-                    float newCost = costs[current.x, current.y] + 1;
+                    Vector2Int toDirection = neighbour - current;
+
+                    float newCost = costs[current.x, current.y] + toDirection.magnitude;
                     if (newCost < costs[neighbour.x, neighbour.y])
                     {
                         costs[neighbour.x, neighbour.y] = newCost;

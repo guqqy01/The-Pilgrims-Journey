@@ -323,6 +323,12 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+  dynamicMapObjects:
+  - name: Tumbleweed Medium
+    dynamicMapObjectSpawnMethod: 2
+    spawnRate: 20
+    spawnRateRandomVariationMultiplier: 50
+    prefab: {fileID: 2959318747516197892, guid: 9485c4a066d77364f8c2014029615716, type: 3}
   terrainNoiseLists:
   - name: Rocks 1
     priority: 2

@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -8556322759303808671, guid: 39957026448e6b848b020343cb3917c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 3214928192119567349}
   - component: {fileID: 4813222353747743167}
   - component: {fileID: 8796534757442160029}
+  - component: {fileID: 2610536438658489034}
   m_Layer: 12
   m_Name: Mini Mudman
   m_TagString: Untagged
@@ -200,6 +201,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   directStoppingDistance: 0
+  separationRadius: 0.8
+  separationStrength: 1.5
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 32832
 --- !u!114 &2471307502750699463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +339,24 @@ MonoBehaviour:
   attackCooldown: 1.5
   layerMask:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 32832
+--- !u!114 &2610536438658489034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7074285777259253557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c0a2e734c18f74bb05f6b7ee8ae99b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelingSystem.ExperienceOrbDropper
+  experienceWorth:
+    minLimit: 1
+    maxLimit: 2
+    start: 1
+    length: 1
 --- !u!1001 &9081591285499563436
 PrefabInstance:
   m_ObjectHideFlags: 0

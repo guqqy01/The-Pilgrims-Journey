@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using LocalMap;
 
-public class MapObjectsTab : IEditorMenuToolbarTab
+public class StaticMapObjectsTab : IEditorMenuToolbarTab
 {
-    public string Name => "Map Objects";
+    public string Name => "Static";
 
     private ReorderableFoldoutList _overlayMapObjectList;
 
-    public MapObjectsTab(SerializedObject serializedObject)
+    public StaticMapObjectsTab(SerializedObject serializedObject)
     {
-        SerializedProperty mapObjectsProp = serializedObject.FindProperty("mapObjects");
-        _overlayMapObjectList = new ReorderableFoldoutList(serializedObject, mapObjectsProp, (index) => 128f, DrawOverlayMapObject, "Map Objects");
+        SerializedProperty mapObjectsProp = serializedObject.FindProperty(nameof(LocalMapGenerationSettings.mapObjects));
+        _overlayMapObjectList = new ReorderableFoldoutList(serializedObject, mapObjectsProp, (index) => 128f, DrawOverlayMapObject, "Static Map Objects");
     }
 
     public void DrawTab(Rect rect)
@@ -37,10 +38,10 @@ public class MapObjectsTab : IEditorMenuToolbarTab
         rect.y += 2;
         rect.height -= 4;
 
-        SerializedProperty nameProp = element.FindPropertyRelative("name");
-        SerializedProperty overlayProp = element.FindPropertyRelative("overlay");
-        SerializedProperty sizeProp = element.FindPropertyRelative("size");
-        SerializedProperty curveProp = element.FindPropertyRelative("amountToSpawnCurve");
+        SerializedProperty nameProp = element.FindPropertyRelative(nameof(MapObject.name));
+        SerializedProperty overlayProp = element.FindPropertyRelative(nameof(MapObject.overlay));
+        SerializedProperty sizeProp = element.FindPropertyRelative(nameof(MapObject.size));
+        SerializedProperty curveProp = element.FindPropertyRelative(nameof(MapObject.amountToSpawnCurve));
 
         float previewSize = rect.height - EditorGUIUtility.singleLineHeight;
 

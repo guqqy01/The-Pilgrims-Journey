@@ -10,6 +10,8 @@ namespace Monsters
     {
         public Monster BossMonster { get; private set; }
 
+        public bool? HasBossMonsterBeenKilled {  get; private set; }
+
         private void SpawnBoss(BossMonsterSpawn bossSpawn)
         {
             int index = 0;
@@ -70,6 +72,7 @@ namespace Monsters
         private void OnBossDie(Health health)
         {
             BossMonster.HealthAndShieldManager.Health.onDie -= OnBossDie;
+            HasBossMonsterBeenKilled = true;
             BossMonster = null;
         }
     }

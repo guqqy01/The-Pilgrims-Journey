@@ -43,18 +43,18 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 5
-        inSlope: -0.225
-        outSlope: -0.225
+        value: 0.5
+        inSlope: -0.022499999
+        outSlope: -0.022499999
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 20
-        value: 0.5
-        inSlope: -0.225
-        outSlope: -0.225
+        value: 0.05
+        inSlope: -0.022499999
+        outSlope: -0.022499999
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -63,8 +63,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
-    minSpawnDistance: 0
-    maxSpawnDistance: 0
+    minSpawnDistance: 10
+    maxSpawnDistance: 30
   bossMonsters:
   - range: 6
     boss: {fileID: 11400000, guid: 1336c490713e32441ae5e38a50724b15, type: 2}
@@ -73,15 +73,15 @@ MonoBehaviour:
   - triggerTime: 15
     entries:
     - monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
-      count: 20
+      count: 40
       range: 5
   - triggerTime: 70
     entries:
     - monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
-      count: 40
+      count: 80
       range: 5
   - triggerTime: 180
     entries:
     - monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
-      count: 80
+      count: 160
       range: 5

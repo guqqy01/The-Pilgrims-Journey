@@ -92,7 +92,6 @@ namespace LocalMap
             }
         }
 
-        
         #region Walkability
 
         private bool[,] _connectedToPath;
@@ -457,13 +456,11 @@ namespace LocalMap
             List<(Direction direction, LocalMapGenerationSettings settings)> blends
                 = new List<(Direction, LocalMapGenerationSettings)>();
 
+            blends.Add((startWall, currentMapPoint.GenerationSettings));
+
             foreach (var kvp in currentMapPoint.connectedToPoints)
             {
                 GlobalMapPoint toPoint = kvp.Value;
-
-                // Only show biome blend previews toward eligible point types
-                if (toPoint.Type != GlobalMapPointType.Normal && toPoint.Type != GlobalMapPointType.Relic)
-                    continue;
 
                 if (toPoint.GenerationSettings != null
                     && toPoint.GenerationSettings != settings)
@@ -555,10 +552,10 @@ namespace LocalMap
 
             // We need to spawn from both base settings and any blended biomes,
             // using position to determine which biome owns each spawn point
-            List<OverlayMapObject> baseObjects = generationSettings.mapObjects;
+            List<MapObject> baseObjects = generationSettings.mapObjects;
 
             // Spawn base biome objects — they get the whole map but lose spots near blend walls
-            foreach (OverlayMapObject mapObject in baseObjects)
+            foreach (MapObject mapObject in baseObjects)
             {
                 int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));
                 breaker = mapSizeX * mapSizeY;
@@ -588,7 +585,7 @@ namespace LocalMap
             {
                 if (blendSettings == null) continue;
 
-                foreach (OverlayMapObject mapObject in blendSettings.mapObjects)
+                foreach (MapObject mapObject in blendSettings.mapObjects)
                 {
                     int amountToPlace = Mathf.CeilToInt(mapObject.amountToSpawnCurve.Evaluate(UnityEngine.Random.value));
                     breaker = mapSizeX * mapSizeY;
@@ -688,7 +685,7 @@ namespace LocalMap
         }
 
 
-        private void PlaceMapObject(OverlayMapObject mapObject, int xPos, int yPos)
+        private void PlaceMapObject(MapObject mapObject, int xPos, int yPos)
         {
             mapObjectGOs.Add(Instantiate(
                 mapObject.overlay,
