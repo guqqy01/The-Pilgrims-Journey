@@ -188,6 +188,9 @@ MonoBehaviour:
   xForce: 2
   gravityScale: 3
   timeMultiplier: 0.3
+  yForcePercentageRandomMultiplier: 0.2
+  angleRange: {x: -45, y: 45}
+  onBounceVelocityStop: -1
 --- !u!114 &-5172011078213589529
 MonoBehaviour:
   m_ObjectHideFlags: 0
