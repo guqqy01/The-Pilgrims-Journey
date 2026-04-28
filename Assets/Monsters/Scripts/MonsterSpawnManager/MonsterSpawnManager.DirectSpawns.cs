@@ -17,6 +17,9 @@ namespace Monsters
         {
             var list = new WeightedChanceList<Vector2>();
             int maxWeight = weightedPoints.Max(w => w.Key);
+            int minWeight = weightedPoints.Min(w => w.Key);
+
+            bool onlyOneWeight = maxWeight == minWeight;
 
             foreach (var (weight, points) in weightedPoints)
             {
@@ -28,7 +31,7 @@ namespace Monsters
                     if (SpotOccupied(p, spawn.monster.size, out Vector2 pos))
                         continue;
 
-                    int invertedWeight = Mathf.Max(maxWeight - weight, 0);
+                    int invertedWeight = onlyOneWeight ? 1 : Mathf.Max(maxWeight - weight, 0);
                     list.Add(pos, invertedWeight);
                 }
             }
