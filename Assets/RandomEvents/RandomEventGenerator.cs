@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using AYellowpaper.SerializedCollections;
-using UnityEditor;
 using DialogueSystem;
-using Unity.VisualScripting;
+using GameManagerCalls;
 
 namespace RandomEvents
 {
-    public class RandomEventGenerator : MonoBehaviour
+    public class RandomEventGenerator : MonoBehaviour, IOnGenerateNewRandomEvent
     {
         public static RandomEventGenerator Instance;
         [SerializeField]
@@ -47,6 +45,11 @@ namespace RandomEvents
             Dialogue dialogue = randomEvent.dialogue;
 
             dialogueManager.SetupDialogue(randomEvent.dialogue);
+        }
+
+        public void OnGenerateNewRandomEvent()
+        {
+            GenerateRandomEvent();
         }
     }
 }

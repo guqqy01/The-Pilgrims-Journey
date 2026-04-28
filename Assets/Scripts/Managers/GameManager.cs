@@ -4,7 +4,6 @@ using GlobalMap;
 using Helper.Wait;
 using Heros;
 using LocalMap;
-using RandomEvents;
 using System;
 using System.Collections.Generic;
 using Tiles;
@@ -146,7 +145,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     void GenerateRandomEvent()
     {
-        RandomEventGenerator.Instance.GenerateRandomEvent();
+        InterfaceCaller.CallInterfaces<IOnGenerateNewRandomEvent>(x => x.OnGenerateNewRandomEvent());
     }
 
     private void CreateLocalMap()

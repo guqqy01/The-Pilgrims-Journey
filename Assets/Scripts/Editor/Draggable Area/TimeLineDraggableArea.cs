@@ -1,10 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEditor;
-using System;
-using System.Linq;
-using DialogueSystem;
 using NUnit.Framework;
 
 public class TimeLineDraggableArea<T> : TimeLineDraggableArea where T : IDraggableRectTimeItem

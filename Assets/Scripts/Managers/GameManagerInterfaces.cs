@@ -42,6 +42,11 @@ namespace GameManagerCalls
         public void OnCreateCurrentMapPoint();
     }
 
+    public interface IOnGenerateNewRandomEvent : IGameManagerCallInterface
+    {
+        public void OnGenerateNewRandomEvent();
+    }
+
     public interface IOnCompleteLocalMapLevel : IGameManagerCallInterface
     {
         public void OnCompleteLocalMapLevel();
