@@ -1,7 +1,5 @@
 ﻿using System;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 
 namespace DialogueSystem

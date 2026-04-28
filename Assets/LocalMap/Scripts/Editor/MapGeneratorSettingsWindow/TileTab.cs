@@ -1,10 +1,6 @@
-﻿using Codice.Client.Common.GameUI;
-using LocalMap;
-using System;
-using System.Security.Policy;
+﻿using LocalMap;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 public class TileTab : IEditorMenuToolbarTab
 {
     private SerializedProperty _baseTileListProperty;

@@ -1,14 +1,9 @@
-using Equipment;
 using GameManagerCalls;
 using LocalMap;
-using NUnit.Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 using Random = UnityEngine.Random;
 
 namespace GlobalMap
@@ -405,45 +400,6 @@ namespace GlobalMap
         }
 
         #endregion
-
-        #region Gizmos
-#if UNITY_EDITOR
-        [Header("Gizmos")]
-        [SerializeField]
-        private bool showGizmos;
-        [SerializeField]
-        private float sphereRadius;
-        [SerializeField]
-        private float arrowLength;
-
-
-        private void OnDrawGizmosSelected()
-        {
-            if (!showGizmos)
-                return;
-
-            if (mapPoints == null)
-                return;
-
-            foreach (GlobalMapPoint mapPoint in mapPoints)
-            {
-                if (mapPoint == null)
-                    continue;
-
-                Gizmos.DrawSphere((Vector2)mapPoint.Position, sphereRadius);
-
-                foreach (GlobalMapPoint toPoint in mapPoint.connectedToPoints.Values)
-                {
-                    Gizmos.DrawLine((Vector2)mapPoint.Position, (Vector2)toPoint.Position);
-                    Vector2 halfway = ((Vector2)toPoint.Position + (Vector2)mapPoint.Position) / 2f;
-                    Vector2 direction = toPoint.Position - mapPoint.Position;
-                    Gizmos.DrawLine(halfway, halfway - (direction + direction.Perpendicular1()).normalized * arrowLength);
-                    Gizmos.DrawLine(halfway, halfway - (direction + direction.Perpendicular2()).normalized * arrowLength);
-                }
-            }
-        }
-#endif
-#endregion
 
         #region Save and Load
 

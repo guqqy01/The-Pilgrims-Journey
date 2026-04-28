@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.ParticleSystem;
+using UnityEngine.U2D;
 public class LightingManager : MonoBehaviour, IOnAfterCreateLocalMap, IOnClear
 {
     [SerializeField]
