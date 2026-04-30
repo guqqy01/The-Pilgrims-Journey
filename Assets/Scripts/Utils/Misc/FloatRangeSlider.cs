@@ -1,0 +1,108 @@
+﻿using System;
+using UnityEngine;
+
+[Serializable]
+public class FloatRangeSlider
+{
+    [SerializeField]
+    private float minLimit = 0f;
+
+    [Tooltip("Lowest possible value for the range start.")]
+    public float MinLimit
+    {
+        get => minLimit;
+        set
+        {
+            minLimit = value;
+            if (maxLimit < minLimit) maxLimit = minLimit;
+            ClampToLimits();
+        }
+    }
+
+    [SerializeField]
+    private float maxLimit = 1f;
+
+    [Tooltip("Highest possible value for the range end.")]
+    public float MaxLimit
+    {
+        get => maxLimit;
+        set
+        {
+            maxLimit = value;
+            if (minLimit > maxLimit) minLimit = maxLimit;
+            ClampToLimits();
+        }
+    }
+
+    [SerializeField]
+    private float start = 0f;
+
+    [Tooltip("The starting point of the range.")]
+    public float Start
+    {
+        get => start;
+        set
+        {
+            // preserve previous span when possible
+            float previousSpan = Length;
+            start = Mathf.Clamp(value, MinLimit, MaxLimit);
+            // ensure length still valid relative to new start
+            Length = Mathf.Clamp(previousSpan, 0f, MaxLimit - start);
+        }
+    }
+
+    [SerializeField]
+    private float length = 1f;
+
+    [Tooltip("The length of the range from Start to End.")]
+    public float Length
+    {
+        get => length;
+        set
+        {
+            length = Mathf.Clamp(value, 0f, MaxLimit - Start);
+        }
+    }
+
+    /// <summary>
+    /// The end point of the range (Start + Length).
+    /// Automatically clamped within limits.
+    /// </summary>
+    public float End
+    {
+        get => Mathf.Clamp(Start + Length, MinLimit, MaxLimit);
+        set => Length = Mathf.Clamp(value - Start, 0f, MaxLimit - Start);
+    }
+
+    /// <summary>
+    /// The span of the total limit range.
+    /// </summary>
+    public float LimitSpan => MaxLimit - MinLimit;
+
+    /// <summary>
+    /// Clamps Start and Length so the range stays within limits.
+    /// </summary>
+    public void ClampToLimits()
+    {
+        start = Mathf.Clamp(start, MinLimit, MaxLimit);
+        length = Mathf.Clamp(length, 0f, MaxLimit - start);
+    }
+
+    /// <summary>
+    /// Moves the entire range by a delta without changing its length.
+    /// </summary>
+    public void Shift(float delta)
+    {
+        float target = Mathf.Clamp(start + delta, MinLimit, Mathf.Max(MinLimit, MaxLimit - Length));
+        Start = target;
+    }
+
+    /// <summary>
+    /// Sets both start and length at once while keeping everything clamped.
+    /// </summary>
+    public void Set(float newStart, float newLength)
+    {
+        start = Mathf.Clamp(newStart, MinLimit, MaxLimit);
+        length = Mathf.Clamp(newLength, 0f, MaxLimit - start);
+    }
+}

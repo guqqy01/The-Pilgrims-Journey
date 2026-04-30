@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace DialogueSystem
 {
+
     [Serializable]
     public class SectionalAudioClip : IListOverTimeItem, IDraggableRectTimeLengthItem, IComparable<SectionalAudioClip>
     {
@@ -25,6 +26,7 @@ namespace DialogueSystem
                 time = value;
             }
         }
+
 
         public float AudioClipStartTime => audioClip.length * slider.Start;
         public float AudioClipEndTime => audioClip.length * slider.End;
