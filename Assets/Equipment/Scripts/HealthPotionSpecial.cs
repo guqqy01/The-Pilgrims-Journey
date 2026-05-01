@@ -8,7 +8,6 @@ namespace Equipment
     public class HealthPotionSpecial : EquipmentSpecial
     {
         private Health health;
-        private Unit unit;
 
         [SerializeField]
         private float healthPercentageToStartRecovery;
@@ -30,10 +29,12 @@ namespace Equipment
         [SerializeField]
         private int goldValue = 100;
 
-        public void Init(Unit unit)
+        public void Init(params object[] initParams)
         {
-            this.unit = unit;
-            health = unit.Health;
+            if (initParams.Length < 1 || initParams[0] is not Health)
+                return;
+
+            health = (Health)initParams[0];
             health.onHealthChange += OnHealthChange;
             amountOfMaxHealthToRecover = Mathf.CeilToInt(health.MaxHealth * percentOfHealthToRecover);
             recoveryRate = periodOfTimeToHeal / amountOfMaxHealthToRecover; ;
@@ -53,8 +54,8 @@ namespace Equipment
             if (timeToNextHeal > Time.time)
                 return;
 
-            if (unit != null && unit.HealingPS != null && !unit.HealingPS.isPlaying)
-                unit.HealingPS.Play();
+            if (health != null && health.HealingPS != null && !health.HealingPS.isPlaying)
+                health.HealingPS.Play();
 
             timeToNextHeal = Time.time + recoveryRate;
 
@@ -62,9 +63,9 @@ namespace Equipment
 
             amountOfMaxHealthToRecover--;
 
-            if (unit != null && unit.HealingPS != null && amountOfMaxHealthToRecover <= 0)
+            if (health != null && health.HealingPS != null && amountOfMaxHealthToRecover <= 0)
             {
-                unit.HealingPS.Stop();
+                health.HealingPS.Stop();
             }
         }
 
@@ -72,15 +73,5 @@ namespace Equipment
         {
             return goldValue;
         }
-    }
-
-    public interface EquipmentSpecial
-    {
-        public void Init(Unit unit);
-
-        public void Update();
-
-
-        public int GoldValue();
     }
 }

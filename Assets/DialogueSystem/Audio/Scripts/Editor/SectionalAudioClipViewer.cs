@@ -1,14 +1,5 @@
 using DialogueSystem;
-using GlobalMap;
-using Serilog;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Rendering;
-using UnityEngine.UIElements;
 public class SectionalAudioClipViewer
 {
     public readonly SectionalAudioClip sectionalAudioClip;

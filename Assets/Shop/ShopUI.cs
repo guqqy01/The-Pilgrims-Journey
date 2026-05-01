@@ -11,6 +11,7 @@ using AYellowpaper.SerializedCollections;
 using Unity.VisualScripting;
 using System.Linq;
 using TMPro;
+using Equipment.UI;
 
 
 
@@ -127,7 +128,7 @@ public class ShopUI : Singleton<ShopUI>
         if (shopItem == selectedShopItem)
             return;
 
-        Info.Select(shopItem.Equipment);
+        Info.Select(EquipmentUISOManager.Instance.GetEquipmentUISO(shopItem.Equipment));
 
         if(selectedShopItem != null)
         {
@@ -182,16 +183,6 @@ public class ShopUI : Singleton<ShopUI>
         sellButton.interactable =
             ShopManager.Instance.EquipmentInventory.NonNullEquipment.Any();
     }
-}
-
-public enum Rarity
-{
-    Common = 200,
-    Uncommon = 500,
-    Rare = 1000,
-    Epic = 5000,
-    Legendary = 20000,
-    Unique = 1000000,
 }
 
 

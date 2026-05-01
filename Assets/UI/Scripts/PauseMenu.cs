@@ -40,7 +40,7 @@ public class PauseMenu : MonoBehaviour
         if (value)
         {
             SaveManager.IfFileExistsDelete("GameManagerSave"); 
-            SceneLoader.Instance.LoadMainMenuScene();
+            SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, () => MainMenu.Instance.Deactivated = false);
             gameObject.SetActive(false);
             BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
         }
@@ -48,7 +48,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitMainMenuButton()
     {
-        SceneLoader.Instance.LoadMainMenuScene();
+        SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, () => MainMenu.Instance.Deactivated = false);
         gameObject.SetActive(false);
         BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
 

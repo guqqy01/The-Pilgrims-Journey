@@ -9,8 +9,12 @@ public interface IDescriptable
 
     public Sprite Sprite { get; }
 
-    public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams { get; }
-
     public virtual void Select() { }
     public virtual void Deselect() { }
+}
+
+public interface IDescriptableUI : IDescriptable
+{
+    public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams { get; }
+
 }

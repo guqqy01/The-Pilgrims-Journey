@@ -18,7 +18,7 @@ Stun monsters for a short period of time for the beginning of the game
 namespace Relics
 {
     [Serializable]
-    public class Relic : IDescriptable
+    public class Relic : IDescriptableUI
     {
         public RelicSO relicSO;
 

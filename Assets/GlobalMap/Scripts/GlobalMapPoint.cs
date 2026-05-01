@@ -65,7 +65,7 @@ namespace GlobalMap
 
         public void LoadScene(Action onSceneLoaded = null)
         {
-            SceneLoader.Instance.LoadSceneFromMapPoint(Type, onSceneLoaded);
+            SceneLoader.Instance.LoadSceneFromType(Type.GetSceneLoadType(), onSceneLoaded);
         }
     }
 
@@ -76,6 +76,26 @@ namespace GlobalMap
         Random,
         Shop,
         Relic,
+    }
+
+    public static class GlobalMapPointTypeExtensions
+    {
+        public static SceneLoadType GetSceneLoadType(this GlobalMapPointType type)
+        {
+            switch (type)
+            {
+                case GlobalMapPointType.Normal:
+                    return SceneLoadType.LocalMap;
+                case GlobalMapPointType.Random:
+                    return SceneLoadType.RandomEvent;
+                case GlobalMapPointType.Shop:
+                    return SceneLoadType.Shop;
+                case GlobalMapPointType.Relic:
+                    return SceneLoadType.LocalMap;
+                default:
+                    return SceneLoadType.LocalMap;
+            }
+        }
     }
 }
 

@@ -1,18 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Units;
-using System;
-using System.Linq;
 using static UnityEngine.ParticleSystem;
 using AYellowpaper.SerializedCollections;
-using Units.UI;
 using Heros;
 using UnityEngine.Serialization;
 
 namespace Equipment
 {
     [CreateAssetMenu()] 
-    public class EquipmentSO : ScriptableObject, IDescriptable
+    public class EquipmentSO : ScriptableObject
     {
         public Sprite sprite;
         public Sprite Sprite => sprite;
@@ -46,7 +43,7 @@ namespace Equipment
                 if (unitEquipmentStats != null)
                     foreach (var kvp in unitEquipmentStats)
                     {
-                        value += UnitBuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key, out _, out _, out _);
+                        value += BuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key, out _, out _, out _);
                     }
                 int specialValue = (EquipmentSpecial != null) ? EquipmentSpecial.GoldValue() : 0;
                 value += specialValue;
@@ -120,30 +117,6 @@ namespace Equipment
 
         public string MainDescription => description;
 
-        [Header("UI Description")]
-        [SerializeField]
-        private UnitStatSubDescriptionUI descriptionStatUIPrefab;
-
-
-        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams
-        {
-            get
-            {
-                List<SubDescriptionUIAndParams> returnList = new List<SubDescriptionUIAndParams>();
-
-                foreach(var kvp in unitEquipmentStats)
-                {
-                    object[] paramObjects = new object[2];
-                    paramObjects[0] = kvp.Value;
-                    paramObjects[1] = kvp.Key;
-                    returnList.Add(new SubDescriptionUIAndParams(descriptionStatUIPrefab, paramObjects));
-                }
-
-                return returnList;
-            }
-        }
-
-       
 
         [Header("Shop Settings")]
         // X position is normalized to 0-1 so end of the map will be at t = 1
@@ -154,4 +127,3 @@ namespace Equipment
         public WeightedChanceList<float> discounts;
     }
 }
-

@@ -15,12 +15,12 @@ public class RewardWindowItemUI : MonoBehaviour
     [SerializeField]
     private Sprite selectedSprite;
 
-    public IDescriptable descriptableObject;
+    public IDescriptableUI descriptableObject;
 
-    public delegate void OnSelectItem(IDescriptable descriptableObject);
+    public delegate void OnSelectItem(IDescriptableUI descriptableObject);
     public OnSelectItem onSelectItem;
 
-    public void Setup(IDescriptable descriptableObject)
+    public void Setup(IDescriptableUI descriptableObject)
     {
         this.descriptableObject = descriptableObject;
         objectImage.sprite = descriptableObject.Sprite;

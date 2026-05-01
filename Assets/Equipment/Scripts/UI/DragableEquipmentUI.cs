@@ -9,7 +9,7 @@ using static Tiles.Tile;
 namespace Equipment.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class DragableEquipmentUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IDescriptable
+    public class DragableEquipmentUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IDescriptableUI
     {
         private Canvas canvas;
         private Canvas Canvas
@@ -47,7 +47,7 @@ namespace Equipment.UI
 
         public Sprite Sprite => EquipmentSO.Sprite;
 
-        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams => EquipmentSO.SubDescriptionPrefabsAndParams;
+        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams => EquipmentUISOManager.Instance.GetEquipmentUISO(EquipmentSO).SubDescriptionPrefabsAndParams;
 
         private void Awake()
         {

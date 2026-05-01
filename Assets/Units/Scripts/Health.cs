@@ -21,6 +21,11 @@ public class Health : MonoBehaviour
     public delegate void OnHealthChange(StatChangeInfo statChangeInfo);
     public OnHealthChange onHealthChange;
 
+    [SerializeField]
+    private ParticleSystem healingPS;
+    public ParticleSystem HealingPS => healingPS;
+
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.V))

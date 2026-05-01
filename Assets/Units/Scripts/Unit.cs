@@ -21,9 +21,6 @@ namespace Units
         public List<EquipmentSpecial> EquipmentSpecials { private set; get; } = new List<EquipmentSpecial>();
 
 
-        [SerializeField]
-        private ParticleSystem healingPS;
-        public ParticleSystem HealingPS => healingPS;
         
 
         private void Awake()
@@ -71,7 +68,7 @@ namespace Units
 
                     EquipmentSpecial equipmentSpecial = equipment.EquipmentSpecial;
 
-                    equipmentSpecial.Init(this);
+                    equipmentSpecial.Init(Health);
 
                     EquipmentSpecials.Add(equipmentSpecial);
                 }

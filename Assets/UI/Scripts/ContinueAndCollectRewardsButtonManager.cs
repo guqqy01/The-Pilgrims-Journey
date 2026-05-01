@@ -1,8 +1,9 @@
+using GameManagerCalls;
+using GlobalMap;
+using GlobalMap.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using GameManagerCalls;
-using TMPro;
-using GlobalMap.UI;
 public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnCompleteLocalMapLevel, IOnCreateLocalMap
 {
     [SerializeField]
@@ -47,8 +48,7 @@ public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnComplete
             GameManager.Instance.CompleteLevel();
 
             GlobalMapUI.FirstSeen = true;
-            SceneLoader.Instance.LoadGlobalMapScene();
-            
+            SceneLoader.Instance.LoadSceneFromType(SceneLoadType.GlobalMap, () => GlobalMapGenerator.Instance.updateUI?.Invoke());
 
             LevelCompleteScreen.SetActive(false);
         }

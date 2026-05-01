@@ -1,4 +1,3 @@
-using GlobalMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -59,7 +58,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (!InitialSetupDone)
         {
-            LoadMainMenuScene(() => InitialSetupDone = true);
+            LoadSceneFromType(SceneLoadType.MainMenu, () => InitialSetupDone = true);
             SceneRoot.CommonSceneLoaded = true;
         }
     }
@@ -131,45 +130,24 @@ public class SceneLoader : MonoBehaviour
         return returnList;
     }
 
-    public void LoadMainMenuScene(Action onSceneLoaded = null)
-    {
-        onSceneLoaded += () => MainMenu.Instance.Deactivated = false;
-
-        LoadScene(mainMenuSceneLoad, onSceneLoaded);
-    }
-
-    public void LoadInGameCommonScene(Action onSceneLoaded = null)
-    {
-        LoadScene(inGameAsset, onSceneLoaded);
-    }
-
-    public void LoadScene(SceneLoadItem sceneLoad, Action onSceneLoaded = null)
-    {
-        StartCoroutine(LoadSceneItem(sceneLoad, onSceneLoaded));
-    }
-
-    public void LoadGlobalMapScene(Action onSceneLoaded = null)
-    {
-        onSceneLoaded += () => GlobalMapGenerator.Instance.updateUI?.Invoke();
-
-        LoadScene(globalMapLoadItem, onSceneLoaded);
-    }
-
-    public void LoadSceneFromMapPoint(GlobalMapPointType mapType, Action onSceneLoaded = null)
+    public void LoadSceneFromType(SceneLoadType mapType, Action onSceneLoaded = null)
     {
         switch (mapType)
         {
-            case GlobalMapPointType.Normal:
+            case SceneLoadType.LocalMap:
                 StartCoroutine(LoadSceneItem(localMapSceneLoad, onSceneLoaded));
                 break;
-            case GlobalMapPointType.Random:
+            case SceneLoadType.RandomEvent:
                 StartCoroutine(LoadSceneItem(randomEventsSceneLoad, onSceneLoaded));
                 break;
-            case GlobalMapPointType.Relic:
-                StartCoroutine(LoadSceneItem(localMapSceneLoad, onSceneLoaded));
-                break;
-            case GlobalMapPointType.Shop:
+            case SceneLoadType.Shop:
                 StartCoroutine(LoadSceneItem(shopSceneLoad, onSceneLoaded));
+                break;
+            case SceneLoadType.GlobalMap:
+                StartCoroutine(LoadSceneItem(globalMapLoadItem, onSceneLoaded));
+                break;
+            case SceneLoadType.MainMenu:
+                StartCoroutine(LoadSceneItem(mainMenuSceneLoad, onSceneLoaded));
                 break;
         }
     }
@@ -237,7 +215,7 @@ public class SceneLoader : MonoBehaviour
         {
             yield return StartCoroutine(LoadSceneAdditiveWithRootsDeactivated(sceneToLoad));
         }
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         yield return FadeToBlack();
 
@@ -388,4 +366,15 @@ public class SceneLoader : MonoBehaviour
         if (scenesAndTheirRoots.ContainsKey(sceneToActivate))
             scenesAndTheirRoots[sceneToActivate].gameObject.SetActive(true);
     }
+}
+
+public enum SceneLoadType
+{
+    MainMenu,
+    InGame,
+    LocalMap,
+    Shop,
+    RandomEvent,
+    LoadingScreen,
+    GlobalMap
 }

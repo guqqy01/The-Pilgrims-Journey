@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public static class Info
 {
-    public static IDescriptable CurrentlySelected;
+    public static IDescriptableUI CurrentlySelected;
 
-    public delegate void OnInfoSelected(IDescriptable info);
+    public delegate void OnInfoSelected(IDescriptableUI info);
     public static OnInfoSelected onInfoSelected { get; set; }
 
-    public static void Select(IDescriptable info)
+    public static void Select(IDescriptableUI info)
     {
         CurrentlySelected?.Deselect();
 

@@ -1,5 +1,6 @@
 using GameManagerCalls;
 using Heros;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +37,9 @@ public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGam
 
     public void ExitMainMenuButton()
     {
-        SceneLoader.Instance.LoadMainMenuScene(MainMenu.Instance.Setup);
+        Action OnLoad = MainMenu.Instance.Setup;
+        OnLoad  += () => MainMenu.Instance.Deactivated = false;
+        SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu ,OnLoad);
     }
 
     public void ExitDesktopButton()
