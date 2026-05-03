@@ -8,7 +8,7 @@ namespace Equipment.UI
 
         public EquipmentUISO GetEquipmentUISO(EquipmentSO equipmentSO)
         {
-            return EquipmentUISOs.Single(x => x.EquipmentSO == equipmentSO);
+            return EquipmentUISOs.Single(x => x.equipmentSO == equipmentSO);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Equipment
                 if (unitEquipmentStats != null)
                     foreach (var kvp in unitEquipmentStats)
                     {
-                        value += BuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key, out _, out _, out _);
+                        value += BuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key.ConvertToAllStats(), out _, out _, out _);
                     }
                 int specialValue = (EquipmentSpecial != null) ? EquipmentSpecial.GoldValue() : 0;
                 value += specialValue;

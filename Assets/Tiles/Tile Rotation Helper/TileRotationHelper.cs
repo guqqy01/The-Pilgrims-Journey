@@ -6,7 +6,7 @@ public class TileRotationHelper : MonoBehaviour
     [SerializeField]
     private RectTransform tileSizeHolder;
 
-    public void Follow(Tile tile)
+    public void Follow(TileUI tile)
     {
         transform.position = tile.RectTransform.position;
 

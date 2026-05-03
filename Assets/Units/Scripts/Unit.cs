@@ -8,7 +8,7 @@ using Equipment;
 namespace Units
 {
     [RequireComponent(typeof(UnitMovement), typeof(Health), typeof(Shield))]
-    [RequireComponent(typeof(CoinDrop), typeof(HitEffects), typeof(PoisonDebuff))]
+    [RequireComponent(typeof(CoinDrop), typeof(KnockbackEffectReciever), typeof(PoisonDebuff))]
     public class Unit : MonoBehaviour
     {
         public UnitSO UnitSO { private set; get; }
@@ -40,10 +40,10 @@ namespace Units
             CoinDrop.Init(unitSO);
         }
 
-        public void Init(Tile tile, List<Vector2Int> path, int currentPathIndex)
+        public void Init(TileUI tile, List<Vector2Int> path, int currentPathIndex)
         {
             UnitSO = tile.UnitSO;
-            Movement.Init(path, currentPathIndex, tile);
+            Movement.Init(path, currentPathIndex, tile.UnitSO);
             Health.Init(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.Health, UnitStatsEnum.Health));
 
             Shield.Init

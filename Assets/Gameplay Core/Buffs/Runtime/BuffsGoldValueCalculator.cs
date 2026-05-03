@@ -1,52 +1,50 @@
 ﻿using UnityEngine;
-using Units;
 public static class BuffsGoldValueCalculator
 {
     public static int roundToNearestValue = 10;
 
     public static float additionalReducedValueToBase = 0.8f;
 
-    public static int GetValue(Buff buff, UnitStatsEnum Stat, out int baseBuffValue, out int multiplierBuffValue, out int additionalBuffValue)
+    public static int GetValue(Buff buff, AllStats Stat, out int baseBuffValue, out int multiplierBuffValue, out int additionalBuffValue)
     {
         switch (Stat)
         {
-            case UnitStatsEnum.Health:
+            case AllStats.Health:
                 baseBuffValue = CalculateHealthBaseBuffValue(buff.BaseBuff.IntValue);
                 multiplierBuffValue = CalculateHealthMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateHealthAdditionalBuffValue(buff.AdditionalBuff.IntValue);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case UnitStatsEnum.Shield:
+            case AllStats.Shield:
                 baseBuffValue = CalculateShieldBaseBuffValue(buff.BaseBuff.IntValue);
                 multiplierBuffValue = CalculateShieldMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateShieldAdditionalBuffValue(buff.AdditionalBuff.IntValue);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case UnitStatsEnum.ShieldCooldown:
+            case AllStats.ShieldCooldown:
                 baseBuffValue = CalculateShieldCooldownBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateShieldCooldownMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateShieldCooldownAdditionalBuffValue((float)buff.AdditionalBuff.Value);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case UnitStatsEnum.ShieldRegeneration:
+            case AllStats.ShieldRegeneration:
                 baseBuffValue = CalculateShieldRegenerationBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateShieldRegenerationMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateShieldRegenerationAdditionalBuffValue((float)buff.AdditionalBuff.Value);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case UnitStatsEnum.MovementSpeed:
+            case AllStats.MovementSpeed:
                 baseBuffValue = CalculateMovementSpeedBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateMovementSpeedMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateMovementSpeedAdditionalBuffValue((float)buff.AdditionalBuff.Value);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case UnitStatsEnum.SpawnRate:
+            case AllStats.SpawnRate:
                 baseBuffValue = CalculateSpawnRateBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateSpawnRateMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateSpawnRateAdditionalBuffValue((float)buff.AdditionalBuff.Value);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
+            default:
+                baseBuffValue = CalculateHealthBaseBuffValue(buff.BaseBuff.IntValue);
+                multiplierBuffValue = CalculateHealthMultiplierBuffValue(buff.Multiplier);
+                additionalBuffValue = CalculateHealthAdditionalBuffValue(buff.AdditionalBuff.IntValue);
+                return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
         }
-
-        baseBuffValue = 0;
-        multiplierBuffValue = 0;
-        additionalBuffValue = 0;
-
-        return 0;
     }
 
 

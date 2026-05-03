@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Units.UI;
+using Equipment;
 namespace Equipment.UI
 {
     public class EquipmentUISO : ScriptableObject, IDescriptableUI
     {
-        public EquipmentSO EquipmentSO;
+        public EquipmentSO equipmentSO;
 
         [SerializeField]
-        private UnitStatSubDescriptionUI descriptionStatUIPrefab;
-
+        private BuffSubDescriptionUI descriptionStatUIPrefab;
 
         public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams
         {
@@ -17,7 +16,7 @@ namespace Equipment.UI
             {
                 List<SubDescriptionUIAndParams> returnList = new List<SubDescriptionUIAndParams>();
 
-                foreach (var kvp in EquipmentSO.EquipmentStatsDictionary)
+                foreach (var kvp in equipmentSO.EquipmentStatsDictionary)
                 {
                     object[] paramObjects = new object[2];
                     paramObjects[0] = kvp.Value;
@@ -29,10 +28,10 @@ namespace Equipment.UI
             }
         }
 
-        public string Title => EquipmentSO.Title;
+        public string Title => equipmentSO.Title;
 
-        public string MainDescription => EquipmentSO.MainDescription;
+        public string MainDescription => equipmentSO.MainDescription;
 
-        public Sprite Sprite => EquipmentSO.Sprite;
+        public Sprite Sprite => equipmentSO.Sprite;
     }
 }

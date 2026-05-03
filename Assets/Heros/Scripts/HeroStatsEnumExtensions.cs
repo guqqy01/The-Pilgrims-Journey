@@ -1,4 +1,5 @@
-﻿namespace Heros
+﻿using System;
+namespace Heros
 {
     public static class HeroStatsEnumExtensions
     {
@@ -13,6 +14,16 @@
 
                 _ => false,
             };
+        }
+
+        public static AllStats ConvertToAllStats(this HeroStats heroStat)
+        {
+            if(Enum.TryParse(heroStat.ToString(), out AllStats returnValue))
+            {
+                return returnValue;
+            }
+
+            throw new Exception("Could not parse heroStat to AllStat");
         }
     }
 }

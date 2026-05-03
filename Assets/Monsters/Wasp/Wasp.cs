@@ -56,7 +56,7 @@ namespace Monsters
             {
                 if(hitInfo.HealthAndShieldManager.TryGetComponent(out PoisonDebuff poisonDebug))
                 {
-                    poisonDebug.Add(this, damage, poisonTime);
+                    poisonDebug.Add(damage, poisonTime);
                 }
             }
 
