@@ -29,6 +29,11 @@ namespace Relics
             return $"{StatString} Increase Per Level: {(buffIncreasePerLevel).GetSignedSimpleDescription()}";
         }
 
+        public UnitStatIncreaseRelicEffect() : base(default, default)
+        {
+
+        }
+
         public UnitStatIncreaseRelicEffect(Buff buff, UnitStatsEnum stat, Action updateUI = null) : base(buff, updateUI)
         {
             this.stat = stat;

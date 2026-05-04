@@ -128,7 +128,7 @@ public class ShopUI : Singleton<ShopUI>
         if (shopItem == selectedShopItem)
             return;
 
-        Info.Select(EquipmentUISOManager.Instance.GetEquipmentUISO(shopItem.Equipment));
+        Info.Select(shopItem.Equipment);
 
         if(selectedShopItem != null)
         {

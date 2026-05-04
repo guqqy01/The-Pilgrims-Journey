@@ -6,7 +6,6 @@ namespace Spells.UI
 {
     public class SpellSubDescriptionUI : SubDescriptionUI
     {
-        private SpellSO spell;
         [SerializeField]
         private Image spellSpriteImage;
         [SerializeField]
@@ -16,32 +15,24 @@ namespace Spells.UI
         [SerializeField]
         private TextMeshProUGUI spellAmountOfUsesText;
 
-        public void Setup(SpellSO spell, int amountOfUses)
+        public void Setup(SpellSubDescriptionData spellSubDescriptionData)
         {
-            this.spell = spell;
+            spellSpriteImage.sprite = spellSubDescriptionData.Sprite;
 
-            spellSpriteImage.sprite = spell.sprite;
-
-            spellTitleText.text = spell.name.AddSpacesBeforeCapsRegex();
-            spellDescriptionText.text = spell.description;
-            spellAmountOfUsesText.text = $"Amount of uses per round: {amountOfUses.ToString()}";
+            spellTitleText.text = spellSubDescriptionData.Name.AddSpacesBeforeCapsRegex();
+            spellDescriptionText.text = spellSubDescriptionData.Description;
+            spellAmountOfUsesText.text = $"Amount of uses per round: {spellSubDescriptionData.AmountOfUses.ToString()}";
         }
 
-        public override void UpdateUI(params object[] obj)
+        public override void UpdateUI(ISubDescriptionData subDescriptionData)
         {
-            if (obj[0] is not SpellSO spell)
+            if(subDescriptionData is not SpellSubDescriptionData spellSubDescriptionData)
             {
-                Destroy(gameObject);
+                Debug.LogWarning($"Sub Description Data: {subDescriptionData} not expected Type: {typeof(SpellSubDescriptionData)}");
                 return;
             }
 
-            if (obj[1] is not int amountOfUses)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Setup(spell, amountOfUses);
+            Setup(spellSubDescriptionData);
         }
     }
 }

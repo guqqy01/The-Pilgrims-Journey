@@ -2,5 +2,5 @@
 
 public abstract class SubDescriptionUI : MonoBehaviour
 {
-    public abstract void UpdateUI(params object[] obj);
+    public abstract void UpdateUI(ISubDescriptionData subData);
 }

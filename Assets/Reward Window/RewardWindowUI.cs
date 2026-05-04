@@ -73,7 +73,7 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
 
         Clear();
 
-        foreach (IDescriptableUI descriptable in descriptables)
+        foreach (IDescriptable descriptable in descriptables)
         {
             RewardWindowItemUI rewardWindowItemUI = Instantiate(rewardItemUIPrefab, itemHolder);
             rewardWindowItemUI.Setup(descriptable);
@@ -99,7 +99,7 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
         tileImage.NativeRatioScaleHeightToSize(50f);
     }
 
-    public void ShowItemDescription(IDescriptableUI descriptableObject)
+    public void ShowItemDescription(IDescriptable descriptableObject)
     {
         if (descriptableObject == null)
             return;

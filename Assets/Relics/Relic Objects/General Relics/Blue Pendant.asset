@@ -17,13 +17,12 @@ MonoBehaviour:
   baseValue: 152
   spells: []
   relicEffects:
-  - rid: 8036269458620678463
-  relicSpellUIItemPrefab: {fileID: 2343244219921054511, guid: 30a351046b4e2b84099dcc7c8c92253f, type: 3}
+  - rid: 1478789356158451811
   references:
     version: 2
     RefIds:
-    - rid: 8036269458620678463
-      type: {class: StartShieldRelicEffect, ns: Relics, asm: Assembly-CSharp}
+    - rid: 1478789356158451811
+      type: {class: StartShieldRelicEffect, ns: Relics, asm: Gameplay}
       data:
-        shieldAmountPerLevel: 20
+        shieldAmountPerLevel: 10
         unitTime: 10

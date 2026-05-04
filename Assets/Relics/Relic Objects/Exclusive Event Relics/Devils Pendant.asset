@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
   m_Name: Devils Pendant
   m_EditorClassIdentifier: 
-  summary: Zaps enemies for a price
   description: Grants the spell Static Shock. but each use comes at an increasing
     cost.
   sprite: {fileID: 996093368, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
@@ -25,6 +24,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 8036268956781117570
       type: {class: DemonItemRelicEffect, ns: Relics, asm: Assembly-CSharp}
-      data: 

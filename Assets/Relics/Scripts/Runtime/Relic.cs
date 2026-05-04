@@ -93,6 +93,8 @@ namespace Relics
         [SerializeReference]
         public List<RelicEffect> relicEffects = new List<RelicEffect>();
 
+        public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
+
         private string GetDescriptionString()
         {
             string returnString = relicSO.description;

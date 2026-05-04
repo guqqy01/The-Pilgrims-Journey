@@ -35,7 +35,6 @@ RectTransform:
   - {fileID: 3592697760809959870}
   - {fileID: 5261517286395064351}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -59,17 +58,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5261517286327620910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2930b5d73e87aa4397284f1d08d8ac9, type: 3}
+  m_Script: {fileID: 11500000, guid: 39611bd4bca4b814c9bb6f9ed83c0aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitUITransform: {fileID: 5261517286395064351}
   tileGraphics: {fileID: 6742508513827024760}
   locked: 0
-  Equipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  Level: 1
   tileGrid: {fileID: 0}
   canvasGroup: {fileID: 5535870312737849475}
   Dragging: 0
@@ -120,7 +114,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5261517286327620911}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -196,7 +189,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5261517286327620911}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -272,7 +264,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5261517286327620911}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

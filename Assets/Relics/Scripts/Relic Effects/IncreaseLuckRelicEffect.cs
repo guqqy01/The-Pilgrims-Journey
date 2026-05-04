@@ -20,6 +20,8 @@ namespace Relics
             return $"{StatString} Increase Per Level: {(buffIncreasePerLevel).GetSignedSimpleDescription()}";
         }
 
+        public IncreaseLuckRelicEffect() : base(default, default) { }
+
         public IncreaseLuckRelicEffect(Buff buffIncreasePerLevel, Action updateUI = null) : base(buffIncreasePerLevel, updateUI)
         {
             

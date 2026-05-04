@@ -17,45 +17,25 @@ MonoBehaviour:
   highlightColor: {r: 0, g: 0.595603, b: 1, a: 1}
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
   spellEffects:
-  - rid: 4142103448863637716
+  - rid: 1478789356158451814
   references:
     version: 2
     RefIds:
-    - rid: 4142103448863637716
-      type: {class: InvunrabilityEffect, ns: Spells, asm: Assembly-CSharp}
+    - rid: 1478789356158451814
+      type: {class: InvunrabilityEffect, ns: Spells, asm: Gameplay}
       data:
         Vector2ListWrapper:
           v2IntList:
           - {x: 0, y: 0}
-          - {x: 0, y: 1}
-          - {x: -1, y: 0}
-          - {x: 0, y: -1}
-          - {x: 1, y: 0}
-          - {x: 1, y: 1}
-          - {x: -1, y: 1}
-          - {x: -1, y: -1}
-          - {x: 1, y: -1}
-          - {x: 0, y: 2}
-          - {x: -2, y: 0}
-          - {x: -2, y: 1}
-          - {x: -2, y: -1}
-          - {x: -1, y: 2}
-          - {x: 1, y: 2}
-          - {x: 2, y: 0}
-          - {x: 2, y: 1}
-          - {x: 2, y: -1}
-          - {x: 0, y: -2}
-          - {x: -1, y: -2}
-          - {x: 1, y: -2}
         layerMask:
           serializedVersion: 2
-          m_Bits: 64
+          m_Bits: 32832
         effectFX: {fileID: 0}
         fXGreyScaleFactor: 0
-        fXColor: {r: 0, g: 0, b: 0, a: 0}
+        fXColor: {r: 0.07422557, g: 0.62415075, b: 0.8742138, a: 0.8980392}
         effectSound:
           clip: {fileID: 0}
           loop: 0
           volume: 0
           pitch: 0
-        invunrabilityTime: 2
+        invunrabilityTime: 1

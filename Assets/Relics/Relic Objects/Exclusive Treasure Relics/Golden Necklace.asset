@@ -17,17 +17,16 @@ MonoBehaviour:
   baseValue: 200
   spells: []
   relicEffects:
-  - rid: 925506328635899917
-  relicSpellUIItemPrefab: {fileID: 2343244219921054511, guid: 30a351046b4e2b84099dcc7c8c92253f, type: 3}
+  - rid: 1478789356158451810
   references:
     version: 2
     RefIds:
-    - rid: 925506328635899917
-      type: {class: AddPercentageOfGoldGainedFloorCap, ns: Relics, asm: Assembly-CSharp}
+    - rid: 1478789356158451810
+      type: {class: AddPercentageOfGoldGainedFloorCap, ns: Relics, asm: Gameplay}
       data:
-        percentageOfGoldExtra: 0.33
-        numberOfRoundsToGainGold: 2
+        percentageOfGoldExtra: 50
+        numberOfRoundsToGainGold: 5
         numberOfRoundsRemaining: 0
         startGold: 0
-        goldGain: 1
+        goldGain: 0
         TotalNumberOfGoldGained: 0

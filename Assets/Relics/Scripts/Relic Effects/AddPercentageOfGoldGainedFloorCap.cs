@@ -42,6 +42,8 @@ namespace Relics
 
         private bool reset;
 
+        public AddPercentageOfGoldGainedFloorCap() { }
+
         internal AddPercentageOfGoldGainedFloorCap(float percentageOfGoldExtra, int numberOfRoundsToGainGold, GoldGainEnum goldGain, Action updateUI = null) : base(updateUI)
         {
             this.percentageOfGoldExtra = percentageOfGoldExtra;

@@ -5,8 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-[CreateAssetMenu(fileName = "SubDescriptionUIHelper", menuName = "Helper/Sub Description UI Helper")]
-public class SubDescriptionUIHelper : ScriptableObject
+public class SubDescriptionUIHelper : Singleton<SubDescriptionUIHelper>
 {
     [SerializeField]
     private SerializedDictionary<TypeReference, SubDescriptionUI> TypeReferenceAndItsSubDescriptionUI;
@@ -25,13 +24,12 @@ public class SubDescriptionUIHelper : ScriptableObject
             .ToDictionary(x => x.Key.Type, x => x.Value);
     }
 
-    public SubDescriptionUI GetSubDescriptionUIFromType(Type type)
+    public bool TryGetSubDescriptionUIFromType(Type type, out SubDescriptionUI subDescriptionUI)
     {
         if (runtimeLookup == null)
             Setup();
 
-        runtimeLookup.TryGetValue(type, out var ui);
-        return ui;
+        return runtimeLookup.TryGetValue(type, out subDescriptionUI);
     }
 
 }

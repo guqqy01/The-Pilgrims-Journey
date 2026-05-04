@@ -16,7 +16,7 @@ namespace Relics
 
         public override string Description(Relic relic)
         {
-                return $"Gives the units spawned in the first {unitTime} seconds a shield of {shieldAmountPerLevel * relic.Level}";
+            return $"Gives the units spawned in the first {unitTime} seconds a shield of {shieldAmountPerLevel * relic.Level}";
         }
 
         public override string Description(RelicSO relicSO)
@@ -28,6 +28,8 @@ namespace Relics
         {
             return new StartShieldRelicEffect(shieldAmountPerLevel, unitTime, updateUI);
         }
+
+        public StartShieldRelicEffect() : base(default) { }
 
         public StartShieldRelicEffect(int shieldAmountPerLevel, float unitTime, Action updateUI = null) : base(updateUI)
         {

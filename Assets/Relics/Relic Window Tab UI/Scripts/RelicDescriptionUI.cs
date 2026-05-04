@@ -34,7 +34,7 @@ namespace Relics.UI
             foreach (SpellAndAmountOfUses relicSpell in relicSO.spells)
             {
                 SpellSubDescriptionUI relicSpellUIItem = Instantiate(relicSpellUIItemPrefab, descriptionHolder);
-                relicSpellUIItem.Setup(relicSpell.spell, relicSpell.amountOfUses);
+                relicSpellUIItem.Setup(new SpellSubDescriptionData(relicSpell.spell.name, relicSpell.spell.Sprite, relicSpell.spell.MainDescription, relicSpell.amountOfUses));
                 relicSpellUIItems.Add(relicSpellUIItem);
             }
 

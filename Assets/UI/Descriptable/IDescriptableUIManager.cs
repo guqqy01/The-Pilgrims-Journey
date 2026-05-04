@@ -4,9 +4,9 @@ using UnityEngine;
 public class IDescriptableUIManager : Singleton<IDescriptableUIManager>
 {
     [SerializeField]
-    private SerializedDictionary<IDescriptable, IDescriptableUI> _descriptableUIs;
+    private SerializedDictionary<IDescriptable, IDescriptable> _descriptableUIs;
 
-    public bool TryGetDescriptableUIs(IDescriptable key, out IDescriptableUI descriptableUI)
+    public bool TryGetDescriptableUIs(IDescriptable key, out IDescriptable descriptableUI)
     {
         bool found = _descriptableUIs.TryGetValue(key, out descriptableUI);
 

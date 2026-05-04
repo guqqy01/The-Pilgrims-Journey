@@ -16,7 +16,7 @@ MonoBehaviour:
   description: After reaching 40% HP, consume the potion to heal 50% of max HP over
     5 seconds
   EquipmentSpecial:
-    rid: 925506379846778884
+    rid: 1478789356158451821
   unitEquipmentStats:
     _serializedList:
     - Key: 0
@@ -43,7 +43,6 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           isInt: 1
-  descriptionStatUIPrefab: {fileID: 1272681180951300573, guid: 7f9378a1465d10845a576da89cada5c4, type: 3}
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0
@@ -157,10 +156,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 925506379846778884
-      type: {class: HealthPotionSpecial, ns: Equipment, asm: Assembly-CSharp}
+    - rid: 1478789356158451821
+      type: {class: HealthPotionSpecial, ns: Equipment, asm: Gameplay}
       data:
-        healthPercentageToStartRecovery: 0.4
-        percentOfHealthToRecover: 0.5
+        healthPercentageToStartRecovery: 40
+        percentOfHealthToRecover: 50
         periodOfTimeToHeal: 5
         goldValue: 100

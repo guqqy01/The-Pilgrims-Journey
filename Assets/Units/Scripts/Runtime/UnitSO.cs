@@ -64,6 +64,8 @@ namespace Units
 
         public Sprite Sprite => sprite;
 
+        public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
+
         public SpellSO unitsSpecialSpell;
 
         [Header("Drops")]

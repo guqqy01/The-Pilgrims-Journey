@@ -6,18 +6,14 @@ using UnityEngine.UI;
 
 public static class Info
 {
-    public static IDescriptableUI CurrentlySelected;
+    public static IDescriptable CurrentlySelected;
 
-    public delegate void OnInfoSelected(IDescriptableUI info);
+    public delegate void OnInfoSelected(IDescriptable info);
     public static OnInfoSelected onInfoSelected { get; set; }
 
-    public static void Select(IDescriptableUI info)
+    public static void Select(IDescriptable info)
     {
-        CurrentlySelected?.Deselect();
-
         CurrentlySelected = info;
-
-        CurrentlySelected.Select();
 
         onInfoSelected?.Invoke(CurrentlySelected);
     }

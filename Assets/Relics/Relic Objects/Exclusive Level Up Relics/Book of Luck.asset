@@ -17,18 +17,18 @@ MonoBehaviour:
   baseValue: 0
   spells: []
   relicEffects:
-  - rid: 7553432098202189898
+  - rid: 1478789356158451802
   references:
     version: 2
     RefIds:
-    - rid: 7553432098202189898
-      type: {class: IncreaseLuckRelicEffect, ns: Relics, asm: Assembly-CSharp}
+    - rid: 1478789356158451802
+      type: {class: IncreaseLuckRelicEffect, ns: Relics, asm: Gameplay}
       data:
         buffIncreasePerLevel:
           Multiplier: 0
           baseBuff:
             intValue: 0
-            floatValue: 0.2
+            floatValue: 0.3
             isInt: 0
           additionalBuff:
             intValue: 0

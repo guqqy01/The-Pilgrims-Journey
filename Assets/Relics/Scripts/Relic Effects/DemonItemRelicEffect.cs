@@ -17,6 +17,10 @@ namespace Relics
             return $"Not implemented";
         }
 
+        public DemonItemRelicEffect() : base(default)
+        {
+        }
+
         public DemonItemRelicEffect(Action updateUI = null) : base(updateUI)
         {
         }

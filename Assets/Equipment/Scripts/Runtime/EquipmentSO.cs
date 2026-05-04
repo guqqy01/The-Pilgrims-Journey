@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 namespace Equipment
 {
     [CreateAssetMenu()] 
-    public class EquipmentSO : ScriptableObject
+    public class EquipmentSO : ScriptableObject, IDescriptable
     {
         public Sprite sprite;
         public Sprite Sprite => sprite;
@@ -117,6 +117,20 @@ namespace Equipment
 
         public string MainDescription => description;
 
+        public List<ISubDescriptionData> GetSubDescriptionData
+        {
+            get
+            {
+                var list = new List<ISubDescriptionData>();
+
+                foreach(var kvp in unitEquipmentStats)
+                {
+                    list.Add(new BuffSubDescriptionData(kvp.Value, kvp.Key.ToString()));
+                }
+
+                return list;
+            }
+        }
 
         [Header("Shop Settings")]
         // X position is normalized to 0-1 so end of the map will be at t = 1

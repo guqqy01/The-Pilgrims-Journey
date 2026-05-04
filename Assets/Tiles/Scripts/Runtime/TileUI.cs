@@ -5,9 +5,12 @@ using Units;
 using Equipment;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.Serialization;
+using UnityEngine.Scripting.APIUpdating;
 
 namespace Tiles
 {
+    [MovedFrom(true, null, "Assembly-CSharp", "Tile")]
     public class TileUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
         public RectTransform RectTransform { private set; get; }

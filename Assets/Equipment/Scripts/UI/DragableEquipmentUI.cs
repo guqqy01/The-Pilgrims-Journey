@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Equipment.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class DragableEquipmentUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IDescriptableUI
+    public class DragableEquipmentUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IDescriptable
     {
         private Canvas canvas;
         private Canvas Canvas
@@ -46,7 +46,7 @@ namespace Equipment.UI
 
         public Sprite Sprite => EquipmentSO.Sprite;
 
-        public List<SubDescriptionUIAndParams> SubDescriptionPrefabsAndParams => EquipmentUISOManager.Instance.GetEquipmentUISO(EquipmentSO).SubDescriptionPrefabsAndParams;
+        public List<ISubDescriptionData> GetSubDescriptionData => EquipmentSO != null ? EquipmentSO.GetSubDescriptionData : new List<ISubDescriptionData>();
 
         private void Awake()
         {
@@ -116,7 +116,7 @@ namespace Equipment.UI
             }
         }
 
-        void IDescriptableUI.Select()
+        void Select()
         {
             if (highlight == null)
                 return;
@@ -124,7 +124,7 @@ namespace Equipment.UI
             highlight.SetActive(true, EquipmentSO);
         }
 
-        void IDescriptableUI.Deselect()
+        void Deselect()
         {
             if(highlight != null)
                 highlight.SetActive(false);

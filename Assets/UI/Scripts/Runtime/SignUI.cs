@@ -114,7 +114,11 @@ namespace LocalMap.UI
 
             rewardItemUIs.Clear();
 
-            Dictionary<Reward, int> rewards = RewardManager.Instance.LevelRewards[direction];
+            if(!RewardManager.Instance.LevelRewards.TryGetValue(direction, out SerializableDictionary<Reward, int> rewards))
+            {
+                Debug.LogWarning($"Tried to selected an invalid direction: {direction}");
+                return;
+            }
 
             northArrow.sprite = normalArrowSprite;
             southArrow.sprite = normalArrowSprite;

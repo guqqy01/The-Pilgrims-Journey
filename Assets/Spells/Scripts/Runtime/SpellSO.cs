@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Spells
 {
     [CreateAssetMenu()]
-    public class SpellSO : ScriptableObject
+    public class SpellSO : ScriptableObject, IDescriptable
     {
         [TextArea]
         public string description;
@@ -18,6 +18,14 @@ namespace Spells
         [SerializeReference]
         [AbstractSelector]
         public List<SpellEffect> spellEffects;
+
+        public string Title => name;
+
+        public string MainDescription => description;
+
+        public Sprite Sprite => sprite;
+
+        public List<ISubDescriptionData> GetSubDescriptionData => throw new System.NotImplementedException();
 
         public bool CanUseSpell(Vector2Int position)
         {

@@ -17,54 +17,54 @@ MonoBehaviour:
   highlightColor: {r: 0.110405564, g: 1, b: 0, a: 1}
   invalidUseColor: {r: 1, g: 0, b: 0, a: 1}
   spellEffects:
-  - rid: 4142103448863637715
+  - rid: 1478789356158451813
   references:
     version: 2
     RefIds:
-    - rid: 4142103448863637715
-      type: {class: HealEffect, ns: Spells, asm: Assembly-CSharp}
+    - rid: 1478789356158451813
+      type: {class: HealEffect, ns: Spells, asm: Gameplay}
       data:
         Vector2ListWrapper:
           v2IntList:
           - {x: 0, y: 0}
+          - {x: 0, y: 1}
           - {x: -1, y: 0}
+          - {x: 0, y: -1}
           - {x: -1, y: 1}
           - {x: -1, y: -1}
-          - {x: 0, y: -1}
-          - {x: 1, y: -1}
-          - {x: 1, y: 0}
-          - {x: 0, y: 1}
-          - {x: 1, y: 1}
+          - {x: -2, y: 0}
+          - {x: -2, y: 1}
+          - {x: -2, y: -1}
           - {x: -1, y: 2}
           - {x: 0, y: 2}
           - {x: 1, y: 2}
+          - {x: 1, y: 1}
+          - {x: 1, y: -1}
+          - {x: 1, y: 0}
           - {x: 2, y: 1}
           - {x: 2, y: 0}
           - {x: 2, y: -1}
-          - {x: 0, y: -2}
           - {x: 1, y: -2}
+          - {x: 0, y: -2}
           - {x: -1, y: -2}
-          - {x: -2, y: -1}
-          - {x: -2, y: 0}
-          - {x: -2, y: 1}
-          - {x: -3, y: 1}
           - {x: -3, y: -1}
           - {x: -3, y: 0}
-          - {x: 3, y: 1}
-          - {x: 3, y: 0}
-          - {x: 3, y: -1}
-          - {x: 1, y: -3}
-          - {x: 0, y: -3}
-          - {x: -1, y: -3}
+          - {x: -3, y: 1}
           - {x: -1, y: 3}
           - {x: 0, y: 3}
           - {x: 1, y: 3}
+          - {x: 3, y: 1}
+          - {x: 3, y: 0}
+          - {x: 3, y: -1}
+          - {x: -1, y: -3}
+          - {x: 0, y: -3}
+          - {x: 1, y: -3}
         layerMask:
           serializedVersion: 2
-          m_Bits: 64
+          m_Bits: 32832
         effectFX: {fileID: 0}
         fXGreyScaleFactor: 0
-        fXColor: {r: 0, g: 0, b: 0, a: 0}
+        fXColor: {r: 0.9308176, g: 0.22538656, b: 0.6553249, a: 1}
         effectSound:
           clip: {fileID: 0}
           loop: 0

@@ -20,6 +20,8 @@ namespace Relics
 
         public string MainDescription => GetDescriptionString();
 
+        public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
+
         private string GetDescriptionString()
         {
             string returnString = description;

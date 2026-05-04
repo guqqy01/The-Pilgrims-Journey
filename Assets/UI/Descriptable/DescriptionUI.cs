@@ -33,20 +33,22 @@ public class DescriptionUI : MonoBehaviour
     {
         Info.onInfoSelected -= UpdateUI;
     }
-    public void UpdateUI(IDescriptableUI descriptable)
+    public void UpdateUI(IDescriptable descriptable)
     {
         titleText.text = descriptable.Title;
         mainDescriptionText.text = descriptable.MainDescription;
-
         subDescriptionsUIs.DestroyAndClearList();
 
-        foreach (var kvp in descriptable.SubDescriptionPrefabsAndParams)
+        foreach (var subData in descriptable.GetSubDescriptionData)
         {
-            SubDescriptionUI prefab = kvp.UI;
-            object[] paramObjects = kvp.Params;
+            if (!SubDescriptionUIHelper.Instance.TryGetSubDescriptionUIFromType(subData.GetType(), out SubDescriptionUI prefab) || prefab == null)
+            {
+                Debug.LogWarning($"No SubDescriptionUI registered for {subData.GetType().Name}");
+                continue;
+            }
 
             SubDescriptionUI newSubDescription = Instantiate(prefab, subDescriptionHolder);
-            newSubDescription.UpdateUI(paramObjects);
+            newSubDescription.UpdateUI(subData);
 
             subDescriptionsUIs.Add(newSubDescription);
         }
