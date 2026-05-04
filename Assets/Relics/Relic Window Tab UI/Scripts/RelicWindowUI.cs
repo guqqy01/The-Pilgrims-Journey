@@ -51,11 +51,14 @@ namespace Relics.UI
 
         private void OnRelicSelected(Relic relicSelected)
         {
-            relicDescriptionUI.UpdateUI(relicSelected);
-
-            foreach(RelicItemUI itemUI in relicItemsUIs)
+            if (IDescriptableUIManager.Instance.TryGetDescriptableUIs(relicSelected, out IDescriptableUI relicSelectedUI))
             {
-                if(itemUI.Relic != relicSelected)
+                relicDescriptionUI.UpdateUI(relicSelectedUI);
+            }
+
+            foreach (RelicItemUI itemUI in relicItemsUIs)
+            {
+                if (itemUI.Relic != relicSelected)
                     itemUI.Unselect();
             }
         }

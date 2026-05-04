@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 namespace Equipment.UI
 {
     public class EquipmentUISOManager : Singleton<EquipmentUISOManager>

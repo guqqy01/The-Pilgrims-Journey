@@ -40,6 +40,21 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
         gameObject.SetActive(false);
     }
 
+    private void Start()
+    {
+        RewardManager.Instance.OnGiveEquipmentReward += Setup;
+        RewardManager.Instance.OnGiveTileReward += Setup;
+    }
+
+    private void OnDestroy()
+    {
+        if(RewardManager.Instance != null)
+        {
+            RewardManager.Instance.OnGiveEquipmentReward -= Setup;
+            RewardManager.Instance.OnGiveTileReward -= Setup;
+        }
+    }
+
     private void Clear()
     {
         tileImage.gameObject.SetActive(false);

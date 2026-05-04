@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using LevelingSystem;
-using Relics.UI;
 using UI.CardCarousel;
 
 namespace LevelingSystem.UI

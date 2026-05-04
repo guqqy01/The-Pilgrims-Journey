@@ -116,7 +116,7 @@ namespace Equipment.UI
             }
         }
 
-        void IDescriptable.Select()
+        void IDescriptableUI.Select()
         {
             if (highlight == null)
                 return;
@@ -124,7 +124,7 @@ namespace Equipment.UI
             highlight.SetActive(true, EquipmentSO);
         }
 
-        void IDescriptable.Deselect()
+        void IDescriptableUI.Deselect()
         {
             if(highlight != null)
                 highlight.SetActive(false);
