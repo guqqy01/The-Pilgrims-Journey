@@ -1,26 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class KnockbackEffectReciever : MonoBehaviour
+[RequireComponent(typeof(DamageRecieverEffectManager))]
+[DisallowMultipleComponent]
+public class KnockbackEffectReciever : DamageRecieverEffect
 {
-    private Health health;
-
-    private void Awake()
-    {
-        if (TryGetComponent(out health))
-        {
-            health.onHealthChange += Knockback;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (health != null)
-        {
-            health.onHealthChange -= Knockback;
-        }
-    }
-
     [SerializeField]
     private float knockBackSpeed = 1f;
 
@@ -41,7 +25,7 @@ public class KnockbackEffectReciever : MonoBehaviour
         }
     }
 
-    public void Knockback(StatChangeInfo healthChangeInfo)
+    public override void OnHitHealth(StatChangeInfo healthChangeInfo)
     {
         if (healthChangeInfo == null)
             return;

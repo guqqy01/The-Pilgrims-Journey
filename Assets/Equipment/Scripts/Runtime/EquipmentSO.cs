@@ -125,7 +125,7 @@ namespace Equipment
 
                 foreach(var kvp in unitEquipmentStats)
                 {
-                    list.Add(new BuffSubDescriptionData(kvp.Value, kvp.Key.ToString()));
+                    list.Add(new BuffSubDescriptionData(kvp.Value, kvp.Key.ToString().AddSpacesBeforeCapsRegex()));
                 }
 
                 return list;

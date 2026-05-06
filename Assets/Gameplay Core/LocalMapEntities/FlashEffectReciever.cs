@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FlashEffectReciever : MonoBehaviour
+[RequireComponent(typeof(DamageRecieverEffectManager))]
+[DisallowMultipleComponent]
+public class FlashEffectReciever : DamageRecieverEffect
 {
     [SerializeField]
     private Color flashColor = Color.white;
@@ -12,44 +14,13 @@ public class FlashEffectReciever : MonoBehaviour
     private Material unitMat;
     private Color originalColor;
 
-    private Health health;
-
-    private Shield shield;
-
     private void Awake()
     {
         unitMat = GetComponentInChildren<Renderer>().material;
-
-        if (TryGetComponent(out health))
-        {
-            health.onHealthChange += HitHealth;
-        }
-
-        if (TryGetComponent(out shield))
-        {
-            shield.onShieldChange += HitShield;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (shield != null)
-        {
-            shield.onShieldChange -= HitShield;
-        }
-        if (health != null)
-        {
-            health.onHealthChange -= HitHealth;
-        }
-    }
-
-    public void Init(Material unitMaterial)
-    {
-        unitMat = unitMaterial;
         originalColor = unitMat.GetColor("_Tint");
     }
 
-    public void HitShield(StatChangeInfo shieldChangeInfo)
+    public override void OnHitShield(StatChangeInfo shieldChangeInfo)
     {
         if (shieldChangeInfo == null)
             return;
@@ -63,7 +34,7 @@ public class FlashEffectReciever : MonoBehaviour
         StartCoroutine(FlashMaterial());
     }
 
-    private void HitHealth(StatChangeInfo healthChangeInfo)
+    public override void OnHitHealth(StatChangeInfo healthChangeInfo)
     {
         if (healthChangeInfo == null)
             return;

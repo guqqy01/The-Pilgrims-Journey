@@ -1,38 +1,12 @@
 ﻿using UnityEngine;
 using UI;
+using System.Collections.Generic;
 
-public class DamagePopupEffectReciever : MonoBehaviour
+[RequireComponent(typeof(DamageRecieverEffectManager))]
+[DisallowMultipleComponent]
+public class DamagePopupEffectReciever : DamageRecieverEffect
 {
-    private Health health;
-
-    private Shield shield;
-
-    private void Awake()
-    {
-        if (TryGetComponent(out health))
-        {
-            health.onHealthChange += HitHealth;
-        }
-
-        if (TryGetComponent(out shield))
-        {
-            shield.onShieldChange += HitShield;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (shield != null)
-        {
-            shield.onShieldChange -= HitShield;
-        }
-        if (health != null)
-        {
-            health.onHealthChange -= HitHealth;
-        }
-    }
-
-    public void HitShield(StatChangeInfo shieldChangeInfo)
+    public override void OnHitShield(StatChangeInfo shieldChangeInfo)
     {
         if (shieldChangeInfo == null)
             return;
@@ -51,7 +25,7 @@ public class DamagePopupEffectReciever : MonoBehaviour
         );
     }
 
-    private void HitHealth(StatChangeInfo healthChangeInfo)
+    public override void OnHitHealth(StatChangeInfo healthChangeInfo)
     {
         if (healthChangeInfo == null)
             return;
@@ -70,3 +44,4 @@ public class DamagePopupEffectReciever : MonoBehaviour
         );
     }
 }
+

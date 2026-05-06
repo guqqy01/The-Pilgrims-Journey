@@ -5050,6 +5050,10 @@ GameObject:
   - component: {fileID: 8545913590978442155}
   - component: {fileID: 5274537587822661881}
   - component: {fileID: 7189082303319751514}
+  - component: {fileID: 280836504863257073}
+  - component: {fileID: 2317205843924017170}
+  - component: {fileID: 6794570582665332835}
+  - component: {fileID: 7414113347777858164}
   m_Layer: 12
   m_Name: Shroom
   m_TagString: Untagged
@@ -5119,7 +5123,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 4
   m_Sprite: {fileID: 599680551, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5274,6 +5278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
+  healingPS: {fileID: 0}
 --- !u!114 &5274537587822661881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5299,3 +5304,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8af59a99d23f942b7e140558f9de5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthAndShieldManager
+--- !u!114 &280836504863257073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3053903325147364415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8562bec3953074b9376c5e3b0a0e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::DamageRecieverEffectManager
+--- !u!114 &2317205843924017170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3053903325147364415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3caae74c0c23d5a41bed40f09c588002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::DamagePopupEffectReciever
+--- !u!114 &6794570582665332835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3053903325147364415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a900909a4ce995842963548c04ff51a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::FlashEffectReciever
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+--- !u!114 &7414113347777858164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3053903325147364415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f335fce6e0275f54a9487f018bd800de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
+  knockBackSpeed: 1
+  knockBackDuration: 0.2

@@ -18,9 +18,12 @@ GameObject:
   - component: {fileID: 1681895657843006618}
   - component: {fileID: 6573827684176924765}
   - component: {fileID: 6079097096485693764}
-  - component: {fileID: 4863426557752852709}
   - component: {fileID: 4351914354822530268}
   - component: {fileID: 2382910495970216052}
+  - component: {fileID: 4998963393245762341}
+  - component: {fileID: 2929032501372374451}
+  - component: {fileID: 1367281492439084887}
+  - component: {fileID: 5692428388007636598}
   m_Layer: 12
   m_Name: Skull Beetle
   m_TagString: Untagged
@@ -193,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
+  healingPS: {fileID: 0}
 --- !u!114 &5977209195078926536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,22 +257,6 @@ MonoBehaviour:
     maxLimit: 400
     start: 150
     length: 100
---- !u!114 &4863426557752852709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 782920346526413401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
-  knockBackSpeed: 1
-  knockBackDuration: 0.2
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  flashDuration: 0.1
 --- !u!66 &4351914354822530268
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -516,6 +504,63 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   directStoppingDistance: 0
+  separationRadius: 0.8
+  separationStrength: 1.5
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &4998963393245762341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782920346526413401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8562bec3953074b9376c5e3b0a0e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::DamageRecieverEffectManager
+--- !u!114 &2929032501372374451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782920346526413401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3caae74c0c23d5a41bed40f09c588002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::DamagePopupEffectReciever
+--- !u!114 &1367281492439084887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782920346526413401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a900909a4ce995842963548c04ff51a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::FlashEffectReciever
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+--- !u!114 &5692428388007636598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782920346526413401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f335fce6e0275f54a9487f018bd800de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
+  knockBackSpeed: 1
+  knockBackDuration: 0.2
 --- !u!1 &8122473098739317797
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +640,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 480325165
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 5
   m_Sprite: {fileID: -2817039684044771042, guid: a0284bf9b78c0c4448bbd2da0848bbd8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -12,6 +12,13 @@ GameObject:
   - component: {fileID: 1852068231971348684}
   - component: {fileID: 2010504562107859208}
   - component: {fileID: 2704158800428039408}
+  - component: {fileID: 6785403005829151509}
+  - component: {fileID: 5546166476961836099}
+  - component: {fileID: 4801196090189682152}
+  - component: {fileID: 5546642787468307013}
+  - component: {fileID: 452623947529200597}
+  - component: {fileID: 2155699884936204839}
+  - component: {fileID: 2371816407256373025}
   m_Layer: 12
   m_Name: Wasp
   m_TagString: Untagged
@@ -103,6 +110,96 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.StationaryMonsterMovement
   visualTransform: {fileID: 1746546131186657141}
   mirrorWhenTargetToTheLeft: 1
+--- !u!114 &6785403005829151509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::Health
+  healingPS: {fileID: 0}
+--- !u!114 &5546166476961836099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f242de0bb17004b459badd0aa0a21116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::Shield
+  shieldBrokenPS: {fileID: 0}
+--- !u!114 &4801196090189682152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8af59a99d23f942b7e140558f9de5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::HealthAndShieldManager
+--- !u!114 &5546642787468307013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8562bec3953074b9376c5e3b0a0e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::DamageRecieverEffectManager
+--- !u!114 &452623947529200597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3caae74c0c23d5a41bed40f09c588002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::DamagePopupEffectReciever
+--- !u!114 &2155699884936204839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a900909a4ce995842963548c04ff51a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::FlashEffectReciever
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+--- !u!114 &2371816407256373025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f335fce6e0275f54a9487f018bd800de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
+  knockBackSpeed: 1
+  knockBackDuration: 0.2
 --- !u!1 &7735234267438490888
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +407,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: -1582189006, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

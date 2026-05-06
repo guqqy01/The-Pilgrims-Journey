@@ -20,6 +20,9 @@ GameObject:
   - component: {fileID: 6495602782445255804}
   - component: {fileID: 5576585235031850374}
   - component: {fileID: 1344650795149287947}
+  - component: {fileID: 8103006414000909997}
+  - component: {fileID: 4638114513612703921}
+  - component: {fileID: 6888474566566265770}
   m_Layer: 12
   m_Name: Sap Shooter
   m_TagString: Untagged
@@ -89,7 +92,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_Sprite: {fileID: 1709180350, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -161,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Units.Health
+  healingPS: {fileID: 0}
 --- !u!114 &2436504346431583623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,13 +174,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4957495057371097057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f8562bec3953074b9376c5e3b0a0e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
-  knockBackSpeed: 1
-  knockBackDuration: 0.2
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  flashDuration: 0.1
 --- !u!114 &4853730080817472106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +296,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.StationaryMonsterMovement
   visualTransform: {fileID: 4957495057371096988}
   mirrorWhenTargetToTheLeft: 0
+--- !u!114 &8103006414000909997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4957495057371097057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3caae74c0c23d5a41bed40f09c588002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::DamagePopupEffectReciever
+--- !u!114 &4638114513612703921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4957495057371097057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a900909a4ce995842963548c04ff51a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::FlashEffectReciever
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+--- !u!114 &6888474566566265770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4957495057371097057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f335fce6e0275f54a9487f018bd800de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
+  knockBackSpeed: 1
+  knockBackDuration: 0.2
 --- !u!1 &6795605464711786627
 GameObject:
   m_ObjectHideFlags: 0
