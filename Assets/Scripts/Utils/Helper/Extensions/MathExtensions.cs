@@ -1,3 +1,4 @@
+using Codice.CM.WorkspaceServer.Tree;
 using System;
 using UnityEngine;
 
@@ -24,5 +25,18 @@ public static class MathExtensions
     public static Vector3 QuadraticBezier(Vector3 v1, Vector3 v2, Vector3 v3, float t)
     {
         return Mathf.Pow(1f - t, 2f) * v1 + 2f * (1f - t) * v2 + Mathf.Pow(t, 2f) * v3;
+    }
+
+    public static float RoundTo(this float value, float roundingValue)
+    {
+        if(roundingValue == 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(roundingValue), "Rounding value cannot be zero");
+        }
+
+        roundingValue = Mathf.Abs(roundingValue);
+        float numberOfDivisions = value / roundingValue;
+        int numberOfDivisionsRounded = Mathf.RoundToInt(numberOfDivisions);
+        return numberOfDivisionsRounded * roundingValue;
     }
 }

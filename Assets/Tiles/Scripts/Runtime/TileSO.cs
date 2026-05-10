@@ -12,8 +12,6 @@ namespace Tiles
         private Vector2ListWrapper shape;
         public List<Vector2Int> Shape => shape;
 
-        public TileUI tilePrefab;
-
         public static float amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier = 1;
 
         [SerializeField]

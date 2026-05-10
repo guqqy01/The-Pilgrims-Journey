@@ -16,8 +16,8 @@ public class UnitSpawningManager
     public OnUnitSpawned onUnitSpawned;
 
     // --- Private fields ---
-    private readonly Dictionary<TileUI, float> tileSpawnRates = new Dictionary<TileUI, float>();
-    private readonly Dictionary<TileUI, float> tileNextSpawnTimes = new Dictionary<TileUI, float>();
+    private readonly Dictionary<Tile, float> tileSpawnRates = new Dictionary<Tile, float>();
+    private readonly Dictionary<Tile, float> tileNextSpawnTimes = new Dictionary<Tile, float>();
 
     private float totalSpawnRate;
     private float nextTotalSpawnTime;
@@ -68,7 +68,7 @@ public class UnitSpawningManager
 
         foreach (var kvp in tileNextSpawnTimes.ToList())
         {
-            TileUI tile = kvp.Key;
+            Tile tile = kvp.Key;
             float nextSpawn = kvp.Value;
 
             if (Time.time >= nextSpawn)
@@ -106,7 +106,7 @@ public class UnitSpawningManager
     //  Spawning
     // ---------------------------------------------------------
 
-    private void SpawnUnit(TileUI tile, Direction pathDirection)
+    private void SpawnUnit(Tile tile, Direction pathDirection)
     {
         if (!IsTileSpawnValid(tile))
             return;
@@ -122,11 +122,11 @@ public class UnitSpawningManager
         UpdateGlobalSpawnTime();
         onUnitSpawned?.Invoke(unit);
 
-        if (tile.TileModel.CurrentAmountOfUnitsInTile <= 0)
+        if (tile.CurrentAmountOfUnitsInTile <= 0)
             RemoveTileFromSpawnLists(tile);
     }
 
-    private bool IsTileSpawnValid(TileUI tile)
+    private bool IsTileSpawnValid(Tile tile)
     {
         if(tile == null)
             return false;
@@ -146,7 +146,7 @@ public class UnitSpawningManager
         return true;
     }
 
-    private Unit InstantiateUnit(TileUI tile, Direction pathDirection)
+    private Unit InstantiateUnit(Tile tile, Direction pathDirection)
     {
         var path = LocalMapGenerator.Instance.pathway.PathNodes[pathDirection];
         Unit unit = Instantiate(tile.UnitSO.unitPrefab, (Vector2)path[0], Quaternion.identity);
@@ -155,14 +155,14 @@ public class UnitSpawningManager
         return unit;
     }
 
-    private void RegisterUnitEvents(Unit unit, TileUI tile)
+    private void RegisterUnitEvents(Unit unit, Tile tile)
     {
         unit.Health.onDie += tile.OnUnitDie;
         unit.Health.onDie += OnUnitDie;
         unit.Movement.onPathCompleted += tile.OnUnitEscape;
     }
 
-    private bool TryUpdateNextSpawnTime(TileUI tile)
+    private bool TryUpdateNextSpawnTime(Tile tile)
     {
         if (!tileSpawnRates.TryGetValue(tile, out float rate) || rate <= 0f)
         {
@@ -198,17 +198,17 @@ public class UnitSpawningManager
         tileNextSpawnTimes.Clear();
     }
 
-    private void SetupNewSpawnRateValues(Dictionary<TileUI, int> spawningTilesAndSize)
+    private void SetupNewSpawnRateValues(Dictionary<Tile, int> spawningTilesAndSize)
     {
         nextTotalSpawnTime = 0;
 
         // retain old spawn times for still-active tiles
-        Dictionary<TileUI, float> preservedTimes = new Dictionary<TileUI, float>();
+        Dictionary<Tile, float> preservedTimes = new Dictionary<Tile, float>();
 
         foreach (var kvp in tileNextSpawnTimes)
         {
-            TileUI tile = kvp.Key;
-            if (tile.TileModel.CurrentAmountOfUnitsInTile > 0 &&
+            Tile tile = kvp.Key;
+            if (tile.CurrentAmountOfUnitsInTile > 0 &&
                 spawningTilesAndSize.ContainsKey(tile))
             {
                 preservedTimes[tile] = kvp.Value;
@@ -221,8 +221,8 @@ public class UnitSpawningManager
 
         foreach (var kvp in spawningTilesAndSize)
         {
-            TileUI tile = kvp.Key;
-            if (tile.TileModel.CurrentAmountOfUnitsInTile <= 0)
+            Tile tile = kvp.Key;
+            if (tile.CurrentAmountOfUnitsInTile <= 0)
                 continue;
 
             // restore or create new spawn time
@@ -230,13 +230,13 @@ public class UnitSpawningManager
                 ? preservedTimes[tile]
                 : Time.time;
 
-            tileSpawnRates[tile] = tile.SpawnRateValue * kvp.Value;
+            tileSpawnRates[tile] = tile.SpawnRate * kvp.Value;
         }
 
         SetupTotalSpawnRate();
     }
 
-    private void RemoveTileFromSpawnLists(TileUI tile)
+    private void RemoveTileFromSpawnLists(Tile tile)
     {
         tileSpawnRates.Remove(tile);
         tileNextSpawnTimes.Remove(tile);
@@ -249,7 +249,7 @@ public class UnitSpawningManager
 
         foreach (var kvp in tileSpawnRates)
         {
-            if (kvp.Key.TileModel.CurrentAmountOfUnitsInTile > 0)
+            if (kvp.Key.CurrentAmountOfUnitsInTile > 0)
                 totalSpawnRate += kvp.Value;
         }
     }

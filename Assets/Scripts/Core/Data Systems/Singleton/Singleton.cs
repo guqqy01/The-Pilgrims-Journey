@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public abstract class Singleton<T> : MonoBehaviour, ISingletonToBeInitiatedFromRoot where T : Singleton<T>
+public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where T : Singleton<T>
 {
     public static T Instance { protected set; get; }
 
-    public virtual void InitiateSingleton()
+    public virtual void InitiateFromRootAtAwake()
     {
         if (Instance != null && Instance != this)
         {

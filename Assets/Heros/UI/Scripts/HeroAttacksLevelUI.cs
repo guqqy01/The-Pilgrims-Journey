@@ -15,9 +15,9 @@ namespace Heros.Attacks.UI
 
         private Dictionary<BaseHeroAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<BaseHeroAttack, HeroAttackItemUI>();
 
-        public override void InitiateSingleton()
+        public override void InitiateFromRootAtAwake()
         {
-            base.InitiateSingleton();
+            base.InitiateFromRootAtAwake();
             WaitForHelper.WaitForObjectThenPerformAction(() => HeroAttacksManager.Instance, SubscribeToHeroAttacksManager);
         }
 

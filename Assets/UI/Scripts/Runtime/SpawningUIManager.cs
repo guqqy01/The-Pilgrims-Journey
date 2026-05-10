@@ -21,13 +21,13 @@ public class SpawningUIManager : MonoBehaviour
         TilePlayerManager.Instance.onPositionChangeNextSpawning += OnTilePlayerPositionChangeNextSpawning;
     }
     
-    private void OnTilePlayerPositionChangeCurrentSpawning(Dictionary<TileUI, int> currentSpawningTilesAndSize)
+    private void OnTilePlayerPositionChangeCurrentSpawning(Dictionary<Tile, int> currentSpawningTilesAndSize)
     {
         currentSpawningImages.DestroyAndClearList();
 
         foreach (var tileAndSize in currentSpawningTilesAndSize)
         {
-            TileUI tile = tileAndSize.Key;
+            Tile tile = tileAndSize.Key;
 
             Image image = Instantiate(spawnImagePrefab, currentSpawningHolder);
             image.sprite = tile.UnitSO.sprite;
@@ -36,13 +36,13 @@ public class SpawningUIManager : MonoBehaviour
         }
     }
 
-    private void OnTilePlayerPositionChangeNextSpawning(Dictionary<TileUI, int> nextSpawningTilesAndSize)
+    private void OnTilePlayerPositionChangeNextSpawning(Dictionary<Tile, int> nextSpawningTilesAndSize)
     {
         nextSpawningImages.DestroyAndClearList();
 
         foreach (var tileAndSize in nextSpawningTilesAndSize)
         {
-            TileUI tile = tileAndSize.Key;
+            Tile tile = tileAndSize.Key;
 
             Image image = Instantiate(spawnImagePrefab, nextSpawningHolder);
             image.sprite = tile.UnitSO.sprite;

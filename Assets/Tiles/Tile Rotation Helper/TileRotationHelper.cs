@@ -10,7 +10,7 @@ public class TileRotationHelper : MonoBehaviour
     {
         transform.position = tile.RectTransform.position;
 
-        bool tileRotated = Mathf.RoundToInt(tile.Rotation / 90f) % 2 == 1;
+        bool tileRotated = Mathf.RoundToInt(tile.UIRotation / 90f) % 2 == 1;
 
         float x = tileRotated ? tile.RectTransform.sizeDelta.y : tile.RectTransform.sizeDelta.x;
         float y = tileRotated ? tile.RectTransform.sizeDelta.x : tile.RectTransform.sizeDelta.y;

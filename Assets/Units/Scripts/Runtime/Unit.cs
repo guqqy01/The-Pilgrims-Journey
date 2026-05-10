@@ -40,7 +40,7 @@ namespace Units
             CoinDrop.Init(unitSO);
         }
 
-        public void Init(TileUI tile, List<Vector2Int> path, int currentPathIndex)
+        public void Init(Tile tile, List<Vector2Int> path, int currentPathIndex)
         {
             UnitSO = tile.UnitSO;
             Movement.Init(path, currentPathIndex, tile.UnitSO);

@@ -50,24 +50,24 @@ namespace Tiles
         }
 
 
-        private void DraggingTile(TileUI tile)
+        private void DraggingTile(TileUI tileUI)
         {
-            if (tile != null && tilesNotToShowHelper.Contains(tile.TileModel.TileSO))
+            if (tileUI != null && tilesNotToShowHelper.Contains(tileUI.Tile.TileSO))
             {
-                tile = null;
+                tileUI = null;
             }
 
-            if(rotationHelper == null && tile != null)
+            if(rotationHelper == null && tileUI != null)
             {
                 rotationHelper = Instantiate(rotationHelperPrefab, canvas.transform);
             }
 
-            draggingTile = tile;
+            draggingTile = tileUI;
 
             if (rotationHelper == null)
                 return;
 
-            if (tile == null)
+            if (tileUI == null)
             {
                 rotationHelper.gameObject.SetActive(false);
                 return;

@@ -32,7 +32,7 @@ namespace Units
             finishedPath = false;
         }
 
-        public void Init(List<Vector2Int> path, int currentPathIndex, TileUI tile)
+        public void Init(List<Vector2Int> path, int currentPathIndex, Tile tile)
         {
             BaseInit(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.MovementSpeed, UnitStatsEnum.MovementSpeed));
 

@@ -5,37 +5,33 @@ using Units;
 using Equipment;
 using UnityEngine.EventSystems;
 using System;
-using UnityEngine.Serialization;
-using UnityEngine.Scripting.APIUpdating;
 
 namespace Tiles
 {
-    [MovedFrom(true, null, "Assembly-CSharp", "Tile")]
     public class TileUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
         public RectTransform RectTransform { private set; get; }
 
-        public TileModel TileModel { private set; get; }
+        public Tile Tile { private set; get; }
 
         public UnitSO UnitSO
         {
             get
             {
-                return TileModel.UnitSO;
+                return Tile.UnitSO;
             }
             set
             {
-                TileModel.SetupNewUnitSO(value);
+                Tile.SetupNewUnitSO(value);
 
                 if (unitGraphics == null)
                     unitGraphics = unitUITransform.GetComponent<Image>();
 
-                unitGraphics.sprite = TileModel.UnitSO.sprite;
-                onUpdateUI?.Invoke();
+                unitGraphics.sprite = Tile.UnitSO.sprite;
             }
         }
 
-        public EquipmentSO[] Equipment => TileModel.Equipment;
+        public EquipmentSO[] Equipment => Tile.Equipment;
 
 
         [SerializeField]
@@ -47,20 +43,30 @@ namespace Tiles
 
         public bool locked;
 
-        public delegate void OnUpdateUI();
-        public OnUpdateUI onUpdateUI;
-        public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
+        
 
-        public TileGridUI tileGrid;
+        public TileGridUI tileGridUI;
 
-        public float Rotation
+        public float BaseRotation
+        {
+            get
+            {
+                return Tile.Rotation;
+            }
+            set
+            {
+                Tile.Rotation = value;
+            }
+        }
+
+        public float UIRotation
         {
             get
             {
                 if(RectTransform == null)
                     RectTransform = GetComponent<RectTransform>();
 
-                return RectTransform.rotation.eulerAngles.z;
+                return RectTransform.eulerAngles.z;
             }
             set
             {
@@ -68,11 +74,11 @@ namespace Tiles
             }
         }
 
-        public List<Vector2Int> Shape
+        public List<Vector2Int> RotatedShape
         {
             get
             {
-                return TileModel.TileSO.Shape.Rotate(Rotation);
+                return Tile.Shape.Rotate(UIRotation);
             }
         }
 
@@ -118,29 +124,14 @@ namespace Tiles
         private void OnDestroy()
         {
             TileUIEventBus.OnTileSelected -= Highlight;
-            onUpdateUI = null;
+            
         }
 
         #region Leveling and health
 
-        public void OnUnitDie(Health _)
-        {
-            TileModel.OnUnitDie();
-
-            if (TileModel.CurrentAmountOfUnitsInTile <= 0 && TileModel.AmountOfUnitsSpawned <= 0)
-            {
-                DestroyTile();
-            }
-        }
-
-        public void OnUnitEscape()
-        {
-            TileModel.OnUnitEscape();
-        }
-
         public void OnUnitSpawn()
         {
-            TileModel.OnUnitSpawn();
+            Tile.OnUnitSpawn();
         }
 
         public void DestroyTile()
@@ -155,13 +146,13 @@ namespace Tiles
         [SerializeField]
         private CanvasGroup canvasGroup;
         public bool Dragging;
-        public TileGridUI draggedTileGrid;
+        public TileGridUI draggedTileGridUI;
 
         public Vector2Int PlacedPosition;
         public float PlacedRotation;
 
         private Vector2Int currentTilePosition;
-        private TileGridUI currentTileGrid;
+        private TileGridUI currentTileGridUI;
 
         public void Rotate(int angle)
         {
@@ -191,27 +182,27 @@ namespace Tiles
             if (!Dragging)
                 return;
 
-            if (draggedTileGrid != null && !draggedTileGrid.IsWorldPositionInGrid(eventData.position))
+            if (draggedTileGridUI != null && !draggedTileGridUI.IsWorldPositionInGrid(eventData.position))
             {
-                draggedTileGrid = null;
+                draggedTileGridUI = null;
             }
 
-            if (draggedTileGrid == null)
+            if (draggedTileGridUI == null)
             {
                 foreach (GameObject obj in eventData.hovered)
                 {
                     if (eventData.pointerDrag == obj)
                         continue;
 
-                    if (obj.TryGetComponent(out draggedTileGrid))
+                    if (obj.TryGetComponent(out draggedTileGridUI))
                     {
-                        if (draggedTileGrid.GridTransform.gameObject.activeInHierarchy && draggedTileGrid.IsWorldPositionInGrid(eventData.position))
+                        if (draggedTileGridUI.GridTransform.gameObject.activeInHierarchy && draggedTileGridUI.IsWorldPositionInGrid(eventData.position))
                         {
                             break;
                         }
                         else
                         {
-                            draggedTileGrid = null;
+                            draggedTileGridUI = null;
                         }
                     }
                 }
@@ -246,7 +237,7 @@ namespace Tiles
         {
             int xMin = int.MaxValue, xMax = int.MinValue, yMin = int.MaxValue, yMax = int.MinValue;
 
-            foreach (Vector2Int v2int in Shape)
+            foreach (Vector2Int v2int in RotatedShape)
             {
                 if (v2int.x > xMax)
                     xMax = v2int.x;
@@ -266,16 +257,16 @@ namespace Tiles
 
         private void HandlePosition()
         {
-            if (draggedTileGrid != null)
+            if (draggedTileGridUI != null)
             {
-                Vector2Int gridPosition = draggedTileGrid.GetGridPositon(Input.mousePosition);
-                RectTransform.position = draggedTileGrid.Position(this, gridPosition);
-                Color = (draggedTileGrid.CanPlaceTile(this, gridPosition)) ? Color.white : Color.red;
+                Vector2Int gridPosition = draggedTileGridUI.GetGridPositon(Input.mousePosition);
+                RectTransform.position = draggedTileGridUI.TileRectPositionAtVector2IntPosition(this, gridPosition);
+                Color = (draggedTileGridUI.CanPlaceTile(this, gridPosition)) ? Color.white : Color.red;
 
-                if (currentTileGrid != draggedTileGrid)
+                if (currentTileGridUI != draggedTileGridUI)
                 {
                     AudioManager.Instance.PlayMoveTile();
-                    currentTileGrid = draggedTileGrid;
+                    currentTileGridUI = draggedTileGridUI;
                     currentTilePosition = gridPosition;
                 }
                 else if(currentTilePosition  != gridPosition)
@@ -288,7 +279,7 @@ namespace Tiles
             {
                 RectTransform.position = (Vector2)Input.mousePosition + (GetOffset() * 43.75f) * TileUIManager.Canvas.scaleFactor;
                 Color = Color.white;
-                currentTileGrid = null;
+                currentTileGridUI = null;
             }
         }
 
@@ -313,18 +304,24 @@ namespace Tiles
             Dragging = false;
             canvasGroup.blocksRaycasts = true;
 
-            if(draggedTileGrid != null && draggedTileGrid.GridTransform.gameObject.activeInHierarchy && draggedTileGrid.CanPlaceTileFromWorldPosition(this, eventData.position))
-            { 
-                tileGrid.RemoveTile(this);
-                draggedTileGrid.TryPlaceTileFromWorldPosition(this, eventData.position);
-                tileGrid = draggedTileGrid;
+            if(draggedTileGridUI != null && draggedTileGridUI.GridTransform.gameObject.activeInHierarchy && draggedTileGridUI.CanPlaceTileFromWorldPosition(this, eventData.position))
+            {
+                if (tileGridUI != draggedTileGridUI)
+                {
+                    tileGridUI.RemoveTile(this);
+                }
+
+                draggedTileGridUI.AdoptTileUI(this);
+
+                draggedTileGridUI.TryPlaceTileFromWorldPosition(this, eventData.position);
+                tileGridUI = draggedTileGridUI;
                 AudioManager.Instance.PlayPlaceTile();
             }
             else
             {
-                Rotation = PlacedRotation;
-                RectTransform.position = tileGrid.Position(this, PlacedPosition);
-                transform.SetParent(tileGrid.transform);
+                UIRotation = PlacedRotation;
+                RectTransform.position = tileGridUI.TileRectPositionAtVector2IntPosition(this, PlacedPosition);
+                transform.SetParent(tileGridUI.transform);
                 Color = Color.white;
                 AudioManager.Instance.PlayCancelMoveTile();
             }
@@ -335,12 +332,12 @@ namespace Tiles
 
         #region Stats
 
-        public float SpawnRateValue => TileModel.SpawnRate;
-        public float MovementValue => TileModel.Movement;
-        public int HealthValue => TileModel.Health;
-        public int ShieldValue => TileModel.Shield;
-        public float ShieldRegenerationValue => TileModel.ShieldRegen;
-        public float ShieldCooldownValue => TileModel.ShieldCooldown;
+        public float SpawnRateValue => Tile.SpawnRate;
+        public float MovementValue => Tile.Movement;
+        public int HealthValue => Tile.Health;
+        public int ShieldValue => Tile.Shield;
+        public float ShieldRegenerationValue => Tile.ShieldRegen;
+        public float ShieldCooldownValue => Tile.ShieldCooldown;
 
         #endregion
 
@@ -352,49 +349,36 @@ namespace Tiles
             highlight.SetActive(highlighted);
         }
 
-        public string Title => $"{TileModel.UnitSO.name} {TileModel.TileSO.name}";
+        public string Title => $"{Tile.UnitSO.name} {Tile.TileSO.name}";
 
-        public string Description => TileModel.UnitSO.Description;
+        public string Description => Tile.UnitSO.Description;
 
-        public string GoldAmount => (Shape.Count * 100).ToString();
+        public string GoldAmount => (RotatedShape.Count * 100).ToString();
 
         #region Init
 
-        public void BaseInit(TileSO tileSO, UnitSO unit)
+        public void BaseInit(Tile tile)
         {
-            TileModel = new TileModel(tileSO, unit);
-            TileModel.OnModelChanged += () =>
-            {
-                onUpdateUI?.Invoke();
-            };
+            Tile = tile;
+            Tile.OnRotated += RotateTo;
 
-            TileModel.OnLevelHealthChanged += () =>
-            {
-                onUpdateLevelUnitsAndHealthUI?.Invoke();
-            };
-
-            UnitSO = unit;
-            tileGraphics.sprite = tileSO.TileSprite;
-
-
-
+            tileGraphics.sprite = Tile.TileSO.TileSprite;
             tileGraphics.SetNativeSize();
-        }
 
-        public void TileSaveInit(TileSave tileSave)
-        {
-            BaseInit(tileSave.tile, tileSave.unit);
+            unitGraphics = unitUITransform.GetComponent<Image>();
+            unitGraphics.sprite = Tile.UnitSO.sprite;
 
-            TileModel.SetupFromSave(tileSave);
-
-            RotateTo(tileSave.rotation);
+            if (RectTransform == null)
+                RectTransform = GetComponent<RectTransform>();
         }
 
         #endregion
 
         public int CompareTo(object obj)
         {
-            return Shape.Count.CompareTo(obj);
+            if(obj is TileUI other)
+                return RotatedShape.Count.CompareTo(other.RotatedShape.Count);
+            return 0;
         }
     }
  }

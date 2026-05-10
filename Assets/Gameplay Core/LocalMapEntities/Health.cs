@@ -26,14 +26,6 @@ public class Health : MonoBehaviour
     public ParticleSystem HealingPS => healingPS;
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Debug.Log(MaxHealth);
-        }
-    }
-
     private void OnMaxHealthChanged()
     {
         int currentMaxHealth = MaxHealth;

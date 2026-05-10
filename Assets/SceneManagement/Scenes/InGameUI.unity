@@ -4644,7 +4644,8 @@ MonoBehaviour:
   startTilePosition: {x: 0, y: 0}
   startTileRotation: 0
   startingUnit: {fileID: 11400000, guid: 5462e31195e56de46a7a21e97f3a7dc2, type: 2}
-  playerTileGrid: {fileID: 1164369848}
+  playerTileGrid: {fileID: 1164369851}
+  tileGridUI: {fileID: 1164369848}
 --- !u!1 &371735627
 GameObject:
   m_ObjectHideFlags: 0
@@ -9392,6 +9393,7 @@ GameObject:
   - component: {fileID: 709114905}
   - component: {fileID: 709114904}
   - component: {fileID: 709114902}
+  - component: {fileID: 709114906}
   m_Layer: 5
   m_Name: InventoryGridBG
   m_TagString: Untagged
@@ -9432,7 +9434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridTransform: {fileID: 923787122}
-  gridSize: {x: 3, y: 3}
+  tileGrid: {fileID: 709114906}
 --- !u!114 &709114904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9471,6 +9473,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 709114900}
   m_CullTransparentMesh: 1
+--- !u!114 &709114906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709114900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45c86719842af341a26ad51eb5f4ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::Tiles.TileGrid
+  gridSize: {x: 3, y: 3}
 --- !u!1 &710613628
 GameObject:
   m_ObjectHideFlags: 0
@@ -18015,6 +18030,7 @@ GameObject:
   - component: {fileID: 1164369850}
   - component: {fileID: 1164369849}
   - component: {fileID: 1164369848}
+  - component: {fileID: 1164369851}
   m_Layer: 14
   m_Name: Tile Player Grid
   m_TagString: Untagged
@@ -18054,7 +18070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridTransform: {fileID: 1164369847}
-  gridSize: {x: 8, y: 3}
+  tileGrid: {fileID: 1164369851}
 --- !u!114 &1164369849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18093,6 +18109,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164369846}
   m_CullTransparentMesh: 1
+--- !u!114 &1164369851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164369846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45c86719842af341a26ad51eb5f4ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::Tiles.TileGrid
+  gridSize: {x: 8, y: 3}
 --- !u!1 &1167792033
 GameObject:
   m_ObjectHideFlags: 0

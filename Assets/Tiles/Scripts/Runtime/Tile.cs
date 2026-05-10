@@ -7,7 +7,8 @@ using LevelingSystem;
 
 namespace Tiles
 {
-    public class TileModel
+    [Serializable]
+    public class Tile
     {
         public TileSO TileSO { get; }
         public UnitSO UnitSO { get; private set; }
@@ -24,10 +25,50 @@ namespace Tiles
         public int AmountOfUnitsEscapedNeededToLevel { get; private set; }
         public int CurrentAmountOfUnitsEscaped { get; private set; }
 
+        public bool locked;
+
         public event Action OnModelChanged;
         public event Action OnLevelHealthChanged;
 
-        public TileModel(TileSO tileSO, UnitSO unitSO)
+        public Action<Tile> ActionDestroyTile;
+        public Action<float> OnRotated;
+
+        public delegate void OnUpdateUI();
+        public OnUpdateUI onUpdateUI;
+        public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
+
+        public List<Vector2Int> Shape => TileSO.Shape;
+        public List<Vector2Int> RotatedShape => TileSO.Shape.Rotate(Rotation);
+
+        private float rotation;
+
+        public Vector2Int PlacedPosition;
+        public TileGrid TileGrid;
+
+        public float Rotation
+        {
+            set
+            {
+                rotation = value.RoundTo(90f);
+                OnRotated?.Invoke(rotation);
+            }
+            get
+            {
+                return rotation;
+            }
+        }
+
+        public void OnDestroy()
+        {
+            OnModelChanged = null;
+            OnLevelHealthChanged = null;
+            OnRotated = null;
+            onUpdateUI = null;
+            onUpdateLevelUnitsAndHealthUI = null;
+            ActionDestroyTile = null;
+        }
+
+        public Tile(TileSO tileSO, UnitSO unitSO)
         {
             TileSO = tileSO;
             UnitSO = unitSO;
@@ -40,6 +81,8 @@ namespace Tiles
             UnitSO = unitSO;
 
             RecalculateLevelValues();
+
+            onUpdateUI?.Invoke();
         }
 
         #region Leveling
@@ -75,9 +118,14 @@ namespace Tiles
             OnLevelHealthChanged?.Invoke();
         }
 
-        public void OnUnitDie()
+        public void OnUnitDie(Health _)
         {
             AmountOfUnitsSpawned = Mathf.Max(0, AmountOfUnitsSpawned - 1);
+
+            if (CurrentAmountOfUnitsInTile <= 0 && AmountOfUnitsSpawned <= 0)
+            {
+                DestroyTile();
+            }
         }
 
         public void OnUnitEscape()
@@ -115,6 +163,11 @@ namespace Tiles
             Equipment = tileSave.equipment;
         }
 
+        private void DestroyTile()
+        {
+            ActionDestroyTile?.Invoke(this);
+        }
+
         #endregion
 
         #region Stats
@@ -129,11 +182,11 @@ namespace Tiles
             var baseValue = UnitSO.GetStat(stat);
 
             List<Buff> buffs = new()
-        {
-            GetTileBuff(stat),
-            UpgradeManager.Instance.GetBuff(stat),
-            UnitBuffManager.Instance.GetBuff(stat)
-        };
+            {
+                GetTileBuff(stat),
+                UpgradeManager.Instance.GetBuff(stat),
+                UnitBuffManager.Instance.GetBuff(stat)
+            };
 
             foreach (var equipment in Equipment)
             {

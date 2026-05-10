@@ -31,9 +31,9 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
     [SerializeField]
     private RectTransform contentTransform;
 
-    public override void InitiateSingleton()
+    public override void InitiateFromRootAtAwake()
     {
-        base.InitiateSingleton();
+        base.InitiateFromRootAtAwake();
         gameObject.SetActive(false);
     }
 

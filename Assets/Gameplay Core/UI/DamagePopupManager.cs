@@ -12,9 +12,9 @@ namespace UI
 
         private ObjectPool<DamagePopup> pool;
 
-        public override void InitiateSingleton()
+        public override void InitiateFromRootAtAwake()
         {
-            base.InitiateSingleton();
+            base.InitiateFromRootAtAwake();
 
             pool = new ObjectPool<DamagePopup>(
                 createFunc: () =>

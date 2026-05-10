@@ -24,9 +24,9 @@ namespace Relics
         public delegate void UpdateUI();
         public UpdateUI updateUI;
 
-        public override void InitiateSingleton()
+        public override void InitiateFromRootAtAwake()
         {
-            base.InitiateSingleton();
+            base.InitiateFromRootAtAwake();
 
             if (TilePlayerManager.Instance != null)
                 TilePlayerManager.Instance.onPlay += OnPlayRelicEffects;

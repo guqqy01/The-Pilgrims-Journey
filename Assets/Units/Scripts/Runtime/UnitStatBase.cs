@@ -7,7 +7,7 @@ namespace Units
 {
     public static class UnitStatBase
     {
-        internal static BuffableStat CreateBuffableStat(TileUI tile, IntOrFloatObject value, UnitStatsEnum stat)
+        internal static BuffableStat CreateBuffableStat(Tile tile, IntOrFloatObject value, UnitStatsEnum stat)
         {
             BuffableStat buffableStat = new BuffableStat(value);
 
@@ -17,7 +17,7 @@ namespace Units
 
             if (tile != null)
             {
-                buffableStat.AddBuff("Tile", tile.TileModel.GetTileBuff(stat));
+                buffableStat.AddBuff("Tile", tile.GetTileBuff(stat));
             }
 
             EquipmentSO[] equipmentSOs = tile.Equipment;

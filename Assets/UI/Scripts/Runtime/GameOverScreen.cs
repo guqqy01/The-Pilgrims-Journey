@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGameEnd
 {
-    public override void InitiateSingleton()
+    public override void InitiateFromRootAtAwake()
     {
-        base.InitiateSingleton();
+        base.InitiateFromRootAtAwake();
 
         gameObject.SetActive(false);
     }

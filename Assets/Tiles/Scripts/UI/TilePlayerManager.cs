@@ -11,7 +11,7 @@ namespace Tiles
     {
         public float CurrentPlayingPosition { private set; get; }
 
-        public delegate void OnCurrentPlayingPositionChange(Dictionary<TileUI, int> spawningTilesAndSize);
+        public delegate void OnCurrentPlayingPositionChange(Dictionary<Tile, int> spawningTilesAndSize);
         public OnCurrentPlayingPositionChange onPositionChangeNextSpawning;
         public OnCurrentPlayingPositionChange onPositionChangeCurrentSpawning;
 
@@ -34,8 +34,8 @@ namespace Tiles
         [SerializeField]
         private float playerUIPointYOffset;
 
-        public Dictionary<TileUI, int> SpawningTilesAndSize { private set; get; } = new Dictionary<TileUI, int>();
-        public Dictionary<TileUI, int> NextSpawningTilesAndSize { private set; get; } = new Dictionary<TileUI, int>();
+        public Dictionary<Tile, int> SpawningTilesAndSize { private set; get; } = new Dictionary<Tile, int>();
+        public Dictionary<Tile, int> NextSpawningTilesAndSize { private set; get; } = new Dictionary<Tile, int>();
 
         [Header("Starting Tile")]
         [SerializeField]
@@ -48,7 +48,9 @@ namespace Tiles
         private UnitSO startingUnit;
 
         [SerializeField]
-        private TileGridUI playerTileGrid;
+        private TileGrid playerTileGrid;
+        [SerializeField]
+        private TileGridUI tileGridUI;
 
         private void Awake()
         {
@@ -75,10 +77,10 @@ namespace Tiles
 
         public void OnEnable()
         {
-            playerUIPoint.position = playerTileGrid.GridTransform.position + new Vector3(-playerTileGrid.GridTransform.sizeDelta.x, playerTileGrid.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
+            playerUIPoint.position = tileGridUI.GridTransform.position + new Vector3(-tileGridUI.GridTransform.sizeDelta.x, tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
         }
 
-        private void OnTileAdded(TileUI tile)
+        private void OnTileAdded(Tile tile)
         {
             if (tile == null || tile.UnitSO == null || tile.UnitSO.unitsSpecialSpell == null)
                 return;
@@ -86,7 +88,7 @@ namespace Tiles
             SpellManager.Instance.AddSpell(tile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
         }
 
-        private void OnTileRemoved(TileUI tile)
+        private void OnTileRemoved(Tile tile)
         {
             if (tile == null || tile.UnitSO == null || tile.UnitSO.unitsSpecialSpell == null)
                 return;
@@ -103,7 +105,7 @@ namespace Tiles
 
             CurrentPlayingPosition += Time.deltaTime / oneTileTime;
 
-            playerUIPoint.position = playerTileGrid.GridTransform.position + new Vector3(-playerTileGrid.GridTransform.sizeDelta.x + 2f * CurrentPlayingPosition * (playerTileGrid.GridTransform.sizeDelta.x / playerTileGrid.GridSize.x), playerTileGrid.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
+            playerUIPoint.position = tileGridUI.GridTransform.position + new Vector3(-tileGridUI.GridTransform.sizeDelta.x + 2f * CurrentPlayingPosition * (tileGridUI.GridTransform.sizeDelta.x / playerTileGrid.GridSize.x), tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
 
             if (posBefore != Mathf.FloorToInt(CurrentPlayingPosition))
             {
@@ -121,16 +123,11 @@ namespace Tiles
                 return;
             }
 
-            TileUI tile = Instantiate(startingTile.tilePrefab, playerTileGrid.GridTransform);
-            tile.BaseInit(startingTile, startingUnit);
-            tile.RotateTo(startTileRotation);
+            Tile tile = new Tile(startingTile, startingUnit);
 
-
-
-            if(!playerTileGrid.TryPlaceTile(tile, startTilePosition))
+            if(!playerTileGrid.TryPlaceTileAnywhere(tile))
             {
-                playerTileGrid.PlaceTiles(new List<TileAndUnit>() { new TileAndUnit(startingTile, startingUnit)});
-                Destroy(tile.gameObject);
+                Debug.LogWarning("Could not place tile.");
             }
         }
 
@@ -144,7 +141,7 @@ namespace Tiles
 
             PositionChanged();
 
-            foreach (TileUI tile in playerTileGrid.ListOfTiles)
+            foreach (Tile tile in playerTileGrid.ListOfTiles)
             {
                 tile.locked = true;
             }
@@ -154,7 +151,7 @@ namespace Tiles
 
         public void StopPlaying()
         {
-            foreach (TileUI tile in playerTileGrid.ListOfTiles)
+            foreach (Tile tile in playerTileGrid.ListOfTiles)
             {
                 tile.locked = false;
             }
@@ -162,15 +159,13 @@ namespace Tiles
             IsPlaying = false;
             CurrentPlayingPosition = 0;
 
-            playerUIPoint.position = playerTileGrid.GridTransform.position + new Vector3(-playerTileGrid.GridTransform.sizeDelta.x, playerTileGrid.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
+            playerUIPoint.position = tileGridUI.GridTransform.position + new Vector3(-tileGridUI.GridTransform.sizeDelta.x, tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
         }
 
         public void SetupNext()
         {
 
         }
-
-
 
         public void PositionChanged()
         {
@@ -185,7 +180,7 @@ namespace Tiles
             if (!IsPlaying || SpawningTilesAndSize.Count > 0)
                 return;
 
-            List<TileUI> remainingTiles = new List<TileUI>();
+            List<Tile> remainingTiles = new List<Tile>();
 
             for (int i = newPosition + 1; i < playerTileGrid.GridSize.x + 1; i++)
             {
@@ -198,9 +193,9 @@ namespace Tiles
             }
         }
 
-        public Dictionary<TileUI, int> GetTilesInPositionAndSize(int position)
+        public Dictionary<Tile, int> GetTilesInPositionAndSize(int position)
         {
-            Dictionary<TileUI, int> returnTiles = new Dictionary<TileUI, int>();
+            Dictionary<Tile, int> returnTiles = new Dictionary<Tile, int>();
 
             if (position >= playerTileGrid.Tiles.GetLength(0))
             {

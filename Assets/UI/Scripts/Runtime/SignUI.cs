@@ -46,9 +46,9 @@ namespace LocalMap.UI
         [SerializeField]
         private Sprite hightlightedArrowSprite;
 
-        public override void InitiateSingleton()
+        public override void InitiateFromRootAtAwake()
         {
-            base.InitiateSingleton();
+            base.InitiateFromRootAtAwake();
 
             WaitForHelper.WaitForObjectThenPerformAction(() => PathPicker.Instance, SubscribeToOnClickSign);
         }

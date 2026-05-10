@@ -33,9 +33,9 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
 
     [SerializeField]
     private TileGridUI equipmentGrid;
-    public override void InitiateSingleton()
+    public override void InitiateFromRootAtAwake()
     {
-        base.InitiateSingleton();
+        base.InitiateFromRootAtAwake();
 
         gameObject.SetActive(false);
     }
@@ -114,7 +114,7 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
         descriptionText.UpdateUI(descriptableObject);
     }
 
-    public void Select()
+   /* public void Select()
     {
         gameObject.SetActive(false);
         //RewardGainedUI.Instance.Setup(currentSelected);
@@ -137,5 +137,5 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
                 }
             }
         }
-    }
+    }*/
 }

@@ -21,11 +21,11 @@ public class SceneRoot : MonoBehaviour
     {
         loader = SceneLoader.Instance;
 
-        ISingletonToBeInitiatedFromRoot[] singletonsFromChildren = GetComponentsInChildren<ISingletonToBeInitiatedFromRoot>(true);
+        IToBeInitiatedFromRoot[] toBeInitiatedFromChildren = GetComponentsInChildren<IToBeInitiatedFromRoot>(true);
 
-        foreach (var singleton in singletonsFromChildren)
+        foreach (var singleton in toBeInitiatedFromChildren)
         {
-            singleton.InitiateSingleton();
+            singleton.InitiateFromRootAtAwake();
         }
 
 

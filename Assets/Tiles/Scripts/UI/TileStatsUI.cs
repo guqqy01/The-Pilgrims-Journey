@@ -59,8 +59,8 @@ namespace Tiles
 
             UpdateStats();
             UpdateLevelUnitsAndHealth();
-            tile.onUpdateUI = UpdateStats;
-            tile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
+            tile.Tile.onUpdateUI = UpdateStats;
+            tile.Tile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
 
             Containers[0].onEquipmentChanged += OnContainer0Change;
             Containers[1].onEquipmentChanged += OnContainer1Change;
@@ -107,7 +107,7 @@ namespace Tiles
 
             for (int i = 0; i < Containers.Length; i++)
             {
-                Containers[i].Active = tile.TileModel.Level > i;
+                Containers[i].Active = tile.Tile.Level > i;
             }
 
             spawnRateText.text = tile.SpawnRateValue.ToString();
@@ -124,17 +124,17 @@ namespace Tiles
             if (tile == null)
                 return;
 
-            totalNumberOfUnits.text = $"Total units: {tile.TileModel.CurrentAmountOfUnitsInTile}/{tile.TileModel.MaxAmountOfUnitsInTile}";
+            totalNumberOfUnits.text = $"Total units: {tile.Tile.CurrentAmountOfUnitsInTile}/{tile.Tile.MaxAmountOfUnitsInTile}";
 
-            if (tile.TileModel.IsMaxLevel)
+            if (tile.Tile.IsMaxLevel)
             {
                 levelText.text = "Level: Max";
                 numberOfUnitsToNextLevel.text = "Units to upgrade: Max Level";
             }
             else
             {
-                levelText.text = $"Level: {tile.TileModel.Level}";
-                numberOfUnitsToNextLevel.text = $"Units to upgrade: {tile.TileModel.CurrentAmountOfUnitsInTile}/{tile.TileModel.AmountOfUnitsEscapedNeededToLevel}";
+                levelText.text = $"Level: {tile.Tile.Level}";
+                numberOfUnitsToNextLevel.text = $"Units to upgrade: {tile.Tile.CurrentAmountOfUnitsInTile}/{tile.Tile.AmountOfUnitsEscapedNeededToLevel}";
             }
         }
 
