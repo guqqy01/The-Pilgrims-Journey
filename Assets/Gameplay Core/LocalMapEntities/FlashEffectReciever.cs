@@ -17,7 +17,11 @@ public class FlashEffectReciever : DamageRecieverEffect
     private void Awake()
     {
         unitMat = GetComponentInChildren<Renderer>().material;
-        originalColor = unitMat.GetColor("_Tint");
+
+        if (unitMat.HasColor("_Tint"))
+        {
+            originalColor = unitMat.GetColor("_Tint");
+        }
     }
 
     public override void OnHitShield(StatChangeInfo shieldChangeInfo)

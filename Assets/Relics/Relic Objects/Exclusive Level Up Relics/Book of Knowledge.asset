@@ -25,10 +25,10 @@ MonoBehaviour:
       type: {class: IncreaseExperienceRelicEffect, ns: Relics, asm: Gameplay}
       data:
         buffIncreasePerLevel:
-          Multiplier: 0
+          Multiplier: 5
           baseBuff:
             intValue: 0
-            floatValue: 5
+            floatValue: 0
             isInt: 0
           additionalBuff:
             intValue: 0

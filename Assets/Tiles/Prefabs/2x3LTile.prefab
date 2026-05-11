@@ -85,7 +85,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4643455955972573367}
   - component: {fileID: 904810453193181809}
-  - component: {fileID: 2544885829124356986}
+  - component: {fileID: 4552122811918981903}
+  - component: {fileID: 7020685867522844691}
   m_Layer: 5
   m_Name: TileGraphics
   m_TagString: Untagged
@@ -120,7 +121,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2468280985942593159}
   m_CullTransparentMesh: 1
---- !u!114 &2544885829124356986
+--- !u!114 &4552122811918981903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,9 +130,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2468280985942593159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -140,16 +141,32 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1400311037, guid: 666597050bf7c104aaa6e52c1ef61424, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &7020685867522844691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2468280985942593159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c625cd79bcf614c961676abed71833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.TileShapeTextureBuilder
+  cellPixelSize: 13
+  uiCellSize: 42
+  fill: {fileID: -8627636305630980686, guid: afd4e46db304ba141ab71bbb9581eebd, type: 3}
+  edgeHorizontal: {fileID: 1717310193, guid: afd4e46db304ba141ab71bbb9581eebd, type: 3}
+  edgeVertical: {fileID: 507132172, guid: afd4e46db304ba141ab71bbb9581eebd, type: 3}
+  outerCorners: {fileID: -695354156, guid: afd4e46db304ba141ab71bbb9581eebd, type: 3}
+  innerCorners: {fileID: -1216935225, guid: afd4e46db304ba141ab71bbb9581eebd, type: 3}
 --- !u!1 &4581054701423722107
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,8 +364,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5862625845935852252}
   - component: {fileID: 5862625845935852250}
-  - component: {fileID: 9134332972081857677}
   - component: {fileID: 5470110230690505024}
+  - component: {fileID: 1411540132529268794}
   m_Layer: 5
   m_Name: 2x3LTile
   m_TagString: Untagged
@@ -386,28 +403,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862625845935852253}
   m_CullTransparentMesh: 1
---- !u!114 &9134332972081857677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5862625845935852253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39611bd4bca4b814c9bb6f9ed83c0aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitUITransform: {fileID: 5862625845639175595}
-  tileGraphics: {fileID: 2544885829124356986}
-  locked: 0
-  tileGrid: {fileID: 0}
-  canvasGroup: {fileID: 5470110230690505024}
-  Dragging: 0
-  draggedTileGrid: {fileID: 0}
-  PlacedPosition: {x: 0, y: 0}
-  PlacedRotation: 0
-  highlight: {fileID: 4581054701423722107}
 --- !u!225 &5470110230690505024
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -420,3 +415,25 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1411540132529268794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862625845935852253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb36438a767dbb446b797f4a438180e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.UnitTileUI
+  tileShapeTextureBuilder: {fileID: 7020685867522844691}
+  tileGraphics: {fileID: 4552122811918981903}
+  locked: 0
+  tileGridUI: {fileID: 0}
+  canvasGroup: {fileID: 5470110230690505024}
+  draggedTileGridUI: {fileID: 0}
+  PlacedPosition: {x: 0, y: 0}
+  PlacedRotation: 0
+  highlight: {fileID: 4581054701423722107}
+  unitUITransform: {fileID: 5862625845639175595}

@@ -1,12 +1,13 @@
 using UnityEngine;
 using Tiles;
+using Units;
 
 public class TileRotationHelper : MonoBehaviour
 {
     [SerializeField]
     private RectTransform tileSizeHolder;
 
-    public void Follow(TileUI tile)
+    public void Follow<T>(TileUI<T> tile)
     {
         transform.position = tile.RectTransform.position;
 

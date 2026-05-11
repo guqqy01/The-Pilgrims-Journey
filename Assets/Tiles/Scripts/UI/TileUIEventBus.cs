@@ -2,15 +2,15 @@
 
 namespace Tiles
 {
-    public static class TileUIEventBus
+    public static class TileUIEventBus<T>
     {
-        public static event Action<TileUI> OnTileSelected;
-        public static event Action<TileUI> OnDragTile;
+        public static event Action<TileUI<T>> OnTileSelected;
+        public static event Action<TileUI<T>> OnDragTile;
 
-        public static void RaiseTileSelected(TileUI tile)
+        public static void RaiseTileSelected(TileUI<T> tile)
             => OnTileSelected?.Invoke(tile);
 
-        public static void RaiseDragTile(TileUI tile)
+        public static void RaiseDragTile(TileUI<T> tile)
             => OnDragTile?.Invoke(tile);
 
         public static void Clear()

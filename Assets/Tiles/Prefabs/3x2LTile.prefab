@@ -85,8 +85,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3485859280055410467}
   - component: {fileID: 3485859280055410469}
-  - component: {fileID: 2305793393074606450}
   - component: {fileID: -4102975613377121442}
+  - component: {fileID: 6191116782010488570}
   m_Layer: 5
   m_Name: 3x2LTile
   m_TagString: Untagged
@@ -124,28 +124,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3485859280055410466}
   m_CullTransparentMesh: 1
---- !u!114 &2305793393074606450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3485859280055410466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39611bd4bca4b814c9bb6f9ed83c0aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitUITransform: {fileID: 3485859279824259156}
-  tileGraphics: {fileID: 2625854221540133657}
-  locked: 0
-  tileGrid: {fileID: 0}
-  canvasGroup: {fileID: -4102975613377121442}
-  Dragging: 0
-  draggedTileGrid: {fileID: 0}
-  PlacedPosition: {x: 0, y: 0}
-  PlacedRotation: 0
-  highlight: {fileID: 8588889783666370321}
 --- !u!225 &-4102975613377121442
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -158,6 +136,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &6191116782010488570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3485859280055410466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb36438a767dbb446b797f4a438180e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.UnitTileUI
+  tileGraphics: {fileID: 2625854221540133657}
+  locked: 0
+  tileGridUI: {fileID: 0}
+  canvasGroup: {fileID: -4102975613377121442}
+  draggedTileGridUI: {fileID: 0}
+  PlacedPosition: {x: 0, y: 0}
+  PlacedRotation: 0
+  highlight: {fileID: 8588889783666370321}
+  unitUITransform: {fileID: 3485859279824259156}
 --- !u!1 &4465320463218981804
 GameObject:
   m_ObjectHideFlags: 0

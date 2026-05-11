@@ -2,11 +2,11 @@
 
 namespace Tiles.UI
 {
-    public class TileUISO : ScriptableObject
+    public class UnitTileUISO : ScriptableObject
     {
         public TileSO TileSO;
 
-        public TileUI tilePrefab;
+        public UnitTileUI tilePrefab;
     }
 }
 

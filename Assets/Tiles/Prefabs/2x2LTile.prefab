@@ -85,8 +85,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3345714362162796881}
   - component: {fileID: 3345714362162796887}
-  - component: {fileID: 140118636847617792}
   - component: {fileID: -4381866868077467996}
+  - component: {fileID: 7043266569405284083}
   m_Layer: 5
   m_Name: 2x2LTile
   m_TagString: Untagged
@@ -124,28 +124,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3345714362162796880}
   m_CullTransparentMesh: 1
---- !u!114 &140118636847617792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3345714362162796880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39611bd4bca4b814c9bb6f9ed83c0aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitUITransform: {fileID: 3345714362470747686}
-  tileGraphics: {fileID: 275944758568153609}
-  locked: 0
-  tileGrid: {fileID: 0}
-  canvasGroup: {fileID: -4381866868077467996}
-  Dragging: 0
-  draggedTileGrid: {fileID: 0}
-  PlacedPosition: {x: 0, y: 0}
-  PlacedRotation: 0
-  highlight: {fileID: 7855059502715395740}
 --- !u!225 &-4381866868077467996
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -158,6 +136,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7043266569405284083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3345714362162796880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb36438a767dbb446b797f4a438180e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.UnitTileUI
+  tileGraphics: {fileID: 275944758568153609}
+  locked: 0
+  tileGridUI: {fileID: 0}
+  canvasGroup: {fileID: -4381866868077467996}
+  draggedTileGridUI: {fileID: 0}
+  PlacedPosition: {x: 0, y: 0}
+  PlacedRotation: 0
+  highlight: {fileID: 7855059502715395740}
+  unitUITransform: {fileID: 3345714362470747686}
 --- !u!1 &3345714362470747681
 GameObject:
   m_ObjectHideFlags: 0

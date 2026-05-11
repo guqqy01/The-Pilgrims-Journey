@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Tiles;
+using Units;
 using UnityEngine;
 using UnityEngine.UI;
 public class SpawningUIManager : MonoBehaviour
@@ -21,31 +22,31 @@ public class SpawningUIManager : MonoBehaviour
         TilePlayerManager.Instance.onPositionChangeNextSpawning += OnTilePlayerPositionChangeNextSpawning;
     }
     
-    private void OnTilePlayerPositionChangeCurrentSpawning(Dictionary<Tile, int> currentSpawningTilesAndSize)
+    private void OnTilePlayerPositionChangeCurrentSpawning(Dictionary<UnitTile, int> currentSpawningTilesAndSize)
     {
         currentSpawningImages.DestroyAndClearList();
 
         foreach (var tileAndSize in currentSpawningTilesAndSize)
         {
-            Tile tile = tileAndSize.Key;
+            UnitTile tile = tileAndSize.Key;
 
             Image image = Instantiate(spawnImagePrefab, currentSpawningHolder);
-            image.sprite = tile.UnitSO.sprite;
+            image.sprite = tile.Item.sprite;
 
             currentSpawningImages.Add(image);
         }
     }
 
-    private void OnTilePlayerPositionChangeNextSpawning(Dictionary<Tile, int> nextSpawningTilesAndSize)
+    private void OnTilePlayerPositionChangeNextSpawning(Dictionary<UnitTile, int> nextSpawningTilesAndSize)
     {
         nextSpawningImages.DestroyAndClearList();
 
         foreach (var tileAndSize in nextSpawningTilesAndSize)
         {
-            Tile tile = tileAndSize.Key;
+            UnitTile tile = tileAndSize.Key;
 
             Image image = Instantiate(spawnImagePrefab, nextSpawningHolder);
-            image.sprite = tile.UnitSO.sprite;
+            image.sprite = tile.Item.sprite;
 
             nextSpawningImages.Add(image);
         }

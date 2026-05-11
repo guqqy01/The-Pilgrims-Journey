@@ -29,10 +29,10 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
     private TileSO tileSO;
 
     [SerializeField]
-    private TileGridUI playerGrid;
+    private TileGridUI<UnitSO> playerGrid;
 
     [SerializeField]
-    private TileGridUI equipmentGrid;
+    private TileGridUI<UnitSO> equipmentGrid;
     public override void InitiateFromRootAtAwake()
     {
         base.InitiateFromRootAtAwake();

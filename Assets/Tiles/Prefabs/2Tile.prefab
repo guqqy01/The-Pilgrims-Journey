@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5261517286327620911}
   - component: {fileID: 5261517286327620905}
-  - component: {fileID: 5261517286327620906}
   - component: {fileID: 5535870312737849475}
+  - component: {fileID: 2319761663970159035}
   m_Layer: 5
   m_Name: 2Tile
   m_TagString: Untagged
@@ -49,28 +49,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5261517286327620910}
   m_CullTransparentMesh: 1
---- !u!114 &5261517286327620906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5261517286327620910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39611bd4bca4b814c9bb6f9ed83c0aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitUITransform: {fileID: 5261517286395064351}
-  tileGraphics: {fileID: 6742508513827024760}
-  locked: 0
-  tileGrid: {fileID: 0}
-  canvasGroup: {fileID: 5535870312737849475}
-  Dragging: 0
-  draggedTileGrid: {fileID: 0}
-  PlacedPosition: {x: 0, y: 0}
-  PlacedRotation: 0
-  highlight: {fileID: 5598435617254262462}
 --- !u!225 &5535870312737849475
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -83,6 +61,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2319761663970159035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5261517286327620910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb36438a767dbb446b797f4a438180e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.UnitTileUI
+  tileGraphics: {fileID: 6742508513827024760}
+  locked: 0
+  tileGridUI: {fileID: 0}
+  canvasGroup: {fileID: 5535870312737849475}
+  draggedTileGridUI: {fileID: 0}
+  PlacedPosition: {x: 0, y: 0}
+  PlacedRotation: 0
+  highlight: {fileID: 5598435617254262462}
+  unitUITransform: {fileID: 5261517286395064351}
 --- !u!1 &5261517286395064350
 GameObject:
   m_ObjectHideFlags: 0

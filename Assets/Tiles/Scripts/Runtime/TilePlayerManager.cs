@@ -4,14 +4,16 @@ using Units;
 using UnityEngine;
 using Spells;
 using LocalMap;
+using System;
 
 namespace Tiles
 {
+
     public class TilePlayerManager : Singleton<TilePlayerManager>, IOnCompleteLocalMapLevel, IOnSetupNewGame, IOnClear
     {
         public float CurrentPlayingPosition { private set; get; }
 
-        public delegate void OnCurrentPlayingPositionChange(Dictionary<Tile, int> spawningTilesAndSize);
+        public delegate void OnCurrentPlayingPositionChange(Dictionary<UnitTile, int> spawningTilesAndSize);
         public OnCurrentPlayingPositionChange onPositionChangeNextSpawning;
         public OnCurrentPlayingPositionChange onPositionChangeCurrentSpawning;
 
@@ -26,16 +28,8 @@ namespace Tiles
 
         public bool IsPlaying { private set; get; } = false;
 
-        [SerializeField]
-        private Canvas canvas;
-
-        [SerializeField]
-        private RectTransform playerUIPoint;
-        [SerializeField]
-        private float playerUIPointYOffset;
-
-        public Dictionary<Tile, int> SpawningTilesAndSize { private set; get; } = new Dictionary<Tile, int>();
-        public Dictionary<Tile, int> NextSpawningTilesAndSize { private set; get; } = new Dictionary<Tile, int>();
+        public Dictionary<UnitTile, int> SpawningTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
+        public Dictionary<UnitTile, int> NextSpawningTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
 
         [Header("Starting Tile")]
         [SerializeField]
@@ -48,9 +42,9 @@ namespace Tiles
         private UnitSO startingUnit;
 
         [SerializeField]
-        private TileGrid playerTileGrid;
-        [SerializeField]
-        private TileGridUI tileGridUI;
+        private UnitTileGrid playerTileGrid;
+
+        public Action OnStopPlaying;
 
         private void Awake()
         {
@@ -59,6 +53,11 @@ namespace Tiles
                 playerTileGrid.onTileAdded += OnTileAdded;
                 playerTileGrid.onTileRemoved += OnTileRemoved;
             }
+        }
+
+        private void OnDestroy()
+        {
+            OnStopPlaying = null;
         }
 
         protected override void CleanUp()
@@ -75,25 +74,22 @@ namespace Tiles
             }
         }
 
-        public void OnEnable()
-        {
-            playerUIPoint.position = tileGridUI.GridTransform.position + new Vector3(-tileGridUI.GridTransform.sizeDelta.x, tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
-        }
+        
 
-        private void OnTileAdded(Tile tile)
+        private void OnTileAdded(Tile<UnitSO> tile)
         {
-            if (tile == null || tile.UnitSO == null || tile.UnitSO.unitsSpecialSpell == null)
+            if (tile == null || tile.Item == null || tile.Item.unitsSpecialSpell == null)
                 return;
 
-            SpellManager.Instance.AddSpell(tile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
+            SpellManager.Instance.AddSpell(tile.Item.unitsSpecialSpell, tile.Shape.Count);
         }
 
-        private void OnTileRemoved(Tile tile)
+        private void OnTileRemoved(Tile<UnitSO> tile)
         {
-            if (tile == null || tile.UnitSO == null || tile.UnitSO.unitsSpecialSpell == null)
+            if (tile == null || tile.Item == null || tile.Item.unitsSpecialSpell == null)
                 return;
 
-            SpellManager.Instance.RemoveSpell(tile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
+            SpellManager.Instance.RemoveSpell(tile.Item.unitsSpecialSpell, tile.Shape.Count);
         }
 
         private void Update()
@@ -105,8 +101,7 @@ namespace Tiles
 
             CurrentPlayingPosition += Time.deltaTime / oneTileTime;
 
-            playerUIPoint.position = tileGridUI.GridTransform.position + new Vector3(-tileGridUI.GridTransform.sizeDelta.x + 2f * CurrentPlayingPosition * (tileGridUI.GridTransform.sizeDelta.x / playerTileGrid.GridSize.x), tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
-
+            
             if (posBefore != Mathf.FloorToInt(CurrentPlayingPosition))
             {
                 PositionChanged();
@@ -123,7 +118,7 @@ namespace Tiles
                 return;
             }
 
-            Tile tile = new Tile(startingTile, startingUnit);
+            UnitTile tile = new UnitTile(startingTile, startingUnit);
 
             if(!playerTileGrid.TryPlaceTileAnywhere(tile))
             {
@@ -141,7 +136,7 @@ namespace Tiles
 
             PositionChanged();
 
-            foreach (Tile tile in playerTileGrid.ListOfTiles)
+            foreach (UnitTile tile in playerTileGrid.ListOfTiles)
             {
                 tile.locked = true;
             }
@@ -151,7 +146,7 @@ namespace Tiles
 
         public void StopPlaying()
         {
-            foreach (Tile tile in playerTileGrid.ListOfTiles)
+            foreach (UnitTile tile in playerTileGrid.ListOfTiles)
             {
                 tile.locked = false;
             }
@@ -159,7 +154,7 @@ namespace Tiles
             IsPlaying = false;
             CurrentPlayingPosition = 0;
 
-            playerUIPoint.position = tileGridUI.GridTransform.position + new Vector3(-tileGridUI.GridTransform.sizeDelta.x, tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
+            OnStopPlaying?.Invoke();
         }
 
         public void SetupNext()
@@ -180,7 +175,7 @@ namespace Tiles
             if (!IsPlaying || SpawningTilesAndSize.Count > 0)
                 return;
 
-            List<Tile> remainingTiles = new List<Tile>();
+            List<UnitTile> remainingTiles = new List<UnitTile>();
 
             for (int i = newPosition + 1; i < playerTileGrid.GridSize.x + 1; i++)
             {
@@ -193,9 +188,9 @@ namespace Tiles
             }
         }
 
-        public Dictionary<Tile, int> GetTilesInPositionAndSize(int position)
+        public Dictionary<UnitTile, int> GetTilesInPositionAndSize(int position)
         {
-            Dictionary<Tile, int> returnTiles = new Dictionary<Tile, int>();
+            Dictionary<UnitTile, int> returnTiles = new Dictionary<UnitTile, int>();
 
             if (position >= playerTileGrid.Tiles.GetLength(0))
             {
@@ -206,13 +201,14 @@ namespace Tiles
             {
                 if (playerTileGrid.Tiles[position, i] != null)
                 {
-                    if (returnTiles.ContainsKey(playerTileGrid.Tiles[position, i]))
+                    if (playerTileGrid.Tiles[position, i] is UnitTile unitTile)
+                    if (returnTiles.ContainsKey(unitTile))
                     {
-                        returnTiles[playerTileGrid.Tiles[position, i]] += 1;
+                        returnTiles[unitTile] += 1;
                     }
                     else
                     {
-                        returnTiles.Add(playerTileGrid.Tiles[position, i], 1);
+                        returnTiles.Add(unitTile, 1);
                     }
                 }
             }

@@ -1,19 +1,14 @@
 using Equipment;
 using GameManagerCalls;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-
 using TMPro;
+using Units;
 
 namespace Tiles
 {
     public class TileStatsUI : EquipmentInventory, IOnSetupNewGame, IOnClear
     {
-        private TileUI tile;
+        private UnitTileUI unitTileUI;
 
         [SerializeField]
         private TextMeshProUGUI spawnRateText;
@@ -38,8 +33,11 @@ namespace Tiles
         [SerializeField]
         private TextMeshProUGUI numberOfUnitsToNextLevel;
 
-        public void TileSelected(TileUI tile)
+        public void TileSelected(TileUI<UnitSO> tile)
         {
+            if (tile is not UnitTileUI unitTileUI)
+                return;
+
             Containers[0].onEquipmentChanged -= OnContainer0Change;
             Containers[1].onEquipmentChanged -= OnContainer1Change;
             Containers[2].onEquipmentChanged -= OnContainer2Change;
@@ -53,94 +51,94 @@ namespace Tiles
 
             Clear();
 
-            this.tile = tile;
+            this.unitTileUI = unitTileUI;
 
-            tileInfoText.text = tile.Title;
+            tileInfoText.text = unitTileUI.Title;
 
             UpdateStats();
             UpdateLevelUnitsAndHealth();
-            tile.Tile.onUpdateUI = UpdateStats;
-            tile.Tile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
+            unitTileUI.Tile.onUpdateUI = UpdateStats;
+            unitTileUI.UnitTile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
 
             Containers[0].onEquipmentChanged += OnContainer0Change;
             Containers[1].onEquipmentChanged += OnContainer1Change;
             Containers[2].onEquipmentChanged += OnContainer2Change;
             Containers[3].onEquipmentChanged += OnContainer3Change;
 
-            Setup(tile.Equipment);
+            Setup(unitTileUI.Equipment);
         }
 
         private void OnContainer0Change(EquipmentSO from, EquipmentSO to)
         {
-            if (tile == null) return;
+            if (unitTileUI == null) return;
 
-            tile.Equipment[0] = to;
+            unitTileUI.Equipment[0] = to;
             UpdateStats();
         }
 
         private void OnContainer1Change(EquipmentSO from, EquipmentSO to)
         {
-            if (tile == null) return;
+            if (unitTileUI == null) return;
 
-            tile.Equipment[1] = to;
+            unitTileUI.Equipment[1] = to;
             UpdateStats();
         }
         private void OnContainer2Change(EquipmentSO from, EquipmentSO to)
         {
-            if (tile == null) return;
+            if (unitTileUI == null) return;
 
-            tile.Equipment[2] = to;
+            unitTileUI.Equipment[2] = to;
             UpdateStats();
         }
         private void OnContainer3Change(EquipmentSO from, EquipmentSO to)
         {
-            if (tile == null) return;
+            if (unitTileUI == null) return;
 
-            tile.Equipment[3] = to;
+            unitTileUI.Equipment[3] = to;
             UpdateStats();
         }
 
         public void UpdateStats()
         {
-            if (tile == null)
+            if (unitTileUI == null)
                 DeselectTile();
 
             for (int i = 0; i < Containers.Length; i++)
             {
-                Containers[i].Active = tile.Tile.Level > i;
+                Containers[i].Active = unitTileUI.UnitTile.Level > i;
             }
 
-            spawnRateText.text = tile.SpawnRateValue.ToString();
-            movement.text = tile.MovementValue.ToString();
-            health.text = tile.HealthValue.ToString();
-            shield.text = tile.ShieldValue.ToString();
-            shieldRegen.text = tile.ShieldRegenerationValue.ToString();
-            shieldCooldown.text = tile.ShieldCooldownValue.ToString();
+            spawnRateText.text = unitTileUI.SpawnRateValue.ToString();
+            movement.text = unitTileUI.MovementValue.ToString();
+            health.text = unitTileUI.HealthValue.ToString();
+            shield.text = unitTileUI.ShieldValue.ToString();
+            shieldRegen.text = unitTileUI.ShieldRegenerationValue.ToString();
+            shieldCooldown.text = unitTileUI.ShieldCooldownValue.ToString();
 
         }
 
         public void UpdateLevelUnitsAndHealth()
         {
-            if (tile == null)
+            if (unitTileUI == null)
                 return;
 
-            totalNumberOfUnits.text = $"Total units: {tile.Tile.CurrentAmountOfUnitsInTile}/{tile.Tile.MaxAmountOfUnitsInTile}";
+            totalNumberOfUnits.text = $"Total units: {unitTileUI.UnitTile.CurrentAmountOfUnitsInTile}/{unitTileUI.UnitTile.MaxAmountOfUnitsInTile}";
 
-            if (tile.Tile.IsMaxLevel)
+            if (unitTileUI.UnitTile.IsMaxLevel)
             {
                 levelText.text = "Level: Max";
                 numberOfUnitsToNextLevel.text = "Units to upgrade: Max Level";
             }
             else
             {
-                levelText.text = $"Level: {tile.Tile.Level}";
-                numberOfUnitsToNextLevel.text = $"Units to upgrade: {tile.Tile.CurrentAmountOfUnitsInTile}/{tile.Tile.AmountOfUnitsEscapedNeededToLevel}";
+                levelText.text = $"Level: {unitTileUI.UnitTile.Level}";
+                numberOfUnitsToNextLevel.text = $"Units to upgrade: {unitTileUI.UnitTile.CurrentAmountOfUnitsInTile}/{unitTileUI.UnitTile.AmountOfUnitsEscapedNeededToLevel}";
             }
         }
 
         public void DeselectTile()
         {
-            tile = null;
+            unitTileUI = null;
 
             Containers[0].onEquipmentChanged -= OnContainer0Change;
             Containers[1].onEquipmentChanged -= OnContainer1Change;
@@ -177,14 +175,14 @@ namespace Tiles
         {
             DeselectTile();
 
-            TileUIEventBus.OnTileSelected += TileSelected;
+            TileUIEventBus<UnitSO>.OnTileSelected += TileSelected;
             
         }
 
         protected override void OnDestroy()
         {
             DeselectTile();
-            TileUIEventBus.OnTileSelected -= TileSelected;
+            TileUIEventBus<UnitSO>.OnTileSelected -= TileSelected;
             base.OnDestroy();
         }
     }
