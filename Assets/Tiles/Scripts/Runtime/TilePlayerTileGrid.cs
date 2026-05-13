@@ -6,7 +6,7 @@ using Units;
 
 namespace Tiles
 {
-    public class UnitTileGrid : TileGrid<UnitSO>, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad
+    public class TilePlayerTileGrid : TileGrid<ITilePlayerTileItem>, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad
     {
         public List<TileSave> GetTileSaves()
         {
@@ -20,7 +20,7 @@ namespace Tiles
                     tile.Rotation,
                     tile.PlacedPosition,
                     tile.TileSO,
-                    tile.Item,
+                    tile.UnitSO,
                     tile.Equipment);
                 tileSaves.Add(tileSave);
             }

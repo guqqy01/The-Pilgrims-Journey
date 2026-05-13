@@ -3,12 +3,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Linq;
 
 namespace Tiles
 {
 
     public class TileUI<TItem> : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
+        protected const float _singleTileSize = 43.75f;
+
         [SerializeField]
         protected TileShapeTextureBuilder tileShapeTextureBuilder;
         public RectTransform RectTransform { private set; get; }
@@ -205,7 +208,6 @@ namespace Tiles
             }
         }
 
-        
         public Vector2 GetOffset()
         {
             int xMin = int.MaxValue, xMax = int.MinValue, yMin = int.MaxValue, yMax = int.MinValue;
@@ -226,6 +228,36 @@ namespace Tiles
             }
             Vector2 v2 = new Vector2((xMax + xMin) / 2f, (yMax + yMin) / 2f);
             return v2;
+        }
+
+        protected Vector2 GetCenteredAnchoredPositionPositionInShape(List<Vector2Int> shape)
+        {
+            Vector2Int boundsMin = shape.Aggregate(
+                new Vector2Int(int.MaxValue, int.MaxValue),
+                (acc, p) => new Vector2Int(Mathf.Min(acc.x, p.x), Mathf.Min(acc.y, p.y)));
+
+            Vector2Int boundsMax = shape.Aggregate(
+                new Vector2Int(int.MinValue, int.MinValue),
+                (acc, p) => new Vector2Int(Mathf.Max(acc.x, p.x), Mathf.Max(acc.y, p.y)));
+
+            // Bounding box center in tile space (matches what the texture builder centers on)
+            Vector2 boundsCenter = (Vector2)(boundsMin + boundsMax) * 0.5f;
+
+            // Find the tile closest to the bounding box center
+            Vector2Int closestPoint = shape[0];
+            float closestSqrDistance = float.MaxValue;
+            foreach (Vector2Int point in shape)
+            {
+                float sqrDistance = Vector2.SqrMagnitude(boundsCenter - point);
+                if (sqrDistance < closestSqrDistance)
+                {
+                    closestSqrDistance = sqrDistance;
+                    closestPoint = point;
+                }
+            }
+
+            // Offset from bounding box center to the chosen tile, in pixel space
+            return (closestPoint - boundsCenter) * 43.75f;
         }
 
         private void HandlePosition()
@@ -250,7 +282,7 @@ namespace Tiles
             }
             else
             {
-                RectTransform.position = (Vector2)Input.mousePosition + (GetOffset() * 43.75f) * TileUIManager.Canvas.scaleFactor;
+                RectTransform.position = (Vector2)Input.mousePosition + GetCenteredAnchoredPositionPositionInShape(RotatedShape) * TileUIManager.Canvas.scaleFactor;
                 Color = Color.white;
                 currentTileGridUI = null;
             }

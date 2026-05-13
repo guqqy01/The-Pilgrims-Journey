@@ -28,7 +28,7 @@ namespace Tiles
     ///   edgeVertical   right half  (x >= half) ? exposed Right edge
     /// Only the relevant half is stamped per exposed edge.
     /// </summary>
-    [RequireComponent(typeof(RawImage))]
+    [RequireComponent(typeof(Image))]
     public class TileShapeTextureBuilder : MonoBehaviour
     {
         // ?? Inspector ????????????????????????????????????????????????????????????
@@ -55,9 +55,13 @@ namespace Tiles
         [Tooltip("All four inner corner caps. Each quadrant of the sprite is one corner.")]
         [SerializeField] private Sprite innerCorners;
 
+        [Tooltip("Alpha threshold below which pixels don't register raycasts (0–1).")]
+        [SerializeField][Range(0f, 1f)] private float alphaHitThreshold = 0.1f;
+
         // ?? Runtime ??????????????????????????????????????????????????????????????
         private Texture2D _texture;
-        private RawImage _rawImage;
+        private Sprite _generatedSprite;
+        private Image _image;
 
         private Color[] _fillPixels;
         private Color[] _edgeHPixels;
@@ -173,10 +177,19 @@ namespace Tiles
             _texture.SetPixels(_working);
             _texture.Apply();
 
-            if (_rawImage == null)
-                _rawImage = GetComponent<RawImage>();
+            if (_image == null)
+                _image = GetComponent<Image>();
 
-            _rawImage.texture = _texture;
+
+            _generatedSprite = Sprite.Create(
+                _texture,
+                new Rect(0, 0, _texture.width, _texture.height),
+                new Vector2(0.5f, 0.5f), // pivot centre
+                cellPixelSize             // pixels per unit
+            );
+
+            _image.sprite = _generatedSprite;
+            _image.alphaHitTestMinimumThreshold = alphaHitThreshold;
 
             float scale = uiCellSize / cellPixelSize;
             GetComponent<RectTransform>().sizeDelta = new Vector2(texW, texH) * scale;
@@ -385,9 +398,16 @@ namespace Tiles
 
         private void DestroyTexture()
         {
+            if (_generatedSprite != null)
+            {
+                Destroy(_generatedSprite);
+                _generatedSprite = null;
+            }
             if (_texture != null)
+            {
                 Destroy(_texture);
-            _texture = null;
+                _texture = null;
+            }
         }
 
         private void OnDestroy() => DestroyTexture();

@@ -7,7 +7,7 @@ using LevelingSystem;
 
 namespace Tiles
 {
-    public class UnitTile : Tile<UnitSO>
+    public class UnitTile : TilePlayerTile
     {
         public EquipmentSO[] Equipment { get; private set; } = new EquipmentSO[4];
 
@@ -25,6 +25,14 @@ namespace Tiles
         public event Action OnLevelHealthChanged;
 
         public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
+
+        public UnitSO UnitSO
+        {
+            get
+            {
+                return Item as UnitSO;
+            }
+        }
 
         public UnitTile(TileSO tileSO, UnitSO unitSO) : base(tileSO, unitSO)
         {
@@ -60,14 +68,14 @@ namespace Tiles
             AmountOfUnitsEscapedNeededToLevel =
                 Mathf.RoundToInt(
                     AdditionalUnitsPerLevel(Level) *
-                    Item.numberOfUnitsEscapedToLevelUp *
+                    UnitSO.numberOfUnitsEscapedToLevelUp *
                     TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier *
                     TileSO.Shape.Count);
 
             MaxAmountOfUnitsInTile =
                 Mathf.RoundToInt(
                     AdditionalUnitsPerLevel(Level) *
-                    Item.numberOfUnitsAbleToSpawn *
+                    UnitSO.numberOfUnitsAbleToSpawn *
                     TileSO.amountOfUnitsAbleToBeSpawnedAndRequiredToLevelPerTileSectionMultiplier *
                     TileSO.Shape.Count);
 
@@ -136,7 +144,7 @@ namespace Tiles
 
         private IntOrFloatObject GetStat(UnitStatsEnum stat)
         {
-            var baseValue = Item.GetStat(stat);
+            var baseValue = UnitSO.GetStat(stat);
 
             List<Buff> buffs = new()
             {

@@ -4,6 +4,18 @@ using System;
 
 namespace Tiles
 {
+    public interface ITilePlayerTileItem
+    {
+        
+    }
+
+    public class TilePlayerTile : Tile<ITilePlayerTileItem>
+    {
+        public TilePlayerTile(TileSO tileSO, ITilePlayerTileItem item) : base(tileSO, item)
+        {
+
+        }
+    }
 
     [Serializable]
     public class Tile<TItem>
@@ -48,10 +60,10 @@ namespace Tiles
             ActionDestroyTile = null;
         }
 
-        public Tile(TileSO tileSO, TItem unitSO)
+        public Tile(TileSO tileSO, TItem item)
         {
             TileSO = tileSO;
-            Item = unitSO;
+            Item = item;
         }
 
         protected void DestroyTile()

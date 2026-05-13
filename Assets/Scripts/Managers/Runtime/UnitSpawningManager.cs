@@ -134,7 +134,7 @@ public class UnitSpawningManager
         if(tile.Item == null)
             return false;
 
-        if (tile.Item.unitPrefab == null)
+        if (tile.UnitSO.unitPrefab == null)
             return false;
 
         if (LocalMapGenerator.Instance == null ||LocalMapGenerator.Instance.pathway == null)
@@ -149,7 +149,7 @@ public class UnitSpawningManager
     private Unit InstantiateUnit(UnitTile tile, Direction pathDirection)
     {
         var path = LocalMapGenerator.Instance.pathway.PathNodes[pathDirection];
-        Unit unit = Instantiate(tile.Item.unitPrefab, (Vector2)path[0], Quaternion.identity);
+        Unit unit = Instantiate(tile.UnitSO.unitPrefab, (Vector2)path[0], Quaternion.identity);
         unit.Init(tile, path, 0);
         SpawnedUnits.Add(unit);
         return unit;

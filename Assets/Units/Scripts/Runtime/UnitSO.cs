@@ -3,11 +3,12 @@ using UnityEngine;
 using Relics;
 using System.Collections.Generic;
 using Spells;
+using Tiles;
 
 namespace Units
 {
     [CreateAssetMenu(menuName = "Units/UnitSO")]
-    public class UnitSO : ScriptableObject, IDescriptable
+    public class UnitSO : ScriptableObject, IDescriptable, ITilePlayerTileItem
     {
         [TextArea] public string Description;
         public Sprite sprite;

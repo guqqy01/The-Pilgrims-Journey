@@ -33,7 +33,7 @@ namespace Tiles
         [SerializeField]
         private TextMeshProUGUI numberOfUnitsToNextLevel;
 
-        public void TileSelected(TileUI<UnitSO> tile)
+        public void TileSelected(TileUI<ITilePlayerTileItem> tile)
         {
             if (tile is not UnitTileUI unitTileUI)
                 return;
@@ -175,14 +175,14 @@ namespace Tiles
         {
             DeselectTile();
 
-            TileUIEventBus<UnitSO>.OnTileSelected += TileSelected;
+            TileUIEventBus<ITilePlayerTileItem>.OnTileSelected += TileSelected;
             
         }
 
         protected override void OnDestroy()
         {
             DeselectTile();
-            TileUIEventBus<UnitSO>.OnTileSelected -= TileSelected;
+            TileUIEventBus<ITilePlayerTileItem>.OnTileSelected -= TileSelected;
             base.OnDestroy();
         }
     }

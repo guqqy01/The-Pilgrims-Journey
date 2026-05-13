@@ -1,13 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using Equipment;
+using System.Collections.Generic;
+using System.Linq;
+using Units;
 using UnityEngine;
 using UnityEngine.UI;
-using Units;
-using Equipment;
 
 namespace Tiles
 {
-    public class UnitTileUI : TileUI<UnitSO>, IDescriptable
+    public class TilePlayerTileUI : TileUI<ITilePlayerTileItem>
     {
+
+    }
+
+    public class UnitTileUI : TilePlayerTileUI, IDescriptable
+    {
+        
         [SerializeField]
         private RectTransform unitUITransform;
         private Image unitGraphics;
@@ -38,16 +45,10 @@ namespace Tiles
         {
             get
             {
-                return Tile.Item;
-            }
-            set
-            {
-                UnitTile.SetupNewUnitSO(value);
+                if (Tile.Item is not UnitSO unitSO)
+                    return null;
 
-                if (unitGraphics == null)
-                    unitGraphics = unitUITransform.GetComponent<Image>();
-
-                unitGraphics.sprite = Tile.Item.sprite;
+                return unitSO;
             }
         }
 
@@ -73,13 +74,20 @@ namespace Tiles
             unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
-        public override void BaseInit(Tile<UnitSO> tile)
+        public override void BaseInit(Tile<ITilePlayerTileItem> tile)
         {
-            base.BaseInit(tile);
+            if (tile is not UnitTile unitTile)
+                return;
+
+            base.BaseInit(unitTile);
+
             unitGraphics = unitUITransform.GetComponent<Image>();
-            unitGraphics.sprite = Tile.Item.sprite;
+            unitGraphics.sprite = unitTile.UnitSO.sprite;
             tileShapeTextureBuilder.Build(tile.Shape);
+            unitGraphics.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(tile.Shape);
         }
+
+        
 
         #region Stats
 

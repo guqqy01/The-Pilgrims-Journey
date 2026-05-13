@@ -42,7 +42,7 @@ namespace Tiles
         private UnitSO startingUnit;
 
         [SerializeField]
-        private UnitTileGrid playerTileGrid;
+        private TilePlayerTileGrid playerTileGrid;
 
         public Action OnStopPlaying;
 
@@ -76,20 +76,20 @@ namespace Tiles
 
         
 
-        private void OnTileAdded(Tile<UnitSO> tile)
+        private void OnTileAdded(Tile<ITilePlayerTileItem> tile)
         {
-            if (tile == null || tile.Item == null || tile.Item.unitsSpecialSpell == null)
+            if (tile == null || tile.Item == null || tile.Item is not UnitSO unitSO || unitSO.unitsSpecialSpell == null)
                 return;
 
-            SpellManager.Instance.AddSpell(tile.Item.unitsSpecialSpell, tile.Shape.Count);
+            SpellManager.Instance.AddSpell(unitSO.unitsSpecialSpell, tile.Shape.Count);
         }
 
-        private void OnTileRemoved(Tile<UnitSO> tile)
+        private void OnTileRemoved(Tile<ITilePlayerTileItem> tile)
         {
-            if (tile == null || tile.Item == null || tile.Item.unitsSpecialSpell == null)
+            if (tile == null || tile.Item == null || tile.Item is not UnitSO unitSO || unitSO.unitsSpecialSpell == null)
                 return;
 
-            SpellManager.Instance.RemoveSpell(tile.Item.unitsSpecialSpell, tile.Shape.Count);
+            SpellManager.Instance.RemoveSpell(unitSO.unitsSpecialSpell, tile.Shape.Count);
         }
 
         private void Update()

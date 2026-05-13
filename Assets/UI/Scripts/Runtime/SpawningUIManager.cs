@@ -31,7 +31,7 @@ public class SpawningUIManager : MonoBehaviour
             UnitTile tile = tileAndSize.Key;
 
             Image image = Instantiate(spawnImagePrefab, currentSpawningHolder);
-            image.sprite = tile.Item.sprite;
+            image.sprite = tile.UnitSO.sprite;
 
             currentSpawningImages.Add(image);
         }
@@ -46,7 +46,7 @@ public class SpawningUIManager : MonoBehaviour
             UnitTile tile = tileAndSize.Key;
 
             Image image = Instantiate(spawnImagePrefab, nextSpawningHolder);
-            image.sprite = tile.Item.sprite;
+            image.sprite = tile.UnitSO.sprite;
 
             nextSpawningImages.Add(image);
         }

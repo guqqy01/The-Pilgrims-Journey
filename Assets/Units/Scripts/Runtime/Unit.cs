@@ -42,18 +42,18 @@ namespace Units
 
         public void Init(UnitTile tile, List<Vector2Int> path, int currentPathIndex)
         {
-            UnitSO = tile.Item;
-            Movement.Init(path, currentPathIndex, tile.Item);
-            Health.Init(UnitStatBase.CreateBuffableStat(tile, tile.Item.Health, UnitStatsEnum.Health));
+            UnitSO = tile.UnitSO;
+            Movement.Init(path, currentPathIndex, tile.UnitSO);
+            Health.Init(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.Health, UnitStatsEnum.Health));
 
             Shield.Init
                 (
-                UnitStatBase.CreateBuffableStat(tile, tile.Item.Shield, UnitStatsEnum.Shield),
-                UnitStatBase.CreateBuffableStat(tile, tile.Item.ShieldRegeneration, UnitStatsEnum.ShieldRegeneration),
-                UnitStatBase.CreateBuffableStat(tile, tile.Item.ShieldCooldown, UnitStatsEnum.ShieldCooldown)
+                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.Shield, UnitStatsEnum.Shield),
+                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.ShieldRegeneration, UnitStatsEnum.ShieldRegeneration),
+                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.ShieldCooldown, UnitStatsEnum.ShieldCooldown)
                 );
 
-            CoinDrop.Init(tile.Item);
+            CoinDrop.Init(tile.UnitSO);
 
             EquipmentSO[] equipmentSOs = tile.Equipment;
 
