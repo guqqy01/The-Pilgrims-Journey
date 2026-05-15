@@ -4,28 +4,13 @@ using System;
 
 namespace Tiles
 {
-    public interface ITilePlayerTileItem
-    {
-        
-    }
-
-    public class TilePlayerTile : Tile<ITilePlayerTileItem>
-    {
-        public TilePlayerTile(TileSO tileSO, ITilePlayerTileItem item) : base(tileSO, item)
-        {
-
-        }
-    }
-
     [Serializable]
-    public class Tile<TItem>
+    public class TileBase
     {
         public TileSO TileSO { get; }
-        public TItem Item { get; protected set; }
-
         public bool locked;
 
-        public Action<Tile<TItem>> ActionDestroyTile;
+        public Action<TileBase> ActionDestroyTile;
         public Action<float> OnRotated;
 
         public delegate void OnUpdateUI();
@@ -39,7 +24,7 @@ namespace Tiles
         private float rotation;
 
         public Vector2Int PlacedPosition;
-        public TileGrid<TItem> TileGrid;
+        public TileGridBase TileGrid;
 
         public float Rotation
         {
@@ -62,10 +47,9 @@ namespace Tiles
             ActionDestroyTile = null;
         }
 
-        public Tile(TileSO tileSO, TItem item)
+        public TileBase(TileSO tileSO)
         {
             TileSO = tileSO;
-            Item = item;
         }
 
         protected void DestroyTile()

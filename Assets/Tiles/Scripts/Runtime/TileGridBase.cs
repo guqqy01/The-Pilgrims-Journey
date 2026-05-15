@@ -4,7 +4,7 @@ using GameManagerCalls;
 namespace Tiles
 {
 
-    public class TileGrid<TItem> : MonoBehaviour, IOnClear
+    public abstract class TileGridBase : MonoBehaviour, IOnClear
     {
         public string SaveFileName => $"TileGrid_{name}_Save";
 
@@ -12,13 +12,13 @@ namespace Tiles
         protected Vector2Int gridSize;
         public Vector2Int GridSize => gridSize;
 
-        protected Tile<TItem>[,] tiles;
-        public Tile<TItem>[,] Tiles
+        protected TileBase[,] tiles;
+        public TileBase[,] Tiles
         {
             get
             {
                 if(tiles == null)
-                    tiles = new Tile<TItem>[gridSize.x, gridSize.y];
+                    tiles = new TileBase[gridSize.x, gridSize.y];
 
                 return tiles;
             }
@@ -28,7 +28,7 @@ namespace Tiles
             }
         }
 
-        public delegate void OnTileEvent(Tile<TItem> tile);
+        public delegate void OnTileEvent(TileBase tile);
         public OnTileEvent onTileAdded;
         public OnTileEvent onTileRemoved;
         public OnTileEvent onTileDestroyed;
@@ -48,7 +48,7 @@ namespace Tiles
             onTileDestroyed = null;
         }
 
-        public Tile<TItem> this[int i, int j]
+        public TileBase this[int i, int j]
         {
             get
             {
@@ -60,7 +60,7 @@ namespace Tiles
             }
         }
 
-        public Tile<TItem> this[Vector2Int position]
+        public TileBase this[Vector2Int position]
         {
             get
             {
@@ -72,11 +72,11 @@ namespace Tiles
             }
         }
 
-        public List<Tile<TItem>> ListOfTiles
+        public List<TileBase> ListOfTiles
         {
             get
             {
-                List<Tile<TItem>> returnList = new List<Tile<TItem>>();
+                List<TileBase> returnList = new List<TileBase>();
 
                 foreach (var tile in Tiles)
                 {
@@ -88,13 +88,15 @@ namespace Tiles
             }
         }
 
+        public abstract bool AcceptTile(TileBase tile);
+
         public void Organise(Axis axis)
         {
-            List<Tile<TItem>> tileHolder = ListOfTiles;
+            List<TileBase> tileHolder = ListOfTiles;
 
-            tiles = new Tile<TItem>[gridSize.x, gridSize.y];
+            tiles = new TileBase[gridSize.x, gridSize.y];
 
-            foreach(Tile<TItem> tile in tileHolder)
+            foreach(TileBase tile in tileHolder)
             {
                 TryPlaceTileAnywhere(tile, axis, false);
             }
@@ -102,14 +104,14 @@ namespace Tiles
 
         public void Clear()
         {
-            foreach (Tile<TItem> tile in ListOfTiles)
+            foreach (TileBase tile in ListOfTiles)
             {
                 DestroyTile(tile);
             }
-            Tiles = new Tile<TItem>[gridSize.x, gridSize.y];
+            Tiles = new TileBase[gridSize.x, gridSize.y];
         }
 
-        public void DestroyTile(Tile<TItem> tile)
+        public void DestroyTile(TileBase tile)
         {
             tile.ActionDestroyTile -= DestroyTile;
             tile.OnDestroy();
@@ -118,7 +120,7 @@ namespace Tiles
 
         public bool PointOutOfGrid(Vector2Int point) => point.x >= gridSize.x || point.x < 0 || point.y >= gridSize.y || point.y < 0;
 
-        public bool TileOutOfGrid(Tile<TItem> tile, Vector2Int position, float rotation)
+        public bool TileOutOfGrid(TileBase tile, Vector2Int position, float rotation)
         {
             foreach (Vector2Int point in tile.Shape.Rotate(rotation))
             {
@@ -130,12 +132,15 @@ namespace Tiles
             return false;
         }
 
-        public bool CanPlaceTile(Tile<TItem> tile, Vector2Int position, float rotation)
+        public bool CanPlaceTile(TileBase tile, Vector2Int position, float rotation)
         {
+            if (!AcceptTile(tile))
+                return false;
+
             foreach (Vector2Int point in tile.Shape.Rotate(rotation))
             {
                 if (PointOutOfGrid(point + position) ||
-                    (TryGetTileAtPosition(point + position, out Tile<TItem> outTile) && outTile != tile))
+                    (TryGetTileAtPosition(point + position, out TileBase outTile) && outTile != tile))
                 {
                     return false;
                 }
@@ -144,7 +149,7 @@ namespace Tiles
             return true;
         }
 
-        public bool TryGetTileAtPosition(Vector2Int v2Int, out Tile<TItem> tile)
+        public bool TryGetTileAtPosition(Vector2Int v2Int, out TileBase tile)
         {
             tile = null;
 
@@ -156,7 +161,7 @@ namespace Tiles
             return tile != null;
         }
 
-        public bool TryPlaceTileAnywhere(Tile<TItem> tile, Axis axis, bool invokeAddedTile = true)
+        public bool TryPlaceTileAnywhere(TileBase tile, Axis axis, bool invokeAddedTile = true)
         {
             switch(axis)
             {
@@ -173,7 +178,7 @@ namespace Tiles
             }
         }
 
-        private bool TryPlaceTileAnywhereMinusX(Tile<TItem> tile, bool invokeAddedTile = true)
+        private bool TryPlaceTileAnywhereMinusX(TileBase tile, bool invokeAddedTile = true)
         {
             for (int y = gridSize.y - 1; y >= 0; y--)
             {
@@ -191,7 +196,7 @@ namespace Tiles
             return false;
         }
 
-        private bool TryPlaceTileAnywhereMinusY(Tile<TItem> tile, bool invokeAddedTile = true)
+        private bool TryPlaceTileAnywhereMinusY(TileBase tile, bool invokeAddedTile = true)
         {
             for (int x = gridSize.x - 1; x >= 0; x--)
             {
@@ -209,7 +214,7 @@ namespace Tiles
             return false;
         }
 
-        private bool TryPlaceTileAnywhereX(Tile<TItem> tile, bool invokeAddedTile = true)
+        private bool TryPlaceTileAnywhereX(TileBase tile, bool invokeAddedTile = true)
         {
             for (int y = 0; y < gridSize.y; y++)
             {
@@ -227,7 +232,7 @@ namespace Tiles
             return false;
         }
 
-        private bool TryPlaceTileAnywhereY(Tile<TItem> tile, bool invokeAddedTile = true)
+        private bool TryPlaceTileAnywhereY(TileBase tile, bool invokeAddedTile = true)
         {
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -245,7 +250,7 @@ namespace Tiles
             return false;
         }
 
-        public virtual bool TryPlaceTile(Tile<TItem> selectedTile, Vector2Int position, float rotation, bool invokeAddedTile = true, bool invokeRemovedTile = true)
+        public virtual bool TryPlaceTile(TileBase selectedTile, Vector2Int position, float rotation, bool invokeAddedTile = true, bool invokeRemovedTile = true)
         {
             if (!CanPlaceTile(selectedTile, position, rotation))
                 return false;
@@ -270,7 +275,7 @@ namespace Tiles
             return true;
         }
 
-        public bool RemoveTile(Tile<TItem> tile, bool invokeRemoveTile = true)
+        public bool RemoveTile(TileBase tile, bool invokeRemoveTile = true)
         {
             bool haveRemovedTile = false;
 

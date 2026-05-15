@@ -7,12 +7,8 @@ using UnityEngine.UI;
 
 namespace Tiles
 {
-    public class TilePlayerTileUI : TileUI<ITilePlayerTileItem>
-    {
 
-    }
-
-    public class UnitTileUI : TilePlayerTileUI, IDescriptable
+    public class UnitTileUI : TileUIBase, IDescriptable
     {
         
         [SerializeField]
@@ -45,10 +41,10 @@ namespace Tiles
         {
             get
             {
-                if (Tile.Item is not UnitSO unitSO)
+                if (UnitTile == null)
                     return null;
 
-                return unitSO;
+                return UnitTile.UnitSO;
             }
         }
 
@@ -74,7 +70,7 @@ namespace Tiles
             unitUITransform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
-        public override void BaseInit(Tile<ITilePlayerTileItem> tile)
+        public override void BaseInit(TileBase tile)
         {
             if (tile is not UnitTile unitTile)
                 return;

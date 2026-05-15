@@ -7,7 +7,7 @@ using LevelingSystem;
 
 namespace Tiles
 {
-    public class UnitTile : TilePlayerTile
+    public class UnitTile : TileBase
     {
         public EquipmentSO[] Equipment { get; private set; } = new EquipmentSO[4];
 
@@ -26,16 +26,18 @@ namespace Tiles
 
         public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
 
+        private UnitSO _unitSO;
         public UnitSO UnitSO
         {
             get
             {
-                return Item as UnitSO;
+                return _unitSO;
             }
         }
 
-        public UnitTile(TileSO tileSO, UnitSO unitSO) : base(tileSO, unitSO)
+        public UnitTile(TileSO tileSO, UnitSO unitSO) : base(tileSO)
         {
+            _unitSO = unitSO;
             RecalculateLevelValues();
         }
 
@@ -49,7 +51,7 @@ namespace Tiles
 
         public void SetupNewUnitSO(UnitSO unitSO)
         {
-            Item = unitSO;
+            _unitSO = unitSO;
 
             RecalculateLevelValues();
 

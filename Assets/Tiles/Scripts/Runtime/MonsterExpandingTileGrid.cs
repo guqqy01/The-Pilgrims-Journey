@@ -1,9 +1,11 @@
-﻿using Monsters;
-namespace Tiles
+﻿namespace Tiles
 {
-    public class MonsterExpandingTileGrid : ExpandingTileGrid<MonsterSpawn>
+    public class MonsterExpandingTileGrid : ExpandingTileGridBase
     {
+        public override bool AcceptTile(TileBase tile)
+        {
+            return tile is MonsterTile;
+        }
     }
-
 }
 

@@ -131,7 +131,7 @@ public class UnitSpawningManager
         if(tile == null)
             return false;
 
-        if(tile.Item == null)
+        if(tile.UnitSO == null)
             return false;
 
         if (tile.UnitSO.unitPrefab == null)

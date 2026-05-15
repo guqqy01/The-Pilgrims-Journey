@@ -4,12 +4,12 @@ using AYellowpaper.SerializedCollections;
 namespace Tiles
 {
 
-    public class TileUIPrefabManager<TItem> : Singleton<TileUIPrefabManager<TItem>>
+    public class TileUIPrefabManager : Singleton<TileUIPrefabManager>
     {
         [SerializeField]
-        private SerializedDictionary<TileSO, TileUI<TItem>> tileSOAndPrefab;
+        private SerializedDictionary<TileSO, TileUIBase> tileSOAndPrefab;
 
-        public IReadOnlyDictionary<TileSO, TileUI<TItem>> TileSOAndPrefab => tileSOAndPrefab;
+        public IReadOnlyDictionary<TileSO, TileUIBase> TileSOAndPrefab => tileSOAndPrefab;
     }
 
 }

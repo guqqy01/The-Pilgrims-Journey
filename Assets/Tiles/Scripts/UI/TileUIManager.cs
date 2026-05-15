@@ -20,7 +20,7 @@ namespace Tiles
         [SerializeField]
         private TileRotationHelper rotationHelperPrefab;
 
-        private TileUI<UnitSO> draggingTile;
+        private TileUIBase draggingTile;
 
         [SerializeField]
         private List<TileSO> tilesNotToShowHelper = new List<TileSO>();
@@ -30,17 +30,19 @@ namespace Tiles
             inputManager = InputManager.Instance;
         }
 
-
-
         protected void Awake()
         {
-            TileUIEventBus<UnitSO>.OnDragTile += DraggingTile;
-
+            TileUIEventBus.OnDragTile += DraggingTile;
         }
 
         protected override void CleanUp()
         {
-            TileUIEventBus<UnitSO>.OnDragTile -= DraggingTile;
+            TileUIEventBus.OnDragTile -= DraggingTile;
+        }
+
+        private void OnDestroy()
+        {
+            TileUIEventBus.Clear();
         }
 
         private void Update()
@@ -50,7 +52,7 @@ namespace Tiles
         }
 
 
-        private void DraggingTile(TileUI<UnitSO> tileUI)
+        private void DraggingTile(TileUIBase tileUI)
         {
             if (tileUI != null && tilesNotToShowHelper.Contains(tileUI.Tile.TileSO))
             {

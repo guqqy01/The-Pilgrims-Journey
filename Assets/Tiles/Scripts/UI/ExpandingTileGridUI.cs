@@ -3,21 +3,28 @@ using UnityEngine.UI;
 
 namespace Tiles
 {
-    public class ExpandingTileGridUI<TExpandingTileGrid, TItem> : TileGridUI<TItem> where TExpandingTileGrid : ExpandingTileGrid<TItem>
+    public class ExpandingTileGridUI : TileGridUI
     {
-        protected TExpandingTileGrid _expandingTileGrid;
+        protected ExpandingTileGridBase _expandingTileGrid;
 
         [SerializeField]
         protected Image gridImage;
 
-        public new void InitiateFromRootAtAwake()
-        {
-            base.InitiateFromRootAtAwake();
+        [SerializeField]
+        private RectTransform contentRect;
 
-            if(tileGrid != null && tileGrid is TExpandingTileGrid expandingTileGrid)
+        private void Awake()
+        {
+            if (tileGrid != null && tileGrid is ExpandingTileGridBase expandingTileGrid)
             {
                 _expandingTileGrid = expandingTileGrid;
                 _expandingTileGrid.onGridResized += OnGridResized;
+
+                OnGridResized();
+            }
+            else
+            {
+                Debug.Log($"Tile grid null or not an expanding tile grid");
             }
         }
 
@@ -33,6 +40,13 @@ namespace Tiles
         {
             UpdateGridTransformSize();
             RepositionAllTileUIs();
+            ResizeContentRect();
+        }
+
+        private void ResizeContentRect()
+        {
+            contentRect.sizeDelta = GridTransform.sizeDelta = (100f / gridImage.sprite.pixelsPerUnit)
+                * (14f * ((Vector2)_expandingTileGrid.GridSize) + Vector2.one);
         }
 
         private void UpdateGridTransformSize()

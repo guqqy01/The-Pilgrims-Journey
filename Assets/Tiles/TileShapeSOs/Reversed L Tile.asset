@@ -15,8 +15,8 @@ MonoBehaviour:
   TileSprite: {fileID: -1812596121, guid: f44c428271086ce4288c38c4f5784828, type: 3}
   shape:
     v2IntList:
-    - {x: -1, y: 0}
     - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 1, y: -1}
-  tilePrefab: {fileID: 2305793393074606450, guid: be345d731435356479f3f3baa4ed8870, type: 3}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: -1, y: 0}
+  rarity: 0

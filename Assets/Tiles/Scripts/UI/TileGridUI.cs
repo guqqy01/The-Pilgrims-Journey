@@ -2,20 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+
 namespace Tiles
 {
-
-    public class TileGridUI<TItem> : MonoBehaviour, IToBeInitiatedFromRoot
+    public class TileGridUI : MonoBehaviour, IToBeInitiatedFromRoot
     {
         [SerializeField]
         private RectTransform gridTransform;
         public RectTransform GridTransform => gridTransform;
 
         [SerializeField]
-        protected TileGrid<TItem> tileGrid;
+        protected TileGridBase tileGrid;
 
-        protected List<TileUI<TItem>> tileUIs = new List<TileUI<TItem>>();
-        public List<TileUI<TItem>> TileUIs => tileUIs;
+        protected List<TileUIBase> tileUIs = new List<TileUIBase>();
+        public List<TileUIBase> TileUIs => tileUIs;
 
         public int GridSizeX => tileGrid.GridSize.x;
         public int GridSizeY => tileGrid.GridSize.y;
@@ -66,9 +66,14 @@ namespace Tiles
             gridTransform.sizeDelta = (100f / gridImageForValidation.sprite.pixelsPerUnit) * (14f * ((Vector2)tileGrid.GridSize) + Vector2.one);
         }
 
-        private void OnTileAdded(Tile<TItem> tileAdded)
+        public bool AcceptsTile(TileUIBase tileUIBase)
         {
-            if (TryGetTilesUI(tileAdded, out TileUI<TItem> existing))
+            return tileGrid.AcceptTile(tileUIBase.Tile);
+        }
+
+        private void OnTileAdded(TileBase tileAdded)
+        {
+            if (TryGetTilesUI(tileAdded, out TileUIBase existing))
             {
                 existing.PlacedPosition = tileAdded.PlacedPosition;
                 existing.PlacedRotation = tileAdded.Rotation;
@@ -77,9 +82,9 @@ namespace Tiles
                 return;
             }
 
-            if (TileUIPrefabManager<TItem>.Instance.TileSOAndPrefab.TryGetValue(tileAdded.TileSO, out TileUI<TItem> prefab) && prefab != null)
+            if (TileUIPrefabManager.Instance.TileSOAndPrefab.TryGetValue(tileAdded.TileSO, out TileUIBase prefab) && prefab != null)
             {
-                TileUI<TItem> tileUI = Instantiate(prefab, GridTransform);
+                TileUIBase tileUI = Instantiate(prefab, GridTransform);
                 tileUI.BaseInit(tileAdded);
                 tileUI.tileGridUI = this;
                 tileUI.PlacedPosition = tileAdded.PlacedPosition;
@@ -90,29 +95,29 @@ namespace Tiles
             }
         }
 
-        public bool RemoveTile(TileUI<TItem> tileUI)
+        public bool RemoveTile(TileUIBase tileUI)
         {
             return tileGrid.RemoveTile(tileUI.Tile);
         }
 
-        private void OnTileRemoved(Tile<TItem> tileRemoved)
+        private void OnTileRemoved(TileBase tileRemoved)
         {
-            if (TryGetTilesUI(tileRemoved, out TileUI<TItem> tileUI))
+            if (TryGetTilesUI(tileRemoved, out TileUIBase tileUI))
             {
                 tileUIs.Remove(tileUI);
             }
         }
 
-        private void OnTileDestroyed(Tile<TItem> tileDestroyed)
+        private void OnTileDestroyed(TileBase tileDestroyed)
         {
-            if(TryGetTilesUI(tileDestroyed, out TileUI<TItem> tileUI))
+            if(TryGetTilesUI(tileDestroyed, out TileUIBase tileUI))
             {
                 TileUIs.Remove(tileUI);
                 Destroy(tileUI.gameObject);
             }
         }
 
-        public bool TryGetTilesUI(Tile<TItem> tile, out TileUI<TItem> tileUI)
+        public bool TryGetTilesUI(TileBase tile, out TileUIBase tileUI)
         {
             tileUI = tileUIs.SingleOrDefault(x => x.Tile == tile);
             return tileUI != null;
@@ -131,27 +136,27 @@ namespace Tiles
 
         public bool PointOutOfGrid(Vector2Int point) => point.x >= tileGrid.GridSize.x || point.x < 0 || point.y >= tileGrid.GridSize.y || point.y < 0;
 
-        public bool CanPlaceTile(TileUI<TItem> tileUI, Vector2Int position)
+        public bool CanPlaceTile(TileUIBase tileUI, Vector2Int position)
         {
             return tileGrid.CanPlaceTile(tileUI.Tile, position, tileUI.UIRotation);
         }
 
-        public bool CanPlaceTileFromWorldPosition(TileUI<TItem> tileUI, Vector2 worldPosition)
+        public bool CanPlaceTileFromWorldPosition(TileUIBase tileUI, Vector2 worldPosition)
         {
             return tileGrid.CanPlaceTile(tileUI.Tile, GetGridPositon(worldPosition), tileUI.UIRotation);
         }
 
-        public bool TryPlaceTile(TileUI<TItem> tileUI, Vector2Int position, bool invokeAddedTile = true, bool invokeRemovedTile = true)
+        public bool TryPlaceTile(TileUIBase tileUI, Vector2Int position, bool invokeAddedTile = true, bool invokeRemovedTile = true)
         {
             return tileGrid.TryPlaceTile(tileUI.Tile, position, tileUI.UIRotation, invokeAddedTile, invokeRemovedTile);
         }
 
-        public bool TryPlaceTileFromWorldPosition(TileUI<TItem> tile, Vector2 worldPosition, bool invokeAddedTile = true, bool invokeRemovedTile = true)
+        public bool TryPlaceTileFromWorldPosition(TileUIBase tile, Vector2 worldPosition, bool invokeAddedTile = true, bool invokeRemovedTile = true)
         {
             return TryPlaceTile(tile, GetGridPositon(worldPosition), invokeAddedTile, invokeRemovedTile);
         }
 
-        public void AdoptTileUI(TileUI<TItem> tileUI)
+        public void AdoptTileUI(TileUIBase tileUI)
         {
             if (!tileUIs.Contains(tileUI))
                 tileUIs.Add(tileUI);
@@ -159,21 +164,21 @@ namespace Tiles
             tileUI.transform.SetParent(GridTransform, true);
         }
 
-        public Vector2 TileRectPositionAtVector2IntPosition(TileUI<TItem> tile, Vector2Int position)
+        public Vector2 TileRectPositionAtVector2IntPosition(TileUIBase tile, Vector2Int position)
         {
             return (Vector2)GridTransform.position + GridTransform.lossyScale * (SingleTileSquareSize * (position - ((Vector2)tileGrid.GridSize - Vector2.one) / 2f) + tile.GetOffset() * SingleTileSquareSize);
         }
 
-        public bool TryGetTileUIAtMousePosition(out TileUI<TItem> tile)
+        public bool TryGetTileUIAtMousePosition(out TileUIBase tile)
         {
             return TryGetTileUIAtPosition(GetMouseGridPosition(), out tile);
         }
 
-        public bool TryGetTileUIAtPosition(Vector2Int v2Int, out TileUI<TItem> tileUI)
+        public bool TryGetTileUIAtPosition(Vector2Int v2Int, out TileUIBase tileUI)
         {
             tileUI = null;
 
-            if (!tileGrid.TryGetTileAtPosition(v2Int, out Tile<TItem> tile))
+            if (!tileGrid.TryGetTileAtPosition(v2Int, out TileBase tile))
                 return false;
 
             return TryGetTilesUI(tile, out tileUI);
@@ -194,8 +199,6 @@ namespace Tiles
         {
             return !PointOutOfGrid(GetGridPositon(position));
         }
-
-        
     }
 
 }

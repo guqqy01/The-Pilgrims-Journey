@@ -15,7 +15,7 @@ namespace Tiles
 
 
         [SerializeField]
-        private TileGridUI<UnitSO> tileGridUI;
+        private TileGridUI tileGridUI;
 
         private void Start()
         {

@@ -8,7 +8,7 @@ using Tiles;
 namespace Units
 {
     [CreateAssetMenu(menuName = "Units/UnitSO")]
-    public class UnitSO : ScriptableObject, IDescriptable, ITilePlayerTileItem
+    public class UnitSO : ScriptableObject, IDescriptable
     {
         [TextArea] public string Description;
         public Sprite sprite;

@@ -75,20 +75,32 @@ namespace Tiles
 
         
 
-        private void OnTileAdded(Tile<ITilePlayerTileItem> tile)
+        private void OnTileAdded(TileBase tile)
         {
-            if (tile == null || tile.Item == null || tile.Item is not UnitSO unitSO || unitSO.unitsSpecialSpell == null)
+            if (tile == null)
                 return;
 
-            SpellManager.Instance.AddSpell(unitSO.unitsSpecialSpell, tile.Shape.Count);
+            if (tile is not UnitTile unitTile) 
+                return;
+
+            if (unitTile.UnitSO == null || unitTile.UnitSO.unitsSpecialSpell == null)
+                return;
+
+            SpellManager.Instance.AddSpell(unitTile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
         }
 
-        private void OnTileRemoved(Tile<ITilePlayerTileItem> tile)
+        private void OnTileRemoved(TileBase tile)
         {
-            if (tile == null || tile.Item == null || tile.Item is not UnitSO unitSO || unitSO.unitsSpecialSpell == null)
+            if (tile == null)
                 return;
 
-            SpellManager.Instance.RemoveSpell(unitSO.unitsSpecialSpell, tile.Shape.Count);
+            if (tile is not UnitTile unitTile)
+                return;
+
+            if (unitTile.UnitSO == null || unitTile.UnitSO.unitsSpecialSpell == null)
+                return;
+
+            SpellManager.Instance.RemoveSpell(unitTile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
         }
 
         private void Update()
@@ -119,7 +131,7 @@ namespace Tiles
 
             UnitTile tile = new UnitTile(startingTile, startingUnit);
 
-            if(!playerTileGrid.TryPlaceTileAnywhere(tile, TileGrid<ITilePlayerTileItem>.Axis.X))
+            if(!playerTileGrid.TryPlaceTileAnywhere(tile, TileGridBase.Axis.X))
             {
                 Debug.LogWarning("Could not place tile.");
             }

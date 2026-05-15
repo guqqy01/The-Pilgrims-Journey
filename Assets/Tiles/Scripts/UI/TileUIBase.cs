@@ -7,8 +7,7 @@ using System.Linq;
 
 namespace Tiles
 {
-
-    public class TileUI<TItem> : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
+    public class TileUIBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
         protected const float _singleTileSize = 43.75f;
 
@@ -16,16 +15,16 @@ namespace Tiles
         protected TileShapeTextureBuilder tileShapeTextureBuilder;
         public RectTransform RectTransform { private set; get; }
 
-        public Tile<TItem> Tile { private set; get; }
+        public TileBase Tile { private set; get; }
 
         [SerializeField]
-        private RawImage tileGraphics;
+        private Image tileGraphics;
 
         [HideInInspector]
         public bool locked;
 
         [HideInInspector]
-        public TileGridUI<TItem> tileGridUI;
+        public TileGridUI tileGridUI;
 
         public float BaseRotation
         {
@@ -80,8 +79,7 @@ namespace Tiles
 
         private void Start()
         {
-            TileUIEventBus<TItem>.OnTileSelected += Highlight;
-            //tileGraphics.alphaHitTestMinimumThreshold = 0.2f;
+            TileUIEventBus.OnTileSelected += Highlight;
         }
 
         private void Update()
@@ -95,14 +93,14 @@ namespace Tiles
             }
         }
 
-        private void Highlight(TileUI<TItem> tile)
+        private void Highlight(TileUIBase tile)
         {
             Highlight(tile == this);
         }
 
         private void OnDestroy()
         {
-            TileUIEventBus<TItem>.OnTileSelected -= Highlight;
+            TileUIEventBus.OnTileSelected -= Highlight;
         }
 
         #region Leveling and health
@@ -122,7 +120,7 @@ namespace Tiles
         private CanvasGroup canvasGroup;
         private bool isDragging;
         [HideInInspector]
-        public TileGridUI<TItem> draggedTileGridUI;
+        public TileGridUI draggedTileGridUI;
 
         [HideInInspector]
         public Vector2Int PlacedPosition;
@@ -130,7 +128,7 @@ namespace Tiles
         public float PlacedRotation;
 
         private Vector2Int currentTilePosition;
-        private TileGridUI<TItem> currentTileGridUI;
+        private TileGridUI currentTileGridUI;
 
         public virtual void Rotate(int angle)
         {
@@ -149,7 +147,7 @@ namespace Tiles
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            TileUIEventBus<TItem>.RaiseTileSelected(this);
+            TileUIEventBus.RaiseTileSelected(this);
             AudioManager.Instance.PlaySelectTile();
         }
 
@@ -170,16 +168,13 @@ namespace Tiles
                     if (eventData.pointerDrag == obj)
                         continue;
 
-                    if (obj.name == "Unit Expanding Tile Grid")
-                        Debug.Log(1);
-
-                    if (obj.TryGetComponent(out draggedTileGridUI))
+                    if (obj.TryGetComponent(out TileGridUI candidate))
                     {
-                        if (obj.name == "Unit Expanding Tile Grid")
-                            Debug.Log(2);
-
-                        if (draggedTileGridUI.GridTransform.gameObject.activeInHierarchy && draggedTileGridUI.IsWorldPositionInGrid(eventData.position))
+                        if (candidate.GridTransform.gameObject.activeInHierarchy && 
+                            candidate.IsWorldPositionInGrid(eventData.position) && 
+                            IsCompatibleGrid(candidate))
                         {
+                            draggedTileGridUI = candidate;
                             break;
                         }
                         else
@@ -191,11 +186,16 @@ namespace Tiles
             }
         }
 
+        private bool IsCompatibleGrid(TileGridUI candidate)
+        {
+            return candidate.AcceptsTile(this);
+        }
+
         private void HandleCancelMoveTile()
         {
             if (!Input.GetKeyDown(KeyCode.Escape))
                 return;
-            TileUIEventBus<TItem>.RaiseTileSelected(null);
+            TileUIEventBus.RaiseTileSelected(null);
 
             AudioManager.Instance.PlayCancelMoveTile();
         }
@@ -303,19 +303,21 @@ namespace Tiles
             isDragging = true;
             RectTransform.SetParent(TileUIManager.Canvas.transform, true);
             canvasGroup.blocksRaycasts = false;
-            TileUIEventBus<TItem>.RaiseDragTile(this);
+            TileUIEventBus.RaiseDragTile(this);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             if (!isDragging)
                 return;
-            TileUIEventBus<TItem>.RaiseDragTile(null);
+            TileUIEventBus.RaiseDragTile(null);
 
             isDragging = false;
             canvasGroup.blocksRaycasts = true;
 
-            if(draggedTileGridUI != null && draggedTileGridUI.GridTransform.gameObject.activeInHierarchy && draggedTileGridUI.CanPlaceTileFromWorldPosition(this, eventData.position))
+            if(draggedTileGridUI != null && 
+                draggedTileGridUI.GridTransform.gameObject.activeInHierarchy &&
+                draggedTileGridUI.CanPlaceTileFromWorldPosition(this, eventData.position))
             {
                 bool sameTileGrid = tileGridUI == draggedTileGridUI;
 
@@ -352,7 +354,7 @@ namespace Tiles
 
         #region Init
 
-        public virtual void BaseInit(Tile<TItem> tile)
+        public virtual void BaseInit(TileBase tile)
         {
             Tile = tile;
             Tile.OnRotated += RotateTo;
@@ -370,7 +372,7 @@ namespace Tiles
 
         public int CompareTo(object obj)
         {
-            if(obj is TileUI<TItem> other)
+            if(obj is TileUIBase other)
                 return RotatedShape.Count.CompareTo(other.RotatedShape.Count);
             return 0;
         }

@@ -3,16 +3,18 @@ using UnityEngine;
 using System;
 using GameManagerCalls;
 using Units;
+using System.Linq;
 
 namespace Tiles
 {
-    public class TilePlayerTileGrid : TileGrid<ITilePlayerTileItem>, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad
+    public class TilePlayerTileGrid : TileGridBase, ISaveLoad, IOnSave, IOnLoadAfterMapPointSceneLoad
     {
         public List<TileSave> GetTileSaves()
         {
             List<TileSave> tileSaves = new List<TileSave>();
+            List<UnitTile> unitTiles = ListOfTiles.Where(x => x is UnitTile).Select(x => x as UnitTile).ToList();
 
-            foreach (UnitTile tile in ListOfTiles)
+            foreach (UnitTile tile in unitTiles)
             {
                 TileSave tileSave = new TileSave(tile.Level,
                     tile.CurrentAmountOfUnitsInTile + tile.AmountOfUnitsSpawned,
@@ -53,7 +55,7 @@ namespace Tiles
             foreach (TileAndUnit tileAndUnit in tiles)
             {
                 UnitTile tile = new UnitTile(tileAndUnit.tile, tileAndUnit.unit);
-                TryPlaceTileAnywhere(tile, TileGrid<ITilePlayerTileItem>.Axis.X);
+                TryPlaceTileAnywhere(tile, Axis.X);
             }
         }
 
@@ -78,6 +80,11 @@ namespace Tiles
             SaveProfile<SaveData> inventorySaveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
 
             SaveManager.SaveOver(inventorySaveProfile);
+        }
+
+        public override bool AcceptTile(TileBase tile)
+        {
+            return tile is UnitTile || tile is MonsterTile;
         }
 
         [Serializable]

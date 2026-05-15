@@ -3,8 +3,7 @@ using UnityEngine;
 using System;
 namespace Tiles
 {
-
-    public class ExpandingTileGrid<TItem> : TileGrid<TItem>
+    public abstract class ExpandingTileGridBase : TileGridBase
     {
         public Axis ExpandingDirection;
         public int otherSideGridLength;
@@ -27,6 +26,11 @@ namespace Tiles
             onTileDestroyed += OnTileDestroyed;
         }
 
+        private void Start()
+        {
+            ResizeTiles(gridSize);
+        }
+
         protected virtual void OnDestroy()
         {
             onTileAdded = null;
@@ -34,24 +38,24 @@ namespace Tiles
             onTileDestroyed = null;
         }
 
-        private void OnTileAdded(Tile<TItem> tile)
+        private void OnTileAdded(TileBase tile)
         {
             SetupSize();
         }
 
-        private void OnTileRemoved(Tile<TItem> tile)
+        private void OnTileRemoved(TileBase tile)
         {
             SetupSize();
         }
 
-        private void OnTileDestroyed(Tile<TItem> tile)
+        private void OnTileDestroyed(TileBase tile)
         {
             SetupSize();
         }
 
         private void SetupSize()
         {
-            List<Tile<TItem>> tiles = ListOfTiles;
+            List<TileBase> tiles = ListOfTiles;
             int expandingSideLength = Mathf.Max(minExpandingSize, Mathf.Min(GetFurthestPlacedPosition(tiles) + minExtraSize, GetMaxSize(tiles)));
 
             Vector2Int newSize = gridSize;
@@ -78,7 +82,7 @@ namespace Tiles
             }
         }
 
-        private int GetMaxSize(List<Tile<TItem>> tiles)
+        private int GetMaxSize(List<TileBase> tiles)
         {
             int maxBounds = 0;
 
@@ -90,7 +94,7 @@ namespace Tiles
             return maxBounds + maxExtraOverLength;
         }
 
-        private int GetFurthestPlacedPosition(List<Tile<TItem>> tiles)
+        private int GetFurthestPlacedPosition(List<TileBase> tiles)
         {
             int furthest = 0;
 
@@ -112,7 +116,7 @@ namespace Tiles
             return furthest;
         }
 
-        public override bool TryPlaceTile(Tile<TItem> selectedTile, Vector2Int position, float rotation, bool invokeAddedTile = true, bool invokeRemoveTile = true)
+        public override bool TryPlaceTile(TileBase selectedTile, Vector2Int position, float rotation, bool invokeAddedTile = true, bool invokeRemoveTile = true)
         {
             if(TileOutOfGrid(selectedTile, position, rotation))
             {
@@ -124,7 +128,7 @@ namespace Tiles
         private void ResizeTiles(Vector2Int newSize)
         {
             var oldTiles = Tiles;
-            tiles = new Tile<TItem>[newSize.x, newSize.y];
+            tiles = new TileBase[newSize.x, newSize.y];
             // copy over existing tiles that still fit
             for (int x = 0; x < Mathf.Min(oldTiles.GetLength(0), newSize.x); x++)
                 for (int y = 0; y < Mathf.Min(oldTiles.GetLength(1), newSize.y); y++)
