@@ -12,7 +12,7 @@ namespace Tiles
         public RectTransform GridTransform => gridTransform;
 
         [SerializeField]
-        private TileGrid<TItem> tileGrid;
+        protected TileGrid<TItem> tileGrid;
 
         protected List<TileUI<TItem>> tileUIs = new List<TileUI<TItem>>();
         public List<TileUI<TItem>> TileUIs => tileUIs;
@@ -53,6 +53,9 @@ namespace Tiles
 
         private void OnValidate()
         {
+            if(gridTransform == null)
+                return;
+
             if (gridImageForValidation == null)
                 gridImageForValidation = gridTransform.GetComponent<Image>();
 
@@ -138,14 +141,14 @@ namespace Tiles
             return tileGrid.CanPlaceTile(tileUI.Tile, GetGridPositon(worldPosition), tileUI.UIRotation);
         }
 
-        public bool TryPlaceTile(TileUI<TItem> tileUI, Vector2Int position)
+        public bool TryPlaceTile(TileUI<TItem> tileUI, Vector2Int position, bool invokeAddedTile = true, bool invokeRemovedTile = true)
         {
-            return tileGrid.TryPlaceTile(tileUI.Tile, position, tileUI.UIRotation);
+            return tileGrid.TryPlaceTile(tileUI.Tile, position, tileUI.UIRotation, invokeAddedTile, invokeRemovedTile);
         }
 
-        public bool TryPlaceTileFromWorldPosition(TileUI<TItem> tile, Vector2 worldPosition)
+        public bool TryPlaceTileFromWorldPosition(TileUI<TItem> tile, Vector2 worldPosition, bool invokeAddedTile = true, bool invokeRemovedTile = true)
         {
-            return TryPlaceTile(tile, GetGridPositon(worldPosition));
+            return TryPlaceTile(tile, GetGridPositon(worldPosition), invokeAddedTile, invokeRemovedTile);
         }
 
         public void AdoptTileUI(TileUI<TItem> tileUI)

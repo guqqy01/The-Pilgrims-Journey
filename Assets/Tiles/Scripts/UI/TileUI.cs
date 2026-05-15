@@ -170,8 +170,14 @@ namespace Tiles
                     if (eventData.pointerDrag == obj)
                         continue;
 
+                    if (obj.name == "Unit Expanding Tile Grid")
+                        Debug.Log(1);
+
                     if (obj.TryGetComponent(out draggedTileGridUI))
                     {
+                        if (obj.name == "Unit Expanding Tile Grid")
+                            Debug.Log(2);
+
                         if (draggedTileGridUI.GridTransform.gameObject.activeInHierarchy && draggedTileGridUI.IsWorldPositionInGrid(eventData.position))
                         {
                             break;
@@ -311,14 +317,16 @@ namespace Tiles
 
             if(draggedTileGridUI != null && draggedTileGridUI.GridTransform.gameObject.activeInHierarchy && draggedTileGridUI.CanPlaceTileFromWorldPosition(this, eventData.position))
             {
-                if (tileGridUI != draggedTileGridUI)
+                bool sameTileGrid = tileGridUI == draggedTileGridUI;
+
+                if (!sameTileGrid)
                 {
                     tileGridUI.RemoveTile(this);
                 }
 
                 draggedTileGridUI.AdoptTileUI(this);
 
-                draggedTileGridUI.TryPlaceTileFromWorldPosition(this, eventData.position);
+                draggedTileGridUI.TryPlaceTileFromWorldPosition(this, eventData.position, !sameTileGrid, !sameTileGrid);
                 tileGridUI = draggedTileGridUI;
                 AudioManager.Instance.PlayPlaceTile();
             }

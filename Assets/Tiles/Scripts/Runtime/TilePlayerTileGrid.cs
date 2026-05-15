@@ -53,7 +53,7 @@ namespace Tiles
             foreach (TileAndUnit tileAndUnit in tiles)
             {
                 UnitTile tile = new UnitTile(tileAndUnit.tile, tileAndUnit.unit);
-                TryPlaceTileAnywhere(tile);
+                TryPlaceTileAnywhere(tile, TileGrid<ITilePlayerTileItem>.Axis.X);
             }
         }
 

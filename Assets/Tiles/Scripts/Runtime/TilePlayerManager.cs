@@ -8,7 +8,6 @@ using System;
 
 namespace Tiles
 {
-
     public class TilePlayerManager : Singleton<TilePlayerManager>, IOnCompleteLocalMapLevel, IOnSetupNewGame, IOnClear
     {
         public float CurrentPlayingPosition { private set; get; }
@@ -120,7 +119,7 @@ namespace Tiles
 
             UnitTile tile = new UnitTile(startingTile, startingUnit);
 
-            if(!playerTileGrid.TryPlaceTileAnywhere(tile))
+            if(!playerTileGrid.TryPlaceTileAnywhere(tile, TileGrid<ITilePlayerTileItem>.Axis.X))
             {
                 Debug.LogWarning("Could not place tile.");
             }
