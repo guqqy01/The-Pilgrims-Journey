@@ -34,6 +34,8 @@ namespace Tiles
         public List<Vector2Int> Shape => TileSO.Shape;
         public List<Vector2Int> RotatedShape => TileSO.Shape.Rotate(Rotation);
 
+        public List<Vector2Int> RotatedPlacedShape => RotatedShape.AddToAll(PlacedPosition);
+
         private float rotation;
 
         public Vector2Int PlacedPosition;

@@ -5,6 +5,77 @@ using GameManagerCalls;
 namespace Tiles
 {
 
+    public class ExpandingTileGrid<TItem> : TileGrid<TItem>
+    {
+        public Axis ExpandingDirection;
+        public int otherSideGridLength;
+
+        [SerializeField]
+        private int minExpandingSize;
+        [SerializeField]
+        private int minExtraSize = 3;
+
+        
+
+        private void Awake()
+        {
+            SetupSize();
+        }
+
+        private void OnTileAdded(Tile<TItem> tile)
+        {
+            SetupSize();
+        }
+
+        private void OnTileRemoved(Tile<TItem> tile)
+        {
+            SetupSize();
+        }
+
+        private void OnTileDestroyed(Tile<TItem> tile)
+        {
+            SetupSize();
+        }
+
+        private void SetupSize()
+        {
+            int expandingSideLength = Mathf.Max(minExpandingSize, GetFurthestPlacedPosition() + minExtraSize);
+
+            switch (ExpandingDirection)
+            {
+                case Axis.X:
+                    gridSize = new Vector2Int(expandingSideLength, otherSideGridLength);
+                    break;
+                case Axis.Y:
+                    gridSize = new Vector2Int(otherSideGridLength, expandingSideLength);
+                    break;
+            }
+        }
+
+        private int GetFurthestPlacedPosition()
+        {
+            int furthest = 0;
+
+            switch (ExpandingDirection)
+            {
+                case Axis.X:
+                    foreach(var tile in ListOfTiles)
+                        foreach (var point in tile.RotatedPlacedShape)
+                            if(point.x > furthest)
+                                furthest = point.x;
+                    break;
+                case Axis.Y:
+                    foreach (var tile in ListOfTiles)
+                        foreach (var point in tile.RotatedPlacedShape)
+                            if (point.y > furthest)
+                                furthest = point.y;
+                    break;
+            }
+
+            return furthest;
+        }
+    }
+
     public class TileGrid<TItem> : MonoBehaviour, IOnClear
     {
         public string SaveFileName => $"TileGrid_{name}_Save";
@@ -33,6 +104,12 @@ namespace Tiles
         public OnTileEvent onTileAdded;
         public OnTileEvent onTileRemoved;
         public OnTileEvent onTileDestroyed;
+
+        public enum Axis
+        {
+            X,
+            Y
+        }
 
         private void OnDestroy()
         {
@@ -81,6 +158,18 @@ namespace Tiles
             }
         }
 
+        public void Organise(Axis axis)
+        {
+            List<Tile<TItem>> tileHolder = ListOfTiles;
+
+            tiles = new Tile<TItem>[gridSize.x, gridSize.y];
+
+            foreach(Tile<TItem> tile in tileHolder)
+            {
+                TryPlaceTileAnywhere(tile, axis, false);
+            }
+        }
+
         public void Clear()
         {
             foreach (Tile<TItem> tile in ListOfTiles)
@@ -125,7 +214,7 @@ namespace Tiles
             return tile != null;
         }
 
-        public bool TryPlaceTileAnywhere(Tile<TItem> tile)
+        public bool TryPlaceTileAnywhere(Tile<TItem> tile, Axis axis, bool invokeAddedTile = true)
         {
             for (int y = 0; y < gridSize.y; y++)
             {
@@ -133,7 +222,7 @@ namespace Tiles
                 {
                     for (float rotation = 0; rotation < 360; rotation += 90)
                     {
-                        if (TryPlaceTile(tile, new Vector2Int(x, y), rotation))
+                        if (TryPlaceTile(tile, new Vector2Int(x, y), rotation, invokeAddedTile))
                         {
                             return true;
                         }
@@ -144,7 +233,7 @@ namespace Tiles
             return false;
         }
 
-        public bool TryPlaceTile(Tile<TItem> selectedTile, Vector2Int position, float rotation)
+        public bool TryPlaceTile(Tile<TItem> selectedTile, Vector2Int position, float rotation, bool invokeAddedTile = true)
         {
             if (!CanPlaceTile(selectedTile, position, rotation))
                 return false;
@@ -161,12 +250,15 @@ namespace Tiles
 
             selectedTile.TileGrid = this;
 
+            selectedTile.ActionDestroyTile -= DestroyTile;
             selectedTile.ActionDestroyTile += DestroyTile;
-            onTileAdded?.Invoke(selectedTile);
+
+            if(invokeAddedTile)
+                onTileAdded?.Invoke(selectedTile);
             return true;
         }
 
-        public bool RemoveTile(Tile<TItem> tile)
+        public bool RemoveTile(Tile<TItem> tile, bool invokeRemoveTile = true)
         {
             bool haveRemovedTile = false;
 
@@ -185,7 +277,9 @@ namespace Tiles
             if (haveRemovedTile && tile.TileGrid != this)
             {
                 tile.ActionDestroyTile -= DestroyTile;
-                onTileRemoved?.Invoke(tile);
+
+                if(invokeRemoveTile)
+                    onTileRemoved?.Invoke(tile);
             }
 
             return haveRemovedTile;
