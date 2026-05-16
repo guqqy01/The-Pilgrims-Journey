@@ -61,11 +61,49 @@ namespace Monsters
 
         private bool TrySpawnOne(MonsterSpawn spawn, Direction? biomeDirection = null)
         {
-            var points = weightMap.WeightAndMapPointsConnectedToPath(spawn.range);
-            if (points == null || points.Count == 0)
+            if(spawn is StationaryMonsterSpawn stationarySpawn)
+                return TrySpawnOneStationary(stationarySpawn, null, biomeDirection);
+            else if (spawn is DirectMonsterSpawn directSpawn)
+                return TrySpawnOneDirect(directSpawn, biomeDirection);
+            else return false;
+        }
+
+        private bool TrySpawnOneStationary(StationaryMonsterSpawn stationarySpawn, List<KeyValuePair<int, List<Vector2Int>>> weightedPoints, Direction? biomeDirection = null)
+        {
+            var weightedStationaryPoints = weightMap.WeightAndMapPointsConnectedToPath(stationarySpawn.range);
+            if (weightedStationaryPoints == null || weightedStationaryPoints.Count == 0)
                 return false;
 
             // Filter points to the biome's dominant zone
+            if (biomeDirection.HasValue)
+            {
+                weightedStationaryPoints = FilterPointsToBiomeZone(weightedStationaryPoints, biomeDirection.Value);
+                if (weightedStationaryPoints.Count == 0)
+                    return false;
+            }
+            else
+            {
+                // Base biome — only spawn where base is dominant
+                weightedStationaryPoints = FilterPointsToBaseDominantZone(weightedStationaryPoints);
+                if (weightedStationaryPoints.Count == 0)
+                    return false;
+            }
+
+            return TrySpawnStationary(stationarySpawn, weightedStationaryPoints);
+        }
+
+        private bool TrySpawnOneDirect(DirectMonsterSpawn directSpawn, Direction? biomeDirection = null)
+        {
+            Vector3 heroPos = HeroManager.Instance.ActiveHero != null
+                ? HeroManager.Instance.ActiveHero.transform.position
+                : Vector3.zero;
+
+            Vector2Int heroPosOnGrid = new Vector2Int(
+                Mathf.FloorToInt(heroPos.x),
+                Mathf.FloorToInt(heroPos.y));
+
+            List<Vector2Int> points = weightMap.GetAllPointsConnectedToPath();
+
             if (biomeDirection.HasValue)
             {
                 points = FilterPointsToBiomeZone(points, biomeDirection.Value);
@@ -80,22 +118,12 @@ namespace Monsters
                     return false;
             }
 
-            Vector3 heroPos = HeroManager.Instance.ActiveHero != null
-                ? HeroManager.Instance.ActiveHero.transform.position
-                : Vector3.zero;
-
-            Vector2Int heroPosOnGrid = new Vector2Int(
-                Mathf.FloorToInt(heroPos.x),
-                Mathf.FloorToInt(heroPos.y));
-
-            return spawn.monster.movementType == MonsterMovementType.Direct
-                ? TrySpawnDirect(spawn, points, heroPosOnGrid)
-                : TrySpawnStationary(spawn, points);
+            return TrySpawnDirect(directSpawn, points, heroPosOnGrid);
         }
 
         private List<KeyValuePair<int, List<Vector2Int>>> FilterPointsToBiomeZone(
-    List<KeyValuePair<int, List<Vector2Int>>> points,
-    Direction blendDirection)
+            List<KeyValuePair<int, List<Vector2Int>>> points,
+            Direction blendDirection)
         {
             var result = new List<KeyValuePair<int, List<Vector2Int>>>();
             foreach (var (weight, positions) in points)
@@ -122,6 +150,19 @@ namespace Monsters
             return result;
         }
 
+        private List<Vector2Int> FilterPointsToBiomeZone(
+            List<Vector2Int> points,
+            Direction blendDirection)
+        {
+             return points.Where(point => LocalMapGenerator.Instance.GetDominantBlendDirection(point) == blendDirection).ToList();
+        }
+
+        private List<Vector2Int> FilterPointsToBaseDominantZone(
+            List<Vector2Int> points)
+        {
+                return points.Where(point => LocalMapGenerator.Instance.GetDominantBlendDirection(point) == null).ToList();
+        }
+
         private bool CanSpawnMore(MonsterSO monster, MonsterSpawn spawn)
         {
             int max = Mathf.FloorToInt(
@@ -141,7 +182,7 @@ namespace Monsters
             }
         }
 
-        private bool IsWithinSpawnDistance(MonsterSpawn spawn, Vector2Int point, Vector2Int hero)
+        private bool IsWithinSpawnDistance(DirectMonsterSpawn spawn, Vector2Int point, Vector2Int hero)
         {
             float dist = Vector2.Distance(point, hero);
             return dist >= spawn.minSpawnDistance && dist <= spawn.maxSpawnDistance;

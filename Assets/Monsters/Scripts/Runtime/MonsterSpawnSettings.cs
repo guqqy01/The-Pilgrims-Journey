@@ -9,24 +9,31 @@ namespace Monsters
     [CreateAssetMenu()]
     public class MonsterSpawnSettings : ScriptableObject
     {
+        [AbstractSelector]
+        [SerializeReference]
         public List<MonsterSpawn> rangeAndMonster;
         public List<BossMonsterSpawn> bossMonsters;
 
         public List<Wave> waves = new List<Wave>(); // define waves in inspector
     }
 
-    [Serializable]
-    public struct MonsterSpawn
+    public class DirectMonsterSpawn : MonsterSpawn
+    {
+        public float minSpawnDistance;
+        public float maxSpawnDistance;
+    }
+
+    public class StationaryMonsterSpawn : MonsterSpawn
     {
         public int range;
+    }
+
+    [Serializable]
+    public abstract class MonsterSpawn
+    {
         public AnimationCurve maxAmountVSLevel;
         public AnimationCurve spawnRateVSLevel;
         public MonsterSO monster;
-
-        // NEW: spawn-distance constraints for Direct movers (grid units)
-        // If minSpawnDistance == 0 and maxSpawnDistance == 0 => not used
-        public float minSpawnDistance;
-        public float maxSpawnDistance;
     }
 
     [Serializable]
@@ -35,6 +42,8 @@ namespace Monsters
         public int range;
         public MonsterSO boss;
 
+        [SerializeReference]
+        [AbstractSelector]
         public List<MonsterSpawn> bossMinionSpawns;
     }
 

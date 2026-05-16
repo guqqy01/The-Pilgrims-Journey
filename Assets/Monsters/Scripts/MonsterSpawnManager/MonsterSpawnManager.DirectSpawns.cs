@@ -11,30 +11,23 @@ namespace Monsters
     public partial class MonsterSpawnManager
     {
         private bool TrySpawnDirect(
-            MonsterSpawn spawn, 
-            List<KeyValuePair<int, List<Vector2Int>>> weightedPoints,
+            DirectMonsterSpawn spawn, 
+            List<Vector2Int> points,
             Vector2Int heroPosOnGrid)
         {
             var list = new WeightedChanceList<Vector2>();
-            int maxWeight = weightedPoints.Max(w => w.Key);
-            int minWeight = weightedPoints.Min(w => w.Key);
 
-            bool onlyOneWeight = maxWeight == minWeight;
-
-            foreach (var (weight, points) in weightedPoints)
+            foreach (var p in points)
             {
-                foreach (var p in points)
-                {
-                    if (!IsWithinSpawnDistance(spawn, p, heroPosOnGrid))
-                        continue;
+                if (!IsWithinSpawnDistance(spawn, p, heroPosOnGrid))
+                    continue;
 
-                    if (SpotOccupied(p, spawn.monster.size, out Vector2 pos))
-                        continue;
+                if (SpotOccupied(p, spawn.monster.size, out Vector2 pos))
+                    continue;
 
-                    int invertedWeight = onlyOneWeight ? 1 : Mathf.Max(maxWeight - weight, 0);
-                    list.Add(pos, invertedWeight);
-                }
+                list.Add(pos, 1);
             }
+            
 
             if (list.weightedList.Count == 0)
                 return false;

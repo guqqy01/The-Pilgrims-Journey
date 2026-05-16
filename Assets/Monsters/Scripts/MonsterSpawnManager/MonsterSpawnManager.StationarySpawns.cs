@@ -40,7 +40,8 @@ namespace Monsters
             foreach (var (settings, biomeDirection) in _allActiveSpawnSettings)
             {
                 foreach (var spawn in settings.rangeAndMonster
-                             .Where(s => s.monster.movementType == MonsterMovementType.Stationary))
+                             .Where(s => s is StationaryMonsterSpawn)
+                             .Select(x => x as StationaryMonsterSpawn))
                 {
                     int amount = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
 

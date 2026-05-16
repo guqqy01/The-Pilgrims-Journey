@@ -13,20 +13,32 @@ namespace LocalMap
 
         private readonly Dictionary<int, Dictionary<Vector2Int, int>> rangeAndCoordsAndIndex;
 
+        private List<Vector2Int> _allPointConnectedToPath;
+
         public EnemySpawnWeightMap(Pathway pathway, IEnumerable<MonsterSpawnSettings> allSettings, int xSize, int ySize)
         {
             int maxRange = 0;
 
             foreach (var settings in allSettings)
             {
-                foreach (var s in settings.rangeAndMonster)
-                    maxRange = Mathf.Max(maxRange, s.range);
+                foreach (var monsterSpawn in settings.rangeAndMonster)
+                {
+                    if (monsterSpawn is not StationaryMonsterSpawn stationaryMonsterSpawn)
+                        continue;
+
+                    maxRange = Mathf.Max(maxRange, stationaryMonsterSpawn.range);
+                }
 
                 foreach (var boss in settings.bossMonsters)
                 {
                     maxRange = Mathf.Max(maxRange, boss.range);
                     foreach (var minion in boss.bossMinionSpawns)
-                        maxRange = Mathf.Max(maxRange, minion.range);
+                    {
+                        if (minion is not StationaryMonsterSpawn stationaryMonsterSpawn)
+                            continue;
+
+                        maxRange = Mathf.Max(maxRange, stationaryMonsterSpawn.range);
+                    }
                 }
             }
 
@@ -80,6 +92,33 @@ namespace LocalMap
             }
 
             Sort();
+
+            _allPointConnectedToPath = AllPointsConnectedToPath();
+        }
+
+        public List<Vector2Int> GetAllPointsConnectedToPath()
+        {
+            if (_allPointConnectedToPath != null)
+                return _allPointConnectedToPath;
+
+            _allPointConnectedToPath = AllPointsConnectedToPath();
+
+            return _allPointConnectedToPath;
+        }
+
+        private List<Vector2Int> AllPointsConnectedToPath()
+        {
+            var result = new List<Vector2Int>();
+            foreach (var mapTile in LocalMapGenerator.Instance.Tiles)
+            {
+                if (mapTile == null)
+                    continue;
+
+                    if (!LocalMapGenerator.Instance.IsConnectedToPath(mapTile.Position))
+                        continue;
+                    result.Add(mapTile.Position);
+            }
+            return result;
         }
 
         public List<KeyValuePair<int, List<Vector2Int>>> WeightAndMapPointsConnectedToPath(int range)

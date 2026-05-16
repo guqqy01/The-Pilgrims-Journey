@@ -13,58 +13,7 @@ MonoBehaviour:
   m_Name: Desert Monster Spawning
   m_EditorClassIdentifier: 
   rangeAndMonster:
-  - range: 2
-    maxAmountVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 5
-        inSlope: 24.75
-        outSlope: 24.75
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 500
-        inSlope: 24.75
-        outSlope: 24.75
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spawnRateVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.5
-        inSlope: -0.022499999
-        outSlope: -0.022499999
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 0.05
-        inSlope: -0.022499999
-        outSlope: -0.022499999
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
-    minSpawnDistance: 10
-    maxSpawnDistance: 30
+  - rid: 145160089495142497
   bossMonsters:
   - range: 6
     boss: {fileID: 11400000, guid: 1336c490713e32441ae5e38a50724b15, type: 2}
@@ -85,3 +34,60 @@ MonoBehaviour:
     - monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
       count: 160
       range: 5
+  references:
+    version: 2
+    RefIds:
+    - rid: 145160089495142497
+      type: {class: DirectMonsterSpawn, ns: Monsters, asm: Gameplay}
+      data:
+        maxAmountVSLevel:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 30
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 20
+            value: 200
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        spawnRateVSLevel:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 20
+            value: 0.1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
+        minSpawnDistance: 10
+        maxSpawnDistance: 50
