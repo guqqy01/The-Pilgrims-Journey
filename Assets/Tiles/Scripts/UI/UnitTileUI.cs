@@ -10,7 +10,6 @@ namespace Tiles
 
     public class UnitTileUI : TileUIBase, IDescriptable
     {
-        
         [SerializeField]
         private RectTransform unitUITransform;
         private Image unitGraphics;
@@ -53,11 +52,6 @@ namespace Tiles
             unitGraphics = unitUITransform.GetComponent<Image>();
         }
 
-        public void OnUnitSpawn()
-        {
-            UnitTile.OnUnitSpawn();
-        }
-
         public override void Rotate(int angle)
         {
             base.Rotate(angle);
@@ -83,7 +77,6 @@ namespace Tiles
             unitGraphics.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(tile.Shape);
         }
 
-        
 
         #region Stats
 

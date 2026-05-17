@@ -72,19 +72,12 @@ namespace Monsters
         {
             var spawn = monsterSpawnSettings.rangeAndMonster.Find(s => s.monster == monster);
             
-            if(spawn.monster == null || spawn.maxAmountVSLevel == null)
+            if(spawn.monster == null)
             {
                 return;
             }
 
-            int previous = aliveCountByMonster[monster];
-            int maxAllowed = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
-
-            if (previous >= maxAllowed)
-            {
-                float now = Time.time;
-                nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(spawn);
-            }
+            nextSpawnTimeByMonster[monster] = Time.time + GetNextSpawnDelay(spawn);
         }
 
     }

@@ -163,16 +163,6 @@ namespace Monsters
                 return points.Where(point => LocalMapGenerator.Instance.GetDominantBlendDirection(point) == null).ToList();
         }
 
-        private bool CanSpawnMore(MonsterSO monster, MonsterSpawn spawn)
-        {
-            int max = Mathf.FloorToInt(
-                spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level)
-            );
-
-            return aliveCountByMonster[monster] < max;
-        }
-
-
         private void MarkOccupied(Vector2Int origin, Vector2 size)
         {
             for (int x = 0; x < size.x; x++)
@@ -234,7 +224,7 @@ namespace Monsters
                 HasBossMonsterBeenKilled = null;
             }
 
-            PreSpawnStationaryMonsters();
+            //PreSpawnStationaryMonsters();
 
             levelStartTime = Time.time;
             nextWaveIndex = 0;

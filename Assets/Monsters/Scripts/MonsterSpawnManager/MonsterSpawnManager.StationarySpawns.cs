@@ -35,18 +35,18 @@ namespace Monsters
             return false;
         }
 
-        private void PreSpawnStationaryMonsters()
+        /*private void PreSpawnStationaryMonsters()
         {
             foreach (var (settings, biomeDirection) in _allActiveSpawnSettings)
             {
-                foreach (var spawn in settings.rangeAndMonster
+                foreach (var stationarySpawn in settings.rangeAndMonster
                              .Where(s => s is StationaryMonsterSpawn)
                              .Select(x => x as StationaryMonsterSpawn))
                 {
-                    int amount = Mathf.FloorToInt(spawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
+                    int amount = Mathf.FloorToInt(stationarySpawn.maxAmountVSLevel.Evaluate(GameManager.Instance.Level));
 
                     // Get weighted points and filter to this biome's zone
-                    var points = weightMap.WeightAndMapPointsConnectedToPath(spawn.range);
+                    var points = weightMap.WeightAndMapPointsConnectedToPath(stationarySpawn.range);
 
                     if (biomeDirection.HasValue)
                         points = FilterPointsToBiomeZone(points, biomeDirection.Value);
@@ -69,16 +69,16 @@ namespace Monsters
                         Vector2Int p = flatPoints[flatIndex];
                         flatIndex++;
 
-                        if (SpotOccupied(p, spawn.monster.size, out Vector2 _))
+                        if (SpotOccupied(p, stationarySpawn.monster.size, out Vector2 _))
                             continue;
 
-                        SpawnMonster(spawn.monster, p);
-                        MarkOccupied(p, spawn.monster.size);
+                        SpawnMonster(stationarySpawn.monster, p);
+                        MarkOccupied(p, stationarySpawn.monster.size);
                         placed++;
                     }
                 }
             }
-        }
+        }*/
     }
 
 }

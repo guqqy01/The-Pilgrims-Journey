@@ -1,10 +1,11 @@
 ﻿using Monsters;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Monsters
 {
     [CreateAssetMenu]
-    public class MonsterSO : ScriptableObject
+    public class MonsterSO : ScriptableObject, IDescriptable
     {
         public new string name;
         [TextArea()]
@@ -20,6 +21,8 @@ namespace Monsters
 
         public MonsterMovementType movementType = MonsterMovementType.Stationary;
 
+        public int powerLevel = 1;
+
         [Header("Stats")]
         public float movementSpeed;
 
@@ -27,6 +30,14 @@ namespace Monsters
         public int shield;
         public float shieldCooldown;
         public float shieldRegeneration;
+
+        public string Title => name;
+
+        public string MainDescription => description;
+
+        public Sprite Sprite => sprite;
+
+        public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
     }
 }
 

@@ -56,9 +56,6 @@ namespace Monsters
 
                 EnsureMonsterTrackingExists(monster);
 
-                if (!CanSpawnMore(monster, spawn))
-                    continue;
-
                 if (now < nextSpawnTimeByMonster[monster])
                     continue;
 

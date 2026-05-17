@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using GlobalMap;
-
+using static UnityEngine.ParticleSystem;
 namespace Monsters
 {
     [CreateAssetMenu()]
@@ -31,7 +31,6 @@ namespace Monsters
     [Serializable]
     public abstract class MonsterSpawn
     {
-        public AnimationCurve maxAmountVSLevel;
         public AnimationCurve spawnRateVSLevel;
         public MonsterSO monster;
     }
