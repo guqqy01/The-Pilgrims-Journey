@@ -48,7 +48,7 @@ namespace Monsters
 
                 foreach (var (settings, direction) in _allActiveSpawnSettings)
                 {
-                    var match = settings.rangeAndMonster.FirstOrDefault(s => s.monster == entry.monster);
+                    var match = settings.monsterSpawns.FirstOrDefault(s => s.monster == entry.monster);
                     if (match.monster != null)
                     {
                         spawnDef = match;

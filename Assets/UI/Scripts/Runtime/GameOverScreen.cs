@@ -20,7 +20,7 @@ public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGam
         gameObject.SetActive(true);
     }
 
-    public void RemoveBlurOverride()
+    public void OnSetupNewGame()
     {
         gameObject.SetActive(false);
     }

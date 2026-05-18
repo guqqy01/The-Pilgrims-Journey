@@ -116,6 +116,8 @@ namespace Tiles
             tile.ActionDestroyTile -= DestroyTile;
             tile.OnDestroy();
             onTileDestroyed?.Invoke(tile);
+
+            RemoveTile(tile);
         }
 
         public bool PointOutOfGrid(Vector2Int point) => point.x >= gridSize.x || point.x < 0 || point.y >= gridSize.y || point.y < 0;

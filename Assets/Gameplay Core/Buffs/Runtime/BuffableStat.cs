@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -45,6 +46,16 @@ public class BuffableStat: IBuffSource, ISerializationCallbackReceiver, IDisposa
             buffableStat.onValueChange += RefreshValue;
 
         RefreshValue();
+    }
+
+    public void ClearAllBuffs()
+    {
+        List<string> buffReferences = buffs.Select(x => x.Key).ToList();
+
+        foreach(var buffReference in buffReferences)
+        {
+            RemoveBuff(buffReference);
+        }
     }
 
     public void RemoveBuff(string reference)
@@ -124,11 +135,6 @@ public class BuffableStat: IBuffSource, ISerializationCallbackReceiver, IDisposa
         {
             _isComputingBuff = false;
         }
-    }
-
-    public IntOrFloatObject Evaluate(IntOrFloatObject baseValue)
-    {
-        return Value;
     }
 
     // Simple serialization: preserve baseStat only. Dynamic buffs are runtime-only and won't be persisted.

@@ -26,17 +26,7 @@ namespace Tiles
         [HideInInspector]
         public TileGridUI tileGridUI;
 
-        public float BaseRotation
-        {
-            get
-            {
-                return Tile.Rotation;
-            }
-            set
-            {
-                Tile.Rotation = value;
-            }
-        }
+        public float BaseRotation => Tile.Rotation;
 
         public float UIRotation
         {
@@ -122,10 +112,7 @@ namespace Tiles
         [HideInInspector]
         public TileGridUI draggedTileGridUI;
 
-        [HideInInspector]
-        public Vector2Int PlacedPosition;
-        [HideInInspector]
-        public float PlacedRotation;
+        public Vector2Int BasePlacedPosition => Tile.PlacedPosition;
 
         private Vector2Int currentTilePosition;
         private TileGridUI currentTileGridUI;
@@ -334,8 +321,8 @@ namespace Tiles
             }
             else
             {
-                UIRotation = PlacedRotation;
-                RectTransform.position = tileGridUI.TileRectPositionAtVector2IntPosition(this, PlacedPosition);
+                UIRotation = Tile.Rotation;
+                RectTransform.position = tileGridUI.TileRectPositionAtVector2IntPosition(this, BasePlacedPosition);
                 transform.SetParent(tileGridUI.transform);
                 Color = Color.white;
                 AudioManager.Instance.PlayCancelMoveTile();

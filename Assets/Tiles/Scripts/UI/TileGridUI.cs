@@ -73,22 +73,21 @@ namespace Tiles
 
         private void OnTileAdded(TileBase tileAdded)
         {
+            if (tileAdded == null)
+                return;
+
             if (TryGetTilesUI(tileAdded, out TileUIBase existing))
             {
-                existing.PlacedPosition = tileAdded.PlacedPosition;
-                existing.PlacedRotation = tileAdded.Rotation;
                 existing.UIRotation = tileAdded.Rotation;
                 existing.RectTransform.position = TileRectPositionAtVector2IntPosition(existing, tileAdded.PlacedPosition);
                 return;
             }
 
-            if (TileUIPrefabManager.Instance.TileSOAndPrefab.TryGetValue(tileAdded.TileSO, out TileUIBase prefab) && prefab != null)
+            if (TileUIPrefabManager.Instance.TryGetTileUIBase(tileAdded, out TileUIBase prefab) && prefab != null)
             {
                 TileUIBase tileUI = Instantiate(prefab, GridTransform);
                 tileUI.BaseInit(tileAdded);
                 tileUI.tileGridUI = this;
-                tileUI.PlacedPosition = tileAdded.PlacedPosition;
-                tileUI.PlacedRotation = tileAdded.Rotation;
                 tileUI.UIRotation = tileAdded.Rotation;
                 tileUI.RectTransform.position = TileRectPositionAtVector2IntPosition(tileUI, tileAdded.PlacedPosition);
                 tileUIs.Add(tileUI);
@@ -112,8 +111,13 @@ namespace Tiles
         {
             if(TryGetTilesUI(tileDestroyed, out TileUIBase tileUI))
             {
+                Debug.Log($"Destroying tileUI: {tileUI}");
                 TileUIs.Remove(tileUI);
                 Destroy(tileUI.gameObject);
+            }
+            else
+            {
+                Debug.LogWarning($"Could not Find Tile UI for Tile {tileDestroyed}");
             }
         }
 
@@ -164,9 +168,9 @@ namespace Tiles
             tileUI.transform.SetParent(GridTransform, true);
         }
 
-        public Vector2 TileRectPositionAtVector2IntPosition(TileUIBase tile, Vector2Int position)
+        public Vector2 TileRectPositionAtVector2IntPosition(TileUIBase tileUI, Vector2Int position)
         {
-            return (Vector2)GridTransform.position + GridTransform.lossyScale * (SingleTileSquareSize * (position - ((Vector2)tileGrid.GridSize - Vector2.one) / 2f) + tile.GetOffset() * SingleTileSquareSize);
+            return (Vector2)GridTransform.position + GridTransform.lossyScale * (SingleTileSquareSize * (position - ((Vector2)tileGrid.GridSize - Vector2.one) / 2f) + tileUI.GetOffset() * SingleTileSquareSize);
         }
 
         public bool TryGetTileUIAtMousePosition(out TileUIBase tile)

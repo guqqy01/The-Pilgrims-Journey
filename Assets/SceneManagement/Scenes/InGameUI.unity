@@ -1763,6 +1763,68 @@ RectTransform:
   m_AnchoredPosition: {x: 18.1, y: -10.4}
   m_SizeDelta: {x: 92.504, y: 11.676}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &125301219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 125301220}
+  - component: {fileID: 125301221}
+  m_Layer: 0
+  m_Name: Difficulty Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &125301220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125301219}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 412035605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &125301221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125301219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e6ea2dcde1b2f4d9d1bc7ce818e823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::DifficultyLevelManager
+  levelDifficultyMultiplier: 1
+  LevelDifficultyMultiplier:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  horizontalDistanceDifficultyMultiplier: 1
+  HorizontalDistanceDifficultyMultiplier:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  overallDifficultyMultiplier: 1
+  OverallDifficultyMultiplier:
+    serializedBaseStat:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
 --- !u!1 &126022707
 GameObject:
   m_ObjectHideFlags: 0
@@ -5794,6 +5856,7 @@ Transform:
   - {fileID: 270785364}
   - {fileID: 1548576842}
   - {fileID: 778410958}
+  - {fileID: 125301220}
   m_Father: {fileID: 1724326376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &421457870
@@ -11789,6 +11852,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 778410958}
+  - component: {fileID: 778410959}
   m_Layer: 0
   m_Name: Monster Tiles Manager
   m_TagString: Untagged
@@ -11811,6 +11875,149 @@ Transform:
   m_Children: []
   m_Father: {fileID: 412035605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &778410959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778410957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64c4c3618d946743ad8340300a6cfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::Tiles.MonsterTileManager
+  tiles:
+    weightedList:
+    - item: {fileID: 11400000, guid: 66665728d186fa34c97aebb2a33baf12, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: 47cf2c52c9a5afd479402902ac4f13d6, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: 0b1240e4d954898489a522e3577a6508, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: cf89aca80b4c68d47a3b29dcbc195e2d, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: 523ef3e135f1ae84184a4d678bc795f6, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: 350564c8ec85d794f8ad106459032041, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+    - item: {fileID: 11400000, guid: 4c711d92f573d3442bbd6d4dec61bc5e, type: 2}
+      weightCurve:
+        m_Mode: 0
+        m_CurveMultiplier: 0
+        m_CurveMin:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_CurveMax:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        m_ConstantMin: 0
+        m_ConstantMax: 1
+  difficultyAmountExtraMultiplier: 0.1
+  tilePlayerTileGrid: {fileID: 1164369852}
+  monsterExpandingTileGrid: {fileID: 463647420}
 --- !u!1 &787407072
 GameObject:
   m_ObjectHideFlags: 0
@@ -26392,22 +26599,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604f94ea216499949ae47ac4f086b8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UI::Tiles.UnitTileUIPrefabManager
-  tileSOAndPrefab:
+  tileTypeReferenceAndTileUIPrefab:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 66665728d186fa34c97aebb2a33baf12, type: 2}
+    - Key:
+        script: {fileID: 11500000, guid: 64896a812d4c10a4c933d3df172ab6bd, type: 3}
+        assemblyQualifiedName: 
       Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
-    - Key: {fileID: 11400000, guid: 47cf2c52c9a5afd479402902ac4f13d6, type: 2}
-      Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
-    - Key: {fileID: 11400000, guid: 0b1240e4d954898489a522e3577a6508, type: 2}
-      Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
-    - Key: {fileID: 11400000, guid: cf89aca80b4c68d47a3b29dcbc195e2d, type: 2}
-      Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
-    - Key: {fileID: 11400000, guid: 523ef3e135f1ae84184a4d678bc795f6, type: 2}
-      Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
-    - Key: {fileID: 11400000, guid: 350564c8ec85d794f8ad106459032041, type: 2}
-      Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
-    - Key: {fileID: 11400000, guid: 4c711d92f573d3442bbd6d4dec61bc5e, type: 2}
-      Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+    - Key:
+        script: {fileID: 11500000, guid: d93d55f7439ecca4c8e94d3dc93c46e5, type: 3}
+        assemblyQualifiedName: 
+      Value: {fileID: 2908005308586561717, guid: 33d7ff0aa99ad1d4f9ab1eddb708bea6, type: 3}
 --- !u!1 &1552812013
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ namespace LocalMap
 
             foreach (var settings in allSettings)
             {
-                foreach (var monsterSpawn in settings.rangeAndMonster)
+                foreach (var monsterSpawn in settings.monsterSpawns)
                 {
                     if (monsterSpawn is not StationaryMonsterSpawn stationaryMonsterSpawn)
                         continue;

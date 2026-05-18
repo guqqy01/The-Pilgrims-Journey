@@ -20,7 +20,7 @@ public class InventoryUIManager : Singleton<InventoryUIManager>, IOnSetupNewGame
         
     }
 
-    public void RemoveBlurOverride()
+    public void OnSetupNewGame()
     {
         foreach(var button in optionalButtons)
         {

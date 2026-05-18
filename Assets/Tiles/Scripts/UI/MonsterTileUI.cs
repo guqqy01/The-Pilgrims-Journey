@@ -62,13 +62,13 @@ public class MonsterTileUI : TileUIBase, IDescriptable
 
     public override void BaseInit(TileBase tile)
     {
-        if (tile is not UnitTile unitTile)
+        base.BaseInit(tile);
+
+        if (tile is not MonsterTile monsterTile)
             return;
 
-        base.BaseInit(unitTile);
-
         monsterGraphics = monsterUITransform.GetComponent<Image>();
-        monsterGraphics.sprite = unitTile.UnitSO.sprite;
+        monsterGraphics.sprite = monsterTile.MonsterSpawn.monster.sprite;
         tileShapeTextureBuilder.Build(tile.Shape);
         monsterGraphics.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(tile.Shape);
     }

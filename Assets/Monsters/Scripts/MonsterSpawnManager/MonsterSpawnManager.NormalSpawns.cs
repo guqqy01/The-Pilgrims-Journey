@@ -16,7 +16,7 @@ namespace Monsters
         {
             foreach (var (settings, blendDirection) in _allActiveSpawnSettings)
             {
-                foreach (var spawn in settings.rangeAndMonster)
+                foreach (var spawn in settings.monsterSpawns)
                 {
                     var monster = spawn.monster;
                     EnsureMonsterTrackingExists(monster);

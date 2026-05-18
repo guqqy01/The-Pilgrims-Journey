@@ -119,7 +119,7 @@ namespace Tiles
             }
         }
 
-        public void RemoveBlurOverride()
+        public void OnSetupNewGame()
         {
             StopPlaying();
 
@@ -147,7 +147,7 @@ namespace Tiles
 
             PositionChanged();
 
-            foreach (UnitTile tile in playerTileGrid.ListOfTiles)
+            foreach (TileBase tile in playerTileGrid.ListOfTiles)
             {
                 tile.locked = true;
             }
@@ -157,7 +157,7 @@ namespace Tiles
 
         public void StopPlaying()
         {
-            foreach (UnitTile tile in playerTileGrid.ListOfTiles)
+            foreach (TileBase tile in playerTileGrid.ListOfTiles)
             {
                 tile.locked = false;
             }
@@ -213,20 +213,21 @@ namespace Tiles
                 if (playerTileGrid.Tiles[position, i] != null)
                 {
                     if (playerTileGrid.Tiles[position, i] is UnitTile unitTile)
-                    if (returnTiles.ContainsKey(unitTile))
                     {
-                        returnTiles[unitTile] += 1;
-                    }
-                    else
-                    {
-                        returnTiles.Add(unitTile, 1);
+                        if (returnTiles.ContainsKey(unitTile))
+                        {
+                            returnTiles[unitTile] += 1;
+                        }
+                        else
+                        {
+                            returnTiles.Add(unitTile, 1);
+                        }
                     }
                 }
             }
 
             return returnTiles;
         }
-
         public void OnCompleteLocalMapLevel()
         {
             StopPlaying();

@@ -53,7 +53,7 @@ public class BlurBackgroundController : Singleton< BlurBackgroundController>, IO
         }
     }
 
-    public void RemoveBlurOverride()
+    public void OnSetupNewGame()
     {
         blurRequests.Clear();
         blurVolume.weight = 0;

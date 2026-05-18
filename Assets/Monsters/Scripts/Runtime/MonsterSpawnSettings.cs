@@ -11,7 +11,7 @@ namespace Monsters
     {
         [AbstractSelector]
         [SerializeReference]
-        public List<MonsterSpawn> rangeAndMonster;
+        public List<MonsterSpawn> monsterSpawns;
         public List<BossMonsterSpawn> bossMonsters;
 
         public List<Wave> waves = new List<Wave>(); // define waves in inspector
@@ -33,6 +33,7 @@ namespace Monsters
     {
         public AnimationCurve spawnRateVSLevel;
         public MonsterSO monster;
+        public float Difficulty => monster.powerLevel;
     }
 
     [Serializable]

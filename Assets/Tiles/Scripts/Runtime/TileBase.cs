@@ -41,7 +41,6 @@ namespace Tiles
 
         public virtual void OnDestroy()
         {
-            
             OnRotated = null;
             onUpdateUI = null;
             ActionDestroyTile = null;

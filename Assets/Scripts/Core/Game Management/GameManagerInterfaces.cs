@@ -59,7 +59,7 @@ namespace GameManagerCalls
 
     public interface IOnSetupNewGame : IGameManagerCallInterface
     {
-        public void RemoveBlurOverride();
+        public void OnSetupNewGame();
     }
 
     public interface IOnLoadAfterMapPointSceneLoad : IGameManagerCallInterface

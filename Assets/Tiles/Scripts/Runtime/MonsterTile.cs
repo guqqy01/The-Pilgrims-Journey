@@ -1,4 +1,5 @@
 ﻿using Monsters;
+using UnityEngine;
 namespace Tiles
 {
     public class MonsterTile : TileBase
@@ -9,6 +10,15 @@ namespace Tiles
         {
             _monsterSpawn = monsterSpawn;
         }
+
+        public float Difficulty
+        {
+            get
+            {
+                return Shape.Count * MonsterSpawn.Difficulty; 
+            }
+        }
+
     }
 }
 

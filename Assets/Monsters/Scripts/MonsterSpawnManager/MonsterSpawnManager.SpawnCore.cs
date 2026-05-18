@@ -42,7 +42,7 @@ namespace Monsters
 
             if (!nextSpawnTimeByMonster.ContainsKey(monster))
             {
-                var spawn = monsterSpawnSettings.rangeAndMonster
+                var spawn = monsterSpawnSettings.monsterSpawns
                     .Find(s => s.monster == monster);
 
                 float delay = 0f;
@@ -209,7 +209,7 @@ namespace Monsters
             aliveCountByMonster.Clear();
             nextSpawnTimeByMonster.Clear();
 
-            foreach (var spawn in monsterSpawnSettings.rangeAndMonster)
+            foreach (var spawn in monsterSpawnSettings.monsterSpawns)
                 EnsureMonsterTrackingExists(spawn.monster);
 
             if (boss.HasValue)

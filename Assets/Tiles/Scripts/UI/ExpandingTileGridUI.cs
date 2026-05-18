@@ -62,7 +62,7 @@ namespace Tiles
         {
             foreach (var tileUI in tileUIs)
             {
-                tileUI.RectTransform.position = TileRectPositionAtVector2IntPosition(tileUI, tileUI.PlacedPosition);
+                tileUI.RectTransform.position = TileRectPositionAtVector2IntPosition(tileUI, tileUI.BasePlacedPosition);
             }
         }
     }
