@@ -1,8 +1,10 @@
 using GameManagerCalls;
 using GlobalMap;
+using Helper.Wait;
 using LocalMap;
 using System.Collections.Generic;
 using System.Linq;
+using Tiles;
 using UnityEngine;
 
 namespace Monsters
@@ -24,6 +26,7 @@ namespace Monsters
         private LocalMapGenerator Map => LocalMapGenerator.Instance;
 
         private MonsterSpawnSettings monsterSpawnSettings;
+
         private List<(MonsterSpawnSettings settings, Direction? blendDirection)> _allActiveSpawnSettings
             = new List<(MonsterSpawnSettings, Direction?)>();
 
@@ -95,6 +98,38 @@ namespace Monsters
                 bossSpawn = monsterSpawnSettings.bossMonsters.GetRandom();
 
             BeginSpawning(bossSpawn);
+        }
+
+        private void Awake()
+        {
+            WaitForHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToTilePlayer);
+        }
+
+        private void SubscribeToTilePlayer()
+        {
+            TilePlayerManager.Instance.onPositionChangeCurrentMonsterTiles -= SetupNewMonsterSpawnRates;
+            TilePlayerManager.Instance.onPositionChangeCurrentMonsterTiles += SetupNewMonsterSpawnRates;
+        }
+
+        private void OnDestroy()
+        {
+            if(TilePlayerManager.Instance != null)
+                TilePlayerManager.Instance.onPositionChangeCurrentMonsterTiles -= SetupNewMonsterSpawnRates;
+        }
+
+        private List<(MonsterSpawn, int)> spawns = new List<(MonsterSpawn, int)>();
+
+        private void SetupNewMonsterSpawnRates(Dictionary<MonsterTile, int> tileAndSize)
+        {
+            spawns.Clear();
+
+            foreach (var kvp in tileAndSize)
+            {
+                MonsterTile monsterTile = kvp.Key;
+                int tileSize = kvp.Value;
+
+                spawns.Add((monsterTile.MonsterSpawn, tileSize));
+            }
         }
 
         private void Update()

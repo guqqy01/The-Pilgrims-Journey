@@ -1,13 +1,11 @@
 ﻿using Equipment;
 using System.Collections.Generic;
-using System.Linq;
 using Units;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Tiles
 {
-
     public class UnitTileUI : TileUIBase, IDescriptable
     {
         [SerializeField]

@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using GlobalMap;
-using static UnityEngine.ParticleSystem;
+
 namespace Monsters
 {
     [CreateAssetMenu()]

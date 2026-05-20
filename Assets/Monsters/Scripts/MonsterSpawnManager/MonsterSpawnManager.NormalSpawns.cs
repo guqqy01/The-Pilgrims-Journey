@@ -1,7 +1,4 @@
-using Heros;
-using LocalMap;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
 
 namespace Monsters
@@ -11,10 +8,21 @@ namespace Monsters
     /// </summary>
     public partial class MonsterSpawnManager
     {
-        
         private void ProcessNormalSpawns(float now)
         {
-            foreach (var (settings, blendDirection) in _allActiveSpawnSettings)
+            foreach(var (monsterSpawn, size) in spawns)
+            {
+                var monster = monsterSpawn.monster;
+                EnsureMonsterTrackingExists(monster);
+
+                if (now < nextSpawnTimeByMonster[monster])
+                    continue;
+
+                TrySpawnOne(monsterSpawn);
+                nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(monsterSpawn, size);
+            }
+
+            /*foreach (var (settings, blendDirection) in _allActiveSpawnSettings)
             {
                 foreach (var spawn in settings.monsterSpawns)
                 {
@@ -27,7 +35,7 @@ namespace Monsters
                     TrySpawnOne(spawn, blendDirection);
                     nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(spawn);
                 }
-            }
+            }*/
         }
 
         private float GetNextSpawnDelay(MonsterSpawn spawn)
@@ -37,10 +45,18 @@ namespace Monsters
                 spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
             );
 
-            return baseRate * Random.Range(0.75f, 1.25f);
+            return baseRate * UnityEngine.Random.Range(0.75f, 1.25f);
         }
 
-        
+        private float GetNextSpawnDelay(MonsterSpawn spawn, int tileSize)
+        {
+            float baseRate = Mathf.Max(
+                0.01f,
+                spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level) / tileSize
+            );
+
+            return baseRate * UnityEngine.Random.Range(0.75f, 1.25f);
+        }
     }
 
 

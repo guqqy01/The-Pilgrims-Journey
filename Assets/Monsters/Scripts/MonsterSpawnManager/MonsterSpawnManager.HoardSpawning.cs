@@ -33,7 +33,8 @@ namespace Monsters
 
             if (now >= hordeEndTime)
             {
-                SpawnMonster(deathMonster, GetAllSideTiles(PathPicker.Instance.PickedDirection.Value.OppositeDirection()).GetRandom());
+                if(deathMonster != null)
+                    SpawnMonster(deathMonster, GetAllSideTiles(PathPicker.Instance.PickedDirection.Value.OppositeDirection()).GetRandom());
 
                 hordeActive = false;
                 hordeMultiplier = 1;

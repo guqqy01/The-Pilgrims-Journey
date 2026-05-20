@@ -1,10 +1,10 @@
 ﻿using GameManagerCalls;
+using LocalMap;
+using Spells;
+using System;
 using System.Collections.Generic;
 using Units;
 using UnityEngine;
-using Spells;
-using LocalMap;
-using System;
 
 namespace Tiles
 {
@@ -12,9 +12,13 @@ namespace Tiles
     {
         public float CurrentPlayingPosition { private set; get; }
 
-        public delegate void OnCurrentPlayingPositionChange(Dictionary<UnitTile, int> spawningTilesAndSize);
-        public OnCurrentPlayingPositionChange onPositionChangeNextSpawning;
-        public OnCurrentPlayingPositionChange onPositionChangeCurrentSpawning;
+        public delegate void OnPositionChangeUnitTiles(Dictionary<UnitTile, int> spawningTilesAndSize);
+        public event OnPositionChangeUnitTiles onPositionChangeNextUnitTiles;
+        public event OnPositionChangeUnitTiles onPositionChangeCurrentUnitTiles;
+
+        public delegate void OnPositionChangeMonsterTiles(Dictionary<MonsterTile, int> spawningTilesAndSize);
+        public event OnPositionChangeMonsterTiles onPositionChangeNextMonsterTiles;
+        public event OnPositionChangeMonsterTiles onPositionChangeCurrentMonsterTiles;
 
         public delegate void NoRemainingTilesToPlay();
         public NoRemainingTilesToPlay noRemainingTilesToPlay;
@@ -27,8 +31,11 @@ namespace Tiles
 
         public bool IsPlaying { private set; get; } = false;
 
-        public Dictionary<UnitTile, int> SpawningTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
-        public Dictionary<UnitTile, int> NextSpawningTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
+        public Dictionary<UnitTile, int> SpawningUnitTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
+        public Dictionary<UnitTile, int> NextSpawningUnitTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
+
+        public Dictionary<MonsterTile, int> SpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTile, int>();
+        public Dictionary<MonsterTile, int> NextSpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTile, int>();
 
         [Header("Starting Tile")]
         [SerializeField]
@@ -61,10 +68,13 @@ namespace Tiles
 
         protected override void CleanUp()
         {
-            onPositionChangeNextSpawning = null;
-            onPositionChangeCurrentSpawning = null;
+            onPositionChangeNextUnitTiles = null;
+            onPositionChangeCurrentUnitTiles = null;
             noRemainingTilesToPlay = null;
             onPlay = null;
+
+            onPositionChangeNextMonsterTiles = null;
+            onPositionChangeCurrentMonsterTiles = null;
 
             if (playerTileGrid != null)
             {
@@ -72,8 +82,6 @@ namespace Tiles
                 playerTileGrid.onTileRemoved -= OnTileRemoved;
             }
         }
-
-        
 
         private void OnTileAdded(TileBase tile)
         {
@@ -137,7 +145,6 @@ namespace Tiles
             }
         }
 
-
         public void Play()
         {
             if (PathPicker.Instance.PickedDirection == null)
@@ -168,29 +175,31 @@ namespace Tiles
             OnStopPlaying?.Invoke();
         }
 
-        public void SetupNext()
-        {
-
-        }
-
         public void PositionChanged()
         {
             int newPosition = Mathf.FloorToInt(CurrentPlayingPosition);
             
-            SpawningTilesAndSize = GetTilesInPositionAndSize(newPosition);
-            NextSpawningTilesAndSize = GetTilesInPositionAndSize(newPosition + 1);
+            SpawningUnitTilesAndSize = GetUnitTilesInPositionAndSize(newPosition);
+            NextSpawningUnitTilesAndSize = GetUnitTilesInPositionAndSize(newPosition + 1);
 
-            onPositionChangeCurrentSpawning?.Invoke(SpawningTilesAndSize);
-            onPositionChangeNextSpawning?.Invoke(NextSpawningTilesAndSize);
+            SpawningMonsterTilesAndSize = GetMonsterTilesInPositionAndSize(newPosition);
+            NextSpawningMonsterTilesAndSize = GetMonsterTilesInPositionAndSize(newPosition + 1);
 
-            if (!IsPlaying || SpawningTilesAndSize.Count > 0)
+            onPositionChangeCurrentUnitTiles?.Invoke(SpawningUnitTilesAndSize);
+            onPositionChangeNextUnitTiles?.Invoke(NextSpawningUnitTilesAndSize);
+
+            onPositionChangeCurrentMonsterTiles?.Invoke(SpawningMonsterTilesAndSize);
+            onPositionChangeNextMonsterTiles?.Invoke(NextSpawningMonsterTilesAndSize);
+
+            if (!IsPlaying || SpawningUnitTilesAndSize.Count > 0)
                 return;
 
-            List<UnitTile> remainingTiles = new List<UnitTile>();
+            List<TileBase> remainingTiles = new List<TileBase>();
 
             for (int i = newPosition + 1; i < playerTileGrid.GridSize.x + 1; i++)
             {
-                remainingTiles.AddRange(GetTilesInPositionAndSize(i).Keys);
+                remainingTiles.AddRange(GetUnitTilesInPositionAndSize(i).Keys);
+                remainingTiles.AddRange(GetMonsterTilesInPositionAndSize(i).Keys);
             }
 
             if (remainingTiles.Count == 0)
@@ -199,7 +208,7 @@ namespace Tiles
             }
         }
 
-        public Dictionary<UnitTile, int> GetTilesInPositionAndSize(int position)
+        public Dictionary<UnitTile, int> GetUnitTilesInPositionAndSize(int position)
         {
             Dictionary<UnitTile, int> returnTiles = new Dictionary<UnitTile, int>();
 
@@ -228,6 +237,37 @@ namespace Tiles
 
             return returnTiles;
         }
+
+        public Dictionary<MonsterTile, int> GetMonsterTilesInPositionAndSize(int position)
+        {
+            Dictionary<MonsterTile, int> returnTiles = new Dictionary<MonsterTile, int>();
+
+            if (position >= playerTileGrid.Tiles.GetLength(0))
+            {
+                return returnTiles;
+            }
+
+            for (int i = 0; i < playerTileGrid.Tiles.GetLength(1); i++)
+            {
+                if (playerTileGrid.Tiles[position, i] != null)
+                {
+                    if (playerTileGrid.Tiles[position, i] is MonsterTile monsterTile)
+                    {
+                        if (returnTiles.ContainsKey(monsterTile))
+                        {
+                            returnTiles[monsterTile] += 1;
+                        }
+                        else
+                        {
+                            returnTiles.Add(monsterTile, 1);
+                        }
+                    }
+                }
+            }
+
+            return returnTiles;
+        }
+
         public void OnCompleteLocalMapLevel()
         {
             StopPlaying();

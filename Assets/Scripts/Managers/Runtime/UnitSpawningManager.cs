@@ -34,7 +34,7 @@ public class UnitSpawningManager
     private void OnDisable()
     {
         if (TilePlayerManager.Instance != null)
-            TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= SetupNewSpawnRateValues;
+            TilePlayerManager.Instance.onPositionChangeCurrentUnitTiles -= SetupNewSpawnRateValues;
     }
 
     private void Update()
@@ -48,8 +48,8 @@ public class UnitSpawningManager
 
     private void Subscribe()
     {
-        TilePlayerManager.Instance.onPositionChangeCurrentSpawning -= SetupNewSpawnRateValues;
-        TilePlayerManager.Instance.onPositionChangeCurrentSpawning += SetupNewSpawnRateValues;
+        TilePlayerManager.Instance.onPositionChangeCurrentUnitTiles -= SetupNewSpawnRateValues;
+        TilePlayerManager.Instance.onPositionChangeCurrentUnitTiles += SetupNewSpawnRateValues;
     }
 
     // ---------------------------------------------------------

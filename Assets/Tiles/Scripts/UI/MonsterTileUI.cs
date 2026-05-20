@@ -1,8 +1,6 @@
-using Equipment;
 using Monsters;
 using System.Collections.Generic;
 using Tiles;
-using Units;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +17,9 @@ public class MonsterTileUI : TileUIBase, IDescriptable
         {
             if (_monsterTile == null)
             {
-                if (Tile is MonsterTile unitTile)
+                if (Tile is MonsterTile monsterTile)
                 {
-                    _monsterTile = unitTile;
+                    _monsterTile = monsterTile;
                 }
                 else
                 {

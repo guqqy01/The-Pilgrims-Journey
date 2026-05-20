@@ -24,6 +24,7 @@ public class BuffableStat: IBuffSource, ISerializationCallbackReceiver, IDisposa
 
     // Serialization backing fields
     [SerializeField]
+    [HideInInspector]
     private IntOrFloatObject serializedBaseStat;
 
     public BuffableStat(int baseStat) : this(new IntOrFloatObject(baseStat)) { }

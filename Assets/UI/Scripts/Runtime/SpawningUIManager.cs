@@ -18,8 +18,8 @@ public class SpawningUIManager : MonoBehaviour
 
     private void Start()
     {
-        TilePlayerManager.Instance.onPositionChangeCurrentSpawning += OnTilePlayerPositionChangeCurrentSpawning;
-        TilePlayerManager.Instance.onPositionChangeNextSpawning += OnTilePlayerPositionChangeNextSpawning;
+        TilePlayerManager.Instance.onPositionChangeCurrentUnitTiles += OnTilePlayerPositionChangeCurrentSpawning;
+        TilePlayerManager.Instance.onPositionChangeNextUnitTiles += OnTilePlayerPositionChangeNextSpawning;
     }
     
     private void OnTilePlayerPositionChangeCurrentSpawning(Dictionary<UnitTile, int> currentSpawningTilesAndSize)

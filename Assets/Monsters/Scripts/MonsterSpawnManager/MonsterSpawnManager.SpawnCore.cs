@@ -47,12 +47,12 @@ namespace Monsters
 
                 float delay = 0f;
 
+                if (spawn == null)
+                    return;
+
                 if(spawn.monster != null)
                 {
-                    delay = UnityEngine.Random.Range(
-                    0f,
-                    spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
-                );
+                    delay = Random.Range(0f, spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level));
                 }
 
                 nextSpawnTimeByMonster[monster] = Time.time + delay;

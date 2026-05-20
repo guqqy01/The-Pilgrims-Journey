@@ -33,7 +33,8 @@ namespace Monsters
             Monster bossMonster = SpawnMonster(bossSpawn.boss, p);
             BossMonster = bossMonster;
             BossMonster.HealthAndShieldManager.Health.onDie += OnBossDie;
-            MarkOccupied(p, bossSpawn.boss.size);
+            if(bossSpawn.boss.movementType == MonsterMovementType.Stationary)
+                MarkOccupied(p, bossSpawn.boss.size);
         }
 
         private void HandleSpawnBossMinions(float now)
