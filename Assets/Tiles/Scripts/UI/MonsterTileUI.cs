@@ -41,6 +41,10 @@ public class MonsterTileUI : TileUIBase, IDescriptable
         }
     }
 
+    [SerializeField]
+    private TileUIStyle tileUIStyle;
+    public override TileUIStyle TileUIStyle => tileUIStyle;
+
     private void Awake()
     {
         monsterGraphics = monsterUITransform.GetComponent<Image>();
@@ -67,7 +71,6 @@ public class MonsterTileUI : TileUIBase, IDescriptable
 
         monsterGraphics = monsterUITransform.GetComponent<Image>();
         monsterGraphics.sprite = monsterTile.MonsterSpawn.monster.sprite;
-        tileShapeTextureBuilder.Build(tile.Shape);
         monsterGraphics.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(tile.Shape);
     }
 

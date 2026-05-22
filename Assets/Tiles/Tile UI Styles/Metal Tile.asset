@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535cf871b332d80488f0b7dfae08f661, type: 3}
+  m_Name: Metal Tile
+  m_EditorClassIdentifier: UI::TileUIStyle
+  spritePixelSize: 13
+  fill: {fileID: -1872039172, guid: dd0a9ad0e2299f347ace3a849356687d, type: 3}
+  edgeHorizontal: {fileID: -915006430, guid: 8be758b3386326441a7076ad47c187de, type: 3}
+  edgeVertical: {fileID: -1716327774, guid: 8be758b3386326441a7076ad47c187de, type: 3}
+  outerCorners: {fileID: 2097482581, guid: 8be758b3386326441a7076ad47c187de, type: 3}
+  innerCorners: {fileID: -138595319, guid: 8be758b3386326441a7076ad47c187de, type: 3}

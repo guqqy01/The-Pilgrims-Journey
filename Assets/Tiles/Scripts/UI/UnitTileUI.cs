@@ -45,6 +45,10 @@ namespace Tiles
             }
         }
 
+        [SerializeField]
+        private TileUIStyle tileUIStyle;
+        public override TileUIStyle TileUIStyle => tileUIStyle;
+
         private void Awake()
         {
             unitGraphics = unitUITransform.GetComponent<Image>();
@@ -64,14 +68,13 @@ namespace Tiles
 
         public override void BaseInit(TileBase tile)
         {
+            base.BaseInit(tile);
+
             if (tile is not UnitTile unitTile)
                 return;
 
-            base.BaseInit(unitTile);
-
             unitGraphics = unitUITransform.GetComponent<Image>();
             unitGraphics.sprite = unitTile.UnitSO.sprite;
-            tileShapeTextureBuilder.Build(tile.Shape);
             unitGraphics.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(tile.Shape);
         }
 

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tiles
 {
-    public class TileUIBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
+    public abstract class TileUIBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
         protected const float _singleTileSize = 43.75f;
 
@@ -334,6 +334,8 @@ namespace Tiles
         [SerializeField]
         private GameObject highlight;
 
+       public abstract TileUIStyle TileUIStyle { get; }
+
         public void Highlight(bool highlighted)
         {
             highlight.SetActive(highlighted);
@@ -349,7 +351,7 @@ namespace Tiles
             /*tileGraphics.sprite = Tile.TileSO.TileSprite;
             tileGraphics.SetNativeSize();*/
 
-            tileShapeTextureBuilder.Build(tile.Shape);
+            tileShapeTextureBuilder.Build(tile.Shape, TileUIStyle);
 
             if (RectTransform == null)
                 RectTransform = GetComponent<RectTransform>();

@@ -163,13 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c625cd79bcf614c961676abed71833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UI::Tiles.TileShapeTextureBuilder
-  cellPixelSize: 13
   uiCellSize: 43.75
-  fill: {fileID: -1872039172, guid: dd0a9ad0e2299f347ace3a849356687d, type: 3}
-  edgeHorizontal: {fileID: -915006430, guid: 8be758b3386326441a7076ad47c187de, type: 3}
-  edgeVertical: {fileID: -1716327774, guid: 8be758b3386326441a7076ad47c187de, type: 3}
-  outerCorners: {fileID: 2097482581, guid: 8be758b3386326441a7076ad47c187de, type: 3}
-  innerCorners: {fileID: -138595319, guid: 8be758b3386326441a7076ad47c187de, type: 3}
   alphaHitThreshold: 0.1
 --- !u!1 &4581054701423722107
 GameObject:
@@ -437,7 +431,6 @@ MonoBehaviour:
   tileGridUI: {fileID: 0}
   canvasGroup: {fileID: 5470110230690505024}
   draggedTileGridUI: {fileID: 0}
-  PlacedPosition: {x: 0, y: 0}
-  PlacedRotation: 0
   highlight: {fileID: 4581054701423722107}
   unitUITransform: {fileID: 5862625845639175595}
+  tileUIStyle: {fileID: 11400000, guid: 3e83aac4c0c61094a9badab57988b81a, type: 2}

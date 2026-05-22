@@ -81,6 +81,7 @@ MonoBehaviour:
   draggedTileGridUI: {fileID: 0}
   highlight: {fileID: 8147102098634572294}
   monsterUITransform: {fileID: 488785096109844548}
+  tileUIStyle: {fileID: 11400000, guid: b5b9df8964ab3cb4b99eb9a00ea08d8b, type: 2}
 --- !u!1 &3686923403352556828
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,13 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c625cd79bcf614c961676abed71833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UI::Tiles.TileShapeTextureBuilder
-  cellPixelSize: 16
   uiCellSize: 43.75
-  fill: {fileID: 218802275, guid: 38a8cf0ca99ac41468ec3deb1dff06c2, type: 3}
-  edgeHorizontal: {fileID: -806055382, guid: 712f2c076064fa84abb7ede70bee6811, type: 3}
-  edgeVertical: {fileID: 1358003495, guid: 712f2c076064fa84abb7ede70bee6811, type: 3}
-  outerCorners: {fileID: -474846576, guid: 712f2c076064fa84abb7ede70bee6811, type: 3}
-  innerCorners: {fileID: -1588455155, guid: 712f2c076064fa84abb7ede70bee6811, type: 3}
   alphaHitThreshold: 0.1
 --- !u!1 &8147102098634572294
 GameObject:

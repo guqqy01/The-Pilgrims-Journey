@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 namespace Tiles
 {
     /// <summary>
@@ -31,29 +30,8 @@ namespace Tiles
     [RequireComponent(typeof(Image))]
     public class TileShapeTextureBuilder : MonoBehaviour
     {
-        // ?? Inspector ????????????????????????????????????????????????????????????
-        [Header("Pixel Settings")]
-        [Tooltip("Pixel width/height of every sprite. All sprites must be this size.")]
-        [SerializeField] private int cellPixelSize = 13;
-
         [Tooltip("How many UI units wide one cell should appear on screen.")]
         [SerializeField] private float uiCellSize = 32f;
-
-        [Header("Sprites — all must be cellPixelSize × cellPixelSize")]
-        [Tooltip("Solid interior fill, no border.")]
-        [SerializeField] private Sprite fill;
-
-        [Tooltip("Border on top and bottom. Top half of sprite = top edge, bottom half = bottom edge.")]
-        [SerializeField] private Sprite edgeHorizontal;
-
-        [Tooltip("Border on left and right. Left half of sprite = left edge, right half = right edge.")]
-        [SerializeField] private Sprite edgeVertical;
-
-        [Tooltip("All four outer corner pieces. Each quadrant of the sprite is one corner.")]
-        [SerializeField] private Sprite outerCorners;
-
-        [Tooltip("All four inner corner caps. Each quadrant of the sprite is one corner.")]
-        [SerializeField] private Sprite innerCorners;
 
         [Tooltip("Alpha threshold below which pixels don't register raycasts (0–1).")]
         [SerializeField][Range(0f, 1f)] private float alphaHitThreshold = 0.1f;
@@ -68,6 +46,8 @@ namespace Tiles
         private Color[] _edgeVPixels;
         private Color[] _outerCornerPixels;
         private Color[] _innerCornerPixels;
+
+        private TileUIStyle _uiStyle;
 
         // Working buffer — all passes write here, flushed once at the end
         private Color[] _working;
@@ -85,8 +65,10 @@ namespace Tiles
         /// Generates and applies the texture for <paramref name="shape"/>.
         /// Safe to call multiple times — the previous texture is destroyed first.
         /// </summary>
-        public void Build(List<Vector2Int> shape)
+        public void Build(List<Vector2Int> shape, TileUIStyle uiStyle)
         {
+            _uiStyle = uiStyle;
+
             if (shape == null || shape.Count == 0)
             {
                 Debug.LogWarning($"[TileShapeTextureBuilder] {name}: shape is empty.");
@@ -102,8 +84,8 @@ namespace Tiles
             Vector2Int boundsMax = BoundsMax(shape);
             Vector2Int boundsSize = boundsMax - boundsMin + Vector2Int.one;
 
-            int texW = boundsSize.x * cellPixelSize;
-            int texH = boundsSize.y * cellPixelSize;
+            int texW = boundsSize.x * uiStyle.SpritePixelSize;
+            int texH = boundsSize.y * uiStyle.SpritePixelSize;
 
             _texture = new Texture2D(texW, texH, TextureFormat.RGBA32, false)
             {
@@ -185,13 +167,13 @@ namespace Tiles
                 _texture,
                 new Rect(0, 0, _texture.width, _texture.height),
                 new Vector2(0.5f, 0.5f), // pivot centre
-                cellPixelSize             // pixels per unit
+                uiStyle.SpritePixelSize             // pixels per unit
             );
 
             _image.sprite = _generatedSprite;
             _image.alphaHitTestMinimumThreshold = alphaHitThreshold;
 
-            float scale = uiCellSize / cellPixelSize;
+            float scale = uiCellSize / uiStyle.SpritePixelSize;
             GetComponent<RectTransform>().sizeDelta = new Vector2(texW, texH) * scale;
         }
 
@@ -205,7 +187,7 @@ namespace Tiles
         /// </summary>
         private void StampFull(Vector2Int cellOffset, Color[] src)
         {
-            int s = cellPixelSize;
+            int s = _uiStyle.SpritePixelSize;
 
             for (int y = 0; y < s; y++)
                 for (int x = 0; x < s; x++)
@@ -231,7 +213,7 @@ namespace Tiles
         /// </summary>
         private void StampEdge(Vector2Int cellOffset, EdgeSide side)
         {
-            int s = cellPixelSize;
+            int s = _uiStyle.SpritePixelSize;
             int half = s / 2;
 
             Color[] src = (side == EdgeSide.Top || side == EdgeSide.Bottom)
@@ -273,16 +255,16 @@ namespace Tiles
         /// </summary>
         private void StampCorner(Vector2Int cellOffset, Color[] src, Corner corner)
         {
-            int s = cellPixelSize;
+            int s = _uiStyle.SpritePixelSize;
             int half = s / 2;
 
             int srcX = (corner == Corner.TopRight || corner == Corner.BottomRight) ? half : 0;
             int srcY = (corner == Corner.TopLeft || corner == Corner.TopRight) ? half : 0;
 
-            if (cellPixelSize.Odd() && (corner == Corner.BottomRight || corner == Corner.TopRight))
+            if (_uiStyle.SpritePixelSize.Odd() && (corner == Corner.BottomRight || corner == Corner.TopRight))
                 srcX += 1;
 
-            if (cellPixelSize.Odd() && (corner == Corner.TopLeft || corner == Corner.TopRight))
+            if (_uiStyle.SpritePixelSize.Odd() && (corner == Corner.TopLeft || corner == Corner.TopRight))
                 srcY += 1;
 
             // Destination in the cell matches the source quadrant position
@@ -324,11 +306,11 @@ namespace Tiles
 
         private void CachePixels()
         {
-            _fillPixels = GetSpritePixels(fill);
-            _edgeHPixels = GetSpritePixels(edgeHorizontal);
-            _edgeVPixels = GetSpritePixels(edgeVertical);
-            _outerCornerPixels = GetSpritePixels(outerCorners);
-            _innerCornerPixels = GetSpritePixels(innerCorners);
+            _fillPixels = GetSpritePixels(_uiStyle.Fill);
+            _edgeHPixels = GetSpritePixels(_uiStyle.EdgeHorizontal);
+            _edgeVPixels = GetSpritePixels(_uiStyle.EdgeVertical);
+            _outerCornerPixels = GetSpritePixels(_uiStyle.OuterCorners);
+            _innerCornerPixels = GetSpritePixels(_uiStyle.InnerCorners);
         }
 
         /// <summary>
@@ -350,7 +332,7 @@ namespace Tiles
         // ?????????????????????????????????????????????????????????????????????????
 
         private Vector2Int Offset(Vector2Int cell, Vector2Int boundsMin)
-            => (cell - boundsMin) * cellPixelSize;
+            => (cell - boundsMin) * _uiStyle.SpritePixelSize;
 
         private static Vector2Int BoundsMin(List<Vector2Int> shape)
         {
@@ -381,11 +363,11 @@ namespace Tiles
         private bool ValidateSprites()
         {
             bool ok = true;
-            ok &= AssertSprite(fill, nameof(fill));
-            ok &= AssertSprite(edgeHorizontal, nameof(edgeHorizontal));
-            ok &= AssertSprite(edgeVertical, nameof(edgeVertical));
-            ok &= AssertSprite(outerCorners, nameof(outerCorners));
-            ok &= AssertSprite(innerCorners, nameof(innerCorners));
+            ok &= AssertSprite(_uiStyle.Fill, nameof(_uiStyle.Fill));
+            ok &= AssertSprite(_uiStyle.EdgeHorizontal, nameof(_uiStyle.EdgeHorizontal));
+            ok &= AssertSprite(_uiStyle.EdgeVertical, nameof(_uiStyle.EdgeVertical));
+            ok &= AssertSprite(_uiStyle.OuterCorners, nameof(_uiStyle.OuterCorners));
+            ok &= AssertSprite(_uiStyle.InnerCorners, nameof(_uiStyle.InnerCorners));
             return ok;
         }
 
