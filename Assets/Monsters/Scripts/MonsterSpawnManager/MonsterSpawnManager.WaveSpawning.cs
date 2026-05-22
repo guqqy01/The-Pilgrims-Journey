@@ -14,103 +14,34 @@ namespace Monsters
         [SerializeField] private float spawnRetryDelay = 0.5f;
         [SerializeField] private float maxSpawnRetryTime = 5f;
 
-        private struct WaveSpawnRequest
+        private void ProcessWaveTriggers()
         {
-            public MonsterSpawn spawn;
-            public Direction? biomeDirection;
-            public float scheduledTime;
-            public float expiryTime;
-        }
-
-        private void ProcessWaveTriggers(float now)
-        {
-            if (nextWaveIndex >= monsterSpawnSettings.waves.Count)
-                return;
-
-            var wave = monsterSpawnSettings.waves[nextWaveIndex];
-            if (now - levelStartTime < wave.triggerTime)
-                return;
-
-            BeginSpawningWave(wave);
-            nextWaveIndex++;
-        }
-
-        private void BeginSpawningWave(Wave wave)
-        {
-            var spawnQueue = new List<WaveSpawnRequest>();
-
-            foreach (var entry in wave.entries)
+            foreach(var waveSpawn in waveSpawns)
             {
-                // Search all active settings for this monster's spawn definition
-                MonsterSpawn spawnDef = default;
-                Direction? biomeDirection = null;
-                bool found = false;
-
-                foreach (var (settings, direction) in _allActiveSpawnSettings)
-                {
-                    var match = settings.monsterSpawns.FirstOrDefault(s => s.monster == entry.monster);
-                    if (match.monster != null)
-                    {
-                        spawnDef = match;
-                        biomeDirection = direction;
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found)
-                {
-                    Debug.LogWarning($"No spawn definition for monster {entry.monster.name}");
-                    continue;
-                }
-
-                for (int i = 0; i < entry.count; i++)
-                {
-                    spawnQueue.Add(new WaveSpawnRequest
-                    {
-                        spawn = spawnDef,
-                        biomeDirection = biomeDirection,
-                        scheduledTime = Time.time + Random.Range(0f, randomWaveSpawnDelay),
-                        expiryTime = Time.time + maxSpawnRetryTime
-                    });
-                }
+                BeginSpawningWave(waveSpawn.Item1, waveSpawn.Item2);
             }
-
-            StartCoroutine(SpawnWave(spawnQueue));
         }
 
-
-
-        private IEnumerator SpawnWave(List<WaveSpawnRequest> spawnQueue)
+        private void BeginSpawningWave(WaveMonsterSpawn wave, int multiplier)
         {
-            while (spawnQueue.Count > 0)
+            StartCoroutine(SpawnWave(wave));
+        }
+
+        private IEnumerator SpawnWave(WaveMonsterSpawn wave)
+        {
+            int currentCount = 0;
+
+            while (currentCount < wave.Count)
             {
                 float now = Time.time;
 
-                for (int i = spawnQueue.Count - 1; i >= 0; i--)
+                if (TrySpawnOne(wave))
                 {
-                    var request = spawnQueue[i];
-
-                    if (now < request.scheduledTime)
-                        continue;
-
-                    // Give up if we've retried too long
-                    if (now > request.expiryTime)
-                    {
-                        spawnQueue.RemoveAt(i);
-                        continue;
-                    }
-
-                    if (TrySpawnOne(request.spawn, request.biomeDirection))
-                    {
-                        spawnQueue.RemoveAt(i);
-                    }
-                    else
-                    {
-                        // Retry later instead of hammering every frame
-                        request.scheduledTime = now + spawnRetryDelay;
-                        spawnQueue[i] = request;
-                    }
+                    currentCount++;
+                }
+                else
+                {
+                    yield return new WaitForSeconds(spawnRetryDelay);
                 }
 
                 yield return null;

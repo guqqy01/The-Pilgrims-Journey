@@ -26,7 +26,12 @@ namespace Tiles
         {
             MonsterSpawnSettings monsterSpawnSettings = GlobalMapGenerator.Instance.CurrentMapPoint.GenerationSettings.MonsterSpawnSettings;
 
-            List<MonsterSpawn> monsterSpawns = monsterSpawnSettings.monsterSpawns;
+            List<NormalMonsterSpawn> normalMonsterSpawns = monsterSpawnSettings.normalMonsterSpawns;
+            List<WaveMonsterSpawn> waveMonsterSpawns = monsterSpawnSettings.waveMonsterSpawns;
+
+            List<MonsterSpawn> monsterSpawns = new List<MonsterSpawn>();
+            monsterSpawns.AddRange(normalMonsterSpawns);
+            monsterSpawns.AddRange(waveMonsterSpawns);
 
             float difficultyNeeded = DifficultyLevelManager.Instance.DifficultyLevel * (1f + difficultyAmountExtraMultiplier);
 

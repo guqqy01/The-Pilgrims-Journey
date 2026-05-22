@@ -12,36 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945d5f93844d9ab46baf73a6c9be6cf0, type: 3}
   m_Name: Desert Monster Spawning
   m_EditorClassIdentifier: 
-  monsterSpawns:
-  - rid: 1478789668725850201
+  normalMonsterSpawns:
+  - rid: 1478789766931284055
+  waveMonsterSpawns: []
   bossMonsters:
   - range: 6
     boss: {fileID: 11400000, guid: 1336c490713e32441ae5e38a50724b15, type: 2}
     bossMinionSpawns: []
-  waves: []
   references:
     version: 2
     RefIds:
-    - rid: 1478789668725850201
-      type: {class: DirectMonsterSpawn, ns: Monsters, asm: Gameplay}
+    - rid: 1478789766931284055
+      type: {class: NormalDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
+        monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
         spawnRateVSLevel:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 0.2
-            inSlope: 0.24000001
-            outSlope: 0.24000001
+            value: 1
+            inSlope: -0.04
+            outSlope: -0.04
             tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0.33333334
           - serializedVersion: 3
             time: 20
-            value: 5
-            inSlope: 0.24000001
-            outSlope: 0.24000001
+            value: 0.2
+            inSlope: -0.04
+            outSlope: -0.04
             tangentMode: 34
             weightedMode: 0
             inWeight: 0.33333334
@@ -49,6 +50,5 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
         minSpawnDistance: 10
         maxSpawnDistance: 50

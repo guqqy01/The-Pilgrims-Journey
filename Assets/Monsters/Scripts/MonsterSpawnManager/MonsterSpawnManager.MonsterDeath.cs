@@ -70,7 +70,7 @@ namespace Monsters
 
         private void HandleRespawnDelay(MonsterSO monster)
         {
-            var spawn = monsterSpawnSettings.monsterSpawns.Find(s => s.monster == monster);
+            var spawn = monsterSpawnSettings.normalMonsterSpawns.Find(s => s.monster == monster);
             
             if(spawn.monster == null)
             {

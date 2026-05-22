@@ -11,10 +11,10 @@ namespace Monsters
     public partial class MonsterSpawnManager
     {
         private bool TrySpawnStationary(
-            MonsterSpawn spawn,
+            IStationaryMonsterSpawn spawn,
             List<KeyValuePair<int, List<Vector2Int>>> weightedPoints)
         {
-            if (spawn.monster == null)
+            if (spawn.MonsterSO == null)
                 return false;
 
             foreach (var (_, points) in weightedPoints)
@@ -23,11 +23,11 @@ namespace Monsters
 
                 foreach (var p in shuffled)
                 {
-                    if (SpotOccupied(p, spawn.monster.size, out Vector2 pos))
+                    if (SpotOccupied(p, spawn.MonsterSO.size, out Vector2 pos))
                         continue;
 
-                    SpawnMonster(spawn.monster, pos);
-                    MarkOccupied(p, spawn.monster.size);
+                    SpawnMonster(spawn.MonsterSO, pos);
+                    MarkOccupied(p, spawn.MonsterSO.size);
                     return true;
                 }
             }

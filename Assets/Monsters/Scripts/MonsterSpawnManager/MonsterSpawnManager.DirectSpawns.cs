@@ -11,7 +11,7 @@ namespace Monsters
     public partial class MonsterSpawnManager
     {
         private bool TrySpawnDirect(
-            DirectMonsterSpawn spawn, 
+            IDirectMonsterSpawn spawn, 
             List<Vector2Int> points,
             Vector2Int heroPosOnGrid)
         {
@@ -22,7 +22,7 @@ namespace Monsters
                 if (!IsWithinSpawnDistance(spawn, p, heroPosOnGrid))
                     continue;
 
-                if (SpotOccupied(p, spawn.monster.size, out Vector2 pos))
+                if (SpotOccupied(p, spawn.MonsterSO.size, out Vector2 pos))
                     continue;
 
                 list.Add(pos, 1);
@@ -32,7 +32,7 @@ namespace Monsters
             if (list.weightedList.Count == 0)
                 return false;
 
-            SpawnMonster(spawn.monster, list.GetRandom());
+            SpawnMonster(spawn.MonsterSO, list.GetRandom());
             return true;
         }
     }

@@ -10,49 +10,37 @@ namespace Monsters
     {
         private void ProcessNormalSpawns(float now)
         {
-            foreach(var (monsterSpawn, size) in spawns)
+            foreach(var (monsterSpawn, size) in normalSpawns)
             {
+                if (monsterSpawn is not NormalMonsterSpawn normalMonsterSpawn)
+                    continue;
+
                 var monster = monsterSpawn.monster;
                 EnsureMonsterTrackingExists(monster);
 
                 if (now < nextSpawnTimeByMonster[monster])
                     continue;
 
-                TrySpawnOne(monsterSpawn);
-                nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(monsterSpawn, size);
+                TrySpawnOne(normalMonsterSpawn);
+                nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(normalMonsterSpawn, size);
             }
-
-            /*foreach (var (settings, blendDirection) in _allActiveSpawnSettings)
-            {
-                foreach (var spawn in settings.monsterSpawns)
-                {
-                    var monster = spawn.monster;
-                    EnsureMonsterTrackingExists(monster);
-
-                    if (now < nextSpawnTimeByMonster[monster])
-                        continue;
-
-                    TrySpawnOne(spawn, blendDirection);
-                    nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(spawn);
-                }
-            }*/
         }
 
-        private float GetNextSpawnDelay(MonsterSpawn spawn)
+        private float GetNextSpawnDelay(NormalMonsterSpawn spawn)
         {
             float baseRate = Mathf.Max(
                 0.01f,
-                spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level)
+                spawn.SpawnRate
             );
 
             return baseRate * UnityEngine.Random.Range(0.75f, 1.25f);
         }
 
-        private float GetNextSpawnDelay(MonsterSpawn spawn, int tileSize)
+        private float GetNextSpawnDelay(NormalMonsterSpawn spawn, int tileSize)
         {
             float baseRate = Mathf.Max(
                 0.01f,
-                spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level) / tileSize
+                spawn.SpawnRate / tileSize
             );
 
             return baseRate * UnityEngine.Random.Range(0.75f, 1.25f);

@@ -91,7 +91,6 @@ namespace Monsters
             Random.InitState(GlobalMapGenerator.Instance.CurrentMapPoint.Seed);
 
             levelStartTime = Time.time;
-            nextWaveIndex = 0;
 
             BossMonsterSpawn? bossSpawn = null;
             if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Relic)
@@ -117,19 +116,30 @@ namespace Monsters
                 TilePlayerManager.Instance.onPositionChangeCurrentMonsterTiles -= SetupNewMonsterSpawnRates;
         }
 
-        private List<(MonsterSpawn, int)> spawns = new List<(MonsterSpawn, int)>();
-
+        private List<(NormalMonsterSpawn, int)> normalSpawns = new List<(NormalMonsterSpawn, int)>();
+        private List<(WaveMonsterSpawn, int)> waveSpawns = new List<(WaveMonsterSpawn, int)>();
         private void SetupNewMonsterSpawnRates(Dictionary<MonsterTile, int> tileAndSize)
         {
-            spawns.Clear();
+            normalSpawns.Clear();
+            waveSpawns.Clear();
 
             foreach (var kvp in tileAndSize)
             {
                 MonsterTile monsterTile = kvp.Key;
                 int tileSize = kvp.Value;
 
-                spawns.Add((monsterTile.MonsterSpawn, tileSize));
+
+                if(monsterTile.MonsterSpawn is NormalMonsterSpawn normalMonsterSpawn)
+                {
+                    normalSpawns.Add((normalMonsterSpawn, tileSize));
+                }
+                else if (monsterTile.MonsterSpawn is WaveMonsterSpawn waveMonsterSpawn)
+                {
+                    waveSpawns.Add((waveMonsterSpawn, tileSize));
+                }
             }
+
+            ProcessWaveTriggers();
         }
 
         private void Update()
@@ -139,7 +149,7 @@ namespace Monsters
 
             float now = Time.time;
 
-            ProcessWaveTriggers(now);
+            
             ProcessHordeTimer(now);
             ProcessNormalSpawns(now);
             HandleSpawnBossMinions(now);

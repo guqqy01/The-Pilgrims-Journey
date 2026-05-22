@@ -17,7 +17,6 @@ namespace Monsters
 
         private bool isSpawning;
         private float levelStartTime;
-        private int nextWaveIndex;
 
         private readonly System.Random seededRandom = new();
 
@@ -37,7 +36,6 @@ namespace Monsters
             aliveCountByMonster.Clear();
             nextSpawnTimeByMonster.Clear();
 
-            nextWaveIndex = 0;
             hordeActive = false;
 
             currentBossSpawn = null;

@@ -61,7 +61,7 @@ namespace Monsters
 
             foreach (var (settings, blendDirection) in _allActiveSpawnSettings)
             {
-                foreach (var spawn in settings.monsterSpawns)
+                foreach (var spawn in settings.MonsterSpawns)
                 {
                     MonsterSO monster = spawn.monster;
 
@@ -72,7 +72,7 @@ namespace Monsters
                 }
             }
         }
-
+        
         private List<Vector2Int> GetAllSideTiles(Direction side, int maxSearchDepth = -1)
         {
             int w = Map.MapSizeX;

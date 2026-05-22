@@ -10,29 +10,129 @@ namespace Monsters
     {
         [AbstractSelector]
         [SerializeReference]
-        public List<MonsterSpawn> monsterSpawns;
+        public List<NormalMonsterSpawn> normalMonsterSpawns;
+
+        [AbstractSelector]
+        [SerializeReference]
+        public List<WaveMonsterSpawn> waveMonsterSpawns;
+
         public List<BossMonsterSpawn> bossMonsters;
 
-        public List<Wave> waves = new List<Wave>(); // define waves in inspector
+        public IReadOnlyList<MonsterSpawn> MonsterSpawns
+        {
+            get
+            {
+                List<MonsterSpawn> monsterSpawns = new List<MonsterSpawn>();
+
+                monsterSpawns.AddRange(normalMonsterSpawns);
+                monsterSpawns.AddRange(waveMonsterSpawns);
+
+                return monsterSpawns;
+            }
+        }
     }
 
-    public class DirectMonsterSpawn : MonsterSpawn
+    public interface IMonsterSpawn
     {
-        public float minSpawnDistance;
-        public float maxSpawnDistance;
+        public MonsterSO MonsterSO { get; }
     }
 
-    public class StationaryMonsterSpawn : MonsterSpawn
+    public interface INormalMonsterSpawn: IMonsterSpawn
     {
-        public int range;
+        public float SpawnRate
+        {
+            get;
+        }
+        
+    }
+
+    public interface IWaveMonsterSpawn : IMonsterSpawn
+    {
+        public float Count
+        {
+            get;
+        }
+    }
+
+    public interface IDirectMonsterSpawn : IMonsterSpawn
+    {
+        public float MinSpawnDistance { get; }
+        public float MaxSpawnDistance { get; }
+    }
+
+    public interface IStationaryMonsterSpawn : IMonsterSpawn
+    {
+        public int Range { get; }
+    }
+
+    public class NormalDirectMonsterSpawn : NormalMonsterSpawn, IDirectMonsterSpawn
+    {
+        [SerializeField]
+        private float minSpawnDistance;
+        [SerializeField]
+        private float maxSpawnDistance;
+
+        public float MinSpawnDistance => minSpawnDistance;
+
+        public float MaxSpawnDistance => maxSpawnDistance;
+    }
+
+    public class NormalStationaryMonsterSpawn : NormalMonsterSpawn, IStationaryMonsterSpawn
+    {
+        [SerializeField]
+        private int range;
+        public int Range => range;
     }
 
     [Serializable]
-    public abstract class MonsterSpawn
+    public abstract class NormalMonsterSpawn : MonsterSpawn, INormalMonsterSpawn
     {
-        public AnimationCurve spawnRateVSLevel;
+        [SerializeField]
+        private AnimationCurve spawnRateVSLevel;
+
+        public float SpawnRate
+        {
+            get
+            {
+                return spawnRateVSLevel.Evaluate(GameManager.Instance.Level);
+            }
+        }
+    }
+
+    [Serializable]
+    public abstract class MonsterSpawn: IMonsterSpawn
+    {
         public MonsterSO monster;
         public float Difficulty => monster.powerLevel;
+
+        public MonsterSO MonsterSO => monster;
+    }
+
+    [Serializable]
+    public abstract class WaveMonsterSpawn : MonsterSpawn, IWaveMonsterSpawn
+    {
+        [SerializeField]
+        private int count;
+
+        public float Count => count;
+    }
+
+    public class WaveDirectMonsterSpawn : WaveMonsterSpawn, IDirectMonsterSpawn
+    {
+        [SerializeField]
+        private float minSpawnDistance;
+        [SerializeField]
+        private float maxSpawnDistance;
+
+        public float MinSpawnDistance => minSpawnDistance;
+        public float MaxSpawnDistance => maxSpawnDistance;
+    }
+
+    public class WaveStationaryMonsterSpawn : WaveMonsterSpawn, IStationaryMonsterSpawn
+    {
+        [SerializeField]
+        private int range;
+        public int Range => range;
     }
 
     [Serializable]
@@ -43,7 +143,7 @@ namespace Monsters
 
         [SerializeReference]
         [AbstractSelector]
-        public List<MonsterSpawn> bossMinionSpawns;
+        public List<NormalMonsterSpawn> bossMinionSpawns;
     }
 
     [Serializable]
@@ -51,7 +151,6 @@ namespace Monsters
     {
         public MonsterSO monster;
         public int count;
-        public int range; // where to pull candidates from
     }
 
     [Serializable]

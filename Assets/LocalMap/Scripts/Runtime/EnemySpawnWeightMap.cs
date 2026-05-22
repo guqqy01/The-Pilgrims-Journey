@@ -21,12 +21,12 @@ namespace LocalMap
 
             foreach (var settings in allSettings)
             {
-                foreach (var monsterSpawn in settings.monsterSpawns)
+                foreach (var monsterSpawn in settings.MonsterSpawns)
                 {
-                    if (monsterSpawn is not StationaryMonsterSpawn stationaryMonsterSpawn)
+                    if (monsterSpawn is not IStationaryMonsterSpawn stationaryMonsterSpawn)
                         continue;
 
-                    maxRange = Mathf.Max(maxRange, stationaryMonsterSpawn.range);
+                    maxRange = Mathf.Max(maxRange, stationaryMonsterSpawn.Range);
                 }
 
                 foreach (var boss in settings.bossMonsters)
@@ -34,10 +34,10 @@ namespace LocalMap
                     maxRange = Mathf.Max(maxRange, boss.range);
                     foreach (var minion in boss.bossMinionSpawns)
                     {
-                        if (minion is not StationaryMonsterSpawn stationaryMonsterSpawn)
+                        if (minion is not IStationaryMonsterSpawn stationaryMonsterSpawn)
                             continue;
 
-                        maxRange = Mathf.Max(maxRange, stationaryMonsterSpawn.range);
+                        maxRange = Mathf.Max(maxRange, stationaryMonsterSpawn.Range);
                     }
                 }
             }

@@ -42,7 +42,7 @@ namespace Monsters
 
             if (!nextSpawnTimeByMonster.ContainsKey(monster))
             {
-                var spawn = monsterSpawnSettings.monsterSpawns
+                var spawn = monsterSpawnSettings.normalMonsterSpawns
                     .Find(s => s.monster == monster);
 
                 float delay = 0f;
@@ -52,47 +52,36 @@ namespace Monsters
 
                 if(spawn.monster != null)
                 {
-                    delay = Random.Range(0f, spawn.spawnRateVSLevel.Evaluate(GameManager.Instance.Level));
+                    delay = Random.Range(0f, spawn.SpawnRate);
                 }
 
                 nextSpawnTimeByMonster[monster] = Time.time + delay;
             }
         }
 
-        private bool TrySpawnOne(MonsterSpawn spawn, Direction? biomeDirection = null)
+        private bool TrySpawnOne(MonsterSpawn spawn)
         {
-            if(spawn is StationaryMonsterSpawn stationarySpawn)
-                return TrySpawnOneStationary(stationarySpawn, null, biomeDirection);
-            else if (spawn is DirectMonsterSpawn directSpawn)
-                return TrySpawnOneDirect(directSpawn, biomeDirection);
+            if(spawn is IStationaryMonsterSpawn stationarySpawn)
+                return TrySpawnOneStationary(stationarySpawn, null);
+            else if (spawn is IDirectMonsterSpawn directSpawn)
+                return TrySpawnOneDirect(directSpawn);
             else return false;
         }
 
-        private bool TrySpawnOneStationary(StationaryMonsterSpawn stationarySpawn, List<KeyValuePair<int, List<Vector2Int>>> weightedPoints, Direction? biomeDirection = null)
+        private bool TrySpawnOneStationary(IStationaryMonsterSpawn stationarySpawn, List<KeyValuePair<int, List<Vector2Int>>> weightedPoints)
         {
-            var weightedStationaryPoints = weightMap.WeightAndMapPointsConnectedToPath(stationarySpawn.range);
+            var weightedStationaryPoints = weightMap.WeightAndMapPointsConnectedToPath(stationarySpawn.Range);
             if (weightedStationaryPoints == null || weightedStationaryPoints.Count == 0)
                 return false;
 
-            // Filter points to the biome's dominant zone
-            if (biomeDirection.HasValue)
-            {
-                weightedStationaryPoints = FilterPointsToBiomeZone(weightedStationaryPoints, biomeDirection.Value);
-                if (weightedStationaryPoints.Count == 0)
-                    return false;
-            }
-            else
-            {
-                // Base biome — only spawn where base is dominant
-                weightedStationaryPoints = FilterPointsToBaseDominantZone(weightedStationaryPoints);
-                if (weightedStationaryPoints.Count == 0)
-                    return false;
-            }
+            weightedStationaryPoints = FilterPointsToBaseDominantZone(weightedStationaryPoints);
+            if (weightedStationaryPoints.Count == 0)
+                return false;
 
             return TrySpawnStationary(stationarySpawn, weightedStationaryPoints);
         }
 
-        private bool TrySpawnOneDirect(DirectMonsterSpawn directSpawn, Direction? biomeDirection = null)
+        private bool TrySpawnOneDirect(IDirectMonsterSpawn directSpawn)
         {
             Vector3 heroPos = HeroManager.Instance.ActiveHero != null
                 ? HeroManager.Instance.ActiveHero.transform.position
@@ -104,57 +93,24 @@ namespace Monsters
 
             List<Vector2Int> points = weightMap.GetAllPointsConnectedToPath();
 
-            if (biomeDirection.HasValue)
-            {
-                points = FilterPointsToBiomeZone(points, biomeDirection.Value);
-                if (points.Count == 0)
-                    return false;
-            }
-            else
-            {
-                // Base biome — only spawn where base is dominant
-                points = FilterPointsToBaseDominantZone(points);
-                if (points.Count == 0)
-                    return false;
-            }
+            // Base biome — only spawn where base is dominant
+            points = FilterPointsToBaseDominantZone(points);
+            if (points.Count == 0)
+                return false;
 
             return TrySpawnDirect(directSpawn, points, heroPosOnGrid);
         }
 
-        private List<KeyValuePair<int, List<Vector2Int>>> FilterPointsToBiomeZone(
-            List<KeyValuePair<int, List<Vector2Int>>> points,
-            Direction blendDirection)
+        private List<KeyValuePair<int, List<Vector2Int>>> FilterPointsToBaseDominantZone(List<KeyValuePair<int, List<Vector2Int>>> points)
         {
             var result = new List<KeyValuePair<int, List<Vector2Int>>>();
             foreach (var (weight, positions) in points)
             {
-                var filtered = positions.Where(p =>
-                    LocalMapGenerator.Instance.GetDominantBlendDirection(p) == blendDirection).ToList();
+                var filtered = positions.Where(p => LocalMapGenerator.Instance.GetDominantBlendDirection(p) == null).ToList();
                 if (filtered.Count > 0)
                     result.Add(new KeyValuePair<int, List<Vector2Int>>(weight, filtered));
             }
             return result;
-        }
-
-        private List<KeyValuePair<int, List<Vector2Int>>> FilterPointsToBaseDominantZone(
-            List<KeyValuePair<int, List<Vector2Int>>> points)
-        {
-            var result = new List<KeyValuePair<int, List<Vector2Int>>>();
-            foreach (var (weight, positions) in points)
-            {
-                var filtered = positions.Where(p =>
-                    LocalMapGenerator.Instance.GetDominantBlendDirection(p) == null).ToList();
-                if (filtered.Count > 0)
-                    result.Add(new KeyValuePair<int, List<Vector2Int>>(weight, filtered));
-            }
-            return result;
-        }
-
-        private List<Vector2Int> FilterPointsToBiomeZone(
-            List<Vector2Int> points,
-            Direction blendDirection)
-        {
-             return points.Where(point => LocalMapGenerator.Instance.GetDominantBlendDirection(point) == blendDirection).ToList();
         }
 
         private List<Vector2Int> FilterPointsToBaseDominantZone(
@@ -172,10 +128,10 @@ namespace Monsters
             }
         }
 
-        private bool IsWithinSpawnDistance(DirectMonsterSpawn spawn, Vector2Int point, Vector2Int hero)
+        private bool IsWithinSpawnDistance(IDirectMonsterSpawn spawn, Vector2Int point, Vector2Int hero)
         {
             float dist = Vector2.Distance(point, hero);
-            return dist >= spawn.minSpawnDistance && dist <= spawn.maxSpawnDistance;
+            return dist >= spawn.MinSpawnDistance && dist <= spawn.MaxSpawnDistance;
         }
 
         public bool SpotOccupied(Vector2Int point, Vector2 size, out Vector2 spawnPosition)
@@ -209,7 +165,7 @@ namespace Monsters
             aliveCountByMonster.Clear();
             nextSpawnTimeByMonster.Clear();
 
-            foreach (var spawn in monsterSpawnSettings.monsterSpawns)
+            foreach (var spawn in monsterSpawnSettings.MonsterSpawns)
                 EnsureMonsterTrackingExists(spawn.monster);
 
             if (boss.HasValue)
@@ -227,7 +183,6 @@ namespace Monsters
             //PreSpawnStationaryMonsters();
 
             levelStartTime = Time.time;
-            nextWaveIndex = 0;
             isSpawning = true;
         }
 
