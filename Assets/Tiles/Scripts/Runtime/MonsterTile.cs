@@ -2,23 +2,29 @@
 using UnityEngine;
 namespace Tiles
 {
-    public class MonsterTile : TileBase
+    public abstract class MonsterTile<T> : MonsterTileBase where T : MonsterSpawn
     {
-        private MonsterSpawn _monsterSpawn;
-        public MonsterSpawn MonsterSpawn { get { return _monsterSpawn; } }
-        public MonsterTile(TileSO tileSO, MonsterSpawn monsterSpawn) : base(tileSO)
-        {
-            _monsterSpawn = monsterSpawn;
-        }
-
-        public float Difficulty
+        public T MonsterSpawn
         {
             get
             {
-                return Shape.Count * MonsterSpawn.Difficulty; 
+                if(_monsterSpawn == null)
+                {
+                    Debug.LogWarning("_monsterSpawn is null");
+                    return null;
+                }
+
+                if(_monsterSpawn is not T genericMonsterSpawn)
+                {
+                    Debug.LogError($"{nameof(_monsterSpawn)} is not the required Type: {typeof(T)}");
+                    return null;
+                }
+
+                return genericMonsterSpawn;
             }
         }
 
+        protected MonsterTile(TileSO tileSO, T monsterSpawn) : base(tileSO, monsterSpawn){}
     }
 }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Monsters;
 using LocalMap;
 using GlobalMap;
-
+using System;
 namespace Tiles
 {
     public class MonsterTileManager : Singleton<MonsterTileManager>, IOnCreateLocalMap
@@ -12,7 +12,7 @@ namespace Tiles
         [SerializeField]
         private WeightedChanceList<TileSO> tiles;
 
-        public List<MonsterTile> monsterTiles = new List<MonsterTile>();
+        public List<MonsterTileBase> monsterTiles = new List<MonsterTileBase>();
 
         [SerializeField]
         private float difficultyAmountExtraMultiplier = 0.1f;
@@ -37,16 +37,34 @@ namespace Tiles
 
             float currentDifficulty = 0;
 
-            while(currentDifficulty < difficultyNeeded)
+            int breaker = 1000;
+
+            while(currentDifficulty < difficultyNeeded && breaker > 0)
             {
-                MonsterTile monsterTile = new MonsterTile(tiles.GetRandom(), monsterSpawns.GetRandom());
+                breaker--;
+
+                MonsterSpawn monsterSpawn = monsterSpawns.GetRandom();
+                MonsterTileBase monsterTile = null;
+
+                if(monsterSpawn is NormalMonsterSpawn normalMonsterSpawn)
+                {
+                    monsterTile = new NormalMonsterTile(tiles.GetRandom(), normalMonsterSpawn);
+                }
+                else if(monsterSpawn is WaveMonsterSpawn waveMonsterSpawn)
+                {
+                    monsterTile = new WaveMonsterTile(tiles.GetRandom(), waveMonsterSpawn);
+                }
+
+                if (monsterTile == null)
+                    continue;
+
                 monsterTiles.Add(monsterTile);
                 currentDifficulty += monsterTile.Difficulty;
             }
 
             currentDifficulty = 0;
 
-            foreach (MonsterTile monsterTile in monsterTiles)
+            foreach (MonsterTileBase monsterTile in monsterTiles)
             {
                 if(currentDifficulty < difficultyNeeded)
                 {
@@ -70,7 +88,7 @@ namespace Tiles
 
         public void Clear()
         {
-            foreach(MonsterTile monsterTile in monsterTiles)
+            foreach(MonsterTileBase monsterTile in monsterTiles)
             {
                 tilePlayerTileGrid.DestroyTile(monsterTile);
                 monsterExpandingTileGrid.DestroyTile(monsterTile);

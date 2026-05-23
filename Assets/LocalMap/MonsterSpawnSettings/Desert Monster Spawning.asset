@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalMonsterSpawns:
   - rid: 1478789766931284055
-  waveMonsterSpawns: []
+  waveMonsterSpawns:
+  - rid: 1478789802790486093
   bossMonsters:
   - range: 6
     boss: {fileID: 11400000, guid: 1336c490713e32441ae5e38a50724b15, type: 2}
@@ -52,3 +53,10 @@ MonoBehaviour:
           m_RotationOrder: 4
         minSpawnDistance: 10
         maxSpawnDistance: 50
+    - rid: 1478789802790486093
+      type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
+      data:
+        monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
+        count: 50
+        minSpawnDistance: 10
+        maxSpawnDistance: 100

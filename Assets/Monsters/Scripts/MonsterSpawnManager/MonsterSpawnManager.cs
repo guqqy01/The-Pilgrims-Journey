@@ -118,24 +118,27 @@ namespace Monsters
 
         private List<(NormalMonsterSpawn, int)> normalSpawns = new List<(NormalMonsterSpawn, int)>();
         private List<(WaveMonsterSpawn, int)> waveSpawns = new List<(WaveMonsterSpawn, int)>();
-        private void SetupNewMonsterSpawnRates(Dictionary<MonsterTile, int> tileAndSize)
+        private void SetupNewMonsterSpawnRates(Dictionary<MonsterTileBase, int> tileAndSize)
         {
             normalSpawns.Clear();
             waveSpawns.Clear();
 
             foreach (var kvp in tileAndSize)
             {
-                MonsterTile monsterTile = kvp.Key;
+                MonsterTileBase monsterTile = kvp.Key;
                 int tileSize = kvp.Value;
 
-
-                if(monsterTile.MonsterSpawn is NormalMonsterSpawn normalMonsterSpawn)
+                if(monsterTile is NormalMonsterTile normalMonsterTile)
                 {
-                    normalSpawns.Add((normalMonsterSpawn, tileSize));
+                    normalSpawns.Add((normalMonsterTile.MonsterSpawn, tileSize));
                 }
-                else if (monsterTile.MonsterSpawn is WaveMonsterSpawn waveMonsterSpawn)
+                else if (monsterTile is WaveMonsterTile waveMonsterTile)
                 {
-                    waveSpawns.Add((waveMonsterSpawn, tileSize));
+                    waveSpawns.Add((waveMonsterTile.MonsterSpawn, tileSize));
+                }
+                else
+                {
+                    Debug.LogWarning($"Monster tile of type: {monsterTile.GetType()}, is not an implemented type");
                 }
             }
 

@@ -16,7 +16,7 @@ namespace Tiles
         public event OnPositionChangeUnitTiles onPositionChangeNextUnitTiles;
         public event OnPositionChangeUnitTiles onPositionChangeCurrentUnitTiles;
 
-        public delegate void OnPositionChangeMonsterTiles(Dictionary<MonsterTile, int> spawningTilesAndSize);
+        public delegate void OnPositionChangeMonsterTiles(Dictionary<MonsterTileBase, int> spawningTilesAndSize);
         public event OnPositionChangeMonsterTiles onPositionChangeNextMonsterTiles;
         public event OnPositionChangeMonsterTiles onPositionChangeCurrentMonsterTiles;
 
@@ -34,8 +34,8 @@ namespace Tiles
         public Dictionary<UnitTile, int> SpawningUnitTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
         public Dictionary<UnitTile, int> NextSpawningUnitTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
 
-        public Dictionary<MonsterTile, int> SpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTile, int>();
-        public Dictionary<MonsterTile, int> NextSpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTile, int>();
+        public Dictionary<MonsterTileBase, int> SpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTileBase, int>();
+        public Dictionary<MonsterTileBase, int> NextSpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTileBase, int>();
 
         [Header("Starting Tile")]
         [SerializeField]
@@ -238,9 +238,9 @@ namespace Tiles
             return returnTiles;
         }
 
-        public Dictionary<MonsterTile, int> GetMonsterTilesInPositionAndSize(int position)
+        public Dictionary<MonsterTileBase, int> GetMonsterTilesInPositionAndSize(int position)
         {
-            Dictionary<MonsterTile, int> returnTiles = new Dictionary<MonsterTile, int>();
+            Dictionary<MonsterTileBase, int> returnTiles = new Dictionary<MonsterTileBase, int>();
 
             if (position >= playerTileGrid.Tiles.GetLength(0))
             {
@@ -251,7 +251,7 @@ namespace Tiles
             {
                 if (playerTileGrid.Tiles[position, i] != null)
                 {
-                    if (playerTileGrid.Tiles[position, i] is MonsterTile monsterTile)
+                    if (playerTileGrid.Tiles[position, i] is MonsterTileBase monsterTile)
                     {
                         if (returnTiles.ContainsKey(monsterTile))
                         {

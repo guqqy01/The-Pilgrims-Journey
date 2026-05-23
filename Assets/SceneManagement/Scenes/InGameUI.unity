@@ -713,10 +713,10 @@ RectTransform:
   - {fileID: 874343525}
   m_Father: {fileID: 1316731051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 2}
+  m_SizeDelta: {x: 278, y: 276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &64076544
 GameObject:
@@ -8013,10 +8013,10 @@ RectTransform:
   - {fileID: 484526763}
   m_Father: {fileID: 941839979}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 2}
+  m_SizeDelta: {x: 278, y: 276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &564922416
 GameObject:
@@ -26606,7 +26606,11 @@ MonoBehaviour:
         assemblyQualifiedName: 
       Value: {fileID: 1411540132529268794, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
     - Key:
-        script: {fileID: 11500000, guid: d93d55f7439ecca4c8e94d3dc93c46e5, type: 3}
+        script: {fileID: 11500000, guid: 21298742dbc9896499a0739e57f615e5, type: 3}
+        assemblyQualifiedName: 
+      Value: {fileID: 5175007771634642303, guid: c4d3c118958fc5341b248499e6b1ad88, type: 3}
+    - Key:
+        script: {fileID: 11500000, guid: 02d313611f3152b4b905daeedff24b07, type: 3}
         assemblyQualifiedName: 
       Value: {fileID: 2908005308586561717, guid: 33d7ff0aa99ad1d4f9ab1eddb708bea6, type: 3}
 --- !u!1 &1552812013

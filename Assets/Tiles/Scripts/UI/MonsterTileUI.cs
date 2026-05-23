@@ -10,14 +10,14 @@ public class MonsterTileUI : TileUIBase, IDescriptable
     private RectTransform monsterUITransform;
     private Image monsterGraphics;
 
-    private MonsterTile _monsterTile;
-    public MonsterTile MonsterTile
+    private MonsterTileBase _monsterTile;
+    public MonsterTileBase MonsterTile
     {
         get
         {
             if (_monsterTile == null)
             {
-                if (Tile is MonsterTile monsterTile)
+                if (Tile is MonsterTileBase monsterTile)
                 {
                     _monsterTile = monsterTile;
                 }
@@ -37,7 +37,7 @@ public class MonsterTileUI : TileUIBase, IDescriptable
             if (MonsterTile == null)
                 return null;
 
-            return MonsterTile.MonsterSpawn;
+            return MonsterTile.MonsterSpawnBase;
         }
     }
 
@@ -66,11 +66,11 @@ public class MonsterTileUI : TileUIBase, IDescriptable
     {
         base.BaseInit(tile);
 
-        if (tile is not MonsterTile monsterTile)
+        if (tile is not MonsterTileBase monsterTile)
             return;
 
         monsterGraphics = monsterUITransform.GetComponent<Image>();
-        monsterGraphics.sprite = monsterTile.MonsterSpawn.monster.sprite;
+        monsterGraphics.sprite = monsterTile.MonsterSpawnBase.monster.sprite;
         monsterGraphics.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(tile.Shape);
     }
 

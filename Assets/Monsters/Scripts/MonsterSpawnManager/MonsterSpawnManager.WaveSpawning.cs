@@ -10,9 +10,7 @@ namespace Monsters
     /// </summary>
     public partial class MonsterSpawnManager
     {
-        [SerializeField] private float randomWaveSpawnDelay = 2f;
         [SerializeField] private float spawnRetryDelay = 0.5f;
-        [SerializeField] private float maxSpawnRetryTime = 5f;
 
         private void ProcessWaveTriggers()
         {

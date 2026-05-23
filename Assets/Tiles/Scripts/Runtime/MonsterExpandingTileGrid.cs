@@ -4,7 +4,7 @@
     {
         public override bool AcceptTile(TileBase tile)
         {
-            return tile is MonsterTile;
+            return tile is MonsterTileBase;
         }
     }
 }
