@@ -8,11 +8,25 @@ namespace Tiles
         private TilePlayerTileGrid tilePlayerTileGrid;
 
         [SerializeField]
+        private UnitExpandingTileGrid unitExpandingTileGrid;
+
+        [SerializeField]
         [Range(0.5f, 1.5f)]
-        private float amountOfUnitTilesMultiplier = 1f;
-        private int amountOfUnitTilesAllowed;
-        public int AmountOfUnitTilesAllowed => amountOfUnitTilesAllowed;
+        private float amountOfUnitTilesAllowedMultiplier = 1f;
+        private int _amountOfUnitTilesAllowed;
+        public int AmountOfUnitTilesAllowed => _amountOfUnitTilesAllowed;
         public event Action<int> OnAmountOfUnitTilesAllowedChanged;
+
+        [SerializeField]
+        [Range(0f, 1f)]
+        private float amountOfUnitTilesRequiredMultiplier = 0.5f;
+        private int _amountOfUnitTilesRequired;
+        public int AmountOfUnitTilesRequired => _amountOfUnitTilesRequired;
+        public event Action<int> OnAmountOfUnitTilesRequiredChanged;
+
+        [SerializeField]
+        [Range(0.7f, 0.9f)]
+        private float maxAmountOfUnitTilesRequiredMultiplier = 0.8f;
 
         private void Awake()
         {
@@ -21,6 +35,13 @@ namespace Tiles
                 tilePlayerTileGrid.onTileAdded += OnTileAdded;
                 tilePlayerTileGrid.onTileRemoved += OnTileRemoved;
                 tilePlayerTileGrid.onTileDestroyed += OnTileDestroyed;
+            }
+
+            if (unitExpandingTileGrid != null)
+            {
+                unitExpandingTileGrid.onTileAdded += OnTileAdded;
+                unitExpandingTileGrid.onTileRemoved += OnTileRemoved;
+                unitExpandingTileGrid.onTileDestroyed += OnTileDestroyed;
             }
         }
 
@@ -32,24 +53,62 @@ namespace Tiles
                 tilePlayerTileGrid.onTileRemoved -= OnTileRemoved;
                 tilePlayerTileGrid.onTileDestroyed -= OnTileDestroyed;
             }
+
+            if (unitExpandingTileGrid != null)
+            {
+                unitExpandingTileGrid.onTileAdded -= OnTileAdded;
+                unitExpandingTileGrid.onTileRemoved -= OnTileRemoved;
+                unitExpandingTileGrid.onTileDestroyed -= OnTileDestroyed;
+            }
+        }
+
+        private void Start()
+        {
+            SetupAmountOfUnitTilesAllowed();
+            SetupAmountOfUnitTilesRequired();
         }
 
         private void OnTileAdded(TileBase tileBase)
         {
             SetupAmountOfUnitTilesAllowed();
+            SetupAmountOfUnitTilesRequired();
         }
 
         private void OnTileRemoved(TileBase tileBase)
         {
             SetupAmountOfUnitTilesAllowed();
+            SetupAmountOfUnitTilesRequired();
         }
 
         private void OnTileDestroyed(TileBase tileBase)
         {
             SetupAmountOfUnitTilesAllowed();
+            SetupAmountOfUnitTilesRequired();
         }
 
         private void SetupAmountOfUnitTilesAllowed()
+        {
+            int amountOfMonsterTiles = GetAmountOfMonsterTilesInTilePlayer();
+
+            _amountOfUnitTilesAllowed = Mathf.FloorToInt(amountOfMonsterTiles * amountOfUnitTilesAllowedMultiplier);
+
+            OnAmountOfUnitTilesAllowedChanged?.Invoke(_amountOfUnitTilesAllowed);
+        }
+
+        private void SetupAmountOfUnitTilesRequired()
+        {
+            int totalAmountOfUnitTiles = GetTotalAmountOfUnitTiles();
+
+            int totalSpaceOnTilePlayer = tilePlayerTileGrid.GridSize.x * tilePlayerTileGrid.GridSize.y;
+            
+            int maxAmountOfUnits = Mathf.FloorToInt((totalSpaceOnTilePlayer / 2f) * maxAmountOfUnitTilesRequiredMultiplier);
+            
+            _amountOfUnitTilesRequired = Mathf.Min(Mathf.FloorToInt(totalAmountOfUnitTiles * amountOfUnitTilesRequiredMultiplier), maxAmountOfUnits);
+            
+            OnAmountOfUnitTilesRequiredChanged?.Invoke(_amountOfUnitTilesRequired);
+        }
+
+        public int GetAmountOfMonsterTilesInTilePlayer()
         {
             int amountOfMonsterTiles = 0;
 
@@ -61,9 +120,42 @@ namespace Tiles
                 }
             }
 
-            amountOfUnitTilesAllowed = Mathf.FloorToInt(amountOfMonsterTiles * amountOfUnitTilesMultiplier);
+            return amountOfMonsterTiles;
+        }
 
-            OnAmountOfUnitTilesAllowedChanged?.Invoke(amountOfUnitTilesAllowed);
+        public int GetAmountOfUnitTilesInTilePlayer()
+        {
+            int amountOfUnitTiles = 0;
+
+            foreach (TileBase tile in tilePlayerTileGrid.ListOfTiles)
+            {
+                if (tile is UnitTile)
+                {
+                    amountOfUnitTiles += tile.Shape.Count;
+                }
+            }
+
+            return amountOfUnitTiles;
+        }
+
+        public int GetAmountOfUnitTilesInInventory()
+        {
+            int amountOfUnitTiles = 0;
+
+            foreach (TileBase tile in unitExpandingTileGrid.ListOfTiles)
+            {
+                if (tile is UnitTile)
+                {
+                    amountOfUnitTiles += tile.Shape.Count;
+                }
+            }
+
+            return amountOfUnitTiles;
+        }
+
+        public int GetTotalAmountOfUnitTiles()
+        {
+            return GetAmountOfUnitTilesInInventory() + GetAmountOfUnitTilesInTilePlayer();
         }
     }
 

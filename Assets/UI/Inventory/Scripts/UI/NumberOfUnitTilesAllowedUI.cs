@@ -4,7 +4,8 @@ using Helper.Wait;
 
 namespace UI
 {
-    public class UnitNumberOutOfNumberUI : NumberOutOfNumberUI
+
+    public class NumberOfUnitTilesAllowedUI : NumberOutOfNumberUI
     {
         [SerializeField]
         private TilePlayerTileGrid tilePlayerTileGrid;
