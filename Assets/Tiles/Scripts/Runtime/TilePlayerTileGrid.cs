@@ -2,7 +2,6 @@
 using UnityEngine;
 using System;
 using GameManagerCalls;
-using Units;
 using System.Linq;
 
 namespace Tiles

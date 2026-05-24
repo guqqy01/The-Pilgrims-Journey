@@ -24,8 +24,8 @@ namespace Tiles
         //One pixel width, 32 pixels per unit
         private static Vector2 SizeDeltaOffset = new Vector2(-3.125f, -3.125f);
 
-        public float SingleTileSquareUISizeX => (GridTransform.sizeDelta.x + SizeDeltaOffset.x) / tileGrid.GridSize.x;
-        public float SingleTileSquareUISizeY => (GridTransform.sizeDelta.y + SizeDeltaOffset.y) / tileGrid.GridSize.y;
+        public float SingleTileSquareUISizeX => (GridTransform.sizeDelta.x + 2f * SizeDeltaOffset.x) / tileGrid.GridSize.x;
+        public float SingleTileSquareUISizeY => (GridTransform.sizeDelta.y + 2f * SizeDeltaOffset.y) / tileGrid.GridSize.y;
 
         public Vector2 SingleTileSquareSize => new Vector2(SingleTileSquareUISizeX, SingleTileSquareUISizeY);
 

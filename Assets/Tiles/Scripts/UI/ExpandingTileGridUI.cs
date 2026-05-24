@@ -47,6 +47,10 @@ namespace Tiles
         {
             contentRect.sizeDelta = GridTransform.sizeDelta = (100f / gridImage.sprite.pixelsPerUnit)
                 * (14f * ((Vector2)_expandingTileGrid.GridSize) + Vector2.one);
+
+            RectTransform rectTransform = GetComponent<RectTransform>();
+
+            rectTransform.anchoredPosition = Vector2.zero;
         }
 
         private void UpdateGridTransformSize()
