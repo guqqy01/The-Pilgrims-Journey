@@ -6068,6 +6068,7 @@ Transform:
   - {fileID: 1548576842}
   - {fileID: 778410958}
   - {fileID: 125301220}
+  - {fileID: 1166443969}
   m_Father: {fileID: 1724326376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &421457870
@@ -18397,8 +18398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 191.61, y: -7.5739}
-  m_SizeDelta: {x: 367.97998, y: 147.4798}
+  m_AnchoredPosition: {x: 191.61, y: 0.34999}
+  m_SizeDelta: {x: 367.98, y: 163.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1099664314
 MonoBehaviour:
@@ -20042,9 +20043,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1099664312}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000076293945, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -0.0000076293945, y: 74}
   m_SizeDelta: {x: 353.125, y: 134.375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1164369849
@@ -20112,6 +20113,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: UI::Tiles.TileGridUI
   gridTransform: {fileID: 1164369847}
   tileGrid: {fileID: 1164369852}
+--- !u!1 &1166443968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1166443969}
+  - component: {fileID: 1166443970}
+  m_Layer: 0
+  m_Name: Amount Of Unit Tiles Allowed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1166443969
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166443968}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 412035605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1166443970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166443968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700d201c2eab4ef4f8f441b864881ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::Tiles.AmountOfUnitTilesAllowedManager
+  tilePlayerTileGrid: {fileID: 1164369852}
+  amountOfUnitTilesMultiplier: 1
 --- !u!1 &1167792033
 GameObject:
   m_ObjectHideFlags: 0
@@ -21111,6 +21158,7 @@ GameObject:
   - component: {fileID: 1216069796}
   - component: {fileID: 1216069798}
   - component: {fileID: 1216069797}
+  - component: {fileID: 1216069799}
   m_Layer: 5
   m_Name: Player UI Point
   m_TagString: Untagged
@@ -21134,7 +21182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175.9, y: 81.7}
+  m_AnchoredPosition: {x: -172.5, y: 68.5}
   m_SizeDelta: {x: 16.1762, y: 10.7841}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1216069797
@@ -21175,6 +21223,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216069795}
   m_CullTransparentMesh: 1
+--- !u!114 &1216069799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216069795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e9f75d5db4e7246884271afbeb39bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.TilePlayerPointUI
+  canvas: {fileID: 787407075}
+  playerUIPoint: {fileID: 1216069796}
+  playerUIPointYOffset: 20
+  tileGridUI: {fileID: 1164369853}
 --- !u!1 &1233164816
 GameObject:
   m_ObjectHideFlags: 0
@@ -21558,7 +21622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -120.3, y: -96.598}
+  m_AnchoredPosition: {x: -120.3, y: -95}
   m_SizeDelta: {x: 127.3804, y: 25.176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1257315793
@@ -21574,10 +21638,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UI::UI.UnitNumberOutOfNumberUI
   numberOutOfNumberText: {fileID: 806295227}
-  lessColor: {r: 1, g: 0, b: 0, a: 1}
+  lessColor: {r: 0.25490198, g: 0.7921569, b: 0.2, a: 1}
   sameColor: {r: 0.25490198, g: 0.7921569, b: 0.2, a: 1}
-  moreColor: {r: 0.25490198, g: 0.7921569, b: 0.2, a: 1}
+  moreColor: {r: 1, g: 0, b: 0.014722824, a: 1}
   tilePlayerTileGrid: {fileID: 1164369852}
+  AmountOfUnitTilesAllowedManager: {fileID: 1166443970}
 --- !u!1 &1259857417
 GameObject:
   m_ObjectHideFlags: 0
@@ -33966,7 +34031,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 120.2963, y: -96.598}
+  m_AnchoredPosition: {x: 120.2963, y: -95}
   m_SizeDelta: {x: 127.3804, y: 25.176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1979490683

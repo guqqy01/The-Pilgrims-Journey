@@ -2,11 +2,11 @@ using GameManagerCalls;
 using UnityEngine;
 using System.Collections.Generic;
 using Monsters;
-using LocalMap;
 using GlobalMap;
-using System;
+using Codice.CM.Common;
 namespace Tiles
 {
+
     public class MonsterTileManager : Singleton<MonsterTileManager>, IOnCreateLocalMap
     {
         [SerializeField]

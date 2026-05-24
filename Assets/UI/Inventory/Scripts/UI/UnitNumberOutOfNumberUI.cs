@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Tiles;
+using Helper.Wait;
 
 namespace UI
 {
@@ -7,16 +8,21 @@ namespace UI
     {
         [SerializeField]
         private TilePlayerTileGrid tilePlayerTileGrid;
-
+        [SerializeField]
+        private AmountOfUnitTilesAllowedManager AmountOfUnitTilesAllowedManager;
         private void Awake()
         {
-            if (tilePlayerTileGrid != null)
+            if (AmountOfUnitTilesAllowedManager != null)
             {
                 tilePlayerTileGrid.onTileAdded += OnTileAdded;
                 tilePlayerTileGrid.onTileRemoved += OnTileRemoved;
                 tilePlayerTileGrid.onTileDestroyed += OnTileDestroyed;
             }
 
+            if (AmountOfUnitTilesAllowedManager != null)
+            {
+                AmountOfUnitTilesAllowedManager.OnAmountOfUnitTilesAllowedChanged += OnAllowedAmountChanged;
+            }
         }
 
         private void OnDestroy()
@@ -27,32 +33,46 @@ namespace UI
                 tilePlayerTileGrid.onTileRemoved -= OnTileRemoved;
                 tilePlayerTileGrid.onTileDestroyed -= OnTileDestroyed;
             }
+
+            if (AmountOfUnitTilesAllowedManager != null)
+            {
+                AmountOfUnitTilesAllowedManager.OnAmountOfUnitTilesAllowedChanged -= OnAllowedAmountChanged;
+            }
         }
 
         private void OnTileAdded(TileBase _)
         {
-            UpdateRequiredUnitsNumber();
+           UpdateUI(GetAmountOfUnitTiles(), AmountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
         }
 
         private void OnTileRemoved(TileBase _)
         {
-            UpdateRequiredUnitsNumber();
+            UpdateUI(GetAmountOfUnitTiles(), AmountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
         }
 
         private void OnTileDestroyed(TileBase _)
         {
-            UpdateRequiredUnitsNumber();
+            UpdateUI(GetAmountOfUnitTiles(), AmountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
         }
 
-        private void UpdateRequiredUnitsNumber()
+        private int GetAmountOfUnitTiles()
         {
-            float difficultyValue = 0;
+            int amountOfUnitTiles = 0;  
 
             foreach (TileBase tile in tilePlayerTileGrid.ListOfTiles)
             {
-                if (tile is not UnitTile unitTile)
-                    continue;
+                if (tile is UnitTile unitTile)
+                {
+                    amountOfUnitTiles += tile.Shape.Count;
+                }
             }
+
+            return amountOfUnitTiles;
+        }
+
+        private void OnAllowedAmountChanged(int allowedAmountChanged)
+        {
+            UpdateUI(GetAmountOfUnitTiles(), allowedAmountChanged);
         }
     }
 }
