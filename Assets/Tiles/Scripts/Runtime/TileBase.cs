@@ -39,6 +39,14 @@ namespace Tiles
             }
         }
 
+        public int Size
+        {
+            get
+            {
+                return Shape.Count;
+            }
+        }
+
         public virtual void OnDestroy()
         {
             OnRotated = null;

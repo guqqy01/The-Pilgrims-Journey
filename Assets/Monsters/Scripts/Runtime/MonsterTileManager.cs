@@ -15,13 +15,15 @@ namespace Tiles
         public List<MonsterTileBase> monsterTiles = new List<MonsterTileBase>();
 
         [SerializeField]
-        private float difficultyAmountExtraMultiplier = 0.1f;
+        [Range(0f, 1f)]
+        private float amountOfMonsterTilesExtraMultiplier = 0.1f;
 
         [SerializeField]
         private TilePlayerTileGrid tilePlayerTileGrid;
         [SerializeField]
         private MonsterExpandingTileGrid monsterExpandingTileGrid;
-
+        [SerializeField]
+        private UnitExpandingTileGrid unitExpandingTileGrid;
         private void SetupMonsterTiles()
         {
             MonsterSpawnSettings monsterSpawnSettings = GlobalMapGenerator.Instance.CurrentMapPoint.GenerationSettings.MonsterSpawnSettings;
@@ -33,13 +35,15 @@ namespace Tiles
             monsterSpawns.AddRange(normalMonsterSpawns);
             monsterSpawns.AddRange(waveMonsterSpawns);
 
-            float difficultyNeeded = DifficultyLevelManager.Instance.DifficultyLevel * (1f + difficultyAmountExtraMultiplier);
+            int amountOfMonsterTilesRequired =  GetTheAmountOfMonsterTilesRequired();
 
-            float currentDifficulty = 0;
+            int maxAmountOfMonsterTileAvaliable = Mathf.Max(amountOfMonsterTilesRequired, Mathf.RoundToInt(amountOfMonsterTilesRequired * (1f + amountOfMonsterTilesExtraMultiplier)));
+
+            float currentamountOfTiles = 0;
 
             int breaker = 1000;
 
-            while(currentDifficulty < difficultyNeeded && breaker > 0)
+            while(currentamountOfTiles < maxAmountOfMonsterTileAvaliable && breaker > 0)
             {
                 breaker--;
 
@@ -59,14 +63,16 @@ namespace Tiles
                     continue;
 
                 monsterTiles.Add(monsterTile);
-                currentDifficulty += monsterTile.Difficulty;
+                currentamountOfTiles += monsterTile.Size;
             }
 
-            currentDifficulty = 0;
+            currentamountOfTiles = 0;
+
+
 
             foreach (MonsterTileBase monsterTile in monsterTiles)
             {
-                if(currentDifficulty < difficultyNeeded)
+                if(currentamountOfTiles < amountOfMonsterTilesRequired)
                 {
                     if(!tilePlayerTileGrid.TryPlaceTileAnywhere(monsterTile, TileGridBase.Axis.X))
                     {
@@ -84,6 +90,11 @@ namespace Tiles
                     }
                 }
             }
+        }
+
+        private int GetTheAmountOfMonsterTilesRequired()
+        {
+            return AmountOfUnitTilesAllowedManager.Instance.SetupAndGetAmountOfUnitTilesRequired();
         }
 
         public void Clear()
