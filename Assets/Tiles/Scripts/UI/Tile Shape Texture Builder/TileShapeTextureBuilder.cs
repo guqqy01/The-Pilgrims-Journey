@@ -337,10 +337,10 @@ namespace Tiles
         private static Vector2Int BoundsMin(List<Vector2Int> shape)
         {
             int minX = int.MaxValue, minY = int.MaxValue;
-            foreach (var c in shape)
+            foreach (var point in shape)
             {
-                if (c.x < minX) minX = c.x;
-                if (c.y < minY) minY = c.y;
+                if (point.x < minX) minX = point.x;
+                if (point.y < minY) minY = point.y;
             }
             return new Vector2Int(minX, minY);
         }
@@ -348,10 +348,10 @@ namespace Tiles
         private static Vector2Int BoundsMax(List<Vector2Int> shape)
         {
             int maxX = int.MinValue, maxY = int.MinValue;
-            foreach (var c in shape)
+            foreach (var point in shape)
             {
-                if (c.x > maxX) maxX = c.x;
-                if (c.y > maxY) maxY = c.y;
+                if (point.x > maxX) maxX = point.x;
+                if (point.y > maxY) maxY = point.y;
             }
             return new Vector2Int(maxX, maxY);
         }
