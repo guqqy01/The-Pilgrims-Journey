@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 namespace Tiles
 {
@@ -33,6 +32,14 @@ namespace Tiles
 
         public Vector2 SingleTileSquareSize => new Vector2(SingleTileSquareUISizeX, SingleTileSquareUISizeY);
 
+        private Sprite _generatedSprite;
+
+        [SerializeField]
+        private TileGridUISpriteStyle tileGridUIStyle;
+
+        [SerializeField]
+        protected Image gridImage;
+
         public void InitiateFromRootAtAwake()
         {
             if (tileGrid == null)
@@ -41,10 +48,22 @@ namespace Tiles
             tileGrid.onTileAdded += OnTileAdded;
             tileGrid.onTileRemoved += OnTileRemoved;
             tileGrid.onTileDestroyed += OnTileDestroyed;
+
+            if (tileGridUIStyle == null)
+                return;
+
+            _generatedSprite = TileGridUISpriteBuilder.GetSprite(tileGrid.GridSize, tileGridUIStyle, tileGridUIStyle.SpritePixelSize);
+            gridImage.sprite = _generatedSprite;
         }
 
         private void OnDestroy()
         {
+            if(_generatedSprite != null)
+            {
+                Destroy(_generatedSprite.texture);
+                Destroy(_generatedSprite);
+            }
+
             if (tileGrid == null)
                 return;
 
@@ -206,145 +225,6 @@ namespace Tiles
         public bool IsWorldPositionInGrid(Vector2 position)
         {
             return !PointOutOfGrid(GetGridPositon(position));
-        }
-    }
-
-
-    public static class TileGridUISpriteBuilder
-    {
-        public static Sprite GetSprite(Vector2Int size, TileGridUISpriteStyle gridStyle, float uiCellSize)
-        {
-            if (size == null || size.x == 0 || size.y == 0)
-            {
-                Debug.LogWarning($"size is empty or zero.");
-                return null;
-            }
-
-            if (!ValidateStyle(gridStyle)) return null;
-
-            CachePixels(gridStyle,
-            out Color[] backgroundFillPixels,
-            out Color[] outerCornerPixels,
-            out Color[] innerCornerPixels,
-            out Color[] farOuterCornerPixels,
-            out Color[] verticalSeperationPixels,
-            out Color[] horizontalSeperationPixels);
-
-
-
-            return gridStyle.BackgroundFillSprite;
-        }
-
-        private static void CachePixels(TileGridUISpriteStyle gridStyle, 
-            out Color[] backgroundFillPixels, 
-            out Color[] outerCornerPixels, 
-            out Color[] innerCornerPixels, 
-            out Color[] farOuterCornerPixels, 
-            out Color[] verticalSeperationPixels,
-            out Color[] horizontalSeperationPixels)
-        {
-            backgroundFillPixels = GetSpritePixels(gridStyle.BackgroundFillSprite);
-            outerCornerPixels = GetSpritePixels(gridStyle.OuterCornerSprites);
-            innerCornerPixels = GetSpritePixels(gridStyle.InnerCornerSprites);
-            farOuterCornerPixels = GetSpritePixels(gridStyle.FarOuterCornerSprites);
-            verticalSeperationPixels = GetSpritePixels(gridStyle.VerticalSeperationSprites);
-            horizontalSeperationPixels = GetSpritePixels(gridStyle.HorizontalSeperationSprites);
-        }
-
-        private static Color[] GetSpritePixels(Sprite sprite)
-        {
-            Rect rect = sprite.textureRect;
-            return sprite.texture.GetPixels(
-                (int)rect.x,
-                (int)rect.y,
-                (int)rect.width,
-                (int)rect.height);
-        }
-
-        private static bool ValidateStyle(TileGridUISpriteStyle uiStyle)
-        {
-            bool ok = true;
-            ok &= AssertSprite(uiStyle.BackgroundFillSprite, nameof(uiStyle.BackgroundFillSprite));
-            ok &= AssertSprite(uiStyle.OuterCornerSprites, nameof(uiStyle.OuterCornerSprites));
-            ok &= AssertSprite(uiStyle.InnerCornerSprites, nameof(uiStyle.InnerCornerSprites));
-            ok &= AssertSprite(uiStyle.FarOuterCornerSprites, nameof(uiStyle.FarOuterCornerSprites));
-            ok &= AssertSprite(uiStyle.VerticalSeperationSprites, nameof(uiStyle.VerticalSeperationSprites));
-            ok &= AssertSprite(uiStyle.HorizontalSeperationSprites, nameof(uiStyle.HorizontalSeperationSprites));
-            return ok;
-        }
-
-        private static bool AssertSprite(Sprite sprite, string fieldName)
-        {
-            if (sprite != null) return true;
-            Debug.LogError($"{fieldName} in style is not assigned.");
-            return false;
-        }
-
-    }
-
-    public class TileGridUISpriteStyle : ScriptableObject 
-    {
-        [SerializeField]
-        private int spritePixelSize;
-        private int previousSpritePixelSize;
-        public int SpritePixelSize => spritePixelSize;
-
-        public Sprite BackgroundFillSprite;
-        public Sprite OuterCornerSprites;
-        public Sprite InnerCornerSprites;
-        public Sprite FarOuterCornerSprites;
-        public Sprite VerticalSeperationSprites;
-        public Sprite HorizontalSeperationSprites;
-
-        private Sprite previousBackgroundFillSprite;
-        private Sprite previousOuterCornerSprites;
-        private Sprite previousInnerCornerSprites;
-        private Sprite previousFarOuterCornerSprites;
-        private Sprite previousVerticalSeperationSprites;
-        private Sprite previousHorizontalSeperationSprites;
-
-        private void OnValidate()
-        {
-            if (previousSpritePixelSize != spritePixelSize)
-            {
-                previousSpritePixelSize = spritePixelSize;
-                MakeSureSpriteHasCorrectSize(ref BackgroundFillSprite);
-                MakeSureSpriteHasCorrectSize(ref OuterCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref InnerCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref FarOuterCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref VerticalSeperationSprites);
-                MakeSureSpriteHasCorrectSize(ref HorizontalSeperationSprites);
-            }
-
-            IfDifferentCheckIfValidIfNotRevert(ref BackgroundFillSprite, ref previousBackgroundFillSprite);
-            IfDifferentCheckIfValidIfNotRevert(ref OuterCornerSprites, ref previousOuterCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref InnerCornerSprites, ref previousInnerCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref FarOuterCornerSprites, ref previousFarOuterCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref VerticalSeperationSprites, ref previousVerticalSeperationSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref HorizontalSeperationSprites, ref previousHorizontalSeperationSprites);
-        }
-
-        private void IfDifferentCheckIfValidIfNotRevert(ref Sprite newSprite, ref Sprite previous)
-        {
-            if (previous != newSprite && MakeSureSpriteHasCorrectSize(ref newSprite))
-            {
-                previous = newSprite;
-            }
-        }
-
-        private bool MakeSureSpriteHasCorrectSize(ref Sprite sprite)
-        {
-            if (sprite == null)
-                return true;
-
-            if (sprite.rect.size.x != spritePixelSize || sprite.rect.size.y != spritePixelSize)
-            {
-                Debug.LogError($"Sprite {sprite.name} has size {sprite.rect.size.x}×{sprite.rect.size.y} pixels, but must be {spritePixelSize}×{spritePixelSize} pixels.");
-                sprite = null;
-                return false;
-            }
-
-            return true;
         }
     }
 }

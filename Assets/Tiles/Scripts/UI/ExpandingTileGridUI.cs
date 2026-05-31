@@ -8,9 +8,6 @@ namespace Tiles
         protected ExpandingTileGridBase _expandingTileGrid;
 
         [SerializeField]
-        protected Image gridImage;
-
-        [SerializeField]
         private RectTransform contentRect;
 
         private void Awake()
