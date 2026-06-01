@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public static class TileUIEventBus
     {

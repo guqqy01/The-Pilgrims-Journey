@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a559a1cad2a51c347a98db069846d39d, type: 3}
+  m_Name: Tile Grid Style 1
+  m_EditorClassIdentifier: UI::Tiles.TileGridUISpriteStyle
+  spritePixelSize: 17
+  BackgroundFillSprite:
+    Sprite: {fileID: 849426699792753586, guid: dd194f2ac62dcc647989b1fd174d87ff, type: 3}
+    priority: 0
+  OuterCornerSprites:
+    Sprite: {fileID: 1417313814270565946, guid: dd194f2ac62dcc647989b1fd174d87ff, type: 3}
+    priority: 5
+  OuterVerticalSprites:
+    Sprite: {fileID: 859777444, guid: dd194f2ac62dcc647989b1fd174d87ff, type: 3}
+    priority: 2
+  OuterHorizontalSprites:
+    Sprite: {fileID: 1605456466, guid: dd194f2ac62dcc647989b1fd174d87ff, type: 3}
+    priority: 2
+  InnerCornerSprites:
+    Sprite: {fileID: -1042347862, guid: dd194f2ac62dcc647989b1fd174d87ff, type: 3}
+    priority: 1
+  InnerVerticalSeperationSprites:
+    Sprite: {fileID: -392419079, guid: dd194f2ac62dcc647989b1fd174d87ff, type: 3}
+    priority: 1
+  InnerHorizontalSeperationSprites:
+    Sprite: {fileID: 1711200761, guid: dd194f2ac62dcc647989b1fd174d87ff, type: 3}
+    priority: 1

@@ -1,7 +1,7 @@
 ﻿using Units;
 using UnityEngine;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public class TilePlayerPointUI : MonoBehaviour
     {

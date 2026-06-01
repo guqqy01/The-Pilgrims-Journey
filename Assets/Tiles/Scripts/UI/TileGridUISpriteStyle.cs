@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Tiles
@@ -5,110 +7,105 @@ namespace Tiles
     [CreateAssetMenu(fileName = "TileGridUISpriteStyle", menuName = "Tiles/TileGridUISpriteStyle", order = 0)]
     public class TileGridUISpriteStyle : ScriptableObject
     {
-        [SerializeField]
-        private int spritePixelSize;
+        [SerializeField] private int spritePixelSize;
         private int previousSpritePixelSize;
         public int SpritePixelSize => spritePixelSize;
 
-        /// <summary>
-        /// Background Sprite: the main fill of the cell, it is stamped on every cell in the grid.
-        /// </summary>
-        public Sprite BackgroundFillSprite;
-        private Sprite previousBackgroundFillSprite;
+        // Note: odd pixel sizes are supported but require special-case handling in StampOuterCorner.
+        // Even sizes are recommended.
 
-        /// <summary>
-        /// The outer edge of the grid, it is stamped on only the outer edges of the grid.
-        /// </summary>
-        public Sprite OuterCornerSprites;
-        private Sprite previousOuterCornerSprites;
+        public TileGridUISprite BackgroundFillSprite;
 
-        /// <summary>
-        /// The outer edge of the grid, it is stamped on only the outer edges of the grid.
-        /// </summary>
-        public Sprite OuterVerticalSprites;
-        private Sprite previousOuterVerticalSprites;
+        public TileGridUISprite OuterCornerSprites;
+        public TileGridUISprite OuterVerticalSprites;
+        public TileGridUISprite OuterHorizontalSprites;
 
-        /// <summary>
-        /// The outer edge of the grid, it is stamped on only the outer edges of the grid.
-        /// </summary>
-        public Sprite OuterHorizontalSprites;
-        private Sprite previousOuterHorizontalSprites;
+        public TileGridUISprite InnerCornerSprites;
+        // Stamped between cells along the vertical axis (left/right borders between columns).
+        public TileGridUISprite InnerVerticalSeperationSprites;
+        // Stamped between cells along the horizontal axis (top/bottom borders between rows).
+        public TileGridUISprite InnerHorizontalSeperationSprites;
 
-        /// <summary>
-        /// The inner edge of the grid, it is stamped on only the inner edges of the grid, between the cells.
-        /// </summary>
-        public Sprite InnerCornerSprites;
-        private Sprite previousInnerCornerSprites;
-
-        /// <summary>
-        /// The inner edges of the grid, it is stamped between the cells, seperating them vertically.
-        /// </summary>
-        public Sprite InnerVerticalSeperationSprites;
-        private Sprite previousVerticalSeperationSprites;
-
-        /// <summary>
-        /// The inner edges of the grid, it is stamped between the cells, seperating them horizontally.
-        /// </summary>
-        public Sprite InnerHorizontalSeperationSprites;
-        private Sprite previousHorizontalSeperationSprites;
+        public List<TileGridUISprite> AllSprites
+        {
+            get
+            {
+                return new List<TileGridUISprite>()
+                {
+                    BackgroundFillSprite,
+                    OuterCornerSprites,
+                    OuterVerticalSprites,
+                    OuterHorizontalSprites,
+                    InnerCornerSprites,
+                    InnerVerticalSeperationSprites,
+                    InnerHorizontalSeperationSprites
+                };
+            }
+        }
 
         private void OnValidate()
         {
             if (previousSpritePixelSize != spritePixelSize)
             {
                 previousSpritePixelSize = spritePixelSize;
-                MakeSureSpriteHasCorrectSize(ref BackgroundFillSprite);
-                MakeSureSpriteHasCorrectSize(ref OuterCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref InnerCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref OuterVerticalSprites);
-                MakeSureSpriteHasCorrectSize(ref OuterHorizontalSprites);
-                MakeSureSpriteHasCorrectSize(ref InnerVerticalSeperationSprites);
-                MakeSureSpriteHasCorrectSize(ref InnerHorizontalSeperationSprites);
+
+                foreach (var sprite in AllSprites)
+                {
+                    sprite.ValidateAndClearIfWrongSize(SpritePixelSize);
+                }
             }
 
-            IfDifferentCheckIfValidIfNotRevert(ref BackgroundFillSprite, ref previousBackgroundFillSprite);
-            IfDifferentCheckIfValidIfNotRevert(ref OuterCornerSprites, ref previousOuterCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref InnerCornerSprites, ref previousInnerCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref OuterVerticalSprites, ref previousOuterVerticalSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref OuterHorizontalSprites, ref previousOuterHorizontalSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref InnerVerticalSeperationSprites, ref previousVerticalSeperationSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref InnerHorizontalSeperationSprites, ref previousHorizontalSeperationSprites);
-        }
-
-        private void IfDifferentCheckIfValidIfNotRevert(ref Sprite newSprite, ref Sprite previous)
-        {
-            if (previous != newSprite && MakeSureSpriteHasCorrectSize(ref newSprite))
+            foreach (var sprite in AllSprites)
             {
-                previous = newSprite;
+                sprite.ValidateOrRevert(SpritePixelSize);
             }
         }
 
-        private bool MakeSureSpriteHasCorrectSize(ref Sprite sprite)
+        public bool Validate()
         {
-            if (sprite == null)
-                return true;
-
-            if (sprite.rect.size.x != spritePixelSize || sprite.rect.size.y != spritePixelSize)
+            if (spritePixelSize <= 0)
             {
-                Debug.LogError($"Sprite {sprite.name} has size {sprite.rect.size.x}×{sprite.rect.size.y} pixels, but must be {spritePixelSize}×{spritePixelSize} pixels.");
-                sprite = null;
+                Debug.LogWarning($"{name}: SpritePixelSize must be greater than zero.");
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    [Serializable]
+    public class TileGridUISprite
+    {
+        public Sprite Sprite;
+        private Sprite _previous;
+
+        public int priority;
+
+        public void ValidateOrRevert(int spritePixelSize)
+        {
+            if (Sprite == _previous) return;
+
+            if (ValidateAndClearIfWrongSize(spritePixelSize))
+                _previous = Sprite;
+            else
+                Sprite = _previous;
+        }
+
+        // Returns true if the sprite is null or the correct size. Clears and logs an error if not.
+        public bool ValidateAndClearIfWrongSize(int spritePixelSize)
+        {
+            if (Sprite == null) return true;
+
+            if (Sprite.rect.size.x != spritePixelSize || Sprite.rect.size.y != spritePixelSize)
+            {
+                Debug.LogError($"Sprite {Sprite.name} is {Sprite.rect.size.x}×{Sprite.rect.size.y}px but must be {spritePixelSize}×{spritePixelSize}px.");
+                Sprite = null;
                 return false;
             }
 
             return true;
         }
 
-        public bool Validate()
-        {
-            return spritePixelSize > 0
-                && BackgroundFillSprite != null
-                && OuterCornerSprites != null
-                && InnerCornerSprites != null
-                && OuterVerticalSprites != null
-                && OuterHorizontalSprites != null
-                && InnerVerticalSeperationSprites != null
-                && InnerHorizontalSeperationSprites != null;
-        } 
+        public bool NotNull { get { return Sprite != null; } }
     }
 }
-

@@ -1,9 +1,9 @@
 using Monsters;
 using System.Collections.Generic;
-using Tiles;
+using Tiles.UI;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Tiles;
 public class MonsterTileUI : TileUIBase, IDescriptable
 {
     [SerializeField]

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public abstract class TileUIBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {

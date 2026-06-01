@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Units;
 using UnityEngine;
 
-namespace Tiles
+namespace Tiles.UI
 {
 
     public class TileUIManager : Singleton<TileUIManager>

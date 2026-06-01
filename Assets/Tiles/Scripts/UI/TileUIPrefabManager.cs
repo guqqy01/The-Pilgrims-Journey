@@ -3,7 +3,7 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using System;
 using System.Linq;
-namespace Tiles
+namespace Tiles.UI
 {
     public class TileUIPrefabManager : Singleton<TileUIPrefabManager>
     {

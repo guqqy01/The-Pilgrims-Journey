@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public class TileGridUI : MonoBehaviour, IToBeInitiatedFromRoot
     {
