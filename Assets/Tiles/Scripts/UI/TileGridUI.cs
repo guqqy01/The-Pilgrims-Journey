@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,17 +19,36 @@ namespace Tiles.UI
         public List<TileUIBase> TileUIs => tileUIs;
 
         [SerializeField]
-        private Vector2 scale;
+        private Vector2 rectMaxSize;
 
         public int GridSizeX => tileGrid.GridSize.x;
         public int GridSizeY => tileGrid.GridSize.y;
-        
 
-        //One pixel width, 32 pixels per unit
-        private static Vector2 SizeDeltaOffset = new Vector2(-3.125f, -3.125f);
+        private float OnePixelSize
+        {
+            get
+            {
+                if (tileGridUIStyle == null)
+                    return 0f;
+                return 100f / tileGridUIStyle.SpritePixelSize;
+            }
+        }
 
-        public float SingleTileSquareUISizeX => (GridTransform.sizeDelta.x + 2f * SizeDeltaOffset.x) / tileGrid.GridSize.x;
-        public float SingleTileSquareUISizeY => (GridTransform.sizeDelta.y + 2f * SizeDeltaOffset.y) / tileGrid.GridSize.y;
+        [Flags]
+        private enum MaxAxis 
+        { 
+            X = 1, 
+            Y = 2 
+        }
+
+        [SerializeField]
+        private MaxAxis maxAxis;
+
+        //One pixel width, 32 pixels per unit, 100 / 32 = 3.125f
+        private Vector2 SizeDeltaOffset => new Vector2(OnePixelSize, OnePixelSize);
+
+        public float SingleTileSquareUISizeX => (GridTransform.rect.size.x/* -  OnePixelSize*/) / tileGrid.GridSize.x;
+        public float SingleTileSquareUISizeY => (GridTransform.rect.size.y/* - OnePixelSize*/) / tileGrid.GridSize.y;
 
         public Vector2 SingleTileSquareSize => new Vector2(SingleTileSquareUISizeX, SingleTileSquareUISizeY);
 
@@ -72,21 +92,40 @@ namespace Tiles.UI
             tileGrid.onTileDestroyed -= OnTileDestroyed;
         }
 
-        private Image gridImageForValidation;
-
         private void OnValidate()
         {
             if(gridTransform == null)
                 return;
 
-            if (gridImageForValidation == null)
-                gridImageForValidation = gridTransform.GetComponent<Image>();
-
-            if (gridImageForValidation == null || gridImageForValidation.sprite == null)
+            if (gridImage == null || gridImage.sprite == null)
                 return;
 
+            if (tileGridUIStyle == null)
+                return;
 
-            gridTransform.sizeDelta = (100f / gridImageForValidation.sprite.pixelsPerUnit) * (14f * ((Vector2)tileGrid.GridSize) + Vector2.one);
+            double xSize = GridTransform.rect.size.x;
+            double ySize = GridTransform.rect.size.y;
+
+            if (xSize == 0 || ySize == 0)
+                return;
+
+            double xOverYRatio = xSize / ySize;
+
+            if (maxAxis.HasFlag(MaxAxis.X) && xSize > rectMaxSize.x)
+            {
+                xSize = rectMaxSize.x;
+                ySize = xSize / xOverYRatio;
+                xOverYRatio = xSize / ySize;
+            }
+
+            if (maxAxis.HasFlag(MaxAxis.Y) && ySize > rectMaxSize.y)
+            {
+                ySize = rectMaxSize.y;
+                xSize = ySize * xOverYRatio;
+            }
+
+            gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (float)xSize);
+            gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)ySize);
         }
 
         public bool AcceptsTile(TileUIBase tileUIBase)
@@ -170,7 +209,7 @@ namespace Tiles.UI
 
         public bool CanPlaceTileFromWorldPosition(TileUIBase tileUI, Vector2 worldPosition)
         {
-            return tileGrid.CanPlaceTile(tileUI.Tile, GetGridPositon(worldPosition), tileUI.UIRotation);
+            return tileGrid.CanPlaceTile(tileUI.Tile, GetGridPosition(worldPosition), tileUI.UIRotation);
         }
 
         public bool TryPlaceTile(TileUIBase tileUI, Vector2Int position, bool invokeAddedTile = true, bool invokeRemovedTile = true)
@@ -180,7 +219,7 @@ namespace Tiles.UI
 
         public bool TryPlaceTileFromWorldPosition(TileUIBase tile, Vector2 worldPosition, bool invokeAddedTile = true, bool invokeRemovedTile = true)
         {
-            return TryPlaceTile(tile, GetGridPositon(worldPosition), invokeAddedTile, invokeRemovedTile);
+            return TryPlaceTile(tile, GetGridPosition(worldPosition), invokeAddedTile, invokeRemovedTile);
         }
 
         public void AdoptTileUI(TileUIBase tileUI)
@@ -193,7 +232,12 @@ namespace Tiles.UI
 
         public Vector2 TileRectPositionAtVector2IntPosition(TileUIBase tileUI, Vector2Int position)
         {
-            return (Vector2)GridTransform.position + GridTransform.lossyScale * (SingleTileSquareSize * (position - ((Vector2)tileGrid.GridSize - Vector2.one) / 2f) + tileUI.GetOffset() * SingleTileSquareSize);
+            Vector2 center = ((Vector2)tileGrid.GridSize - Vector2.one) / 2f;
+            Vector2 vectorFromCenter = position - center;
+            Vector2 tileVectorFromCenter = vectorFromCenter + tileUI.GetOffset();
+
+
+            return  (Vector2)GridTransform.position + GridTransform.lossyScale * SingleTileSquareSize * tileVectorFromCenter;
         }
 
         public bool TryGetTileUIAtMousePosition(out TileUIBase tile)
@@ -211,20 +255,22 @@ namespace Tiles.UI
             return TryGetTilesUI(tile, out tileUI);
         }
 
-        public Vector2Int GetGridPositon(Vector2 worldPosition)
+        public Vector2Int GetGridPosition(Vector2 worldPosition)
         {
-            Vector2 relativePos = (worldPosition - (Vector2)GridTransform.position) / GridTransform.lossyScale.x + (GridTransform.sizeDelta + SizeDeltaOffset) / 2f;
+            Vector2 gridHalfSize = (GridTransform.rect.size - SizeDeltaOffset) / 2f;
+
+            Vector2 relativePos = (worldPosition - (Vector2)GridTransform.position) / GridTransform.lossyScale + gridHalfSize;
             return new Vector2Int(Mathf.CeilToInt(relativePos.x / SingleTileSquareUISizeX), Mathf.CeilToInt(relativePos.y / SingleTileSquareUISizeY)) - Vector2Int.one;
         }
 
         public Vector2Int GetMouseGridPosition()
         {
-            return GetGridPositon(Input.mousePosition);
+            return GetGridPosition(Input.mousePosition);
         }
 
         public bool IsWorldPositionInGrid(Vector2 position)
         {
-            return !PointOutOfGrid(GetGridPositon(position));
+            return !PointOutOfGrid(GetGridPosition(position));
         }
     }
 }

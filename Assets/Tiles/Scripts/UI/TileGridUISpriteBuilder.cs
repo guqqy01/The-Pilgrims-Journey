@@ -41,7 +41,7 @@ namespace Tiles.UI
 
         private class DrawOrderItem
         {
-            public int Priority;
+            public float Priority;
             public Action StampAction;
         }
 
@@ -75,29 +75,29 @@ namespace Tiles.UI
                 for (int cy = 0; cy < size.y; cy++)
                 {
                     Vector2Int cell = new Vector2Int(cx, cy);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.Background);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerVertical);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerHorizontal);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerCorner);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.Background, 0f);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerVertical, 0.1f);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerHorizontal, 0.1f);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerCorner, 0.2f);
                 }
 
             // --- Enqueue outer edges ---
             for (int cx = 0; cx < size.x; cx++)
             {
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, 0), EdgeSide.Bottom, spritePixelSize, sp);
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, size.y - 1), EdgeSide.Top, spritePixelSize, sp);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, 0), EdgeSide.Bottom, spritePixelSize, sp, 0.3f);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, size.y - 1), EdgeSide.Top, spritePixelSize, sp, 0.3f);
             }
             for (int cy = 0; cy < size.y; cy++)
             {
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(0, cy), EdgeSide.Left, spritePixelSize, sp);
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(size.x - 1, cy), EdgeSide.Right, spritePixelSize, sp);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(0, cy), EdgeSide.Left, spritePixelSize, sp, 0.4f);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(size.x - 1, cy), EdgeSide.Right, spritePixelSize, sp, 0.4f);
             }
 
             // --- Enqueue outer corners ---
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, 0), sp.OuterCorner, spritePixelSize, Corner.BottomLeft);
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, 0), sp.OuterCorner, spritePixelSize, Corner.BottomRight);
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, size.y - 1), sp.OuterCorner, spritePixelSize, Corner.TopLeft);
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, size.y - 1), sp.OuterCorner, spritePixelSize, Corner.TopRight);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, 0), sp.OuterCorner, spritePixelSize, Corner.BottomLeft, 0.5f);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, 0), sp.OuterCorner, spritePixelSize, Corner.BottomRight, 0.5f);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, size.y - 1), sp.OuterCorner, spritePixelSize, Corner.TopLeft, 0.5f);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, size.y - 1), sp.OuterCorner, spritePixelSize, Corner.TopRight, 0.5f);
 
             // --- Sort ascending by priority then execute ---
             drawOrder.Sort((a, b) => a.Priority.CompareTo(b.Priority));
@@ -131,12 +131,13 @@ namespace Tiles.UI
             List<DrawOrderItem> drawOrder,
             Color[] buffer, int texW,
             Vector2Int cell, int spritePixelSize,
-            (int Priority, Color[] Pixels) sprite)
+            (int Priority, Color[] Pixels) sprite,
+            float additionalPriority)
         {
             if (sprite.Pixels == null || sprite.Pixels.Length == 0) return;
             drawOrder.Add(new DrawOrderItem
             {
-                Priority = sprite.Priority,
+                Priority = sprite.Priority + additionalPriority,
                 StampAction = () => StampFull(buffer, texW, cell, spritePixelSize, sprite.Pixels)
             });
         }
@@ -145,7 +146,7 @@ namespace Tiles.UI
             List<DrawOrderItem> drawOrder,
             Color[] buffer, int texW,
             Vector2Int cell, EdgeSide side, int spritePixelSize,
-            SpritePriorityAndPixels sp)
+            SpritePriorityAndPixels sp, float additionalPriority)
         {
             int priority = (side == EdgeSide.Top || side == EdgeSide.Bottom)
                 ? sp.OuterHorizontal.Priority
@@ -153,7 +154,7 @@ namespace Tiles.UI
 
             drawOrder.Add(new DrawOrderItem
             {
-                Priority = priority,
+                Priority = priority + additionalPriority,
                 StampAction = () => StampOuterEdge(buffer, texW, cell, side, spritePixelSize, sp)
             });
         }
@@ -163,12 +164,12 @@ namespace Tiles.UI
             Color[] buffer, int texW,
             Vector2Int cell,
             (int Priority, Color[] Pixels) sprite,
-            int spritePixelSize, Corner corner)
+            int spritePixelSize, Corner corner, float additionalPriority)
         {
             if (sprite.Pixels == null || sprite.Pixels.Length == 0) return;
             drawOrder.Add(new DrawOrderItem
             {
-                Priority = sprite.Priority,
+                Priority = sprite.Priority + additionalPriority,
                 StampAction = () => StampOuterCorner(buffer, texW, cell, spritePixelSize, sprite.Pixels, corner)
             });
         }
@@ -178,17 +179,17 @@ namespace Tiles.UI
 
         #region Stamp Methods
 
-        private static void StampFull(Color[] buf, int texW, Vector2Int cell, int spritePixelSize, Color[] src)
+        private static void StampFull(Color[] buffer, int texW, Vector2Int cell, int spritePixelSize, Color[] source)
         {
-            if (src == null || src.Length == 0) return;
+            if (source == null || source.Length == 0) return;
 
             Vector2Int origin = CellOrigin(cell, spritePixelSize);
             for (int y = 0; y < spritePixelSize; y++)
                 for (int x = 0; x < spritePixelSize; x++)
                 {
-                    Color pixel = src[x + y * spritePixelSize];
+                    Color pixel = source[x + y * spritePixelSize];
                     if (pixel.a > 0f)
-                        BlendPixel(buf, texW, origin.x + x, origin.y + y, pixel);
+                        BlendPixel(buffer, texW, origin.x + x, origin.y + y, pixel);
                 }
         }
 

@@ -7164,7 +7164,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -82.699}
-  m_SizeDelta: {x: 265.625, y: 440.625}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &484526764
 MonoBehaviour:
@@ -7218,7 +7218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: UI::Tiles.ExpandingTileGridUI
   gridTransform: {fileID: 484526763}
   tileGrid: {fileID: 832218103}
-  scale: {x: 0, y: 0}
+  rectMaxSize: {x: 0, y: 0}
+  maxAxis: 0
   tileGridUIStyle: {fileID: 0}
   gridImage: {fileID: 484526764}
   contentRect: {fileID: 556222209}
@@ -13989,7 +13990,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -82.699}
-  m_SizeDelta: {x: 265.625, y: 440.625}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &874343526
 MonoBehaviour:
@@ -14005,7 +14006,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: UI::Tiles.ExpandingTileGridUI
   gridTransform: {fileID: 874343525}
   tileGrid: {fileID: 463647420}
-  scale: {x: 0, y: 0}
+  rectMaxSize: {x: 0, y: 0}
+  maxAxis: 0
   tileGridUIStyle: {fileID: 0}
   gridImage: {fileID: 874343527}
   contentRect: {fileID: 62527691}
@@ -20070,7 +20072,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 1.0266, y: 76.5653}
-  m_SizeDelta: {x: 353.125, y: 134.375}
+  m_SizeDelta: {x: 346.4519, y: 131.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1164369849
 MonoBehaviour:
@@ -20137,7 +20139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: UI::Tiles.TileGridUI
   gridTransform: {fileID: 1164369847}
   tileGrid: {fileID: 1164369852}
-  scale: {x: 0, y: 0}
+  rectMaxSize: {x: 0, y: 131.5}
+  maxAxis: 2
   tileGridUIStyle: {fileID: 11400000, guid: de5a257ce2179f84590daee159fd2f12, type: 2}
   gridImage: {fileID: 1164369849}
 --- !u!1 &1166443968
