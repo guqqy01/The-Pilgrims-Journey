@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using Helper.Wait;
 using Tiles;
+using UnityEngine;
 
 namespace UI
 {
@@ -8,20 +9,25 @@ namespace UI
         [SerializeField]
         private TilePlayerTileGrid tilePlayerTileGrid;
         [SerializeField]
-        private AmountOfUnitTilesAllowedManager AmountOfUnitTilesAllowedManager;
+        private AmountOfUnitTilesAllowedManager amountOfUnitTilesAllowedManager;
         private void Awake()
         {
-            if (AmountOfUnitTilesAllowedManager != null)
+            if (amountOfUnitTilesAllowedManager != null)
             {
-                AmountOfUnitTilesAllowedManager.OnAmountOfUnitTilesRequiredChanged += OnRequiredAmountChanged;
+                amountOfUnitTilesAllowedManager.OnAmountOfUnitTilesRequiredChanged += OnRequiredAmountChanged;
             }
         }
 
+        private void Start()
+        {
+            WaitForHelper.WaitForObjectThenPerformAction(() => AmountOfUnitTilesAllowedManager.Instance, () => OnRequiredAmountChanged(amountOfUnitTilesAllowedManager.AmountOfUnitTilesRequired));
+        }
+        
         private void OnDestroy()
         {
-            if (AmountOfUnitTilesAllowedManager != null)
+            if (amountOfUnitTilesAllowedManager != null)
             {
-                AmountOfUnitTilesAllowedManager.OnAmountOfUnitTilesRequiredChanged -= OnRequiredAmountChanged;
+                amountOfUnitTilesAllowedManager.OnAmountOfUnitTilesRequiredChanged -= OnRequiredAmountChanged;
             }
         }
 
