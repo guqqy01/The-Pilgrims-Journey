@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public class TileGridUI : MonoBehaviour, IToBeInitiatedFromRoot
     {
@@ -19,19 +19,46 @@ namespace Tiles
         public List<TileUIBase> TileUIs => tileUIs;
 
         [SerializeField]
-        private Vector2 scale;
+        private Vector2 rectMaxSize;
 
         public int GridSizeX => tileGrid.GridSize.x;
         public int GridSizeY => tileGrid.GridSize.y;
-        
 
-        //One pixel width, 32 pixels per unit
-        private static Vector2 SizeDeltaOffset = new Vector2(-3.125f, -3.125f);
+        private float OnePixelSize
+        {
+            get
+            {
+                if (tileGridUIStyle == null)
+                    return 0f;
+                return 100f / tileGridUIStyle.SpritePixelSize;
+            }
+        }
 
-        public float SingleTileSquareUISizeX => (GridTransform.sizeDelta.x + 2f * SizeDeltaOffset.x) / tileGrid.GridSize.x;
-        public float SingleTileSquareUISizeY => (GridTransform.sizeDelta.y + 2f * SizeDeltaOffset.y) / tileGrid.GridSize.y;
+        [Flags]
+        private enum MaxAxis 
+        { 
+            X = 1, 
+            Y = 2 
+        }
+
+        [SerializeField]
+        private MaxAxis maxAxis;
+
+        //One pixel width, 32 pixels per unit, 100 / 32 = 3.125f
+        private Vector2 SizeDeltaOffset => new Vector2(OnePixelSize, OnePixelSize);
+
+        public float SingleTileSquareUISizeX => (GridTransform.rect.size.x/* -  OnePixelSize*/) / tileGrid.GridSize.x;
+        public float SingleTileSquareUISizeY => (GridTransform.rect.size.y/* - OnePixelSize*/) / tileGrid.GridSize.y;
 
         public Vector2 SingleTileSquareSize => new Vector2(SingleTileSquareUISizeX, SingleTileSquareUISizeY);
+
+        private Sprite _generatedSprite;
+
+        [SerializeField]
+        private TileGridUISpriteStyle tileGridUIStyle;
+
+        [SerializeField]
+        protected Image gridImage;
 
         public void InitiateFromRootAtAwake()
         {
@@ -41,10 +68,22 @@ namespace Tiles
             tileGrid.onTileAdded += OnTileAdded;
             tileGrid.onTileRemoved += OnTileRemoved;
             tileGrid.onTileDestroyed += OnTileDestroyed;
+
+            if (tileGridUIStyle == null)
+                return;
+
+            _generatedSprite = TileGridUISpriteBuilder.GetSprite(tileGrid.GridSize, tileGridUIStyle, tileGridUIStyle.SpritePixelSize);
+            gridImage.sprite = _generatedSprite;
         }
 
         private void OnDestroy()
         {
+            if(_generatedSprite != null)
+            {
+                Destroy(_generatedSprite.texture);
+                Destroy(_generatedSprite);
+            }
+
             if (tileGrid == null)
                 return;
 
@@ -53,21 +92,40 @@ namespace Tiles
             tileGrid.onTileDestroyed -= OnTileDestroyed;
         }
 
-        private Image gridImageForValidation;
-
         private void OnValidate()
         {
             if(gridTransform == null)
                 return;
 
-            if (gridImageForValidation == null)
-                gridImageForValidation = gridTransform.GetComponent<Image>();
-
-            if (gridImageForValidation == null || gridImageForValidation.sprite == null)
+            if (gridImage == null || gridImage.sprite == null)
                 return;
 
+            if (tileGridUIStyle == null)
+                return;
 
-            gridTransform.sizeDelta = (100f / gridImageForValidation.sprite.pixelsPerUnit) * (14f * ((Vector2)tileGrid.GridSize) + Vector2.one);
+            double xSize = GridTransform.rect.size.x;
+            double ySize = GridTransform.rect.size.y;
+
+            if (xSize == 0 || ySize == 0)
+                return;
+
+            double xOverYRatio = xSize / ySize;
+
+            if (maxAxis.HasFlag(MaxAxis.X) && xSize > rectMaxSize.x)
+            {
+                xSize = rectMaxSize.x;
+                ySize = xSize / xOverYRatio;
+                xOverYRatio = xSize / ySize;
+            }
+
+            if (maxAxis.HasFlag(MaxAxis.Y) && ySize > rectMaxSize.y)
+            {
+                ySize = rectMaxSize.y;
+                xSize = ySize * xOverYRatio;
+            }
+
+            gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (float)xSize);
+            gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)ySize);
         }
 
         public bool AcceptsTile(TileUIBase tileUIBase)
@@ -151,7 +209,7 @@ namespace Tiles
 
         public bool CanPlaceTileFromWorldPosition(TileUIBase tileUI, Vector2 worldPosition)
         {
-            return tileGrid.CanPlaceTile(tileUI.Tile, GetGridPositon(worldPosition), tileUI.UIRotation);
+            return tileGrid.CanPlaceTile(tileUI.Tile, GetGridPosition(worldPosition), tileUI.UIRotation);
         }
 
         public bool TryPlaceTile(TileUIBase tileUI, Vector2Int position, bool invokeAddedTile = true, bool invokeRemovedTile = true)
@@ -161,7 +219,7 @@ namespace Tiles
 
         public bool TryPlaceTileFromWorldPosition(TileUIBase tile, Vector2 worldPosition, bool invokeAddedTile = true, bool invokeRemovedTile = true)
         {
-            return TryPlaceTile(tile, GetGridPositon(worldPosition), invokeAddedTile, invokeRemovedTile);
+            return TryPlaceTile(tile, GetGridPosition(worldPosition), invokeAddedTile, invokeRemovedTile);
         }
 
         public void AdoptTileUI(TileUIBase tileUI)
@@ -174,7 +232,12 @@ namespace Tiles
 
         public Vector2 TileRectPositionAtVector2IntPosition(TileUIBase tileUI, Vector2Int position)
         {
-            return (Vector2)GridTransform.position + GridTransform.lossyScale * (SingleTileSquareSize * (position - ((Vector2)tileGrid.GridSize - Vector2.one) / 2f) + tileUI.GetOffset() * SingleTileSquareSize);
+            Vector2 center = ((Vector2)tileGrid.GridSize - Vector2.one) / 2f;
+            Vector2 vectorFromCenter = position - center;
+            Vector2 tileVectorFromCenter = vectorFromCenter + tileUI.GetOffset();
+
+
+            return  (Vector2)GridTransform.position + GridTransform.lossyScale * SingleTileSquareSize * tileVectorFromCenter;
         }
 
         public bool TryGetTileUIAtMousePosition(out TileUIBase tile)
@@ -192,159 +255,22 @@ namespace Tiles
             return TryGetTilesUI(tile, out tileUI);
         }
 
-        public Vector2Int GetGridPositon(Vector2 worldPosition)
+        public Vector2Int GetGridPosition(Vector2 worldPosition)
         {
-            Vector2 relativePos = (worldPosition - (Vector2)GridTransform.position) / GridTransform.lossyScale.x + (GridTransform.sizeDelta + SizeDeltaOffset) / 2f;
+            Vector2 gridHalfSize = (GridTransform.rect.size - SizeDeltaOffset) / 2f;
+
+            Vector2 relativePos = (worldPosition - (Vector2)GridTransform.position) / GridTransform.lossyScale + gridHalfSize;
             return new Vector2Int(Mathf.CeilToInt(relativePos.x / SingleTileSquareUISizeX), Mathf.CeilToInt(relativePos.y / SingleTileSquareUISizeY)) - Vector2Int.one;
         }
 
         public Vector2Int GetMouseGridPosition()
         {
-            return GetGridPositon(Input.mousePosition);
+            return GetGridPosition(Input.mousePosition);
         }
 
         public bool IsWorldPositionInGrid(Vector2 position)
         {
-            return !PointOutOfGrid(GetGridPositon(position));
-        }
-    }
-
-
-    public static class TileGridUISpriteBuilder
-    {
-        public static Sprite GetSprite(Vector2Int size, TileGridUISpriteStyle gridStyle, float uiCellSize)
-        {
-            if (size == null || size.x == 0 || size.y == 0)
-            {
-                Debug.LogWarning($"size is empty or zero.");
-                return null;
-            }
-
-            if (!ValidateStyle(gridStyle)) return null;
-
-            CachePixels(gridStyle,
-            out Color[] backgroundFillPixels,
-            out Color[] outerCornerPixels,
-            out Color[] innerCornerPixels,
-            out Color[] farOuterCornerPixels,
-            out Color[] verticalSeperationPixels,
-            out Color[] horizontalSeperationPixels);
-
-
-
-            return gridStyle.BackgroundFillSprite;
-        }
-
-        private static void CachePixels(TileGridUISpriteStyle gridStyle, 
-            out Color[] backgroundFillPixels, 
-            out Color[] outerCornerPixels, 
-            out Color[] innerCornerPixels, 
-            out Color[] farOuterCornerPixels, 
-            out Color[] verticalSeperationPixels,
-            out Color[] horizontalSeperationPixels)
-        {
-            backgroundFillPixels = GetSpritePixels(gridStyle.BackgroundFillSprite);
-            outerCornerPixels = GetSpritePixels(gridStyle.OuterCornerSprites);
-            innerCornerPixels = GetSpritePixels(gridStyle.InnerCornerSprites);
-            farOuterCornerPixels = GetSpritePixels(gridStyle.FarOuterCornerSprites);
-            verticalSeperationPixels = GetSpritePixels(gridStyle.VerticalSeperationSprites);
-            horizontalSeperationPixels = GetSpritePixels(gridStyle.HorizontalSeperationSprites);
-        }
-
-        private static Color[] GetSpritePixels(Sprite sprite)
-        {
-            Rect rect = sprite.textureRect;
-            return sprite.texture.GetPixels(
-                (int)rect.x,
-                (int)rect.y,
-                (int)rect.width,
-                (int)rect.height);
-        }
-
-        private static bool ValidateStyle(TileGridUISpriteStyle uiStyle)
-        {
-            bool ok = true;
-            ok &= AssertSprite(uiStyle.BackgroundFillSprite, nameof(uiStyle.BackgroundFillSprite));
-            ok &= AssertSprite(uiStyle.OuterCornerSprites, nameof(uiStyle.OuterCornerSprites));
-            ok &= AssertSprite(uiStyle.InnerCornerSprites, nameof(uiStyle.InnerCornerSprites));
-            ok &= AssertSprite(uiStyle.FarOuterCornerSprites, nameof(uiStyle.FarOuterCornerSprites));
-            ok &= AssertSprite(uiStyle.VerticalSeperationSprites, nameof(uiStyle.VerticalSeperationSprites));
-            ok &= AssertSprite(uiStyle.HorizontalSeperationSprites, nameof(uiStyle.HorizontalSeperationSprites));
-            return ok;
-        }
-
-        private static bool AssertSprite(Sprite sprite, string fieldName)
-        {
-            if (sprite != null) return true;
-            Debug.LogError($"{fieldName} in style is not assigned.");
-            return false;
-        }
-
-    }
-
-    public class TileGridUISpriteStyle : ScriptableObject 
-    {
-        [SerializeField]
-        private int spritePixelSize;
-        private int previousSpritePixelSize;
-        public int SpritePixelSize => spritePixelSize;
-
-        public Sprite BackgroundFillSprite;
-        public Sprite OuterCornerSprites;
-        public Sprite InnerCornerSprites;
-        public Sprite FarOuterCornerSprites;
-        public Sprite VerticalSeperationSprites;
-        public Sprite HorizontalSeperationSprites;
-
-        private Sprite previousBackgroundFillSprite;
-        private Sprite previousOuterCornerSprites;
-        private Sprite previousInnerCornerSprites;
-        private Sprite previousFarOuterCornerSprites;
-        private Sprite previousVerticalSeperationSprites;
-        private Sprite previousHorizontalSeperationSprites;
-
-        private void OnValidate()
-        {
-            if (previousSpritePixelSize != spritePixelSize)
-            {
-                previousSpritePixelSize = spritePixelSize;
-                MakeSureSpriteHasCorrectSize(ref BackgroundFillSprite);
-                MakeSureSpriteHasCorrectSize(ref OuterCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref InnerCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref FarOuterCornerSprites);
-                MakeSureSpriteHasCorrectSize(ref VerticalSeperationSprites);
-                MakeSureSpriteHasCorrectSize(ref HorizontalSeperationSprites);
-            }
-
-            IfDifferentCheckIfValidIfNotRevert(ref BackgroundFillSprite, ref previousBackgroundFillSprite);
-            IfDifferentCheckIfValidIfNotRevert(ref OuterCornerSprites, ref previousOuterCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref InnerCornerSprites, ref previousInnerCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref FarOuterCornerSprites, ref previousFarOuterCornerSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref VerticalSeperationSprites, ref previousVerticalSeperationSprites);
-            IfDifferentCheckIfValidIfNotRevert(ref HorizontalSeperationSprites, ref previousHorizontalSeperationSprites);
-        }
-
-        private void IfDifferentCheckIfValidIfNotRevert(ref Sprite newSprite, ref Sprite previous)
-        {
-            if (previous != newSprite && MakeSureSpriteHasCorrectSize(ref newSprite))
-            {
-                previous = newSprite;
-            }
-        }
-
-        private bool MakeSureSpriteHasCorrectSize(ref Sprite sprite)
-        {
-            if (sprite == null)
-                return true;
-
-            if (sprite.rect.size.x != spritePixelSize || sprite.rect.size.y != spritePixelSize)
-            {
-                Debug.LogError($"Sprite {sprite.name} has size {sprite.rect.size.x}×{sprite.rect.size.y} pixels, but must be {spritePixelSize}×{spritePixelSize} pixels.");
-                sprite = null;
-                return false;
-            }
-
-            return true;
+            return !PointOutOfGrid(GetGridPosition(position));
         }
     }
 }

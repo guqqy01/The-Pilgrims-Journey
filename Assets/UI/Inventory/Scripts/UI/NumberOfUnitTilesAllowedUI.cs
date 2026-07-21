@@ -10,20 +10,25 @@ namespace UI
         [SerializeField]
         private TilePlayerTileGrid tilePlayerTileGrid;
         [SerializeField]
-        private AmountOfUnitTilesAllowedManager AmountOfUnitTilesAllowedManager;
+        private AmountOfUnitTilesAllowedManager amountOfUnitTilesAllowedManager;
         private void Awake()
         {
-            if (AmountOfUnitTilesAllowedManager != null)
+            if (amountOfUnitTilesAllowedManager != null)
             {
                 tilePlayerTileGrid.onTileAdded += OnTileAdded;
                 tilePlayerTileGrid.onTileRemoved += OnTileRemoved;
                 tilePlayerTileGrid.onTileDestroyed += OnTileDestroyed;
             }
 
-            if (AmountOfUnitTilesAllowedManager != null)
+            if (amountOfUnitTilesAllowedManager != null)
             {
-                AmountOfUnitTilesAllowedManager.OnAmountOfUnitTilesAllowedChanged += OnAllowedAmountChanged;
+                amountOfUnitTilesAllowedManager.OnAmountOfUnitTilesAllowedChanged += OnAllowedAmountChanged;
             }
+        }
+
+        private void Start()
+        {
+            WaitForHelper.WaitForObjectThenPerformAction(() => AmountOfUnitTilesAllowedManager.Instance, () => OnAllowedAmountChanged(amountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed));
         }
 
         private void OnDestroy()
@@ -35,25 +40,25 @@ namespace UI
                 tilePlayerTileGrid.onTileDestroyed -= OnTileDestroyed;
             }
 
-            if (AmountOfUnitTilesAllowedManager != null)
+            if (amountOfUnitTilesAllowedManager != null)
             {
-                AmountOfUnitTilesAllowedManager.OnAmountOfUnitTilesAllowedChanged -= OnAllowedAmountChanged;
+                amountOfUnitTilesAllowedManager.OnAmountOfUnitTilesAllowedChanged -= OnAllowedAmountChanged;
             }
         }
 
         private void OnTileAdded(TileBase _)
         {
-           UpdateUI(GetAmountOfUnitTiles(), AmountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
+           UpdateUI(GetAmountOfUnitTiles(), amountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
         }
 
         private void OnTileRemoved(TileBase _)
         {
-            UpdateUI(GetAmountOfUnitTiles(), AmountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
+            UpdateUI(GetAmountOfUnitTiles(), amountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
         }
 
         private void OnTileDestroyed(TileBase _)
         {
-            UpdateUI(GetAmountOfUnitTiles(), AmountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
+            UpdateUI(GetAmountOfUnitTiles(), amountOfUnitTilesAllowedManager.AmountOfUnitTilesAllowed);
         }
 
         private int GetAmountOfUnitTiles()

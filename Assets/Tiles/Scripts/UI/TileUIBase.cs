@@ -5,12 +5,10 @@ using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public abstract class TileUIBase : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IComparable
     {
-        protected const float _singleTileSize = 43.75f;
-
         [SerializeField]
         protected TileShapeTextureBuilder tileShapeTextureBuilder;
         public RectTransform RectTransform { private set; get; }
@@ -25,6 +23,8 @@ namespace Tiles
 
         [HideInInspector]
         public TileGridUI tileGridUI;
+
+        private Vector2 _baseSize;
 
         public float BaseRotation => Tile.Rotation;
 
@@ -80,6 +80,7 @@ namespace Tiles
             {
                 HandleTileRotation();
                 HandlePosition();
+                HandleSize();
             }
         }
 
@@ -250,14 +251,53 @@ namespace Tiles
             }
 
             // Offset from bounding box center to the chosen tile, in pixel space
-            return (closestPoint - boundsCenter) * 43.75f;
+            Vector2 singleTileSize;
+            if (draggedTileGridUI != null)
+            {
+                singleTileSize = draggedTileGridUI.SingleTileSquareSize;
+            }
+            else
+            {
+                singleTileSize = _baseSize / new Vector2(Tile.Width, Tile.Height);
+            }
+            return (closestPoint - boundsCenter) * singleTileSize;
+        }
+
+        private void HandleSize()
+        {
+            if (draggedTileGridUI != null)
+            {
+                if(UIRotation % 180f == 90f)
+                {
+                    float xSize = Tile.Width * draggedTileGridUI.SingleTileSquareUISizeY;
+                    float ySize = Tile.Height * draggedTileGridUI.SingleTileSquareUISizeX;
+
+                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+                }
+                else
+                {
+                    float xSize = Tile.Width * draggedTileGridUI.SingleTileSquareUISizeX;
+                    float ySize = Tile.Height * draggedTileGridUI.SingleTileSquareUISizeY;
+
+                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+                }
+
+                   
+            }
+            else
+            {
+                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _baseSize.x);
+                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _baseSize.y);
+            }
         }
 
         private void HandlePosition()
         {
             if (draggedTileGridUI != null)
             {
-                Vector2Int gridPosition = draggedTileGridUI.GetGridPositon(Input.mousePosition);
+                Vector2Int gridPosition = draggedTileGridUI.GetGridPosition(Input.mousePosition);
                 RectTransform.position = draggedTileGridUI.TileRectPositionAtVector2IntPosition(this, gridPosition);
                 Color = (draggedTileGridUI.CanPlaceTile(this, gridPosition)) ? Color.white : Color.red;
 
@@ -275,7 +315,7 @@ namespace Tiles
             }
             else
             {
-                RectTransform.position = (Vector2)Input.mousePosition + GetCenteredAnchoredPositionPositionInShape(RotatedShape) * TileUIManager.Canvas.scaleFactor;
+                RectTransform.position = (Vector2)Input.mousePosition - GetCenteredAnchoredPositionPositionInShape(RotatedShape) * TileUIManager.Canvas.scaleFactor;
                 Color = Color.white;
                 currentTileGridUI = null;
             }
@@ -352,6 +392,8 @@ namespace Tiles
             tileGraphics.SetNativeSize();*/
 
             tileShapeTextureBuilder.Build(tile.Shape, TileUIStyle);
+
+            _baseSize = tileGraphics.rectTransform.rect.size;
 
             if (RectTransform == null)
                 RectTransform = GetComponent<RectTransform>();

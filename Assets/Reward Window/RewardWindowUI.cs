@@ -1,13 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 using Equipment;
-using Relics;
-using Random = UnityEngine.Random;
-using Tiles;
+using Tiles.UI;
 using Units;
 using UnityEngine.UI;
+using Tiles;
 public class RewardWindowUI : Singleton<RewardWindowUI>
 {
     [SerializeField] private RewardWindowItemUI rewardItemUIPrefab;

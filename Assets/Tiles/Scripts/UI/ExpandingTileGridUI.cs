@@ -1,14 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public class ExpandingTileGridUI : TileGridUI
     {
         protected ExpandingTileGridBase _expandingTileGrid;
-
-        [SerializeField]
-        protected Image gridImage;
 
         [SerializeField]
         private RectTransform contentRect;

@@ -47,6 +47,44 @@ namespace Tiles
             }
         }
 
+        public int Width
+        {
+            get
+            {
+                int maxX = int.MinValue;
+                int minX = int.MaxValue;
+                foreach (Vector2Int v in Shape)
+                {
+                    if (v.x > maxX)
+                        maxX = v.x;
+
+                    if(v.x < minX)
+                        minX = v.x;
+                }
+
+                return maxX - minX + 1;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                int maxY = int.MinValue;
+                int minY = int.MaxValue;
+                foreach (Vector2Int v in Shape)
+                {
+                    if (v.y > maxY)
+                        maxY = v.y;
+
+                    if (v.y < minY)
+                        minY = v.y;
+                }
+
+                return maxY - minY + 1;
+            }
+        }
+
         public virtual void OnDestroy()
         {
             OnRotated = null;

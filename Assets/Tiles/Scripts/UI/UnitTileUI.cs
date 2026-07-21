@@ -4,7 +4,7 @@ using Units;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tiles
+namespace Tiles.UI
 {
     public class UnitTileUI : TileUIBase, IDescriptable
     {

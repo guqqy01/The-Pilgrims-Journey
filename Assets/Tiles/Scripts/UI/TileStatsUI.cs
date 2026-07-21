@@ -2,9 +2,7 @@ using Equipment;
 using GameManagerCalls;
 using UnityEngine;
 using TMPro;
-using Units;
-
-namespace Tiles
+namespace Tiles.UI
 {
     public class TileStatsUI : EquipmentInventory, IOnSetupNewGame, IOnClear
     {
