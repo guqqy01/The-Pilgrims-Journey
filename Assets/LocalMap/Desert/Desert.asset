@@ -161,6 +161,33 @@ MonoBehaviour:
         m_ConstantMin: 0
         m_ConstantMax: 1
   mapObjects:
+  - name: Altar
+    overlay: {fileID: 7144125572260918665, guid: c4228d2f5593d0743a4cec46ef696d93, type: 3}
+    size: {x: 5, y: 5}
+    amountToSpawnCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - name: Tent
     overlay: {fileID: 8242683995244539426, guid: a450f8bff03132a44a1b000dec0e7977, type: 3}
     size: {x: 3, y: 3}

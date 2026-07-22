@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 [Serializable]
 public class IntRangeSlider
 {
@@ -102,5 +102,10 @@ public class IntRangeSlider
     {
         start = Mathf.Clamp(newStart, MinLimit, MaxLimit);
         length = Mathf.Clamp(newLength, 0, MaxLimit - start);
+    }
+
+    public int RandomPoint()
+    {
+        return Random.Range(Start, End + 1);
     }
 }

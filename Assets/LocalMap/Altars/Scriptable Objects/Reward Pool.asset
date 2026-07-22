@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8271f370cee0b2943943e2cfc9624e2c, type: 3}
+  m_Name: Reward Pool
+  m_EditorClassIdentifier: Assembly-CSharp::AltarRewardPoolSO
+  relicRewards:
+  - {fileID: 11400000, guid: 29419abb4b4c16e46af592ebdda2f8f5, type: 2}
+  - {fileID: 11400000, guid: f785e57df3d037e49a5d1167c00bf550, type: 2}
+  - {fileID: 11400000, guid: 9245fefa6e09bb74abee5e00e4526cc0, type: 2}
+  - {fileID: 11400000, guid: dfac09f408a182a4fa5e5be3c75b4be0, type: 2}
+  - {fileID: 11400000, guid: 5213202c76b2bbf4393321d98d25b932, type: 2}
+  - {fileID: 11400000, guid: 610ce4ad7e024214f9cfea651b3a59cb, type: 2}
+  - {fileID: 11400000, guid: 5fbb06e58ad0141429db9ebd0dafc6be, type: 2}
+  - {fileID: 11400000, guid: 929d8b36f0d336040a475100755e2772, type: 2}
+  - {fileID: 11400000, guid: 62ef49634de1d654ea4776106fbdebc9, type: 2}
+  - {fileID: 11400000, guid: b3a9ed6bd7b8e5a4cb937060e09faa00, type: 2}
