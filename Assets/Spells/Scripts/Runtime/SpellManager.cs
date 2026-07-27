@@ -113,8 +113,8 @@ namespace Spells
             Spell spell = new Spell(spellSO, amountOfUses);
 
             if (spell.spellSO.spellEffects != null)
-                spell.spellSO.spellEffects.ForEach(x => x.Reset());
-
+                spell.spellSO.spellEffects.ForEach(x => x?.Reset());
+            
             Spells.Add(spell);
 
             updateUI?.Invoke();

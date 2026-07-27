@@ -31,6 +31,14 @@ namespace Monsters
         public float shieldCooldown;
         public float shieldRegeneration;
 
+        [Header("Difficulty Scaling")]
+        public float movementDifficityScaling = 1f;
+
+        public float healthDifficultyScaling = 1.05f;
+        public float shieldDifficultyScaling = 1.05f;
+        public float shieldCooldownDifficultyScaling = 1f;
+        public float shieldRegenerationDifficultyScaling = 1f;
+
         public string Title => name;
 
         public string MainDescription => description;

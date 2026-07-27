@@ -8,7 +8,7 @@ namespace Monsters
     /// </summary>
     public partial class MonsterSpawnManager
     {
-        private void ProcessNormalSpawns(float now)
+        private void ProcessNormalSpawns(float now, float difficulty)
         {
             foreach(var (monsterSpawn, size) in normalSpawns)
             {
@@ -21,7 +21,7 @@ namespace Monsters
                 if (now < nextSpawnTimeByMonster[monster])
                     continue;
 
-                TrySpawnOne(normalMonsterSpawn);
+                TrySpawnOne(normalMonsterSpawn, difficulty);
                 nextSpawnTimeByMonster[monster] = now + GetNextSpawnDelay(normalMonsterSpawn, size);
             }
         }

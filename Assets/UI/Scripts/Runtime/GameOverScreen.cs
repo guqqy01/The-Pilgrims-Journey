@@ -1,13 +1,14 @@
 using GameManagerCalls;
 using Heros;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
+using TMPro;
 public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGameEnd
 {
+    [SerializeField]
+    private TextMeshProUGUI reasonMessage;
+
     public override void InitiateFromRootAtAwake()
     {
         base.InitiateFromRootAtAwake();
@@ -15,9 +16,10 @@ public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGam
         gameObject.SetActive(false);
     }
 
-    public void OnGameEnd()
+    public void OnGameEnd(string message)
     {
         gameObject.SetActive(true);
+        reasonMessage.text = message;
     }
 
     public void OnSetupNewGame()

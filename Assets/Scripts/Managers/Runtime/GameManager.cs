@@ -155,9 +155,9 @@ public class GameManager : MonoBehaviour, ISaveLoad
         Save();
     }
 
-    public void EndGame()
+    public void EndGame(string reason)
     {
-        InterfaceCaller.CallInterfaces<IOnGameEnd>(x => x.OnGameEnd());
+        InterfaceCaller.CallInterfaces<IOnGameEnd>(x => x.OnGameEnd(reason));
 
         Delete();
     }

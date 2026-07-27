@@ -88,7 +88,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         }
         else
         {
-            GameManager.Instance.EndGame();
+            GameManager.Instance.EndGame("Your pilgrims did not survive the journey");
         }
     }
 

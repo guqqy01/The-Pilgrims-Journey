@@ -12,7 +12,8 @@ namespace Monsters
     {
         private bool TrySpawnStationary(
             IStationaryMonsterSpawn spawn,
-            List<KeyValuePair<int, List<Vector2Int>>> weightedPoints)
+            List<KeyValuePair<int, List<Vector2Int>>> weightedPoints, 
+            float difficulty)
         {
             if (spawn.MonsterSO == null)
                 return false;
@@ -26,7 +27,7 @@ namespace Monsters
                     if (SpotOccupied(p, spawn.MonsterSO.size, out Vector2 pos))
                         continue;
 
-                    SpawnMonster(spawn.MonsterSO, pos);
+                    SpawnMonster(spawn.MonsterSO, pos, difficulty);
                     MarkOccupied(p, spawn.MonsterSO.size);
                     return true;
                 }

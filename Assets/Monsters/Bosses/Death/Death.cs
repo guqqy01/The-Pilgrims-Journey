@@ -59,6 +59,17 @@ namespace Monsters
             deathAnimationHelper.onAttackFinish += OnAttackFinished;
         }
 
+        private void OnDestroy()
+        {
+            if(deathAnimationHelper != null)
+            {
+                deathAnimationHelper.onAttack -= FromAnimatorShootProjectiles;
+
+                deathAnimationHelper.onAttackFinish -= OnAttackFinished;
+            }
+            
+        }
+
         protected override void ShockEffect(float shockTime)
         {
             
@@ -69,7 +80,8 @@ namespace Monsters
             if (HeroManager.Instance.ActiveHero == null)
                 return;
 
-            Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
+            Projectile project = Instantiate(projectile, transform.position, Quaternion.identity);
+            project.transform.localScale = transform.localScale;
 
             project.onHit += OnDamageUnit;
 

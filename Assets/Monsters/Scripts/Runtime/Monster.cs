@@ -62,11 +62,16 @@ namespace Monsters
             MonsterMat = GetComponentInChildren<Renderer>().material;
         }
 
-        public virtual void Init(MonsterSO monster)
+        public virtual void Init(MonsterSO monster, float difficulty = 1f)
         {
             MonsterSO = monster;
 
             MonsterMovement.Setup(monster);
+
+            int scaledHealth = Mathf.RoundToInt(monster.health * (1f + (monster.healthDifficultyScaling - 1f) * (difficulty - 1f)));
+            int scaledShield = Mathf.RoundToInt(monster.shield * (1f + (monster.shieldDifficultyScaling - 1f) * (difficulty - 1f)));
+            int scaledShieldRegeneration = Mathf.RoundToInt(monster.shieldRegeneration * (1f + (monster.shieldRegenerationDifficultyScaling - 1f) * (difficulty - 1f)));
+            int scaledShieldCooldown = Mathf.RoundToInt(monster.shieldCooldown * (1f + (monster.shieldCooldownDifficultyScaling - 1f) * (difficulty - 1f)));
 
             HealthAndShieldManager.Setup(new BuffableStat(monster.health), new BuffableStat(monster.shield), new BuffableStat(monster.shieldRegeneration), new BuffableStat(monster.shieldCooldown));
         }

@@ -269,7 +269,7 @@ public class UnitSpawningManager
         SpawnedUnits.Clear();
     }
 
-    public void OnGameEnd() => DestroyUnits();
+    public void OnGameEnd(string message) => DestroyUnits();
     public void OnCompleteLocalMapLevel() => DestroyUnits();
     public void AfterCreateLocalMap() => SetupNewLevel();
     public void Clear() => DestroyUnits();

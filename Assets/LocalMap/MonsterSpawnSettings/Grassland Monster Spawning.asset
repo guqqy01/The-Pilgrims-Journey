@@ -12,276 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945d5f93844d9ab46baf73a6c9be6cf0, type: 3}
   m_Name: Grassland Monster Spawning
   m_EditorClassIdentifier: 
-  rangeAndMonster:
-  - range: 1
-    maxAmountVSLevel:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spawnRateVSLevel:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    monster: {fileID: 11400000, guid: 5ca93a688e5b5ea4b9b68da0f96cd25e, type: 2}
-    minSpawnDistance: 0
-    maxSpawnDistance: 0
-  - range: 2
-    maxAmountVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 10
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 30
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spawnRateVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 10
-        inSlope: -0.49
-        outSlope: -0.49
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 0.2
-        inSlope: -0.49
-        outSlope: -0.49
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
-    minSpawnDistance: 0
-    maxSpawnDistance: 0
-  - range: 2
-    maxAmountVSLevel:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spawnRateVSLevel:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    monster: {fileID: 11400000, guid: de1bf26ec746fa747b51b6bcdf5990a9, type: 2}
-    minSpawnDistance: 0
-    maxSpawnDistance: 0
-  - range: 2
-    maxAmountVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 10
-        inSlope: 4.5
-        outSlope: 4.5
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 100
-        inSlope: 4.5
-        outSlope: 4.5
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spawnRateVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 3
-        inSlope: -0.3996191
-        outSlope: -0.3996191
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.04333334
-      - serializedVersion: 3
-        time: 20
-        value: 0.2
-        inSlope: -0.010704133
-        outSlope: -0.010704133
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.18666668
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
-    minSpawnDistance: 10
-    maxSpawnDistance: 30
-  - range: 1
-    maxAmountVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 3
-        inSlope: 4.85
-        outSlope: 4.85
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 100
-        inSlope: 4.85
-        outSlope: 4.85
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spawnRateVSLevel:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 3
-        inSlope: -0.3996191
-        outSlope: -0.3996191
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.04333334
-      - serializedVersion: 3
-        time: 20
-        value: 0.2
-        inSlope: -0.010704133
-        outSlope: -0.010704133
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.18666668
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
-    minSpawnDistance: 15
-    maxSpawnDistance: 30
+  normalMonsterSpawns:
+  - rid: 4205786435911680182
+  waveMonsterSpawns:
+  - rid: 4205786435911680181
+  - rid: 4205786435911680180
   bossMonsters:
   - range: 6
     boss: {fileID: 11400000, guid: fd2edaadc12841c41955b9d132cca146, type: 2}
     bossMinionSpawns:
-    - range: 15
-      maxAmountVSLevel:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 5
-          inSlope: 0.15
-          outSlope: 0.15
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 20
-          value: 8
-          inSlope: 0.15
-          outSlope: 0.15
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      spawnRateVSLevel:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 5
-          inSlope: -0.1
-          outSlope: -0.1
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 20
-          value: 3
-          inSlope: -0.1
-          outSlope: -0.1
-          tangentMode: 34
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      monster: {fileID: 11400000, guid: 0cd5877b7890a8740a1b980c2923d36d, type: 2}
-      minSpawnDistance: 20
-      maxSpawnDistance: 50
+    - rid: -2
   - range: 6
     boss: {fileID: 11400000, guid: 07bd63e250a52554babb39d0ffb7f8dc, type: 2}
     bossMinionSpawns: []
-  waves:
-  - triggerTime: 15
-    entries:
-    - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
-      count: 20
-      range: 5
-    - monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
-      count: 1
-      range: 10
-  - triggerTime: 70
-    entries:
-    - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
-      count: 40
-      range: 5
-    - monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
-      count: 2
-      range: 10
-  - triggerTime: 180
-    entries:
-    - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
-      count: 80
-      range: 5
-    - monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
-      count: 6
-      range: 10
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 4205786435911680180
+      type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
+      data:
+        monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+        count: 25
+        minSpawnDistance: 20
+        maxSpawnDistance: 50
+    - rid: 4205786435911680181
+      type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
+      data:
+        monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+        count: 10
+        minSpawnDistance: 20
+        maxSpawnDistance: 50
+    - rid: 4205786435911680182
+      type: {class: NormalStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
+      data:
+        monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+        spawnRateVSLevel:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 20
+            value: 50
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        range: 3

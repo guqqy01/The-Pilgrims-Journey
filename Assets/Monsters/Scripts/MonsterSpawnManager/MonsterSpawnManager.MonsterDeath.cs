@@ -72,7 +72,7 @@ namespace Monsters
         {
             var spawn = monsterSpawnSettings.normalMonsterSpawns.Find(s => s.monster == monster);
             
-            if(spawn.monster == null)
+            if(spawn == null || spawn.monster == null)
             {
                 return;
             }

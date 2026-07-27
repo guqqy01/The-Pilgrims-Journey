@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e162288f61b522344b073fd65782c7aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heros.OrbitalHeroAttackSpawn
-  collider2D: {fileID: 1981488705707692370}
+  hitCollider: {fileID: 0}
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -164,10 +164,10 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -177180963
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -3324169308502605054, guid: 97718834359e6614aabe36fdf3f4fa78, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

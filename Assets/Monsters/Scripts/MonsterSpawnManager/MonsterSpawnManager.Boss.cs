@@ -12,7 +12,7 @@ namespace Monsters
 
         public bool? HasBossMonsterBeenKilled {  get; private set; }
 
-        private void SpawnBoss(BossMonsterSpawn bossSpawn)
+        private void SpawnBoss(BossMonsterSpawn bossSpawn, float difficulty)
         {
             int index = 0;
             int limit = Map.MapSizeX * Map.MapSizeY;
@@ -30,14 +30,14 @@ namespace Monsters
                 return;
             }
 
-            Monster bossMonster = SpawnMonster(bossSpawn.boss, p);
+            Monster bossMonster = SpawnMonster(bossSpawn.boss, p, difficulty);
             BossMonster = bossMonster;
             BossMonster.HealthAndShieldManager.Health.onDie += OnBossDie;
             if(bossSpawn.boss.movementType == MonsterMovementType.Stationary)
                 MarkOccupied(p, bossSpawn.boss.size);
         }
 
-        private void HandleSpawnBossMinions(float now)
+        private void HandleSpawnBossMinions(float now, float difficulty)
         {
             // Only run if this level has a boss spawn and boss is present
             if (!currentBossSpawn.HasValue || BossMonster == null)
@@ -60,7 +60,7 @@ namespace Monsters
                 if (now < nextSpawnTimeByMonster[monster])
                     continue;
 
-                TrySpawnOne(spawn);
+                TrySpawnOne(spawn, difficulty);
 
                 nextSpawnTimeByMonster[monster] =
                     now + GetNextSpawnDelay(spawn);

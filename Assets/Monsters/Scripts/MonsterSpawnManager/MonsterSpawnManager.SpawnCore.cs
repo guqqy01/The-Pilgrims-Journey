@@ -13,7 +13,7 @@ namespace Monsters
     {
         private EnemySpawnWeightMap weightMap;
 
-        public Monster SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos)
+        public Monster SpawnMonster(MonsterSO monsterSO, Vector2 spawnPos, float difficulty)
         {
             if (monsterSO == null || monsterSO.prefab == null)
                 return null;
@@ -59,16 +59,16 @@ namespace Monsters
             }
         }
 
-        private bool TrySpawnOne(MonsterSpawn spawn)
+        private bool TrySpawnOne(MonsterSpawn spawn, float difficulty)
         {
             if(spawn is IStationaryMonsterSpawn stationarySpawn)
-                return TrySpawnOneStationary(stationarySpawn, null);
+                return TrySpawnOneStationary(stationarySpawn, null, difficulty);
             else if (spawn is IDirectMonsterSpawn directSpawn)
-                return TrySpawnOneDirect(directSpawn);
+                return TrySpawnOneDirect(directSpawn, difficulty);
             else return false;
         }
 
-        private bool TrySpawnOneStationary(IStationaryMonsterSpawn stationarySpawn, List<KeyValuePair<int, List<Vector2Int>>> weightedPoints)
+        private bool TrySpawnOneStationary(IStationaryMonsterSpawn stationarySpawn, List<KeyValuePair<int, List<Vector2Int>>> weightedPoints, float difficulty)
         {
             var weightedStationaryPoints = weightMap.WeightAndMapPointsConnectedToPath(stationarySpawn.Range);
             if (weightedStationaryPoints == null || weightedStationaryPoints.Count == 0)
@@ -78,10 +78,10 @@ namespace Monsters
             if (weightedStationaryPoints.Count == 0)
                 return false;
 
-            return TrySpawnStationary(stationarySpawn, weightedStationaryPoints);
+            return TrySpawnStationary(stationarySpawn, weightedStationaryPoints, difficulty);
         }
 
-        private bool TrySpawnOneDirect(IDirectMonsterSpawn directSpawn)
+        private bool TrySpawnOneDirect(IDirectMonsterSpawn directSpawn, float difficulty)
         {
             Vector3 heroPos = HeroManager.Instance.ActiveHero != null
                 ? HeroManager.Instance.ActiveHero.transform.position
@@ -98,7 +98,7 @@ namespace Monsters
             if (points.Count == 0)
                 return false;
 
-            return TrySpawnDirect(directSpawn, points, heroPosOnGrid);
+            return TrySpawnDirect(directSpawn, points, heroPosOnGrid, difficulty);
         }
 
         private List<KeyValuePair<int, List<Vector2Int>>> FilterPointsToBaseDominantZone(List<KeyValuePair<int, List<Vector2Int>>> points)
@@ -158,7 +158,7 @@ namespace Monsters
             return false;
         }
 
-        private void BeginSpawning(BossMonsterSpawn? boss)
+        private void BeginSpawning(BossMonsterSpawn? boss, float difficulty)
         {
             DestroyExistingMonsters();
 
@@ -171,7 +171,7 @@ namespace Monsters
             if (boss.HasValue)
             {
                 currentBossSpawn = boss.Value;
-                SpawnBoss(boss.Value);
+                SpawnBoss(boss.Value, difficulty);
                 HasBossMonsterBeenKilled = false;
             }
             else

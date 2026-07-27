@@ -11,9 +11,10 @@ namespace Monsters
     public partial class MonsterSpawnManager
     {
         private bool TrySpawnDirect(
-            IDirectMonsterSpawn spawn, 
+            IDirectMonsterSpawn spawn,
             List<Vector2Int> points,
-            Vector2Int heroPosOnGrid)
+            Vector2Int heroPosOnGrid,
+            float  difficulty)
         {
             var list = new WeightedChanceList<Vector2>();
 
@@ -32,7 +33,7 @@ namespace Monsters
             if (list.weightedList.Count == 0)
                 return false;
 
-            SpawnMonster(spawn.MonsterSO, list.GetRandom());
+            SpawnMonster(spawn.MonsterSO, list.GetRandom(), difficulty);
             return true;
         }
     }

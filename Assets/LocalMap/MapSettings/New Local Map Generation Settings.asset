@@ -281,7 +281,7 @@ MonoBehaviour:
         m_ConstantMin: 0
         m_ConstantMax: 1
   mapObjects:
-  - name: Tree
+  - name: Campfire
     overlay: {fileID: 4682467625707116253, guid: d86cfa00209638b41bf7840a380a7d49, type: 3}
     size: {x: 3, y: 3}
     amountToSpawnCurve:
@@ -308,6 +308,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
+    validPlacementTiles: 62
   - name: Tree
     overlay: {fileID: 8125792519148305516, guid: 807f90826a4a24b4a9c54220f820cdac, type: 3}
     size: {x: 6, y: 7}
@@ -335,6 +336,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
+    validPlacementTiles: 62
+  dynamicMapObjects: []
   terrainNoiseLists:
   - name: Reed
     priority: 1

@@ -1,12 +1,13 @@
 using GameManagerCalls;
+using GlobalMap;
+using LocalMap.Editor;
 using Monsters;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
-using GlobalMap;
-using Unity.VisualScripting;
-using LocalMap.Editor;
 
 namespace LocalMap
 {
@@ -52,7 +53,7 @@ namespace LocalMap
         /// </summary>
         bool[,] pathGrid;
 
-        private int randomTargetDirection 
+        private int RandomTargetDirection 
         {
             get
             {
@@ -66,7 +67,7 @@ namespace LocalMap
             }
         }
 
-        private int randomTraverseDirection
+        private int RandomTraverseDirection
         {
             get
             {
@@ -456,8 +457,6 @@ namespace LocalMap
             List<(Direction direction, LocalMapGenerationSettings settings)> blends
                 = new List<(Direction, LocalMapGenerationSettings)>();
 
-            blends.Add((startWall, currentMapPoint.GenerationSettings));
-
             foreach (var kvp in currentMapPoint.connectedToPoints)
             {
                 GlobalMapPoint toPoint = kvp.Value;
@@ -539,6 +538,33 @@ namespace LocalMap
             mapObjectGOs.Clear();
         }
 
+        private bool AreMapTilesValid(Vector2Int point, Vector2Int size, TileType validTypes)
+        {
+            for (int xPos = point.x; xPos < point.x + size.x; xPos++)
+            {
+                for (int yPos = point.y; yPos < point.y + size.y; yPos++)
+                {
+                    if (!Tiles.IsInBounds(xPos, yPos) || !validTypes.HasFlag(Tiles[xPos, yPos].TileType))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool CanPlaceMapObject(Vector2Int spawnPos, MapObject mapObject)
+        {
+            if (SpotOccupied(spawnPos, mapObject.size, true))
+                return false;
+
+            if (!IsBaseDominant(spawnPos))
+                return false;
+
+            return AreMapTilesValid(spawnPos, mapObject.size, mapObject.validPlacementTiles);
+        }
+
         private void SpawnMapObjects(LocalMapGenerationSettings generationSettings)
         {
             DestroyMapObjects();
@@ -567,7 +593,7 @@ namespace LocalMap
                     Vector2Int spawnPos = new Vector2Int(xPos, yPos);
 
                     // Only place if this position is dominated by the base biome
-                    if (!SpotOccupied(spawnPos, mapObject.size, true) && IsBaseDominant(spawnPos))
+                    if (CanPlaceMapObject(spawnPos, mapObject))
                     {
                         PlaceMapObject(mapObject, xPos, yPos);
                         breaker = mapSizeX * mapSizeY;
@@ -597,7 +623,8 @@ namespace LocalMap
                         Vector2Int spawnPos = new Vector2Int(xPos, yPos);
 
                         if (!SpotOccupied(spawnPos, mapObject.size, true)
-                            && GetDominantBlend(spawnPos) == blendSettings)
+                            && GetDominantBlend(spawnPos) == blendSettings
+                            && AreMapTilesValid(spawnPos, mapObject.size, mapObject.validPlacementTiles))
                         {
                             PlaceMapObject(mapObject, xPos, yPos);
                             breaker = mapSizeX * mapSizeY;
@@ -773,22 +800,22 @@ namespace LocalMap
                 switch (currentDirection)
                 {
                     case Direction.North:
-                        position[1] = Mathf.Min(position[1] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeY - 1 - additional);
+                        position[1] = Mathf.Min(position[1] + (isTargetDir ? RandomTargetDirection : RandomTraverseDirection), mapSizeY - 1 - additional);
                         if (isTargetDir && position[1] == mapSizeY - 1)
                             position[1] = mapSizeY;
                         break;
                     case Direction.South:
-                        position[1] = Mathf.Max(position[1] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
+                        position[1] = Mathf.Max(position[1] - (isTargetDir ? RandomTargetDirection : RandomTraverseDirection), additional);
                         if (isTargetDir && position[1] <= 1)
                             position[1] = -1;
                         break;
                     case Direction.East:
-                        position[0] = Mathf.Min(position[0] + (isTargetDir ? randomTargetDirection : randomTraverseDirection), mapSizeX - 1 - additional);
+                        position[0] = Mathf.Min(position[0] + (isTargetDir ? RandomTargetDirection : RandomTraverseDirection), mapSizeX - 1 - additional);
                         if (isTargetDir && position[0] == mapSizeX - 1)
                             position[0] = mapSizeX;
                         break;
                     case Direction.West:
-                        position[0] = Mathf.Max(position[0] - (isTargetDir ? randomTargetDirection : randomTraverseDirection), additional);
+                        position[0] = Mathf.Max(position[0] - (isTargetDir ? RandomTargetDirection : RandomTraverseDirection), additional);
                         if (isTargetDir && position[0] <= 1)
                             position[0] = -1;
                         break;

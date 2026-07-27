@@ -96,7 +96,7 @@ namespace Monsters
             if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Relic)
                 bossSpawn = monsterSpawnSettings.bossMonsters.GetRandom();
 
-            BeginSpawning(bossSpawn);
+            BeginSpawning(bossSpawn, DifficultyLevelManager.Instance.DifficultyLevel);
         }
 
         private void Awake()
@@ -142,7 +142,7 @@ namespace Monsters
                 }
             }
 
-            ProcessWaveTriggers();
+            ProcessWaveTriggers(DifficultyLevelManager.Instance.DifficultyLevel);
         }
 
         private void Update()
@@ -152,10 +152,11 @@ namespace Monsters
 
             float now = Time.time;
 
+            float difficulty = DifficultyLevelManager.Instance.DifficultyLevel;
             
-            ProcessHordeTimer(now);
-            ProcessNormalSpawns(now);
-            HandleSpawnBossMinions(now);
+            ProcessHordeTimer(now, difficulty);
+            ProcessNormalSpawns(now, difficulty);
+            HandleSpawnBossMinions(now, difficulty);
         }
     }
 

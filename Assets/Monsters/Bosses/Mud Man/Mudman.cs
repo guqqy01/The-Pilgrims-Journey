@@ -111,7 +111,7 @@ namespace Monsters
             if (Time.time < nextSpawnTime)
                 return;
 
-            MonsterSpawnManager.Instance.SpawnMonster(miniMudmanSO, transform.position);
+            MonsterSpawnManager.Instance.SpawnMonster(miniMudmanSO, transform.position, DifficultyLevelManager.Instance.DifficultyLevel);
 
             nextSpawnTime = Time.time + 1f / spawnRate;
         }

@@ -3,7 +3,10 @@ using System;
 using UnityEngine;
 using Relics;
 using Equipment;
-
+using Monsters;
+using System.Collections.Generic;
+using LocalMap;
+using GlobalMap;
 public class Altar : MonoBehaviour, IInteractable
 {
     [SerializeField]
@@ -75,6 +78,7 @@ public class Altar : MonoBehaviour, IInteractable
                 heroHealth.ModifyHealth(-healthPaid, hitDirection, 0f);
                 break;
             case AltarPayment.Combat:
+                BeingCombatTrail();
                 break;
         }
     }
@@ -91,9 +95,25 @@ public class Altar : MonoBehaviour, IInteractable
         RelicManager.Instance.AddRelic(Reward);
     }
 
+    private void BeingCombatTrail()
+    {
+        List<WaveMonsterSpawn> possibleSpawns = new List<WaveMonsterSpawn>();
+
+        MonsterSpawnSettings spawnSettings = GlobalMapGenerator.Instance.CurrentMapPoint.GenerationSettings.MonsterSpawnSettings;
+
+        foreach(MonsterSpawn monsterSpawn in spawnSettings.MonsterSpawns)
+        {
+            if (monsterSpawn is not WaveMonsterSpawn waveMonsterSpawn) continue;
+
+            possibleSpawns.Add(waveMonsterSpawn);
+        }
+
+        MonsterSpawnManager.Instance.BeginSpawningWave(possibleSpawns.GetRandom(), 1, Cost);
+    }
+
     private void WaitForCombatFinished()
     {
-
+        RelicManager.Instance.AddRelic(Reward);
     }
 
     public bool Interact()

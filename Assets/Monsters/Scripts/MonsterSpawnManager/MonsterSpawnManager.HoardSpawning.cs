@@ -26,7 +26,7 @@ namespace Monsters
         [SerializeField]
         private MonsterSO deathMonster;
 
-        private void ProcessHordeTimer(float now)
+        private void ProcessHordeTimer(float now, float difficulty)
         {
             if (!hordeActive)
                 return;
@@ -34,7 +34,7 @@ namespace Monsters
             if (now >= hordeEndTime)
             {
                 if(deathMonster != null)
-                    SpawnMonster(deathMonster, GetAllSideTiles(PathPicker.Instance.PickedDirection.Value.OppositeDirection()).GetRandom());
+                    SpawnMonster(deathMonster, GetAllSideTiles(PathPicker.Instance.PickedDirection.Value.OppositeDirection()).GetRandom(), difficulty);
 
                 hordeActive = false;
                 hordeMultiplier = 1;
@@ -43,7 +43,7 @@ namespace Monsters
 
             if (now >= nextHordeSpawnTime)
             {
-                SpawnHordeBatch();
+                SpawnHordeBatch(difficulty);
                 nextHordeSpawnTime = now + hordeSpawnRate;
             }
         }
@@ -55,7 +55,7 @@ namespace Monsters
             hordeEndTime = Time.time + hordeLength;
         }
 
-        private void SpawnHordeBatch()
+        private void SpawnHordeBatch(float difficulty)
         {
             Direction side = PathPicker.Instance.PickedDirection.Value.OppositeDirection();
 
@@ -68,7 +68,7 @@ namespace Monsters
                     if (monster.movementType == MonsterMovementType.Stationary)
                         continue;
 
-                    TrySpawnHordeMonster(monster, side, blendDirection);
+                    TrySpawnHordeMonster(monster, side, blendDirection, difficulty);
                 }
             }
         }
@@ -115,7 +115,7 @@ namespace Monsters
             return new List<Vector2Int>();
         }
 
-        private void TrySpawnHordeMonster(MonsterSO monster, Direction side, Direction? biomeDirection)
+        private void TrySpawnHordeMonster(MonsterSO monster, Direction side, Direction? biomeDirection, float difficulty)
         {
             List<Vector2Int> positions = GetAllSideTiles(side);
 
@@ -134,7 +134,7 @@ namespace Monsters
                 if (SpotOccupied(p, monster.size, out Vector2 pos))
                     continue;
 
-                SpawnMonster(monster, pos);
+                SpawnMonster(monster, pos, difficulty);
                 return;
             }
         }

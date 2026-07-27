@@ -220,7 +220,7 @@ namespace Heros
 
         public void OnHeroDie(Health health)
         {
-            GameManager.Instance.EndGame();
+            GameManager.Instance.EndGame("Your Hero has perished");
         }
 
         public void Clear()

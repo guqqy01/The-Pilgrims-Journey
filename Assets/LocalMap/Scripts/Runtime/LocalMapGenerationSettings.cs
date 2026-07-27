@@ -80,6 +80,8 @@ namespace LocalMap
         public Vector2Int size;
 
         public AnimationCurve amountToSpawnCurve;
+
+        public TileType validPlacementTiles;
     }
 
     public enum DynamicMapObjectSpawnMethod

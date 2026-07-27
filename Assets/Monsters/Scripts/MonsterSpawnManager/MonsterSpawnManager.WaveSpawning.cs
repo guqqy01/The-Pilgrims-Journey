@@ -18,20 +18,20 @@ namespace Monsters
         [SerializeField] private float waveSpawnRate = 60f;
 
 
-        private void ProcessWaveTriggers()
+        private void ProcessWaveTriggers(float difficulty)
         {
             foreach(var waveSpawn in waveSpawns)
             {
-                BeginSpawningWave(waveSpawn.Item1, waveSpawn.Item2);
+                BeginSpawningWave(waveSpawn.Item1, waveSpawn.Item2, difficulty);
             }
         }
 
-        private void BeginSpawningWave(WaveMonsterSpawn wave, int multiplier)
+        public void BeginSpawningWave(WaveMonsterSpawn wave, int multiplier, float difficulty)
         {
-            StartCoroutine(SpawnWave(wave, multiplier));
+            StartCoroutine(SpawnWave(wave, multiplier, difficulty));
         }
 
-        private IEnumerator SpawnWave(WaveMonsterSpawn wave, int multiplier)
+        private IEnumerator SpawnWave(WaveMonsterSpawn wave, int multiplier, float difficulty)
         {
             int currentCount = 0;
             float startTime = Time.time;
@@ -47,7 +47,7 @@ namespace Monsters
                     if (currentCount >= totalToSpawn)
                         break;
 
-                    if (TrySpawnOne(wave))
+                    if (TrySpawnOne(wave, difficulty))
                     {
                         currentCount++;
                     }

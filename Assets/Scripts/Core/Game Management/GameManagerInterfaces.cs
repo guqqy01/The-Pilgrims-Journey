@@ -19,7 +19,7 @@ namespace GameManagerCalls
 
     public interface IOnGameEnd : IGameManagerCallInterface
     {
-        public void OnGameEnd();
+        public void OnGameEnd(string message);
     }
 
     public interface IOnBeforeCreateLocalMap : IGameManagerCallInterface

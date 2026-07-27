@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +11,19 @@ public class AltarUI : MonoBehaviour
     private Image paymentImage;
     [SerializeField]
     private TextMeshProUGUI costText;
-    [SerializeField]
-    private GameObject keyPressHintUI;
 
+    [Header("Key Press Hint UI")]
+    [SerializeField]
+    private CanvasGroup keyPressHintCanvasGroup;
+    [SerializeField]
+    private float timeToShowAndHide = 0.15f;
+
+    private Coroutine _showHideCoroutine;
 
     [SerializeField]
     private Altar altar;
 
+    [Header("Payment Sprites")]
     [SerializeField]
     private Sprite coinSprite;
     [SerializeField]
@@ -75,6 +82,32 @@ public class AltarUI : MonoBehaviour
 
     private void HeroInRangeChange(bool inRange)
     {
-        keyPressHintUI.SetActive(inRange);
+        if(_showHideCoroutine != null)
+            StopCoroutine(_showHideCoroutine);
+
+        _showHideCoroutine = StartCoroutine(ShowOrHideKeyPressHint(inRange));
+    }
+
+    private IEnumerator ShowOrHideKeyPressHint(bool show)
+    {
+        while (true)
+        {
+            if (show)
+            {
+                if(keyPressHintCanvasGroup.alpha == 1f)
+                    break;
+            }
+            else if(keyPressHintCanvasGroup.alpha == 0f)
+            {
+                break;
+            }
+
+            float sign = (show ? 1 : -1);
+            float amountToChange = sign * Time.deltaTime / timeToShowAndHide;
+
+            keyPressHintCanvasGroup.alpha = Mathf.Clamp01(keyPressHintCanvasGroup.alpha + amountToChange);
+
+            yield return null;
+        }
     }
 }

@@ -188,6 +188,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    validPlacementTiles: 62
   - name: Tent
     overlay: {fileID: 8242683995244539426, guid: a450f8bff03132a44a1b000dec0e7977, type: 3}
     size: {x: 3, y: 3}
@@ -215,6 +216,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    validPlacementTiles: 16
   - name: Cactus 1
     overlay: {fileID: 7080116926586565512, guid: d5a1664d4ded84644b8649fc8f6967f4, type: 3}
     size: {x: 1, y: 2}
@@ -242,6 +244,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    validPlacementTiles: 16
   - name: Cactus 2
     overlay: {fileID: 7696464368552521557, guid: cb4c82a755b3db84cba442e3586a6b2c, type: 3}
     size: {x: 1, y: 2}
@@ -269,6 +272,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    validPlacementTiles: 16
   - name: Tree 1
     overlay: {fileID: 7575542835595703117, guid: 4c97a8c7dea7a3c4e9a1eace9c29165b, type: 3}
     size: {x: 2, y: 3}
@@ -296,6 +300,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    validPlacementTiles: 16
   - name: Tree 2
     overlay: {fileID: 53022298986774726, guid: 01d7084edad784e448359f4be0545f4a, type: 3}
     size: {x: 2, y: 3}
@@ -323,6 +328,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    validPlacementTiles: 16
   - name: Tree 2
     overlay: {fileID: 4042626194561515889, guid: 2a4578a46e46ea7419b975b54a3579b7, type: 3}
     size: {x: 3, y: 4}
@@ -350,12 +356,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  dynamicMapObjects:
-  - name: Tumbleweed Medium
-    dynamicMapObjectSpawnMethod: 2
-    spawnRate: 0.05
-    spawnRateRandomVariationMultiplier: 0.5
-    prefab: {fileID: 2959318747516197892, guid: 9485c4a066d77364f8c2014029615716, type: 3}
+    validPlacementTiles: 16
+  dynamicMapObjects: []
   terrainNoiseLists:
   - name: Rocks 1
     priority: 2
