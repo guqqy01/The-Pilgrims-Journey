@@ -554,15 +554,20 @@ namespace LocalMap
             return true;
         }
 
-        private bool CanPlaceMapObject(Vector2Int spawnPos, MapObject mapObject)
+        private bool CanPlaceObject(Vector2Int spawnPos, Vector2Int size, TileType validTileTypes)
         {
-            if (SpotOccupied(spawnPos, mapObject.size, true))
+            if (SpotOccupied(spawnPos, size, true))
                 return false;
 
             if (!IsBaseDominant(spawnPos))
                 return false;
 
-            return AreMapTilesValid(spawnPos, mapObject.size, mapObject.validPlacementTiles);
+            return AreMapTilesValid(spawnPos, size, validTileTypes);
+        }
+
+        private bool CanPlaceMapObject(Vector2Int spawnPos, MapObject mapObject)
+        {
+            return CanPlaceObject(spawnPos, mapObject.size, mapObject.validPlacementTiles);
         }
 
         private void SpawnMapObjects(LocalMapGenerationSettings generationSettings)
@@ -639,6 +644,30 @@ namespace LocalMap
             }
         }
 
+        public T SpawnObject<T>(T spawnedObject, string name, Vector2Int size, TileType validTileTypes) where T : MonoBehaviour
+        {
+            int breaker = 2 * mapSizeX * mapSizeY;
+
+            while (breaker > 0)
+            {
+                int xPos = UnityEngine.Random.Range(0, mapSizeX);
+                int yPos = UnityEngine.Random.Range(0, mapSizeY);
+                Vector2Int spawnPos = new Vector2Int(xPos, yPos);
+
+                // Only place if this position is dominated by the base biome
+                if (CanPlaceObject(spawnPos, size, validTileTypes))
+                {
+                    return PlaceObject(spawnedObject, name, spawnPos, size);
+                }
+                else
+                {
+                    breaker--;
+                }
+            }
+
+            return null;
+        }
+
         public Direction? GetDominantBlendDirection(Vector2Int position)
         {
             Direction? dominant = null;
@@ -711,6 +740,32 @@ namespace LocalMap
             return GetDominantBlend(position) == null;
         }
 
+        private T PlaceObject<T>(T prefab, string name, Vector2Int position, Vector2Int size) where T : MonoBehaviour
+        {
+            int xPos = position.x;
+            int yPos = position.y;
+            int xSize = size.x;
+            int ySize = size.y;
+
+            GameObject spawnedObject = Instantiate(
+                prefab.gameObject,
+                new Vector3(xPos + (xSize - 1) / 2f, yPos + (ySize - 1) / 2f),
+                Quaternion.identity,
+                transform);
+
+            mapObjectGOs.Add(spawnedObject);
+
+            if (mapObjects.ContainsKey(name))
+                mapObjects[name]++;
+            else
+                mapObjects.Add(name, 1);
+
+            for (int x = 0; x < xSize; x++)
+                for (int y = 0; y < ySize; y++)
+                    occupiedSpots.Add(new Vector2Int(xPos + x, yPos + y));
+
+            return spawnedObject.GetComponent<T>();
+        }
 
         private void PlaceMapObject(MapObject mapObject, int xPos, int yPos)
         {

@@ -8,7 +8,11 @@ public class AltarUI : MonoBehaviour
     [SerializeField]
     private Image itemImage;
     [SerializeField]
+    private RectTransform itemTransform;
+    [SerializeField]
     private Image paymentImage;
+    [SerializeField]
+    private RectTransform paymentTransform;
     [SerializeField]
     private TextMeshProUGUI costText;
 
@@ -31,6 +35,12 @@ public class AltarUI : MonoBehaviour
     [SerializeField]
     private Sprite combatSprite;
 
+    [SerializeField]
+    private float topUIPadding = 0.3f;
+    [SerializeField]
+    private float bottomUIPadding = 0.1f;
+
+
     private void Start()
     {
         if (altar != null)
@@ -50,6 +60,31 @@ public class AltarUI : MonoBehaviour
             altar.UpdateUI -= UpdateUI;
             altar.HeroRangeChange -= HeroInRangeChange;
         }
+    }
+
+    public void SetupUIPlacement(float altarHeight)
+    {
+        Vector2 itemAnchorMaxPrevious = itemTransform.anchorMax;
+        Vector2 itemAnchorMinPrevious = itemTransform.anchorMin;
+        Vector2 paymentAnchorMaxPrevious = paymentTransform.anchorMax;
+        Vector2 paymentAnchorMinPrevious = paymentTransform.anchorMin;
+
+        itemTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        itemTransform.anchorMin = new Vector2(0.5f, 0.5f);
+
+        paymentTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        paymentTransform.anchorMin = new Vector2(0.5f, 0.5f);
+
+        float itemHalfHeight = itemTransform.rect.height / 2f;
+        float paymentHalfHeight = paymentTransform.rect.height / 2f;
+
+        itemTransform.anchoredPosition = new Vector2(0f, altarHeight / 2f + itemHalfHeight + topUIPadding);
+        paymentTransform.anchoredPosition = new Vector2(0f, -(altarHeight / 2f + paymentHalfHeight + bottomUIPadding));
+
+        itemTransform.anchorMax = itemAnchorMaxPrevious;
+        itemTransform.anchorMin = itemAnchorMinPrevious;
+        paymentTransform.anchorMax = paymentAnchorMaxPrevious;
+        paymentTransform.anchorMin = paymentAnchorMinPrevious;
     }
 
     private void UpdateUI()

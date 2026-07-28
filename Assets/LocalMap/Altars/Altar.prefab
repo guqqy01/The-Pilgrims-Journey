@@ -50,7 +50,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -169,7 +169,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -3391,7 +3391,7 @@ ParticleSystem:
     enabled: 1
     x:
       serializedVersion: 2
-      minMaxState: 1
+      minMaxState: 3
       scalar: 1
       minScalar: 0
       maxCurve:
@@ -3399,7 +3399,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: -1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3408,7 +3408,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3444,7 +3444,7 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       serializedVersion: 2
-      minMaxState: 1
+      minMaxState: 3
       scalar: 1
       minScalar: 0
       maxCurve:
@@ -3497,15 +3497,15 @@ ParticleSystem:
         m_RotationOrder: 4
     curve:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 2.450325
-      minScalar: 0.7853982
+      minMaxState: 3
+      scalar: 6.283185
+      minScalar: -6.283185
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: -1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3548,8 +3548,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    separateAxes: 1
-    range: {x: 0, y: 1}
+    separateAxes: 0
+    range: {x: 0, y: 10}
   ColorBySpeedModule:
     enabled: 0
     gradient:
@@ -4801,8 +4801,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 62324479
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4848,6 +4848,7 @@ GameObject:
   - component: {fileID: 2201741364045576858}
   - component: {fileID: 8168352340668744580}
   - component: {fileID: 111620095008246736}
+  - component: {fileID: 8329366873075367834}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -4875,7 +4876,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3, y: 4}
+  m_SizeDelta: {x: 4, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2201741364045576858
 Canvas:
@@ -4921,7 +4922,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
+  m_DynamicPixelsPerUnit: 10
   m_PresetInfoIsWorld: 1
 --- !u!114 &111620095008246736
 MonoBehaviour:
@@ -4936,7 +4937,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AltarUI
   itemImage: {fileID: 5155060306527115405}
+  itemTransform: {fileID: 7762148744651922230}
   paymentImage: {fileID: 1609523042172837508}
+  paymentTransform: {fileID: 5710313138215724369}
   costText: {fileID: 8858531527572057058}
   keyPressHintCanvasGroup: {fileID: 3888886545913651194}
   timeToShowAndHide: 0.15
@@ -4944,6 +4947,20 @@ MonoBehaviour:
   coinSprite: {fileID: 385138420, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   healthSprite: {fileID: 618876438, guid: c7ae8f01d1851d148b17a29341e4577e, type: 3}
   combatSprite: {fileID: -342766291, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
+  topUIPadding: 0.3
+  bottomUIPadding: 0.1
+--- !u!225 &8329366873075367834
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303035051051176539}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1691617246282880939
 GameObject:
   m_ObjectHideFlags: 0
@@ -4978,7 +4995,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.39964724, y: 1}
-  m_AnchoredPosition: {x: 0.11199999, y: 0.0000006556511}
+  m_AnchoredPosition: {x: 0.11199999, y: 0.00000071525574}
   m_SizeDelta: {x: -0.3167, y: -0.317}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &311416429286699129
@@ -5052,10 +5069,10 @@ RectTransform:
   - {fileID: 7420776497202793713}
   m_Father: {fileID: 2973911242023425327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0000017285, y: -0.27}
-  m_SizeDelta: {x: 1.5759, y: 1.6298}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0000017285, y: 1.6999998}
+  m_SizeDelta: {x: 1.5759, y: 1.6297998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4248014886966742994
 CanvasRenderer:
@@ -5180,7 +5197,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7321325590690157954}
   - component: {fileID: 1351827706062457252}
-  - component: {fileID: 1478498146062349172}
   m_Layer: 0
   m_Name: Mask
   m_TagString: Untagged
@@ -5197,8 +5213,8 @@ Transform:
   m_GameObject: {fileID: 5910913376119047393}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.57, y: 0.34, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 1.43, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3488556894799796104}
@@ -5250,75 +5266,17 @@ SpriteMask:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_MaskAlphaCutoff: 0.045
+  m_Sprite: {fileID: -7708608851621688193, guid: 1ea24192ccbc178468fa6f58fae290e6, type: 3}
+  m_MaskAlphaCutoff: 0
   m_FrontSortingLayerID: 62324479
   m_BackSortingLayerID: 62324479
   m_FrontSortingLayer: 4
   m_BackSortingLayer: 4
   m_FrontSortingOrder: 0
-  m_BackSortingOrder: 0
+  m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
-  m_MaskSource: 1
---- !u!212 &1478498146062349172
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5910913376119047393}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 62324479
-  m_SortingLayer: 4
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_MaskSource: 0
 --- !u!1 &6343240052564876455
 GameObject:
   m_ObjectHideFlags: 0
@@ -5407,7 +5365,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!1 &6770244685664425678
 GameObject:
@@ -5421,7 +5379,7 @@ GameObject:
   - component: {fileID: 2476492550289445720}
   - component: {fileID: 6647067871900773602}
   m_Layer: 0
-  m_Name: Gold
+  m_Name: Gold Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5443,9 +5401,9 @@ RectTransform:
   - {fileID: 3028831726605322515}
   m_Father: {fileID: 2973911242023425327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.00000089407, y: -3.457}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -1.5}
   m_SizeDelta: {x: 3.0395, y: 1.2158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2476492550289445720
@@ -5498,6 +5456,7 @@ GameObject:
   - component: {fileID: 8567156742038965698}
   - component: {fileID: 8540009117095135236}
   - component: {fileID: 2987331056133742807}
+  - component: {fileID: 4685852422056824902}
   m_Layer: 0
   m_Name: Altar
   m_TagString: Untagged
@@ -5589,6 +5548,30 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.13}
   m_Radius: 1.5
+--- !u!114 &4685852422056824902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144125572260918665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d31c3fba694b04a8a06e5e5c7be175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AltarSpawnController
+  dirtKickupPS: {fileID: 7739646829413599306}
+  pSTransform: {fileID: 7011146016269863467}
+  altar: {fileID: 8540009117095135236}
+  altarSpriteRenderer: {fileID: 2279565308700364325}
+  altarVisualTransform: {fileID: 2149224743897227922}
+  riseAnimationTime: 4
+  altarCanvas: {fileID: 2201741364045576858}
+  altarCanvasGroup: {fileID: 8329366873075367834}
+  altarUI: {fileID: 111620095008246736}
+  showCanvasTime: 1
+  mask: {fileID: 1351827706062457252}
+  maskTransform: {fileID: 7321325590690157954}
 --- !u!1 &8399641950368018100
 GameObject:
   m_ObjectHideFlags: 0
@@ -5759,7 +5742,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.39964724, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.14735001, y: -0.00000017881393}
+  m_AnchoredPosition: {x: -0.14735001, y: -0.00000023841858}
   m_SizeDelta: {x: -0.2947, y: -0.1963}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9137045853135607892
@@ -5899,7 +5882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -1.285, y: -2.045}
+  m_AnchoredPosition: {x: -1.285, y: -2.545}
   m_SizeDelta: {x: 0.7841, y: 0.7841}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &552675453032776668

@@ -25293,6 +25293,32 @@ MonoBehaviour:
         m_ConstantMin: 0
         m_ConstantMax: 1
   altarRewardPool: {fileID: 11400000, guid: 9ad87b4b372d7a448940308af647ebdc, type: 2}
+  spawnTimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: 0.057088852
+      outSlope: 0.057088852
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 25
+      inSlope: -0.038032744
+      outSlope: -0.038032744
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  altarPrefab: {fileID: 8540009117095135236, guid: c4228d2f5593d0743a4cec46ef696d93, type: 3}
+  validAltarPlacements: 62
 --- !u!1 &1418633814
 GameObject:
   m_ObjectHideFlags: 0
@@ -27728,7 +27754,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000057b6bf3f7d2b00b42bfeab3ddd6e70f5a90835c02d2ea11cfffeb60393f5ea0c
+  m_ApplyToSortingLayers: 0000000057b6bf3f7d2b00b42bfeab3ddd6e70f5a90835c02d2ea11cfffeb603
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

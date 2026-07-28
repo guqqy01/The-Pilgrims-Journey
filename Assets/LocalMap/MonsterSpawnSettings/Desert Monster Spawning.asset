@@ -57,6 +57,6 @@ MonoBehaviour:
       type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: 262f7cb2d8412c7458e59f5d58ee3e0d, type: 2}
-        count: 50
+        count: 10
         minSpawnDistance: 10
         maxSpawnDistance: 100
