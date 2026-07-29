@@ -37,6 +37,12 @@ public class AltarSpawnController : MonoBehaviour
     [SerializeField]
     private Transform maskTransform;
 
+    [SerializeField]
+    private ConstantShakeSender buildingEmergeShake;
+
+    [SerializeField]
+    private AudioSource stoneMovementSource;
+
     private Coroutine _riseCoroutine;
     private Coroutine _showCanvasCoroutine;
     private void Setup(int layer)
@@ -96,6 +102,10 @@ public class AltarSpawnController : MonoBehaviour
 
         dirtKickupPS.Play();
 
+        buildingEmergeShake.StartEmerging();
+
+        stoneMovementSource.Play();
+
         while (altarVisualTransform.localPosition.y < 0)
         {
             float yPos = Mathf.Min(0, altarVisualTransform.localPosition.y + riseSpeed * Time.deltaTime);
@@ -104,6 +114,8 @@ public class AltarSpawnController : MonoBehaviour
         }
 
         dirtKickupPS.Stop();
+
+        buildingEmergeShake.StopEmerging();
 
         if (_showCanvasCoroutine != null)
             StopCoroutine(_showCanvasCoroutine);

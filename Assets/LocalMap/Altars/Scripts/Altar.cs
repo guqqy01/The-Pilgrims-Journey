@@ -24,6 +24,9 @@ public class Altar : MonoBehaviour, IInteractable
 
     public event Action UpdateUI;
 
+    [SerializeField]
+    private ItemPickupMotion itemPickupMotion;
+
     public void Setup(AltarSO altarSO, RelicSO reward)
     {
         AltarSO = altarSO;
@@ -93,6 +96,22 @@ public class Altar : MonoBehaviour, IInteractable
         }
 
         RelicManager.Instance.AddRelic(Reward);
+        SendRewardProjectile();
+    }
+
+    private void SendRewardProjectile()
+    {
+        Sprite altarSprite = AltarSO.altarSprite;
+
+        float pixelsPerUnit = altarSprite.pixelsPerUnit;
+        Vector2 spritePixelSize = altarSprite.textureRect.size;
+
+        Vector2 spriteUnitSize = spritePixelSize / pixelsPerUnit;
+
+        Vector2 spawnPos = (Vector2)transform.position + spriteUnitSize / 2f;
+
+        ItemPickupMotion spawned = Instantiate(itemPickupMotion, spawnPos, Quaternion.identity, transform);
+        spawned.Setup(HeroManager.Instance.ActiveHero.transform, spriteRenderer.sortingOrder);
     }
 
     private void BeingCombatTrail()
@@ -114,6 +133,7 @@ public class Altar : MonoBehaviour, IInteractable
     private void WaitForCombatFinished()
     {
         RelicManager.Instance.AddRelic(Reward);
+        SendRewardProjectile();
     }
 
     public bool Interact()
@@ -125,6 +145,8 @@ public class Altar : MonoBehaviour, IInteractable
 
         TakePayment();
         GiveReward();
+
+        ScreenShakeManager.Instance.ShakeOnce(0.5f);
 
         spriteRenderer.sprite = AltarSO.brokenAltarSprite;
         UpdateUI?.Invoke();

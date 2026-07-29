@@ -2,6 +2,11 @@ using UnityEngine;
 
 namespace LocalMap
 {
+    // NOTE: Lives on the CAMERA RIG (same object as LocalCameraMovementManager).
+    // All dead-zone/look-ahead math below is computed from this rig's own
+    // position rather than from the live Camera transform, so a running
+    // ScreenShakeManager (which offsets the child Camera's LOCAL transform
+    // only) can never feed jitter back into the follow logic.
     public class SmoothCameraFollow : MonoBehaviour
     {
         public Transform target;
@@ -27,11 +32,24 @@ namespace LocalMap
 
         Vector3 lastTargetPos;
 
-
         void Start()
         {
             if (target != null)
                 lastTargetPos = target.position;
+        }
+
+        // Manual viewport-space projection using the RIG's position rather
+        // than cam.WorldToViewportPoint(), which would read the live
+        // (possibly shake-offset) Camera transform instead.
+        Vector3 WorldToRigViewport(Vector3 worldPos, Vector3 rigPos)
+        {
+            float halfHeight = cam.orthographicSize;
+            float halfWidth = halfHeight * cam.aspect;
+
+            float vpX = 0.5f + (worldPos.x - rigPos.x) / (2f * halfWidth);
+            float vpY = 0.5f + (worldPos.y - rigPos.y) / (2f * halfHeight);
+
+            return new Vector3(vpX, vpY, 0f);
         }
 
         public void FollowTarget(Transform target)
@@ -41,7 +59,9 @@ namespace LocalMap
 
             cam = Camera.main;
 
-            Vector3 camPos = cam.transform.position;
+            // Use the rig's own transform, not cam.transform - the Camera is
+            // a child whose local position may currently be offset by shake.
+            Vector3 camPos = transform.position;
             Vector3 targetPos = target.position;
 
             // -----------------------------------------------------
@@ -65,7 +85,7 @@ namespace LocalMap
             // -----------------------------------------------------
             // 2. Dead-zone: compute desired camera position
             // -----------------------------------------------------
-            Vector3 viewport = cam.WorldToViewportPoint(target.position);
+            Vector3 viewport = WorldToRigViewport(target.position, camPos);
             float minX = leftPadding;
             float maxX = 1f - rightPadding;
             float minY = bottomPadding;
@@ -99,7 +119,7 @@ namespace LocalMap
             // 3. Apply clamped look-ahead
             // -----------------------------------------------------
             Vector3 finalPos = desired + lookAheadOffset;
-            Vector3 projectedViewport = cam.WorldToViewportPoint(target.position - lookAheadOffset);
+            Vector3 projectedViewport = WorldToRigViewport(target.position - lookAheadOffset, camPos);
 
             if (projectedViewport.x < minX || projectedViewport.x > maxX)
                 finalPos.x = desired.x;
@@ -108,9 +128,9 @@ namespace LocalMap
                 finalPos.y = desired.y;
 
             // -----------------------------------------------------
-            // 4. Smooth move camera
+            // 4. Smooth move the rig (not the Camera itself)
             // -----------------------------------------------------
-            cam.transform.position = Vector3.SmoothDamp(
+            transform.position = Vector3.SmoothDamp(
                 camPos,
                 new Vector3(finalPos.x, finalPos.y, camPos.z),
                 ref camVelocity,

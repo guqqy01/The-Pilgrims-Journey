@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace LocalMap
 {
+    // NOTE: This component should live on the CAMERA RIG (the parent object),
+    // not on the Camera itself. The actual Camera is a child of this object.
+    // That way this script owns "where the camera logically is" (rig.position),
+    // and ScreenShakeManager can independently offset the child Camera's local
+    // transform for shake without the two ever fighting over the same values.
     [RequireComponent(typeof(SmoothCameraFollow))]
     public class LocalCameraMovementManager : Singleton<LocalCameraMovementManager>
     {
@@ -83,7 +88,7 @@ namespace LocalMap
         {
             if (cameraLock)
             {
-                if(HeroManager.Instance.ActiveHero != null)
+                if (HeroManager.Instance.ActiveHero != null)
                     smoothCameraFollow.FollowTarget(HeroManager.Instance.ActiveHero.transform);
             }
 
@@ -123,7 +128,10 @@ namespace LocalMap
 
         private void Clamp()
         {
-            Vector3 camPos = Cam.transform.position;
+            // Use the rig's own transform (this object), NOT Cam.transform.
+            // Cam is a child that may have a shake offset applied to its
+            // local position - we never want to clamp against that.
+            Vector3 rigPos = transform.position;
 
             float MapTop = MapSizeY - 0.5f;
             float MapBottom = -0.5f;
@@ -134,14 +142,14 @@ namespace LocalMap
             float CameraXPosMin = MapLeft + HalfCamWidth;
             float CameraXPosMax = MapRight - HalfCamWidth;
 
-            float camX = Mathf.Clamp(camPos.x, CameraXPosMin, CameraXPosMax);
-            float camY = Mathf.Clamp(camPos.y, CameraYPosMin, CameraYPosMax);
-            Cam.transform.position = new Vector3(camX, camY, camPos.z);
+            float camX = Mathf.Clamp(rigPos.x, CameraXPosMin, CameraXPosMax);
+            float camY = Mathf.Clamp(rigPos.y, CameraYPosMin, CameraYPosMax);
+            transform.position = new Vector3(camX, camY, rigPos.z);
         }
 
         public void FullZoomCamera()
         {
-            Cam.transform.position = new Vector3(MapSizeX / 2f - 0.5f, MapSizeY / 2f - 0.5f, -10f);
+            transform.position = new Vector3(MapSizeX / 2f - 0.5f, MapSizeY / 2f - 0.5f, transform.position.z);
             Cam.orthographicSize = MaxZoom;
         }
 
@@ -155,15 +163,17 @@ namespace LocalMap
                 CameraLocked = false;
             }
 
-
             Vector3 move = new Vector3(moveX, moveY, 0f).normalized * cameraSpeed * Time.deltaTime;
-            Cam.transform.position += move;
+            transform.position += move;
         }
 
         private void HandleMouseDrag()
         {
             if (Input.GetMouseButtonDown(0) && !InputManager.Instance.MouseOverUI)
             {
+                // Reading from the live Camera for screen->world mapping is fine
+                // here (a frame of shake jitter on the drag origin is imperceptible),
+                // it's only the WRITE side that must target the rig.
                 dragOrigin = Cam.ScreenToWorldPoint(Input.mousePosition);
                 isDragging = true;
             }
@@ -172,7 +182,7 @@ namespace LocalMap
             {
                 Vector3 currentPos = Cam.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 difference = dragOrigin - currentPos;
-                Cam.transform.position += difference;
+                transform.position += difference;
             }
 
             if (Input.GetMouseButtonUp(0))
