@@ -37,7 +37,7 @@ public class AudioManagerSourcesContainer
             yield return entry.AudioSource;
     }
 
-    public void Add(AudioSource source, AudioClipAndSettings settings, AudioType audioType, SourceLifecycle lifecycle)
+    public void Add(AudioSource source, AudioClipAndSettings settings, AudioType audioType, AudioSourceLifecycle lifecycle)
     {
         var entry = new AudioSourceAndSettings(source, settings, lifecycle);
         audioSources.Add(entry);
@@ -49,11 +49,11 @@ public class AudioManagerSourcesContainer
         list.Add(entry);
     }
 
-    public SourceLifecycle GetLifecycle(AudioSource source)
+    public AudioSourceLifecycle GetLifecycle(AudioSource source)
     {
         return TryFindTypeSourceStoredInDictionary(source, out var entry, out _)
             ? entry.Lifecycle
-            : SourceLifecycle.TransientExternal; // unknown — safest to destroy, not pool
+            : AudioSourceLifecycle.TransientExternal; // unknown — safest to destroy, not pool
     }
 
     public void RemoveSource(AudioSource source)

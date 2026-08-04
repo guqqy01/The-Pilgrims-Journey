@@ -4,9 +4,9 @@ public class AudioSourceAndSettings
 {
     public readonly AudioSource AudioSource;
     public AudioClipAndSettings ClipAndSettings { private set; get; }
-    public readonly SourceLifecycle Lifecycle;
+    public readonly AudioSourceLifecycle Lifecycle;
 
-    public AudioSourceAndSettings(AudioSource audioSource, AudioClipAndSettings clipAndSettings, SourceLifecycle lifecycle)
+    public AudioSourceAndSettings(AudioSource audioSource, AudioClipAndSettings clipAndSettings, AudioSourceLifecycle lifecycle)
     {
         AudioSource = audioSource;
         ClipAndSettings = clipAndSettings;

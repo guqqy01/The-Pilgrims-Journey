@@ -59,7 +59,7 @@ public class AudioManager : MonoBehaviour
     };
 
     public void RegisterExternalSource(AudioSource source, AudioClipAndSettings settings)
-    => audioSourceContainer.Add(source, settings, settings.Type, SourceLifecycle.PersistentExternal);
+    => audioSourceContainer.Add(source, settings, settings.Type, AudioSourceLifecycle.PersistentExternal);
 
     public void UnregisterExternalSource(AudioSource source)
         => audioSourceContainer.RemoveSource(source);
@@ -125,7 +125,7 @@ public class AudioManager : MonoBehaviour
 
                 if (!mainThemeRegistered)
                 {
-                    audioSourceContainer.Add(mainMusicThemeSource, audioClipAndSettings, AudioType.Music, SourceLifecycle.PersistentExternal);
+                    audioSourceContainer.Add(mainMusicThemeSource, audioClipAndSettings, AudioType.Music, AudioSourceLifecycle.PersistentExternal);
                     mainThemeRegistered = true;
                 }
                 else
@@ -150,11 +150,11 @@ public class AudioManager : MonoBehaviour
 
         AudioSource source = obj.AddComponent<AudioSource>();
         SetUpAudioSource(source, clip);
-        audioSourceContainer.Add(source, clip, clip.Type, SourceLifecycle.TransientExternal);
+        audioSourceContainer.Add(source, clip, clip.Type, AudioSourceLifecycle.TransientExternal);
         source.Play();
 
         if (!clip.loop)
-            StartCoroutine(WaitForEndOfAudio(source, SourceLifecycle.TransientExternal));
+            StartCoroutine(WaitForEndOfAudio(source, AudioSourceLifecycle.TransientExternal));
 
         return source;
     }
@@ -171,11 +171,11 @@ public class AudioManager : MonoBehaviour
 
         AudioSource source = RentPooledSource();
         SetUpAudioSource(source, clip, overrideVolume);
-        audioSourceContainer.Add(source, clip, clip.Type, SourceLifecycle.Pooled);
+        audioSourceContainer.Add(source, clip, clip.Type, AudioSourceLifecycle.Pooled);
         source.Play();
 
         if (!clip.loop)
-            StartCoroutine(WaitForEndOfAudio(source, SourceLifecycle.Pooled));
+            StartCoroutine(WaitForEndOfAudio(source, AudioSourceLifecycle.Pooled));
 
         return source;
     }
@@ -203,7 +203,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopLoopingAudioClipOnceFinished(AudioSource source)
     {
-        SourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
+        AudioSourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
         source.loop = false;
         StartCoroutine(WaitForEndOfAudio(source, lifecycle));
     }
@@ -216,12 +216,12 @@ public class AudioManager : MonoBehaviour
             if (source == null) continue;
             source.Stop();
 
-            SourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
-            if (lifecycle == SourceLifecycle.PersistentExternal)
+            AudioSourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
+            if (lifecycle == AudioSourceLifecycle.PersistentExternal)
                 continue; // owned by the scene object — just stop it, don't touch its lifetime
 
             audioSourceContainer.RemoveSource(source);
-            if (lifecycle == SourceLifecycle.TransientExternal) Destroy(source);
+            if (lifecycle == AudioSourceLifecycle.TransientExternal) Destroy(source);
             else ReturnPooledSource(source);
         }
     }
@@ -249,13 +249,13 @@ public class AudioManager : MonoBehaviour
                 if (!audioSourceContainer.IsRegistered(source))
                     break;
 
-                SourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
+                AudioSourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
 
-                if (lifecycle == SourceLifecycle.PersistentExternal)
+                if (lifecycle == AudioSourceLifecycle.PersistentExternal)
                     break; // stays registered, owner manages it — just goes quiet
 
                 audioSourceContainer.RemoveSource(source);
-                if (lifecycle == SourceLifecycle.TransientExternal)
+                if (lifecycle == AudioSourceLifecycle.TransientExternal)
                     Destroy(source);
                 else
                     ReturnPooledSource(source);
@@ -267,7 +267,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitForEndOfAudio(AudioSource source, SourceLifecycle lifecycle)
+    private IEnumerator WaitForEndOfAudio(AudioSource source, AudioSourceLifecycle lifecycle)
     {
         while (source != null && source.isPlaying)
             yield return null;
@@ -275,11 +275,11 @@ public class AudioManager : MonoBehaviour
         if (source == null || !audioSourceContainer.IsRegistered(source))
             yield break;
 
-        if (lifecycle == SourceLifecycle.PersistentExternal)
+        if (lifecycle == AudioSourceLifecycle.PersistentExternal)
             yield break; // owner manages this source's lifetime — just let it sit stopped, stay registered
 
         audioSourceContainer.RemoveSource(source);
-        if (lifecycle == SourceLifecycle.TransientExternal)
+        if (lifecycle == AudioSourceLifecycle.TransientExternal)
             Destroy(source);
         else
             ReturnPooledSource(source);
