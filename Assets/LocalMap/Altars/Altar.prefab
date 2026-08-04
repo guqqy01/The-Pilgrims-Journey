@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8481532194410403075}
   - component: {fileID: 3009265292814544188}
+  - component: {fileID: 5079363428276283142}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -129,6 +130,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5079363428276283142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647992876931214321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c64afc25cf55d24c9568588d096b42d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core::ManagedAudioSource
+  audioSource: {fileID: 3009265292814544188}
+  audioClipSettings:
+    clip: {fileID: 8300000, guid: fd79c372fb376dc4d9348a9ce00c5949, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    Type: 4
 --- !u!1 &1169371579463176775
 GameObject:
   m_ObjectHideFlags: 0
@@ -5705,7 +5725,7 @@ MonoBehaviour:
   mask: {fileID: 1351827706062457252}
   maskTransform: {fileID: 7321325590690157954}
   buildingEmergeShake: {fileID: 7736844517337072441}
-  stoneMovementSource: {fileID: 3009265292814544188}
+  stoneMovementSource: {fileID: 5079363428276283142}
 --- !u!114 &7736844517337072441
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
 {
     public static T Instance { protected set; get; }
 
+    public static bool HasInstance { get { return Instance != null; } }
+
     public virtual void InitiateFromRootAtAwake()
     {
         if (Instance != null && Instance != this)

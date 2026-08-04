@@ -34,18 +34,16 @@ public class ConstantShakeSender : MonoBehaviour
     [Tooltip("Shapes the falloff between maxDistance (0) and minDistance (1). Default eases in as you get close rather than scaling linearly.")]
     [SerializeField] private AnimationCurve falloffCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-    private bool _isEmerging;
+    private bool _isShaking;
 
-    /// <summary>Call when the building starts rising out of the ground.</summary>
-    public void StartEmerging()
+    public void StartShaking()
     {
-        _isEmerging = true;
+        _isShaking = true;
     }
 
-    /// <summary>Call when the building has finished rising.</summary>
-    public void StopEmerging()
+    public void StopShaking()
     {
-        _isEmerging = false;
+        _isShaking = false;
         if (ScreenShakeManager.Instance != null)
             ScreenShakeManager.Instance.ClearSustainedTrauma(this);
     }
@@ -66,21 +64,16 @@ public class ConstantShakeSender : MonoBehaviour
 
     private void Update()
     {
-        if (!_isEmerging || distanceTarget == null || ScreenShakeManager.Instance == null)
+        if (!_isShaking || distanceTarget == null || ScreenShakeManager.Instance == null)
             return;
 
         float distance = Vector3.Distance(transform.position, distanceTarget.position);
 
-        // 0 at maxDistance (far away), 1 at minDistance (as close as it gets).
         float t = Mathf.InverseLerp(maxDistance, minDistance, distance);
         t = Mathf.Clamp01(t);
 
         float trauma = falloffCurve.Evaluate(t) * maxTrauma;
 
-        // Re-driven every frame while emerging, so the shake holds at a
-        // constant level if the player's distance stops changing, rises as
-        // they approach, and fades as they back away - all without ever
-        // fighting the decay-based trauma used for one-off impacts.
         ScreenShakeManager.Instance.SetSustainedTrauma(this, trauma);
     }
 

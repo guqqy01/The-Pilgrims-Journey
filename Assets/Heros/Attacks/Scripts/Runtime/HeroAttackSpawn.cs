@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -18,6 +19,9 @@ namespace Heros.Attacks
 
         protected readonly List<HealthAndShieldManager> toRemove = new List<HealthAndShieldManager>();
 
+        protected event Action OnSpawn;
+        protected event Action<OnHitInfo> OnHit;
+
         protected int damage;
         protected float knockback;
         protected float hitSpeed;
@@ -26,7 +30,28 @@ namespace Heros.Attacks
         protected int? amountOfHits;
         protected bool projectilesCountAsHits;
 
-        private void FixedUpdate()
+        [SerializeField]
+        protected List<ManagedAudioSource> spawnAudioSources;
+        [SerializeField]
+        protected List<AudioClipAndSettings> hitAudioSources;
+        protected virtual void Awake()
+        {
+            OnSpawn += HandleAudioOnSpawn;
+            OnHit += HandleAudioOnHit;
+        }
+
+        private void HandleAudioOnSpawn()
+        {
+            spawnAudioSources.ForEach(x => x.Play());
+        }
+
+        private void HandleAudioOnHit(OnHitInfo hitInfo)
+        {
+            if(hitAudioSources != null && hitAudioSources.Count > 0)
+                AudioManager.Instance.PlayClipOnObject(hitAudioSources.GetRandom(), gameObject);
+        }
+
+        protected virtual void FixedUpdate()
         {
             FixedUpdateMovement();
         }
@@ -53,6 +78,8 @@ namespace Heros.Attacks
         {
             InheritInit(initContext);
             SetupStats(statsContext);
+
+            OnSpawn?.Invoke();
         }
 
         public void SetupStats(TStatsContext context)
@@ -85,7 +112,9 @@ namespace Heros.Attacks
                 return;
 
             Vector2 hitDirection = ((Vector2)(healthAndShieldManager.transform.position - transform.position)).normalized;
-            healthAndShieldManager.Damage(damage, hitDirection, knockback);
+            OnHitInfo onHitInfo = healthAndShieldManager.Damage(damage, hitDirection, knockback);
+
+            OnHit?.Invoke(onHitInfo);
 
             float timeToNextAttack = hitSpeed != 0 ? Time.time + 1f / hitSpeed : float.MaxValue;
 
@@ -102,12 +131,12 @@ namespace Heros.Attacks
             HandleAmountOfHits();
         }
 
-        private void OnTriggerStay2D(Collider2D collision)
+        protected virtual void OnTriggerStay2D(Collider2D collision)
         {
             HandleColliderHits(collision);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             if (HandleProjectiles(collision))
             {
@@ -157,7 +186,11 @@ namespace Heros.Attacks
                     kvp.Key.Health.onDie -= OnEnemyDie;
             }
 
+            OnSpawn = null;
+            OnHit = null;
+
             timeToNextDmg.Clear();
+            OnSpawn -= HandleAudioOnSpawn;
         }
     }
 }

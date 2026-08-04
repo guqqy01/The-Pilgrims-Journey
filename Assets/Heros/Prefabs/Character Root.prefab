@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 2744715159018220237}
   - component: {fileID: 2742699770827244143}
   - component: {fileID: 7080628637785621500}
-  - component: {fileID: 1381167920000805783}
   - component: {fileID: 693340296508962407}
   - component: {fileID: 6530186398507987720}
   - component: {fileID: 5437114228728542376}
@@ -166,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9341722f5163aa04581764d3e9e48cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
+  healingPS: {fileID: 0}
 --- !u!114 &2742699770827244143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,23 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8af59a99d23f942b7e140558f9de5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthAndShieldManager
---- !u!114 &1381167920000805783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227571404946397071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53054de66084eeb4f80dd20cc5717bde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Units.HitEffects
-  knockBackSpeed: 1
-  knockBackDuration: 0.2
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  flashDuration: 0.1
-  damagePopupPrefab: {fileID: 3616214638791460713, guid: f26cfdc90fcec80428d02d590d2b8146, type: 3}
 --- !u!114 &693340296508962407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,7 +342,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 216724883
-  m_SortingLayer: 4
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: -1656002450, guid: 98d64eb89de690d45a4c87cac8d791c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -405,6 +388,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732216783655337123, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -418,6 +405,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1492731721371848151, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
@@ -519,6 +510,10 @@ PrefabInstance:
     - target: {fileID: 7588242973675327176, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_Name
       value: HealthAndShieldUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605978710288518422, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

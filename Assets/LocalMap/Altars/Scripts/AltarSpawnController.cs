@@ -41,7 +41,7 @@ public class AltarSpawnController : MonoBehaviour
     private ConstantShakeSender buildingEmergeShake;
 
     [SerializeField]
-    private AudioSource stoneMovementSource;
+    private ManagedAudioSource stoneMovementSource;
 
     private Coroutine _riseCoroutine;
     private Coroutine _showCanvasCoroutine;
@@ -102,7 +102,7 @@ public class AltarSpawnController : MonoBehaviour
 
         dirtKickupPS.Play();
 
-        buildingEmergeShake.StartEmerging();
+        buildingEmergeShake.StartShaking();
 
         stoneMovementSource.Play();
 
@@ -115,7 +115,7 @@ public class AltarSpawnController : MonoBehaviour
 
         dirtKickupPS.Stop();
 
-        buildingEmergeShake.StopEmerging();
+        buildingEmergeShake.StopShaking();
 
         if (_showCanvasCoroutine != null)
             StopCoroutine(_showCanvasCoroutine);

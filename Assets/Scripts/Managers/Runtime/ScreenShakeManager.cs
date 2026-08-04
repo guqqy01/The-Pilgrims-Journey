@@ -1,26 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Singleton screen shake manager for 2D games.
-///
-/// Uses a "trauma" model (as popularized by Squirrel Eiserloh's GDC talk):
-/// - Trauma builds up from 0 to 1 and decays over time.
-/// - Shake offset/rotation scale with trauma^2, so small shakes feel gentle
-///   and big shakes feel violent, without needing separate curves per hit.
-/// - Perlin noise drives the shake so it's smooth, not jittery random noise.
-///
-/// Setup:
-/// 1. Put this script on an empty GameObject in your scene (e.g. "ScreenShakeManager").
-/// 2. Create a child GameObject under your actual Camera called "CameraShakePivot"
-///    (or just point cameraTransform at your Camera's transform directly) and
-///    assign it in the inspector. Shake is applied as a local offset, so if you
-///    point this at your camera's own transform, make sure nothing else is
-///    driving that transform's position/rotation every frame (e.g. Cinemachine),
-///    or the two will fight. See notes below for Cinemachine integration.
-/// 3. Call ScreenShakeManager.Instance.AddTrauma(0.5f) or ShakeOnce(...) from
-///    wherever things happen (impacts, explosions, hits taken, etc).
-/// </summary>
 [DisallowMultipleComponent]
 public class ScreenShakeManager : MonoBehaviour
 {
@@ -54,7 +34,6 @@ public class ScreenShakeManager : MonoBehaviour
     [Tooltip("If a sustained trauma source (SetSustainedTrauma) hasn't been refreshed within this many seconds, it's dropped automatically - a safety net in case a source forgets to call ClearSustainedTrauma.")]
     [SerializeField] private float sustainedSourceTimeout = 0.3f;
 
-    // Distinct noise offsets per axis so X/Y/rotation don't move in lockstep.
     private float _noiseSeedX;
     private float _noiseSeedY;
     private float _noiseSeedRot;
@@ -62,11 +41,6 @@ public class ScreenShakeManager : MonoBehaviour
     private Vector3 _originalLocalPosition;
     private Quaternion _originalLocalRotation;
 
-    // Ongoing, continuously-driven trauma sources (e.g. a building emerging
-    // nearby), keyed by whatever object is driving them. Unlike the decaying
-    // `trauma` field above (for one-off impacts), these hold steady as long
-    // as the source keeps calling SetSustainedTrauma() every frame - which is
-    // how you get "constant shake while standing at a constant distance".
     private struct SustainedSource
     {
         public float amount;
@@ -151,28 +125,16 @@ public class ScreenShakeManager : MonoBehaviour
         cameraTransform.localRotation = _originalLocalRotation * Quaternion.Euler(0f, 0f, rotZ);
     }
 
-    /// <summary>
-    /// Add trauma (0-1). Multiple calls stack (clamped to maxTrauma), so
-    /// rapid hits naturally escalate the shake instead of resetting it.
-    /// </summary>
     public void AddTrauma(float amount)
     {
         trauma = Mathf.Clamp(trauma + Mathf.Abs(amount), 0f, maxTrauma);
     }
 
-    /// <summary>
-    /// Convenience one-shot shake: sets trauma directly to the given amount
-    /// if it's higher than current trauma (won't weaken an existing bigger shake).
-    /// </summary>
     public void ShakeOnce(float amount)
     {
         trauma = Mathf.Clamp(Mathf.Max(trauma, Mathf.Abs(amount)), 0f, maxTrauma);
     }
 
-    /// <summary>
-    /// Immediately stops all shake and resets trauma to zero, including
-    /// any active sustained sources.
-    /// </summary>
     public void StopShake()
     {
         trauma = 0f;
@@ -183,16 +145,6 @@ public class ScreenShakeManager : MonoBehaviour
             cameraTransform.localRotation = _originalLocalRotation;
         }
     }
-
-    /// <summary>
-    /// Drive a continuous shake source (0-1), e.g. "how much trauma this
-    /// building's emergence should currently contribute". Call this every
-    /// frame the source is active - if it stops being called for longer
-    /// than sustainedSourceTimeout, the source is dropped automatically.
-    /// `source` is just a key (pass `this` from the calling component) so
-    /// multiple sustained sources can be active at once; the strongest one
-    /// wins each frame rather than stacking.
-    /// </summary>
     public void SetSustainedTrauma(object source, float amount)
     {
         _sustainedSources[source] = new SustainedSource
@@ -202,11 +154,6 @@ public class ScreenShakeManager : MonoBehaviour
         };
     }
 
-    /// <summary>
-    /// Stop a sustained source immediately (e.g. the building has finished
-    /// emerging). Its last trauma value is folded into the normal decaying
-    /// pool so the shake eases out naturally instead of cutting off.
-    /// </summary>
     public void ClearSustainedTrauma(object source)
     {
         if (_sustainedSources.TryGetValue(source, out var s))
@@ -215,11 +162,5 @@ public class ScreenShakeManager : MonoBehaviour
             trauma = Mathf.Clamp(Mathf.Max(trauma, s.amount), 0f, maxTrauma);
         }
     }
-
-    /// <summary>
-    /// Current effective trauma (0-1) after combining decaying impact
-    /// trauma with any active sustained sources - this is what actually
-    /// drives the shake magnitude this frame.
-    /// </summary>
     public float CurrentTrauma => _effectiveTrauma;
 }

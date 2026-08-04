@@ -24,7 +24,7 @@ namespace Heros.Attacks.Spot
             HandleMovement();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             HandleLifeTime();
         }
