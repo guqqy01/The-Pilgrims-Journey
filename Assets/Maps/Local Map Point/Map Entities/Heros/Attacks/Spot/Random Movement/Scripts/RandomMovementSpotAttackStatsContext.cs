@@ -4,7 +4,7 @@
     {
         public readonly RandomMovementStats randomMovementStats;
 
-        public RandomMovementSpotAttackStatsContext(HeroAttackStats heroAttackStats,
+        public RandomMovementSpotAttackStatsContext(AttackStats heroAttackStats,
                                         SpotChaoticMovementStats spotChaoticMovementStats,
                                         RandomMovementStats randomMovementStats) :
                                         base(heroAttackStats, spotChaoticMovementStats)

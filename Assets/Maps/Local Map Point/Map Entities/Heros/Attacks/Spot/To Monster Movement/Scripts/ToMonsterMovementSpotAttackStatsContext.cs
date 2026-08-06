@@ -4,7 +4,7 @@
     {
         public readonly ToMonsterMovementStats toMonsterMovementStats;
 
-        public ToMonsterMovementSpotAttackStatsContext(HeroAttackStats heroAttackStats,
+        public ToMonsterMovementSpotAttackStatsContext(AttackStats heroAttackStats,
                                         SpotChaoticMovementStats spotChaoticMovementStats,
                                         RandomMovementStats randomMovementStats,
                                         ToMonsterMovementStats toMonsterMovementStats) :

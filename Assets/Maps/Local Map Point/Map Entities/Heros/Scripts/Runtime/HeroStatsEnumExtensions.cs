@@ -11,7 +11,7 @@ namespace Heros
                 HeroStats.Shield => true,
                 HeroStats.Damage => true,
                 HeroStats.NumberOfAttacks => true,
-
+                HeroStats.AttackDurability => true,
                 _ => false,
             };
         }

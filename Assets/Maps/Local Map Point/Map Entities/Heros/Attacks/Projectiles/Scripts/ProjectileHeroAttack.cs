@@ -31,10 +31,12 @@ namespace Heros.Attacks.Projectiles
         private const float spawnFluctuationPercent = 0.5f;
         private const float spawnFluctuationMax = 0.2f;
 
+        // pooling
+        private ProjectilePool projectilePool;
 
         protected override bool Attack()
         {
-            Transform target = GetTarget();
+            var target = GetTarget();
 
             if (target == null)
                 return false;
@@ -67,9 +69,19 @@ namespace Heros.Attacks.Projectiles
 
             Quaternion rotation = Quaternion.FromToRotation(Vector3.right, direction);
 
-            Projectile newMissile = Instantiate(projectilePrefab, transform.position, rotation);
-            string reference = "baseSize";
+            Projectile newMissile;
 
+            if (projectilePool != null)
+            {
+                newMissile = projectilePool.Get(transform.position, rotation);
+            }
+            else
+            {
+                newMissile = Instantiate(projectilePrefab, transform.position, rotation);
+            }
+
+            string reference = "baseSize";
+            
             size.AddBuff(reference, new Buff(0f, newMissile.transform.localScale.x, 0));
             float newSizeX = size;
             size.RemoveBuff(reference);
@@ -80,9 +92,9 @@ namespace Heros.Attacks.Projectiles
 
             newMissile.transform.localScale =  new Vector3(newSizeX, newSizeY, newMissile.transform.localScale.z);
 
-            ProjectileStats projectileStats = new ProjectileStats(damage, criticalChance, criticalDamageMultiplier, knockback, projectileSpeed, projectileTurnSpeed);
+            ProjectileStats projectileStats = new ProjectileStats(damage, criticalChance, criticalDamageMultiplier, knockback, projectileSpeed, projectileTurnSpeed, destroyProjectiles, amountOfHits, projectilesCountAsHits);
             
-            newMissile.Init(projectileStats, projectileHoming, direction, enemyLayerMask, bounce, target);
+            newMissile.InitWithOwner(projectileStats, projectileHoming, direction, enemyLayerMask, bounce, target, ProjectileOwner.Hero);
         }
 
         protected override void InheritSetup(HeroSO heroSO, ProjectileHeroAttackSO projectileHeroAttackSO)
@@ -96,6 +108,12 @@ namespace Heros.Attacks.Projectiles
             projectileHoming = projectileHeroAttackSO.projectileHoming;
 
             bounce = projectileHeroAttackSO.bounce;
+
+            // create or get shared pool for projectiles to reduce allocations
+            if (projectilePrefab != null)
+            {
+                projectilePool = ProjectilePoolManager.GetPool(projectilePrefab, GetOrCreatePoolParent());
+            }
         }
 
         protected override void InheritLevelSetup()
@@ -103,6 +121,16 @@ namespace Heros.Attacks.Projectiles
             numberOfProjectiles.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.NumberOfAttacks, Level));
             projectileSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileSpeed, Level));
             projectileTurnSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileTurnSpeed, Level));
+        }
+
+        private Transform GetOrCreatePoolParent()
+        {
+            GameObject poolParent = GameObject.Find("Pools");
+            if (poolParent == null)
+            {
+                poolParent = new GameObject("Pools");
+            }
+            return poolParent.transform;
         }
     }
 }

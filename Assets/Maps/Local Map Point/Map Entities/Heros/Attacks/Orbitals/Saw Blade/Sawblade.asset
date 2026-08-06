@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sawblade
   m_EditorClassIdentifier: Assembly-CSharp::Heros.OrbitalHeroAttackSO
   icon: {fileID: -7939805150318603697, guid: 897a5220979010644a8cc3468ec693df, type: 3}
-  description: 
+  description: An Orbital Sawblade that cuts through hordes of enemies.
   findTargetDistance: 0
   enemyLayerMask:
     serializedVersion: 2
@@ -423,7 +423,7 @@ MonoBehaviour:
   targetTransformPrefab: {fileID: 7615845824480999501, guid: 4861c844b9455344b8fa10da39a083d4, type: 3}
   distanceAwayFromHero: 6
   rotationSpeed: 0
-  destroyProjectiles: 0
+  destroyProjectiles: 1
   amountOfHits: 0
   projectilesCountToHits: 0
   clockwise: 0

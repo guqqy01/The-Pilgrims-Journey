@@ -34,6 +34,11 @@ namespace Heros.Attacks
         [SerializeField]
         protected float findTargetDistance;
 
+        protected bool destroyProjectiles;
+        [SerializeField]
+        protected BuffableStat amountOfHits;
+        protected bool projectilesCountAsHits;
+
         protected virtual Transform GetTarget()
         {
             Collider2D[] collliders = Physics2D.OverlapCircleAll(transform.position, findTargetDistance, enemyLayerMask);
@@ -80,6 +85,7 @@ namespace Heros.Attacks
         {
             Level = Mathf.Clamp(level, 1, BaseHeroAttackSO.MaxLevel);
 
+            amountOfHits.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.AttackDurability, Level));
             damage.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.Damage, Level));
             attackSpeed.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.AttackSpeed, Level));
             criticalChance.AddBuff("Weapon", BaseHeroAttackSO.GetBuff(HeroStats.CriticalChance, Level));

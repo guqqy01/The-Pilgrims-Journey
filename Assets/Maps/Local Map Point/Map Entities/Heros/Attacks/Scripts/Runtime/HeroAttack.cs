@@ -15,6 +15,7 @@
 
             Level = 1;
 
+            SetupBuffableStat(ref amountOfHits, HeroStats.AttackDurability);
             SetupBuffableStat(ref damage, HeroStats.Damage);
             SetupBuffableStat(ref attackSpeed, HeroStats.AttackSpeed);
             SetupBuffableStat(ref criticalChance, HeroStats.CriticalChance);

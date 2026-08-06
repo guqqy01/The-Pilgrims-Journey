@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Orbitals
   m_EditorClassIdentifier: Assembly-CSharp::Heros.OrbitalHeroAttackSO
   icon: {fileID: -2312718168295272720, guid: 5085f1d0dc2b61943a714986d3d9f057, type: 3}
-  description: 
+  description: Multiple balls of magic that surround you.
   findTargetDistance: 0
   enemyLayerMask:
     serializedVersion: 2
@@ -173,7 +173,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 3
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 4
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -333,7 +333,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 6
         isInt: 0
       additionalBuff:
         intValue: 0

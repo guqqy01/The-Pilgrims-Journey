@@ -30,6 +30,7 @@ namespace Heros.Attacks
                 HeroStats.CriticalDamageMultiplier => WeaponStatsAtLevel[index].criticalDamageMultiplier,
                 HeroStats.Knockback => WeaponStatsAtLevel[index].knockback,
                 HeroStats.AttackSize => WeaponStatsAtLevel[index].size,
+                
                 _ => null,
             };
 
@@ -122,6 +123,8 @@ namespace Heros.Attacks
         public Buff numberOfProjectiles;
         [BuffType(false)]
         public Buff projectileSpeed;
+        [BuffType(true)]
+        public Buff amountOfHits;
         [BuffType(false)]
         public Buff projectileTurnSpeed;
     }

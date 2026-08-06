@@ -21,6 +21,7 @@ namespace Heros.Attacks.Projectiles
                 HeroStats.NumberOfAttacks => WeaponStatsAtLevel[index].numberOfProjectiles,
                 HeroStats.ProjectileSpeed => WeaponStatsAtLevel[index].projectileSpeed,
                 HeroStats.ProjectileTurnSpeed => WeaponStatsAtLevel[index].projectileTurnSpeed,
+                HeroStats.AttackDurability => WeaponStatsAtLevel[index].amountOfHits,
                 _ => null,
             };
         }

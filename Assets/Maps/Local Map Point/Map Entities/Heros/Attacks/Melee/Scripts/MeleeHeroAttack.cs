@@ -8,6 +8,8 @@ namespace Heros.Attacks.Melee
         private MeleeAttackSpawn meleeAttackPrefab;
         private bool destroyProjectiles;
 
+        // pooling
+        private AttackSpawnPool meleeAttackPool;
 
         private void Awake()
         {
@@ -19,7 +21,6 @@ namespace Heros.Attacks.Melee
             float rotation;
 
             Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
 
             if (inputDirection.sqrMagnitude > 0.1f)
             {
@@ -37,9 +38,29 @@ namespace Heros.Attacks.Melee
                 };
             }
 
-            var attack = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
+            MeleeAttackSpawn attackInstance = null;
 
-            attack.Init(damage, destroyProjectiles, knockback);
+            if (meleeAttackPool != null)
+            {
+                var pooled = meleeAttackPool.Get(transform.position, Quaternion.Euler(0, 0, rotation));
+                attackInstance = pooled as MeleeAttackSpawn;
+                if (attackInstance == null)
+                {
+                    // unexpected type fallback
+                    Destroy(pooled.gameObject);
+                    attackInstance = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
+                }
+                else
+                {
+                    attackInstance.transform.SetParent(transform);
+                }
+            }
+            else
+            {
+                attackInstance = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
+            }
+
+            attackInstance.Init(damage, criticalChance, criticalDamageMultiplier, destroyProjectiles, knockback);
 
             return true;
         }
@@ -48,11 +69,26 @@ namespace Heros.Attacks.Melee
         {
             meleeAttackPrefab = heroAttackSO.meleeAttackSpawn;
             destroyProjectiles = heroAttackSO.destroyProjectiles;
+
+            if (meleeAttackPrefab != null)
+            {
+                meleeAttackPool = Heros.Attacks.AttackSpawnPoolManager.GetPool(meleeAttackPrefab, GetOrCreatePoolParent());
+            }
         }
 
         protected override void InheritLevelSetup()
         {
-            
+
+        }
+
+        private Transform GetOrCreatePoolParent()
+        {
+            GameObject poolParent = GameObject.Find("Pools");
+            if (poolParent == null)
+            {
+                poolParent = new GameObject("Pools");
+            }
+            return poolParent.transform;
         }
     }
 }

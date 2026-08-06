@@ -25,7 +25,7 @@ namespace Heros.Attacks.Orbital
         private float currentAngleRad;
 
         private bool clockwise;
-
+                  
         private void FixedUpdate()
         {
             int amountOfTargets = slots.Count;
@@ -135,7 +135,7 @@ namespace Heros.Attacks.Orbital
             OrbitalHeroAttackSpawn orbitalHeroAttackSpawn = Instantiate(orbitalHeroAttackSpawnPrefab, transform.position, Quaternion.identity, transform);
 
             OrbitalHeroAttackInitContext initContext = new OrbitalHeroAttackInitContext(targetWithoutOrbital);
-            OrbitalHeroAttackStatsContext statsContext = new OrbitalHeroAttackStatsContext(damage, orbitalSpeed, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
+            OrbitalHeroAttackStatsContext statsContext = new OrbitalHeroAttackStatsContext(damage, criticalChance, criticalDamageMultiplier, orbitalSpeed, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
 
             orbitalHeroAttackSpawn.Init(initContext, statsContext);
             orbitalHeroAttackSpawn.onDestroyed += OnOrbitalDestroyed;
@@ -165,7 +165,7 @@ namespace Heros.Attacks.Orbital
 
                 if(orbital == null) continue;
 
-                OrbitalHeroAttackStatsContext statsContext = new OrbitalHeroAttackStatsContext(damage, orbitalSpeed, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
+                OrbitalHeroAttackStatsContext statsContext = new OrbitalHeroAttackStatsContext(damage, criticalChance, criticalDamageMultiplier, orbitalSpeed, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
 
                 orbital.SetupStats(statsContext);
             }

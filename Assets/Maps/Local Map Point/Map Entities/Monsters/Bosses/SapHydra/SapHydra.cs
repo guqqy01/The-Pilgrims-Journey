@@ -178,7 +178,7 @@ namespace Monsters
             project.onHit += OnDamageUnit;
             ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-            project.Init(projectileStats, false, target.position - transform.position, findTargetMask, target);
+            project.Init(projectileStats, false, target.position - transform.position, findTargetMask, false, target, ProjectileOwner.Monster);
 
             audioSource?.Play();
         }
@@ -200,7 +200,7 @@ namespace Monsters
                 project.onHit += OnDamageUnit;
                 ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                project.Init(projectileStats, false, currentDirection, findTargetMask, target);
+                project.Init(projectileStats, false, currentDirection, findTargetMask, false, target, ProjectileOwner.Monster);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }
@@ -226,7 +226,7 @@ namespace Monsters
                 project.onHit += OnDamageUnit;
                 ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                project.Init(projectileStats, false, currentDirection, findTargetMask, target);
+                project.Init(projectileStats, false, currentDirection, findTargetMask, false, target, ProjectileOwner.Monster);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }

@@ -1,53 +1,40 @@
 using UnityEngine;
-using System.Collections.Generic;
 using Units;
 using Monsters;
+using Heros.Attacks;
 
-public class MeleeAttackSpawn : MonoBehaviour
+public class MeleeAttackSpawn : HeroAttackSpawn<HeroAttackInitContext, AttackStatsContext>
 {
-    [SerializeField]
-    private LayerMask hitLayerMask;
+    // Kept simple: the base class handles stats, audio and lifecycle.
 
-    private readonly List<GameObject> hitGameObjects = new List<GameObject>();
-
-    private int damage;
-    private float knockback;
-
-    private bool destroyProjectiles;
-
-    public void Init(int damage, bool destroyProjectiles, float knockbackMultiplier = 0f)
+    public void Init(int damage, float criticalChance, float criticalDamageMultiplier, bool destroyProjectiles, float knockbackMultiplier = 0f)
     {
-        this.damage = damage;
-        this.destroyProjectiles = destroyProjectiles;
-        knockback = knockbackMultiplier;
-
+        // For melee swipes we usually want a single instant hit.
+        var statsContext = new AttackStatsContext(damage, criticalChance, criticalDamageMultiplier, knockbackMultiplier, 0f, destroyProjectiles, 1, false);
+        Init(new HeroAttackInitContext(), statsContext);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void FixedUpdateMovement()
     {
-        if (!hitLayerMask.ContainsLayer(collision.gameObject.layer))
-            return;
-
-        if (destroyProjectiles && collision.gameObject.TryGetComponent(out Projectile projectile))
-        {
-            Destroy(projectile.gameObject);
-            return;
-        }
-
-        if (!hitGameObjects.Contains(collision.gameObject))
-        {
-            if(collision.gameObject.TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
-            {
-                Vector2 hitDirection = collision.transform.position - transform.position;
-                healthAndShieldManager.Damage(damage, hitDirection, knockback);
-            }
-
-            hitGameObjects.Add(collision.gameObject);
-        }
+        // Melee swipe is stationary; no movement required here.
     }
 
-    private void DestroyAttack()
+    protected override void InheritInit(HeroAttackInitContext initContext)
     {
-        Destroy(gameObject);
+        // No specialized init required for melee swipe.
+    }
+
+    protected override void InheritSetupStats(AttackStatsContext statsContext)
+    {
+        // Base.SetupStats already applied the stats; nothing additional here.
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Allow base to handle projectile destruction and hit counting, then apply immediate damage for melee on enter.
+        base.OnTriggerEnter2D(collision);
+
+        // Apply damage immediately on trigger enter (so melee is responsive)
+        HandleColliderHits(collision);
     }
 }

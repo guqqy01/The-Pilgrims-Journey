@@ -1,17 +1,23 @@
 ﻿using System;
-using Units;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Heros.Attacks;
 
+public enum ProjectileOwner
+{
+    Monster,
+    Hero,
+    Neutral
+}
 
-[RequireComponent(typeof(Collider2D))]
-public class Projectile : MonoBehaviour
+[RequireComponent(typeof(Collider2D))
+]
+public class Projectile : AttackSpawn<ProjectileInitContext, ProjectileStatsContext>
 {
     private ProjectileStats projectileStats;
 
     private bool homing;
-
     private bool bounce;
 
     private Transform target;
@@ -21,53 +27,63 @@ public class Projectile : MonoBehaviour
     private LayerMask layerMask;
 
     [SerializeField]
-    private int amountOfHits = 0;
-
-    private int currentAmountOfHits = 0;
-
-    [SerializeField]
     private bool canHitSameTargetMultipleTimes = false;
 
     private bool deactivated = false;
 
-    public delegate void OnHit(OnHitInfo hitInfo);
-    public OnHit onHit;
-
     private readonly HashSet<HealthAndShieldManager> hitHealth = new HashSet<HealthAndShieldManager>();
-     
-    //private readonly Dictionary<HealthAndShieldManager, float> hitHealthAndRefreshTime = 
 
     private const float projectileLifetime = 20f;
     private float lifeTimeEnd;
 
     private HashSet<HealthAndShieldManager> ignoreExceptions;
 
-    private void OnDestroy()
+    // Pool callback handled by base via SetReturnToPoolCallback
+
+    private ProjectileOwner owner = ProjectileOwner.Monster;
+
+    public ProjectileOwner Owner => owner;
+
+    // Public subscription point for external listeners (keeps compatibility)
+    public Action<OnHitInfo> onHit;
+
+    protected override void OnDestroy()
     {
         onHit = null;
+        base.OnDestroy();
+    }
+    
+    // Backwards-compatible Init with owner
+    public void Init(ProjectileStats projectileHitStats, bool homing, Vector2 direction, LayerMask layerMask, bool bounce, Transform target, ProjectileOwner owner, params HealthAndShieldManager[] ignoreExceptions)
+    {
+        this.projectileStats = projectileHitStats;
+
+        var initContext = new ProjectileInitContext
+        {
+            homing = homing,
+            bounce = bounce,
+            target = target,
+            direction = direction,
+            layerMask = layerMask,
+            owner = owner,
+            ignoreExceptions = ignoreExceptions
+        };
+
+        var statsContext = new ProjectileStatsContext(projectileHitStats);
+
+        Init(initContext, statsContext);
     }
 
-    public void Init(ProjectileStats projectileHitStats, bool homing, Vector2 direction, LayerMask layerMask, bool bounce = false, Transform target = null, params HealthAndShieldManager[] ignoreExceptions)
+    // Provide InitWithOwner for existing callers
+    public void InitWithOwner(ProjectileStats projectileHitStats, bool homing, Vector2 direction, LayerMask layerMask, bool bounce, Transform target, ProjectileOwner owner)
     {
-        projectileStats = projectileHitStats;
-        this.homing = homing;
-        this.target = target;
-        this.bounce = bounce;
-
-        this.direction = direction;
-        this.layerMask = layerMask;
-        transform.right = direction;
-
-        this.ignoreExceptions = ignoreExceptions.ToHashSet();
+        Init(projectileHitStats, homing, direction, layerMask, bounce, target, owner);
     }
 
-    private void Awake()
+    protected override void FixedUpdateMovement()
     {
-        lifeTimeEnd = Time.time + projectileLifetime;
-    }
-
-    private void Update()
-    {
+        // movement is handled in FixedUpdateMovement to match AttackSpawn update
+        // actual movement logic is applied in FixedUpdateMovement
         if (homing && target != null)
         {
             direction = (target.position - transform.position).normalized;
@@ -75,18 +91,55 @@ public class Projectile : MonoBehaviour
             Quaternion targetRotation = Quaternion.FromToRotation(Vector3.right, direction);
 
             transform.rotation = Quaternion.RotateTowards(
-            transform.rotation,
-            targetRotation,
-            projectileStats.turningSpeed * Time.deltaTime
+                transform.rotation,
+                targetRotation,
+                projectileStats.TurningSpeed * Time.deltaTime
             );
         }
 
-        transform.position += projectileStats.speed * Time.deltaTime * transform.right;
+        transform.position += projectileStats.Speed * Time.deltaTime * transform.right;
 
-        if(Time.time > lifeTimeEnd)
+        if (Time.time > lifeTimeEnd)
         {
-            Destroy(gameObject);
+            DestroyAttack();
         }
+    }
+
+    protected override void InheritInit(ProjectileInitContext initContext)
+    {
+        homing = initContext.homing;
+        bounce = initContext.bounce;
+        target = initContext.target;
+        direction = initContext.direction;
+        layerMask = initContext.layerMask;
+        owner = initContext.owner;
+        ignoreExceptions = (initContext.ignoreExceptions ?? Array.Empty<HealthAndShieldManager>()).ToHashSet();
+
+        // Ensure base hit layer mask used by AttackSpawn.TryBeginHit matches the projectile's configured layer mask
+        hitLayerMask = initContext.layerMask;
+
+        transform.right = direction;
+    }
+
+    protected override void InheritSetupStats(ProjectileStatsContext statsContext)
+    {
+        // Use projectile-specific stats if provided; if projectileStats already set, prefer it
+        if ((projectileStats == null || projectileStats.Damage == 0) && statsContext != null)
+        {
+            // Construct gameplay ProjectileStats using available fields. Map missing critical fields to sensible defaults.
+            projectileStats = new ProjectileStats(
+                statsContext.attackStats.Damage,
+                0f,
+                1,
+                statsContext.attackStats.Knockback,
+                statsContext.speed,
+                statsContext.turningSpeed);
+        }
+
+        lifeTimeEnd = Time.time + projectileLifetime;
+        deactivated = false;
+        hitHealth.Clear();
+        currentAmountOfHits = 0;
     }
 
     protected virtual bool AttackActive(Collider2D collision)
@@ -94,23 +147,13 @@ public class Projectile : MonoBehaviour
         return true;
     }
 
-    private bool CollisionValid(Collider2D collision, out HealthAndShieldManager healthAndShieldManager)
+    // Per-projectile validation that does NOT mutate hitHistory. Returns the HealthAndShieldManager when valid.
+    private bool ProjectilePreChecks(HealthAndShieldManager health, Collider2D collision)
     {
-        healthAndShieldManager = null;
-
         if (deactivated)
             return false;
 
-        if (!layerMask.ContainsLayer(collision.gameObject.layer))
-            return false;
-
-        if (!collision.TryGetComponentInParent(out healthAndShieldManager))
-            return false;
-
-        if (ignoreExceptions.Contains(healthAndShieldManager))
-            return false;
-
-        if (!hitHealth.Add(healthAndShieldManager))
+        if (ignoreExceptions != null && health != null && ignoreExceptions.Contains(health))
             return false;
 
         if (!AttackActive(collision))
@@ -119,26 +162,52 @@ public class Projectile : MonoBehaviour
         return true;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    protected override void OnTriggerStay2D(Collider2D collision)
     {
-        if (!CollisionValid(collision, out HealthAndShieldManager healthAndShieldManager))
+        // First run shared pre-checks from AttackSpawn (cooldowns, layer mask, component lookup)
+        if (!TryBeginHit(collision, out HealthAndShieldManager healthAndShieldManager, out bool existed))
+            return;
+
+        // Then run projectile-specific checks and hit-history. We only add to hitHealth after shared checks succeed,
+        // otherwise we risk leaving entries in hitHealth that permanently prevent hits.
+        if (!ProjectilePreChecks(healthAndShieldManager, collision))
+            return;
+
+        if (!layerMask.ContainsLayer(collision.gameObject.layer))
+            return;
+
+        if (!hitHealth.Add(healthAndShieldManager))
             return;
 
         Vector2 damageDirection = (healthAndShieldManager.transform.position - transform.position).normalized;
 
-        OnHitInfo info = healthAndShieldManager.Damage(projectileStats.attackStats, damageDirection);
+        // Use the projectile's attack stats (supports criticals, etc.)
+        OnHitInfo info = healthAndShieldManager.Damage(projectileStats, damageDirection);
 
         HandleBounce(collision);
 
+        // invoke external listeners
         onHit?.Invoke(info);
+
+        // raise base event handlers (audio, etc.)
+        RaiseOnHit(info);
+
+        // update cooldown mapping
+        UpdateHitCooldown(healthAndShieldManager);
 
         currentAmountOfHits++;
 
-        if (amountOfHits > 0 && currentAmountOfHits >= amountOfHits)
+        if (amountOfHits.HasValue && currentAmountOfHits >= amountOfHits.Value)
         {
             deactivated = true;
-            Destroy(gameObject);
+            DestroyAttack();
         }
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Let base handle projectile destruction on enter (e.g., collision with other projectiles)
+        base.OnTriggerEnter2D(collision);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -170,6 +239,28 @@ public class Projectile : MonoBehaviour
         Vector2 reflectionVector = Vector2.Reflect(currentDirection, -directionToHitTarget);
 
         transform.right = reflectionVector;
+    }
+
+    // Called by pool when this instance is retrieved from the pool
+    public override void OnPoolGet()
+    {
+        deactivated = false;
+        transform.localScale = Vector3.one;
+        hitHealth.Clear();
+        currentAmountOfHits = 0;
+        lifeTimeEnd = Time.time + projectileLifetime;
+    }
+
+    // Called by pool when this instance is released back into the pool
+    public override void OnPoolRelease()
+    {
+        base.OnPoolRelease();
+        deactivated = false;
+        onHit = null;
+        transform.localScale = Vector3.one;
+        hitHealth.Clear();
+        currentAmountOfHits = 0;
+        ignoreExceptions = null;
     }
 }
 

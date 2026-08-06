@@ -94,10 +94,12 @@ namespace Heros.Attacks.Spot
 
         }
 
-        protected HeroAttackStats BuildBaseHeroAttackStats()
+        protected AttackStats BuildBaseHeroAttackStats()
         {
-            return new HeroAttackStats(
+            return new AttackStats(
                 damage.Value,
+                criticalChance.Value,
+                criticalDamageMultiplier.Value,
                 knockback.Value,
                 hitRefreshRate.Value,
                 destroyProjectiles,

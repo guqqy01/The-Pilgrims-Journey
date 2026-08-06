@@ -15,7 +15,7 @@ namespace Heros.Attacks.Spot
 
         protected override SpotAttackStatsContext BuildStatsContext()
         {
-            HeroAttackStats heroAttackStats = BuildBaseHeroAttackStats();
+            AttackStats heroAttackStats = BuildBaseHeroAttackStats();
 
             return new SpotAttackStatsContext(heroAttackStats, SpotChaoticMovementStats);
         }

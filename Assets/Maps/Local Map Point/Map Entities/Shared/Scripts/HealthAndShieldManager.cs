@@ -94,11 +94,11 @@ public class HealthAndShieldManager : MonoBehaviour
         if (Invunrable)
             return new OnHitInfo(this, false, 0, 0);
 
-        BuffableStat damage = new BuffableStat(hitStats.damage);
+        BuffableStat damage = new BuffableStat(hitStats.Damage);
 
-        if(Random.value <= hitStats.criticalChance / 100f)
+        if(Random.value <= hitStats.CriticalChance / 100f)
         {
-            damage.AddBuff("Critical", new Buff(hitStats.criticalDamageMultiplier, 0, 0));
+            damage.AddBuff("Critical", new Buff(hitStats.CriticalDamageMultiplier, 0, 0));
         }
 
         int leftDmg = Shield.DamageShield(damage, damageDirection);
@@ -107,7 +107,7 @@ public class HealthAndShieldManager : MonoBehaviour
 
         if (leftDmg > 0)
         {
-            Health.ModifyHealth(-leftDmg, damageDirection, hitStats.knockbackMultiplier);
+            Health.ModifyHealth(-leftDmg, damageDirection, hitStats.Knockback);
         }
 
         return hitInfo;

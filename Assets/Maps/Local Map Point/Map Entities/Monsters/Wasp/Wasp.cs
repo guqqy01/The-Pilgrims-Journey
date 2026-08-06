@@ -93,7 +93,7 @@ namespace Monsters
 
                     ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
 
-                    project.Init(projectileStats, true, target.position - transform.position, findTargetMask, target);
+                    project.Init(projectileStats, true, target.position - transform.position, findTargetMask, false, target, ProjectileOwner.Monster);
 
                     audioSource?.Play();
 

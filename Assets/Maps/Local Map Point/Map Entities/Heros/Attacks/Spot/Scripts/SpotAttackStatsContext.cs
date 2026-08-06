@@ -1,9 +1,9 @@
 ﻿namespace Heros.Attacks.Spot
 {
-    public class SpotAttackStatsContext : HeroAttackStatsContext
+    public class SpotAttackStatsContext : AttackStatsContext
     {
         public readonly SpotChaoticMovementStats spotChaoticMovementStats;
-        public SpotAttackStatsContext(  HeroAttackStats heroAttackStats, 
+        public SpotAttackStatsContext(  AttackStats heroAttackStats, 
                                         SpotChaoticMovementStats spotChaoticMovementStats) : 
                                         base(heroAttackStats)
         {

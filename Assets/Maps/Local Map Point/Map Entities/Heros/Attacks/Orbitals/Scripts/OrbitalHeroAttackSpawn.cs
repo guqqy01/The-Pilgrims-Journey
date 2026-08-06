@@ -61,11 +61,12 @@ namespace Heros.Attacks.Orbital
         }
     }
 
-    public class OrbitalHeroAttackStatsContext : HeroAttackStatsContext
+    public class OrbitalHeroAttackStatsContext : AttackStatsContext
     {
         public readonly float orbitSpeed;
 
-        public OrbitalHeroAttackStatsContext(int damage, float orbitSpeed, float knockback, float hitSpeed, bool destroyProjectiles = false, int? amountOfHits = null, bool projectilesCountAsHit = false) : base(damage, knockback, hitSpeed, destroyProjectiles, amountOfHits, projectilesCountAsHit)
+        public OrbitalHeroAttackStatsContext(int damage, float criticalChance, float criticalDamageMultiplier, float orbitSpeed, float knockback, float hitSpeed, bool destroyProjectiles = false, int? amountOfHits = null, bool projectilesCountAsHit = false) : 
+            base(damage, criticalChance, criticalDamageMultiplier, knockback, hitSpeed, destroyProjectiles, amountOfHits, projectilesCountAsHit)
         {
             this.orbitSpeed = orbitSpeed;
         }

@@ -1,4 +1,4 @@
 ﻿namespace Heros.Attacks
 {
-    public class HeroAttackInitContext { }
+    public class HeroAttackInitContext : AttackInitContext { }
 }
