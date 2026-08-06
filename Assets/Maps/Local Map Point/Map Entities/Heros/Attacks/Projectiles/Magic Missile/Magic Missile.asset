@@ -99,6 +99,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -189,6 +199,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -279,6 +299,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -369,6 +399,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -459,6 +499,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 1
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -471,3 +521,4 @@ MonoBehaviour:
         isInt: 0
   projectilePrefab: {fileID: 4849551019690282387, guid: eb3a5841076484b40b7afc5e8fa1a5ff, type: 3}
   projectileHoming: 1
+  bounce: 0
