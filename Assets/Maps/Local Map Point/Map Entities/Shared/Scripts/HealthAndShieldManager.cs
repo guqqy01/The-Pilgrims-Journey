@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using Attacks;
 [RequireComponent(typeof(Health), typeof(Shield))]
 public class HealthAndShieldManager : MonoBehaviour
 {

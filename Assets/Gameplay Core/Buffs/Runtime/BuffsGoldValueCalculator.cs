@@ -5,36 +5,36 @@ public static class BuffsGoldValueCalculator
 
     public static float additionalReducedValueToBase = 0.8f;
 
-    public static int GetValue(Buff buff, AllStats Stat, out int baseBuffValue, out int multiplierBuffValue, out int additionalBuffValue)
+    public static int GetValue(Buff buff, StatTypes Stat, out int baseBuffValue, out int multiplierBuffValue, out int additionalBuffValue)
     {
         switch (Stat)
         {
-            case AllStats.Health:
+            case StatTypes.Health:
                 baseBuffValue = CalculateHealthBaseBuffValue(buff.BaseBuff.IntValue);
                 multiplierBuffValue = CalculateHealthMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateHealthAdditionalBuffValue(buff.AdditionalBuff.IntValue);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case AllStats.Shield:
+            case StatTypes.Shield:
                 baseBuffValue = CalculateShieldBaseBuffValue(buff.BaseBuff.IntValue);
                 multiplierBuffValue = CalculateShieldMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateShieldAdditionalBuffValue(buff.AdditionalBuff.IntValue);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case AllStats.ShieldCooldown:
+            case StatTypes.ShieldCooldown:
                 baseBuffValue = CalculateShieldCooldownBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateShieldCooldownMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateShieldCooldownAdditionalBuffValue((float)buff.AdditionalBuff.Value);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case AllStats.ShieldRegeneration:
+            case StatTypes.ShieldRegeneration:
                 baseBuffValue = CalculateShieldRegenerationBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateShieldRegenerationMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateShieldRegenerationAdditionalBuffValue((float)buff.AdditionalBuff.Value);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case AllStats.MovementSpeed:
+            case StatTypes.MovementSpeed:
                 baseBuffValue = CalculateMovementSpeedBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateMovementSpeedMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateMovementSpeedAdditionalBuffValue((float)buff.AdditionalBuff.Value);
                 return (baseBuffValue + multiplierBuffValue + additionalBuffValue).RoundToNearedInt(roundToNearestValue);
-            case AllStats.SpawnRate:
+            case StatTypes.SpawnRate:
                 baseBuffValue = CalculateSpawnRateBaseBuffValue((float)buff.BaseBuff.Value);
                 multiplierBuffValue = CalculateSpawnRateMultiplierBuffValue(buff.Multiplier);
                 additionalBuffValue = CalculateSpawnRateAdditionalBuffValue((float)buff.AdditionalBuff.Value);

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Unity.Properties;
 using UnityEngine;
 
-namespace Heros.Attacks
+namespace Attacks
 {
     public abstract class AttackSpawn<TInitContext, TStatsContext> : AttackSpawnBase
-        where TInitContext : AttackInitContext
-        where TStatsContext : AttackStatsContext
+        where TInitContext : AttackInit
+        where TStatsContext : AttackStats
     {
         [SerializeField]
         protected Collider2D hitCollider;
@@ -42,13 +43,13 @@ namespace Heros.Attacks
 
         public void SetupStats(TStatsContext context)
         {
-            damage = context.attackStats.Damage;
-            hitSpeed = context.attackStats.HitRefreshSpeed;
-            destroyProjectiles = context.attackStats.DestroyProjectiles;
-            knockback = context.attackStats.Knockback;
-            amountOfHits = context.attackStats.AmountOfHits;
+            damage = context.Damage;
+            hitSpeed = context.HitRefreshSpeed;
+            destroyProjectiles = context.DestroyProjectiles;
+            knockback = context.Knockback;
+            amountOfHits = context.AmountOfHits;
 
-            projectilesCountAsHits = context.attackStats.ProjectilesCountAsHits;
+            projectilesCountAsHits = context.ProjectilesCountAsHits;
 
             InheritSetupStats(context);
         }

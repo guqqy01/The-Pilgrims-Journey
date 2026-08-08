@@ -1,6 +1,6 @@
-﻿namespace Heros.Attacks.Spot
+﻿namespace Attacks.Spot
 {
-    public class StationarySpotAttackSpawn : SpotAttackSpawn<SpotAttackStatsContext>
+    public class StationarySpotAttackSpawn : SpotAttackSpawn<SpotAttackInit, SpotAttackStats>
     {
     }
 }

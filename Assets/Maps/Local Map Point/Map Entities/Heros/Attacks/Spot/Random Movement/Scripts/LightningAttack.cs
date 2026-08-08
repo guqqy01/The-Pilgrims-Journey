@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-namespace Heros.Attacks.Spot
+namespace Attacks.Spot
 {
-    public class LightningAttack : BaseRandomMovementSpotAttackSpawn<RandomMovementSpotAttackStatsContext>
+    public class LightningAttack : BaseRandomMovementSpotAttackSpawn<RandomMovementSpotAttackStats>
     {
         [SerializeField]
         private Animator ani;

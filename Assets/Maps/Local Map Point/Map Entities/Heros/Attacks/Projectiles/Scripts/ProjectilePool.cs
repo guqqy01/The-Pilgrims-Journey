@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Heros.Attacks.Projectiles
+namespace Attacks.Projectiles
 {
     public class ProjectilePool
     {

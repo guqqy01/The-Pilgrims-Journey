@@ -26,10 +26,11 @@ namespace Heros
 
             HeroMovement.Setup(heroSO);
 
-            HealthAndShieldManager.Setup(stats.Get(HeroStats.Health), 
-                stats.Get(HeroStats.Shield), 
-                stats.Get(HeroStats.ShieldRegeneration), 
-                stats.Get(HeroStats.ShieldCooldown));
+            HealthAndShieldManager.Setup(
+                stats.Get(StatTypes.Health), 
+                stats.Get(StatTypes.Shield), 
+                stats.Get(StatTypes.ShieldRegeneration), 
+                stats.Get(StatTypes.ShieldCooldown));
 
             SpriteLibrary.spriteLibraryAsset = heroSO.spriteLibrary;
         }

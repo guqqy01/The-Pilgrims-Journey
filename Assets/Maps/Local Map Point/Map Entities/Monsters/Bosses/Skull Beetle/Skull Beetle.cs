@@ -1,5 +1,6 @@
 using Heros;
 using UnityEngine;
+using Attacks;
 namespace Monsters
 {
     public class SkullBeetle : Monster

@@ -26,7 +26,7 @@ namespace Heros
         public class BuffSaveEntry
         {
             public string reference; // runtime reference string (e.g. "Sword: 0")
-            public HeroStats stat;
+            public StatTypes stat;
 
             // If sourceType == Manual, buff is serialized directly
             public Buff buff;
@@ -38,17 +38,17 @@ namespace Heros
 
             public BuffSaveEntry() { }
 
-            public static BuffSaveEntry ForManual(string reference, HeroStats stat, Buff buff)
+            public static BuffSaveEntry ForManual(string reference, StatTypes stat, Buff buff)
             {
                 return new BuffSaveEntry { reference = reference, stat = stat, buff = buff, sourceType = BuffSourceType.Manual };
             }
 
-            public static BuffSaveEntry ForEquipment(string sourceId, int containerIndex, HeroStats stat)
+            public static BuffSaveEntry ForEquipment(string sourceId, int containerIndex, StatTypes stat)
             {
                 return new BuffSaveEntry { reference = $"{sourceId}: {containerIndex}", stat = stat, sourceType = BuffSourceType.Equipment, sourceId = sourceId, equipmentContainerIndex = containerIndex };
             }
 
-            public static BuffSaveEntry ForRelic(string sourceId, HeroStats stat)
+            public static BuffSaveEntry ForRelic(string sourceId, StatTypes stat)
             {
                 return new BuffSaveEntry { reference = sourceId, stat = stat, sourceType = BuffSourceType.Relic, sourceId = sourceId };
             }
@@ -95,7 +95,7 @@ namespace Heros
         }
 
         // New helper for equipment-sourced buffs so we can save by equipment id instead of embedding Buff
-        public void AddBuffFromEquipment(EquipmentSO equipment, int containerIndex, HeroStats stat)
+        public void AddBuffFromEquipment(EquipmentSO equipment, int containerIndex, StatTypes stat)
         {
             if (equipment == null)
                 return;
@@ -122,7 +122,7 @@ namespace Heros
             statsChanged?.Invoke();
         }
 
-        public void RemoveBuffFromEquipment(EquipmentSO equipment, int containerIndex, HeroStats stat)
+        public void RemoveBuffFromEquipment(EquipmentSO equipment, int containerIndex, StatTypes stat)
         {
             if (equipment == null)
                 return;
@@ -145,7 +145,7 @@ namespace Heros
         }
 
         // Fallback AddBuff for manual cases
-        public void AddBuff(string reference, HeroStats stat, Buff buff)
+        public void AddBuff(string reference, StatTypes stat, Buff buff)
         {
             if (container == null)
             {
@@ -168,7 +168,7 @@ namespace Heros
             statsChanged?.Invoke();
         }
 
-        public void RemoveBuff(string reference, HeroStats stat)
+        public void RemoveBuff(string reference, StatTypes stat)
         {
             if (container != null)
             {

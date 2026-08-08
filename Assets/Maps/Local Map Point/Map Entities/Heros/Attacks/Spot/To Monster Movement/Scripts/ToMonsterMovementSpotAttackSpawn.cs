@@ -1,8 +1,8 @@
 ﻿using Monsters;
 using UnityEngine;
-namespace Heros.Attacks.Spot
+namespace Attacks.Spot
 {
-    public class ToMonsterMovementSpotAttackSpawn : BaseRandomMovementSpotAttackSpawn<ToMonsterMovementSpotAttackStatsContext>
+    public class ToMonsterMovementSpotAttackSpawn : BaseRandomMovementSpotAttackSpawn<ToMonsterMovementSpotAttackStats>
     {
         private ToMonsterMovementStats toMonsterMovementStats;
 
@@ -74,7 +74,7 @@ namespace Heros.Attacks.Spot
             }
         }
 
-        protected override void InheritSetupStats(ToMonsterMovementSpotAttackStatsContext heroAttackContext)
+        protected override void InheritSetupStats(ToMonsterMovementSpotAttackStats heroAttackContext)
         {
             toMonsterMovementStats = heroAttackContext.toMonsterMovementStats;
 

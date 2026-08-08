@@ -8,9 +8,9 @@ namespace Heros
     [Serializable]
     public class HeroStatContainer
     {
-        private readonly Dictionary<HeroStats, BuffableStat> stats = new Dictionary<HeroStats, BuffableStat>();
+        private readonly Dictionary<StatTypes, BuffableStat> stats = new Dictionary<StatTypes, BuffableStat>();
 
-        public BuffableStat Get(HeroStats stat)
+        public BuffableStat Get(StatTypes stat)
         {
             if(stats.TryGetValue(stat, out var buff))
             {
@@ -27,7 +27,7 @@ namespace Heros
 
         public HeroStatContainer(HeroSO heroSO)
         {
-            foreach(HeroStats stat in Enum.GetValues(typeof(HeroStats)))
+            foreach(StatTypes stat in Enum.GetValues(typeof(StatTypes)))
             {
                 Buff baseBuff = heroSO.GetBuff(stat);
                 if (baseBuff == null) continue;
@@ -44,7 +44,7 @@ namespace Heros
         // Ensure any stats missing from serialized or initial setup are created from the HeroSO defaults
         public void EnsureDefaults(HeroSO heroSO)
         {
-            foreach(HeroStats stat in Enum.GetValues(typeof(HeroStats)))
+            foreach(StatTypes stat in Enum.GetValues(typeof(StatTypes)))
             {
                 if (stats.ContainsKey(stat))
                     continue;

@@ -15,9 +15,9 @@ namespace Units
             };
         }
 
-        public static AllStats ConvertToAllStats(this UnitStatsEnum unitStat)
+        public static StatTypes ConvertToAllStats(this UnitStatsEnum unitStat)
         {
-            if (Enum.TryParse(unitStat.ToString(), out AllStats returnValue))
+            if (Enum.TryParse(unitStat.ToString(), out StatTypes returnValue))
             {
                 return returnValue;
             }

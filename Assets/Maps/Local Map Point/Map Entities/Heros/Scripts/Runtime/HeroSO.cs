@@ -1,12 +1,84 @@
 using System;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
-using Heros.Attacks;
+using Attacks;
+
+public abstract class BuffableEntitySO : ScriptableObject
+{
+    [Header("Defence")]
+    [BuffType(true)]
+    public Buff Health;
+    [BuffType(true)]
+    public Buff Shield;
+    [BuffType(false)]
+    public Buff ShieldCooldown;
+    [BuffType(false)]
+    public Buff ShieldRegeneration;
+
+    [Header("Utility")]
+    [BuffType(false)]
+    public Buff MovementSpeed;
+    [BuffType(false)]
+    public Buff Luck;
+    [BuffType(false)]
+    public Buff ExperienceGain;
+
+    [Header("Attack")]
+    [BuffType(true)]
+    public Buff DamageBuff;
+    [BuffType(false)]
+    public Buff AttackSpeed;
+    [BuffType(true)]
+    public Buff NumberOfAttacks;
+    [BuffType(false)]
+    [Tooltip("critical percentage, value 100 => 100% chance to crit")]
+    public Buff CriticalChance;
+    [BuffType(false)]
+    [Tooltip("critical damage multiplier, value 100 => +100% damage increase")]
+    public Buff CriticalDamageMultiplier;
+    [BuffType(false)]
+    public Buff AttackSize;
+    [BuffType(false)]
+    public Buff Knockback;
+
+    [BuffType(false)]
+    public Buff ProjectileSpeed;
+    [BuffType(false)]
+    public Buff ProjectileTurnSpeed;
+
+    public Buff GetBuff(StatTypes stat)
+    {
+        return stat switch
+        {
+            StatTypes.Health => Health,
+            StatTypes.Shield => Shield,
+            StatTypes.ShieldRegeneration => ShieldRegeneration,
+            StatTypes.ShieldCooldown => ShieldCooldown,
+
+            StatTypes.MovementSpeed => MovementSpeed,
+
+            StatTypes.Damage => DamageBuff,
+            StatTypes.AttackSpeed => AttackSpeed,
+
+            StatTypes.NumberOfAttacks => NumberOfAttacks,
+            StatTypes.CriticalChance => CriticalChance,
+            StatTypes.CriticalDamageMultiplier => CriticalDamageMultiplier,
+            StatTypes.AttackSize => AttackSize,
+            StatTypes.Knockback => Knockback,
+            StatTypes.ProjectileSpeed => ProjectileSpeed,
+            StatTypes.ProjectileTurnSpeed => ProjectileTurnSpeed,
+            _ => null
+        };
+    }
+}
+
+
 
 namespace Heros
 {
+    
     [CreateAssetMenu()]
-    public class HeroSO : ScriptableObject
+    public class HeroSO : BuffableEntitySO
     {
         [TextArea()]
         public string Description;
@@ -15,80 +87,14 @@ namespace Heros
 
         public Hero prefab;
 
-        public BaseHeroAttackSO startingAttack;
+        public BaseAttackSO startingAttack;
 
         public SpriteLibraryAsset spriteLibrary;
-
-        [Header("Defence")]
-        [BuffType(true)]
-        public Buff Health;
-        [BuffType(true)]
-        public Buff Shield;
-        [BuffType(false)]
-        public Buff ShieldCooldown;
-        [BuffType(false)]
-        public Buff ShieldRegeneration;
-
-        [Header("Utility")]
-        [BuffType(false)]
-        public Buff MovementSpeed;
-        [BuffType(false)]
-        public Buff Luck;
-        [BuffType(false)]
-        public Buff ExperienceGain;
-
-        [Header("Attack")]
-        [BuffType(true)]
-        public Buff DamageBuff;
-        [BuffType(false)]
-        public Buff AttackSpeed;
-        [BuffType(true)]
-        public Buff NumberOfAttacks;
-        [BuffType(false)]
-        [Tooltip("critical percentage, value 100 => 100% chance to crit")]
-        public Buff CriticalChance;
-        [BuffType(false)]
-        [Tooltip("critical damage multiplier, value 100 => +100% damage increase")]
-        public Buff CriticalDamageMultiplier;
-        [BuffType(false)]
-        public Buff AttackSize;
-        [BuffType(false)]
-        public Buff Knockback;
-
-        [BuffType(false)]
-        public Buff ProjectileSpeed;
-        [BuffType(false)]
-        public Buff ProjectileTurnSpeed;
-
-        public Buff GetBuff(HeroStats stat)
-        {
-            return stat switch
-            {
-                HeroStats.Health => Health,
-                HeroStats.Shield => Shield,
-                HeroStats.ShieldRegeneration => ShieldRegeneration,
-                HeroStats.ShieldCooldown => ShieldCooldown,
-
-                HeroStats.MovementSpeed => MovementSpeed,
-
-                HeroStats.Damage => DamageBuff,
-                HeroStats.AttackSpeed => AttackSpeed,
-
-                HeroStats.NumberOfAttacks => NumberOfAttacks,
-                HeroStats.CriticalChance => CriticalChance,
-                HeroStats.CriticalDamageMultiplier => CriticalDamageMultiplier,
-                HeroStats.AttackSize => AttackSize,
-                HeroStats.Knockback => Knockback,
-                HeroStats.ProjectileSpeed => ProjectileSpeed,
-                HeroStats.ProjectileTurnSpeed => ProjectileTurnSpeed,
-                _ => null
-            };
-        }
 
         public string GetHeroStatsString()
         {
             string str = "";
-            foreach (HeroStats stat in Enum.GetValues(typeof(HeroStats)))
+            foreach (StatTypes stat in Enum.GetValues(typeof(StatTypes)))
             {
                 Buff buff = GetBuff(stat);
 
@@ -97,11 +103,11 @@ namespace Heros
 
                 string buffDescription;
 
-                if (stat == HeroStats.Health || 
-                    stat == HeroStats.Shield || 
-                    stat == HeroStats.MovementSpeed || 
-                    stat == HeroStats.ShieldCooldown ||
-                    stat == HeroStats.ShieldRegeneration)
+                if (stat == StatTypes.Health || 
+                    stat == StatTypes.Shield || 
+                    stat == StatTypes.MovementSpeed || 
+                    stat == StatTypes.ShieldCooldown ||
+                    stat == StatTypes.ShieldRegeneration)
                 {
                     buffDescription = buff.GetSimpleDescription();
                 }

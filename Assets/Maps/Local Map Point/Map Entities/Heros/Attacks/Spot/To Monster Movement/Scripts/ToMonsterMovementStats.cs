@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Heros.Attacks.Spot
+namespace Attacks.Spot
 {
     [Serializable]
     public struct ToMonsterMovementStats

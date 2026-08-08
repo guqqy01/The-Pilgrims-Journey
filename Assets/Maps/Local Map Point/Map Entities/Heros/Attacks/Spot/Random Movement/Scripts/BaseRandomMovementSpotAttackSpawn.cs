@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
-namespace Heros.Attacks.Spot
+namespace Attacks.Spot
 {
-    public abstract class BaseRandomMovementSpotAttackSpawn<TRandomMovementStatsContext> : SpotAttackSpawn<TRandomMovementStatsContext> 
-        where TRandomMovementStatsContext : RandomMovementSpotAttackStatsContext
+    public abstract class BaseRandomMovementSpotAttackSpawn<TRandomMovementStatsContext> : SpotAttackSpawn<SpotAttackInit, TRandomMovementStatsContext> 
+        where TRandomMovementStatsContext : RandomMovementSpotAttackStats
     {
         private RandomMovementStats randomMovementStats;
 

@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using LocalMap;
 using UnityEngine;
 
@@ -16,14 +15,12 @@ namespace Heros
 
         public float Deadzone = 0.1f;
 
-        public Direction LastDirection { private set; get; }
-
         private bool overrideMovementToMoveOutOfMap = false;
         private Direction directionOutOfMap;
 
         public void Setup(HeroSO heroSO)
         {
-            BaseInit(HeroManager.Instance.Stats.Get(HeroStats.MovementSpeed));
+            BaseInit(HeroManager.Instance.Stats.Get(StatTypes.MovementSpeed));
         }
 
         protected override void Awake()
@@ -84,6 +81,9 @@ namespace Heros
             directionOutOfMap = direction;
         }
 
+        //Set in UpdateAnimator, so we don't need to calculate it here
+        protected override void CalculateLastDirection(){ }
+
         void UpdateAnimator(Vector2 dir)
         {
             if (ani == null) return;
@@ -137,6 +137,8 @@ namespace Heros
             Vector2 move = input;
             if (move.sqrMagnitude > 1f) move = move.normalized;
 
+            Vector2 movementVector = move * SpeedValue * Time.fixedDeltaTime;
+
             Vector2 newPos = rb.position + move * SpeedValue * Time.fixedDeltaTime;
 
             if (LocalMapGenerator.Instance.IsPositionOutOfMap(newPos))
@@ -170,6 +172,7 @@ namespace Heros
             else if (LocalMapGenerator.Instance.IsPositionWalkable(newPosY))
             {
                 rb.MovePosition(newPosY);
+
             }
             // else: fully blocked, don't move at all
         }

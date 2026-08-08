@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Heros.Attacks
+namespace Attacks
 {
     public abstract class AttackSpawnBase : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-namespace Heros.Attacks.Spot
+namespace Attacks.Spot
 {
     [Serializable]
     public struct SpotChaoticMovementStats

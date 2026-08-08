@@ -1,23 +1,23 @@
 ﻿using UnityEngine;
 
-namespace Heros.Attacks.Spot
+namespace Attacks.Spot
 {
-    public class StationarySpotHeroAttack : SpotHeroAttack
+    public class StationarySpotHeroAttack : SpotAttack
     {
-        protected override SpotAttackInitContext BuildInitContext(Transform target, float? lifeTime, float movementSpeed)
+        protected override SpotAttackInit BuildInit(Transform target, float? lifeTime, float movementSpeed)
         {
             Vector2 currentPos = (Vector2)target.position + Random.insideUnitCircle * spawnAccuracy.Value;
 
             float? lifeTimeEnd = lifeTime.HasValue ? Time.time + lifeTime.Value : null;
 
-            return new SpotAttackInitContext(currentPos, lifeTimeEnd, 0);
+            return new SpotAttackInit(currentPos, lifeTimeEnd, 0);
         }
 
-        protected override SpotAttackStatsContext BuildStatsContext()
+        protected override SpotAttackStats BuildStatsContext()
         {
-            AttackStats heroAttackStats = BuildBaseHeroAttackStats();
+            AttackStats heroAttackStats = BuildBaseAttackStats();
 
-            return new SpotAttackStatsContext(heroAttackStats, SpotChaoticMovementStats);
+            return new SpotAttackStats(heroAttackStats, SpotChaoticMovementStats);
         }
     }
 

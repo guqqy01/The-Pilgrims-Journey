@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using Heros;
 
-namespace Heros.Attacks.Projectiles
+namespace Attacks.Projectiles
 {
     [CreateAssetMenu(menuName = "Hero Attack/Projectile")]
-    public class ProjectileHeroAttackSO : HeroAttackSO<ProjectileWeaponStatsAtLevel>
+    public class ProjectileHeroAttackSO : AttackSO<ProjectileWeaponStatsAtLevel>
     {
         public override Type HeroAttackType => typeof(ProjectileHeroAttack);
 
@@ -14,14 +13,14 @@ namespace Heros.Attacks.Projectiles
 
         public bool projectileHoming;
         public bool bounce;
-        public override Buff GetBuffAtIndex(HeroStats heroStats, int index)
+        public override Buff GetBuffAtIndex(StatTypes heroStats, int index)
         {
             return heroStats switch
             {
-                HeroStats.NumberOfAttacks => WeaponStatsAtLevel[index].numberOfProjectiles,
-                HeroStats.ProjectileSpeed => WeaponStatsAtLevel[index].projectileSpeed,
-                HeroStats.ProjectileTurnSpeed => WeaponStatsAtLevel[index].projectileTurnSpeed,
-                HeroStats.AttackDurability => WeaponStatsAtLevel[index].amountOfHits,
+                StatTypes.NumberOfAttacks => WeaponStatsAtLevel[index].numberOfProjectiles,
+                StatTypes.ProjectileSpeed => WeaponStatsAtLevel[index].projectileSpeed,
+                StatTypes.ProjectileTurnSpeed => WeaponStatsAtLevel[index].projectileTurnSpeed,
+                StatTypes.AttackDurability => WeaponStatsAtLevel[index].amountOfHits,
                 _ => null,
             };
         }

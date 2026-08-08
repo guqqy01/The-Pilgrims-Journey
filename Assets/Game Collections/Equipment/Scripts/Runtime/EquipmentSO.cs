@@ -65,7 +65,7 @@ namespace Equipment
             return true;
         }
 
-        public bool TryGetHeroBuff(HeroStats stat, out Buff outBuff)
+        public bool TryGetHeroBuff(StatTypes stat, out Buff outBuff)
         {
             outBuff = null;
 
@@ -97,13 +97,13 @@ namespace Equipment
         }
 
         [SerializeField]
-        private SerializedDictionary<HeroStats, Buff> heroEquipmentStats;
+        private SerializedDictionary<StatTypes, Buff> heroEquipmentStats;
 
-        public Dictionary<HeroStats, Buff> HeroEquipmentStats
+        public Dictionary<StatTypes, Buff> HeroEquipmentStats
         {
             get
             {
-                heroEquipmentStats ??= new SerializedDictionary<HeroStats, Buff>();
+                heroEquipmentStats ??= new SerializedDictionary<StatTypes, Buff>();
 
                 return heroEquipmentStats;
             }

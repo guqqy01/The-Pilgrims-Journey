@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Heros.Attacks;
+using Attacks;
 
 public enum ProjectileOwner
 {
@@ -11,9 +11,8 @@ public enum ProjectileOwner
     Neutral
 }
 
-[RequireComponent(typeof(Collider2D))
-]
-public class Projectile : AttackSpawn<ProjectileInitContext, ProjectileStatsContext>
+[RequireComponent(typeof(Collider2D))]
+public class Projectile : AttackSpawn<ProjectileInit, ProjectileStats>
 {
     private ProjectileStats projectileStats;
 
@@ -58,7 +57,7 @@ public class Projectile : AttackSpawn<ProjectileInitContext, ProjectileStatsCont
     {
         this.projectileStats = projectileHitStats;
 
-        var initContext = new ProjectileInitContext
+        var initContext = new ProjectileInit
         {
             homing = homing,
             bounce = bounce,
@@ -69,9 +68,7 @@ public class Projectile : AttackSpawn<ProjectileInitContext, ProjectileStatsCont
             ignoreExceptions = ignoreExceptions
         };
 
-        var statsContext = new ProjectileStatsContext(projectileHitStats);
-
-        Init(initContext, statsContext);
+        Init(initContext, projectileHitStats);
     }
 
     // Provide InitWithOwner for existing callers
@@ -105,7 +102,7 @@ public class Projectile : AttackSpawn<ProjectileInitContext, ProjectileStatsCont
         }
     }
 
-    protected override void InheritInit(ProjectileInitContext initContext)
+    protected override void InheritInit(ProjectileInit initContext)
     {
         homing = initContext.homing;
         bounce = initContext.bounce;
@@ -121,19 +118,19 @@ public class Projectile : AttackSpawn<ProjectileInitContext, ProjectileStatsCont
         transform.right = direction;
     }
 
-    protected override void InheritSetupStats(ProjectileStatsContext statsContext)
+    protected override void InheritSetupStats(ProjectileStats statsContext)
     {
         // Use projectile-specific stats if provided; if projectileStats already set, prefer it
         if ((projectileStats == null || projectileStats.Damage == 0) && statsContext != null)
         {
             // Construct gameplay ProjectileStats using available fields. Map missing critical fields to sensible defaults.
             projectileStats = new ProjectileStats(
-                statsContext.attackStats.Damage,
-                0f,
-                1,
-                statsContext.attackStats.Knockback,
-                statsContext.speed,
-                statsContext.turningSpeed);
+                statsContext.Damage,
+                statsContext.CriticalChance,
+                statsContext.CriticalDamageMultiplier,
+                statsContext.Knockback,
+                statsContext.Speed,
+                statsContext.TurningSpeed);
         }
 
         lifeTimeEnd = Time.time + projectileLifetime;

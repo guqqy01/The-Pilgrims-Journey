@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
-namespace Heros.Attacks.Spot
+namespace Attacks.Spot
 {
     public interface ISpotAttackSpawn
     {
-        void Init(SpotAttackInitContext initContext, SpotAttackStatsContext statsContext);
+        void Init(SpotAttackInit initContext, SpotAttackStats statsContext);
     }
 
-    public class SpotAttackSpawn<TSpotStatsContext> : HeroAttackSpawn<SpotAttackInitContext, TSpotStatsContext>, ISpotAttackSpawn where TSpotStatsContext : SpotAttackStatsContext
+    public class SpotAttackSpawn<TSpotInit, TSpotStats> : AttackSpawn<TSpotInit, TSpotStats>, ISpotAttackSpawn 
+        where TSpotInit : SpotAttackInit
+        where TSpotStats : SpotAttackStats
+
     {
         protected float? lifeEndTime;
 
@@ -86,23 +89,23 @@ namespace Heros.Attacks.Spot
 
         #endregion
 
-        protected override void InheritInit(SpotAttackInitContext heroAttackContext)
+        protected override void InheritInit(TSpotInit heroAttackContext)
         {
             mainCurrentPosition = heroAttackContext.currentPosition;
             lifeEndTime = heroAttackContext.lifeTimeEnd;
             movementSpeed = heroAttackContext.movementSpeed;
         }
 
-        protected override void InheritSetupStats(TSpotStatsContext heroAttackContext)
+        protected override void InheritSetupStats(TSpotStats heroAttackContext)
         {
             chaoticMovementStats = heroAttackContext.spotChaoticMovementStats;
 
         }
 
         // Explicit non-generic Init so callers can use the base types at runtime (via interface)
-        public void Init(SpotAttackInitContext initContext, SpotAttackStatsContext statsContext)
+        public void Init(SpotAttackInit initContext, SpotAttackStats statsContext)
         {
-            base.Init(initContext, (TSpotStatsContext)statsContext);
+            base.Init((TSpotInit)initContext, (TSpotStats)statsContext);
         }
     }
 }

@@ -3,7 +3,7 @@ using Heros;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Heros.Attacks.UI
+namespace Attacks.UI
 {
     public class HeroAttacksLevelUI : Singleton<HeroAttacksLevelUI>
     {
@@ -13,7 +13,7 @@ namespace Heros.Attacks.UI
         [SerializeField]
         private Transform heroAttacksHolderTransform;
 
-        private Dictionary<BaseHeroAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<BaseHeroAttack, HeroAttackItemUI>();
+        private Dictionary<BaseAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<BaseAttack, HeroAttackItemUI>();
 
         public override void InitiateFromRootAtAwake()
         {
@@ -38,7 +38,7 @@ namespace Heros.Attacks.UI
             HeroAttacksManager.Instance.onRemoveHeroAttack += RemoveHeroAttackItemUI;
         }
 
-        public void CreateHeroAttackItemUI(BaseHeroAttack heroAttack)
+        public void CreateHeroAttackItemUI(BaseAttack heroAttack)
         {
             if (heroAttackItemUIs.ContainsKey(heroAttack))
             {
@@ -60,12 +60,12 @@ namespace Heros.Attacks.UI
             heroAttackItemUIs.Add(heroAttack, heroAttackItemUI);
         }
 
-        public void UpdateHeroAttackItemUI(BaseHeroAttack heroAttack)
+        public void UpdateHeroAttackItemUI(BaseAttack heroAttack)
         {
             heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
         }
 
-        public void RemoveHeroAttackItemUI(BaseHeroAttack heroAttack)
+        public void RemoveHeroAttackItemUI(BaseAttack heroAttack)
         {
             Destroy(heroAttackItemUIs[heroAttack].gameObject);
             heroAttackItemUIs.Remove(heroAttack);

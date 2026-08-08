@@ -1,19 +1,8 @@
-using Equipment;
 using GameManagerCalls;
-using GlobalMap;
 using Helper.Wait;
-using Heros.Attacks;
-using LevelingSystem;
+using Attacks;
 using LocalMap;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using static Heros.HeroManager;
-
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Heros
 {

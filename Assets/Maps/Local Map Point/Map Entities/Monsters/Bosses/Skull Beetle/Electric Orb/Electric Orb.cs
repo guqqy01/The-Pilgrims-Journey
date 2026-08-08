@@ -1,5 +1,5 @@
-using Heros;
 using UnityEngine;
+using Attacks;
 namespace Monsters
 {
     public class ElectricOrb : Monster

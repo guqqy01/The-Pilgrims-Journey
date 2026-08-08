@@ -1,11 +1,11 @@
 using GameManagerCalls;
 using Helper.Wait;
-using LevelingSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace Heros.Attacks
+using Heros;
+namespace Attacks
 {
     public class HeroAttacksManager : Singleton<HeroAttacksManager>, IOnClear
     {
@@ -14,15 +14,15 @@ namespace Heros.Attacks
         public string SaveFileName => "HeroAttackManager";
 
         [SerializeField]
-        private Dictionary<BaseHeroAttackSO, BaseHeroAttack> attacks = new Dictionary<BaseHeroAttackSO, BaseHeroAttack>();
+        private Dictionary<BaseAttackSO, BaseAttack> attacks = new Dictionary<BaseAttackSO, BaseAttack>();
 
-        public delegate void OnAddHeroAttack(BaseHeroAttack heroAttack);
+        public delegate void OnAddHeroAttack(BaseAttack heroAttack);
         public OnAddHeroAttack onAddHeroAttack;
 
-        public delegate void OnRemoveHeroAttack(BaseHeroAttack heroAttack);
+        public delegate void OnRemoveHeroAttack(BaseAttack heroAttack);
         public OnAddHeroAttack onRemoveHeroAttack;
 
-        public delegate void OnHeroAttackLevelChange(BaseHeroAttack heroAttack);
+        public delegate void OnHeroAttackLevelChange(BaseAttack heroAttack);
         public OnHeroAttackLevelChange onHeroAttackLevelChange;
 
         private bool loading = false;
@@ -40,12 +40,12 @@ namespace Heros.Attacks
             onHeroAttackLevelChange = null;
         }
 
-        public bool HasHeroAttack(BaseHeroAttackSO heroAttackSO)
+        public bool HasHeroAttack(BaseAttackSO heroAttackSO)
         {
             return attacks.ContainsKey(heroAttackSO);
         }
 
-        public void AddHeroAttack(BaseHeroAttackSO heroAttackSO)
+        public void AddHeroAttack(BaseAttackSO heroAttackSO)
         {
             // If hero or stats are not ready, defer adding until they are
             if (HeroManager.Instance == null || HeroManager.Instance.ActiveHero == null || HeroManager.Instance.Stats == null)
@@ -59,13 +59,13 @@ namespace Heros.Attacks
             if (attacks.ContainsKey(heroAttackSO))
                 return;
 
-            if (!typeof(BaseHeroAttack).IsAssignableFrom(heroAttackSO.HeroAttackType))
+            if (!typeof(BaseAttack).IsAssignableFrom(heroAttackSO.HeroAttackType))
             {
                 Debug.LogError($"Type {heroAttackSO.HeroAttackType} is not a HeroAttack!");
                 return;
             }
 
-            var attack = (BaseHeroAttack)ActiveHero.gameObject.AddComponent(heroAttackSO.HeroAttackType);
+            var attack = (BaseAttack)ActiveHero.gameObject.AddComponent(heroAttackSO.HeroAttackType);
 
             // Guard: if Stats or HeroSO missing, schedule setup after they become available
             if (HeroManager.Instance == null || HeroManager.Instance.HeroSO == null || HeroManager.Instance.Stats == null)
@@ -86,9 +86,9 @@ namespace Heros.Attacks
 
         
 
-        public void RemoveHeroAttack(BaseHeroAttackSO heroAttackSO)
+        public void RemoveHeroAttack(BaseAttackSO heroAttackSO)
         {
-            if (attacks.TryGetValue(heroAttackSO, out BaseHeroAttack heroAttack))
+            if (attacks.TryGetValue(heroAttackSO, out BaseAttack heroAttack))
             {
                 onRemoveHeroAttack?.Invoke(heroAttack);
 
@@ -98,16 +98,16 @@ namespace Heros.Attacks
             }
         }
         
-        public int GetHeroAttackLevel(BaseHeroAttackSO heroAttackSO)
+        public int GetHeroAttackLevel(BaseAttackSO heroAttackSO)
         {
-            if (attacks.TryGetValue(heroAttackSO, out BaseHeroAttack heroAttack))
+            if (attacks.TryGetValue(heroAttackSO, out BaseAttack heroAttack))
             {
                 return heroAttack.Level;
             }
             return 0;
         }
 
-        public void LevelUpOrAddHeroAttack(BaseHeroAttackSO heroAttackSO)
+        public void LevelUpOrAddHeroAttack(BaseAttackSO heroAttackSO)
         {
             int heroAttackLevel = GetHeroAttackLevel(heroAttackSO);
 
@@ -121,16 +121,16 @@ namespace Heros.Attacks
             }
         }
 
-        public void SetHeroAttackLevel(BaseHeroAttackSO heroAttackSO, int level)
+        public void SetHeroAttackLevel(BaseAttackSO heroAttackSO, int level)
         {
             if(!attacks.ContainsKey(heroAttackSO))
             {
                 AddHeroAttack(heroAttackSO);
             }
 
-            if (attacks.TryGetValue(heroAttackSO, out BaseHeroAttack heroAttack))
+            if (attacks.TryGetValue(heroAttackSO, out BaseAttack heroAttack))
             {
-                heroAttack.SetHeroAttackLevel(level);
+                heroAttack.SetAttackLevel(level);
 
                 onHeroAttackLevelChange?.Invoke(heroAttack);
             }
@@ -189,8 +189,8 @@ namespace Heros.Attacks
 
         public void Clear()
         {
-            List<BaseHeroAttackSO> heroAttackSOs = attacks.Keys.ToList();
-            foreach (BaseHeroAttackSO heroAttackSO in heroAttackSOs)
+            List<BaseAttackSO> heroAttackSOs = attacks.Keys.ToList();
+            foreach (BaseAttackSO heroAttackSO in heroAttackSOs)
             {
                 RemoveHeroAttack(heroAttackSO);
             }
@@ -201,9 +201,9 @@ namespace Heros.Attacks
         {
             public List<HeroAttackInfo> heroAttackData;
 
-            public SaveData(List<BaseHeroAttack> heroAttacks)
+            public SaveData(List<BaseAttack> heroAttacks)
             {
-                heroAttackData = heroAttacks.Select(ha => new HeroAttackInfo(ha.BaseHeroAttackSO, ha.Level)).ToList();
+                heroAttackData = heroAttacks.Select(ha => new HeroAttackInfo(ha.BaseAttackSO, ha.Level)).ToList();
             }
         }
     }
@@ -211,9 +211,9 @@ namespace Heros.Attacks
     [Serializable]
     public class HeroAttackInfo
     {
-        public BaseHeroAttackSO HeroAttackSO;
+        public BaseAttackSO HeroAttackSO;
         public int Level;
-        public HeroAttackInfo(BaseHeroAttackSO heroAttackSO, int level)
+        public HeroAttackInfo(BaseAttackSO heroAttackSO, int level)
         {
             HeroAttackSO = heroAttackSO;
             Level = level;

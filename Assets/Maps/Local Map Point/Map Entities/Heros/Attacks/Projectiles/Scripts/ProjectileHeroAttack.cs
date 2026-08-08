@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using static UnityEngine.GraphicsBuffer;
-using System.Linq;
+using Heros;
 
-namespace Heros.Attacks.Projectiles
+namespace Attacks.Projectiles
 {
-    public class ProjectileHeroAttack : HeroAttack<ProjectileHeroAttackSO>
+    public class ProjectileHeroAttack : Attack<ProjectileHeroAttackSO>
     {
         [SerializeField]
         protected Projectile projectilePrefab;
@@ -97,11 +96,11 @@ namespace Heros.Attacks.Projectiles
             newMissile.InitWithOwner(projectileStats, projectileHoming, direction, enemyLayerMask, bounce, target, ProjectileOwner.Hero);
         }
 
-        protected override void InheritSetup(HeroSO heroSO, ProjectileHeroAttackSO projectileHeroAttackSO)
+        protected override void InheritSetup(BuffableEntitySO buffableEntitySO, ProjectileHeroAttackSO projectileHeroAttackSO)
         {
-            SetupBuffableStat(ref numberOfProjectiles, HeroStats.NumberOfAttacks);
-            SetupBuffableStat(ref projectileSpeed, HeroStats.ProjectileSpeed);
-            SetupBuffableStat(ref projectileTurnSpeed, HeroStats.ProjectileTurnSpeed);
+            SetupBuffableStat(ref numberOfProjectiles, StatTypes.NumberOfAttacks);
+            SetupBuffableStat(ref projectileSpeed, StatTypes.ProjectileSpeed);
+            SetupBuffableStat(ref projectileTurnSpeed, StatTypes.ProjectileTurnSpeed);
 
             projectilePrefab = projectileHeroAttackSO.projectilePrefab;
 
@@ -118,9 +117,9 @@ namespace Heros.Attacks.Projectiles
 
         protected override void InheritLevelSetup()
         {
-            numberOfProjectiles.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.NumberOfAttacks, Level));
-            projectileSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileSpeed, Level));
-            projectileTurnSpeed.AddBuff("Weapon", HeroAttackSO.GetBuff(HeroStats.ProjectileTurnSpeed, Level));
+            numberOfProjectiles.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.NumberOfAttacks, Level));
+            projectileSpeed.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.ProjectileSpeed, Level));
+            projectileTurnSpeed.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.ProjectileTurnSpeed, Level));
         }
 
         private Transform GetOrCreatePoolParent()

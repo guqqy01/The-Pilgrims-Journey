@@ -10,6 +10,10 @@ public abstract class BaseMovement : MonoBehaviour
     [SerializeField]
     protected Transform visualTransform;
 
+    private Vector2 previousPosition;
+
+    public Direction LastDirection { protected set; get; }
+
     protected float initialXScale;
 
     private readonly Dictionary<string, float> referenceAndTimeToRemoveBuff = new Dictionary<string, float>();
@@ -46,6 +50,41 @@ public abstract class BaseMovement : MonoBehaviour
     protected virtual void Update()
     {
         HandleAdditionalTimedBuff();
+        CalculateLastDirection();
+    }
+
+    protected virtual void CalculateLastDirection()
+    {
+        if (previousPosition == Vector2.zero)
+        {
+            previousPosition = transform.position;
+            return;
+        }
+
+        Vector2 currentPosition = previousPosition;
+
+        Vector2 movementVector = currentPosition - previousPosition;
+
+        if (movementVector == Vector2.zero)
+            return;
+
+        if(Mathf.Abs(movementVector.x) > Mathf.Abs(movementVector.y))
+        {
+            LastDirection = 
+                movementVector.x > 0 ? 
+                Direction.East : 
+                Direction.West;
+        }
+        else
+        {
+            LastDirection = 
+                movementVector.y > 0 ? 
+                Direction.North : 
+                Direction.South;
+        }
+
+        previousPosition = transform.position;
+
     }
 
     protected virtual void FixedUpdate()
@@ -56,6 +95,10 @@ public abstract class BaseMovement : MonoBehaviour
         HandleFixedUpdateMovement();
     }
 
+    /// <summary>
+    /// Implement this method to handle movement logic in FixedUpdate.
+    /// </summary>
+    /// <returns>The Movement Vector</returns>
     public abstract void HandleFixedUpdateMovement();
 
     protected abstract bool GetIfAtTargetPosition();

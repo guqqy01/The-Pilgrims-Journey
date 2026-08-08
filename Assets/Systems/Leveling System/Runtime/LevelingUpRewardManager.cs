@@ -1,10 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Relics;
-using Heros;
 using Unity.VisualScripting;
 using System.Linq;
-using Heros.Attacks;
+using Attacks;
 
 namespace LevelingSystem
 {
@@ -15,7 +14,7 @@ namespace LevelingSystem
 
         [SerializeField] private WeightedChanceList<RelicSO> unitStatRelics;
         [SerializeField] private WeightedChanceList<RelicSO> heroStatRelics;
-        [SerializeField] private WeightedChanceList<BaseHeroAttackSO> heroWeaponRelicsTest;
+        [SerializeField] private WeightedChanceList<BaseAttackSO> heroWeaponRelicsTest;
 
         private int unitWeight = 1;
         private int heroWeight = 0;
@@ -134,8 +133,8 @@ namespace LevelingSystem
 
             if(reward is HeroWeaponReward weaponReward)
             {
-                int currentWeaponLevel = HeroAttacksManager.Instance.GetHeroAttackLevel(weaponReward.HeroAttackSO);
-                if (currentWeaponLevel >= weaponReward.HeroAttackSO.MaxLevel)
+                int currentWeaponLevel = HeroAttacksManager.Instance.GetHeroAttackLevel(weaponReward.AttackSO);
+                if (currentWeaponLevel >= weaponReward.AttackSO.MaxLevel)
                     return false;
             }
 
@@ -250,20 +249,20 @@ namespace LevelingSystem
 
     public class HeroWeaponReward : ILevelingUpReward
     {
-        public BaseHeroAttackSO HeroAttackSO { get; }
-        public ScriptableObject Source => HeroAttackSO;
-        public Sprite Sprite => HeroAttackSO.icon;
+        public BaseAttackSO AttackSO { get; }
+        public ScriptableObject Source => AttackSO;
+        public Sprite Sprite => AttackSO.icon;
 
-        public string Name => HeroAttackSO.name;
+        public string Name => AttackSO.name;
 
         public string Description(int levelsIncrease)
         {
-            string heroAttackDescription = HeroAttackSO.description;
+            string heroAttackDescription = AttackSO.description;
 
             if (HeroAttacksManager.Instance == null)
                 return heroAttackDescription;
 
-            int currentAttackLevel = HeroAttacksManager.Instance.GetHeroAttackLevel(HeroAttackSO);
+            int currentAttackLevel = HeroAttacksManager.Instance.GetHeroAttackLevel(AttackSO);
 
             heroAttackDescription = heroAttackDescription.AddStringWithCarriageReturn(GetWeaponAttackStats(currentAttackLevel), 2);
 
@@ -272,17 +271,17 @@ namespace LevelingSystem
 
         private string GetWeaponAttackStats(int currentAttackLevel)
         {
-            return HeroAttackSO.GetComparedStatsDescription(currentAttackLevel, currentAttackLevel + 1);
+            return AttackSO.GetComparedStatsDescription(currentAttackLevel, currentAttackLevel + 1);
         }
 
-        public HeroWeaponReward(BaseHeroAttackSO relicSO)
+        public HeroWeaponReward(BaseAttackSO relicSO)
         {
-            HeroAttackSO = relicSO;
+            AttackSO = relicSO;
         }
 
         public void Apply(int amount)
         {
-            HeroAttacksManager.Instance.LevelUpOrAddHeroAttack(HeroAttackSO);
+            HeroAttacksManager.Instance.LevelUpOrAddHeroAttack(AttackSO);
         }
     }
 

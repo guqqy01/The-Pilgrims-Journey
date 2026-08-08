@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Heros.Attacks
+namespace Attacks
 {
     public static class AttackSpawnPoolManager
     {

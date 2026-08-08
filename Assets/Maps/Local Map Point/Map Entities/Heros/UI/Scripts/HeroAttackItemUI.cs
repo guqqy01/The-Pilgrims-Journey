@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-namespace Heros.Attacks.UI
+namespace Attacks.UI
 {
     public class HeroAttackItemUI : MonoBehaviour
     {
@@ -23,11 +23,11 @@ namespace Heros.Attacks.UI
         [SerializeField]
         private Sprite unleveledSprite;
 
-        public void UpdateUI(BaseHeroAttack heroAttack)
+        public void UpdateUI(BaseAttack heroAttack)
         {
-            BaseHeroAttackSO heroAttackSO = heroAttack.BaseHeroAttackSO;
+            BaseAttackSO heroAttackSO = heroAttack.BaseAttackSO;
 
-            itemImage.sprite = heroAttack.BaseHeroAttackSO.icon;
+            itemImage.sprite = heroAttack.BaseAttackSO.icon;
 
             levelPrefabs.DestroyAndClearList();
 

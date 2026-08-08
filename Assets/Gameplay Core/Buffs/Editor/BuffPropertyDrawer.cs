@@ -3,8 +3,6 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using Units;
-using Heros;
-using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using System.Collections.Generic;
 
@@ -14,7 +12,7 @@ public class BuffPropertyDrawer : PropertyDrawer
     private static readonly Dictionary<Type, Func<int, bool>> EnumMappings =
     new Dictionary<Type, Func<int, bool>> {
         { typeof(UnitStatsEnum), index => index == (int)UnitStatsEnum.Health || index == (int)UnitStatsEnum.Shield },
-        { typeof(HeroStats), index => index == (int)HeroStats.Health || index == (int)HeroStats.Shield || index == (int)HeroStats.Damage || index == (int)HeroStats.NumberOfAttacks }
+        { typeof(StatTypes), index => index == (int)StatTypes.Health || index == (int)StatTypes.Shield || index == (int)StatTypes.Damage || index == (int)StatTypes.NumberOfAttacks }
     };
 
 

@@ -38,7 +38,7 @@ namespace Heros
 
             foreach (var kvp in equipment.HeroEquipmentStats)
             {
-                HeroStats stat = kvp.Key;
+                StatTypes stat = kvp.Key;
                 Buff buff = kvp.Value;
 
                 int index = containers.IndexOf(equipmentContainer);
@@ -62,7 +62,7 @@ namespace Heros
 
             foreach (var kvp in equipment.HeroEquipmentStats)
             {
-                HeroStats stat = kvp.Key;
+                StatTypes stat = kvp.Key;
                 Buff buff = kvp.Value;
 
                 int index = containers.IndexOf(equipmentContainer);

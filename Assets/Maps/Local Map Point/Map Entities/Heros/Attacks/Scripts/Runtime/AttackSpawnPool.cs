@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Heros.Attacks
+namespace Attacks
 {
     public class AttackSpawnPool
     {

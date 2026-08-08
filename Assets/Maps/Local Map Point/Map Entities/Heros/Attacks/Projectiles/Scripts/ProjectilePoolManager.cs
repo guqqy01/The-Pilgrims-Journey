@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Heros.Attacks.Projectiles
+namespace Attacks.Projectiles
 {
     public static class ProjectilePoolManager
     {

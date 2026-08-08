@@ -1,7 +1,6 @@
 using Heros;
 using UnityEngine;
-using UnityEngine.Audio;
-
+using Attacks;
 namespace Monsters
 {
     public class Death : Monster
