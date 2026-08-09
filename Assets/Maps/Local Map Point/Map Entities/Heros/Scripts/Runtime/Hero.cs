@@ -20,17 +20,17 @@ namespace Heros
             SpriteLibrary = GetComponent<SpriteLibrary>();
         }
 
-        public void Setup(HeroSO heroSO, HeroStatContainer stats)
+        public void Setup(HeroSO heroSO, StatContainer heroStats)
         {
             HeroSO = heroSO;
 
             HeroMovement.Setup(heroSO);
 
             HealthAndShieldManager.Setup(
-                stats.Get(StatTypes.Health), 
-                stats.Get(StatTypes.Shield), 
-                stats.Get(StatTypes.ShieldRegeneration), 
-                stats.Get(StatTypes.ShieldCooldown));
+                heroStats.Get(StatTypes.Health), 
+                heroStats.Get(StatTypes.Shield), 
+                heroStats.Get(StatTypes.ShieldRegeneration), 
+                heroStats.Get(StatTypes.ShieldCooldown));
 
             SpriteLibrary.spriteLibraryAsset = heroSO.spriteLibrary;
         }

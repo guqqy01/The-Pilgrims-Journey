@@ -26,16 +26,16 @@ namespace Attacks.UI
             if (HeroAttacksManager.Instance == null)
                 return;
 
-            HeroAttacksManager.Instance.onAddHeroAttack -= CreateHeroAttackItemUI;
-            HeroAttacksManager.Instance.onHeroAttackLevelChange -= UpdateHeroAttackItemUI;
-            HeroAttacksManager.Instance.onRemoveHeroAttack -= RemoveHeroAttackItemUI;
+            HeroAttacksManager.Instance.onAddAttackEvent -= CreateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onAttackLevelChangeEvent -= UpdateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onRemoveAttackEvent -= RemoveHeroAttackItemUI;
         }
 
         private void SubscribeToHeroAttacksManager()
         {
-            HeroAttacksManager.Instance.onAddHeroAttack += CreateHeroAttackItemUI;
-            HeroAttacksManager.Instance.onHeroAttackLevelChange += UpdateHeroAttackItemUI;
-            HeroAttacksManager.Instance.onRemoveHeroAttack += RemoveHeroAttackItemUI;
+            HeroAttacksManager.Instance.onAddAttackEvent += CreateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onAttackLevelChangeEvent += UpdateHeroAttackItemUI;
+            HeroAttacksManager.Instance.onRemoveAttackEvent += RemoveHeroAttackItemUI;
         }
 
         public void CreateHeroAttackItemUI(BaseAttack heroAttack)

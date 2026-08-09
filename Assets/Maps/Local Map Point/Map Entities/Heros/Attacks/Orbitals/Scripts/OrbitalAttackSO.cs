@@ -2,12 +2,12 @@
 using Heros;
 using UnityEngine;
 
-namespace Attacks.Orbital
+namespace Attacks.Orbitals
 {
     [CreateAssetMenu(menuName = "Hero Attack/Orbital")]
     public class OrbitalAttackSO : AttackSO<OrbitalWeaponStatsAtLevel>
     {
-        public override Type HeroAttackType => typeof(OrbitalAttack);
+        public override Type AttackType => typeof(OrbitalAttack);
         public OrbitalAttackSpawn OrbitalAttackSpawnPrefab;
 
         public Transform targetTransformPrefab;

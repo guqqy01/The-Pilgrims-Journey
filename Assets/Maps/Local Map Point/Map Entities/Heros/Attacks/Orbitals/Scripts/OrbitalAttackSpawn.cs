@@ -2,7 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Attacks.Orbital
+namespace Attacks.Orbitals
 {
     public class OrbitalAttackSpawn : AttackSpawn<OrbitalAttackInit, OrbitalAttackStatsContext>
     {
@@ -58,27 +58,6 @@ namespace Attacks.Orbital
         {
             base.OnDestroy();
             onDestroyed = null;
-        }
-    }
-
-    public class OrbitalAttackStatsContext : AttackStats
-    {
-        public readonly float orbitSpeed;
-
-        public OrbitalAttackStatsContext(int damage, float criticalChance, float criticalDamageMultiplier, float orbitSpeed, float knockback, float hitSpeed, bool destroyProjectiles = false, int? amountOfHits = null, bool projectilesCountAsHit = false) : 
-            base(damage, criticalChance, criticalDamageMultiplier, knockback, hitSpeed, destroyProjectiles, amountOfHits, projectilesCountAsHit)
-        {
-            this.orbitSpeed = orbitSpeed;
-        }
-    }
-
-    public class OrbitalAttackInit : AttackInit
-    {
-        public readonly Transform targetPositionTransform;
-
-        public OrbitalAttackInit(Transform targetPositionTransform)
-        {
-            this.targetPositionTransform = targetPositionTransform;
         }
     }
 }

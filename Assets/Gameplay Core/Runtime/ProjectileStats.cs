@@ -1,4 +1,4 @@
-﻿namespace Attacks
+﻿namespace Attacks.Projectiles
 {
     public class ProjectileStats : AttackStats
     {

@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using Attacks;
-
+using Attacks.Projectiles;
 namespace Monsters
 {
     public class PlantMonster : Monster

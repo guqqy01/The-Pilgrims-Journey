@@ -1,5 +1,5 @@
 using UnityEngine;
-using Attacks;
+using Attacks.Projectiles;
 namespace Monsters
 {
     public class ElectricOrb : Monster

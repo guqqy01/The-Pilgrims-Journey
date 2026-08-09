@@ -1,11 +1,9 @@
-using Monsters;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Units;
 using Unity.VisualScripting;
 using UnityEngine;
-using Attacks;
+using Attacks.Projectiles;
 namespace Monsters
 {
     public class Wasp : Monster

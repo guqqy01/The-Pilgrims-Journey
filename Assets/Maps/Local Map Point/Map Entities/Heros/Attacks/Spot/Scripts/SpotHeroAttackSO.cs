@@ -8,7 +8,7 @@ namespace Attacks.Spot
     {
         public SpotAttackSpawn<SpotAttackInit, SpotAttackStats> spotAttackSpawnPrefab;
 
-        public override Type HeroAttackType => null; // concrete SOs should override this if needed
+        public override Type AttackType => null; // concrete SOs should override this if needed
 
         public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
 

@@ -6,11 +6,11 @@ namespace Attacks.Melee
     {
         // Kept simple: the base class handles stats, audio and lifecycle.
 
-        public void Init(int damage, float criticalChance, float criticalDamageMultiplier, bool destroyProjectiles, float knockbackMultiplier = 0f)
+        public void Init(LayerMask hitLayerMask, int damage, float criticalChance, float criticalDamageMultiplier, bool destroyProjectiles, float knockbackMultiplier = 0f)
         {
             // For melee swipes we usually want a single instant hit.
             var statsContext = new AttackStats(damage, criticalChance, criticalDamageMultiplier, knockbackMultiplier, 0f, destroyProjectiles, 1, false);
-            Init(new AttackInit(), statsContext);
+            Init(new AttackInit(hitLayerMask), statsContext);
         }
 
         protected override void FixedUpdateMovement()

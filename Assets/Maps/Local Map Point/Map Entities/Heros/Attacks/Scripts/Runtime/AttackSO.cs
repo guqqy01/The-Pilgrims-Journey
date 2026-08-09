@@ -9,6 +9,8 @@ namespace Attacks
         public List<TStatsAtLevel> WeaponStatsAtLevel;
         public override int MaxLevel => WeaponStatsAtLevel.Count;
 
+        public AttackSpawnBase attackPrefab;
+
         public abstract Buff GetBuffAtIndex(StatTypes stat, int index);
 
         public override Buff GetBuff(StatTypes stat, int level)
@@ -34,80 +36,6 @@ namespace Attacks
                 return buff;
 
             return GetBuffAtIndex(stat, index);
-        }
-    }
-
-    public abstract class BaseAttackSO : ScriptableObject
-    {
-        public abstract Type HeroAttackType { get; }
-        public abstract int MaxLevel { get; }
-
-        public Sprite icon;
-
-        [TextArea]
-        public string description;
-
-        public float findTargetDistance;
-
-        public LayerMask enemyLayerMask;
-
-        public abstract Buff GetBuff(StatTypes heroStats, int level);
-
-
-        public string GetStatsDescription(int level)
-        {
-            string str = "";
-            foreach (StatTypes stat in Enum.GetValues(typeof(StatTypes)))
-            {
-                Buff buff = GetBuff(stat, level);
-
-                if (buff == null)
-                    continue;
-
-                string buffDescription = buff.GetSimpleDescription();
-
-                if (String.IsNullOrEmpty(buffDescription))
-                    continue;
-
-                string buffStr = stat.ToString().AddSpacesBeforeCapsRegex() + ": " + buffDescription;
-
-                buffStr.AppendLineToTarget(ref str);
-            }
-
-            return str;
-        }
-
-        public string GetComparedStatsDescription(int fromLevel, int toLevel)
-        {
-            string str = "";
-
-            foreach (StatTypes stat in Enum.GetValues(typeof(StatTypes)))
-            {
-                Buff fromBuff = GetBuff(stat, fromLevel);
-                Buff toBuff = GetBuff(stat, toLevel);
-
-                if (fromBuff == null && toBuff == null)
-                    continue;
-
-                bool isInt = fromBuff?.IsInt ?? toBuff?.IsInt ?? false;
-
-                fromBuff ??= new Buff(isInt);
-                toBuff ??= new Buff(isInt);
-
-                string buffDescription = fromLevel == 0 ? toBuff.GetSignedSimpleDescription() : Buff.SimpleCompareString(fromBuff, toBuff);
-
-                if (string.IsNullOrEmpty(buffDescription))
-                    continue;
-
-                string buffStr =
-                    stat.ToString().AddSpacesBeforeCapsRegex() +
-                    ": " +
-                    buffDescription;
-
-                buffStr.AppendLineToTarget(ref str);
-            }
-
-            return str;
         }
     }
 

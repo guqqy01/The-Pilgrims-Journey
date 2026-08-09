@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Attacks;
+using Attacks.Projectiles;
 namespace Monsters
 {
     public class SapHydra : Monster

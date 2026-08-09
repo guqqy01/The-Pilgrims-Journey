@@ -10,7 +10,7 @@ namespace Attacks.Spot
         public RandomMovementStats randomChangeMovementTimeRange;
         public ToMonsterMovementStats toMonsterMovementStats;
 
-        public override Type HeroAttackType => typeof(ToMonsterMovementSpotHeroAttack);
+        public override Type AttackType => typeof(ToMonsterMovementSpotHeroAttack);
         public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
 
         public override Buff GetBuffAtIndex(StatTypes heroStats, int index)

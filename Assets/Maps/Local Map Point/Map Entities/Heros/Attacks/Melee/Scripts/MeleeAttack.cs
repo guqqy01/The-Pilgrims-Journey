@@ -58,7 +58,7 @@ namespace Attacks.Melee
                 attackInstance = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
             }
 
-            attackInstance.Init(damage, criticalChance, criticalDamageMultiplier, destroyProjectiles, knockback);
+            attackInstance.Init(hitLayerMask, damage, criticalChance, criticalDamageMultiplier, destroyProjectiles, knockback);
 
             return true;
         }

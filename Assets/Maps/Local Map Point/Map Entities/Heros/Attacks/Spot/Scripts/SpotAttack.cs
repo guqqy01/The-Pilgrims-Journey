@@ -47,7 +47,7 @@ namespace Attacks.Spot
                 return;
             }
 
-            SpotAttackInit initContext = BuildInit(target, lifeTime, movementSpeed);
+            SpotAttackInit initContext = BuildInit(hitLayerMask, target, lifeTime, movementSpeed);
             SpotAttackStats statsContext = BuildStatsContext();
 
             spawn.Init(initContext, statsContext);
@@ -55,9 +55,9 @@ namespace Attacks.Spot
             spotAttackSpawns.Add(spawn);
         }
 
-        protected virtual SpotAttackInit BuildInit(Transform target, float? lifeTime, float movementSpeed)
+        protected virtual SpotAttackInit BuildInit(LayerMask hitLayerMask, Transform target, float? lifeTime, float movementSpeed)
         {
-            return new SpotAttackInit((Vector2)target.position + UnityEngine.Random.insideUnitCircle * spawnAccuracy.Value, lifeTime.HasValue ? Time.time + lifeTime.Value : (float?)null, movementSpeed);
+            return new SpotAttackInit(hitLayerMask, (Vector2)target.position + UnityEngine.Random.insideUnitCircle * spawnAccuracy.Value, lifeTime.HasValue ? Time.time + lifeTime.Value : (float?)null, movementSpeed);
         }
 
         protected virtual SpotAttackStats BuildStatsContext()

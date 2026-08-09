@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace Attacks.Orbital
+namespace Attacks.Orbitals
 {
     public class OrbitalAttack : Attack<OrbitalAttackSO>
     {
@@ -131,7 +131,7 @@ namespace Attacks.Orbital
 
             OrbitalAttackSpawn orbitalAttackSpawn = Instantiate(orbitalAttackSpawnPrefab, transform.position, Quaternion.identity, transform);
 
-            OrbitalAttackInit initContext = new OrbitalAttackInit(targetWithoutOrbital);
+            OrbitalAttackInit initContext = new OrbitalAttackInit(hitLayerMask, targetWithoutOrbital);
             OrbitalAttackStatsContext statsContext = new OrbitalAttackStatsContext(damage, criticalChance, criticalDamageMultiplier, orbitalSpeed, knockback, attackSpeed, destroyProjectiles, amountOfHits, projectilesCountToHits);
 
             orbitalAttackSpawn.Init(initContext, statsContext);

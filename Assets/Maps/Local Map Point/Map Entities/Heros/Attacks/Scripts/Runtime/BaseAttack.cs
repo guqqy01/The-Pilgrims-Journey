@@ -28,8 +28,7 @@ namespace Attacks
         [SerializeField]
         protected BuffableStat knockback;
 
-        [SerializeField]
-        protected LayerMask enemyLayerMask;
+        protected LayerMask hitLayerMask;
 
         [SerializeField]
         protected float findTargetDistance;
@@ -41,7 +40,7 @@ namespace Attacks
 
         protected virtual Transform GetTarget()
         {
-            Collider2D[] collliders = Physics2D.OverlapCircleAll(transform.position, findTargetDistance, enemyLayerMask);
+            Collider2D[] collliders = Physics2D.OverlapCircleAll(transform.position, findTargetDistance, hitLayerMask);
 
             float minDistance = float.MaxValue;
             Transform target = null;
@@ -77,7 +76,7 @@ namespace Attacks
 
         protected abstract bool Attack();
 
-        public abstract void Setup<TBaseAttackSO>(BuffableEntitySO buffableEntitySO, TBaseAttackSO attackSO) where TBaseAttackSO : BaseAttackSO;
+        public abstract void Setup<TBaseAttackSO>(BuffableEntitySO buffableEntitySO, TBaseAttackSO attackSO, LayerMask hitLayerMask) where TBaseAttackSO : BaseAttackSO;
 
         protected abstract void InheritLevelSetup();
 

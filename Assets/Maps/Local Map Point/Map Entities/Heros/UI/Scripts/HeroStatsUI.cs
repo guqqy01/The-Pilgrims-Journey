@@ -25,7 +25,7 @@ public class HeroStatsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SizeText;
 
 
-    private HeroStatContainer heroStats;
+    private StatContainer heroStats;
     private HeroManager HeroManager => HeroManager.Instance;
 
     private void Awake()
@@ -37,7 +37,7 @@ public class HeroStatsUI : MonoBehaviour
     private void SubscribeToHeroStatsSetup()
     {
         if (heroStats != null)
-            heroStats.statChanged -= UpdateHeroStatsUI;
+            heroStats.OnStatChanged -= UpdateHeroStatsUI;
 
         HeroManager.onStatsSetup -= HeroStatsSetup;
         HeroManager.onStatsSetup += HeroStatsSetup;
@@ -45,7 +45,7 @@ public class HeroStatsUI : MonoBehaviour
 
     }
 
-    private void HeroStatsSetup(HeroStatContainer heroStatContainer)
+    private void HeroStatsSetup(StatContainer heroStatContainer)
     {
         heroStats = heroStatContainer;
         SubscribeToStatChange();
@@ -53,8 +53,8 @@ public class HeroStatsUI : MonoBehaviour
 
     private void SubscribeToStatChange()
     {
-        heroStats.statChanged -= UpdateHeroStatsUI;
-        heroStats.statChanged += UpdateHeroStatsUI;
+        heroStats.OnStatChanged -= UpdateHeroStatsUI;
+        heroStats.OnStatChanged += UpdateHeroStatsUI;
         UpdateHeroStatsUI();
     }
 
@@ -82,7 +82,7 @@ public class HeroStatsUI : MonoBehaviour
     {
         if(heroStats != null)
         {
-            heroStats.statChanged -= UpdateHeroStatsUI;
+            heroStats.OnStatChanged -= UpdateHeroStatsUI;
         }
 
         if(HeroManager != null)

@@ -5,11 +5,21 @@ using Equipment;
 using System.Collections.Generic;
 using GameManagerCalls;
 
+public class StatBuffsManager : MonoBehaviour
+{
+    [SerializeField]
+    private StatContainer stats;
+
+    public event Action<StatTypes> OnStatsChanged;
+
+
+}
+
 namespace Heros
 {
     public class HeroStatBuffsManager : Singleton<HeroStatBuffsManager>, IOnClear
     {
-        private HeroStatContainer container;
+        private StatContainer heroStats;
 
         public delegate void StatsChanged();
         public StatsChanged statsChanged;
@@ -74,9 +84,9 @@ namespace Heros
 
         public string SaveFileName => "HeroStatBuffsManagerSave";
 
-        public void Bind(HeroStatContainer container)
+        public void Bind(StatContainer heroStats)
         {
-            this.container = container;
+            this.heroStats = heroStats;
 
             // If there is a loaded save, apply it now.
             if (loadedSaveData != null)
@@ -107,9 +117,9 @@ namespace Heros
             if (!equipment.TryGetHeroBuff(stat, out buffToApply))
                 return;
 
-            if (container != null)
+            if (heroStats != null)
             {
-                var target = container.Get(stat);
+                var target = heroStats.Get(stat);
                 if (target != null)
                 {
                     target.AddBuff(reference, buffToApply);
@@ -130,9 +140,9 @@ namespace Heros
             string sourceId = equipment.name;
             string reference = $"{sourceId}: {containerIndex}";
 
-            if (container != null)
+            if (heroStats != null)
             {
-                var target = container.Get(stat);
+                var target = heroStats.Get(stat);
                 if (target != null)
                 {
                     target.RemoveBuff(reference);
@@ -147,7 +157,7 @@ namespace Heros
         // Fallback AddBuff for manual cases
         public void AddBuff(string reference, StatTypes stat, Buff buff)
         {
-            if (container == null)
+            if (heroStats == null)
             {
                 Debug.LogWarning("HeroStatBuffsManager: container not bound yet. Buff will be stored and applied when bound.");
                 // store buff so it will apply later once bound
@@ -155,7 +165,7 @@ namespace Heros
                 return;
             }
 
-            var target = container.Get(stat);
+            var target = heroStats.Get(stat);
             if (target == null)
             {
                 Debug.LogWarning($"HeroStatBuffsManager: attempted to add buff for missing stat {stat}");
@@ -170,9 +180,9 @@ namespace Heros
 
         public void RemoveBuff(string reference, StatTypes stat)
         {
-            if (container != null)
+            if (heroStats != null)
             {
-                var target = container.Get(stat);
+                var target = heroStats.Get(stat);
                 if (target != null)
                 {
                     target.RemoveBuff(reference);
@@ -209,9 +219,9 @@ namespace Heros
                 switch (entry.sourceType)
                 {
                     case BuffSourceType.Manual:
-                        if (entry.buff != null && container != null)
+                        if (entry.buff != null && heroStats != null)
                         {
-                            var target = container.Get(entry.stat);
+                            var target = heroStats.Get(entry.stat);
                             if (target != null)
                                 target.AddBuff(entry.reference, entry.buff);
                         }
@@ -245,9 +255,9 @@ namespace Heros
                         {
                             // Recreate reference and apply buff from equipment definition
                             var reference = $"{entry.sourceId}: {foundIndex}";
-                            if (container != null)
+                            if (heroStats != null)
                             {
-                                var target = container.Get(entry.stat);
+                                var target = heroStats.Get(entry.stat);
                                 if (target != null && foundEquip.TryGetHeroBuff(entry.stat, out var buffToApply))
                                 {
                                     target.AddBuff(reference, buffToApply);
@@ -312,7 +322,7 @@ namespace Heros
                 loadedSaveData = outSaveProfile.saveData;
 
                 // If already bound, apply immediately
-                if (container != null && loadedSaveData != null)
+                if (heroStats != null && loadedSaveData != null)
                 {
                     ApplySaveData(loadedSaveData);
                     loadedSaveData = null;
@@ -328,12 +338,12 @@ namespace Heros
         public void Clear()
         {
             // Remove buffs applied to container
-            if (container != null)
+            if (heroStats != null)
             {
                 foreach (var entry in activeBuffSaves)
                 {
                     if (entry == null) continue;
-                    var target = container.Get(entry.stat);
+                    var target = heroStats.Get(entry.stat);
                     if (target != null)
                         target.RemoveBuff(entry.reference);
                 }

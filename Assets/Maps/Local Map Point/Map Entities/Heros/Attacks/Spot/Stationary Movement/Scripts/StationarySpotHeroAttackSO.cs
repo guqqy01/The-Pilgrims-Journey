@@ -8,7 +8,7 @@ namespace Attacks.Spot
     {
         public SpotAttackSpawn<SpotAttackInit, SpotAttackStats> spotAttackSpawnPrefab;
 
-        public override Type HeroAttackType => typeof(StationarySpotHeroAttack);
+        public override Type AttackType => typeof(StationarySpotHeroAttack);
         public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
 
         public override Buff GetBuffAtIndex(StatTypes heroStats, int index)

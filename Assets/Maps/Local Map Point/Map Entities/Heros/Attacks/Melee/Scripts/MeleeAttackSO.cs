@@ -7,7 +7,7 @@ namespace Attacks.Melee
     [CreateAssetMenu(menuName = "Attack/Melee")]
     public class MeleeAttackSO : AttackSO<BaseWeaponStatsAtLevel>
     {
-        public override Type HeroAttackType => typeof(MeleeAttack);
+        public override Type AttackType => typeof(MeleeAttack);
 
         public MeleeAttackSpawn meleeAttackSpawn;
 

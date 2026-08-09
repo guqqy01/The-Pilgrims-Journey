@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System;
-using Heros;
 
 namespace Attacks.Projectiles
 {
     [CreateAssetMenu(menuName = "Hero Attack/Projectile")]
-    public class ProjectileHeroAttackSO : AttackSO<ProjectileWeaponStatsAtLevel>
+    public class ProjectileAttackSO : AttackSO<ProjectileWeaponStatsAtLevel>
     {
-        public override Type HeroAttackType => typeof(ProjectileHeroAttack);
+        public override Type AttackType => typeof(ProjectileAttack);
 
         public Projectile projectilePrefab;
 

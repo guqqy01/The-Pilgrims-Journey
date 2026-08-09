@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
-
 namespace Attacks
 {
     public abstract class AttackSpawn<TInitContext, TStatsContext> : AttackSpawnBase
@@ -147,7 +146,7 @@ namespace Attacks
             if (!destroyProjectiles)
                 return false;
 
-            if (!collision.gameObject.TryGetComponent(out global::Projectile projectile))
+            if (!collision.gameObject.TryGetComponent(out Projectiles.Projectile projectile))
                 return false;
 
             // Respect pooling: call ReleaseProjectile so pooled projectiles are returned to their pool

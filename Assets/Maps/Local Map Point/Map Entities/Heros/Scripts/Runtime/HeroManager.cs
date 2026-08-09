@@ -8,7 +8,9 @@ namespace Heros
 {
     public class HeroManager : Singleton<HeroManager>, IOnAfterCreateLocalMap, IOnClear
     {
-        public HeroStatContainer Stats { get; private set; }
+        [SerializeField]
+        private StatContainer stats;
+        public StatContainer Stats => stats;
 
         public HeroSO HeroSO { private set; get; }
         public Hero ActiveHero { private set; get; }
@@ -40,7 +42,7 @@ namespace Heros
         public delegate void OnHeroSpawned(Hero hero);
         public OnHeroSpawned onHeroSpawned;
 
-        public delegate void OnStatsSetup(HeroStatContainer stats);
+        public delegate void OnStatsSetup(StatContainer stats);
         public OnStatsSetup onStatsSetup;
 
         // Flags to indicate that post-load subscriptions have been applied
@@ -62,18 +64,18 @@ namespace Heros
         private void SetupHeroAttack()
         {
             // Ensure all required pieces are ready before adding the attack
-            if (HeroManager.Instance == null || HeroManager.Instance.Stats == null || !statsBound || !equipmentApplied)
+            if (Instance == null || Instance.Stats == null || !statsBound || !equipmentApplied)
             {
                 // Re-schedule setup until stats and managers are bound
-                WaitForHelper.WaitForConditionThenPerformAction(() => HeroManager.Instance != null && HeroManager.Instance.Stats != null &&
+                WaitForHelper.WaitForConditionThenPerformAction(() => Instance != null && Instance.Stats != null &&
                                                                      statsBound && equipmentApplied &&
                                                                      HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null &&
-                                                                     HeroAttacksManager.Instance != null && HeroManager.Instance.ActiveHero != null,
+                                                                     HeroAttacksManager.Instance != null && Instance.ActiveHero != null,
                                                                      SetupHeroAttack);
                 return;
             }
 
-            HeroAttacksManager.Instance.AddHeroAttack(HeroSO.startingAttack);
+            HeroAttacksManager.Instance.AddAttack(HeroSO.startingAttack);
         }
 
         public void SelectHero(HeroSO heroSO)
@@ -84,7 +86,7 @@ namespace Heros
             statsBound = false;
             equipmentApplied = false;
 
-            CreateNewStats();
+            SetupStats();
 
             WaitForHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
             WaitForHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
@@ -97,12 +99,6 @@ namespace Heros
                 // If we've already selected a hero, ensure stats and equipment subscriptions are applied before spawning
                 if (HeroSO != null)
                 {
-                    // Ensure Stats exists
-                    if (Stats == null)
-                    {
-                        CreateNewStats();
-                    }
-
                     // Wait for the buff managers to be available and subscribe, then spawn
                     WaitForHelper.WaitForConditionThenPerformAction(() => HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null,
                         () =>
@@ -124,10 +120,9 @@ namespace Heros
             }
         }
 
-        private void CreateNewStats()
+        private void SetupStats()
         {
-            Stats = new HeroStatContainer(HeroSO);
-            Stats.EnsureDefaults(HeroSO);
+            Stats.Setup(HeroSO);
             onStatsSetup?.Invoke(Stats);
         }
 
@@ -215,7 +210,6 @@ namespace Heros
         public void Clear()
         {
             RemoveHero();
-            Stats = null;
             HeroSO = null;
             statsBound = false;
             equipmentApplied = false;

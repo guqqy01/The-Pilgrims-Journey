@@ -9,7 +9,7 @@ namespace Attacks.Spot
         public SpotAttackSpawn<SpotAttackInit, RandomMovementSpotAttackStats> spotAttackSpawnPrefab;
         public Vector2 randomChangeMovementTimeRange;
 
-        public override Type HeroAttackType => typeof(RandomMovementSpotAttack);
+        public override Type AttackType => typeof(RandomMovementSpotAttack);
         public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
 
         public override Buff GetBuffAtIndex(StatTypes heroStats, int index)

@@ -1,5 +1,5 @@
 ﻿using Heros;
-
+using UnityEngine;
 namespace Attacks
 {
     public abstract class Attack<TAttackSO> : BaseAttack where TAttackSO : BaseAttackSO
@@ -8,9 +8,9 @@ namespace Attacks
 
         public override BaseAttackSO BaseAttackSO => AttackSO;
 
-        protected abstract void InheritSetup(BuffableEntitySO heroSO, TAttackSO heroAttackSO);
+        protected abstract void InheritSetup(BuffableEntitySO entitySO, TAttackSO heroAttackSO);
 
-        public override void Setup<TBaseAttackSO>(BuffableEntitySO heroSO, TBaseAttackSO attackSO)
+        public override void Setup<TBaseAttackSO>(BuffableEntitySO entitySO, TBaseAttackSO attackSO, LayerMask hitLayerMask)
         {
             AttackSO = attackSO as TAttackSO;
 
@@ -26,9 +26,9 @@ namespace Attacks
 
             findTargetDistance = attackSO.findTargetDistance;
 
-            enemyLayerMask = attackSO.enemyLayerMask;
+            this.hitLayerMask = hitLayerMask;
 
-            InheritSetup(heroSO, AttackSO);
+            InheritSetup(entitySO, AttackSO);
         }
 
         protected void SetupBuffableStat(ref BuffableStat stat, StatTypes heroStats, AddBuffParameters addBuffParameters = AddBuffParameters.All)

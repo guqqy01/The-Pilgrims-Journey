@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Attacks.Projectiles;
 public class BiteAttack : Projectile
 {
     private static readonly int ImapctHash = Animator.StringToHash("Impact");

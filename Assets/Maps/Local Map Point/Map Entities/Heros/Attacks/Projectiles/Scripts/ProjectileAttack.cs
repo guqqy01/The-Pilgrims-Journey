@@ -2,10 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using Heros;
-
 namespace Attacks.Projectiles
 {
-    public class ProjectileHeroAttack : Attack<ProjectileHeroAttackSO>
+    public class ProjectileAttack : Attack<ProjectileAttackSO>
     {
         [SerializeField]
         protected Projectile projectilePrefab;
@@ -93,10 +92,10 @@ namespace Attacks.Projectiles
 
             ProjectileStats projectileStats = new ProjectileStats(damage, criticalChance, criticalDamageMultiplier, knockback, projectileSpeed, projectileTurnSpeed, destroyProjectiles, amountOfHits, projectilesCountAsHits);
             
-            newMissile.InitWithOwner(projectileStats, projectileHoming, direction, enemyLayerMask, bounce, target, ProjectileOwner.Hero);
+            newMissile.InitWithOwner(projectileStats, projectileHoming, direction, hitLayerMask, bounce, target, ProjectileOwner.Hero);
         }
 
-        protected override void InheritSetup(BuffableEntitySO buffableEntitySO, ProjectileHeroAttackSO projectileHeroAttackSO)
+        protected override void InheritSetup(BuffableEntitySO buffableEntitySO, ProjectileAttackSO projectileHeroAttackSO)
         {
             SetupBuffableStat(ref numberOfProjectiles, StatTypes.NumberOfAttacks);
             SetupBuffableStat(ref projectileSpeed, StatTypes.ProjectileSpeed);
