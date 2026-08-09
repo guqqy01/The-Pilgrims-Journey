@@ -112,46 +112,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2953037224205238041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e162288f61b522344b073fd65782c7aa, type: 3}
+  m_Script: {fileID: 11500000, guid: e9d3c9ab74af5444ebd2232a3db61032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heros.OrbitalHeroAttackSpawn
-  hitCollider: {fileID: 3536977577763374482}
-  hitLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
   spawnAudioSources:
   - {fileID: 1194671089048556113}
-  hitAudioSources:
-  - clip: {fileID: 8300000, guid: cd0278854d3046f45abc0781300d4191, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    Type: 4
-  - clip: {fileID: 8300000, guid: 053d1d01ba233ae4c93c58498a9b26d0, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    Type: 4
-  - clip: {fileID: 8300000, guid: 18152b15776f7d043a6faa4057cc9246, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    Type: 4
-  - clip: {fileID: 8300000, guid: 9789868013ac2754ea741aae2c879c53, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    Type: 4
-  - clip: {fileID: 8300000, guid: aa9fc781fa8c9354188a9a20d0aa15f0, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    Type: 4
+  hitAudioSources: []
+  hitCollider: {fileID: 3536977577763374482}
 --- !u!1 &4482375869477700549
 GameObject:
   m_ObjectHideFlags: 0

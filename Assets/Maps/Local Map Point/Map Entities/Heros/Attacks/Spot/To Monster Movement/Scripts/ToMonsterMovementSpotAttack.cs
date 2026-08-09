@@ -2,7 +2,7 @@
 
 namespace Attacks.Spot
 {
-    public class ToMonsterMovementSpotHeroAttack : SpotAttack
+    public class ToMonsterMovementSpotAttack : SpotAttack<SpotAttackInit, ToMonsterMovementSpotAttackStats>
     {
         protected override SpotAttackInit BuildInit(LayerMask hitLayerMask, Transform target, float? lifeTime, float movementSpeed)
         {
@@ -17,7 +17,7 @@ namespace Attacks.Spot
         {
             AttackStats heroAttackStats = BuildBaseAttackStats();
 
-            if (AttackSO is not ToMonsterMovementSpotHeroAttackSO toMonsterSO)
+            if (AttackSO is not ToMonsterMovementSpotAttackSO toMonsterSO)
                 return null;
 
             RandomMovementStats randomMovementStats = new RandomMovementStats(toMonsterSO.randomChangeMovementTimeRange.randomChangeMovementTimeRange);

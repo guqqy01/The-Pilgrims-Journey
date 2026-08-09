@@ -22,9 +22,7 @@ namespace Heros
         [Serializable]
         public class SaveData : SaveProfileData
         {
-            // Store a direct reference to the HeroSO when possible (Unity will serialize the reference inside the same project/editor).
             public HeroSO heroSO;
-            // Keep the name as a fallback for cases where the reference can't be resolved from JSON.
             public string heroSOName;
         }
 
@@ -53,8 +51,6 @@ namespace Heros
             var profile = new SaveProfile<SaveData>(SaveFileName, data);
             SaveManager.SaveOver(profile);
 
-            // Save related managers
-            HeroStatBuffsManager.Instance.Save();
             HeroAttacksManager.Instance.Save();
         }
 
@@ -83,7 +79,6 @@ namespace Heros
                     Debug.LogWarning($"[HeroPersistence] AssetDatabase lookup failed: {ex}");
                 }
 #endif
-
                 if (resolved == null)
                 {
                     var all = Resources.FindObjectsOfTypeAll<HeroSO>();
@@ -145,14 +140,14 @@ namespace Heros
 
         private bool CheckInstancesSetup()
         {
-            return HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null && HeroAttacksManager.Instance != null && heroManager.Stats != null;
+            return HeroStatBuffsManager.Instance != null && 
+                HeroEquipmentManager.Instance != null && 
+                HeroAttacksManager.Instance != null && 
+                heroManager.Stats != null;
         }
 
         private void LoadOther()
         {
-            // Load buff save so manager has entries
-            HeroStatBuffsManager.Instance.Load();
-
             // Bind the container so buffs apply to runtime stats
             HeroStatBuffsManager.Instance.Bind(heroManager.Stats);
 

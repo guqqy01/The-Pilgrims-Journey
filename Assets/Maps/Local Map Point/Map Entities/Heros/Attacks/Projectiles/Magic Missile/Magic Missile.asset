@@ -15,9 +15,6 @@ MonoBehaviour:
   icon: {fileID: 9064289929049976407, guid: 32834b51f84e10c4b9dfc6b0dd5a5050, type: 3}
   description: A bolt of magic that targets the closest enemy.
   findTargetDistance: 10
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
   WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
@@ -519,6 +516,6 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
-  projectilePrefab: {fileID: 4849551019690282387, guid: eb3a5841076484b40b7afc5e8fa1a5ff, type: 3}
+  attackPrefab: {fileID: 4849551019690282387, guid: eb3a5841076484b40b7afc5e8fa1a5ff, type: 3}
   projectileHoming: 1
   bounce: 0

@@ -9,77 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abf39c47dfca98e489ebeee658b85b71, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f9653ddb3e73504c9599ef63c499814, type: 3}
   m_Name: Sword Swipe
   m_EditorClassIdentifier: Assembly-CSharp::Heros.MeleeHeroAttackSO
-  icon: {fileID: -561801890, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
-  description: A steel sword capable of attacking multiple enemies at once in a sweaping
-    arc.
+  icon: {fileID: -5487939901124043152, guid: e5c8c93e4298004469df0212abd7f27f, type: 3}
+  description: 
   findTargetDistance: 0
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
   WeaponStatsAtLevel:
-  - damage:
-      Multiplier: 0
-      baseBuff:
-        intValue: 3
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    attackSpeed:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalChance:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    criticalDamageMultiplier:
-      Multiplier: 0
-      baseBuff:
-        intValue: 50
-        floatValue: 0
-        isInt: 1
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 1
-    knockback:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1.2
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
-    size:
-      Multiplier: 0
-      baseBuff:
-        intValue: 0
-        floatValue: 1
-        isInt: 0
-      additionalBuff:
-        intValue: 0
-        floatValue: 0
-        isInt: 0
   - damage:
       Multiplier: 0
       baseBuff:
@@ -94,7 +30,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.1
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -113,7 +49,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 0
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -124,7 +60,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.4
+        floatValue: 1.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -154,7 +90,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.2
+        floatValue: 1.25
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -173,7 +109,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 0
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -184,7 +120,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.6
+        floatValue: 1.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -214,7 +150,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.3
+        floatValue: 1.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -233,7 +169,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 0
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -244,7 +180,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.8
+        floatValue: 1.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -274,7 +210,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.4
+        floatValue: 1.75
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -293,7 +229,7 @@ MonoBehaviour:
     criticalDamageMultiplier:
       Multiplier: 0
       baseBuff:
-        intValue: 50
+        intValue: 0
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -304,7 +240,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 1.5
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -320,5 +256,65 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
-  meleeAttackSpawn: {fileID: 8618847770750187054, guid: cb4a6af23b60420428e5ac3428cb68af, type: 3}
-  destroyProjectiles: 0
+  - damage:
+      Multiplier: 0
+      baseBuff:
+        intValue: 8
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    attackSpeed:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 2
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalChance:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    criticalDamageMultiplier:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
+    knockback:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1.5
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+    size:
+      Multiplier: 0
+      baseBuff:
+        intValue: 0
+        floatValue: 1
+        isInt: 0
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 0
+  attackPrefab: {fileID: 8618847770750187054, guid: cb4a6af23b60420428e5ac3428cb68af, type: 3}
+  destroyProjectiles: 1

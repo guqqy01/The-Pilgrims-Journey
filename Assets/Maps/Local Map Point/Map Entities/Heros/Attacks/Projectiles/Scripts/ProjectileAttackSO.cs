@@ -4,11 +4,9 @@ using System;
 namespace Attacks.Projectiles
 {
     [CreateAssetMenu(menuName = "Hero Attack/Projectile")]
-    public class ProjectileAttackSO : AttackSO<ProjectileWeaponStatsAtLevel>
+    public class ProjectileAttackSO : AttackSO<Projectile, ProjectileWeaponStatsAtLevel>
     {
         public override Type AttackType => typeof(ProjectileAttack);
-
-        public Projectile projectilePrefab;
 
         public bool projectileHoming;
         public bool bounce;

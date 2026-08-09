@@ -1,16 +1,12 @@
+﻿using UnityEngine;
 using System;
-using UnityEngine;
 using Heros;
 namespace Attacks.Spot
 {
-
-    public abstract class SpotHeroAttackSO : SpotAttackSOBase
+    [CreateAssetMenu(menuName = "Hero Attack/Spot/Stationary")]
+    public class StationarySpotAttackSO : SpotAttackSOBase<SpotAttackInit, SpotAttackStats>
     {
-        public SpotAttackSpawn<SpotAttackInit, SpotAttackStats> spotAttackSpawnPrefab;
-
-        public override Type AttackType => null; // concrete SOs should override this if needed
-
-        public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
+        public override Type AttackType => typeof(StationarySpotAttack);
 
         public override Buff GetBuffAtIndex(StatTypes heroStats, int index)
         {
@@ -22,5 +18,4 @@ namespace Attacks.Spot
             };
         }
     }
-
 }

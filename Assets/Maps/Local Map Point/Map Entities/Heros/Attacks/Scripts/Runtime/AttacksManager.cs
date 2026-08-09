@@ -14,21 +14,11 @@ namespace Attacks
         [SerializeField]
         private LayerMask hitLayerMask;
 
-        private BuffableEntitySO _buffableEntitySO;
-        private bool _isSetup = false;
-
         protected virtual void OnDestroy()
         {
             onAddAttackEvent = null;
             onRemoveAttackEvent = null;
             onAttackLevelChangeEvent = null;
-        }
-
-        public void Setup(BuffableEntitySO buffableEntitySO)
-        {
-            _buffableEntitySO = buffableEntitySO;
-
-            _isSetup = true;
         }
 
         public bool HasAttack(BaseAttackSO attackSO)
@@ -38,12 +28,6 @@ namespace Attacks
 
         public void AddAttack(BaseAttackSO attackSO)
         {
-            if (!_isSetup)
-            {
-                Debug.Log($"AttacksManager.AddAttack: delaying AddAttack for {attackSO.name} until Setup is called");
-                return;
-            }
-
             if (attacks.ContainsKey(attackSO))
                 return;
 
@@ -53,14 +37,16 @@ namespace Attacks
                 return;
             }
 
-            var attack = (BaseAttack)gameObject.AddComponent(attackSO.AttackType);
+            var attack = (BaseAttack)GetGameObjectToHaveAttack().AddComponent(attackSO.AttackType);
 
-            attack.Setup(_buffableEntitySO, attackSO, hitLayerMask);
+            attack.Setup(attackSO, hitLayerMask);
 
             attacks.Add(attackSO, attack);
 
             onAddAttackEvent?.Invoke(attack);
         }
+
+        protected virtual GameObject GetGameObjectToHaveAttack() { return gameObject; }
 
         public void RemoveAttack(BaseAttackSO attackSO)
         {

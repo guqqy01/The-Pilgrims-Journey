@@ -11,7 +11,6 @@ namespace Attacks
         [SerializeField]
         protected Collider2D hitCollider;
 
-        [SerializeField]
         protected LayerMask hitLayerMask;
 
         protected int damage;

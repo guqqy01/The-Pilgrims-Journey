@@ -5,10 +5,9 @@ using UnityEngine;
 namespace Attacks.Orbitals
 {
     [CreateAssetMenu(menuName = "Hero Attack/Orbital")]
-    public class OrbitalAttackSO : AttackSO<OrbitalWeaponStatsAtLevel>
+    public class OrbitalAttackSO : AttackSO<OrbitalAttackSpawn, OrbitalWeaponStatsAtLevel>
     {
         public override Type AttackType => typeof(OrbitalAttack);
-        public OrbitalAttackSpawn OrbitalAttackSpawnPrefab;
 
         public Transform targetTransformPrefab;
 

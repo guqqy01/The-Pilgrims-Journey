@@ -3,7 +3,9 @@ using UnityEngine;
 using Heros;
 namespace Attacks.Spot
 {
-    public abstract class SpotAttack : Attack<SpotAttackSOBase>
+    public abstract class SpotAttack<TInit, TStats> : Attack<SpotAttackSOBase<TInit, TStats>>
+        where TInit : SpotAttackInit
+        where TStats : SpotAttackStats
     {
         protected BuffableStat spawnAccuracy;
         protected BuffableStat hitRefreshRate;
@@ -11,7 +13,7 @@ namespace Attacks.Spot
         protected SpotChaoticMovementStats SpotChaoticMovementStats;
 
         // store prefab GameObject instead of a generic typed component
-        protected GameObject spawnPrefabGameObject;
+        protected SpotAttackSpawn<TInit, TStats> spawnPrefabGameObject;
 
         private readonly List<ISpotAttackSpawn> spotAttackSpawns = new List<ISpotAttackSpawn>();
 
@@ -37,7 +39,7 @@ namespace Attacks.Spot
                 return;
             }
 
-            GameObject instance = Instantiate(spawnPrefabGameObject);
+            GameObject instance = Instantiate(spawnPrefabGameObject.gameObject);
 
             var spawn = instance.GetComponent<ISpotAttackSpawn>();
             if (spawn == null)
@@ -65,7 +67,7 @@ namespace Attacks.Spot
             return new SpotAttackStats(BuildBaseAttackStats(), SpotChaoticMovementStats);
         }
 
-        protected override void InheritSetup(BuffableEntitySO buffableEntitySO, SpotAttackSOBase spotAttackSO)
+        protected override void InheritSetup(SpotAttackSOBase<TInit, TStats> spotAttackSO)
         {
             SpotChaoticMovementStats = spotAttackSO.spotChaoticMovementStats;
 
@@ -74,7 +76,7 @@ namespace Attacks.Spot
 
             // Use the SO's SpawnPrefab GameObject directly. Don't try to get a generic component from the prefab,
             // because concrete spawn components use different generic type parameters and GetComponent<T> won't match.
-            spawnPrefabGameObject = spotAttackSO.SpawnPrefab;
+            spawnPrefabGameObject = spotAttackSO.attackPrefab;
 
             destroyProjectiles = spotAttackSO.destroyProjectiles;
             amountOfHits = spotAttackSO.amountOfHits == 0 ? null : spotAttackSO.amountOfHits;

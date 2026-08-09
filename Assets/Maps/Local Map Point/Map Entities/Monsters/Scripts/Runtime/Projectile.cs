@@ -148,6 +148,7 @@ namespace Attacks.Projectiles
 
         protected override void OnTriggerStay2D(Collider2D collision)
         {
+            
             // First run shared pre-checks from AttackSpawn (cooldowns, layer mask, component lookup)
             if (!TryBeginHit(collision, out HealthAndShieldManager healthAndShieldManager, out bool existed))
                 return;
@@ -186,12 +187,6 @@ namespace Attacks.Projectiles
                 deactivated = true;
                 DestroyAttack();
             }
-        }
-
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            // Let base handle projectile destruction on enter (e.g., collision with other projectiles)
-            base.OnTriggerEnter2D(collision);
         }
 
         private void OnTriggerExit2D(Collider2D collision)

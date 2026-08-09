@@ -4,13 +4,11 @@ using Heros;
 namespace Attacks.Spot
 {
     [CreateAssetMenu(menuName = "Hero Attack/Spot/Random Movement")]
-    public class RandomMovementSpotAttackSO : SpotAttackSOBase
+    public class RandomMovementSpotAttackSO : SpotAttackSOBase<SpotAttackInit, RandomMovementSpotAttackStats>
     {
-        public SpotAttackSpawn<SpotAttackInit, RandomMovementSpotAttackStats> spotAttackSpawnPrefab;
         public Vector2 randomChangeMovementTimeRange;
 
         public override Type AttackType => typeof(RandomMovementSpotAttack);
-        public override GameObject SpawnPrefab => spotAttackSpawnPrefab == null ? null : spotAttackSpawnPrefab.gameObject;
 
         public override Buff GetBuffAtIndex(StatTypes heroStats, int index)
         {

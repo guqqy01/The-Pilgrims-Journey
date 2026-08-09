@@ -2,7 +2,7 @@
 
 namespace Attacks.Spot
 {
-    public class StationarySpotHeroAttack : SpotAttack
+    public class StationarySpotAttack : SpotAttack<SpotAttackInit, SpotAttackStats>
     {
         protected override SpotAttackInit BuildInit(LayerMask hitLayerMask, Transform target, float? lifeTime, float movementSpeed)
         {

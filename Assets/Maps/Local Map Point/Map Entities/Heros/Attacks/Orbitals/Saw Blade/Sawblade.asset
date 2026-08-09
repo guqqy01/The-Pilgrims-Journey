@@ -15,9 +15,6 @@ MonoBehaviour:
   icon: {fileID: -7939805150318603697, guid: 897a5220979010644a8cc3468ec693df, type: 3}
   description: An Orbital Sawblade that cuts through hordes of enemies.
   findTargetDistance: 0
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
   WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
@@ -419,9 +416,9 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
-  OrbitalHeroAttackSpawnPrefab: {fileID: 951971643722580760, guid: 829d59a1d0fcdba4fabadce034585373, type: 3}
+  attackPrefab: {fileID: 951971643722580760, guid: 829d59a1d0fcdba4fabadce034585373, type: 3}
   targetTransformPrefab: {fileID: 7615845824480999501, guid: 4861c844b9455344b8fa10da39a083d4, type: 3}
-  distanceAwayFromHero: 6
+  distanceAwayFromSender: 0
   rotationSpeed: 0
   destroyProjectiles: 1
   amountOfHits: 0

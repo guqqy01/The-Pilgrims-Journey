@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Heros;
 namespace Attacks
 {
-    public abstract class AttackSO<TStatsAtLevel> : BaseAttackSO where TStatsAtLevel : BaseWeaponStatsAtLevel
+    public abstract class AttackSO<TAttackSpawn, TStatsAtLevel> : BaseAttackSO 
+        where TStatsAtLevel : BaseWeaponStatsAtLevel
+        where TAttackSpawn : AttackSpawnBase
     {
         public List<TStatsAtLevel> WeaponStatsAtLevel;
         public override int MaxLevel => WeaponStatsAtLevel.Count;
 
-        public AttackSpawnBase attackPrefab;
+        public TAttackSpawn attackPrefab;
 
         public abstract Buff GetBuffAtIndex(StatTypes stat, int index);
 

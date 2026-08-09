@@ -5,10 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Attacks.HeroAttacksManager;
 namespace Attacks
 {
-
     public class HeroAttacksManager : AttacksManager, IOnClear, IToBeInitiatedFromRoot
     {
         public string SaveFileName => "HeroAttackManager";
@@ -23,6 +21,11 @@ namespace Attacks
         {
             if (!_singleton.TryClaim(this, () => Destroy(gameObject)))
                 return;
+        }
+
+        protected override GameObject GetGameObjectToHaveAttack()
+        {
+            return HeroManager.Instance.ActiveHero.gameObject;
         }
 
         protected override void OnDestroy()

@@ -63,9 +63,9 @@ namespace Attacks.Melee
             return true;
         }
 
-        protected override void InheritSetup(BuffableEntitySO buffableEntitySO, MeleeAttackSO heroAttackSO)
+        protected override void InheritSetup(MeleeAttackSO heroAttackSO)
         {
-            meleeAttackPrefab = heroAttackSO.meleeAttackSpawn;
+            meleeAttackPrefab = heroAttackSO.attackPrefab;
             destroyProjectiles = heroAttackSO.destroyProjectiles;
 
             if (meleeAttackPrefab != null)

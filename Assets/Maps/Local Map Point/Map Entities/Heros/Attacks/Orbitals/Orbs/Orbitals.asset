@@ -15,9 +15,6 @@ MonoBehaviour:
   icon: {fileID: -2312718168295272720, guid: 5085f1d0dc2b61943a714986d3d9f057, type: 3}
   description: Multiple balls of magic that surround you.
   findTargetDistance: 0
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
   WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
@@ -419,9 +416,9 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
-  OrbitalHeroAttackSpawnPrefab: {fileID: 8428377377787917041, guid: 5ea3b6a76f2da38458bcc857f334ec71, type: 3}
+  attackPrefab: {fileID: 8428377377787917041, guid: 5ea3b6a76f2da38458bcc857f334ec71, type: 3}
   targetTransformPrefab: {fileID: 7615845824480999501, guid: 4861c844b9455344b8fa10da39a083d4, type: 3}
-  distanceAwayFromHero: 3.5
+  distanceAwayFromSender: 0
   rotationSpeed: 0
   destroyProjectiles: 1
   amountOfHits: 1

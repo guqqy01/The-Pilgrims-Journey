@@ -90,18 +90,28 @@ namespace Attacks.Projectiles
 
             newMissile.transform.localScale =  new Vector3(newSizeX, newSizeY, newMissile.transform.localScale.z);
 
-            ProjectileStats projectileStats = new ProjectileStats(damage, criticalChance, criticalDamageMultiplier, knockback, projectileSpeed, projectileTurnSpeed, destroyProjectiles, amountOfHits, projectilesCountAsHits);
+            ProjectileStats projectileStats = 
+                new ProjectileStats(
+                    damage, 
+                    criticalChance, 
+                    criticalDamageMultiplier, 
+                    knockback, 
+                    projectileSpeed, 
+                    projectileTurnSpeed, 
+                    destroyProjectiles, 
+                    amountOfHits != null && amountOfHits == 0 ? null : amountOfHits, 
+                    projectilesCountAsHits);
             
             newMissile.InitWithOwner(projectileStats, projectileHoming, direction, hitLayerMask, bounce, target, ProjectileOwner.Hero);
         }
 
-        protected override void InheritSetup(BuffableEntitySO buffableEntitySO, ProjectileAttackSO projectileHeroAttackSO)
+        protected override void InheritSetup(ProjectileAttackSO projectileHeroAttackSO)
         {
             SetupBuffableStat(ref numberOfProjectiles, StatTypes.NumberOfAttacks);
             SetupBuffableStat(ref projectileSpeed, StatTypes.ProjectileSpeed);
             SetupBuffableStat(ref projectileTurnSpeed, StatTypes.ProjectileTurnSpeed);
 
-            projectilePrefab = projectileHeroAttackSO.projectilePrefab;
+            projectilePrefab = projectileHeroAttackSO.attackPrefab;
 
             projectileHoming = projectileHeroAttackSO.projectileHoming;
 

@@ -173,14 +173,14 @@ namespace Attacks.Orbitals
             SetupAmountOfTargetTransforms();
         }
 
-        protected override void InheritSetup(BuffableEntitySO buffableEntitySO, OrbitalAttackSO orbitalAttackSO)
+        protected override void InheritSetup(OrbitalAttackSO orbitalAttackSO)
         {
             SetupBuffableStat(ref numberOfOrbitals, StatTypes.NumberOfAttacks);
             SetupBuffableStat(ref orbitalSpeed, StatTypes.ProjectileTurnSpeed);
 
             numberOfOrbitals.onValueChange += OnNumberOfOrbitalsChanged;
 
-            orbitalAttackSpawnPrefab = orbitalAttackSO.OrbitalAttackSpawnPrefab;
+            orbitalAttackSpawnPrefab = orbitalAttackSO.attackPrefab;
             distanceAwayFromSender = orbitalAttackSO.distanceAwayFromSender;
             rotationSpeed = orbitalAttackSO.rotationSpeed;
             targetTransformPrefab = orbitalAttackSO.targetTransformPrefab;

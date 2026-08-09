@@ -8,9 +8,9 @@ namespace Attacks
 
         public override BaseAttackSO BaseAttackSO => AttackSO;
 
-        protected abstract void InheritSetup(BuffableEntitySO entitySO, TAttackSO heroAttackSO);
+        protected abstract void InheritSetup(TAttackSO heroAttackSO);
 
-        public override void Setup<TBaseAttackSO>(BuffableEntitySO entitySO, TBaseAttackSO attackSO, LayerMask hitLayerMask)
+        public override void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, LayerMask hitLayerMask)
         {
             AttackSO = attackSO as TAttackSO;
 
@@ -28,7 +28,7 @@ namespace Attacks
 
             this.hitLayerMask = hitLayerMask;
 
-            InheritSetup(entitySO, AttackSO);
+            InheritSetup(AttackSO);
         }
 
         protected void SetupBuffableStat(ref BuffableStat stat, StatTypes heroStats, AddBuffParameters addBuffParameters = AddBuffParameters.All)

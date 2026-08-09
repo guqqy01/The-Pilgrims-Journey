@@ -43,15 +43,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2227061110749469810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e162288f61b522344b073fd65782c7aa, type: 3}
+  m_Script: {fileID: 11500000, guid: e9d3c9ab74af5444ebd2232a3db61032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heros.OrbitalHeroAttackSpawn
   spawnAudioSources: []
   hitAudioSources: []
   hitCollider: {fileID: 6153671767166527571}
-  hitLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
 --- !u!58 &6153671767166527571
 CircleCollider2D:
   m_ObjectHideFlags: 0

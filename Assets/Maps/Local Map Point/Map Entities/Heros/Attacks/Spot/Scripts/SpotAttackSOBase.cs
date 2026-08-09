@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace Attacks.Spot
 {
-    public abstract class SpotAttackSOBase : AttackSO<SpotWeaponStatsAtLevel>
+    public abstract class SpotAttackSOBase<TInit, TStats>: AttackSO<SpotAttackSpawn<TInit, TStats>, SpotWeaponStatsAtLevel>
+        where TInit : SpotAttackInit
+        where TStats : SpotAttackStats
     {
         public SpotChaoticMovementStats spotChaoticMovementStats;
         public float attackRange;
@@ -13,7 +15,5 @@ namespace Attacks.Spot
         public bool projectilesCountToHits;
         public float lifeTime;
         public float movementSpeed;
-
-        public abstract GameObject SpawnPrefab { get; }
     }
 }

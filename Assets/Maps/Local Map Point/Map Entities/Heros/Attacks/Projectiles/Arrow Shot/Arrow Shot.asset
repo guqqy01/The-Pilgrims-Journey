@@ -15,9 +15,6 @@ MonoBehaviour:
   icon: {fileID: 1035577215, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   description: An arrow that shoots through multiple enemies.
   findTargetDistance: 10
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
   WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
@@ -99,6 +96,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 2
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -189,6 +196,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 3
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -279,6 +296,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 4
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -369,6 +396,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 5
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -459,6 +496,16 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
+    amountOfHits:
+      Multiplier: 0
+      baseBuff:
+        intValue: 6
+        floatValue: 0
+        isInt: 1
+      additionalBuff:
+        intValue: 0
+        floatValue: 0
+        isInt: 1
     projectileTurnSpeed:
       Multiplier: 0
       baseBuff:
@@ -469,5 +516,6 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         isInt: 0
-  projectilePrefab: {fileID: 358202956058573000, guid: dc8f85bf4625753438309143272bb1ce, type: 3}
+  attackPrefab: {fileID: 358202956058573000, guid: dc8f85bf4625753438309143272bb1ce, type: 3}
   projectileHoming: 0
+  bounce: 0

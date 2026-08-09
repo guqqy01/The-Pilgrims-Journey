@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 namespace Attacks.Spot
 {
-    public class RandomMovementSpotAttack : SpotAttack
+    public class RandomMovementSpotAttack : SpotAttack<SpotAttackInit, RandomMovementSpotAttackStats>
     {
         protected override SpotAttackInit BuildInit(LayerMask hitLayerMask, Transform target, float? lifeTime, float movementSpeed)
         {

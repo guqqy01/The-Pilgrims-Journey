@@ -76,7 +76,7 @@ namespace Attacks
 
         protected abstract bool Attack();
 
-        public abstract void Setup<TBaseAttackSO>(BuffableEntitySO buffableEntitySO, TBaseAttackSO attackSO, LayerMask hitLayerMask) where TBaseAttackSO : BaseAttackSO;
+        public abstract void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, LayerMask hitLayerMask) where TBaseAttackSO : BaseAttackSO;
 
         protected abstract void InheritLevelSetup();
 
