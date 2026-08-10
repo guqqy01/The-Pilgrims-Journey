@@ -239,12 +239,15 @@ namespace LevelingSystem
             foreach (var orb in orbs)
             {
                 pos += orb.transform.position;
+                orb.OnReleased -= HandleOrbReleased;
                 orb.Release();
             }
 
             pos /= orbs.Count;
 
             var newOrb = pools[newValue].Get(pos);
+            newOrb.Initialize(newValue, pools[newValue], doBounce: false);
+            newOrb.OnReleased += HandleOrbReleased;
             spawnedOrbs.Add(newOrb);
         }
 

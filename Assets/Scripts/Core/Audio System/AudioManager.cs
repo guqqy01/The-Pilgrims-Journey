@@ -192,12 +192,13 @@ public class AudioManager : MonoBehaviour
         pooledSources.Enqueue(source);
     }
 
-    private void SetUpAudioSource(AudioSource source, AudioClipAndSettings settings, float? overrideVolume = null)
+    public void SetUpAudioSource(AudioSource source, AudioClipAndSettings settings, float? overrideVolume = null)
     {
         source.clip = settings.clip;
         source.loop = settings.loop;
-        source.volume = overrideVolume ?? settings.volume;
-        source.pitch = settings.pitch == 0 ? 1 : settings.pitch;
+        
+        source.volume = overrideVolume ?? (settings.volume * GetTotalAudioTypeVolume(settings.Type));
+        source.pitch = settings.pitch == 0 ? 1 : settings.pitch + UnityEngine.Random.Range(- settings.pitchVarianceRange / 2f, settings.pitchVarianceRange / 2f);
         source.spatialBlend = settings.spatialBlend;
     }
 

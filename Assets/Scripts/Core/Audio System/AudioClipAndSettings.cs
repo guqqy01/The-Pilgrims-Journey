@@ -10,24 +10,26 @@ public class AudioClipAndSettings
     public float volume = 1f;
     [Range(-3, 3)]
     public float pitch = 1f;
-
+    [Range(0, 1)]
+    public float pitchVarianceRange;
     [Range(0, 1)]
     public float spatialBlend = 1f;
 
     public AudioType Type;
 
-    public AudioClipAndSettings(AudioClipAndSettings audioClipAndSettings)
+    public AudioClipAndSettings(AudioClipAndSettings other)
     {
-        clip = audioClipAndSettings.clip;
-        loop = audioClipAndSettings.loop;
-        volume = audioClipAndSettings.volume;
-        pitch = audioClipAndSettings.pitch;
-        spatialBlend = audioClipAndSettings.spatialBlend;
-        Type = audioClipAndSettings.Type;
+        clip = other.clip;
+        loop = other.loop;
+        volume = other.volume;
+        pitch = other.pitch;
+        pitchVarianceRange = other.pitchVarianceRange;
+        spatialBlend = other.spatialBlend;
+        Type = other.Type;
     }
 
     public void Play()
     {
-        AudioManager.Instance.PlayClip(this, volume * AudioManager.Instance.GetTotalAudioTypeVolume(Type));
+        AudioManager.Instance.PlayClip(this);
     }
 }

@@ -17,6 +17,7 @@ MonoBehaviour:
   waveMonsterSpawns:
   - rid: 4205786435911680181
   - rid: 4205786435911680180
+  - rid: 5183111235916005461
   bossMonsters:
   - range: 6
     boss: {fileID: 11400000, guid: fd2edaadc12841c41955b9d132cca146, type: 2}
@@ -53,7 +54,7 @@ MonoBehaviour:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 5
+            value: 1.5
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -62,7 +63,7 @@ MonoBehaviour:
             outWeight: 0
           - serializedVersion: 3
             time: 20
-            value: 50
+            value: 10
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -72,4 +73,10 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+        range: 3
+    - rid: 5183111235916005461
+      type: {class: WaveStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
+      data:
+        monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+        count: 3
         range: 3
