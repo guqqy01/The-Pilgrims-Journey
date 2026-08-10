@@ -16,6 +16,8 @@ namespace Attacks
 
         public abstract Buff GetBuff(StatTypes heroStats, int level);
 
+        public abstract AttackSpawnBase AttackSpawn { get; }
+
 
         public string GetStatsDescription(int level)
         {

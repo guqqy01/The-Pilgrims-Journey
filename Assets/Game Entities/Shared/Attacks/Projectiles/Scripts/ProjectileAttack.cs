@@ -4,11 +4,8 @@ using System.Collections;
 using Heros;
 namespace Attacks.Projectiles
 {
-    public class ProjectileAttack : Attack<ProjectileAttackSO>
+    public class ProjectileAttack : Attack<ProjectileAttackSO, Projectile>
     {
-        [SerializeField]
-        protected Projectile projectilePrefab;
-
         [SerializeField]
         protected BuffableStat numberOfProjectiles;
 
@@ -28,9 +25,6 @@ namespace Attacks.Projectiles
 
         private const float spawnFluctuationPercent = 0.5f;
         private const float spawnFluctuationMax = 0.2f;
-
-        // pooling
-        private ProjectilePool projectilePool;
 
         protected override bool Attack()
         {
@@ -67,28 +61,19 @@ namespace Attacks.Projectiles
 
             Quaternion rotation = Quaternion.FromToRotation(Vector3.right, direction);
 
-            Projectile newMissile;
-
-            if (projectilePool != null)
-            {
-                newMissile = projectilePool.Get(transform.position, rotation);
-            }
-            else
-            {
-                newMissile = Instantiate(projectilePrefab, transform.position, rotation);
-            }
+            Projectile attackSpawn = GetAttackSpawnFromPool(transform.position, rotation);
 
             string reference = "baseSize";
             
-            size.AddBuff(reference, new Buff(0f, newMissile.transform.localScale.x, 0));
+            size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.x, 0));
             float newSizeX = size;
             size.RemoveBuff(reference);
 
-            size.AddBuff(reference, new Buff(0f, newMissile.transform.localScale.y, 0));
+            size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.y, 0));
             float newSizeY = size;
             size.RemoveBuff(reference);
 
-            newMissile.transform.localScale =  new Vector3(newSizeX, newSizeY, newMissile.transform.localScale.z);
+            attackSpawn.transform.localScale =  new Vector3(newSizeX, newSizeY, attackSpawn.transform.localScale.z);
 
             ProjectileStats projectileStats = 
                 new ProjectileStats(
@@ -101,8 +86,8 @@ namespace Attacks.Projectiles
                     destroyProjectiles, 
                     amountOfHits != null && amountOfHits == 0 ? null : amountOfHits, 
                     projectilesCountAsHits);
-            
-            newMissile.InitWithOwner(projectileStats, projectileHoming, direction, hitLayerMask, bounce, target, ProjectileOwner.Hero);
+
+            attackSpawn.InitWithOwner(projectileStats, projectileHoming, direction, hitLayerMask, bounce, target, ProjectileOwner.Hero);
         }
 
         protected override void InheritSetup(ProjectileAttackSO projectileHeroAttackSO)
@@ -111,17 +96,9 @@ namespace Attacks.Projectiles
             SetupBuffableStat(ref projectileSpeed, StatTypes.ProjectileSpeed);
             SetupBuffableStat(ref projectileTurnSpeed, StatTypes.ProjectileTurnSpeed);
 
-            projectilePrefab = projectileHeroAttackSO.attackPrefab;
-
             projectileHoming = projectileHeroAttackSO.projectileHoming;
 
             bounce = projectileHeroAttackSO.bounce;
-
-            // create or get shared pool for projectiles to reduce allocations
-            if (projectilePrefab != null)
-            {
-                projectilePool = ProjectilePoolManager.GetPool(projectilePrefab, GetOrCreatePoolParent());
-            }
         }
 
         protected override void InheritLevelSetup()
@@ -129,16 +106,6 @@ namespace Attacks.Projectiles
             numberOfProjectiles.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.NumberOfAttacks, Level));
             projectileSpeed.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.ProjectileSpeed, Level));
             projectileTurnSpeed.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.ProjectileTurnSpeed, Level));
-        }
-
-        private Transform GetOrCreatePoolParent()
-        {
-            GameObject poolParent = GameObject.Find("Pools");
-            if (poolParent == null)
-            {
-                poolParent = new GameObject("Pools");
-            }
-            return poolParent.transform;
         }
     }
 }

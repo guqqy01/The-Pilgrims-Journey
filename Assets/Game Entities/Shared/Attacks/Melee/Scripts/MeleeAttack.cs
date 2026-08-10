@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 namespace Attacks.Melee
 {
-    public class MeleeAttack : Attack<MeleeAttackSO>
+    public class MeleeAttack : Attack<MeleeAttackSO, MeleeAttackSpawn>
     {
         private BaseMovement movement;
-        private MeleeAttackSpawn meleeAttackPrefab;
-
-        // pooling
-        private AttackSpawnPool meleeAttackPool;
 
         private void Awake()
         {
@@ -36,27 +32,7 @@ namespace Attacks.Melee
                 };
             }
 
-            MeleeAttackSpawn attackInstance = null;
-
-            if (meleeAttackPool != null)
-            {
-                var pooled = meleeAttackPool.Get(transform.position, Quaternion.Euler(0, 0, rotation));
-                attackInstance = pooled as MeleeAttackSpawn;
-                if (attackInstance == null)
-                {
-                    // unexpected type fallback
-                    Destroy(pooled.gameObject);
-                    attackInstance = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
-                }
-                else
-                {
-                    attackInstance.transform.SetParent(transform);
-                }
-            }
-            else
-            {
-                attackInstance = Instantiate(meleeAttackPrefab, transform.position, Quaternion.Euler(0, 0, rotation), transform);
-            }
+            MeleeAttackSpawn attackInstance = GetAttackSpawnFromPool(transform.position, Quaternion.Euler(0, 0, rotation), transform);
 
             attackInstance.Init(hitLayerMask, damage, criticalChance, criticalDamageMultiplier, destroyProjectiles, knockback);
 
@@ -65,13 +41,7 @@ namespace Attacks.Melee
 
         protected override void InheritSetup(MeleeAttackSO heroAttackSO)
         {
-            meleeAttackPrefab = heroAttackSO.attackPrefab;
             destroyProjectiles = heroAttackSO.destroyProjectiles;
-
-            if (meleeAttackPrefab != null)
-            {
-                meleeAttackPool = AttackSpawnPoolManager.GetPool(meleeAttackPrefab, GetOrCreatePoolParent());
-            }
         }
 
         protected override void InheritLevelSetup()

@@ -12,11 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fecba54c338438d4bb8028f93d8fb4c5, type: 3}
   m_Name: Soldier
   m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroSO
-  Description: An experienced warrior, swarn to protect the weak.
-  icon: {fileID: -1656002450, guid: 98d64eb89de690d45a4c87cac8d791c7, type: 3}
-  prefab: {fileID: 693340296508962407, guid: 02302b97023878740aa00aecc6478a3c, type: 3}
-  startingAttack: {fileID: 11400000, guid: eec458bc278c553479556f2ec083c669, type: 2}
-  spriteLibrary: {fileID: 7108339969198208228, guid: 0a8b6283a16004f4a952387987783bac, type: 3}
   Health:
     Multiplier: 0
     baseBuff:
@@ -177,3 +172,8 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       isInt: 0
+  Description: An experienced warrior, swarn to protect the weak.
+  icon: {fileID: -1656002450, guid: 98d64eb89de690d45a4c87cac8d791c7, type: 3}
+  prefab: {fileID: 693340296508962407, guid: 02302b97023878740aa00aecc6478a3c, type: 3}
+  startingAttack: {fileID: 11400000, guid: 71e92ddcceae9b24194160f95532b03b, type: 2}
+  spriteLibrary: {fileID: 7108339969198208228, guid: 0a8b6283a16004f4a952387987783bac, type: 3}

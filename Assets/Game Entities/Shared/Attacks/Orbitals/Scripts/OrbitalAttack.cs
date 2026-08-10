@@ -3,13 +3,11 @@ using System.Linq;
 using UnityEngine;
 namespace Attacks.Orbitals
 {
-    public class OrbitalAttack : Attack<OrbitalAttackSO>
+    public class OrbitalAttack : Attack<OrbitalAttackSO, OrbitalAttackSpawn>
     {
         private BuffableStat numberOfOrbitals;
         private BuffableStat orbitalSpeed;
         private BuffableStat orbitalLifetime;
-
-        private OrbitalAttackSpawn orbitalAttackSpawnPrefab;
 
         private Transform targetTransformPrefab;
         private readonly Dictionary<Transform, OrbitalAttackSpawn> slots = new Dictionary<Transform, OrbitalAttackSpawn>();
@@ -129,8 +127,7 @@ namespace Attacks.Orbitals
             if (targetWithoutOrbital == null)
                 return;
 
-            OrbitalAttackSpawn orbitalAttackSpawn = Instantiate(orbitalAttackSpawnPrefab, transform.position, Quaternion.identity, transform);
-
+            OrbitalAttackSpawn orbitalAttackSpawn = GetAttackSpawnFromPool(transform.position, Quaternion.identity, transform);
             OrbitalAttackInit initContext = new OrbitalAttackInit(hitLayerMask, targetWithoutOrbital);
             OrbitalAttackStatsContext statsContext = 
                 new OrbitalAttackStatsContext(
@@ -172,6 +169,7 @@ namespace Attacks.Orbitals
 
                 if(orbital == null) continue;
 
+                int? amountOfHitsConverted = amountOfHits == null ? null : amountOfHits.Value;
                 OrbitalAttackStatsContext statsContext = 
                     new OrbitalAttackStatsContext(
                         damage, 
@@ -180,8 +178,8 @@ namespace Attacks.Orbitals
                         orbitalSpeed, 
                         knockback, 
                         attackSpeed, 
-                        destroyProjectiles, 
-                        amountOfHits == null ? null : amountOfHits, 
+                        destroyProjectiles,
+                        amountOfHitsConverted, 
                         projectilesCountToHits);
 
                 orbital.SetupStats(statsContext);
@@ -200,7 +198,6 @@ namespace Attacks.Orbitals
 
             numberOfOrbitals.onValueChange += OnNumberOfOrbitalsChanged;
 
-            orbitalAttackSpawnPrefab = orbitalAttackSO.attackPrefab;
             distanceAwayFromSender = orbitalAttackSO.distanceAwayFromSender;
             rotationSpeed = orbitalAttackSO.rotationSpeed;
             targetTransformPrefab = orbitalAttackSO.targetTransformPrefab;

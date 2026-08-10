@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ee9dbe995f8721499d6e87603af568b, type: 3}
-  m_Name: Orbitals
+  m_Name: Sawblade
   m_EditorClassIdentifier: Assembly-CSharp::Heros.OrbitalHeroAttackSO
-  icon: {fileID: -2312718168295272720, guid: 5085f1d0dc2b61943a714986d3d9f057, type: 3}
-  description: Multiple balls of magic that surround you.
+  icon: {fileID: -7939805150318603697, guid: 897a5220979010644a8cc3468ec693df, type: 3}
+  description: An Orbital Sawblade that cuts through hordes of enemies.
   findTargetDistance: 0
   WeaponStatsAtLevel:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 1
+        intValue: 3
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -30,7 +30,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 10
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
     numberOfOrbitals:
       Multiplier: 0
       baseBuff:
-        intValue: 8
+        intValue: 1
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -90,7 +90,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 8
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 1
+        intValue: 4
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -110,7 +110,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 20
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
     numberOfOrbitals:
       Multiplier: 0
       baseBuff:
-        intValue: 12
+        intValue: 1
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -170,7 +170,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 3
+        floatValue: 10
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 1
+        intValue: 5
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -190,7 +190,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 4
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 30
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
     numberOfOrbitals:
       Multiplier: 0
       baseBuff:
-        intValue: 16
+        intValue: 1
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -250,7 +250,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 4
+        floatValue: 12
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -259,7 +259,7 @@ MonoBehaviour:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 1
+        intValue: 6
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -270,7 +270,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 5
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 40
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -319,7 +319,7 @@ MonoBehaviour:
     numberOfOrbitals:
       Multiplier: 0
       baseBuff:
-        intValue: 20
+        intValue: 1
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -330,7 +330,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 5
+        floatValue: 16
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -339,7 +339,7 @@ MonoBehaviour:
   - damage:
       Multiplier: 0
       baseBuff:
-        intValue: 1
+        intValue: 6
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -350,7 +350,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 6
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -360,7 +360,7 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 0
+        floatValue: 50
         isInt: 0
       additionalBuff:
         intValue: 0
@@ -399,7 +399,7 @@ MonoBehaviour:
     numberOfOrbitals:
       Multiplier: 0
       baseBuff:
-        intValue: 24
+        intValue: 2
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -410,17 +410,17 @@ MonoBehaviour:
       Multiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 6
+        floatValue: 18
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
-  attackPrefab: {fileID: 8428377377787917041, guid: 5ea3b6a76f2da38458bcc857f334ec71, type: 3}
+  attackPrefab: {fileID: 951971643722580760, guid: 829d59a1d0fcdba4fabadce034585373, type: 3}
   targetTransformPrefab: {fileID: 7615845824480999501, guid: 4861c844b9455344b8fa10da39a083d4, type: 3}
-  distanceAwayFromSender: 0
-  rotationSpeed: 0
+  distanceAwayFromSender: 5
+  rotationSpeed: 5
   destroyProjectiles: 1
-  amountOfHits: 1
-  projectilesCountToHits: 1
-  clockwise: 1
+  amountOfHits: 0
+  projectilesCountToHits: 0
+  clockwise: 0

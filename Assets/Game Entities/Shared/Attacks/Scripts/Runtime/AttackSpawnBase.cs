@@ -84,7 +84,7 @@ namespace Attacks
         /// </summary>
         public virtual void OnPoolRelease()
         {
-            RemoveAllOnTargetDieSubscription();
+            RemoveAllOnTargetDieSubscriptions();
 
             timeToNextDmg.Clear();
         }
@@ -102,8 +102,6 @@ namespace Attacks
         {
             if (returnToPoolCallback != null)
             {
-                // Prevent re-entrancy and double-release: clear the callback before invoking it so subsequent
-                // calls to DestroyAttack won't fall through to Destroy(gameObject) if OnRelease also clears the callback.
                 var callback = returnToPoolCallback;
                 returnToPoolCallback = null;
 
@@ -119,7 +117,6 @@ namespace Attacks
                 return;
             }
 
-            // If the GameObject is already inactive it was likely returned to a pool earlier; avoid destroying a pooled instance.
             if (!gameObject.activeInHierarchy)
                 return;
 
@@ -139,7 +136,7 @@ namespace Attacks
             health.onDie -= OnEnemyDie;
         }
 
-        private void RemoveAllOnTargetDieSubscription()
+        private void RemoveAllOnTargetDieSubscriptions()
         {
             foreach (var kvp in timeToNextDmg)
             {
@@ -150,7 +147,7 @@ namespace Attacks
 
         protected virtual void OnDestroy()
         {
-            RemoveAllOnTargetDieSubscription();
+            RemoveAllOnTargetDieSubscriptions();
 
             OnSpawn -= HandleAudioOnSpawn;
             OnHit -= HandleAudioOnHit;

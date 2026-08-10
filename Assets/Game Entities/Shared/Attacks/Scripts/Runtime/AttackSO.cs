@@ -10,7 +10,10 @@ namespace Attacks
         public List<TStatsAtLevel> WeaponStatsAtLevel;
         public override int MaxLevel => WeaponStatsAtLevel.Count;
 
-        public TAttackSpawn attackPrefab;
+        [SerializeField]
+        private TAttackSpawn attackPrefab;
+
+        public override AttackSpawnBase AttackSpawn => attackPrefab;
 
         public abstract Buff GetBuffAtIndex(StatTypes stat, int index);
 

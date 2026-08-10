@@ -3,7 +3,12 @@ using UnityEngine;
 using Heros;
 namespace Attacks.Spot
 {
-    public abstract class SpotAttack<TInit, TStats> : Attack<SpotAttackSOBase<TInit, TStats>>
+    public abstract class SpotAttack<TInit, TStats> : 
+        Attack
+            <
+            SpotAttackSOBase<TInit, TStats>, 
+            SpotAttackSpawn<TInit, TStats>
+            >
         where TInit : SpotAttackInit
         where TStats : SpotAttackStats
     {
@@ -11,9 +16,6 @@ namespace Attacks.Spot
         protected BuffableStat hitRefreshRate;
 
         protected SpotChaoticMovementStats SpotChaoticMovementStats;
-
-        // store prefab GameObject instead of a generic typed component
-        protected SpotAttackSpawn<TInit, TStats> spawnPrefabGameObject;
 
         private readonly List<ISpotAttackSpawn> spotAttackSpawns = new List<ISpotAttackSpawn>();
 
@@ -33,28 +35,14 @@ namespace Attacks.Spot
 
         protected virtual void SpawnAttack(Transform target)
         {
-            if (spawnPrefabGameObject == null)
-            {
-                Debug.LogError("Spawn prefab not set on SpotHeroAttack");
-                return;
-            }
-
-            GameObject instance = Instantiate(spawnPrefabGameObject.gameObject);
-
-            var spawn = instance.GetComponent<ISpotAttackSpawn>();
-            if (spawn == null)
-            {
-                Debug.LogError($"Spawn prefab {spawnPrefabGameObject.name} does not implement ISpotAttackSpawn");
-                Destroy(instance);
-                return;
-            }
+            SpotAttackSpawn<TInit, TStats> attackSpawn = GetAttackSpawnFromPool(transform.position, Quaternion.identity);
 
             SpotAttackInit initContext = BuildInit(hitLayerMask, target, lifeTime, movementSpeed);
             SpotAttackStats statsContext = BuildStatsContext();
 
-            spawn.Init(initContext, statsContext);
+            attackSpawn.Init(initContext, statsContext);
 
-            spotAttackSpawns.Add(spawn);
+            spotAttackSpawns.Add(attackSpawn);
         }
 
         protected virtual SpotAttackInit BuildInit(LayerMask hitLayerMask, Transform target, float? lifeTime, float movementSpeed)
@@ -74,10 +62,6 @@ namespace Attacks.Spot
             SetupBuffableStat(ref spawnAccuracy, StatTypes.Accuracy);
             SetupBuffableStat(ref hitRefreshRate, StatTypes.SpotHitRefreshRate);
 
-            // Use the SO's SpawnPrefab GameObject directly. Don't try to get a generic component from the prefab,
-            // because concrete spawn components use different generic type parameters and GetComponent<T> won't match.
-            spawnPrefabGameObject = spotAttackSO.attackPrefab;
-
             destroyProjectiles = spotAttackSO.destroyProjectiles;
             amountOfHits = spotAttackSO.amountOfHits == 0 ? null : spotAttackSO.amountOfHits;
             projectilesCountToHits = spotAttackSO.projectilesCountToHits;
@@ -92,6 +76,10 @@ namespace Attacks.Spot
 
         protected AttackStats BuildBaseAttackStats()
         {
+            Debug.Log(amountOfHits);
+
+            int? convertedAmountOfHits = amountOfHits == null ? null : amountOfHits.Value;
+
             return new AttackStats(
                 damage.Value,
                 criticalChance.Value,
@@ -99,7 +87,7 @@ namespace Attacks.Spot
                 knockback.Value,
                 hitRefreshRate.Value,
                 destroyProjectiles,
-                amountOfHits == null ? null : amountOfHits,
+                convertedAmountOfHits,
                 projectilesCountToHits
             );
         }
