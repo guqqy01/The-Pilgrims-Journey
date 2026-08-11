@@ -4,18 +4,9 @@ namespace Attacks.Spot
 {
     public class ToMonsterMovementSpotAttack : SpotAttack<SpotAttackInit, ToMonsterMovementSpotAttackStats>
     {
-        protected override SpotAttackInit BuildInit(LayerMask hitLayerMask, Transform target, float? lifeTime, float movementSpeed)
+        protected override SpotAttackStats GetAttackStats()
         {
-            Vector2 currentPos = (Vector2)target.position + Random.insideUnitCircle * spawnAccuracy.Value;
-
-            float? lifeTimeEnd = lifeTime.HasValue ? Time.time + lifeTime.Value : null;
-
-            return new SpotAttackInit(hitLayerMask, currentPos, lifeTimeEnd, movementSpeed);
-        }
-
-        protected override SpotAttackStats BuildStatsContext()
-        {
-            AttackStats heroAttackStats = BuildBaseAttackStats();
+            AttackStats heroAttackStats = base.GetAttackStats();
 
             if (AttackSO is not ToMonsterMovementSpotAttackSO toMonsterSO)
                 return null;

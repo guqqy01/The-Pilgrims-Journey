@@ -19,6 +19,11 @@ namespace Attacks
         // Pool support: if set, DestroyAttack will call this instead of Destroy(gameObject)
         private Action returnToPoolCallback;
 
+        public abstract void Init<TAttackInit, TAttackStats>(TAttackInit init, TAttackStats stats)
+            where TAttackInit : AttackInit
+            where TAttackStats : AttackStats;
+
+
         protected virtual void Awake()
         {
             OnSpawn += HandleAudioOnSpawn;

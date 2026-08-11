@@ -1,10 +1,11 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
 using Heros;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 namespace Attacks.Projectiles
 {
-    public class ProjectileAttack : Attack<ProjectileAttackSO, Projectile>
+    public class ProjectileAttack : Attack<ProjectileAttackSO, ProjectileInit, ProjectileStats>
     {
         [SerializeField]
         protected BuffableStat numberOfProjectiles;
@@ -16,7 +17,7 @@ namespace Attacks.Projectiles
         protected BuffableStat projectileTurnSpeed;
 
         [SerializeField]
-        protected bool projectileHoming;
+        protected bool homing;
 
         protected bool bounce;
 
@@ -37,7 +38,7 @@ namespace Attacks.Projectiles
 
             List<Vector2> directions;
 
-            if(projectileHoming)
+            if(homing)
                 directions = direction.SplitConeDirections(numberOfProjectiles, coneAngle * Mathf.Deg2Rad);
             else
                 directions = direction.SplitConeDirectionsAlwaysHaveMainDirection(numberOfProjectiles, coneAngle * Mathf.Deg2Rad);
@@ -61,33 +62,23 @@ namespace Attacks.Projectiles
 
             Quaternion rotation = Quaternion.FromToRotation(Vector3.right, direction);
 
-            Projectile attackSpawn = GetAttackSpawnFromPool(transform.position, rotation);
+            ProjectileInit projectileInit = new ProjectileInit(hitLayerMask, transform.position, rotation, homing, bounce, target, direction, null);
+            Projectile attackSpawn = GetAttackSpawnFromPoolAndSetup<Projectile>(projectileInit);
+        }
 
-            string reference = "baseSize";
-            
-            size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.x, 0));
-            float newSizeX = size;
-            size.RemoveBuff(reference);
-
-            size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.y, 0));
-            float newSizeY = size;
-            size.RemoveBuff(reference);
-
-            attackSpawn.transform.localScale =  new Vector3(newSizeX, newSizeY, attackSpawn.transform.localScale.z);
-
-            ProjectileStats projectileStats = 
-                new ProjectileStats(
-                    damage, 
-                    criticalChance, 
-                    criticalDamageMultiplier, 
-                    knockback, 
-                    projectileSpeed, 
-                    projectileTurnSpeed, 
-                    destroyProjectiles, 
-                    amountOfHits != null && amountOfHits == 0 ? null : amountOfHits, 
-                    projectilesCountAsHits);
-
-            attackSpawn.InitWithOwner(projectileStats, projectileHoming, direction, hitLayerMask, bounce, target, ProjectileOwner.Hero);
+        protected override ProjectileStats GetAttackStats()
+        {
+            return new ProjectileStats(
+                damage, 
+                size,
+                criticalChance, 
+                criticalDamageMultiplier, 
+                knockback, 
+                projectileSpeed, 
+                projectileTurnSpeed, 
+                destroyProjectiles, 
+                amountOfHits, 
+                projectilesCountAsHits);
         }
 
         protected override void InheritSetup(ProjectileAttackSO projectileHeroAttackSO)
@@ -96,7 +87,7 @@ namespace Attacks.Projectiles
             SetupBuffableStat(ref projectileSpeed, StatTypes.ProjectileSpeed);
             SetupBuffableStat(ref projectileTurnSpeed, StatTypes.ProjectileTurnSpeed);
 
-            projectileHoming = projectileHeroAttackSO.projectileHoming;
+            homing = projectileHeroAttackSO.projectileHoming;
 
             bounce = projectileHeroAttackSO.bounce;
         }
@@ -107,5 +98,7 @@ namespace Attacks.Projectiles
             projectileSpeed.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.ProjectileSpeed, Level));
             projectileTurnSpeed.AddBuff("Weapon", AttackSO.GetBuff(StatTypes.ProjectileTurnSpeed, Level));
         }
+
+        
     }
 }

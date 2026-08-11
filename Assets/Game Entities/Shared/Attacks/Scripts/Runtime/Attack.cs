@@ -2,20 +2,22 @@
 using UnityEngine;
 namespace Attacks
 {
-    public abstract class Attack<TAttackSO, TAttackSpawn> : BaseAttack 
+    public abstract class Attack<TAttackSO, TAttackInit, TAttackStats> : BaseAttack 
         where TAttackSO : BaseAttackSO
-        where TAttackSpawn : AttackSpawnBase
+        where TAttackInit : AttackInit
+        where TAttackStats : AttackStats
     {
         private AttackSpawnPool attackPool;
 
         public TAttackSO AttackSO { get; private set; }
-        private TAttackSpawn _attackPrefab;
+        private AttackSpawnBase _attackPrefab;
 
         public override BaseAttackSO BaseAttackSO => AttackSO;
 
         protected abstract void InheritSetup(TAttackSO heroAttackSO);
 
-        protected virtual TAttackSpawn GetAttackSpawnFromPool(Vector3 position, Quaternion rotation, Transform parent = null)
+        protected virtual TAttackSpawn GetAttackSpawnFromPoolAndSetup<TAttackSpawn>(TAttackInit attackInit)
+            where TAttackSpawn : AttackSpawnBase
         {
             if (attackPool == null)
             {
@@ -28,20 +30,45 @@ namespace Attacks
                 return null;
             }
 
-            AttackSpawnBase attackSpawn = attackPool.Get(position, rotation);
-
+            AttackSpawnBase attackSpawn = attackPool.Get(attackInit.Position, attackInit.Rotation);
             if (attackSpawn == null)
                 return null;
 
-            if (parent != null)
-                attackSpawn.transform.SetParent(parent);
-            return (TAttackSpawn)attackSpawn;
+            if (attackInit.Parent != null)
+                attackSpawn.transform.SetParent(attackInit.Parent);
+
+            if (attackSpawn is TAttackSpawn typedAttackSpawn)
+            {
+                TAttackStats attackStats = GetAttackStats();
+                typedAttackSpawn.Init(attackInit, attackStats);
+
+                string reference = "baseSize";
+
+                size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.x, 0));
+                float newSizeX = size;
+                size.RemoveBuff(reference);
+
+                size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.y, 0));
+                float newSizeY = size;
+                size.RemoveBuff(reference);
+
+                attackSpawn.transform.localScale = new Vector3(newSizeX, newSizeY, attackSpawn.transform.localScale.z);
+
+                return typedAttackSpawn;
+            }
+            else
+            {
+                Debug.LogError($"Attack spawn is not of type {typeof(TAttackSpawn).Name}. Make sure the attack prefab is of the correct type.");
+                attackPool.Release(attackSpawn);
+                return null;
+            }
         }
 
+        protected abstract TAttackStats GetAttackStats();
         public override void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, LayerMask hitLayerMask)
         {
             AttackSO = attackSO as TAttackSO;
-            _attackPrefab = (TAttackSpawn)attackSO.AttackSpawn;
+            _attackPrefab = attackSO.AttackSpawn;
             Level = 1;
 
             SetupBuffableStat(ref amountOfHits, StatTypes.AttackDurability);

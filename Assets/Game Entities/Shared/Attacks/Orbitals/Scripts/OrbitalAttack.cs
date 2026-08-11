@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 namespace Attacks.Orbitals
 {
-    public class OrbitalAttack : Attack<OrbitalAttackSO, OrbitalAttackSpawn>
+    public class OrbitalAttack : Attack<OrbitalAttackSO, OrbitalAttackInit, OrbitalAttackStats>
     {
         private BuffableStat numberOfOrbitals;
         private BuffableStat orbitalSpeed;
@@ -48,6 +48,21 @@ namespace Attacks.Orbitals
                 return;
 
             currentAngleRad += orbitalSpeed / distanceAwayFromSender * Time.fixedDeltaTime;
+        }
+
+        protected override OrbitalAttackStats GetAttackStats()
+        {
+            return new OrbitalAttackStats(
+                damage, 
+                size,
+                criticalChance, 
+                criticalDamageMultiplier, 
+                orbitalSpeed, 
+                knockback, 
+                attackSpeed, 
+                destroyProjectiles,
+                amountOfHits, 
+                projectilesCountToHits);
         }
 
         private void OnOrbitalDestroyed(OrbitalAttackSpawn orbitalDestroyed, Transform target)
@@ -127,21 +142,9 @@ namespace Attacks.Orbitals
             if (targetWithoutOrbital == null)
                 return;
 
-            OrbitalAttackSpawn orbitalAttackSpawn = GetAttackSpawnFromPool(transform.position, Quaternion.identity, transform);
-            OrbitalAttackInit initContext = new OrbitalAttackInit(hitLayerMask, targetWithoutOrbital);
-            OrbitalAttackStatsContext statsContext = 
-                new OrbitalAttackStatsContext(
-                    damage, 
-                    criticalChance, 
-                    criticalDamageMultiplier, 
-                    orbitalSpeed, 
-                    knockback, 
-                    attackSpeed, 
-                    destroyProjectiles,
-                    amountOfHits == null ? null : amountOfHits.Value, 
-                    projectilesCountToHits);
+            OrbitalAttackInit attackInit = new OrbitalAttackInit(hitLayerMask, transform.position, Quaternion.identity, targetWithoutOrbital, transform);
+            OrbitalAttackSpawn orbitalAttackSpawn = GetAttackSpawnFromPoolAndSetup<OrbitalAttackSpawn>(attackInit);
 
-            orbitalAttackSpawn.Init(initContext, statsContext);
             orbitalAttackSpawn.onDestroyed += OnOrbitalDestroyed;
 
             slots[targetWithoutOrbital] = orbitalAttackSpawn;
@@ -170,17 +173,7 @@ namespace Attacks.Orbitals
                 if(orbital == null) continue;
 
                 int? amountOfHitsConverted = amountOfHits == null ? null : amountOfHits.Value;
-                OrbitalAttackStatsContext statsContext = 
-                    new OrbitalAttackStatsContext(
-                        damage, 
-                        criticalChance, 
-                        criticalDamageMultiplier, 
-                        orbitalSpeed, 
-                        knockback, 
-                        attackSpeed, 
-                        destroyProjectiles,
-                        amountOfHitsConverted, 
-                        projectilesCountToHits);
+                OrbitalAttackStats statsContext = GetAttackStats();
 
                 orbital.SetupStats(statsContext);
             }
@@ -214,5 +207,7 @@ namespace Attacks.Orbitals
             if(numberOfOrbitals != null)
                 numberOfOrbitals.onValueChange -= OnNumberOfOrbitalsChanged;
         }
+
+        
     }
 }

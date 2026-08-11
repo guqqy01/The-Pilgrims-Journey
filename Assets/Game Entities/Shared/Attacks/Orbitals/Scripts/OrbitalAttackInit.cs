@@ -6,7 +6,12 @@ namespace Attacks.Orbitals
     {
         public readonly Transform targetPositionTransform;
 
-        public OrbitalAttackInit(LayerMask hitLayerMask, Transform targetPositionTransform) : base(hitLayerMask)
+        public OrbitalAttackInit(
+            LayerMask hitLayerMask,
+            Vector2 position,
+            Quaternion rotation,
+            Transform targetPositionTransform,
+            Transform parent = null) : base(hitLayerMask, position, rotation, parent)
         {
             this.targetPositionTransform = targetPositionTransform;
         }

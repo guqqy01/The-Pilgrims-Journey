@@ -4,55 +4,57 @@ using Unity.Properties;
 using UnityEngine;
 namespace Attacks
 {
-    public abstract class AttackSpawn<TInitContext, TStatsContext> : AttackSpawnBase
-        where TInitContext : AttackInit
-        where TStatsContext : AttackStats
+    public abstract class AttackSpawn<TInit, TStats> : AttackSpawnBase
+        where TInit : AttackInit
+        where TStats : AttackStats
     {
         [SerializeField]
         protected Collider2D hitCollider;
 
         protected LayerMask hitLayerMask;
 
-        protected int damage;
-        protected float knockback;
-        protected float hitSpeed;
-        protected bool destroyProjectiles;
+        protected TStats attackStats;
         protected int currentAmountOfHits;
-        protected int? amountOfHits;
-        protected bool projectilesCountAsHits;
-
         protected abstract void FixedUpdateMovement();
-
-        protected abstract void InheritInit(TInitContext initContext);
-        protected abstract void InheritSetupStats(TStatsContext statsContext);
+        protected abstract void InheritInit(TInit initContext);
+        protected abstract void InheritSetupStats(TStats statsContext);
 
         protected virtual void FixedUpdate()
         {
             FixedUpdateMovement();
         }
 
-        public void Init(TInitContext initContext, TStatsContext statsContext)
+        public override void Init<TInitContext, TStatsContext>(TInitContext initContext, TStatsContext statsContext)
         {
             hitLayerMask = initContext.HitMask;
 
-            InheritInit(initContext);
-            SetupStats(statsContext);
+            if(initContext is TInit init)
+            {
+                InheritInit(init);
+            }
+            else
+            {
+                Debug.LogWarning($"Init and context are not matching, TInit: {typeof(TInit)}, TInitContext: {typeof(TInitContext)}");
+            }
+
+            if(statsContext is TStats stats)
+            {
+                SetupStats(stats);
+            }
+            else
+            {
+                Debug.LogWarning($"Stats and context are not matching, TStats: {typeof(TStats)}, TStatsContext: {typeof(TStatsContext)}");
+            }
 
             RaiseOnSpawn();
         }
 
-        public void SetupStats(TStatsContext context)
+        public void SetupStats(TStats context)
         {
             if (!context.HasExplicitStats)
                 return;
 
-            damage = context.Damage;
-            hitSpeed = context.HitRefreshSpeed;
-            destroyProjectiles = context.DestroyProjectiles;
-            knockback = context.Knockback;
-            amountOfHits = context.AmountOfHits;
-
-            projectilesCountAsHits = context.ProjectilesCountAsHits;
+            attackStats = context;
 
             InheritSetupStats(context);
         }
@@ -75,7 +77,7 @@ namespace Attacks
             if (nextTime > Time.time)
                 return false;
 
-            if (amountOfHits.HasValue && currentAmountOfHits >= amountOfHits.Value)
+            if (attackStats.AmountOfHits.HasValue && currentAmountOfHits >= attackStats.AmountOfHits.Value)
                 return false;
 
             return true;
@@ -86,7 +88,7 @@ namespace Attacks
         /// </summary>
         protected void UpdateHitCooldown(HealthAndShieldManager healthAndShieldManager)
         {
-            float timeToNextAttack = hitSpeed != 0 ? Time.time + 1f / hitSpeed : float.MaxValue;
+            float timeToNextAttack = attackStats.HitRefreshRate != 0 ? Time.time + 1f / attackStats.HitRefreshRate : float.MaxValue;
 
             if (timeToNextDmg.ContainsKey(healthAndShieldManager))
             {
@@ -105,7 +107,7 @@ namespace Attacks
                 return;
 
             Vector2 hitDirection = ((Vector2)(healthAndShieldManager.transform.position - transform.position)).normalized;
-            OnHitInfo onHitInfo = healthAndShieldManager.Damage(damage, hitDirection, knockback);
+            OnHitInfo onHitInfo = healthAndShieldManager.Damage(attackStats, hitDirection);
 
             RaiseOnHit(onHitInfo);
 
@@ -129,12 +131,12 @@ namespace Attacks
 
         protected void HandleAmountOfHits()
         {
-            if (amountOfHits == null)
+            if (!attackStats.AmountOfHits.HasValue)
                 return;
 
             currentAmountOfHits++;
 
-            if (currentAmountOfHits >= amountOfHits.Value)
+            if (currentAmountOfHits >= attackStats.AmountOfHits.Value)
             {
                 DestroyAttack();
             }
@@ -146,16 +148,15 @@ namespace Attacks
             if (!hitLayerMask.ContainsLayer(collision.gameObject.layer))
                 return false;
 
-            if (!destroyProjectiles)
+            if (!attackStats.DestroyProjectiles)
                 return false;
 
             if (!collision.gameObject.TryGetComponent(out Projectiles.Projectile projectile))
                 return false;
 
-            // Respect pooling: call ReleaseProjectile so pooled projectiles are returned to their pool
             projectile.DestroyAttack();
 
-            return projectilesCountAsHits;
+            return attackStats.ProjectilesCountAsHits;
         }
     }
 }

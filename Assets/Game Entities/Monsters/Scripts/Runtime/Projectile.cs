@@ -4,18 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Attacks.Projectiles
 {
-    public enum ProjectileOwner
-    {
-        Monster,
-        Hero,
-        Neutral
-    }
-
     [RequireComponent(typeof(Collider2D))]
     public class Projectile : AttackSpawn<ProjectileInit, ProjectileStats>
     {
-        private ProjectileStats projectileStats;
-
         private bool homing;
         private bool bounce;
 
@@ -35,12 +26,6 @@ namespace Attacks.Projectiles
 
         private HashSet<HealthAndShieldManager> ignoreExceptions;
 
-        // Pool callback handled by base via SetReturnToPoolCallback
-
-        private ProjectileOwner owner = ProjectileOwner.Monster;
-
-        public ProjectileOwner Owner => owner;
-
         // Public subscription point for external listeners (keeps compatibility)
         public Action<OnHitInfo> onHit;
 
@@ -48,22 +33,6 @@ namespace Attacks.Projectiles
         {
             onHit = null;
             base.OnDestroy();
-        }
-
-        // Backwards-compatible Init with owner
-        public void Init(ProjectileStats projectileStats, bool homing, Vector2 direction, LayerMask layerMask, bool bounce, Transform target, ProjectileOwner owner, params HealthAndShieldManager[] ignoreExceptions)
-        {
-            this.projectileStats = projectileStats;
-
-            ProjectileInit projectileInit = new ProjectileInit(layerMask, homing, bounce, target, direction, owner, ignoreExceptions);
-
-            Init(projectileInit, projectileStats);
-        }
-
-        // Provide InitWithOwner for existing callers
-        public void InitWithOwner(ProjectileStats projectileHitStats, bool homing, Vector2 direction, LayerMask layerMask, bool bounce, Transform target, ProjectileOwner owner)
-        {
-            Init(projectileHitStats, homing, direction, layerMask, bounce, target, owner);
         }
 
         protected override void FixedUpdateMovement()
@@ -79,11 +48,11 @@ namespace Attacks.Projectiles
                 transform.rotation = Quaternion.RotateTowards(
                     transform.rotation,
                     targetRotation,
-                    projectileStats.TurningSpeed * Time.deltaTime
+                    attackStats.TurningSpeed * Time.deltaTime
                 );
             }
 
-            transform.position += projectileStats.Speed * Time.deltaTime * transform.right;
+            transform.position += attackStats.Speed * Time.deltaTime * transform.right;
 
             if (Time.time > lifeTimeEnd)
             {
@@ -97,7 +66,6 @@ namespace Attacks.Projectiles
             bounce = initContext.Bounce;
             target = initContext.Target;
             direction = initContext.Direction;
-            owner = initContext.Owner;
             ignoreExceptions = (initContext.IgnoreExceptions ?? Array.Empty<HealthAndShieldManager>()).ToHashSet();
 
             
@@ -107,17 +75,7 @@ namespace Attacks.Projectiles
 
         protected override void InheritSetupStats(ProjectileStats statsContext)
         {
-            if ((projectileStats == null || !projectileStats.HasExplicitStats) && statsContext != null)
-            {
-                projectileStats = new ProjectileStats(
-                    statsContext.Damage,
-                    statsContext.CriticalChance,
-                    statsContext.CriticalDamageMultiplier,
-                    statsContext.Knockback,
-                    statsContext.Speed,
-                    statsContext.TurningSpeed);
-            }
-
+            attackStats = statsContext;
             lifeTimeEnd = Time.time + projectileLifetime;
             deactivated = false;
             hitHealth.Clear();
@@ -164,7 +122,7 @@ namespace Attacks.Projectiles
             Vector2 damageDirection = (healthAndShieldManager.transform.position - transform.position).normalized;
 
             // Use the projectile's attack stats (supports criticals, etc.)
-            OnHitInfo info = healthAndShieldManager.Damage(projectileStats, damageDirection);
+            OnHitInfo info = healthAndShieldManager.Damage(attackStats, damageDirection);
 
             HandleBounce(collision);
 

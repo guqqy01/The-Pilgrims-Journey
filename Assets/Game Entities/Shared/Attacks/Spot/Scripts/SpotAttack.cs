@@ -6,14 +6,14 @@ namespace Attacks.Spot
     public abstract class SpotAttack<TInit, TStats> : 
         Attack
             <
-            SpotAttackSOBase<TInit, TStats>, 
-            SpotAttackSpawn<TInit, TStats>
+            SpotAttackSOBase<TInit, TStats>,
+            SpotAttackInit,
+            SpotAttackStats
             >
         where TInit : SpotAttackInit
         where TStats : SpotAttackStats
     {
         protected BuffableStat spawnAccuracy;
-        protected BuffableStat hitRefreshRate;
 
         protected SpotChaoticMovementStats SpotChaoticMovementStats;
 
@@ -35,24 +35,21 @@ namespace Attacks.Spot
 
         protected virtual void SpawnAttack(Transform target)
         {
-            SpotAttackSpawn<TInit, TStats> attackSpawn = GetAttackSpawnFromPool(transform.position, Quaternion.identity);
+            SpotAttackInit init = BuildInit(hitLayerMask, target, lifeTime, movementSpeed);
 
-            SpotAttackInit initContext = BuildInit(hitLayerMask, target, lifeTime, movementSpeed);
-            SpotAttackStats statsContext = BuildStatsContext();
-
-            attackSpawn.Init(initContext, statsContext);
+            SpotAttackSpawn<TInit, TStats> attackSpawn = GetAttackSpawnFromPoolAndSetup<SpotAttackSpawn<TInit, TStats>>(init);
 
             spotAttackSpawns.Add(attackSpawn);
         }
 
         protected virtual SpotAttackInit BuildInit(LayerMask hitLayerMask, Transform target, float? lifeTime, float movementSpeed)
         {
-            return new SpotAttackInit(hitLayerMask, (Vector2)target.position + UnityEngine.Random.insideUnitCircle * spawnAccuracy.Value, lifeTime.HasValue ? Time.time + lifeTime.Value : (float?)null, movementSpeed);
-        }
-
-        protected virtual SpotAttackStats BuildStatsContext()
-        {
-            return new SpotAttackStats(BuildBaseAttackStats(), SpotChaoticMovementStats);
+            return new SpotAttackInit(
+                hitLayerMask,
+                (Vector2)target.position + Random.insideUnitCircle * spawnAccuracy.Value,
+                Quaternion.identity, 
+                lifeTime.HasValue ? Time.time + lifeTime.Value : null, 
+                movementSpeed);
         }
 
         protected override void InheritSetup(SpotAttackSOBase<TInit, TStats> spotAttackSO)
@@ -74,24 +71,22 @@ namespace Attacks.Spot
 
         }
 
-        protected AttackStats BuildBaseAttackStats()
+        protected override SpotAttackStats GetAttackStats()
         {
-            Debug.Log(amountOfHits);
-
-            int? convertedAmountOfHits = amountOfHits == null ? null : amountOfHits.Value;
-
-            return new AttackStats(
-                damage.Value,
-                criticalChance.Value,
-                criticalDamageMultiplier.Value,
-                knockback.Value,
-                hitRefreshRate.Value,
+            AttackStats attackStats = new AttackStats(
+                damage,
+                size,
+                criticalChance,
+                criticalDamageMultiplier,
+                knockback,
+                hitRefreshRate,
                 destroyProjectiles,
-                convertedAmountOfHits,
+                amountOfHits,
                 projectilesCountToHits
             );
-        }
 
+            return new SpotAttackStats(attackStats, SpotChaoticMovementStats);
+        }
     }
 
 }

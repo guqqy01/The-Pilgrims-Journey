@@ -3,12 +3,17 @@ namespace Attacks.Spot
 {
     public class SpotAttackInit : AttackInit
     {
-        public readonly Vector2 currentPosition;
         public readonly float? lifeTimeEnd;
         public readonly float movementSpeed;
-        public SpotAttackInit(LayerMask hitLayerMask, Vector2 currentPosition, float? lifeTimeEnd, float movementSpeed) : base(hitLayerMask)
+        public SpotAttackInit(
+            LayerMask hitLayerMask, 
+            Vector2 position, 
+            Quaternion rotation, 
+            float? lifeTimeEnd, 
+            float movementSpeed, 
+            Transform parent = null) : 
+                base(hitLayerMask, position, rotation, parent)
         {
-            this.currentPosition = currentPosition;
             this.lifeTimeEnd = lifeTimeEnd;
             this.movementSpeed = movementSpeed;
         }

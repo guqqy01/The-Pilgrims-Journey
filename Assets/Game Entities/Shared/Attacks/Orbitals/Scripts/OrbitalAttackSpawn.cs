@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Attacks.Orbitals
 {
-    public class OrbitalAttackSpawn : AttackSpawn<OrbitalAttackInit, OrbitalAttackStatsContext>
+    public class OrbitalAttackSpawn : AttackSpawn<OrbitalAttackInit, OrbitalAttackStats>
     {
         private Transform targetPositionTransform;
 
@@ -18,7 +18,7 @@ namespace Attacks.Orbitals
             targetPositionTransform = context.targetPositionTransform;
         }
 
-        protected override void InheritSetupStats(OrbitalAttackStatsContext heroAttackContext)
+        protected override void InheritSetupStats(OrbitalAttackStats heroAttackContext)
         {
             //Multiplied by 1.25 so it can catch up to the target if it needs to, otherwise the orbit speed will be controlled by the OrbitalHeroAttack through the targetTransform
             this.orbitSpeed = heroAttackContext.orbitSpeed * 1.25f;

@@ -174,9 +174,9 @@ namespace Monsters
             Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
             project.onHit += OnDamageUnit;
-            ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
-
-            project.Init(projectileStats, false, target.position - transform.position, findTargetMask, false, target, ProjectileOwner.Monster);
+            ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 1, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+            ProjectileInit projectileInit = new ProjectileInit(findTargetMask, transform.position, Quaternion.identity, false, false, target, target.position - transform.position);
+            project.Init(projectileInit, projectileStats);
 
             audioSource?.Play();
         }
@@ -196,9 +196,9 @@ namespace Monsters
                 Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
                 project.onHit += OnDamageUnit;
-                ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
-
-                project.Init(projectileStats, false, currentDirection, findTargetMask, false, target, ProjectileOwner.Monster);
+                ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 1, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+                ProjectileInit projectileInit = new ProjectileInit(findTargetMask, transform.position, Quaternion.identity, false, false, target, currentDirection);
+                project.Init(projectileInit, projectileStats);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }
@@ -222,9 +222,9 @@ namespace Monsters
                 Projectile project = Instantiate(projectile, transform.position, Quaternion.identity, transform);
 
                 project.onHit += OnDamageUnit;
-                ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
-
-                project.Init(projectileStats, false, currentDirection, findTargetMask, false, target, ProjectileOwner.Monster);
+                ProjectileStats projectileStats = new ProjectileStats(rapidAttackDamage, 1, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+                ProjectileInit projectileInit = new ProjectileInit(findTargetMask, transform.position, Quaternion.identity, false, false, target, currentDirection);
+                project.Init(projectileInit, projectileStats);
 
                 currentDirection = currentDirection.RotateClockwise(addAngle);
             }

@@ -186,9 +186,9 @@ namespace Monsters
 
             projectile.onHit += OnDamageUnit;
 
-            ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
-
-            projectile.Init(projectileStats, false, target.transform.position - transform.position, attackHitMask, false, null, ProjectileOwner.Monster, HealthAndShieldManager);
+            ProjectileStats projectileStats = new ProjectileStats(damage, 1, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+            ProjectileInit projectileInit = new ProjectileInit(attackHitMask, transform.position, Quaternion.identity, false, false, target, target.position - transform.position, null, HealthAndShieldManager);
+            projectile.Init(projectileInit, projectileStats);
         }
 
         private void ResetAttack()

@@ -10,14 +10,7 @@ namespace Attacks.Spot
 
             float? lifeTimeEnd = lifeTime.HasValue ? Time.time + lifeTime.Value : null;
 
-            return new SpotAttackInit(hitLayerMask, currentPos, lifeTimeEnd, 0);
-        }
-
-        protected override SpotAttackStats BuildStatsContext()
-        {
-            AttackStats heroAttackStats = BuildBaseAttackStats();
-
-            return new SpotAttackStats(heroAttackStats, SpotChaoticMovementStats);
+            return new SpotAttackInit(hitLayerMask, currentPos, Quaternion.identity, lifeTimeEnd, 0);
         }
     }
 

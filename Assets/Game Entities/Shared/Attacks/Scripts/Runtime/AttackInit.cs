@@ -5,7 +5,10 @@ namespace Attacks
     public class AttackInit
     {
         public LayerMask HitMask;
-        public AttackInit(LayerMask hitMask)
+        public Vector2 Position;
+        public Quaternion Rotation;
+        public Transform Parent;
+        public AttackInit(LayerMask hitMask, Vector2 position, Quaternion rotation, Transform Parent = null)
         {
             HitMask = hitMask;
         }

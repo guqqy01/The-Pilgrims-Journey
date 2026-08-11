@@ -89,9 +89,9 @@ namespace Monsters
 
                     project.onHit += OnDamageUnit;
 
-                    ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
-
-                    project.Init(projectileStats, true, target.position - transform.position, findTargetMask, false, target, ProjectileOwner.Monster);
+                    ProjectileStats projectileStats = new ProjectileStats(damage, 1, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+                    ProjectileInit projectileInit = new ProjectileInit(findTargetMask, transform.position, Quaternion.identity, true, false, target, (target.position - transform.position).normalized);
+                    project.Init(projectileInit, projectileStats);
 
                     audioSource?.Play();
 

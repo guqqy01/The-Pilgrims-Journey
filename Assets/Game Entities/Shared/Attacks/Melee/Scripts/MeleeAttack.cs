@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 namespace Attacks.Melee
 {
-    public class MeleeAttack : Attack<MeleeAttackSO, MeleeAttackSpawn>
+    public class MeleeAttack : Attack<MeleeAttackSO, AttackInit, AttackStats>
     {
         private BaseMovement movement;
 
@@ -31,12 +31,24 @@ namespace Attacks.Melee
                     _ => 0f // fallback
                 };
             }
-
-            MeleeAttackSpawn attackInstance = GetAttackSpawnFromPool(transform.position, Quaternion.Euler(0, 0, rotation), transform);
-
-            attackInstance.Init(hitLayerMask, damage, criticalChance, criticalDamageMultiplier, destroyProjectiles, knockback);
+            AttackInit attackInit = new AttackInit(hitLayerMask, transform.position, Quaternion.Euler(0, 0, rotation), transform);
+            MeleeAttackSpawn attackInstance = GetAttackSpawnFromPoolAndSetup<MeleeAttackSpawn>(attackInit);
 
             return true;
+        }
+
+        protected override AttackStats GetAttackStats()
+        {
+            return new AttackStats(
+                damage, 
+                size, 
+                criticalChance, 
+                criticalDamageMultiplier, 
+                knockback, 
+                hitRefreshRate, 
+                destroyProjectiles,
+                amountOfHits,
+                projectilesCountAsHits);
         }
 
         protected override void InheritSetup(MeleeAttackSO heroAttackSO)

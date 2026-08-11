@@ -159,9 +159,14 @@ public class BuffableStat: IBuffSource, ISerializationCallbackReceiver, IDisposa
     public static implicit operator BuffableStat(int value) => new BuffableStat(value);
     public static implicit operator BuffableStat(float value) => new BuffableStat(value);
 
+    public static implicit operator BuffableStat(int? value) => value.HasValue ? new BuffableStat(value.Value) : null;
+    public static implicit operator BuffableStat(float? value) => value.HasValue ? new BuffableStat(value.Value) : null;
+
     public static implicit operator int(BuffableStat obj) => obj.Value.IntValue;
     public static implicit operator float(BuffableStat obj) => obj.Value.FloatValue;
 
+    public static implicit operator int?(BuffableStat obj) => obj == null ? null : obj.Value.IntValue;
+    public static implicit operator float?(BuffableStat obj) => obj == null ? null : obj.Value.FloatValue;
 
-    public static implicit operator Buff(BuffableStat obj) => obj.ConvertToBuff();
+    public static implicit operator Buff(BuffableStat obj) => obj == null ? null : obj.ConvertToBuff();
 }

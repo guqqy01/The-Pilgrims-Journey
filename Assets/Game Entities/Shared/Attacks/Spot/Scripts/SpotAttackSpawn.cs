@@ -89,11 +89,11 @@ namespace Attacks.Spot
 
         #endregion
 
-        protected override void InheritInit(TSpotInit heroAttackContext)
+        protected override void InheritInit(TSpotInit spotInit)
         {
-            mainCurrentPosition = heroAttackContext.currentPosition;
-            lifeEndTime = heroAttackContext.lifeTimeEnd;
-            movementSpeed = heroAttackContext.movementSpeed;
+            mainCurrentPosition = spotInit.Position;
+            lifeEndTime = spotInit.lifeTimeEnd;
+            movementSpeed = spotInit.movementSpeed;
         }
 
         protected override void InheritSetupStats(TSpotStats heroAttackContext)

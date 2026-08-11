@@ -7,6 +7,7 @@
 
         public ProjectileStats(
             int damage,
+            float size,
             float criticalChance,
             float criticalDamageMultiplier,
             float knockbackMultiplier,
@@ -15,7 +16,7 @@
             bool destroyProjectiles = false,
             int? amountOfHits = null,
             bool projectilesCountAsHits = false) :
-                base(damage, criticalChance, criticalDamageMultiplier, knockbackMultiplier, 0, destroyProjectiles, amountOfHits, projectilesCountAsHits)
+                base(damage, size, criticalChance, criticalDamageMultiplier, knockbackMultiplier, 0, destroyProjectiles, amountOfHits, projectilesCountAsHits)
         {
             Speed = speed;
             TurningSpeed = turningSpeed;

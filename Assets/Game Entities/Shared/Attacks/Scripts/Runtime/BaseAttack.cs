@@ -11,6 +11,8 @@ namespace Attacks
         [SerializeField]
         protected BuffableStat damage;
         [SerializeField]
+        protected BuffableStat hitRefreshRate;
+        [SerializeField]
         protected BuffableStat attackSpeed;
 
         [SerializeField]

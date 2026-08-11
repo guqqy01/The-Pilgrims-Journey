@@ -87,9 +87,9 @@ namespace Monsters
 
             project.onHit += OnDamageUnit;
 
-            ProjectileStats projectileStats = new ProjectileStats(damage, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
-
-            project.Init(projectileStats, false, HeroManager.Instance.ActiveHero.transform.position - transform.position, attackHitMask, false, null, ProjectileOwner.Monster, HealthAndShieldManager);
+            ProjectileStats projectileStats = new ProjectileStats(damage, 1, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
+            ProjectileInit projectileInit = new ProjectileInit(attackHitMask, transform.position, Quaternion.identity, false, false, null, HeroManager.Instance.ActiveHero.transform.position - transform.position,  null, HealthAndShieldManager);
+            project.Init(projectileInit, projectileStats);
         }
 
         private void PlayAttackAnimation()
