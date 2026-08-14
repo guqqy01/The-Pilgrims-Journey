@@ -98,7 +98,7 @@ public class HealthAndShieldManager : MonoBehaviour
 
         if(Random.value <= hitStats.CriticalChance / 100f)
         {
-            damage.AddBuff("Critical", new Buff(hitStats.CriticalDamageMultiplier, 0, 0));
+            damage.AddBuff("Critical", new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, hitStats.CriticalDamageMultiplier, 0, 0));
         }
 
         int leftDmg = Shield.DamageShield(damage, damageDirection);

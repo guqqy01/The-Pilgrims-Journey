@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 27835772}
   - component: {fileID: 27835773}
   m_Layer: 0
-  m_Name: HeroManager
+  m_Name: Hero Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9787,24 +9787,6 @@ MonoBehaviour:
           m_RotationOrder: 4
         m_ConstantMin: 0
         m_ConstantMax: 1
-    - item: {fileID: 11400000, guid: c30949d64bc9660409a5756111e03de2, type: 2}
-      weightCurve:
-        m_Mode: 0
-        m_CurveMultiplier: 0
-        m_CurveMin:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_CurveMax:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_ConstantMin: 0
-        m_ConstantMax: 1
     - item: {fileID: 11400000, guid: 963eaa7fb200d8249870839c9cee5aaf, type: 2}
       weightCurve:
         m_Mode: 0
@@ -10061,7 +10043,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6462465014869293911, guid: ffe85546a03a86143bf37270a5762aea, type: 3}
       propertyPath: TilesOrEquipmentAvailiable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11026,6 +11008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e67232178a9924587ccb3762202ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroAttacksManager
+  beginningAttacks: []
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -15325,7 +15308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009030ee63393574bb8ee4ac2717fd37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroStatBuffsManager
-  stats: {fileID: 0}
+  stats: {fileID: 27835773}
 --- !u!1 &938827969
 GameObject:
   m_ObjectHideFlags: 0
@@ -20353,7 +20336,7 @@ MonoBehaviour:
   tileGrid: {fileID: 1164369852}
   rectMaxSize: {x: 0, y: 131.5}
   maxAxis: 2
-  tileGridUIStyle: {fileID: 11400000, guid: de5a257ce2179f84590daee159fd2f12, type: 2}
+  tileGridUIStyle: {fileID: 11400000, guid: ba8f2ce00fb6d7e4e8ab90fad60a0c3a, type: 2}
   gridImage: {fileID: 1164369849}
 --- !u!1 &1166443968
 GameObject:
@@ -30247,6 +30230,22 @@ PrefabInstance:
       propertyPath: startGold
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 5982730405044014824, guid: 5d9a66a67b09c964e8e2673de8f0b8a3, type: 3}
+      propertyPath: coins.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982730405044014824, guid: 5d9a66a67b09c964e8e2673de8f0b8a3, type: 3}
+      propertyPath: 'coins.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4168070721882449240, guid: 4343a91f04288b14dbd200484b6480d2, type: 3}
+    - target: {fileID: 5982730405044014824, guid: 5d9a66a67b09c964e8e2673de8f0b8a3, type: 3}
+      propertyPath: 'coins.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1787901895657407869, guid: 1b87049e882775742b9d25feb9abb2c0, type: 3}
+    - target: {fileID: 5982730405044014824, guid: 5d9a66a67b09c964e8e2673de8f0b8a3, type: 3}
+      propertyPath: 'coins.Array.data[2]'
+      value: 
+      objectReference: {fileID: 4806760503433401189, guid: 6ce202cccfbd45744b5bb43b17ef3078, type: 3}
     - target: {fileID: 5982730405044014825, guid: 5d9a66a67b09c964e8e2673de8f0b8a3, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -37822,11 +37821,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 790590556746482523, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 790590556746482523, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 790590556746482523, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_SizeDelta.x
@@ -37862,11 +37861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1056422547771655163, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1056422547771655163, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1056422547771655163, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMin.y
@@ -37894,11 +37893,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2128924326774300652, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2128924326774300652, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2128924326774300652, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_SizeDelta.x
@@ -37910,7 +37909,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2128924326774300652, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -16.1474
       objectReference: {fileID: 0}
     - target: {fileID: 3536150092763717196, guid: a07378a5eaabde74d8918cb8b2780dc7, type: 3}
       propertyPath: m_AnchoredPosition.x

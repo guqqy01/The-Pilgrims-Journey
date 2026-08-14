@@ -11,10 +11,6 @@ namespace Units
         {
             BuffableStat buffableStat = new BuffableStat(value);
 
-            Buff buff = UpgradeManager.Instance.GetBuff(stat);
-
-            buffableStat.AddBuff("UpgradeManager", buff);
-
             if (tile != null)
             {
                 buffableStat.AddBuff("Tile", tile.GetTileBuff(stat));

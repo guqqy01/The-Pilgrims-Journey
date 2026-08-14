@@ -153,6 +153,8 @@ namespace Monsters
 
             Shocked = true;
 
+            MonsterMovement.ModifySpeedForTime("shock", new Buff(BuffType.Multiplier, -100, 0f, 0f), shockTime);
+
             timeToStartFlickering = shockTime * percentageOfRemainingTimeToStartFlickering;
 
             removeShockTime = Time.time + shockTime;

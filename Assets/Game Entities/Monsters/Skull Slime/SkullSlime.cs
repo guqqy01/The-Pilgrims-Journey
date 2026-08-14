@@ -41,7 +41,7 @@ namespace Monsters
         {
             animator.SetBool(HasShieldHash, false);
 
-            MonsterMovement.Speed.AddBuff("Exposed", new Buff(-100f, 0f, 0f));
+            MonsterMovement.Speed.AddBuff("Exposed", new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, -100f, 0f, 0f));
         }
 
         private void OnShieldRestored()

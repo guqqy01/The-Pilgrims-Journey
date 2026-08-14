@@ -3,7 +3,7 @@ using System;
 using Heros;
 namespace Attacks.Spot
 {
-    [CreateAssetMenu(menuName = "Hero Attack/Spot/Random Movement")]
+    [CreateAssetMenu(menuName = "Attack/Spot/Random Movement")]
     public class RandomMovementSpotAttackSO : SpotAttackSOBase<SpotAttackInit, RandomMovementSpotAttackStats>
     {
         public Vector2 randomChangeMovementTimeRange;

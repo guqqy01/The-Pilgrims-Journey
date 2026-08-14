@@ -2,16 +2,65 @@
 using UnityEngine;
 
 [Serializable]
-public class Buff: IBuffSource
+public class Buff: IBuffSource, ISerializationCallbackReceiver
 {
+    public BuffType buffFlags = BuffType.Base;
+    [SerializeField]
+    [HideInInspector]
+    private bool initialized;
+
+    [SerializeField]
     [Tooltip("Percentage multiplier. Example: 100 = +100% (doubles the base).")]
-    public float Multiplier = 0f;
+    private float multiplier = 0f;
 
     [SerializeField] private IntOrFloatObject baseBuff;
     [SerializeField] private IntOrFloatObject additionalBuff;
 
-    public IntOrFloatObject BaseBuff => baseBuff;
-    public IntOrFloatObject AdditionalBuff => additionalBuff;
+    public float Multiplier
+    {
+        get
+        {
+            if(buffFlags.HasFlag(BuffType.Multiplier))
+                return multiplier;
+
+            return 0f;
+        }
+        set
+        {
+            if (buffFlags.HasFlag(BuffType.Multiplier))
+                multiplier = value;
+        }
+    }
+    public IntOrFloatObject BaseBuff
+    {
+        get
+        {
+            if (buffFlags.HasFlag(BuffType.Base))
+                return baseBuff;
+
+            return IsInt ? 0 : 0f;
+        }
+        set
+        {
+            if (buffFlags.HasFlag(BuffType.Base))
+                baseBuff = value;
+        }
+    }
+    public IntOrFloatObject AdditionalBuff
+    {
+        get
+        {
+            if (buffFlags.HasFlag(BuffType.Additional))
+                return additionalBuff;
+
+            return IsInt ? 0 : 0f;
+        }
+        set
+        {
+            if (buffFlags.HasFlag(BuffType.Additional))
+                additionalBuff = value;
+        }
+    }
 
     public bool IsInt
     {
@@ -28,27 +77,31 @@ public class Buff: IBuffSource
 
     Buff IBuffSource.Buff => this;
 
-    public Buff(bool isInt)
+    public Buff(BuffType buffType, bool isInt)
     {
+        buffFlags = buffType;
+
         Multiplier = 0f;
 
         if (isInt)
         {
-            baseBuff = new IntOrFloatObject(0);
-            additionalBuff = new IntOrFloatObject(0);
+            BaseBuff = new IntOrFloatObject(0);
+            AdditionalBuff = new IntOrFloatObject(0);
         }
         else
         {
-            baseBuff = new IntOrFloatObject(0f);
-            additionalBuff = new IntOrFloatObject(0f);
+            BaseBuff = new IntOrFloatObject(0f);
+            AdditionalBuff = new IntOrFloatObject(0f);
         }
     }
 
-    public Buff(float multiplier, IntOrFloatObject baseBuff, IntOrFloatObject additionalBuff)
+    public Buff(BuffType buffType, float multiplier, IntOrFloatObject baseBuff, IntOrFloatObject additionalBuff)
     {
+        buffFlags = buffType;
+        IsInt = baseBuff.IsInt;
         Multiplier = multiplier;
-        this.baseBuff = baseBuff;
-        this.additionalBuff = additionalBuff;
+        BaseBuff = baseBuff;
+        AdditionalBuff = additionalBuff;
     }
 
     /// <summary>
@@ -56,11 +109,9 @@ public class Buff: IBuffSource
     /// </summary>
     public virtual IntOrFloatObject Value(IntOrFloatObject baseValue)
     {
-        float result = ((baseValue + baseBuff) * (1f + Multiplier / 100f) + additionalBuff).FloatValue;
+        float result = ((baseValue + BaseBuff) * (1f + Multiplier / 100f) + AdditionalBuff).FloatValue;
 
-
-
-        return baseBuff.IsInt
+        return IsInt
             ? new IntOrFloatObject(Mathf.RoundToInt(result))
             : new IntOrFloatObject(result);
     }
@@ -81,19 +132,22 @@ public class Buff: IBuffSource
         }
 
 
+        BuffType buffType = a.buffFlags | b.buffFlags;
         if (a.IsInt)
         {
             return new Buff(
-            a.Multiplier + b.Multiplier,
-            Mathf.RoundToInt(a.baseBuff + b.baseBuff),
-            Mathf.RoundToInt(a.additionalBuff + b.additionalBuff));
+                buffType,
+                a.Multiplier + b.Multiplier,
+                Mathf.RoundToInt(a.BaseBuff + b.BaseBuff),
+                Mathf.RoundToInt(a.AdditionalBuff + b.AdditionalBuff));
         }
         else
         {
             return new Buff(
-            a.Multiplier + b.Multiplier,
-            (float)(a.baseBuff + b.baseBuff),
-            (float)(a.additionalBuff + b.additionalBuff));
+                buffType,
+                a.Multiplier + b.Multiplier,
+                (float)(a.BaseBuff + b.BaseBuff),
+                (float)(a.AdditionalBuff + b.AdditionalBuff));
         }
     }
 
@@ -102,17 +156,19 @@ public class Buff: IBuffSource
         if (a.IsInt)
         {
             return new Buff(
+                a.buffFlags,
                 a.Multiplier * multiplier,
-                Mathf.RoundToInt(a.baseBuff * multiplier),
-                Mathf.RoundToInt(a.additionalBuff * multiplier)
+                Mathf.RoundToInt(a.BaseBuff * multiplier),
+                Mathf.RoundToInt(a.AdditionalBuff * multiplier)
             );
         }
         else
         {
             return new Buff(
-            a.Multiplier * multiplier,
-            a.baseBuff * multiplier,
-            a.additionalBuff * multiplier);
+                a.buffFlags,
+                a.Multiplier * multiplier,
+                a.BaseBuff * multiplier,
+                a.AdditionalBuff * multiplier);
         }
     }
 
@@ -304,4 +360,17 @@ public class Buff: IBuffSource
     public override string ToString() =>
         $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
 
+    public void OnBeforeSerialize()
+    {
+        if (!initialized)
+        {
+            buffFlags = BuffType.Base;
+            initialized = true;
+        }
+    }
+
+    public void OnAfterDeserialize()
+    {
+        
+    }
 }

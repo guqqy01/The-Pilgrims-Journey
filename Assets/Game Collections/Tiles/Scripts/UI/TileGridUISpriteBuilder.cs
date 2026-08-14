@@ -64,8 +64,10 @@ namespace Tiles.UI
 
             SpritePriorityAndPixels sp = new SpritePriorityAndPixels(gridStyle);
             int spritePixelSize = gridStyle.SpritePixelSize;
-            int texW = size.x * (spritePixelSize - 1) + 1;
-            int texH = size.y * (spritePixelSize - 1) + 1;
+            int crossOver = gridStyle.SpriteCrossOver;
+
+            int texW = size.x * (spritePixelSize - crossOver) + crossOver;
+            int texH = size.y * (spritePixelSize - crossOver) + crossOver;
             Color[] buffer = new Color[texW * texH];
 
             var drawOrder = new List<DrawOrderItem>();
@@ -75,29 +77,29 @@ namespace Tiles.UI
                 for (int cy = 0; cy < size.y; cy++)
                 {
                     Vector2Int cell = new Vector2Int(cx, cy);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.Background, 0f);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerVertical, 0.1f);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerHorizontal, 0.1f);
-                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, sp.InnerCorner, 0.2f);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, crossOver, sp.Background, 0f);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, crossOver, sp.InnerVertical, 0.1f);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, crossOver, sp.InnerHorizontal, 0.1f);
+                    EnqueueFull(drawOrder, buffer, texW, cell, spritePixelSize, crossOver, sp.InnerCorner, 0.2f);
                 }
 
             // --- Enqueue outer edges ---
             for (int cx = 0; cx < size.x; cx++)
             {
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, 0), EdgeSide.Bottom, spritePixelSize, sp, 0.3f);
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, size.y - 1), EdgeSide.Top, spritePixelSize, sp, 0.3f);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, 0), EdgeSide.Bottom, spritePixelSize, crossOver, sp, 0.3f);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(cx, size.y - 1), EdgeSide.Top, spritePixelSize, crossOver, sp, 0.3f);
             }
             for (int cy = 0; cy < size.y; cy++)
             {
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(0, cy), EdgeSide.Left, spritePixelSize, sp, 0.4f);
-                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(size.x - 1, cy), EdgeSide.Right, spritePixelSize, sp, 0.4f);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(0, cy), EdgeSide.Left, spritePixelSize, crossOver, sp, 0.4f);
+                EnqueueOuterEdge(drawOrder, buffer, texW, new Vector2Int(size.x - 1, cy), EdgeSide.Right, spritePixelSize, crossOver, sp, 0.4f);
             }
 
             // --- Enqueue outer corners ---
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, 0), sp.OuterCorner, spritePixelSize, Corner.BottomLeft, 0.5f);
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, 0), sp.OuterCorner, spritePixelSize, Corner.BottomRight, 0.5f);
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, size.y - 1), sp.OuterCorner, spritePixelSize, Corner.TopLeft, 0.5f);
-            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, size.y - 1), sp.OuterCorner, spritePixelSize, Corner.TopRight, 0.5f);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, 0), sp.OuterCorner, spritePixelSize, crossOver, Corner.BottomLeft, 0.5f);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, 0), sp.OuterCorner, spritePixelSize, crossOver, Corner.BottomRight, 0.5f);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(0, size.y - 1), sp.OuterCorner, spritePixelSize, crossOver, Corner.TopLeft, 0.5f);
+            EnqueueOuterCorner(drawOrder, buffer, texW, new Vector2Int(size.x - 1, size.y - 1), sp.OuterCorner, spritePixelSize, crossOver, Corner.TopRight, 0.5f);
 
             // --- Sort ascending by priority then execute ---
             drawOrder.Sort((a, b) => a.Priority.CompareTo(b.Priority));
@@ -121,8 +123,8 @@ namespace Tiles.UI
         }
 
         // Returns the top-left pixel coordinate of a cell in the shared-border texture.
-        private static Vector2Int CellOrigin(Vector2Int cell, int spritePixelSize) =>
-            new Vector2Int(cell.x * (spritePixelSize - 1), cell.y * (spritePixelSize - 1));
+        private static Vector2Int CellOrigin(Vector2Int cell, int spritePixelSize, int spriteCrossOver) =>
+    new Vector2Int(cell.x * (spritePixelSize - spriteCrossOver), cell.y * (spritePixelSize - spriteCrossOver));
 
 
         #region Enqueue Helpers
@@ -130,7 +132,7 @@ namespace Tiles.UI
         private static void EnqueueFull(
             List<DrawOrderItem> drawOrder,
             Color[] buffer, int texW,
-            Vector2Int cell, int spritePixelSize,
+            Vector2Int cell, int spritePixelSize, int spriteCrossOver,
             (int Priority, Color[] Pixels) sprite,
             float additionalPriority)
         {
@@ -138,7 +140,7 @@ namespace Tiles.UI
             drawOrder.Add(new DrawOrderItem
             {
                 Priority = sprite.Priority + additionalPriority,
-                StampAction = () => StampFull(buffer, texW, cell, spritePixelSize, sprite.Pixels)
+                StampAction = () => StampFull(buffer, texW, cell, spritePixelSize, spriteCrossOver, sprite.Pixels)
             });
         }
 
@@ -146,6 +148,7 @@ namespace Tiles.UI
             List<DrawOrderItem> drawOrder,
             Color[] buffer, int texW,
             Vector2Int cell, EdgeSide side, int spritePixelSize,
+            int spriteCrossOver,
             SpritePriorityAndPixels sp, float additionalPriority)
         {
             int priority = (side == EdgeSide.Top || side == EdgeSide.Bottom)
@@ -155,7 +158,7 @@ namespace Tiles.UI
             drawOrder.Add(new DrawOrderItem
             {
                 Priority = priority + additionalPriority,
-                StampAction = () => StampOuterEdge(buffer, texW, cell, side, spritePixelSize, sp)
+                StampAction = () => StampOuterEdge(buffer, texW, cell, side, spritePixelSize, spriteCrossOver, sp)
             });
         }
 
@@ -164,13 +167,13 @@ namespace Tiles.UI
             Color[] buffer, int texW,
             Vector2Int cell,
             (int Priority, Color[] Pixels) sprite,
-            int spritePixelSize, Corner corner, float additionalPriority)
+            int spritePixelSize, int spriteCrossOver, Corner corner, float additionalPriority)
         {
             if (sprite.Pixels == null || sprite.Pixels.Length == 0) return;
             drawOrder.Add(new DrawOrderItem
             {
                 Priority = sprite.Priority + additionalPriority,
-                StampAction = () => StampOuterCorner(buffer, texW, cell, spritePixelSize, sprite.Pixels, corner)
+                StampAction = () => StampOuterCorner(buffer, texW, cell, spritePixelSize, spriteCrossOver, sprite.Pixels, corner)
             });
         }
 
@@ -179,11 +182,11 @@ namespace Tiles.UI
 
         #region Stamp Methods
 
-        private static void StampFull(Color[] buffer, int texW, Vector2Int cell, int spritePixelSize, Color[] source)
+        private static void StampFull(Color[] buffer, int texW, Vector2Int cell, int spritePixelSize, int spriteCrossOver, Color[] source)
         {
             if (source == null || source.Length == 0) return;
 
-            Vector2Int origin = CellOrigin(cell, spritePixelSize);
+            Vector2Int origin = CellOrigin(cell, spritePixelSize, spriteCrossOver);
             for (int y = 0; y < spritePixelSize; y++)
                 for (int x = 0; x < spritePixelSize; x++)
                 {
@@ -194,7 +197,7 @@ namespace Tiles.UI
         }
 
         private static void StampOuterEdge(Color[] buffer, int texW, Vector2Int cell,
-                                            EdgeSide side, int spritePixelSize, SpritePriorityAndPixels sp)
+                                            EdgeSide side, int spritePixelSize, int spriteCrossOver, SpritePriorityAndPixels sp)
         {
             int half = spritePixelSize / 2;
 
@@ -214,7 +217,7 @@ namespace Tiles.UI
                 default: return;
             }
 
-            Vector2Int origin = CellOrigin(cell, spritePixelSize);
+            Vector2Int origin = CellOrigin(cell, spritePixelSize, spriteCrossOver);
             for (int y = yStart; y < yEnd; y++)
                 for (int x = xStart; x < xEnd; x++)
                 {
@@ -225,7 +228,7 @@ namespace Tiles.UI
         }
 
         private static void StampOuterCorner(Color[] buffer, int texW, Vector2Int cell,
-                                              int spritePixelSize, Color[] source, Corner corner)
+                                              int spritePixelSize, int spriteCrossOver, Color[] source, Corner corner)
         {
             bool isRight = corner == Corner.TopRight || corner == Corner.BottomRight;
             bool isTop = corner == Corner.TopLeft || corner == Corner.TopRight;
@@ -234,7 +237,7 @@ namespace Tiles.UI
             int quadX = isRight ? half + (spritePixelSize.Odd() ? 1 : 0) : 0;
             int quadY = isTop ? half + (spritePixelSize.Odd() ? 1 : 0) : 0;
 
-            Vector2Int origin = CellOrigin(cell, spritePixelSize);
+            Vector2Int origin = CellOrigin(cell, spritePixelSize, spriteCrossOver);
             for (int y = 0; y < half; y++)
                 for (int x = 0; x < half; x++)
                 {

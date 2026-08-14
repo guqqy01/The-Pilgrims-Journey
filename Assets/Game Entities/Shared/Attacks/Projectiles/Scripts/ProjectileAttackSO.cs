@@ -3,13 +3,15 @@ using System;
 
 namespace Attacks.Projectiles
 {
-    [CreateAssetMenu(menuName = "Hero Attack/Projectile")]
+    [CreateAssetMenu(menuName = "Attack/Projectile")]
     public class ProjectileAttackSO : AttackSO<Projectile, ProjectileWeaponStatsAtLevel>
     {
         public override Type AttackType => typeof(ProjectileAttack);
 
         public bool projectileHoming;
         public bool bounce;
+        public float coneAngle = 40f;
+
         public override Buff GetBuffAtIndex(StatTypes heroStats, int index)
         {
             return heroStats switch

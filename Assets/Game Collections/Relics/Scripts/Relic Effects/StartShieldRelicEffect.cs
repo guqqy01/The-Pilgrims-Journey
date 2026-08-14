@@ -58,6 +58,7 @@ namespace Relics
             }
 
             Buff shieldBuff = new Buff(
+                BuffType.Additional | BuffType.Multiplier | BuffType.Base,
                 0f,
                 new IntOrFloatObject(0),
                 new IntOrFloatObject(shieldAmountPerLevel * relicLevel)

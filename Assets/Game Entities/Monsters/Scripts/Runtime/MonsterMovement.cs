@@ -40,7 +40,7 @@ namespace Monsters
 
             HandleMoveMonster(moveVector);
 
-            HandleMirroring(moveVector.x);
+            HandleMirroring(toVector.x);
         }
 
 

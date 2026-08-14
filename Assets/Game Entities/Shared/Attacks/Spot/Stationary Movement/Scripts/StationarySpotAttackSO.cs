@@ -3,7 +3,7 @@ using System;
 using Heros;
 namespace Attacks.Spot
 {
-    [CreateAssetMenu(menuName = "Hero Attack/Spot/Stationary")]
+    [CreateAssetMenu(menuName = "Attack/Spot/Stationary")]
     public class StationarySpotAttackSO : SpotAttackSOBase<SpotAttackInit, SpotAttackStats>
     {
         public override Type AttackType => typeof(StationarySpotAttack);

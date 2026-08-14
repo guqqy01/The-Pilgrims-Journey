@@ -10,7 +10,7 @@ namespace Attacks.Melee
             movement = GetComponent<BaseMovement>();
         }
 
-        protected override bool Attack()
+        protected override bool ProtectedAttack()
         {
             float rotation;
 

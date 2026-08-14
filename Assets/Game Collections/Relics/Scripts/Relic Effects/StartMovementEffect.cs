@@ -52,6 +52,7 @@ namespace Relics
             }
 
             Buff moveBuff = new Buff(
+                BuffType.Additional,
                 0f,
                 new IntOrFloatObject(0f),
                 new IntOrFloatObject(movementAmountPerLevel) // consider renaming shieldAmount ? movementAmount

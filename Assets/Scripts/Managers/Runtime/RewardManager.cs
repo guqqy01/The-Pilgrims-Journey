@@ -84,7 +84,7 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
             return;
         }
 
-        Direction pickedDirection = (Direction)PathPicker.Instance.PickedDirection;
+        Direction pickedDirection = PathPicker.Instance.PickedDirection.Value;
 
         if (!LevelRewards.TryGetValue(pickedDirection, out var rewardsForDirection) || rewardsForDirection == null)
         {

@@ -23,7 +23,7 @@ namespace Attacks.Spot
         private float? lifeTime;
         private float movementSpeed;
 
-        protected override bool Attack()
+        protected override bool ProtectedAttack()
         {
             Transform target = GetTarget();
             if (target == null)

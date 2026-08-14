@@ -28,15 +28,15 @@ namespace Units
 
             if(value <= (float)coint10Percent.Value.Value)
             {
-                resourceManager.coins.Add(Instantiate(resourceManager.coin10, transform.position, Quaternion.identity, resourceManager.transform));
+                resourceManager.Coins.Add(Instantiate(resourceManager.coin10, transform.position, Quaternion.identity, resourceManager.transform));
             }
             else if (value <= (float)coin5Percent.Value.Value)
             {
-                resourceManager.coins.Add(Instantiate(resourceManager.coin5, transform.position, Quaternion.identity, resourceManager.transform));
+                resourceManager.Coins.Add(Instantiate(resourceManager.coin5, transform.position, Quaternion.identity, resourceManager.transform));
             }
             else if (value <= (float)coin1Percent.Value.Value)
             {
-                resourceManager.coins.Add(Instantiate(resourceManager.coin1, transform.position, Quaternion.identity, resourceManager.transform));
+                resourceManager.Coins.Add(Instantiate(resourceManager.coin1, transform.position, Quaternion.identity, resourceManager.transform));
             }
         }
     }

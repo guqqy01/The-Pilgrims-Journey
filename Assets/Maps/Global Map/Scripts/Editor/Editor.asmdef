@@ -3,14 +3,19 @@
     "rootNamespace": "",
     "references": [
         "GUID:ede58ae7e1b109440b4dc58098311c09",
+        "GUID:9e5e9a7cae5ed764781f6217f460e279",
         "GUID:6a30d4ccfde8de341992d11f1ffca98d",
         "GUID:fad61bfadd63a544999d82346f4b0b30",
+        "GUID:c543e4f8ce16b604985e4356048daf6e",
         "GUID:ee503b3f4cc45ec4898725fcc1baff59",
+        "GUID:ed86352178e5f7c43beb44873cd7c1cc",
         "GUID:ab9f4c60d71eb6b48a749391f9969605",
         "GUID:2a4cbeb1e0819b14fac5142a49c8f8f2",
-        "GUID:2b01c1c41f5b521489fe1bfc9295598c"
+        "GUID:21b0c8d1703a94250bfac916590cea4f"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

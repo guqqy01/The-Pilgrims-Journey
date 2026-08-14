@@ -21,23 +21,37 @@ public class BuffPropertyDrawer : PropertyDrawer
         if (!property.isExpanded)
             return EditorGUIUtility.singleLineHeight;
 
+        SerializedProperty buffTypeProp = property.FindPropertyRelative(nameof(Buff.buffFlags));
+
+
+        BuffType buffType = (BuffType)buffTypeProp.enumValueFlag;
+
         float height = EditorGUIUtility.singleLineHeight; // foldout line
-        height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("Multiplier")) + 2f;
-        height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("baseBuff")) + 2f;
-        height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("additionalBuff")) + 2f;
+        if(buffType.HasFlag(BuffType.Multiplier))
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("multiplier")) + 2f;
+        if (buffType.HasFlag(BuffType.Base))
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("baseBuff")) + 2f;
+        if (buffType.HasFlag(BuffType.Additional))
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("additionalBuff")) + 2f;
         return height;
     }
 
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        SerializedProperty multiplierProp = property.FindPropertyRelative("Multiplier");
+        SerializedProperty multiplierProp = property.FindPropertyRelative("multiplier");
         SerializedProperty baseBuffProp = property.FindPropertyRelative("baseBuff");
         SerializedProperty additionalBuffProp = property.FindPropertyRelative("additionalBuff");
+        
+        SerializedProperty buffTypeProp = property.FindPropertyRelative(nameof(Buff.buffFlags));
 
         Rect foldoutRect = new Rect(position) { width = position.width / 2f , height = EditorGUIUtility.singleLineHeight};
+        Rect enumRect = new Rect(position) { xMin = foldoutRect.xMax, height = EditorGUIUtility.singleLineHeight };
 
         property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label);
+
+        BuffType buffType = (BuffType)EditorGUI.EnumFlagsField(enumRect, (BuffType)buffTypeProp.enumValueFlag);
+        buffTypeProp.enumValueFlag = (int)buffType;
 
         AutoSetBuffType(position, property);
 
@@ -47,15 +61,23 @@ public class BuffPropertyDrawer : PropertyDrawer
 
         if (property.isExpanded)
         {
-            Rect multiplierRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight};
-            yMin += EditorGUIUtility.singleLineHeight + 2f;
-            Rect baseRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
-            yMin += EditorGUIUtility.singleLineHeight + 2f;
-            Rect additionalRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
-
-            EditorGUI.PropertyField(multiplierRect, multiplierProp);
-            EditorGUI.PropertyField(baseRect, baseBuffProp);
-            EditorGUI.PropertyField(additionalRect, additionalBuffProp);
+            if (buffType.HasFlag(BuffType.Multiplier))
+            {
+                Rect multiplierRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
+                EditorGUI.PropertyField(multiplierRect, multiplierProp);
+                yMin += EditorGUIUtility.singleLineHeight + 2f;
+            }
+            if (buffType.HasFlag(BuffType.Base))
+            {
+                Rect baseRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
+                EditorGUI.PropertyField(baseRect, baseBuffProp);
+                yMin += EditorGUIUtility.singleLineHeight + 2f;
+            }
+            if (buffType.HasFlag(BuffType.Additional))
+            {
+                Rect additionalRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
+                EditorGUI.PropertyField(additionalRect, additionalBuffProp);
+            }
         }
 
         EditorGUI.indentLevel--;

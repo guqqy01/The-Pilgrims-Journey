@@ -227,11 +227,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   directStoppingDistance: 0
-  separationRadius: 0.8
-  separationStrength: 1.5
-  enemyLayerMask:
+  separationRadius: 0.4
+  separationStrength: -0.5
+  seperationLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
 --- !u!114 &7937975583093245081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 1338533859, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

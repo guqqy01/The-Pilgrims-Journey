@@ -24,8 +24,6 @@ namespace Units
         {
             BaseInit(unitSO.MovementSpeed);
 
-            Speed.AddBuff("UpgradeManager", UpgradeManager.Instance.GetBuff(UnitStatsEnum.MovementSpeed));
-
             CurrentPathIndex = currentPathIndex;
 
             Path = path;

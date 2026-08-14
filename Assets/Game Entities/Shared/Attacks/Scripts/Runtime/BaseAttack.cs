@@ -6,6 +6,8 @@ namespace Attacks
     {
         public abstract BaseAttackSO BaseAttackSO { get; }
 
+        public bool Active = true;
+
         public int Level { protected set; get; } = 1;
 
         [SerializeField]
@@ -39,6 +41,8 @@ namespace Attacks
         protected BuffableStat amountOfHits;
         protected bool projectilesCountAsHits;
 
+        public bool AttacksTriggeredExternally;
+
         protected virtual Transform GetTarget()
         {
             Collider2D[] collliders = Physics2D.OverlapCircleAll(transform.position, findTargetDistance, hitLayerMask);
@@ -61,16 +65,30 @@ namespace Attacks
 
         protected virtual void Update()
         {
+            if (!Active)
+                return;
+
             if (Time.time >= nextAttackTime)
             {
                 if (damage == null)
                     return;
 
-                if (Attack())
+                if (ProtectedAttack())
                 {
                     ResetAttackTimer();
                 }
             }
+        }
+
+        public void ExternalTriggerAttack()
+        {
+            if(!Active) 
+                return;
+
+            if (!AttacksTriggeredExternally)
+                return;
+
+            ProtectedAttack();
         }
 
         public void DelayAttack(float time)
@@ -83,7 +101,7 @@ namespace Attacks
             nextAttackTime = Time.time + Cooldown;
         }
 
-        protected abstract bool Attack();
+        protected abstract bool ProtectedAttack();
 
         public abstract void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, LayerMask hitLayerMask) 
             where TBaseAttackSO : BaseAttackSO;

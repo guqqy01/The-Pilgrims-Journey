@@ -151,7 +151,7 @@ namespace Attacks.Orbitals
             activeOrbitals++;
         }
 
-        protected override bool Attack()
+        protected override bool ProtectedAttack()
         {
             if (activeOrbitals >= numberOfOrbitals)
                 return true;

@@ -16,9 +16,10 @@ namespace Monsters
         private Transform _target;
         private Vector2? _targetPosition;
 
+        [Header("Seperation")]
         [SerializeField] private float separationRadius = 0.8f;
         [SerializeField] private float separationStrength = 1.5f;
-        [SerializeField] private LayerMask enemyLayerMask;
+        [SerializeField] private LayerMask seperationLayerMask;
         public Vector2? TargetPosition
         {
             get
@@ -116,7 +117,7 @@ namespace Monsters
             }
 
             HandleMoveMonster(moveVector);
-            HandleMirroring(moveVector.x);
+            HandleMirroring(flowDir.x);
         }
 
         private Vector2 GetSeparationForce()
@@ -125,7 +126,7 @@ namespace Monsters
 
             // OverlapCircleNonAlloc to avoid allocations
             Collider2D[] hits = Physics2D.OverlapCircleAll(
-                transform.position, separationRadius, enemyLayerMask);
+                transform.position, separationRadius, seperationLayerMask);
 
             for (int i = 0; i < hits.Length; i++)
             {

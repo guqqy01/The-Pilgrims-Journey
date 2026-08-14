@@ -137,7 +137,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -5883668552645195124, guid: fc3355f521c27694cb27bf1c3677b5a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -738,11 +738,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   directStoppingDistance: 0
-  separationRadius: 0.8
-  separationStrength: 1.5
-  enemyLayerMask:
+  separationRadius: 0.4
+  separationStrength: -0.5
+  seperationLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
 --- !u!114 &8825843234925576279
 MonoBehaviour:
   m_ObjectHideFlags: 0

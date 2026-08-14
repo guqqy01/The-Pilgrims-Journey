@@ -12,11 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a559a1cad2a51c347a98db069846d39d, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: UI::Tiles.TileGridUISpriteStyle
-  spritePixelSize: 15
-  BackgroundFillSprite: {fileID: -5808458371703332198, guid: f641f9a6d6eaf974d874c7483d9b43bc, type: 3}
-  OuterCornerSprites: {fileID: 1713960676, guid: f641f9a6d6eaf974d874c7483d9b43bc, type: 3}
-  OuterVerticalSprites: {fileID: 1820717827, guid: f641f9a6d6eaf974d874c7483d9b43bc, type: 3}
-  OuterHorizontalSprites: {fileID: 1432737763, guid: f641f9a6d6eaf974d874c7483d9b43bc, type: 3}
-  InnerCornerSprites: {fileID: 1551595214, guid: f641f9a6d6eaf974d874c7483d9b43bc, type: 3}
-  InnerVerticalSeperationSprites: {fileID: 2100938799, guid: f641f9a6d6eaf974d874c7483d9b43bc, type: 3}
-  InnerHorizontalSeperationSprites: {fileID: -632187885, guid: f641f9a6d6eaf974d874c7483d9b43bc, type: 3}
+  spritePixelSize: 20
+  spriteCrossOver: 0
+  BackgroundFillSprite:
+    Sprite: {fileID: -147036152, guid: 573fb04a5ae062b428bd90c19ea4effc, type: 3}
+    priority: 0
+  OuterCornerSprites:
+    Sprite: {fileID: 0}
+    priority: 0
+  OuterVerticalSprites:
+    Sprite: {fileID: 0}
+    priority: 0
+  OuterHorizontalSprites:
+    Sprite: {fileID: 0}
+    priority: 0
+  InnerCornerSprites:
+    Sprite: {fileID: 0}
+    priority: 0
+  InnerVerticalSeperationSprites:
+    Sprite: {fileID: 0}
+    priority: 0
+  InnerHorizontalSeperationSprites:
+    Sprite: {fileID: 0}
+    priority: 0

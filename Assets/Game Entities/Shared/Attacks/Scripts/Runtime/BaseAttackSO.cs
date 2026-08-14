@@ -56,8 +56,8 @@ namespace Attacks
 
                 bool isInt = fromBuff?.IsInt ?? toBuff?.IsInt ?? false;
 
-                fromBuff ??= new Buff(isInt);
-                toBuff ??= new Buff(isInt);
+                fromBuff ??= new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, isInt);
+                toBuff ??= new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, isInt);
 
                 string buffDescription = fromLevel == 0 ? toBuff.GetSignedSimpleDescription() : Buff.SimpleCompareString(fromBuff, toBuff);
 

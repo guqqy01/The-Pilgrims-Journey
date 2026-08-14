@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 namespace Attacks
 {
     public class AttacksManager : MonoBehaviour
@@ -26,8 +28,14 @@ namespace Attacks
 
         protected virtual void Awake()
         {
+            if (beginningAttacks == null)
+                return;
+
             foreach (var attackSO in beginningAttacks)
             {
+                if (attackSO == null)
+                    continue;
+
                 AddAttack(attackSO);
             }
         }
@@ -35,6 +43,21 @@ namespace Attacks
         public bool HasAttack(BaseAttackSO attackSO)
         {
             return attacks.ContainsKey(attackSO);
+        }
+
+        public void ActiveAttack(BaseAttackSO baseAttackSO, bool value)
+        {
+            attacks[baseAttackSO].Active = value;
+        }
+
+        public void AttackTriggeredExternally(BaseAttackSO baseAttackSO, bool value)
+        {
+            attacks[baseAttackSO].AttacksTriggeredExternally = value;
+        }
+
+        public void TriggerAttack(BaseAttackSO baseAttackSO)
+        {
+            attacks[baseAttackSO].ExternalTriggerAttack();
         }
 
         public void AddAttack(BaseAttackSO attackSO)

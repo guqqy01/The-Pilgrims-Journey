@@ -17,8 +17,6 @@ public class MainMenu : Singleton<MainMenu>
     [SerializeField]
     private GameObject equipmentCatalogue;
     [SerializeField]
-    private GameObject upgradeCatalogue;
-    [SerializeField]
     private GameObject beasaryCatalogue;
     [SerializeField]
     private GameObject relicCatalogue;
@@ -103,14 +101,6 @@ public class MainMenu : Singleton<MainMenu>
         WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());
     }
 
-    public void UpgradeButton()
-    {
-        if (Deactivated)
-            return;
-
-        OpenPage(Pages.Upgrade);
-    }
-
     public void BeastaryButton()
     {
         if (Deactivated)
@@ -155,7 +145,6 @@ public class MainMenu : Singleton<MainMenu>
     {
         equipmentCatalogue.SetActive(page == Pages.Equipment);
         unitCatalogue.SetActive(page == Pages.Units);
-        upgradeCatalogue.SetActive(page == Pages.Upgrade);
         beasaryCatalogue.SetActive(page == Pages.Beastary);
         relicCatalogue.SetActive(page == Pages.Relic);
     }
@@ -168,7 +157,6 @@ public class MainMenu : Singleton<MainMenu>
     private enum Pages
     {
         None,
-        Upgrade,
         Options,
         Beastary,
         Units,

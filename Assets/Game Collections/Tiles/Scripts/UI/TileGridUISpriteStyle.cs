@@ -10,6 +10,9 @@ namespace Tiles
         private int previousSpritePixelSize;
         public int SpritePixelSize => spritePixelSize;
 
+        [SerializeField] private int spriteCrossOver = 1;
+        public int SpriteCrossOver => spriteCrossOver;
+
         // Note: odd pixel sizes are supported but require special-case handling in StampOuterCorner.
         // Even sizes are recommended.
 

@@ -21,13 +21,10 @@ namespace Attacks.Projectiles
 
         protected bool bounce;
 
-        [SerializeField]
-        private float coneAngle = 40f;
-
         private const float spawnFluctuationPercent = 0.5f;
         private const float spawnFluctuationMax = 0.2f;
 
-        protected override bool Attack()
+        protected override bool ProtectedAttack()
         {
             var target = GetTarget();
 
@@ -39,9 +36,9 @@ namespace Attacks.Projectiles
             List<Vector2> directions;
 
             if(homing)
-                directions = direction.SplitConeDirections(numberOfProjectiles, coneAngle * Mathf.Deg2Rad);
+                directions = direction.SplitConeDirections(numberOfProjectiles, AttackSO.coneAngle * Mathf.Deg2Rad);
             else
-                directions = direction.SplitConeDirectionsAlwaysHaveMainDirection(numberOfProjectiles, coneAngle * Mathf.Deg2Rad);
+                directions = direction.SplitConeDirectionsAlwaysHaveMainDirection(numberOfProjectiles, AttackSO.coneAngle * Mathf.Deg2Rad);
 
             for (int i = 0; i < numberOfProjectiles; i++)
             {
@@ -61,7 +58,6 @@ namespace Attacks.Projectiles
                 yield return null;
 
             Quaternion rotation = Quaternion.FromToRotation(Vector3.right, direction);
-
             ProjectileInit projectileInit = new ProjectileInit(hitLayerMask, transform.position, rotation, homing, bounce, target, direction, null);
             Projectile attackSpawn = GetAttackSpawnFromPoolAndSetup<Projectile>(projectileInit);
         }

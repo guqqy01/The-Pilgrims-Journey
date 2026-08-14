@@ -8,9 +8,12 @@ namespace Attacks
         public Vector2 Position;
         public Quaternion Rotation;
         public Transform Parent;
-        public AttackInit(LayerMask hitMask, Vector2 position, Quaternion rotation, Transform Parent = null)
+        public AttackInit(LayerMask hitMask, Vector2 position, Quaternion rotation, Transform parent = null)
         {
             HitMask = hitMask;
+            Position = position;
+            Rotation = rotation;
+            Parent = parent;
         }
     }
 }

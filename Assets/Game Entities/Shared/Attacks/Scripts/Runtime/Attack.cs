@@ -44,11 +44,11 @@ namespace Attacks
 
                 string reference = "baseSize";
 
-                size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.x, 0));
+                size.AddBuff(reference, new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, attackSpawn.transform.localScale.x, 0));
                 float newSizeX = size;
                 size.RemoveBuff(reference);
 
-                size.AddBuff(reference, new Buff(0f, attackSpawn.transform.localScale.y, 0));
+                size.AddBuff(reference, new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, attackSpawn.transform.localScale.y, 0));
                 float newSizeY = size;
                 size.RemoveBuff(reference);
 

@@ -1,7 +1,8 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -280,3 +281,5 @@ public class TMPFontAssetPicker : EditorWindow
         }
     }
 }
+
+#endif

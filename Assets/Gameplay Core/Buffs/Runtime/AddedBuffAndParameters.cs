@@ -28,7 +28,7 @@ public class AddedBuffAndParameters
             {
                 var val = bs.Value;
                 // Create a simple Buff that represents the current numeric value as baseBuff (no multiplier)
-                return new Buff(0f, val, val.IsInt ? new IntOrFloatObject(0) : new IntOrFloatObject(0f));
+                return new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, val, val.IsInt ? new IntOrFloatObject(0) : new IntOrFloatObject(0f));
             }
             catch
             {
@@ -60,7 +60,7 @@ public class AddedBuffAndParameters
             additionalBuff = buff.AdditionalBuff;
         }
 
-        return new Buff(multiplier, baseBuff, additionalBuff);
+        return new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, multiplier, baseBuff, additionalBuff);
     }
 
     public AddedBuffAndParameters(IBuffSource buffSource, AddBuffParameters addBuffParameters = AddBuffParameters.All)

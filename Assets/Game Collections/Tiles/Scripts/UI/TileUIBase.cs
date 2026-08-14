@@ -120,7 +120,19 @@ namespace Tiles.UI
 
         public virtual void Rotate(int angle)
         {
+            // Apply rotation delta to RectTransform
             RectTransform.Rotate(new Vector3(0, 0, angle));
+
+            if (RectTransform == null)
+                RectTransform = GetComponent<RectTransform>();
+
+            // Compute absolute Z rotation and snap to nearest 90° (0/90/180/270)
+            float z = RectTransform.eulerAngles.z;
+            int normalized = Mathf.RoundToInt(z / 90f) * 90;
+            normalized = ((normalized % 360) + 360) % 360;
+            tileShapeTextureBuilder.transform.rotation = Quaternion.identity;
+            // Switch to the pre-rendered sprite for this absolute rotation
+            tileShapeTextureBuilder.ChangeSprite(normalized);
         }
 
         public virtual void RotateTo(float angle)
@@ -131,6 +143,12 @@ namespace Tiles.UI
             Vector3 eulerAngles = RectTransform.rotation.eulerAngles;
             eulerAngles.z = angle;
             RectTransform.rotation = Quaternion.Euler(eulerAngles);
+
+            // Snap target angle to nearest 90° and normalize
+            int normalized = Mathf.RoundToInt(angle / 90f) * 90;
+            normalized = ((normalized % 360) + 360) % 360;
+            tileShapeTextureBuilder.transform.rotation = Quaternion.identity;
+            tileShapeTextureBuilder.ChangeSprite(normalized);
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -267,7 +285,7 @@ namespace Tiles.UI
         {
             if (draggedTileGridUI != null)
             {
-                if(UIRotation % 180f == 90f)
+                if (UIRotation % 180f == 90f)
                 {
                     float xSize = Tile.Width * draggedTileGridUI.SingleTileSquareUISizeY;
                     float ySize = Tile.Height * draggedTileGridUI.SingleTileSquareUISizeX;
@@ -284,7 +302,7 @@ namespace Tiles.UI
                     tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
                 }
 
-                   
+
             }
             else
             {
@@ -392,7 +410,7 @@ namespace Tiles.UI
             tileGraphics.SetNativeSize();*/
 
             tileShapeTextureBuilder.Build(tile.Shape, TileUIStyle);
-
+            tileShapeTextureBuilder.GetAllSpriteRotations(tile.Shape, TileUIStyle);
             _baseSize = tileGraphics.rectTransform.rect.size;
 
             if (RectTransform == null)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿# if UNITY_EDITOR
+using System;
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
@@ -42,3 +43,4 @@ public class BoolFunctionReferenceDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif

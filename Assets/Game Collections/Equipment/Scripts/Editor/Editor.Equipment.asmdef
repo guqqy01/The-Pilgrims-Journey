@@ -2,10 +2,11 @@
     "name": "Editor.Equipment",
     "rootNamespace": "",
     "references": [
-        "GUID:ab9f4c60d71eb6b48a749391f9969605",
-        "GUID:620a679125e623c4aa2c77e58d7f738e"
+        "GUID:ab9f4c60d71eb6b48a749391f9969605"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

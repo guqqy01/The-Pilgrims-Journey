@@ -1,0 +1,26 @@
+{
+    "name": "Tests.Attacks",
+    "rootNamespace": "",
+    "references": [
+        "Assembly-CSharp",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Gameplay",
+        "Core.Buffs",
+        "Core",
+        "Utils"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -27,9 +27,9 @@ public class Upgrade
     {
         return buffType switch
         {
-            BuffType.Multiplier => new Buff((float)value, 0, 0),
-            BuffType.Base => new Buff(0f, value, 0),
-            BuffType.Additional => new Buff(0f, 0, value),
+            BuffType.Multiplier => new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, (float)value, 0, 0),
+            BuffType.Base => new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, value, 0),
+            BuffType.Additional => new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, 0, value),
             _ => throw new NotImplementedException()
         };
     }

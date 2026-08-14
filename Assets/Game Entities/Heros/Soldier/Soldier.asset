@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Soldier
   m_EditorClassIdentifier: Assembly-CSharp::Heros.HeroSO
   Health:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 8
       floatValue: 10
@@ -23,7 +25,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 1
   Shield:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 12
       floatValue: 0
@@ -33,7 +37,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 1
   ShieldCooldown:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 4
@@ -43,7 +49,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   ShieldRegeneration:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 2
@@ -53,7 +61,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   MovementSpeed:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 2.5
@@ -63,7 +73,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   Luck:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 1
@@ -73,7 +85,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   ExperienceGain:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 1
@@ -83,7 +97,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   DamageBuff:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -93,7 +109,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 1
   AttackSpeed:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -103,7 +121,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   NumberOfAttacks:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -113,7 +133,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 1
   CriticalChance:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -123,7 +145,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   CriticalDamageMultiplier:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -133,7 +157,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   AttackSize:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -143,7 +169,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   Knockback:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -153,7 +181,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   ProjectileSpeed:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -163,7 +193,9 @@ MonoBehaviour:
       floatValue: 0
       isInt: 0
   ProjectileTurnSpeed:
-    Multiplier: 0
+    buffFlags: 2
+    initialized: 1
+    multiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -174,6 +206,6 @@ MonoBehaviour:
       isInt: 0
   Description: An experienced warrior, swarn to protect the weak.
   icon: {fileID: -1656002450, guid: 98d64eb89de690d45a4c87cac8d791c7, type: 3}
-  prefab: {fileID: 693340296508962407, guid: 02302b97023878740aa00aecc6478a3c, type: 3}
+  prefab: {fileID: 8373047235322333958, guid: 134839a390252a64896fb6e41e7b983e, type: 3}
   startingAttack: {fileID: 11400000, guid: 71e92ddcceae9b24194160f95532b03b, type: 2}
   spriteLibrary: {fileID: 7108339969198208228, guid: 0a8b6283a16004f4a952387987783bac, type: 3}

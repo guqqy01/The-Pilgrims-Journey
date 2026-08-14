@@ -118,7 +118,7 @@ public class BuffableStat: IBuffSource, ISerializationCallbackReceiver, IDisposa
             // Ensure baseStat is initialized
             var bs = baseStat;
 
-            Buff combined = new Buff(0f, bs, bs.IsInt ? new IntOrFloatObject(0) : new IntOrFloatObject(0f));
+            Buff combined = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, bs, bs.IsInt ? new IntOrFloatObject(0) : new IntOrFloatObject(0f));
 
             foreach(var buffSource in buffs.Values)
             {

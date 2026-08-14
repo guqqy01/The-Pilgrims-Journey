@@ -39,7 +39,7 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMa
     public delegate void OnGoldChange(int currentGold);
     public OnGoldChange onGoldChange;
 
-    public List<GameObject> coins = new List<GameObject>();
+    public readonly List<GameObject> Coins = new List<GameObject>();
 
     private void Awake()
     {
@@ -61,11 +61,11 @@ public class ResourceManager : MonoBehaviour, ISaveLoad, IOnSave, IOnLoadAfterMa
 
     public void Clear()
     {
-        foreach(GameObject coin in coins)
+        foreach(GameObject coin in Coins)
         {
             Destroy(coin);
         }
-        coins.Clear();
+        Coins.Clear();
     }
 
 

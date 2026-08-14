@@ -151,7 +151,6 @@ namespace Tiles
             List<Buff> buffs = new()
             {
                 GetTileBuff(stat),
-                UpgradeManager.Instance.GetBuff(stat),
                 UnitBuffManager.Instance.GetBuff(stat)
             };
 

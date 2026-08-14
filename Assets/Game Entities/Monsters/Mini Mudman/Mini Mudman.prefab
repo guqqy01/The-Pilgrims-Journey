@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -8556322759303808671, guid: 39957026448e6b848b020343cb3917c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 4813222353747743167}
   - component: {fileID: 2503420318113733024}
   - component: {fileID: 5203814137887112335}
+  - component: {fileID: 9191644017791214057}
   m_Layer: 12
   m_Name: Mini Mudman
   m_TagString: Untagged
@@ -205,9 +206,9 @@ MonoBehaviour:
   directStoppingDistance: 0
   separationRadius: 0.8
   separationStrength: 1.5
-  enemyLayerMask:
+  seperationLayerMask:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 0
 --- !u!114 &2471307502750699463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +385,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
   knockBackSpeed: 1
   knockBackDuration: 0.2
+--- !u!114 &9191644017791214057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7074285777259253557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8562bec3953074b9376c5e3b0a0e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::DamageRecieverEffectManager
 --- !u!1001 &9081591285499563436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -527,6 +540,10 @@ PrefabInstance:
     - target: {fileID: 7588242973675327176, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
       propertyPath: m_Name
       value: HealthAndShieldUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605978710288518422, guid: 300b89794174e0c498ecbdad18ddab5c, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

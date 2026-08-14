@@ -5,12 +5,12 @@ using Units;
 [Serializable]
 public class TileBuffAtLevel
 {
-    public Buff spawnRateBuff = new Buff(false);
-    public Buff movementBuff = new Buff(false);
-    public Buff healthBuff = new Buff(true);
-    public Buff shieldBuff = new Buff(true);
-    public Buff shieldCooldownBuff = new Buff(false);
-    public Buff shieldRegenerationBuff = new Buff(false);
+    public Buff spawnRateBuff = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, false);
+    public Buff movementBuff = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, false);
+    public Buff healthBuff = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, true);
+    public Buff shieldBuff = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, true);
+    public Buff shieldCooldownBuff = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, false);
+    public Buff shieldRegenerationBuff = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, false);
 
     public Buff GetBuff(UnitStatsEnum stat)
     {
