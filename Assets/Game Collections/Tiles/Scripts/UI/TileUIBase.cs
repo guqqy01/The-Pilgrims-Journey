@@ -130,9 +130,15 @@ namespace Tiles.UI
             float z = RectTransform.eulerAngles.z;
             int normalized = Mathf.RoundToInt(z / 90f) * 90;
             normalized = ((normalized % 360) + 360) % 360;
-            tileShapeTextureBuilder.transform.rotation = Quaternion.identity;
+
             // Switch to the pre-rendered sprite for this absolute rotation
-            tileShapeTextureBuilder.ChangeSprite(normalized);
+
+            Stamp.ClockwiseRotations parsedRotation = (Stamp.ClockwiseRotations)normalized;
+
+            tileShapeTextureBuilder.ChangeSprite(parsedRotation);
+
+            if (tileGridUI != null)
+                ApplyGridSizing(tileGridUI);
         }
 
         public virtual void RotateTo(float angle)
@@ -147,8 +153,13 @@ namespace Tiles.UI
             // Snap target angle to nearest 90° and normalize
             int normalized = Mathf.RoundToInt(angle / 90f) * 90;
             normalized = ((normalized % 360) + 360) % 360;
-            tileShapeTextureBuilder.transform.rotation = Quaternion.identity;
-            tileShapeTextureBuilder.ChangeSprite(normalized);
+
+            Stamp.ClockwiseRotations parsedRotation = (Stamp.ClockwiseRotations)normalized;
+
+            tileShapeTextureBuilder.ChangeSprite(parsedRotation);
+
+            if (tileGridUI != null)
+                ApplyGridSizing(tileGridUI);
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -217,6 +228,29 @@ namespace Tiles.UI
             {
                 Rotate(-90);
                 AudioManager.Instance.PlayRotateTile();
+            }
+        }
+
+        public void ApplyGridSizing(TileGridUI grid)
+        {
+            if (tileGraphics == null || grid == null)
+                return;
+
+            if (UIRotation % 180f == 90f)
+            {
+                float xSize = Tile.Width * grid.SingleTileSquareUISizeY;
+                float ySize = Tile.Height * grid.SingleTileSquareUISizeX;
+
+                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+            }
+            else
+            {
+                float xSize = Tile.Width * grid.SingleTileSquareUISizeX;
+                float ySize = Tile.Height * grid.SingleTileSquareUISizeY;
+
+                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
             }
         }
 
@@ -301,8 +335,6 @@ namespace Tiles.UI
                     tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
                     tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
                 }
-
-
             }
             else
             {

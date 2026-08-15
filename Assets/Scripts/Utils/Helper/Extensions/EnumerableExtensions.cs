@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using UnityEngine;
+using static log4net.Appender.ColoredConsoleAppender;
 public static class EnumerableExtensions
 {
     public static int NotNullCount<T>(this IEnumerable<T> source) where T : class
@@ -20,6 +22,22 @@ public static class EnumerableExtensions
     public static object GetRandom(this System.Array array)
     {
         return array.GetValue(UnityEngine.Random.Range(0, array.Length));
+    }
+
+    public static (int x, int y) Get2DIndex<T>(this T[] array, int width, int index)
+    {
+        if (array == null || array.Length == 0)
+            throw new ArgumentException("Array is null or empty.", nameof(array));
+        if (width <= 0 || array.Length % width != 0)
+            throw new ArgumentException($"Array length {array?.Length} is not divisible by width {width}.", nameof(width));
+
+        int height = array.Length / width;
+        if (index < 0 || index >= height * width)
+            throw new ArgumentOutOfRangeException(nameof(index), $"index: {index}, height: {height}, width: {width}");
+
+        int x = index % width;
+        int y = index / width;
+        return (x, y);
     }
 
     public static bool IsInBounds(this Array source, params int[] indices)

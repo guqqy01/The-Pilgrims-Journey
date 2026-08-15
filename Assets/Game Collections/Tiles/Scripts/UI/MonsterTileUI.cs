@@ -71,6 +71,7 @@ public class MonsterTileUI : TileUIBase, IDescriptable
 
         monsterGraphics = monsterUITransform.GetComponent<Image>();
         monsterGraphics.sprite = monsterTile.MonsterSpawnBase.monster.sprite;
+        monsterGraphics.NativeRatioScaleToSize(monsterGraphics.rectTransform.rect.size.Min());
         monsterGraphics.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(tile.Shape);
     }
 

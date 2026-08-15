@@ -135,13 +135,13 @@ namespace Tiles.UI
 
         private void OnTileAdded(TileBase tileAdded)
         {
-            if (tileAdded == null)
-                return;
+            if (tileAdded == null) return;
 
             if (TryGetTilesUI(tileAdded, out TileUIBase existing))
             {
                 existing.UIRotation = tileAdded.Rotation;
                 existing.RectTransform.position = TileRectPositionAtVector2IntPosition(existing, tileAdded.PlacedPosition);
+                existing.ApplyGridSizing(this);
                 return;
             }
 
@@ -152,6 +152,7 @@ namespace Tiles.UI
                 tileUI.tileGridUI = this;
                 tileUI.UIRotation = tileAdded.Rotation;
                 tileUI.RectTransform.position = TileRectPositionAtVector2IntPosition(tileUI, tileAdded.PlacedPosition);
+                tileUI.ApplyGridSizing(this);
                 tileUIs.Add(tileUI);
             }
         }
@@ -224,10 +225,12 @@ namespace Tiles.UI
 
         public void AdoptTileUI(TileUIBase tileUI)
         {
-            if (!tileUIs.Contains(tileUI))
-                tileUIs.Add(tileUI);
+            if (!tileUIs.Contains(tileUI)) tileUIs.Add(tileUI);
             tileUI.tileGridUI = this;
+
             tileUI.transform.SetParent(GridTransform, true);
+
+            tileUI.ApplyGridSizing(this);
         }
 
         public Vector2 TileRectPositionAtVector2IntPosition(TileUIBase tileUI, Vector2Int position)

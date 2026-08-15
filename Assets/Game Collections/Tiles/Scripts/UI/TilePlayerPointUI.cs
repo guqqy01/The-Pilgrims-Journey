@@ -35,7 +35,10 @@ namespace Tiles.UI
 
         private void Update()
         {
-            playerUIPoint.position = tileGridUI.GridTransform.position + new Vector3(-tileGridUI.GridTransform.sizeDelta.x + 2f * TilePlayerManager.Instance.CurrentPlayingPosition * (tileGridUI.GridTransform.sizeDelta.x / tileGridUI.GridSizeX), tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
+            playerUIPoint.position = 
+                tileGridUI.GridTransform.position + 
+                new Vector3(-tileGridUI.GridTransform.sizeDelta.x + 2f * TilePlayerManager.Instance.CurrentPlayingPosition * (tileGridUI.GridTransform.sizeDelta.x / tileGridUI.GridSizeX), 
+                tileGridUI.GridTransform.sizeDelta.y + playerUIPointYOffset) * canvas.scaleFactor / 2f;
 
         }
 

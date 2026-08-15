@@ -1,22 +1,36 @@
+using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Object = UnityEngine.Object;
 namespace Tiles
 {
     /// <summary>
     /// Builds a Texture2D for any tile shape and assigns it to a RawImage.
-    /// Call Build(shape) once when the tile is created or its shape changes,
-    /// or GetAllSpriteRotations(shape) to get one sprite per 90° rotation
-    /// (useful when the art has baked-in lighting/shading that only looks
-    /// correct if it's redrawn per orientation rather than rotated as a whole).
+    /// Call Build(shape, uiStyle) once when the tile is created or its shape changes,
+    /// or GetAllSpriteRotations(shape, uiStyle) to pre-build one sprite per 90° rotation
+    /// and ChangeSprite(rotation) to switch between them instantly afterwards.
+    ///
+    /// Rotation does NOT change the tile's shape/geometry — the shape is always laid out
+    /// and stamped exactly as given. What changes per rotation is which art gets drawn at
+    /// each exposed side/corner of a cell:
+    ///   - Corners (outerCorners/innerCorners) rotate as a whole stamp — a symmetric 9-slice
+    ///     border means the same physical key (TopLeft, etc.) stays valid on the rotated stamp.
+    ///   - Edges are trickier: edgeHorizontal only ever supplies Top/Bottom art and edgeVertical
+    ///     only ever supplies Left/Right art. At 90°/270°, the physical Top position may need
+    ///     to be fed by edgeVertical's Left piece (or similar) — see StampEdge for the mapping.
+    ///     The extracted piece is rotated on its own before being placed, so its content reads
+    ///     correctly once repositioned.
     ///
     /// Each of the sprites below is optional — any that aren't assigned on
     /// TileUIStyle are simply skipped, so e.g. a style with no OuterCorners
     /// sprite will render without outer corner pieces. Every sprite that is
-    /// assigned must be cellPixelSize × cellPixelSize:
+    /// assigned must be cellPixelSize × cellPixelSize, and its Sprite.border
+    /// must be set to the half-cell 9-slice border so Stamp can slice out the
+    /// edge halves / corner quadrants:
     ///
-    ///   fill            — solid interior, no border pixels
+    ///   fill            — solid interior, no border pixels, no directional content
     ///   edgeHorizontal  — border on top AND bottom, transparent left/right columns
     ///   edgeVertical    — border on left AND right, transparent top/bottom rows
     ///   outerCorners    — all four outer corner pieces in one sprite:
@@ -27,12 +41,10 @@ namespace Tiles
     ///                     non-corner pixels transparent
     ///   innerCorners    — same quadrant layout as outerCorners, for concave notches
     ///
-    /// Edge sprites use the same half-cell quadrant scheme:
-    ///   edgeHorizontal top half    (y >= half) ? exposed Top edge
-    ///   edgeHorizontal bottom half (y  < half) ? exposed Bottom edge
-    ///   edgeVertical   left half   (x  < half) ? exposed Left edge
-    ///   edgeVertical   right half  (x >= half) ? exposed Right edge
-    /// Only the relevant half is stamped per exposed edge.
+    /// Compositing is done via <see cref="Stamp"/>: each fill/edge/corner sprite is
+    /// cached as a Stamp, edges/corners are pre-sliced into halves/quadrants via
+    /// Stamp's built-in 9-slice SubStamps, and each piece is blitted onto the
+    /// working canvas with Stamp.StampFull.
     /// </summary>
     [RequireComponent(typeof(Image))]
     public class TileShapeTextureBuilder : MonoBehaviour
@@ -49,7 +61,24 @@ namespace Tiles
         [SerializeField] private Image image;
         [SerializeField] private Image highlightImage;
 
-        private static readonly int[] RotationAngles = { 0, 90, 180, 270 };
+        private static readonly Stamp.ClockwiseRotations[] RotationAngles =
+        {
+            Stamp.ClockwiseRotations.None,
+            Stamp.ClockwiseRotations.Deg90,
+            Stamp.ClockwiseRotations.Deg180,
+            Stamp.ClockwiseRotations.Deg270,
+        };
+
+        // Physical edge positions, in clockwise order around the cell. TopCenter/
+        // BottomCenter are natively supplied by edgeHorizontal; CenterLeft/CenterRight
+        // by edgeVertical — together they form one 4-slot ring. See StampEdge.
+        private static readonly Stamp.BaseSubStamps[] EdgeCycle =
+        {
+            Stamp.BaseSubStamps.TopCenter,
+            Stamp.BaseSubStamps.CenterRight,
+            Stamp.BaseSubStamps.BottomCenter,
+            Stamp.BaseSubStamps.CenterLeft,
+        };
 
         // Every Texture2D/Sprite this component has ever created, so OnDestroy
         // can clean all of it up — including sprites handed out via
@@ -66,13 +95,19 @@ namespace Tiles
         private Sprite _currentHighlightSprite;
 
         // Cache populated by GetAllSpriteRotations; ChangeSprite reads from this.
-        private Dictionary<int, Sprite> _rotationSprites;
+        // All entries share the same shape/dimensions — only decoration differs.
+        private Dictionary<Stamp.ClockwiseRotations, Sprite> _rotationSprites;
 
-        private Color[] _fillPixels;
-        private Color[] _edgeHPixels;
-        private Color[] _edgeVPixels;
-        private Color[] _outerCornerPixels;
-        private Color[] _innerCornerPixels;
+        // Cached per-piece Stamps, rebuilt whenever CacheStamps() runs for a
+        // (possibly new) _uiStyle. Only the corner stamps are built with
+        // createRotationStamps: true (see StampEdge for why edges are handled
+        // differently). Edge/corner stamps also carry pre-sliced SubStamps
+        // (halves/quadrants) via their sprite's own border.
+        private Stamp _fillStamp;
+        private Stamp _edgeHStamp;
+        private Stamp _edgeVStamp;
+        private Stamp _outerCornerStamp;
+        private Stamp _innerCornerStamp;
 
         private TileUIStyle _uiStyle;
 
@@ -81,9 +116,6 @@ namespace Tiles
         // completes before the next starts, so this is safe.
         private Color[] _working;
         private int _texW;
-
-        private enum Corner { TopLeft, TopRight, BottomLeft, BottomRight }
-        private enum EdgeSide { Top, Bottom, Left, Right }
 
         /// <summary>
         /// Which of a cell's 8 neighbours are part of the shape, and which
@@ -117,18 +149,12 @@ namespace Tiles
         // Public API
         // ?????????????????????????????????????????????????????????????????
 
-        /// <summary>
-        /// Generates and applies the texture for <paramref name="shape"/>, replacing
-        /// whatever this component previously displayed. Safe to call repeatedly —
-        /// the previous texture/sprite is destroyed once the new one is ready.
-        /// Returns the generated sprite (null if the shape was empty).
-        /// </summary>
-        public Sprite Build(List<Vector2Int> shape, TileUIStyle uiStyle)
+        public Sprite Build(List<Vector2Int> shape, TileUIStyle uiStyle, Stamp.ClockwiseRotations rotation = Stamp.ClockwiseRotations.None)
         {
             _uiStyle = uiStyle;
-            CachePixels();
+            CacheStamps();
 
-            Sprite sprite = BuildSprite(shape, out Texture2D texture);
+            Sprite sprite = BuildSprite(shape, rotation, out Texture2D texture);
             if (sprite == null) return null;
 
             ReplaceCurrent(ref _currentTexture, texture);
@@ -140,26 +166,17 @@ namespace Tiles
             return sprite;
         }
 
-        /// <summary>
-        /// Builds one independent sprite per 90° rotation of <paramref name="shape"/>, and
-        /// caches them so <see cref="ChangeSprite"/> can switch between them later. Unlike
-        /// rotating a single sprite in the UI, this redraws each orientation from scratch, so
-        /// baked-in lighting/shading on the tile art stays correct instead of rotating along
-        /// with the tile. Calling this again replaces the cache — see <see cref="ChangeSprite"/>
-        /// for the caveat about doing that while a rotation is actively displayed.
-        /// </summary>
-        public Dictionary<int, Sprite> GetAllSpriteRotations(List<Vector2Int> shape, TileUIStyle uiStyle)
+        public Dictionary<Stamp.ClockwiseRotations, Sprite> GetAllSpriteRotations(List<Vector2Int> shape, TileUIStyle uiStyle)
         {
             _uiStyle = uiStyle;
-            CachePixels();
+            CacheStamps();
 
             ReleaseCachedRotations();
 
-            var rotations = new Dictionary<int, Sprite>();
-            foreach (int angle in RotationAngles)
+            var rotations = new Dictionary<Stamp.ClockwiseRotations, Sprite>();
+            foreach (Stamp.ClockwiseRotations angle in RotationAngles)
             {
-                List<Vector2Int> rotatedShape = angle == 0 ? shape : shape.Rotate(angle);
-                Sprite sprite = BuildSprite(rotatedShape, out _);
+                Sprite sprite = BuildSprite(shape, angle, out _);
                 if (sprite != null)
                     rotations[angle] = sprite;
             }
@@ -167,22 +184,8 @@ namespace Tiles
             return rotations;
         }
 
-        /// <summary>
-        /// Switches `image` to the cached sprite for <paramref name="rotation"/> (0/90/180/270),
-        /// resizing the RectTransform to match — a 90°/270° sprite can have swapped width/height
-        /// versus 0°/180°. Requires <see cref="GetAllSpriteRotations"/> to have been called first.
-        /// Note: calling GetAllSpriteRotations again destroys the previous rotation set, including
-        /// whichever one is currently displayed, so avoid regenerating rotations while relying on
-        /// this method to switch between them.
-        /// </summary>
-        public void ChangeSprite(int rotation)
+        public void ChangeSprite(Stamp.ClockwiseRotations rotation)
         {
-            if (rotation != 0 && rotation != 90 && rotation != 180 && rotation != 270)
-            {
-                Debug.LogWarning($"[TileShapeTextureBuilder] {name}: {rotation} is not a valid rotation (expected 0, 90, 180, or 270).");
-                return;
-            }
-
             if (_rotationSprites == null || !_rotationSprites.TryGetValue(rotation, out Sprite sprite) || sprite == null)
             {
                 Debug.LogWarning($"[TileShapeTextureBuilder] {name}: no cached sprite for {rotation}° — call GetAllSpriteRotations first.");
@@ -191,7 +194,6 @@ namespace Tiles
             AssignMainSprite(sprite);
         }
 
-        /// <summary>Destroys and untracks any previously cached rotation sprites.</summary>
         private void ReleaseCachedRotations()
         {
             if (_rotationSprites == null) return;
@@ -224,13 +226,7 @@ namespace Tiles
         // Core build
         // ?????????????????????????????????????????????????????????????????
 
-        /// <summary>
-        /// Builds and tracks a new texture + sprite for <paramref name="shape"/>. Assumes
-        /// CachePixels() has already been called for the current _uiStyle. Pure in the
-        /// sense that it never touches `image`, `highlightImage`, or the "current" fields —
-        /// callers decide what to do with the result.
-        /// </summary>
-        private Sprite BuildSprite(List<Vector2Int> shape, out Texture2D texture)
+        private Sprite BuildSprite(List<Vector2Int> shape, Stamp.ClockwiseRotations rotation, out Texture2D texture)
         {
             texture = null;
             if (!IsValidShape(shape)) return null;
@@ -245,9 +241,9 @@ namespace Tiles
 
             var shapeSet = new HashSet<Vector2Int>(shape);
             foreach (Vector2Int cell in shape)
-                StampCell(cell, boundsMin, shapeSet);
+                StampCell(cell, boundsMin, shapeSet, rotation);
 
-            texture = CreateTextureFromWorkingBuffer(texW, texH);
+            texture = new Stamp(_working, texW).ToTexture2D();
             Track(texture);
 
             var sprite = Sprite.Create(
@@ -264,160 +260,146 @@ namespace Tiles
         // Per-cell stamping
         // ?????????????????????????????????????????????????????????????????
 
-        /// <summary>
-        /// Stamps fill, edges and corners for a single cell. Each cell writes
-        /// only to its own region of the texture, so cells can be processed
-        /// independently — only the within-cell order (fill ? edges ? corners)
-        /// matters for correct alpha blending.
-        /// </summary>
-        private void StampCell(Vector2Int cell, Vector2Int boundsMin, HashSet<Vector2Int> shapeSet)
+        private void StampCell(Vector2Int cell, Vector2Int boundsMin, HashSet<Vector2Int> shapeSet, Stamp.ClockwiseRotations rotation)
         {
             Vector2Int offset = Offset(cell, boundsMin);
             var n = new CellNeighbors(cell, shapeSet);
 
-            if (_fillPixels != null)
-                StampFull(offset, _fillPixels);
+            _fillStamp?.StampFull(_working, _texW, offset);
 
-            if (_edgeHPixels != null || _edgeVPixels != null)
-            {
-                if (n.ExposedTop) StampEdge(offset, EdgeSide.Top);
-                if (n.ExposedBottom) StampEdge(offset, EdgeSide.Bottom);
-                if (n.ExposedLeft) StampEdge(offset, EdgeSide.Left);
-                if (n.ExposedRight) StampEdge(offset, EdgeSide.Right);
-            }
+            if (n.ExposedTop) StampEdge(Stamp.BaseSubStamps.TopCenter, offset, rotation);
+            if (n.ExposedBottom) StampEdge(Stamp.BaseSubStamps.BottomCenter, offset, rotation);
+            if (n.ExposedLeft) StampEdge(Stamp.BaseSubStamps.CenterLeft, offset, rotation);
+            if (n.ExposedRight) StampEdge(Stamp.BaseSubStamps.CenterRight, offset, rotation);
 
-            if (_outerCornerPixels != null)
-            {
-                if (n.ExposedTop && n.ExposedLeft) StampCorner(offset, _outerCornerPixels, Corner.TopLeft);
-                if (n.ExposedTop && n.ExposedRight) StampCorner(offset, _outerCornerPixels, Corner.TopRight);
-                if (n.ExposedBottom && n.ExposedLeft) StampCorner(offset, _outerCornerPixels, Corner.BottomLeft);
-                if (n.ExposedBottom && n.ExposedRight) StampCorner(offset, _outerCornerPixels, Corner.BottomRight);
-            }
+            Stamp outerCorner = GetRotatedStamp(_outerCornerStamp, rotation);
+            Stamp innerCorner = GetRotatedStamp(_innerCornerStamp, rotation);
 
-            if (_innerCornerPixels != null)
-            {
-                // Concave notch: two filled orthogonal neighbours whose shared diagonal is missing.
-                if (n.Right && n.Top && !n.TopRight) StampCorner(offset, _innerCornerPixels, Corner.TopRight);
-                if (n.Left && n.Top && !n.TopLeft) StampCorner(offset, _innerCornerPixels, Corner.TopLeft);
-                if (n.Right && n.Bottom && !n.BottomRight) StampCorner(offset, _innerCornerPixels, Corner.BottomRight);
-                if (n.Left && n.Bottom && !n.BottomLeft) StampCorner(offset, _innerCornerPixels, Corner.BottomLeft);
-            }
-        }
+            if (n.ExposedTop && n.ExposedLeft) StampSub(outerCorner, Stamp.BaseSubStamps.TopLeft, offset);
+            if (n.ExposedTop && n.ExposedRight) StampSub(outerCorner, Stamp.BaseSubStamps.TopRight, offset);
+            if (n.ExposedBottom && n.ExposedLeft) StampSub(outerCorner, Stamp.BaseSubStamps.BottomLeft, offset);
+            if (n.ExposedBottom && n.ExposedRight) StampSub(outerCorner, Stamp.BaseSubStamps.BottomRight, offset);
 
-        // ?????????????????????????????????????????????????????????????????
-        // Stamping primitives
-        // ?????????????????????????????????????????????????????????????????
-
-        /// <summary>Blits an entire cellPixelSize×cellPixelSize sprite into the working buffer.</summary>
-        private void StampFull(Vector2Int cellOffset, Color[] src)
-        {
-            int s = _uiStyle.SpritePixelSize;
-
-            for (int y = 0; y < s; y++)
-                for (int x = 0; x < s; x++)
-                {
-                    Color pixel = src[x + y * s];
-                    if (pixel.a <= 0f) continue;
-                    WritePixel(cellOffset.x + x, cellOffset.y + y, pixel);
-                }
+            // Concave notch: two filled orthogonal neighbours whose shared diagonal is missing.
+            if (n.Right && n.Top && !n.TopRight) StampSub(innerCorner, Stamp.BaseSubStamps.TopRight, offset);
+            if (n.Left && n.Top && !n.TopLeft) StampSub(innerCorner, Stamp.BaseSubStamps.TopLeft, offset);
+            if (n.Right && n.Bottom && !n.BottomRight) StampSub(innerCorner, Stamp.BaseSubStamps.BottomRight, offset);
+            if (n.Left && n.Bottom && !n.BottomLeft) StampSub(innerCorner, Stamp.BaseSubStamps.BottomLeft, offset);
         }
 
         /// <summary>
-        /// Stamps only the half of an edge sprite facing the exposed side
-        /// (top/bottom half of edgeHorizontal, left/right half of edgeVertical).
+        /// Returns the variant of <paramref name="source"/> matching <paramref name="rotation"/>:
+        /// the stamp itself for None, or its cached RotatedStamps entry for 90/180/270. Used for
+        /// corners only — a symmetric 9-slice border means the same physical key stays valid on
+        /// the rotated stamp, so no cross-piece remapping is needed (unlike edges — see StampEdge).
         /// </summary>
-        private void StampEdge(Vector2Int cellOffset, EdgeSide side)
+        private static Stamp GetRotatedStamp(Stamp source, Stamp.ClockwiseRotations rotation)
         {
-            int s = _uiStyle.SpritePixelSize;
-            int half = s / 2;
+            if (source == null || rotation == Stamp.ClockwiseRotations.None) return source;
 
-            Color[] src = (side == EdgeSide.Top || side == EdgeSide.Bottom)
-                ? _edgeHPixels
-                : _edgeVPixels;
-
-            if (src == null) return;
-
-            int xStart, xEnd, yStart, yEnd;
-            switch (side)
+            if (source.RotatedStamps == null ||
+                !source.RotatedStamps.TryGetValue(rotation, out Stamp rotated))
             {
-                case EdgeSide.Top: xStart = 0; xEnd = s; yStart = half; yEnd = s; break;
-                case EdgeSide.Bottom: xStart = 0; xEnd = s; yStart = 0; yEnd = half; break;
-                case EdgeSide.Left: xStart = 0; xEnd = half; yStart = 0; yEnd = s; break;
-                case EdgeSide.Right: xStart = half; xEnd = s; yStart = 0; yEnd = s; break;
-                default: return;
+                Debug.LogWarning($"[TileShapeTextureBuilder] Stamp has no cached {rotation}° rotation — was it built with createRotationStamps: true?");
+                return source;
             }
 
-            for (int y = yStart; y < yEnd; y++)
-                for (int x = xStart; x < xEnd; x++)
-                {
-                    Color pixel = src[x + y * s];
-                    if (pixel.a <= 0f) continue;
-                    WritePixel(cellOffset.x + x, cellOffset.y + y, pixel);
-                }
+            return rotated;
         }
 
         /// <summary>
-        /// Stamps one quadrant of a corners sprite (outerCorners or innerCorners)
-        /// into the matching corner of the destination cell.
+        /// Stamps whichever edge art should appear at the physical position <paramref name="physicalKey"/>
+        /// once <paramref name="rotation"/> is taken into account. Because edgeHorizontal only supplies
+        /// Top/Bottom art and edgeVertical only supplies Left/Right art, a 90°/270° rotation can require
+        /// pulling from the OTHER sprite (e.g. rotated 90°, the physical Top position is fed by
+        /// edgeVertical's Left piece) — RotateEdgeKeyBackward finds which native slot supplies it, and
+        /// the extracted piece is then rotated in place so its content reads correctly once repositioned.
+        /// No-ops if the required native piece isn't assigned in this style.
         /// </summary>
-        private void StampCorner(Vector2Int cellOffset, Color[] src, Corner corner)
+        private void StampEdge(Stamp.BaseSubStamps physicalKey, Vector2Int cellOffset, Stamp.ClockwiseRotations rotation)
         {
-            int s = _uiStyle.SpritePixelSize;
-            int half = s / 2;
-            bool odd = _uiStyle.SpritePixelSize.Odd();
+            Stamp.BaseSubStamps sourceKey = RotateEdgeKeyBackward(physicalKey, rotation);
+            Stamp nativeStamp = NativeEdgeStamp(sourceKey);
 
-            int srcX = (corner == Corner.TopRight || corner == Corner.BottomRight) ? half : 0;
-            int srcY = (corner == Corner.TopLeft || corner == Corner.TopRight) ? half : 0;
+            if (nativeStamp?.SubStamps == null) return;
+            if (!nativeStamp.SubStamps.TryGetValue(sourceKey, out Stamp piece)) return;
 
-            if (odd && (corner == Corner.BottomRight || corner == Corner.TopRight)) srcX += 1;
-            if (odd && (corner == Corner.TopLeft || corner == Corner.TopRight)) srcY += 1;
-
-            // Destination in the cell matches the source quadrant position.
-            int dstX = srcX;
-            int dstY = srcY;
-
-            for (int y = 0; y < half; y++)
-                for (int x = 0; x < half; x++)
-                {
-                    Color pixel = src[(srcX + x) + (srcY + y) * s];
-                    if (pixel.a <= 0f) continue;
-                    WritePixel(cellOffset.x + dstX + x, cellOffset.y + dstY + y, pixel);
-                }
+            Stamp rotatedPiece = piece.Rotated(rotation);
+            Vector2Int local = EdgeLocalOffset(physicalKey, rotatedPiece);
+            rotatedPiece.StampFull(_working, _texW, cellOffset + local);
         }
 
-        /// <summary>Alpha-composites a pixel into the working buffer (src over dst).</summary>
-        private void WritePixel(int x, int y, Color src)
+        /// <summary>
+        /// Which native (unrotated) edge slot supplies the art that should appear at
+        /// <paramref name="physicalKey"/> once the tile is virtually rotated by
+        /// <paramref name="rotation"/>. Walks EdgeCycle backwards by the rotation amount —
+        /// e.g. at 90°, physical Top is fed by the slot one step counter-clockwise of Top,
+        /// i.e. Left.
+        /// </summary>
+        private static Stamp.BaseSubStamps RotateEdgeKeyBackward(Stamp.BaseSubStamps physicalKey, Stamp.ClockwiseRotations rotation)
         {
-            int idx = x + y * _texW;
-            Color dst = _working[idx];
+            int steps = (int)rotation / 90;
+            int idx = Array.IndexOf(EdgeCycle, physicalKey);
+            int sourceIdx = ((idx - steps) % EdgeCycle.Length + EdgeCycle.Length) % EdgeCycle.Length;
+            return EdgeCycle[sourceIdx];
+        }
 
-            if (dst.a <= 0f)
+        /// <summary>Which style sprite (edgeHorizontal vs edgeVertical) natively supplies a given edge key.</summary>
+        private Stamp NativeEdgeStamp(Stamp.BaseSubStamps key)
+        {
+            return key == Stamp.BaseSubStamps.TopCenter || key == Stamp.BaseSubStamps.BottomCenter
+                ? _edgeHStamp
+                : _edgeVStamp;
+        }
+
+        /// <summary>
+        /// Where a rotated edge piece sits within its cell: flush against the physical side
+        /// it's being drawn for (Top flush to the top, Right flush to the right, etc.), sized
+        /// by the piece's own (post-rotation) width/height.
+        /// </summary>
+        private Vector2Int EdgeLocalOffset(Stamp.BaseSubStamps physicalKey, Stamp piece)
+        {
+            int cell = _uiStyle.SpritePixelSize;
+            switch (physicalKey)
             {
-                _working[idx] = src;
-                return;
+                case Stamp.BaseSubStamps.TopCenter: return new Vector2Int(0, cell - piece.Height);
+                case Stamp.BaseSubStamps.BottomCenter: return Vector2Int.zero;
+                case Stamp.BaseSubStamps.CenterRight: return new Vector2Int(cell - piece.Width, 0);
+                case Stamp.BaseSubStamps.CenterLeft: return Vector2Int.zero;
+                default: return Vector2Int.zero;
             }
+        }
 
-            float a = src.a + dst.a * (1f - src.a);
-            Color result = (src * src.a + dst * dst.a * (1f - src.a)) / a;
-            result.a = a;
-            _working[idx] = result;
+        /// <summary>
+        /// Looks up <paramref name="key"/> in <paramref name="source"/>'s pre-sliced
+        /// SubStamps and blits it into the working buffer at the matching position
+        /// within the cell. No-ops if <paramref name="source"/> is null or has no
+        /// sub-stamp for that key. Used for corners only — see StampEdge for edges.
+        /// </summary>
+        private void StampSub(Stamp source, Stamp.BaseSubStamps key, Vector2Int cellOffset)
+        {
+            if (source?.SubStamps == null) return;
+            if (!source.SubStamps.TryGetValue(key, out Stamp sub)) return;
+
+            Vector2Int local = SubStampLocalOffset(source, sub, key);
+            sub.StampFull(_working, _texW, cellOffset + local);
+        }
+
+        private static Vector2Int SubStampLocalOffset(Stamp parent, Stamp sub, Stamp.BaseSubStamps key)
+        {
+            const Stamp.BaseSubStamps rightKeys = Stamp.BaseSubStamps.TopRight
+                | Stamp.BaseSubStamps.CenterRight | Stamp.BaseSubStamps.BottomRight;
+            const Stamp.BaseSubStamps topKeys = Stamp.BaseSubStamps.TopLeft
+                | Stamp.BaseSubStamps.TopCenter | Stamp.BaseSubStamps.TopRight;
+
+            int x = (key & rightKeys) != 0 ? parent.Width - sub.Width : 0;
+            int y = (key & topKeys) != 0 ? parent.Height - sub.Height : 0;
+            return new Vector2Int(x, y);
         }
 
         // ?????????????????????????????????????????????????????????????????
         // Texture / sprite assignment
         // ?????????????????????????????????????????????????????????????????
-
-        private Texture2D CreateTextureFromWorkingBuffer(int texW, int texH)
-        {
-            var texture = new Texture2D(texW, texH, TextureFormat.RGBA32, false)
-            {
-                filterMode = FilterMode.Point,
-                wrapMode = TextureWrapMode.Clamp
-            };
-            texture.SetPixels(_working);
-            texture.Apply();
-            return texture;
-        }
 
         private void AssignMainSprite(Sprite sprite)
         {
@@ -432,14 +414,6 @@ namespace Tiles
                 new Vector2(sprite.texture.width, sprite.texture.height) * scale;
         }
 
-        /// <summary>
-        /// Builds a white silhouette that follows the tile's actual shape (derived from the
-        /// alpha of the just-built <see cref="_working"/> buffer, so it matches corners and
-        /// notches exactly), grown outward by <see cref="highlightPaddingPixels"/> so it reads
-        /// as a halo rather than an exact duplicate of the tile, then assigns it to
-        /// highlightImage. Only used by Build() — GetAllSpriteRotations doesn't need a highlight
-        /// per rotation since the highlight is only ever shown for whichever tile is displayed.
-        /// </summary>
         private void BuildAndAssignHighlight(Texture2D mainTexture)
         {
             if (highlightImage == null) return;
@@ -456,13 +430,7 @@ namespace Tiles
                     if (IsNearTileSilhouette(hx - padding, hy - padding, texW, texH, padding))
                         pixels[hx + hy * highlightW] = Color.white;
 
-            var highlightTexture = new Texture2D(highlightW, highlightH, TextureFormat.RGBA32, false)
-            {
-                filterMode = FilterMode.Point,
-                wrapMode = TextureWrapMode.Clamp
-            };
-            highlightTexture.SetPixels(pixels);
-            highlightTexture.Apply();
+            var highlightTexture = new Stamp(pixels, highlightW).ToTexture2D();
             Track(highlightTexture);
 
             var highlightSprite = Sprite.Create(
@@ -482,11 +450,6 @@ namespace Tiles
                 rt.sizeDelta = new Vector2(highlightW, highlightH) * (uiCellSize / _uiStyle.SpritePixelSize);
         }
 
-        /// <summary>
-        /// True if any pixel of the tile's main texture within <paramref name="padding"/>
-        /// pixels (Chebyshev distance) of (mx, my) is opaque. (mx, my) may fall outside the
-        /// main texture's bounds — those positions are simply treated as empty.
-        /// </summary>
         private bool IsNearTileSilhouette(int mx, int my, int texW, int texH, int padding)
         {
             int xMin = Mathf.Max(mx - padding, 0);
@@ -503,33 +466,26 @@ namespace Tiles
         }
 
         // ?????????????????????????????????????????????????????????????????
-        // Pixel caching
+        // Stamp caching
         // ?????????????????????????????????????????????????????????????????
 
-        private void CachePixels()
+        /// <summary>
+        /// Builds/refreshes the Stamps used by StampCell. Only the corner stamps need
+        /// createRotationStamps: true (see GetRotatedStamp) — edges are rotated per-piece
+        /// on demand in StampEdge instead, so their base stamps don't need pre-built rotations.
+        /// </summary>
+        private void CacheStamps()
         {
-            _fillPixels = GetSpritePixels(_uiStyle.Fill);
-            _edgeHPixels = GetSpritePixels(_uiStyle.EdgeHorizontal);
-            _edgeVPixels = GetSpritePixels(_uiStyle.EdgeVertical);
-            _outerCornerPixels = GetSpritePixels(_uiStyle.OuterCorners);
-            _innerCornerPixels = GetSpritePixels(_uiStyle.InnerCorners);
+            _fillStamp = BuildStamp(_uiStyle.Fill, createRotationStamps: false);
+            _edgeHStamp = BuildStamp(_uiStyle.EdgeHorizontal, createRotationStamps: false);
+            _edgeVStamp = BuildStamp(_uiStyle.EdgeVertical, createRotationStamps: false);
+            _outerCornerStamp = BuildStamp(_uiStyle.OuterCorners, createRotationStamps: true);
+            _innerCornerStamp = BuildStamp(_uiStyle.InnerCorners, createRotationStamps: true);
         }
 
-        /// <summary>
-        /// Extracts pixels from a sprite's sub-rect in its texture atlas, or null if the
-        /// sprite isn't assigned — callers skip stamping whichever passes come back null.
-        /// The texture must have Read/Write Enabled in its import settings.
-        /// </summary>
-        private static Color[] GetSpritePixels(Sprite sprite)
+        private static Stamp BuildStamp(Sprite sprite, bool createRotationStamps)
         {
-            if (sprite == null) return null;
-
-            Rect rect = sprite.textureRect;
-            return sprite.texture.GetPixels(
-                (int)rect.x,
-                (int)rect.y,
-                (int)rect.width,
-                (int)rect.height);
+            return sprite == null ? null : new Stamp(sprite, createRotationStamps);
         }
 
         // ?????????????????????????????????????????????????????????????????
@@ -565,15 +521,8 @@ namespace Tiles
         // Resource lifetime
         // ?????????????????????????????????????????????????????????????????
 
-        /// <summary>Registers a Texture2D or Sprite this component created, so OnDestroy cleans it up.</summary>
         private void Track(Object resource) => _ownedResources.Add(resource);
 
-        /// <summary>
-        /// Destroys and untracks the current value of <paramref name="current"/> (if any),
-        /// then stores <paramref name="replacement"/> in its place. Used for the "currently
-        /// displayed" texture/sprite fields, which are replaced — not merely accumulated —
-        /// each time Build() runs.
-        /// </summary>
         private void ReplaceCurrent<T>(ref T current, T replacement) where T : Object
         {
             if (current != null)
