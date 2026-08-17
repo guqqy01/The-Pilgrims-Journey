@@ -67,15 +67,23 @@ namespace Tiles.UI
             if (tileGrid == null)
                 return;
 
+            tileGrid.onTileAdded -= OnTileAdded;
             tileGrid.onTileAdded += OnTileAdded;
+
+            tileGrid.onTileRemoved -= OnTileRemoved;
             tileGrid.onTileRemoved += OnTileRemoved;
+
+            tileGrid.onTileDestroyed -= OnTileDestroyed;
             tileGrid.onTileDestroyed += OnTileDestroyed;
+
+            TileUIEventBus.OnTileSelected -= OnTileSelected;
             TileUIEventBus.OnTileSelected += OnTileSelected;
+
+            TileGridTransferEvents.TileTransferred -= OnTileTransferred;
+            TileGridTransferEvents.TileTransferred += OnTileTransferred;
 
             if (tileGrid != null)
                 registry[tileGrid] = this;
-
-            TileGridTransferEvents.TileTransferred += OnTileTransferred;
 
             if (tileGridUIStyle == null)
                 return;
@@ -100,7 +108,7 @@ namespace Tiles.UI
             tileGrid.onTileDestroyed -= OnTileDestroyed;
             TileUIEventBus.OnTileSelected -= OnTileSelected;
 
-            if (tileGrid != null)
+            if (tileGrid != null && registry.TryGetValue(tileGrid, out var current) && current == this)
                 registry.Remove(tileGrid);
 
             TileGridTransferEvents.TileTransferred -= OnTileTransferred;
@@ -160,7 +168,7 @@ namespace Tiles.UI
             }
             else
             {
-                Destroy(tileUI.gameObject); // no destination — genuinely orphaned, clean it up
+                Destroy(tileUI.gameObject);
             }
         }
 

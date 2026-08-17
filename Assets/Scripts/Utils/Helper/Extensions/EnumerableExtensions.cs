@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using static log4net.Appender.ColoredConsoleAppender;
 public static class EnumerableExtensions
 {
     public static int NotNullCount<T>(this IEnumerable<T> source) where T : class
