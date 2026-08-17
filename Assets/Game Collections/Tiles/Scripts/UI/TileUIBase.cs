@@ -16,10 +16,12 @@ namespace Tiles.UI
         public TileBase Tile { private set; get; }
 
         [SerializeField]
-        private Image tileGraphics;
+        public Image TileGraphics;
 
-        [HideInInspector]
-        public bool locked;
+        [SerializeField]
+        private GameObject LockImage;
+
+        public bool Locked => Tile.Locked;
 
         [HideInInspector]
         public TileGridUI tileGridUI;
@@ -55,8 +57,8 @@ namespace Tiles.UI
         {
             set
             {
-                if (tileGraphics != null)
-                    tileGraphics.color = value;
+                if (TileGraphics != null)
+                    TileGraphics.color = value;
             }
         }
 
@@ -91,6 +93,13 @@ namespace Tiles.UI
 
         private void OnDestroy()
         {
+            if (Tile != null)
+            {
+                Tile.OnRotated -= RotateTo;
+                Tile.OnLockedChanged -= OnLockedChange;
+            }
+
+
             TileUIEventBus.OnTileSelected -= Highlight;
         }
 
@@ -233,7 +242,7 @@ namespace Tiles.UI
 
         public void ApplyGridSizing(TileGridUI grid)
         {
-            if (tileGraphics == null || grid == null)
+            if (TileGraphics == null || grid == null)
                 return;
 
             if (UIRotation % 180f == 90f)
@@ -241,16 +250,16 @@ namespace Tiles.UI
                 float xSize = Tile.Width * grid.SingleTileSquareUISizeY;
                 float ySize = Tile.Height * grid.SingleTileSquareUISizeX;
 
-                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
-                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
             }
             else
             {
                 float xSize = Tile.Width * grid.SingleTileSquareUISizeX;
                 float ySize = Tile.Height * grid.SingleTileSquareUISizeY;
 
-                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
-                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
             }
         }
 
@@ -324,22 +333,22 @@ namespace Tiles.UI
                     float xSize = Tile.Width * draggedTileGridUI.SingleTileSquareUISizeY;
                     float ySize = Tile.Height * draggedTileGridUI.SingleTileSquareUISizeX;
 
-                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
-                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
                 }
                 else
                 {
                     float xSize = Tile.Width * draggedTileGridUI.SingleTileSquareUISizeX;
                     float ySize = Tile.Height * draggedTileGridUI.SingleTileSquareUISizeY;
 
-                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
-                    tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
+                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
                 }
             }
             else
             {
-                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _baseSize.x);
-                tileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _baseSize.y);
+                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _baseSize.x);
+                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _baseSize.y);
             }
         }
 
@@ -374,7 +383,7 @@ namespace Tiles.UI
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (locked)
+            if (Locked)
                 return;
             
             isDragging = true;
@@ -431,19 +440,25 @@ namespace Tiles.UI
             highlight.SetActive(highlighted);
         }
 
+        private void OnLockedChange(bool locked)
+        {
+            LockImage.SetActive(locked);
+        }
+
         #region Init
 
         public virtual void BaseInit(TileBase tile)
         {
             Tile = tile;
             Tile.OnRotated += RotateTo;
-
+            Tile.OnLockedChanged += OnLockedChange;
+            LockImage.SetActive(Locked);
             /*tileGraphics.sprite = Tile.TileSO.TileSprite;
             tileGraphics.SetNativeSize();*/
 
             tileShapeTextureBuilder.Build(tile.Shape, TileUIStyle);
             tileShapeTextureBuilder.GetAllSpriteRotations(tile.Shape, TileUIStyle);
-            _baseSize = tileGraphics.rectTransform.rect.size;
+            _baseSize = TileGraphics.rectTransform.rect.size;
 
             if (RectTransform == null)
                 RectTransform = GetComponent<RectTransform>();

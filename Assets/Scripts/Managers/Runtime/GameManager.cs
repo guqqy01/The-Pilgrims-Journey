@@ -40,22 +40,19 @@ public class GameManager : MonoBehaviour, ISaveLoad
         }
     }
 
-    
-
     #region Start New Journey
+
+    private HeroSO pendingHeroSO;
 
     public void StartNewJourney(HeroSO heroSO)
     {
         InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
-        WaitForHelper.WaitForObjectThenPerformAction(() => HeroManager.Instance, () => SetupHero(heroSO));
+        
+
+        pendingHeroSO = heroSO;
         currentSeed = Random.Range(int.MinValue, int.MaxValue);
 
         GenerateGlobalMap(currentSeed);
-    }
-
-    private void SetupHero(HeroSO heroSO)
-    {
-        HeroManager.Instance.SelectHero(heroSO);
     }
 
     private void GenerateGlobalMap(int seed)
@@ -71,8 +68,9 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
         Setup();
 
-        CreateLocalMap();
+        HeroManager.Instance.SelectHero(pendingHeroSO);
 
+        CreateLocalMap();
         InterfaceCaller.CallInterfaces<IOnCreateCurrentMapPoint>(x => x.OnCreateCurrentMapPoint());
     }
     

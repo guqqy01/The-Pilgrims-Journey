@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 using Attacks;
-
+using System.Collections.Generic;
+using Equipment;
 
 
 namespace Heros
 {
-    
     [CreateAssetMenu()]
     public class HeroSO : BuffableEntitySO
     {
@@ -21,6 +21,8 @@ namespace Heros
         public BaseAttackSO startingAttack;
 
         public SpriteLibraryAsset spriteLibrary;
+
+        public List<EquipmentSO> startingEquipment;
 
         public string GetHeroStatsString()
         {

@@ -156,7 +156,7 @@ namespace Tiles
 
             foreach (TileBase tile in playerTileGrid.ListOfTiles)
             {
-                tile.locked = true;
+                tile.Locked = true;
             }
 
             onPlay?.Invoke();
@@ -166,7 +166,8 @@ namespace Tiles
         {
             foreach (TileBase tile in playerTileGrid.ListOfTiles)
             {
-                tile.locked = false;
+                if(tile is UnitTile unitTile)
+                    unitTile.Locked = false;
             }
 
             IsPlaying = false;

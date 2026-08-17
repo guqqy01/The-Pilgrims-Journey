@@ -63,19 +63,19 @@ public class HeroStatsUI : MonoBehaviour
         if (heroStats == null)
             return;
 
-        maxHealthText.text = "Max Health: " + ((int)heroStats.Get(StatTypes.Health)).ToString();
-        maxShieldText.text = "Max Shield: " + ((int)heroStats.Get(StatTypes.Shield)).ToString();
-        ShieldRegenerationText.text = "Shield Regeneration: " + ((float)heroStats.Get(StatTypes.ShieldRegeneration)).ToString();
-        ShieldCooldownText.text = "Shield Cooldown: " + ((float)heroStats.Get(StatTypes.ShieldCooldown)).ToString();
+        maxHealthText.text = "Max Health: " + ((int?)heroStats.Get(StatTypes.Health)).ToString();
+        maxShieldText.text = "Max Shield: " + ((int?)heroStats.Get(StatTypes.Shield)).ToString();
+        ShieldRegenerationText.text = "Shield Regeneration: " + ((float?)heroStats.Get(StatTypes.ShieldRegeneration)).ToString();
+        ShieldCooldownText.text = "Shield Cooldown: " + ((float?)heroStats.Get(StatTypes.ShieldCooldown)).ToString();
 
-        MovementSpeedText.text = "Movement Speed: " + ((float)heroStats.Get(StatTypes.MovementSpeed)).ToString();
+        MovementSpeedText.text = "Movement Speed: " + ((float?)heroStats.Get(StatTypes.MovementSpeed)).ToString();
 
-        DamageText.text = "Damage Buff: " + ((int)heroStats.Get(StatTypes.Damage)).ToString();
-        AttackSpeedText.text = "Attack Speed: " + ((float)heroStats.Get(StatTypes.AttackSpeed)).ToString();
-        NumberOfProjectilesText.text = "Number of Projectiles: " + ((int)heroStats.Get(StatTypes.NumberOfAttacks)).ToString();
-        CriticalChanceText.text = "Critical Chance: " + ((float)heroStats.Get(StatTypes.CriticalChance)).ToString() + "%";
-        CriticalDamageText.text = "Critical Damage: " + ((float)heroStats.Get(StatTypes.CriticalDamageMultiplier)).ToString() + "%";
-        SizeText.text = "Attack Size: " + ((float)heroStats.Get(StatTypes.AttackSize)).ToString();
+        DamageText.text = "Damage Buff: " + ((int?)heroStats.Get(StatTypes.Damage)).ToString();
+        AttackSpeedText.text = "Attack Speed: " + ((float?)heroStats.Get(StatTypes.AttackSpeed)).ToString();
+        NumberOfProjectilesText.text = "Number of Projectiles: " + ((int?)heroStats.Get(StatTypes.NumberOfAttacks)).ToString();
+        CriticalChanceText.text = "Critical Chance: " + ((float?)heroStats.Get(StatTypes.CriticalChance)).ToString() + "%";
+        CriticalDamageText.text = "Critical Damage: " + ((float?)heroStats.Get(StatTypes.CriticalDamageMultiplier)).ToString() + "%";
+        SizeText.text = "Attack Size: " + ((float?)heroStats.Get(StatTypes.AttackSize)).ToString();
     }
 
     private void OnDestroy()

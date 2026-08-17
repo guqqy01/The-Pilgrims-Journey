@@ -45,9 +45,10 @@ namespace Heros
         public delegate void OnStatsSetup(StatContainer stats);
         public OnStatsSetup onStatsSetup;
 
-        // Flags to indicate that post-load subscriptions have been applied
-        private bool statsBound = false;
-        private bool equipmentApplied = false;
+        private enum HeroInitState { NotStarted, Initializing, Ready }
+        private HeroInitState initState = HeroInitState.NotStarted;
+        private bool statsBound;
+        private bool equipmentApplied;
 
         private void SubscribeToHeroEquipmentManager()
         {
@@ -61,63 +62,32 @@ namespace Heros
             statsBound = true;
         }
 
-        private void SetupHeroAttack()
-        {
-            // Ensure all required pieces are ready before adding the attack
-            if (Instance == null || Instance.Stats == null || !statsBound || !equipmentApplied)
-            {
-                // Re-schedule setup until stats and managers are bound
-                WaitForHelper.WaitForConditionThenPerformAction(() => Instance != null && Instance.Stats != null &&
-                                                                     statsBound && equipmentApplied &&
-                                                                     HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null &&
-                                                                     HeroAttacksManager.Instance != null && Instance.ActiveHero != null,
-                                                                     SetupHeroAttack);
-                return;
-            }
-
-            HeroAttacksManager.Instance.AddAttack(HeroSO.startingAttack);
-        }
-
         public void SelectHero(HeroSO heroSO)
         {
-            this.HeroSO = heroSO;
-
-            // reset binding flags when selecting a new hero
+            HeroSO = heroSO;
+            initState = HeroInitState.Initializing;
             statsBound = false;
             equipmentApplied = false;
 
             SetupStats();
 
-            WaitForHelper.WaitForObjectThenPerformAction(() => HeroStatBuffsManager.Instance, SubscribeToHeroStatsManager);
-            WaitForHelper.WaitForObjectThenPerformAction(() => HeroEquipmentManager.Instance, SubscribeToHeroEquipmentManager);
+            HeroStatBuffsManager.WhenReady(_ => { SubscribeToHeroStatsManager(); statsBound = true; TryAdvance(); });
+            HeroEquipmentManager.WhenReady(_ => { SubscribeToHeroEquipmentManager(); equipmentApplied = true; TryAdvance(); });
+        }
+
+        private void TryAdvance()
+        {
+            if (initState != HeroInitState.Initializing || !statsBound || !equipmentApplied)
+                return;
+
+            initState = HeroInitState.Ready;
         }
 
         public void AfterCreateLocalMap()
         {
-            if (ActiveHero == null)
-            {
-                // If we've already selected a hero, ensure stats and equipment subscriptions are applied before spawning
-                if (HeroSO != null)
-                {
-                    // Wait for the buff managers to be available and subscribe, then spawn
-                    WaitForHelper.WaitForConditionThenPerformAction(() => HeroStatBuffsManager.Instance != null && HeroEquipmentManager.Instance != null,
-                        () =>
-                        {
-                            if (!statsBound) SubscribeToHeroStatsManager();
-                            if (!equipmentApplied) SubscribeToHeroEquipmentManager();
-
-                            HandleSpawnHero();
-                        });
-                }
-                else
-                {
-                    WaitForHelper.WaitForObjectThenPerformAction(() => HeroSO, () => HandleSpawnHero());
-                }
-            }
-            else
-            {
-                ResetHero();
-            }
+            if (ActiveHero != null) { ResetHero(); return; }
+            if (initState == HeroInitState.Ready) HandleSpawnHero();
+            else WaitForHelper.WaitForConditionThenPerformAction(() => initState == HeroInitState.Ready, HandleSpawnHero);
         }
 
         private void SetupStats()
@@ -129,16 +99,7 @@ namespace Heros
         private void HandleSpawnHero()
         {
             SpawnHero();
-
-            // Wait for full readiness: hero instance, stats bound and attack manager available
-            WaitForHelper.WaitForConditionThenPerformAction(() => 
-                HeroAttacksManager.Instance != null &&
-                ActiveHero != null &&
-                Stats != null &&
-                statsBound && equipmentApplied &&
-                HeroStatBuffsManager.Instance != null &&
-                HeroEquipmentManager.Instance != null,
-                SetupHeroAttack);
+            HeroAttacksManager.WhenReady(_ => HeroAttacksManager.Instance.AddAttack(HeroSO.startingAttack));
         }
 
         private void RemoveHero()
@@ -148,6 +109,8 @@ namespace Heros
                 ActiveHero.HealthAndShieldManager.Health.onDie -= OnHeroDie;
                 Destroy(ActiveHero.gameObject);
             }
+
+            ActiveHero = null;
         }
 
         private void SpawnHero()

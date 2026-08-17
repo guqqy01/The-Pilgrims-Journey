@@ -163,6 +163,42 @@ namespace Tiles
             return tile != null;
         }
 
+        public List<Vector2Int> GetFreeTilePositions()
+        {
+            List<Vector2Int> returnList = new List<Vector2Int>();
+
+            for (int x = 0; x < GridSize.x; x++)
+            {
+                for (int y = 0; y < GridSize.y; y++)
+                {
+                    if (Tiles[x, y] == null)
+                        returnList.Add(new Vector2Int(x, y));
+                }
+            }
+
+            return returnList;
+        }
+
+        public bool TryPlaceTileRandomly(TileBase tile, bool invokeAddedTile = true)
+        {
+            List<Vector2Int> freePositions = GetFreeTilePositions();
+            int breaker = 4 * GridSize.x * GridSize.y;
+
+            while(breaker > 0)
+            {
+                float rotation = Random.Range(0, 4) * 90f;
+
+                if (TryPlaceTile(tile, freePositions.GetRandom(), rotation, invokeAddedTile))
+                {
+                    return true;
+                }
+
+                breaker--;
+            }
+
+            return false;
+        }
+
         public bool TryPlaceTileAnywhere(TileBase tile, Axis axis, bool invokeAddedTile = true)
         {
             switch(axis)

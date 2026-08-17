@@ -17,6 +17,8 @@ namespace Attacks
         public static HeroAttacksManager Instance => _singleton.Instance;
         public static bool HasInstance => _singleton.HasInstance;
 
+        public static void WhenReady(Action<HeroAttacksManager> onReady) => _singleton.WhenReady(onReady);
+
         public void InitiateFromRootAtAwake()
         {
             if (!_singleton.TryClaim(this, () => Destroy(gameObject)))

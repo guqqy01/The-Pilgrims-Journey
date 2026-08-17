@@ -53,6 +53,7 @@ public class StatBuffsManager : MonoBehaviour
         if (buffableStat == null)
         {
             Debug.LogWarning($"HeroStatBuffsManager: attempted to remove buff for missing stat {statType}");
+            return;
         }
 
         buffableStat.RemoveBuff(reference);

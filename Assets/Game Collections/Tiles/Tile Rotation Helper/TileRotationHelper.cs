@@ -1,3 +1,4 @@
+using Codice.CM.Client.Differences;
 using UnityEngine;
 
 namespace Tiles.UI
@@ -9,12 +10,16 @@ namespace Tiles.UI
 
         public void Follow(TileUIBase tile)
         {
+            if (tile == null)
+                return;
             transform.position = tile.RectTransform.position;
 
             bool tileRotated = Mathf.RoundToInt(tile.UIRotation / 90f) % 2 == 1;
 
-            float x = tileRotated ? tile.RectTransform.sizeDelta.y : tile.RectTransform.sizeDelta.x;
-            float y = tileRotated ? tile.RectTransform.sizeDelta.x : tile.RectTransform.sizeDelta.y;
+            if (tile.TileGraphics == null) return;
+
+            float x = tileRotated ? tile.TileGraphics.rectTransform.rect.size.y : tile.TileGraphics.rectTransform.rect.size.x;
+            float y = tileRotated ? tile.TileGraphics.rectTransform.rect.size.x : tile.TileGraphics.rectTransform.rect.size.y;
             tileSizeHolder.sizeDelta = new Vector2(x, y);
         }
     }

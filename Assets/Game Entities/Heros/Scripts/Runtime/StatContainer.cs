@@ -42,17 +42,21 @@ public class StatContainer : MonoBehaviour
         if (buffableEntitySO == null)
             return;
 
+        foreach (var kvp in stats)
+            kvp.Value.onValueChange -= InvokeOnStatChanged;
+        stats.Clear();
+
         foreach (StatTypes stat in Enum.GetValues(typeof(StatTypes)))
         {
             Buff baseBuff = buffableEntitySO.GetBuff(stat);
             if (baseBuff == null) continue;
 
             var buffable = new BuffableStat(stat.IsIntStat() ? 0 : 0f);
-
-            buffable.onValueChange += InvokeOnStatChanged;
-
             buffable.AddBuff("EntityBase", baseBuff);
             stats.Add(stat, buffable);
+            buffable.onValueChange += InvokeOnStatChanged;
         }
+
+        InvokeOnStatChanged();
     }
 }

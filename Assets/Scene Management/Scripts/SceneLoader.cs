@@ -259,7 +259,14 @@ public class SceneLoader : MonoBehaviour
 
         yield return null;
 
-        onSceneLoaded?.Invoke();
+        try
+        {
+            onSceneLoaded?.Invoke();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
 
         yield return FadeFromBlack();
     }

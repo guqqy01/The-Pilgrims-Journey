@@ -8,11 +8,24 @@ namespace Tiles
     public class TileBase
     {
         public TileSO TileSO { get; }
-        public bool locked;
+        private bool locked;
+        public bool Locked
+        {
+            get
+            {
+                return locked;
+            }
+            set
+            {
+                locked = value;
+                OnLockedChanged?.Invoke(value);
+            }
+        }
 
-        public Action<TileBase> ActionDestroyTile;
-        public Action<float> OnRotated;
-
+        public event Action<TileBase> ActionDestroyTile;
+        public event Action<float> OnRotated;
+        public event Action<bool> OnLockedChanged;
+        
         public delegate void OnUpdateUI();
         public OnUpdateUI onUpdateUI;
 
@@ -90,6 +103,7 @@ namespace Tiles
             OnRotated = null;
             onUpdateUI = null;
             ActionDestroyTile = null;
+            OnLockedChanged = null;
         }
 
         public TileBase(TileSO tileSO)
@@ -104,5 +118,5 @@ namespace Tiles
 
         
     }
- }
+}
 

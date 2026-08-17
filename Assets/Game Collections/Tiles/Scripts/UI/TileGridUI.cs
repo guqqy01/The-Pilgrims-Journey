@@ -60,6 +60,8 @@ namespace Tiles.UI
         [SerializeField]
         protected Image gridImage;
 
+        private static readonly Dictionary<TileGridBase, TileGridUI> registry = new();
+
         public void InitiateFromRootAtAwake()
         {
             if (tileGrid == null)
@@ -68,6 +70,12 @@ namespace Tiles.UI
             tileGrid.onTileAdded += OnTileAdded;
             tileGrid.onTileRemoved += OnTileRemoved;
             tileGrid.onTileDestroyed += OnTileDestroyed;
+            TileUIEventBus.OnTileSelected += OnTileSelected;
+
+            if (tileGrid != null)
+                registry[tileGrid] = this;
+
+            TileGridTransferEvents.TileTransferred += OnTileTransferred;
 
             if (tileGridUIStyle == null)
                 return;
@@ -90,6 +98,12 @@ namespace Tiles.UI
             tileGrid.onTileAdded -= OnTileAdded;
             tileGrid.onTileRemoved -= OnTileRemoved;
             tileGrid.onTileDestroyed -= OnTileDestroyed;
+            TileUIEventBus.OnTileSelected -= OnTileSelected;
+
+            if (tileGrid != null)
+                registry.Remove(tileGrid);
+
+            TileGridTransferEvents.TileTransferred -= OnTileTransferred;
         }
 
         private void OnValidate()
@@ -126,6 +140,35 @@ namespace Tiles.UI
 
             gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (float)xSize);
             gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)ySize);
+        }
+
+        private void OnTileTransferred(TileBase tile, TileGridBase from, TileGridBase to)
+        {
+            if (from != tileGrid) return; // only the source grid's UI reacts
+
+            if (!TryGetTilesUI(tile, out TileUIBase tileUI))
+                return;
+
+            tileUIs.Remove(tileUI);
+
+            if (to != null && registry.TryGetValue(to, out TileGridUI targetUI))
+            {
+                targetUI.AdoptTileUI(tileUI);
+                tileUI.UIRotation = tile.Rotation;
+                tileUI.RectTransform.position = targetUI.TileRectPositionAtVector2IntPosition(tileUI, tile.PlacedPosition);
+                tileUI.ApplyGridSizing(targetUI);
+            }
+            else
+            {
+                Destroy(tileUI.gameObject); // no destination — genuinely orphaned, clean it up
+            }
+        }
+
+        private void OnTileSelected(TileUIBase tileUIBase)
+        {
+            if (!tileUIs.Contains(tileUIBase))
+                return;
+            tileUIBase.transform.SetSiblingIndex(tileUIs.Count);
         }
 
         public bool AcceptsTile(TileUIBase tileUIBase)

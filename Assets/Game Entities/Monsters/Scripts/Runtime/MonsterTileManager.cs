@@ -1,8 +1,10 @@
 using GameManagerCalls;
-using UnityEngine;
-using System.Collections.Generic;
-using Monsters;
 using GlobalMap;
+using Monsters;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 namespace Tiles
 {
 
@@ -19,6 +21,7 @@ namespace Tiles
 
         [SerializeField]
         private TilePlayerTileGrid tilePlayerTileGrid;
+        
         [SerializeField]
         private MonsterExpandingTileGrid monsterExpandingTileGrid;
         [SerializeField]
@@ -67,26 +70,37 @@ namespace Tiles
 
             currentamountOfTiles = 0;
 
+            List<UnitTile> unitTiles = tilePlayerTileGrid.ListOfTiles.Where(x => x is UnitTile).Select(x => x as UnitTile).ToList();
 
+            foreach(UnitTile unitTile in unitTiles)
+            {
+                tilePlayerTileGrid.RemoveTile(unitTile, false);
+            }
 
             foreach (MonsterTileBase monsterTile in monsterTiles)
             {
-                if(currentamountOfTiles < amountOfMonsterTilesRequired)
+                if (currentamountOfTiles < amountOfMonsterTilesRequired)
                 {
-                    if(!tilePlayerTileGrid.TryPlaceTileAnywhere(monsterTile, TileGridBase.Axis.X))
+                    if (tilePlayerTileGrid.TryPlaceTileRandomly(monsterTile))
                     {
-                        if (!monsterExpandingTileGrid.TryPlaceTileAnywhere(monsterTile, TileGridBase.Axis.Y))
-                        {
-                            Debug.Log($"Not able to place monster tile with shape, {monsterTile.Shape} in monsterExpandingGrid");
-                        }
+                        monsterTile.Locked = true;
                     }
+                }
+            }
+
+            foreach (UnitTile unitTile in unitTiles)
+            {
+                if (tilePlayerTileGrid.TryPlaceTileAnywhere(unitTile, TileGridBase.Axis.X))
+                    continue; // same grid — existing TileGridUI.OnTileAdded reuse logic already handles this fine
+
+                if (unitExpandingTileGrid.TryPlaceTileAnywhere(unitTile, TileGridBase.Axis.Y, invokeAddedTile: false))
+                {
+                    TileGridTransferEvents.Raise(unitTile, tilePlayerTileGrid, unitExpandingTileGrid);
                 }
                 else
                 {
-                    if(!monsterExpandingTileGrid.TryPlaceTileAnywhere(monsterTile, TileGridBase.Axis.Y))
-                    {
-                        Debug.Log($"Not able to place monster tile with shape, {monsterTile.Shape} in monsterExpandingGrid");
-                    }
+                    Debug.LogWarning($"No home found for {unitTile} after monster tile setup.");
+                    TileGridTransferEvents.Raise(unitTile, tilePlayerTileGrid, null);
                 }
             }
         }

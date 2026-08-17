@@ -6,7 +6,7 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
     public static T Instance { protected set; get; }
 
     public static bool HasInstance { get { return Instance != null; } }
-
+    private static event Action<T> OnInstanceReady;
     public virtual void InitiateFromRootAtAwake()
     {
         if (Instance != null && Instance != this)
@@ -27,15 +27,21 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
     }
 
     protected virtual void CleanUp() { }
+
+    public static void WhenReady(Action<T> onReady)
+    {
+        if (HasInstance) { onReady(Instance); return; }
+        void Handler(T instance) { OnInstanceReady -= Handler; onReady(instance); }
+        OnInstanceReady += Handler;
+    }
 }
 
 public class SingletonHelper<T> where T : class
 {
     public T Instance { get; private set; }
     public bool HasInstance => Instance != null;
+    private event Action<T> OnReady;
 
-    /// Call from InitiateFromRootAtAwake(). Returns false if `self` is a
-    /// duplicate and onDuplicate has already handled it (e.g. destroyed it).
     public bool TryClaim(T self, Action onDuplicate)
     {
         if (Instance != null && !ReferenceEquals(Instance, self))
@@ -44,13 +50,19 @@ public class SingletonHelper<T> where T : class
             return false;
         }
         Instance = self;
+        OnReady?.Invoke(self);
         return true;
     }
 
-    /// Call from OnDestroy(). Only clears Instance if this really was the owner.
     public void Release(T self)
     {
-        if (ReferenceEquals(Instance, self))
-            Instance = null;
+        if (ReferenceEquals(Instance, self)) Instance = null;
+    }
+
+    public void WhenReady(Action<T> onReady)
+    {
+        if (HasInstance) { onReady(Instance); return; }
+        void Handler(T instance) { OnReady -= Handler; onReady(instance); }
+        OnReady += Handler;
     }
 }
