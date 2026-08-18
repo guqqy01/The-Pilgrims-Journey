@@ -59,7 +59,7 @@ public class SceneRoot : MonoBehaviour
 
     public IEnumerator LoadCommonSceneIfNotLoaded()
     {
-        if (!CommonSceneLoaded)
+        if (!CommonSceneLoaded && commonScene != null)
         {
             CommonSceneLoaded = true;
             Scene[] scenes = GetAllScenes();

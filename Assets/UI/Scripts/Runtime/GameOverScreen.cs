@@ -9,27 +9,41 @@ public class GameOverScreen : Singleton<GameOverScreen>, IOnSetupNewGame, IOnGam
     [SerializeField]
     private TextMeshProUGUI reasonMessage;
 
+    private const string blurRef = "GameOver";
+
     public override void InitiateFromRootAtAwake()
     {
         base.InitiateFromRootAtAwake();
 
-        gameObject.SetActive(false);
+        Deactivate();
     }
 
     public void OnGameEnd(string message)
     {
-        gameObject.SetActive(true);
+        Activate();
         reasonMessage.text = message;
     }
 
     public void OnSetupNewGame()
     {
-        gameObject.SetActive(false);
+        Deactivate();
     }
 
     public void SetupContinueGameAfterMapPointLoad()
     {
+        Deactivate();
+    }
+
+    private void Activate()
+    {
+        gameObject.SetActive(true);
+        BlurBackgroundController.WhenReady(controller => controller.EnableBlur(blurRef));
+    }
+
+    private void Deactivate()
+    {
         gameObject.SetActive(false);
+        BlurBackgroundController.WhenReady(controller => controller.RemoveBlurRequest(blurRef));
     }
 
     public void TryAgainButton()

@@ -51,9 +51,6 @@ public class TileShapeEditorWindow : EditorWindow
         window.Show();
     }
 
-
-
-
     public override void SaveChanges()
     {
         base.SaveChanges();
@@ -173,7 +170,7 @@ public class TileShapeEditorWindow : EditorWindow
         return new Vector2[4] { p1, p2, p3, p4};
     }
 
-    public bool IsPointInTile(Vector2 point, Vector2[] tilePoints)
+    private bool IsPointInTile(Vector2 point, Vector2[] tilePoints)
     {
         float minX = float.MaxValue;
         float maxX = float.MinValue;

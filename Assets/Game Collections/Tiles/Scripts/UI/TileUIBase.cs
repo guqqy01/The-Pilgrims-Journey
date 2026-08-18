@@ -453,8 +453,6 @@ namespace Tiles.UI
             Tile.OnRotated += RotateTo;
             Tile.OnLockedChanged += OnLockedChange;
             LockImage.SetActive(Locked);
-            /*tileGraphics.sprite = Tile.TileSO.TileSprite;
-            tileGraphics.SetNativeSize();*/
 
             tileShapeTextureBuilder.Build(tile.Shape, TileUIStyle);
             tileShapeTextureBuilder.GetAllSpriteRotations(tile.Shape, TileUIStyle);

@@ -1,3 +1,4 @@
+using Heros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -196,15 +197,27 @@ namespace Tiles.UI
                 return;
             }
 
-            if (TileUIPrefabManager.Instance.TryGetTileUIBase(tileAdded, out TileUIBase prefab) && prefab != null)
+            TileUIPrefabManager.WhenReady(_ => SpawnTile(tileAdded));
+        }
+
+        private void SpawnTile(TileBase tileAdded)
+        {
+            if (TileUIPrefabManager.Instance.TryGetTileUIBase(tileAdded, out TileUIBase prefab))
             {
-                TileUIBase tileUI = Instantiate(prefab, GridTransform);
-                tileUI.BaseInit(tileAdded);
-                tileUI.tileGridUI = this;
-                tileUI.UIRotation = tileAdded.Rotation;
-                tileUI.RectTransform.position = TileRectPositionAtVector2IntPosition(tileUI, tileAdded.PlacedPosition);
-                tileUI.ApplyGridSizing(this);
-                tileUIs.Add(tileUI);
+                if(prefab != null)
+                {
+                    TileUIBase tileUI = Instantiate(prefab, GridTransform);
+                    tileUI.BaseInit(tileAdded);
+                    tileUI.tileGridUI = this;
+                    tileUI.UIRotation = tileAdded.Rotation;
+                    tileUI.RectTransform.position = TileRectPositionAtVector2IntPosition(tileUI, tileAdded.PlacedPosition);
+                    tileUI.ApplyGridSizing(this);
+                    tileUIs.Add(tileUI);
+                }
+                else
+                {
+                    Debug.LogError($"TileUIBase prefab: {prefab} is null");
+                }
             }
         }
 

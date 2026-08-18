@@ -16,6 +16,7 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
         }
 
         Instance = this as T;
+        OnInstanceReady?.Invoke(Instance);
     }
 
     private void OnDestroy()

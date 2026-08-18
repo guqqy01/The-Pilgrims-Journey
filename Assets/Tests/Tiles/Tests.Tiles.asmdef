@@ -1,0 +1,28 @@
+{
+    "name": "Tests.Tiles",
+    "rootNamespace": "",
+    "references": [
+        "Assembly-CSharp",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Gameplay",
+        "Core",
+        "Core.Buffs",
+        "Core.SceneManagement",
+        "Utils",
+        "UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
