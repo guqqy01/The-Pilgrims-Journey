@@ -25,6 +25,9 @@ namespace Tiles.UI
         public int GridSizeX => tileGrid.GridSize.x;
         public int GridSizeY => tileGrid.GridSize.y;
 
+        [SerializeField]
+        private RectTransform heightTransformHelper;
+
         private float OnePixelSize
         {
             get
@@ -35,21 +38,11 @@ namespace Tiles.UI
             }
         }
 
-        [Flags]
-        private enum MaxAxis 
-        { 
-            X = 1, 
-            Y = 2 
-        }
-
-        [SerializeField]
-        private MaxAxis maxAxis;
-
         //One pixel width, 32 pixels per unit, 100 / 32 = 3.125f
         private Vector2 SizeDeltaOffset => new Vector2(OnePixelSize, OnePixelSize);
 
-        public float SingleTileSquareUISizeX => (GridTransform.rect.size.x/* -  OnePixelSize*/) / tileGrid.GridSize.x;
-        public float SingleTileSquareUISizeY => (GridTransform.rect.size.y/* - OnePixelSize*/) / tileGrid.GridSize.y;
+        public float SingleTileSquareUISizeX => (GridTransform.rect.size.x) / tileGrid.GridSize.x;
+        public float SingleTileSquareUISizeY => (GridTransform.rect.size.y) / tileGrid.GridSize.y;
 
         public Vector2 SingleTileSquareSize => new Vector2(SingleTileSquareUISizeX, SingleTileSquareUISizeY);
 
@@ -91,6 +84,8 @@ namespace Tiles.UI
 
             _generatedSprite = TileGridUISpriteBuilder.GetSprite(tileGrid.GridSize, tileGridUIStyle, tileGridUIStyle.SpritePixelSize);
             gridImage.sprite = _generatedSprite;
+
+            UpdateRectSize();
         }
 
         private void OnDestroy()
@@ -117,35 +112,26 @@ namespace Tiles.UI
 
         private void OnValidate()
         {
-            if(gridTransform == null)
-                return;
+            UpdateRectSize();
+        }
 
-            if (gridImage == null || gridImage.sprite == null)
+        private void UpdateRectSize()
+        {
+            if (gridTransform == null)
                 return;
 
             if (tileGridUIStyle == null)
                 return;
 
-            double xSize = GridTransform.rect.size.x;
-            double ySize = GridTransform.rect.size.y;
-
-            if (xSize == 0 || ySize == 0)
+            if (heightTransformHelper == null)
                 return;
 
-            double xOverYRatio = xSize / ySize;
+            double ySize = heightTransformHelper.rect.size.y;
+            double singleTileSize = ySize / GridSizeY;
+            double xSize = singleTileSize * GridSizeX;
 
-            if (maxAxis.HasFlag(MaxAxis.X) && xSize > rectMaxSize.x)
-            {
-                xSize = rectMaxSize.x;
-                ySize = xSize / xOverYRatio;
-                xOverYRatio = xSize / ySize;
-            }
-
-            if (maxAxis.HasFlag(MaxAxis.Y) && ySize > rectMaxSize.y)
-            {
-                ySize = rectMaxSize.y;
-                xSize = ySize * xOverYRatio;
-            }
+            if (xSize <= 0 || ySize <= 0)
+                return;
 
             gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (float)xSize);
             gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)ySize);
