@@ -25,10 +25,6 @@ namespace Tiles.UI
         private TextMeshProUGUI tileInfoText;
 
         [SerializeField]
-        private TextMeshProUGUI levelText;
-        [SerializeField]
-        private TextMeshProUGUI totalNumberOfUnits;
-        [SerializeField]
         private TextMeshProUGUI numberOfUnitsToNextLevel;
 
         public void TileSelected(TileUIBase tile)
@@ -51,7 +47,7 @@ namespace Tiles.UI
 
             this.unitTileUI = unitTileUI;
 
-            tileInfoText.text = unitTileUI.Title;
+            tileInfoText.text = unitTileUI.Title + $" - Level: {unitTileUI.UnitTile.Level}";
 
             UpdateStats();
             UpdateLevelUnitsAndHealth();
@@ -120,16 +116,14 @@ namespace Tiles.UI
             if (unitTileUI == null)
                 return;
 
-            totalNumberOfUnits.text = $"Total units: {unitTileUI.UnitTile.CurrentAmountOfUnitsInTile}/{unitTileUI.UnitTile.MaxAmountOfUnitsInTile}";
+            tileInfoText.text = unitTileUI.Title + $" - Level: {unitTileUI.UnitTile.Level}";
 
             if (unitTileUI.UnitTile.IsMaxLevel)
             {
-                levelText.text = "Level: Max";
                 numberOfUnitsToNextLevel.text = "Units to upgrade: Max Level";
             }
             else
             {
-                levelText.text = $"Level: {unitTileUI.UnitTile.Level}";
                 numberOfUnitsToNextLevel.text = $"Units to upgrade: {unitTileUI.UnitTile.CurrentAmountOfUnitsInTile}/{unitTileUI.UnitTile.AmountOfUnitsEscapedNeededToLevel}";
             }
         }
@@ -156,8 +150,6 @@ namespace Tiles.UI
             shield.text = "NA";
             shieldRegen.text = "NA";
             shieldCooldown.text = "NA";
-            totalNumberOfUnits.text = "Total units: NA";
-            levelText.text = "Level: NA";
             numberOfUnitsToNextLevel.text = "Units to upgrade: NA";
             tileInfoText.text = "Select a tile";
         }
