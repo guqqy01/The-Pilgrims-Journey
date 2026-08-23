@@ -10,18 +10,21 @@ public class ExpandingInventoryManager : MonoBehaviour
     public void OpenUnitInventory()
     {
         unitInventory.SetActive(true);
-        monsterInventory.SetActive(false);
+        if(monsterInventory != null )
+            monsterInventory.SetActive(false);
     }
 
     public void OpenMonsterInventory()
     {
         unitInventory.SetActive(false);
-        monsterInventory.SetActive(true);
+        if (monsterInventory != null)
+            monsterInventory.SetActive(true);
     }
 
     public void CloseInventories()
     {
         unitInventory.SetActive(false);
-        monsterInventory.SetActive(false);
+        if (monsterInventory != null)
+            monsterInventory.SetActive(false);
     }
 }
