@@ -1,6 +1,7 @@
-using Heros;
-using UnityEngine;
 using Attacks.Projectiles;
+using Heros;
+using TMPro;
+using UnityEngine;
 namespace Monsters
 {
     public class Death : Monster
@@ -32,6 +33,8 @@ namespace Monsters
 
         [SerializeField]
         private LayerMask attackHitMask;
+
+        private Vector2? targetPosition = null;
 
         protected override void Update()
         {
@@ -79,14 +82,19 @@ namespace Monsters
             if (HeroManager.Instance.ActiveHero == null)
                 return;
 
+            if (!targetPosition.HasValue)
+                return;
+
             Projectile project = Instantiate(projectile, transform.position, Quaternion.identity);
             project.transform.localScale = transform.localScale;
 
             project.onHit += OnDamageUnit;
 
             ProjectileStats projectileStats = new ProjectileStats(damage, 1, 0, 0, knockbackMultiplier, projectileSpeed, projectileTurnSpeed);
-            ProjectileInit projectileInit = new ProjectileInit(attackHitMask, transform.position, Quaternion.identity, false, false, target, target.position - transform.position, null, HealthAndShieldManager);
+            ProjectileInit projectileInit = new ProjectileInit(attackHitMask, transform.position, Quaternion.identity, false, false, target, targetPosition.Value - (Vector2)transform.position, null, HealthAndShieldManager);
             project.Init(projectileInit, projectileStats);
+
+            targetPosition = null;
         }
 
         private void PlayAttackAnimation()
@@ -94,7 +102,7 @@ namespace Monsters
             animator.SetTrigger(AttackHash);
 
             MonsterMovement.Moving = false;
-
+            targetPosition = target.position;
             nextAttackTime = Time.time + 1f / attackSpeed;
         }
 

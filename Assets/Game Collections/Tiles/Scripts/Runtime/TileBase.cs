@@ -4,8 +4,9 @@ using System;
 
 namespace Tiles
 {
+
     [Serializable]
-    public class TileBase
+    public abstract class TileBase
     {
         public TileSO TileSO { get; }
         private bool locked;
@@ -28,6 +29,8 @@ namespace Tiles
         
         public delegate void OnUpdateUI();
         public OnUpdateUI onUpdateUI;
+
+        public abstract ITileable TiledObject { get; }
 
         public List<Vector2Int> Shape => TileSO.Shape;
         public List<Vector2Int> RotatedShape => TileSO.Shape.Rotate(Rotation);

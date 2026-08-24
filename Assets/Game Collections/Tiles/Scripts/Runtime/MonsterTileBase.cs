@@ -1,22 +1,17 @@
 ﻿using Monsters;
 namespace Tiles
 {
-    public abstract class MonsterTileBase : TileBase
+    public abstract class MonsterTileBase : Tile<MonsterSpawn>
     {
-        protected MonsterSpawn _monsterSpawn;
+        public MonsterSpawn MonsterSpawnBase => TiledObject as MonsterSpawn;
 
-        public MonsterSpawn MonsterSpawnBase { get { return _monsterSpawn; } }
-
-        protected MonsterTileBase(TileSO tileSO, MonsterSpawn monsterSpawn) : base(tileSO)
-        {
-            _monsterSpawn = monsterSpawn;
-        }
+        protected MonsterTileBase(MonsterSpawn obj, TileSO tileSO) : base(obj, tileSO) { }
 
         public float Difficulty
         {
             get
             {
-                return Shape.Count * _monsterSpawn.Difficulty; 
+                return Shape.Count * MonsterSpawnBase.Difficulty; 
             }
         }
 

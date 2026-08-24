@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2204044394618231222
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852253, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_Name
+      value: Unit Tile UI Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5862625845935852253, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1086477414509555538}
+  m_SourcePrefab: {fileID: 100100000, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+--- !u!224 &2914741581002595375 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3955682976088540569, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3996282465843953464 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3018523398279603854, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!224 &5749528366079394845 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5862625845639175595, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5749528366318277483 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5862625845935852253, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1086477414509555538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5749528366318277483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb36438a767dbb446b797f4a438180e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.UnitTileUI
+  tileShapeTextureBuilder: {fileID: 9221166598648557989}
+  TileGraphics: {fileID: 3996282465843953464}
+  LockImageHolder: {fileID: 8069991238420459284}
+  tileGridUI: {fileID: 0}
+  canvasGroup: {fileID: 6160901161120479478}
+  draggedTileGridUI: {fileID: 0}
+  highlightTransform: {fileID: 2914741581002595375}
+  objectImageTransform: {fileID: 5749528366079394845}
+  tileUIStyle: {fileID: 11400000, guid: a7f53f357b9469746b06d0be61ec55a4, type: 2}
+--- !u!225 &6160901161120479478 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 5470110230690505024, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &8069991238420459284 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8171791373716551330, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9221166598648557989 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7020685867522844691, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c625cd79bcf614c961676abed71833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.TileShapeTextureBuilder

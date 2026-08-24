@@ -44,7 +44,7 @@ namespace Tiles.UI
         public float SingleTileSquareUISizeX => (GridTransform.rect.size.x) / tileGrid.GridSize.x;
         public float SingleTileSquareUISizeY => (GridTransform.rect.size.y) / tileGrid.GridSize.y;
 
-        public Vector2 SingleTileSquareSize => new Vector2(SingleTileSquareUISizeX, SingleTileSquareUISizeY);
+        public Vector2 SingleTileSquareSize => GridTransform.rect.size / tileGrid.GridSize;
 
         private Sprite _generatedSprite;
 
@@ -55,6 +55,8 @@ namespace Tiles.UI
         protected Image gridImage;
 
         private static readonly Dictionary<TileGridBase, TileGridUI> registry = new();
+
+        
 
         public void InitiateFromRootAtAwake()
         {
@@ -135,6 +137,11 @@ namespace Tiles.UI
 
             gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (float)xSize);
             gridTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)ySize);
+
+            foreach(TileUIBase tileUI in TileUIs)
+            {
+                tileUI.ApplyGridSizing(this);
+            }
         }
 
         private void OnTileTransferred(TileBase tile, TileGridBase from, TileGridBase to)

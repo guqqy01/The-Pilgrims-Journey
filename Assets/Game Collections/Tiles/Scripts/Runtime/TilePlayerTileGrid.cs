@@ -21,8 +21,7 @@ namespace Tiles
                     tile.Rotation,
                     tile.PlacedPosition,
                     tile.TileSO,
-                    tile.UnitSO,
-                    tile.Equipment);
+                    tile.UnitSO);
                 tileSaves.Add(tileSave);
             }
 

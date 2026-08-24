@@ -15,7 +15,12 @@ public static class VectorIntExtensions
         return returnList;
     }
 
-
+    public static Vector2Int RotateAroundOrigin(this Vector2Int v2Int, float rotation)
+    {
+        int x = Mathf.RoundToInt(v2Int.x * Mathf.Cos(rotation * Mathf.Deg2Rad) - v2Int.y * Mathf.Sin(rotation * Mathf.Deg2Rad));
+        int y = Mathf.RoundToInt(v2Int.x * Mathf.Sin(rotation * Mathf.Deg2Rad) + v2Int.y * Mathf.Cos(rotation * Mathf.Deg2Rad));
+        return new Vector2Int(x, y);
+    }
 
     public static List<Vector2Int> Rotate(this List<Vector2Int> v2Ints, float rotation)
     {
@@ -23,9 +28,7 @@ public static class VectorIntExtensions
 
         for (int i = 0; i < v2Ints.Count; i++)
         {
-            int x = Mathf.RoundToInt(v2Ints[i].x * Mathf.Cos(rotation * Mathf.Deg2Rad) - v2Ints[i].y * Mathf.Sin(rotation * Mathf.Deg2Rad));
-            int y = Mathf.RoundToInt(v2Ints[i].x * Mathf.Sin(rotation * Mathf.Deg2Rad) + v2Ints[i].y * Mathf.Cos(rotation * Mathf.Deg2Rad));
-            returnV2Ints.Add(new Vector2Int(x, y));
+            returnV2Ints.Add(v2Ints[i].RotateAroundOrigin(rotation));
         }
 
         return returnV2Ints;

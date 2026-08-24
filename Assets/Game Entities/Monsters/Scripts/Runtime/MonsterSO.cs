@@ -1,11 +1,11 @@
 ﻿using Monsters;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Tiles;
 namespace Monsters
 {
     [CreateAssetMenu]
-    public class MonsterSO : ScriptableObject, IDescriptable
+    public class MonsterSO : ScriptableObject, IDescriptable, ITileable
     {
         public new string name;
         [TextArea()]

@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Tiles.UI
 {
@@ -19,7 +19,7 @@ namespace Tiles.UI
         public Image TileGraphics;
 
         [SerializeField]
-        private GameObject LockImage;
+        private RectTransform LockImageHolder;
 
         public bool Locked => Tile.Locked;
 
@@ -27,7 +27,7 @@ namespace Tiles.UI
         public TileGridUI tileGridUI;
 
         private Vector2 _baseSize;
-
+        protected Vector2 BaseSize => _baseSize;
         public float BaseRotation => Tile.Rotation;
 
         public float UIRotation
@@ -82,7 +82,7 @@ namespace Tiles.UI
             {
                 HandleTileRotation();
                 HandlePosition();
-                HandleSize();
+                ApplyGridSizing(draggedTileGridUI);
             }
         }
 
@@ -91,15 +91,13 @@ namespace Tiles.UI
             Highlight(tile == this);
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (Tile != null)
             {
                 Tile.OnRotated -= RotateTo;
                 Tile.OnLockedChanged -= OnLockedChange;
             }
-
-
             TileUIEventBus.OnTileSelected -= Highlight;
         }
 
@@ -146,6 +144,8 @@ namespace Tiles.UI
 
             tileShapeTextureBuilder.ChangeSprite(parsedRotation);
 
+            LockImageHolder.transform.rotation = Quaternion.identity;
+
             if (tileGridUI != null)
                 ApplyGridSizing(tileGridUI);
         }
@@ -166,6 +166,8 @@ namespace Tiles.UI
             Stamp.ClockwiseRotations parsedRotation = (Stamp.ClockwiseRotations)normalized;
 
             tileShapeTextureBuilder.ChangeSprite(parsedRotation);
+
+            LockImageHolder.transform.rotation = Quaternion.identity;
 
             if (tileGridUI != null)
                 ApplyGridSizing(tileGridUI);
@@ -252,6 +254,14 @@ namespace Tiles.UI
 
                 TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
                 TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+
+                int tileSizeInAmountOfPixels = TileUIStyle.SpritePixelSize;
+
+                float xHighlightSize = xSize + 2f * grid.SingleTileSquareUISizeX / tileSizeInAmountOfPixels;
+                float yHighlightSize = ySize + 2f * grid.SingleTileSquareUISizeY / tileSizeInAmountOfPixels;
+
+                highlightTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xHighlightSize);
+                highlightTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, yHighlightSize);
             }
             else
             {
@@ -260,8 +270,78 @@ namespace Tiles.UI
 
                 TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
                 TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
+
+                int tileSizeInAmountOfPixels = TileUIStyle.SpritePixelSize;
+
+                float xHighlightSize = xSize + 2f * grid.SingleTileSquareUISizeX / tileSizeInAmountOfPixels;
+                float yHighlightSize = ySize + 2f * grid.SingleTileSquareUISizeY / tileSizeInAmountOfPixels;
+
+                highlightTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xHighlightSize);
+                highlightTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, yHighlightSize);
             }
+
+            SetLockRect(grid);
+            OnTileSizeChaned(grid);
         }
+
+        private Vector2Int GetRightAndLowestPointInShape(List<Vector2Int> shape)
+        {
+            List<Vector2Int> rightMostPoints = new List<Vector2Int>();
+            int mostRightPosition = int.MinValue;
+            foreach(Vector2Int pointInShape in shape)
+            {
+                if(pointInShape.x > mostRightPosition)
+                {
+                    rightMostPoints.Clear();
+                    rightMostPoints.Add(pointInShape);
+                    mostRightPosition = pointInShape.x;
+                }
+                else if(pointInShape.x == mostRightPosition)
+                {
+                    rightMostPoints.Add(pointInShape);
+                }
+            }
+
+            if (rightMostPoints.Count == 0)
+                return Vector2Int.zero;
+
+            if (rightMostPoints.Count == 1)
+                return rightMostPoints[0];
+
+            int lowestPosition = int.MaxValue;
+            Vector2Int returnPoint = Vector2Int.zero;
+            foreach(Vector2Int point in rightMostPoints)
+            {
+                if(point.y < lowestPosition)
+                {
+                    returnPoint = point;
+                    lowestPosition = point.y;
+                }
+            }
+
+            return returnPoint;
+        }
+
+        private void SetLockRect(TileGridUI gridUI)
+        {
+            if(gridUI != null)
+            {
+                LockImageHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUI.SingleTileSquareUISizeX);
+                LockImageHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUI.SingleTileSquareUISizeY);
+            }
+            else
+            {
+                LockImageHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _baseSize.x);
+                LockImageHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _baseSize.y);
+            }
+
+            List<Vector2Int> rotatedShape = Tile.Shape.Rotate(UIRotation);
+            Vector2Int preFixRotationRightLowestPoint = GetRightAndLowestPointInShape(rotatedShape);
+            Vector2Int rightLowestPoint = preFixRotationRightLowestPoint.RotateAroundOrigin(-UIRotation);
+            LockImageHolder.anchoredPosition = GetAnchoredPositionAtPointInShape(Tile.Shape, rightLowestPoint, gridUI);
+        }
+
+        protected abstract void OnTileSizeChaned(TileGridUI grid);
 
         public Vector2 GetOffset()
         {
@@ -285,7 +365,7 @@ namespace Tiles.UI
             return v2;
         }
 
-        protected Vector2 GetCenteredAnchoredPositionPositionInShape(List<Vector2Int> shape)
+        protected Vector2 GetCenteredAnchoredPositionPositionInShape(List<Vector2Int> shape, TileGridUI gridUI = null)
         {
             Vector2Int boundsMin = shape.Aggregate(
                 new Vector2Int(int.MaxValue, int.MaxValue),
@@ -311,45 +391,43 @@ namespace Tiles.UI
                 }
             }
 
-            // Offset from bounding box center to the chosen tile, in pixel space
-            Vector2 singleTileSize;
-            if (draggedTileGridUI != null)
+            return GetAnchoredPositionAtPointInShape(shape, closestPoint, gridUI);
+        }
+
+        protected Vector2 GetAnchoredPositionAtPointInShape(List<Vector2Int> shape, Vector2Int point, TileGridUI gridUI = null)
+        {
+            if (!shape.Contains(point))
             {
-                singleTileSize = draggedTileGridUI.SingleTileSquareSize;
+                string shapeString = "";
+
+                foreach(Vector2Int p in shape)
+                    shapeString = shapeString + p.ToString() + ", ";
+
+                Debug.LogWarning($"The point: {point}, is not appart of the shape: {shapeString}.");
+                return Vector2.zero;
+            }
+                
+            Vector2Int boundsMin = shape.Aggregate(
+                new Vector2Int(int.MaxValue, int.MaxValue),
+                (acc, p) => new Vector2Int(Mathf.Min(acc.x, p.x), Mathf.Min(acc.y, p.y)));
+
+            Vector2Int boundsMax = shape.Aggregate(
+                new Vector2Int(int.MinValue, int.MinValue),
+                (acc, p) => new Vector2Int(Mathf.Max(acc.x, p.x), Mathf.Max(acc.y, p.y)));
+
+            // Bounding box center in tile space (matches what the texture builder centers on)
+            Vector2 boundsCenter = (Vector2)(boundsMin + boundsMax) * 0.5f;
+
+            Vector2 singleTileSize;
+            if (gridUI != null)
+            {
+                singleTileSize = gridUI.SingleTileSquareSize;
             }
             else
             {
                 singleTileSize = _baseSize / new Vector2(Tile.Width, Tile.Height);
             }
-            return (closestPoint - boundsCenter) * singleTileSize;
-        }
-
-        private void HandleSize()
-        {
-            if (draggedTileGridUI != null)
-            {
-                if (UIRotation % 180f == 90f)
-                {
-                    float xSize = Tile.Width * draggedTileGridUI.SingleTileSquareUISizeY;
-                    float ySize = Tile.Height * draggedTileGridUI.SingleTileSquareUISizeX;
-
-                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
-                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
-                }
-                else
-                {
-                    float xSize = Tile.Width * draggedTileGridUI.SingleTileSquareUISizeX;
-                    float ySize = Tile.Height * draggedTileGridUI.SingleTileSquareUISizeY;
-
-                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, xSize);
-                    TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ySize);
-                }
-            }
-            else
-            {
-                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _baseSize.x);
-                TileGraphics.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _baseSize.y);
-            }
+            return (point - boundsCenter) * singleTileSize;
         }
 
         private void HandlePosition()
@@ -374,7 +452,7 @@ namespace Tiles.UI
             }
             else
             {
-                RectTransform.position = (Vector2)Input.mousePosition - GetCenteredAnchoredPositionPositionInShape(RotatedShape) * TileUIManager.Canvas.scaleFactor;
+                RectTransform.position = (Vector2)Input.mousePosition - GetCenteredAnchoredPositionPositionInShape(RotatedShape, tileGridUI) * TileUIManager.Canvas.scaleFactor;
                 Color = Color.white;
                 currentTileGridUI = null;
             }
@@ -426,23 +504,25 @@ namespace Tiles.UI
                 Color = Color.white;
                 AudioManager.Instance.PlayCancelMoveTile();
             }
+
+            draggedTileGridUI = null;
         }
 
         #endregion
 
         [SerializeField]
-        private GameObject highlight;
+        private RectTransform highlightTransform;
 
        public abstract TileUIStyle TileUIStyle { get; }
 
         public void Highlight(bool highlighted)
         {
-            highlight.SetActive(highlighted);
+            highlightTransform.gameObject.SetActive(highlighted);
         }
 
         private void OnLockedChange(bool locked)
         {
-            LockImage.SetActive(locked);
+            LockImageHolder.gameObject.SetActive(locked);
         }
 
         #region Init
@@ -452,7 +532,7 @@ namespace Tiles.UI
             Tile = tile;
             Tile.OnRotated += RotateTo;
             Tile.OnLockedChanged += OnLockedChange;
-            LockImage.SetActive(Locked);
+            LockImageHolder.gameObject.SetActive(Locked);
 
             tileShapeTextureBuilder.Build(tile.Shape, TileUIStyle);
             tileShapeTextureBuilder.GetAllSpriteRotations(tile.Shape, TileUIStyle);

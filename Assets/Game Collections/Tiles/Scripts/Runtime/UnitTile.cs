@@ -7,10 +7,8 @@ using LevelingSystem;
 
 namespace Tiles
 {
-    public class UnitTile : TileBase
+    public class UnitTile : Tile<UnitSO>
     {
-        public EquipmentSO[] Equipment { get; private set; } = new EquipmentSO[4];
-
         public int Level { get; private set; } = 1;
         public bool IsMaxLevel => Level == 5;
 
@@ -21,41 +19,23 @@ namespace Tiles
         public int AmountOfUnitsEscapedNeededToLevel { get; private set; }
         public int CurrentAmountOfUnitsEscaped { get; private set; }
 
-        public event Action OnModelChanged;
         public event Action OnLevelHealthChanged;
 
         public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
 
-        private UnitSO _unitSO;
-        public UnitSO UnitSO
-        {
-            get
-            {
-                return _unitSO;
-            }
-        }
+        public UnitSO UnitSO => TiledObject as UnitSO;
 
-        public UnitTile(TileSO tileSO, UnitSO unitSO) : base(tileSO)
+        public UnitTile(TileSO tileSO, UnitSO unitSO) : base(unitSO, tileSO)
         {
-            _unitSO = unitSO;
             RecalculateLevelValues();
+            CurrentAmountOfUnitsEscaped = 0;
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            OnModelChanged = null;
             OnLevelHealthChanged = null;
             onUpdateLevelUnitsAndHealthUI = null;
-        }
-
-        public void SetupNewUnitSO(UnitSO unitSO)
-        {
-            _unitSO = unitSO;
-
-            RecalculateLevelValues();
-
-            onUpdateUI?.Invoke();
         }
 
         #region Leveling
@@ -123,7 +103,6 @@ namespace Tiles
             Level = Mathf.Clamp(Level + 1, 1, 5);
             CurrentAmountOfUnitsEscaped = 0;
             RecalculateLevelValues();
-            OnModelChanged?.Invoke();
         }
 
         public void SetupFromSave(TileSave tileSave)
@@ -132,8 +111,6 @@ namespace Tiles
             RecalculateLevelValues();
             CurrentAmountOfUnitsEscaped = tileSave.tileExp;
             CurrentAmountOfUnitsInTile = tileSave.tileHealth;
-            OnModelChanged?.Invoke();
-            Equipment = tileSave.equipment;
         }
         #endregion
 
@@ -153,14 +130,6 @@ namespace Tiles
                 GetTileBuff(stat),
                 UnitBuffManager.Instance.GetBuff(stat)
             };
-
-            foreach (var equipment in Equipment)
-            {
-                if (equipment != null && equipment.TryGetUnitBuff(stat, out Buff outBuff))
-                {
-                    buffs.Add(outBuff);
-                }
-            }
 
             if (buffs.Count == 0)
                 return baseValue;

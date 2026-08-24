@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 namespace Tiles.UI
 {
-    public class TileStatsUI : EquipmentInventory, IOnSetupNewGame, IOnClear
+    public class TileStatsUI : MonoBehaviour, IOnClear
     {
         private UnitTileUI unitTileUI;
 
@@ -32,11 +32,6 @@ namespace Tiles.UI
             if (tile is not UnitTileUI unitTileUI)
                 return;
 
-            Containers[0].onEquipmentChanged -= OnContainer0Change;
-            Containers[1].onEquipmentChanged -= OnContainer1Change;
-            Containers[2].onEquipmentChanged -= OnContainer2Change;
-            Containers[3].onEquipmentChanged -= OnContainer3Change;
-
             if (tile == null)
             {
                 DeselectTile();
@@ -53,54 +48,12 @@ namespace Tiles.UI
             UpdateLevelUnitsAndHealth();
             unitTileUI.Tile.onUpdateUI = UpdateStats;
             unitTileUI.UnitTile.onUpdateLevelUnitsAndHealthUI = UpdateLevelUnitsAndHealth;
-
-            Containers[0].onEquipmentChanged += OnContainer0Change;
-            Containers[1].onEquipmentChanged += OnContainer1Change;
-            Containers[2].onEquipmentChanged += OnContainer2Change;
-            Containers[3].onEquipmentChanged += OnContainer3Change;
-
-            Setup(unitTileUI.Equipment);
-        }
-
-        private void OnContainer0Change(EquipmentSO from, EquipmentSO to)
-        {
-            if (unitTileUI == null) return;
-
-            unitTileUI.Equipment[0] = to;
-            UpdateStats();
-        }
-
-        private void OnContainer1Change(EquipmentSO from, EquipmentSO to)
-        {
-            if (unitTileUI == null) return;
-
-            unitTileUI.Equipment[1] = to;
-            UpdateStats();
-        }
-        private void OnContainer2Change(EquipmentSO from, EquipmentSO to)
-        {
-            if (unitTileUI == null) return;
-
-            unitTileUI.Equipment[2] = to;
-            UpdateStats();
-        }
-        private void OnContainer3Change(EquipmentSO from, EquipmentSO to)
-        {
-            if (unitTileUI == null) return;
-
-            unitTileUI.Equipment[3] = to;
-            UpdateStats();
         }
 
         public void UpdateStats()
         {
             if (unitTileUI == null)
                 DeselectTile();
-
-            for (int i = 0; i < Containers.Length; i++)
-            {
-                Containers[i].Active = unitTileUI.UnitTile.Level > i;
-            }
 
             spawnRateText.text = unitTileUI.SpawnRateValue.ToString();
             movement.text = unitTileUI.MovementValue.ToString();
@@ -124,25 +77,13 @@ namespace Tiles.UI
             }
             else
             {
-                numberOfUnitsToNextLevel.text = $"Units to upgrade: {unitTileUI.UnitTile.CurrentAmountOfUnitsInTile}/{unitTileUI.UnitTile.AmountOfUnitsEscapedNeededToLevel}";
+                numberOfUnitsToNextLevel.text = $"Units to upgrade: {unitTileUI.UnitTile.CurrentAmountOfUnitsEscaped}/{unitTileUI.UnitTile.AmountOfUnitsEscapedNeededToLevel}";
             }
         }
 
         public void DeselectTile()
         {
             unitTileUI = null;
-
-            Containers[0].onEquipmentChanged -= OnContainer0Change;
-            Containers[1].onEquipmentChanged -= OnContainer1Change;
-            Containers[2].onEquipmentChanged -= OnContainer2Change;
-            Containers[3].onEquipmentChanged -= OnContainer3Change;
-
-            for (int i = 0; i < Containers.Length; i++)
-            {
-                Containers[i].Deactivate();
-            }
-
-            
 
             spawnRateText.text = "NA";
             movement.text = "NA";
@@ -154,10 +95,8 @@ namespace Tiles.UI
             tileInfoText.text = "Select a tile";
         }
 
-        public override void Clear()
+        public void Clear()
         {
-            base.Clear();
-
             DeselectTile();
         }
 
@@ -169,11 +108,10 @@ namespace Tiles.UI
             
         }
 
-        protected override void OnDestroy()
+        protected void OnDestroy()
         {
             DeselectTile();
             TileUIEventBus.OnTileSelected -= TileSelected;
-            base.OnDestroy();
         }
     }
 

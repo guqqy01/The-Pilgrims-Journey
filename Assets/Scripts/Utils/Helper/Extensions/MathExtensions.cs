@@ -26,6 +26,11 @@ public static class MathExtensions
         return Mathf.Pow(1f - t, 2f) * v1 + 2f * (1f - t) * v2 + Mathf.Pow(t, 2f) * v3;
     }
 
+    public static float Percent(this float value, float percentageOfValue)
+    {
+        return value * (percentageOfValue / 100f);
+    }
+
     public static float RoundTo(this float value, float roundingValue)
     {
         if(roundingValue == 0)

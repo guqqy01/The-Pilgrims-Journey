@@ -16,9 +16,8 @@ namespace Tiles
         public Vector2Int position;
         public TileSO tile;
         public UnitSO unit;
-        public EquipmentSO[] equipment;
 
-        public TileSave(int level, int tileHealth, int tileExp, float rotation, Vector2Int position, TileSO tile, UnitSO unit, EquipmentSO[] equipment)
+        public TileSave(int level, int tileHealth, int tileExp, float rotation, Vector2Int position, TileSO tile, UnitSO unit)
         {
             this.level = level;
             this.rotation = rotation;
@@ -27,7 +26,6 @@ namespace Tiles
             this.position = position;
             this.tile = tile;
             this.unit = unit;
-            this.equipment = equipment;
         }
     }
 

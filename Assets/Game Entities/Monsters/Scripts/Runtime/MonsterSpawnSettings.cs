@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Tiles;
 
 namespace Monsters
 {
@@ -100,10 +101,11 @@ namespace Monsters
     }
 
     [Serializable]
-    public abstract class MonsterSpawn: IMonsterSpawn
+    public abstract class MonsterSpawn: IMonsterSpawn, ITileable
     {
         public MonsterSO monster;
         public float Difficulty => monster.powerLevel;
+        public Sprite Sprite => monster.sprite;
 
         public MonsterSO MonsterSO => monster;
     }

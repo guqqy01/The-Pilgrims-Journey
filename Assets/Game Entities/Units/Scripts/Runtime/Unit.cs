@@ -54,24 +54,6 @@ namespace Units
                 );
 
             CoinDrop.Init(tile.UnitSO);
-
-            EquipmentSO[] equipmentSOs = tile.Equipment;
-
-            if(equipmentSOs != null)
-                foreach (EquipmentSO equipment in equipmentSOs)
-                {
-                    if (equipment == null)
-                        continue;
-
-                    if (equipment.EquipmentSpecial == null)
-                        continue;
-
-                    EquipmentSpecial equipmentSpecial = equipment.EquipmentSpecial;
-
-                    equipmentSpecial.Init(Health);
-
-                    EquipmentSpecials.Add(equipmentSpecial);
-                }
         }
 
 
