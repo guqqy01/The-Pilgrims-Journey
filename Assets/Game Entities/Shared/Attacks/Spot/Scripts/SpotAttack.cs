@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Heros;
+using System;
 namespace Attacks.Spot
 {
     public abstract class SpotAttack<TInit, TStats> : 
@@ -46,18 +46,18 @@ namespace Attacks.Spot
         {
             return new SpotAttackInit(
                 hitLayerMask,
-                (Vector2)target.position + Random.insideUnitCircle * spawnAccuracy.Value,
+                (Vector2)target.position + UnityEngine.Random.insideUnitCircle * spawnAccuracy.Value,
                 Quaternion.identity, 
                 lifeTime.HasValue ? Time.time + lifeTime.Value : null, 
                 movementSpeed);
         }
 
-        protected override void InheritSetup(SpotAttackSOBase<TInit, TStats> spotAttackSO)
+        protected override void InheritSetup(SpotAttackSOBase<TInit, TStats> spotAttackSO, Func<StatTypes, Buff> entityBuffCallback)
         {
             SpotChaoticMovementStats = spotAttackSO.spotChaoticMovementStats;
 
-            SetupBuffableStat(ref spawnAccuracy, StatTypes.Accuracy);
-            SetupBuffableStat(ref hitRefreshRate, StatTypes.SpotHitRefreshRate);
+            SetupBuffableStat(ref spawnAccuracy, entityBuffCallback, StatTypes.Accuracy);
+            SetupBuffableStat(ref hitRefreshRate, entityBuffCallback, StatTypes.SpotHitRefreshRate);
 
             destroyProjectiles = spotAttackSO.destroyProjectiles;
             amountOfHits = spotAttackSO.amountOfHits == 0 ? null : spotAttackSO.amountOfHits;

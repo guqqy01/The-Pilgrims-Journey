@@ -26,7 +26,7 @@ public class AttacksManagerTests
         TestAttackSO so = ScriptableObject.CreateInstance<TestAttackSO>();
 
         BaseAttack received = null;
-        manager.onAddAttackEvent += (a) => received = a;
+        manager.OnAddAttackEvent += (a) => received = a;
 
         manager.AddAttack(so);
 
@@ -41,7 +41,7 @@ public class AttacksManagerTests
         TestAttackSO so = ScriptableObject.CreateInstance<TestAttackSO>();
 
         BaseAttack removed = null;
-        manager.onRemoveAttackEvent += (a) => removed = a;
+        manager.OnRemoveAttackEvent += (a) => removed = a;
 
         manager.AddAttack(so);
         manager.RemoveAttack(so);
@@ -56,7 +56,7 @@ public class AttacksManagerTests
         TestAttackSO so = ScriptableObject.CreateInstance<TestAttackSO>();
 
         BaseAttack levelChanged = null;
-        manager.onAttackLevelChangeEvent += (a) => levelChanged = a;
+        manager.OnAttackLevelChangeEvent += (a) => levelChanged = a;
 
         manager.SetAttackLevel(so, 2);
 

@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 2503420318113733024}
   - component: {fileID: 5203814137887112335}
   - component: {fileID: 9191644017791214057}
+  - component: {fileID: 2796259395619175255}
   m_Layer: 12
   m_Name: Mini Mudman
   m_TagString: Untagged
@@ -259,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc7536d00bb1b3499e89094e98a8ee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MiniMudman
+  stats: {fileID: 0}
   rangeToFindTarget: 10
   findTargetMask:
     serializedVersion: 2
@@ -397,6 +399,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8562bec3953074b9376c5e3b0a0e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Gameplay::DamageRecieverEffectManager
+--- !u!114 &2796259395619175255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7074285777259253557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cf3ac6c8645e34086d9578a1c089a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::StatContainer
 --- !u!1001 &9081591285499563436
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class Buff: IBuffSource, ISerializationCallbackReceiver
@@ -10,25 +11,29 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     private bool initialized;
 
     [SerializeField]
+    [FormerlySerializedAs("multiplier")]
     [Tooltip("Percentage multiplier. Example: 100 = +100% (doubles the base).")]
-    private float multiplier = 0f;
+    private float percentageMultiplier = 0f;
 
     [SerializeField] private IntOrFloatObject baseBuff;
     [SerializeField] private IntOrFloatObject additionalBuff;
 
-    public float Multiplier
+    /// <summary>
+    /// Percentage multiplier. Example: 100 = +100% (doubles the base).
+    /// </summary>
+    public float PercentageMultiplier
     {
         get
         {
             if(buffFlags.HasFlag(BuffType.Multiplier))
-                return multiplier;
+                return percentageMultiplier;
 
             return 0f;
         }
         set
         {
             if (buffFlags.HasFlag(BuffType.Multiplier))
-                multiplier = value;
+                percentageMultiplier = value;
         }
     }
     public IntOrFloatObject BaseBuff
@@ -81,7 +86,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     {
         buffFlags = buffType;
 
-        Multiplier = 0f;
+        PercentageMultiplier = 0f;
 
         if (isInt)
         {
@@ -99,7 +104,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     {
         buffFlags = buffType;
         IsInt = baseBuff.IsInt;
-        Multiplier = multiplier;
+        PercentageMultiplier = multiplier;
         BaseBuff = baseBuff;
         AdditionalBuff = additionalBuff;
     }
@@ -109,7 +114,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     /// </summary>
     public virtual IntOrFloatObject Value(IntOrFloatObject baseValue)
     {
-        float result = ((baseValue + BaseBuff) * (1f + Multiplier / 100f) + AdditionalBuff).FloatValue;
+        float result = ((baseValue + BaseBuff) * (1f + PercentageMultiplier / 100f) + AdditionalBuff).FloatValue;
 
         return IsInt
             ? new IntOrFloatObject(Mathf.RoundToInt(result))
@@ -137,7 +142,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
         {
             return new Buff(
                 buffType,
-                a.Multiplier + b.Multiplier,
+                a.PercentageMultiplier + b.PercentageMultiplier,
                 Mathf.RoundToInt(a.BaseBuff + b.BaseBuff),
                 Mathf.RoundToInt(a.AdditionalBuff + b.AdditionalBuff));
         }
@@ -145,7 +150,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
         {
             return new Buff(
                 buffType,
-                a.Multiplier + b.Multiplier,
+                a.PercentageMultiplier + b.PercentageMultiplier,
                 (float)(a.BaseBuff + b.BaseBuff),
                 (float)(a.AdditionalBuff + b.AdditionalBuff));
         }
@@ -157,7 +162,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
         {
             return new Buff(
                 a.buffFlags,
-                a.Multiplier * multiplier,
+                a.PercentageMultiplier * multiplier,
                 Mathf.RoundToInt(a.BaseBuff * multiplier),
                 Mathf.RoundToInt(a.AdditionalBuff * multiplier)
             );
@@ -166,7 +171,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
         {
             return new Buff(
                 a.buffFlags,
-                a.Multiplier * multiplier,
+                a.PercentageMultiplier * multiplier,
                 a.BaseBuff * multiplier,
                 a.AdditionalBuff * multiplier);
         }
@@ -182,10 +187,10 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
                 $"Base: {FormatSignedValue(from.BaseBuff)} → {FormatSignedValue(to.BaseBuff)}");
         }
 
-        if (!Mathf.Approximately(from.Multiplier, 0f) || !Mathf.Approximately(to.Multiplier, 0f))
+        if (!Mathf.Approximately(from.PercentageMultiplier, 0f) || !Mathf.Approximately(to.PercentageMultiplier, 0f))
         {
             AppendLine(ref result,
-                $"Multiplier: {FormatSignedPercent(from.Multiplier)} → {FormatSignedPercent(to.Multiplier)}");
+                $"Multiplier: {FormatSignedPercent(from.PercentageMultiplier)} → {FormatSignedPercent(to.PercentageMultiplier)}");
         }
 
         if (from.AdditionalBuff != 0 || to.AdditionalBuff != 0)
@@ -205,9 +210,9 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
             AppendLine(ref result,
                 $"{FormatSignedValue(from.BaseBuff)} → {FormatSignedValue(to.BaseBuff)}");
 
-        if (!Mathf.Approximately(from.Multiplier, 0f) || !Mathf.Approximately(to.Multiplier, 0f))
+        if (!Mathf.Approximately(from.PercentageMultiplier, 0f) || !Mathf.Approximately(to.PercentageMultiplier, 0f))
             AppendLine(ref result,
-                $"{FormatSignedPercent(from.Multiplier)} → {FormatSignedPercent(to.Multiplier)}");
+                $"{FormatSignedPercent(from.PercentageMultiplier)} → {FormatSignedPercent(to.PercentageMultiplier)}");
 
         if (from.AdditionalBuff != 0 || to.AdditionalBuff != 0)
             AppendLine(ref result,
@@ -223,8 +228,8 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
         if (BaseBuff != 0)
             AppendLine(ref result, $"Base: {FormatSignedValue(BaseBuff)}");
 
-        if (!Mathf.Approximately(Multiplier, 0f))
-            AppendLine(ref result, $"Multiplier: {FormatSignedPercent(Multiplier)}");
+        if (!Mathf.Approximately(PercentageMultiplier, 0f))
+            AppendLine(ref result, $"Multiplier: {FormatSignedPercent(PercentageMultiplier)}");
 
         if (AdditionalBuff != 0)
             AppendLine(ref result, $"Additional: {FormatSignedValue(AdditionalBuff)}");
@@ -240,8 +245,8 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
         if (BaseBuff != 0)
             AppendLine(ref result, FormatSignedValue(BaseBuff));
 
-        if (!Mathf.Approximately(Multiplier, 0f))
-            AppendLine(ref result, FormatSignedPercent(Multiplier));
+        if (!Mathf.Approximately(PercentageMultiplier, 0f))
+            AppendLine(ref result, FormatSignedPercent(PercentageMultiplier));
 
         if (AdditionalBuff != 0)
             AppendLine(ref result, FormatSignedValue(AdditionalBuff));
@@ -256,8 +261,8 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
         if (BaseBuff != 0)
             AppendLine(ref result, FormatValue(BaseBuff));
 
-        if (!Mathf.Approximately(Multiplier, 0f))
-            AppendLine(ref result, FormatSignedPercent(Multiplier));
+        if (!Mathf.Approximately(PercentageMultiplier, 0f))
+            AppendLine(ref result, FormatSignedPercent(PercentageMultiplier));
 
         if (AdditionalBuff != 0)
             AppendLine(ref result, FormatValue(AdditionalBuff));
@@ -280,15 +285,15 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
                     to.BaseBuff.FloatValue));
         }
 
-        if (!Mathf.Approximately(from.Multiplier, 0f) || !Mathf.Approximately(to.Multiplier, 0f))
+        if (!Mathf.Approximately(from.PercentageMultiplier, 0f) || !Mathf.Approximately(to.PercentageMultiplier, 0f))
         {
             string text =
-                $"{FormatSignedPercent(from.Multiplier)} → {FormatSignedPercent(to.Multiplier)}";
+                $"{FormatSignedPercent(from.PercentageMultiplier)} → {FormatSignedPercent(to.PercentageMultiplier)}";
 
             AppendLine(ref result,
                 ArrowCompare(text,
-                    from.Multiplier,
-                    to.Multiplier));
+                    from.PercentageMultiplier,
+                    to.PercentageMultiplier));
         }
 
         if (from.AdditionalBuff != 0 || to.AdditionalBuff != 0)
@@ -358,7 +363,7 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     }
 
     public override string ToString() =>
-        $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={Multiplier}%";
+        $"Base={BaseBuff}, Add={AdditionalBuff}, Mult={PercentageMultiplier}%";
 
     public void OnBeforeSerialize()
     {
@@ -373,4 +378,6 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     {
         
     }
+
+    public static implicit operator IntOrFloatObject(Buff value) => value.Value(value.IsInt ? 0 : 0f);
 }

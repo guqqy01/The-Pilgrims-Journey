@@ -2,7 +2,7 @@ using Heros;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using System;
 namespace Attacks.Projectiles
 {
     public class ProjectileAttack : Attack<ProjectileAttackSO, ProjectileInit, ProjectileStats>
@@ -42,7 +42,7 @@ namespace Attacks.Projectiles
 
             for (int i = 0; i < numberOfProjectiles; i++)
             {
-                float fluctuation = numberOfProjectiles > 1 ? Mathf.Clamp(Random.Range(0f, (1f / attackSpeed * spawnFluctuationPercent)), 0f, spawnFluctuationMax) : 0f;
+                float fluctuation = numberOfProjectiles > 1 ? Mathf.Clamp(UnityEngine.Random.Range(0f, (1f / attackSpeed * spawnFluctuationPercent)), 0f, spawnFluctuationMax) : 0f;
 
                 float spawnTime = Time.time + fluctuation;
 
@@ -77,11 +77,11 @@ namespace Attacks.Projectiles
                 projectilesCountAsHits);
         }
 
-        protected override void InheritSetup(ProjectileAttackSO projectileHeroAttackSO)
+        protected override void InheritSetup(ProjectileAttackSO projectileHeroAttackSO, Func<StatTypes, Buff> entityBuffCallback)
         {
-            SetupBuffableStat(ref numberOfProjectiles, StatTypes.NumberOfAttacks);
-            SetupBuffableStat(ref projectileSpeed, StatTypes.ProjectileSpeed);
-            SetupBuffableStat(ref projectileTurnSpeed, StatTypes.ProjectileTurnSpeed);
+            SetupBuffableStat(ref numberOfProjectiles, entityBuffCallback, StatTypes.NumberOfAttacks);
+            SetupBuffableStat(ref projectileSpeed, entityBuffCallback, StatTypes.ProjectileSpeed);
+            SetupBuffableStat(ref projectileTurnSpeed, entityBuffCallback, StatTypes.ProjectileTurnSpeed);
 
             homing = projectileHeroAttackSO.projectileHoming;
 

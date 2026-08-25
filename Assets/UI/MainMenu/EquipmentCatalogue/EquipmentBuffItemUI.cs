@@ -10,7 +10,7 @@ namespace Equipment.UI
     {
         public Text text;
 
-        public void Init(Buff equipmentBuff, UnitStatsEnum Stat)
+        public void Init(Buff equipmentBuff, StatTypes Stat)
         {
             string textString = Stat.ToString() + ":";
             if (equipmentBuff.BaseBuff.IsInt && equipmentBuff.BaseBuff != 0)
@@ -21,9 +21,9 @@ namespace Equipment.UI
             {
                 textString += "\r\nBase: +" + equipmentBuff.BaseBuff;
             }
-            if (equipmentBuff.Multiplier != 0f)
+            if (equipmentBuff.PercentageMultiplier != 0f)
             {
-                textString += "\r\nMultiplier: +" + equipmentBuff.Multiplier + "%";
+                textString += "\r\nMultiplier: +" + equipmentBuff.PercentageMultiplier + "%";
             }
             if (equipmentBuff.AdditionalBuff.IsInt && equipmentBuff.AdditionalBuff != 0f)
             {

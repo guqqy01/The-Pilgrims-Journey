@@ -8,7 +8,7 @@ using Tiles;
 namespace Units
 {
     [CreateAssetMenu(menuName = "Units/UnitSO")]
-    public class UnitSO : ScriptableObject, IDescriptable, ITileable
+    public class UnitSO : BuffableEntitySO, IDescriptable, ITileable
     {
         [TextArea] public string Description;
         public Sprite sprite;
@@ -23,26 +23,18 @@ namespace Units
         public int numberOfUnitsEscapedToLevelUp = 50;
         public int numberOfUnitsAbleToSpawn = 15;
 
-        [Header("Stats")]
-        [SerializeField] private float spawnRate = 0.5f;
-        public float SpawnRate => spawnRate;
+        [Header("Unit Only Stats")]
+        [BuffType(false)]
+        public Buff SpawnRate;
 
-        [SerializeField] private float movementSpeed = 0.5f;
-        public float MovementSpeed => movementSpeed;
-
-        [SerializeField] private int health = 10;
-        public int Health => health;
-
-        [SerializeField] private int shield = 0;
-        public int Shield => shield;
-
-        /// <summary>Amount of regeneration over 1 second</summary>
-        [SerializeField] private float shieldRegeneration = 1f;
-        public float ShieldRegeneration => shieldRegeneration;
-
-        /// <summary>Time since damage before regeneration starts</summary>
-        [SerializeField] private float shieldCooldown = 6f;
-        public float ShieldCooldown => shieldCooldown;
+        protected override Buff InheritGetBuff(StatTypes stat)
+        {
+            return stat switch
+            {
+                StatTypes.SpawnRate => SpawnRate,
+                _ => null,
+            };
+        }
 
         public string Title => name.AddSpacesBeforeCapsRegex();
 
@@ -78,12 +70,12 @@ namespace Units
         {
             return unitStat switch
             {
-                UnitStatsEnum.Health => new IntOrFloatObject(Health),
-                UnitStatsEnum.Shield => new IntOrFloatObject(Shield),
-                UnitStatsEnum.ShieldCooldown => new IntOrFloatObject(ShieldCooldown),
-                UnitStatsEnum.ShieldRegeneration => new IntOrFloatObject(ShieldRegeneration),
-                UnitStatsEnum.SpawnRate => new IntOrFloatObject(SpawnRate),
-                UnitStatsEnum.MovementSpeed => new IntOrFloatObject(MovementSpeed),
+                UnitStatsEnum.Health => Health,
+                UnitStatsEnum.Shield => Shield,
+                UnitStatsEnum.ShieldCooldown => ShieldCooldown,
+                UnitStatsEnum.ShieldRegeneration => ShieldRegeneration,
+                UnitStatsEnum.SpawnRate => SpawnRate,
+                UnitStatsEnum.MovementSpeed => MovementSpeed,
                 _ => throw new NotImplementedException($"Stat {unitStat} not implemented in UnitSO")
             };
         }

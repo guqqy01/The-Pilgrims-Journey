@@ -1,5 +1,6 @@
 ﻿using GlobalMap;
 using System.Collections.Generic;
+using System.Threading;
 using Units;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,6 +15,10 @@ namespace Monsters
 
         public MonsterSO MonsterSO { private set; get; }
         public Material MonsterMat {  get; private set; }
+
+        [SerializeField]
+        private StatContainer stats;
+        public StatContainer Stats => stats;
 
         [SerializeField]
         [FormerlySerializedAs("range")]
@@ -56,26 +61,50 @@ namespace Monsters
             }
         }
 
+        protected virtual void Awake()
+        {
+            MonsterMat = GetComponentInChildren<Renderer>().material;
+            if (stats == null)
+                stats = GetComponent<StatContainer>();
+        }
+
         protected virtual void Start()
         {
             beastaryManager = BeastaryManager.Instance;
-            MonsterMat = GetComponentInChildren<Renderer>().material;
         }
 
-        public virtual void Init(MonsterSO monster, float difficulty = 1f)
+        public virtual void Init(MonsterSO monster, float difficultyLevel = 1f)
         {
             MonsterSO = monster;
 
-            MonsterMovement.Setup(monster);
+            if (Stats == null)
+            {
+                Debug.LogError("Stats not set");
+            }
 
-            int scaledHealth = Mathf.RoundToInt(monster.health * (1f + (monster.healthDifficultyScaling - 1f) * (difficulty - 1f)));
-            int scaledShield = Mathf.RoundToInt(monster.shield * (1f + (monster.shieldDifficultyScaling - 1f) * (difficulty - 1f)));
-            int scaledShieldRegeneration = Mathf.RoundToInt(monster.shieldRegeneration * (1f + (monster.shieldRegenerationDifficultyScaling - 1f) * (difficulty - 1f)));
-            int scaledShieldCooldown = Mathf.RoundToInt(monster.shieldCooldown * (1f + (monster.shieldCooldownDifficultyScaling - 1f) * (difficulty - 1f)));
+            Stats.Setup(monster);
 
-            HealthAndShieldManager.Setup(new BuffableStat(monster.health), new BuffableStat(monster.shield), new BuffableStat(monster.shieldRegeneration), new BuffableStat(monster.shieldCooldown));
+            BuffableStat movementStat = Stats.Get(StatTypes.MovementSpeed);
+            BuffableStat healthStat = Stats.Get(StatTypes.Health);
+            BuffableStat shieldStat = Stats.Get(StatTypes.Shield);
+            BuffableStat shieldRegenerationStat = Stats.Get(StatTypes.ShieldRegeneration);
+            BuffableStat shieldCooldownStat = Stats.Get(StatTypes.ShieldCooldown);
+
+            movementStat.AddBuff("Difficulty", new Buff(BuffType.Multiplier, GetDifficultyScalingPercentageMultiplier(monster.movementDifficityScaling, difficultyLevel), 0f, 0f));
+            healthStat.AddBuff("Difficulty", new Buff(BuffType.Multiplier, GetDifficultyScalingPercentageMultiplier(monster.healthDifficultyScaling, difficultyLevel), 0, 0));
+            shieldStat.AddBuff("Difficulty", new Buff(BuffType.Multiplier, GetDifficultyScalingPercentageMultiplier(monster.shieldDifficultyScaling, difficultyLevel), 0, 0));
+            shieldRegenerationStat.AddBuff("Difficulty", new Buff(BuffType.Multiplier, GetDifficultyScalingPercentageMultiplier(monster.shieldRegenerationDifficultyScaling, difficultyLevel), 0f, 0f));
+            shieldCooldownStat.AddBuff("Difficulty", new Buff(BuffType.Multiplier, GetDifficultyScalingPercentageMultiplier(monster.shieldCooldownDifficultyScaling, difficultyLevel), 0f, 0f));
+
+            MonsterMovement.BaseInit(movementStat);
+            HealthAndShieldManager.Setup(healthStat, shieldStat, shieldRegenerationStat, shieldCooldownStat);
         }
         
+        private float GetDifficultyScalingPercentageMultiplier(float scaling, float difficultyLevel)
+        {
+            return scaling * (difficultyLevel - 1f);
+        }
+
         protected virtual void OnDamageUnit(OnHitInfo hitInfo)
         {
             beastaryManager.Unitdamaged(MonsterSO, hitInfo);

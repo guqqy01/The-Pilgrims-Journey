@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 452623947529200597}
   - component: {fileID: 2155699884936204839}
   - component: {fileID: 2371816407256373025}
+  - component: {fileID: 1921464850547458483}
   m_Layer: 12
   m_Name: Wasp
   m_TagString: Untagged
@@ -55,6 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1794fb3b9032a54d9dd3338de292993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
   rangeToFindTarget: 3
   findTargetMask:
     serializedVersion: 2
@@ -200,6 +202,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
   knockBackSpeed: 1
   knockBackDuration: 0.2
+--- !u!114 &1921464850547458483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002732257371014240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cf3ac6c8645e34086d9578a1c089a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::StatContainer
 --- !u!1 &7735234267438490888
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +421,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1034681899
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: -1582189006, guid: 451bef8e484d16d4eb9e4277726b8d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

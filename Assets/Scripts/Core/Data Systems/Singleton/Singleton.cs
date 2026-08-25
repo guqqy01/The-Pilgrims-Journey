@@ -19,7 +19,7 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
         OnInstanceReady?.Invoke(Instance);
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         CleanUp();
 

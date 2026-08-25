@@ -5,11 +5,10 @@ using Attacks;
 using System.Collections.Generic;
 using Equipment;
 
-
 namespace Heros
 {
     [CreateAssetMenu()]
-    public class HeroSO : BuffableEntitySO
+    public class HeroSO : BuffableAttackEntitySO
     {
         [TextArea()]
         public string Description;
@@ -18,11 +17,27 @@ namespace Heros
 
         public Hero prefab;
 
+        [Header("Hero Only Stats")]
+        [BuffType(false)]
+        public Buff Luck;
+        [BuffType(false)]
+        public Buff ExperienceGain;
+        [Space]
         public BaseAttackSO startingAttack;
 
         public SpriteLibraryAsset spriteLibrary;
 
         public List<EquipmentSO> startingEquipment;
+
+        protected override Buff InheritGetBuff(StatTypes stat)
+        {
+            return stat switch
+            {
+                StatTypes.Luck => Luck,
+                StatTypes.ExperienceGain => ExperienceGain,
+                _ => base.InheritGetBuff(stat),
+            };
+        }
 
         public string GetHeroStatsString()
         {

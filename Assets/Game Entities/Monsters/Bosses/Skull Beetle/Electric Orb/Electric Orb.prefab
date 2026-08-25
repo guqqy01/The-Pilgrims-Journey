@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 8871034369764695677}
   - component: {fileID: 735231473807529879}
   - component: {fileID: 679053456561142512}
+  - component: {fileID: 7618183602117882442}
   m_Layer: 12
   m_Name: Electric Orb
   m_TagString: Untagged
@@ -158,6 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a4ac4b5e823bc4b938da29db6dc6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.ElectricOrb
+  stats: {fileID: 0}
   rangeToFindTarget: 6
   findTargetMask:
     serializedVersion: 2
@@ -196,7 +198,7 @@ MonoBehaviour:
   directStoppingDistance: 0
   separationRadius: 0.8
   separationStrength: 1.5
-  enemyLayerMask:
+  seperationLayerMask:
     serializedVersion: 2
     m_Bits: 0
 --- !u!114 &782200986466997489
@@ -251,6 +253,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
   knockBackSpeed: 1
   knockBackDuration: 0.2
+--- !u!114 &7618183602117882442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060869861810547035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cf3ac6c8645e34086d9578a1c089a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::StatContainer
 --- !u!1 &2524795278473388748
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +343,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 480325165
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -471,7 +485,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 480325165
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: -9192330450093807361, guid: 6b75a5eb76465ac4f9fdffdb1886479a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -584,7 +598,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 480325165
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 2
   m_Sprite: {fileID: 6432894089590512078, guid: e5c8c93e4298004469df0212abd7f27f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -27,7 +27,7 @@ public class TestAttack : BaseAttack
 
     public override BaseAttackSO BaseAttackSO => _so;
 
-    public override void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, LayerMask hitLayerMask)
+    public override void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, Func<StatTypes, Buff> entityBuffCallback, LayerMask hitLayerMask)
     {
         _so = attackSO as BaseAttackSO;
 

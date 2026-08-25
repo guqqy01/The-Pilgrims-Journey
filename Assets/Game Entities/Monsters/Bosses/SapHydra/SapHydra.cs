@@ -89,6 +89,10 @@ namespace Monsters
             attackManager.AttackTriggeredExternally(rapidAttackSO, true);
         }
 
+        private Buff GetBuff(StatTypes statType)
+        {
+            return null;
+        }
 
         protected override void Update()
         {

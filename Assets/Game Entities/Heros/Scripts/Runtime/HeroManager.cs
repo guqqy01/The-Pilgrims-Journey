@@ -102,6 +102,11 @@ namespace Heros
             HeroAttacksManager.WhenReady(_ => HeroAttacksManager.Instance.AddAttack(HeroSO.startingAttack));
         }
 
+        private Buff GetBuff(StatTypes statType)
+        {
+            return Stats.Get(statType);
+        }
+
         private void RemoveHero()
         {
             if (ActiveHero != null)

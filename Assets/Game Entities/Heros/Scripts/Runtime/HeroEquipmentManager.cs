@@ -13,8 +13,14 @@ namespace Heros
         private void Awake()
         {
             inventory = GetComponent<EquipmentInventory>();
-
             inventory.onEquipmentChanged += OnEquipChange;
+        }
+
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            if(inventory != null)
+            inventory.onEquipmentChanged -= OnEquipChange;
         }
 
         private void OnEquipChange(EquipmentContainer equipmentContainer, EquipmentSO from, EquipmentSO to)

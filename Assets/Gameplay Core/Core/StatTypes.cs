@@ -9,6 +9,8 @@
     //Utility
     MovementSpeed,
     SpawnRate,
+    Luck,
+    ExperienceGain,
 
     //Attack
     AttackSpeed,

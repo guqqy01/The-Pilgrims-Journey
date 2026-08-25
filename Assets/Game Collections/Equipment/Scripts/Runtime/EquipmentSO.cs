@@ -40,8 +40,8 @@ namespace Equipment
             {
                 int value = 0;
 
-                if (unitEquipmentStats != null)
-                    foreach (var kvp in unitEquipmentStats)
+                if (heroEquipmentStats != null)
+                    foreach (var kvp in heroEquipmentStats)
                     {
                         value += BuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key.ConvertToAllStats(), out _, out _, out _);
                     }
@@ -50,19 +50,6 @@ namespace Equipment
 
                 return value;
             }
-        }
-
-        public bool TryGetUnitBuff(UnitStatsEnum stat, out Buff outBuff)
-        {
-            outBuff = null;
-
-            if (!EquipmentStatsDictionary.ContainsKey(stat))
-                return false;
-
-
-            outBuff = EquipmentStatsDictionary[stat];
-
-            return true;
         }
 
         public bool TryGetHeroBuff(StatTypes stat, out Buff outBuff)
@@ -81,20 +68,6 @@ namespace Equipment
         [SerializeReference]
         [AbstractSelector]
         public EquipmentSpecial EquipmentSpecial;
-
-        [FormerlySerializedAs("equipmentStats")]
-        [SerializeField]
-        private SerializedDictionary<UnitStatsEnum, Buff> unitEquipmentStats;
-
-        public Dictionary<UnitStatsEnum, Buff> EquipmentStatsDictionary
-        {
-            get
-            {
-                unitEquipmentStats ??= new SerializedDictionary<UnitStatsEnum, Buff>();
-
-                return unitEquipmentStats;
-            }
-        }
 
         [SerializeField]
         private SerializedDictionary<StatTypes, Buff> heroEquipmentStats;
@@ -123,7 +96,7 @@ namespace Equipment
             {
                 var list = new List<ISubDescriptionData>();
 
-                foreach(var kvp in unitEquipmentStats)
+                foreach(var kvp in heroEquipmentStats)
                 {
                     list.Add(new BuffSubDescriptionData(kvp.Value, kvp.Key.ToString().AddSpacesBeforeCapsRegex()));
                 }

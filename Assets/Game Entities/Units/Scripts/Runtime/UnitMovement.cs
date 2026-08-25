@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using Equipment;
-using Tiles;
+﻿using Equipment;
+using System.Collections.Generic;
 using System.IO;
+using Tiles;
+using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace Units
 {
@@ -20,9 +21,9 @@ namespace Units
         public delegate void OnPathCompleted();
         public OnPathCompleted onPathCompleted;
 
-        public void Init(List<Vector2Int> path, int currentPathIndex, UnitSO unitSO)
+        public void Init(List<Vector2Int> path, int currentPathIndex, BuffableStat stat)
         {
-            BaseInit(unitSO.MovementSpeed);
+            BaseInit(stat);
 
             CurrentPathIndex = currentPathIndex;
 

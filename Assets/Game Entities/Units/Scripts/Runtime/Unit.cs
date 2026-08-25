@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using Tiles;
 using Equipment;
+using System.Collections.Generic;
+using Tiles;
+using UnityEngine;
 
 namespace Units
 {
@@ -11,20 +9,21 @@ namespace Units
     [RequireComponent(typeof(CoinDrop), typeof(KnockbackEffectReciever), typeof(PoisonDebuff))]
     public class Unit : MonoBehaviour
     {
+        [SerializeField]
+        private StatContainer stats;
+        public StatContainer Stats => stats;
         public UnitSO UnitSO { private set; get; }
         public UnitMovement Movement { private set; get; }
         public Health Health { private set; get; }
         public Shield Shield { private set; get; }
         public CoinDrop CoinDrop { private set; get; }
 
-
         public List<EquipmentSpecial> EquipmentSpecials { private set; get; } = new List<EquipmentSpecial>();
-
-
-        
 
         private void Awake()
         {
+            if (stats == null)
+                stats = GetComponent<StatContainer>();
             Movement = GetComponent<UnitMovement>();
             Health = GetComponent<Health>();
             Shield = GetComponent<Shield>();
@@ -34,26 +33,16 @@ namespace Units
         public void Init(UnitSO unitSO, List<Vector2Int> path, int currentPathIndex)
         {
             UnitSO = unitSO;
-            Movement.Init(path, currentPathIndex, unitSO);
-            Health.Init(unitSO.Health);
-            Shield.Init(unitSO.Shield, unitSO.ShieldRegeneration, unitSO.ShieldCooldown);
+            Stats.Setup(UnitSO);
+            Movement.Init(path, currentPathIndex, Stats.Get(StatTypes.MovementSpeed));
+            Health.Init(Stats.Get(StatTypes.Health));
+            Shield.Init(Stats.Get(StatTypes.Shield), Stats.Get(StatTypes.ShieldRegeneration), Stats.Get(StatTypes.ShieldCooldown));
             CoinDrop.Init(unitSO);
         }
 
         public void Init(UnitTile tile, List<Vector2Int> path, int currentPathIndex)
         {
-            UnitSO = tile.UnitSO;
-            Movement.Init(path, currentPathIndex, tile.UnitSO);
-            Health.Init(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.Health, UnitStatsEnum.Health));
-
-            Shield.Init
-                (
-                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.Shield, UnitStatsEnum.Shield),
-                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.ShieldRegeneration, UnitStatsEnum.ShieldRegeneration),
-                UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.ShieldCooldown, UnitStatsEnum.ShieldCooldown)
-                );
-
-            CoinDrop.Init(tile.UnitSO);
+            Init(tile.UnitSO, path, currentPathIndex);
         }
 
 

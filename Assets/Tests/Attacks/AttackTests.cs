@@ -37,7 +37,7 @@ public class AttackTests
     public void SetAttackLevel_ClampsLevelAndAppliesBuffs()
     {
         TestAttackSO so = ScriptableObject.CreateInstance<TestAttackSO>();
-        attack.Setup(so, default);
+        attack.Setup(so, null, default);
 
         attack.SetAttackLevel(5); // above max
         Assert.AreEqual(so.MaxLevel, attack.Level);

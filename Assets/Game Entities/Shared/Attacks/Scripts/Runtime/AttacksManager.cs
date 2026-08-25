@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-
 
 namespace Attacks
 {
@@ -12,22 +12,30 @@ namespace Attacks
         [SerializeField]
         private List<BaseAttackSO> beginningAttacks;
 
-        public event Action<BaseAttack> onAddAttackEvent;
-        public event Action<BaseAttack> onRemoveAttackEvent;
-        public event Action<BaseAttack> onAttackLevelChangeEvent;
+        [SerializeField]
+        private StatContainer stats;
+
+        public event Action<BaseAttack> OnAddAttackEvent;
+        public event Action<BaseAttack> OnRemoveAttackEvent;
+        public event Action<BaseAttack> OnAttackLevelChangeEvent;
 
         [SerializeField]
         private LayerMask hitLayerMask;
 
+        private readonly List<BaseAttackSO> lateAttacks = new List<BaseAttackSO>();
+
         protected virtual void OnDestroy()
         {
-            onAddAttackEvent = null;
-            onRemoveAttackEvent = null;
-            onAttackLevelChangeEvent = null;
+            OnAddAttackEvent = null;
+            OnRemoveAttackEvent = null;
+            OnAttackLevelChangeEvent = null;
         }
 
         protected virtual void Awake()
         {
+            if (stats == null)
+                stats = GetComponent<StatContainer>();
+
             if (beginningAttacks == null)
                 return;
 
@@ -71,13 +79,43 @@ namespace Attacks
                 return;
             }
 
+            if(stats == null)
+            {
+                WorkingAddAttack(attackSO, null);
+                return;
+            }
+
+            if (stats.IsSetup)
+            {
+                WorkingAddAttack(attackSO, stats.GetBuff);
+            }
+            else
+            {
+                stats.OnSetup += AddAllLateAttacks;
+                lateAttacks.Add(attackSO);
+            }
+        }
+
+        private void WorkingAddAttack(BaseAttackSO attackSO, Func<StatTypes, Buff> entityBuffCallback)
+        {
             var attack = (BaseAttack)GetGameObjectToHaveAttack().AddComponent(attackSO.AttackType);
 
-            attack.Setup(attackSO, hitLayerMask);
+            attack.Setup(attackSO, entityBuffCallback, hitLayerMask);
 
             attacks.Add(attackSO, attack);
 
-            onAddAttackEvent?.Invoke(attack);
+            OnAddAttackEvent?.Invoke(attack);
+        }
+
+        private void AddAllLateAttacks()
+        {
+            foreach(var attack in lateAttacks)
+            {
+                AddAttack(attack);
+            }
+
+            lateAttacks.Clear();
+            stats.OnSetup -= AddAllLateAttacks;
         }
 
         public void DelayAllAttacks(float time)
@@ -93,11 +131,11 @@ namespace Attacks
 
         public void RemoveAttack(BaseAttackSO attackSO)
         {
-            if (attacks.TryGetValue(attackSO, out BaseAttack heroAttack))
+            if (attacks.TryGetValue(attackSO, out BaseAttack baseAttack))
             {
-                onRemoveAttackEvent?.Invoke(heroAttack);
+                OnRemoveAttackEvent?.Invoke(baseAttack);
 
-                Destroy(heroAttack);
+                Destroy(baseAttack);
 
                 attacks.Remove(attackSO);
             }
@@ -137,7 +175,7 @@ namespace Attacks
             {
                 attack.SetAttackLevel(level);
 
-                onAttackLevelChangeEvent?.Invoke(attack);
+                OnAttackLevelChangeEvent?.Invoke(attack);
             }
         }
     }

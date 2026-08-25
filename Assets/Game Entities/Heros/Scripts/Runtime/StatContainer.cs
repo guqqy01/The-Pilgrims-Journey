@@ -9,12 +9,15 @@ public class StatContainer : MonoBehaviour
     private readonly Dictionary<StatTypes, BuffableStat> stats = new Dictionary<StatTypes, BuffableStat>();
 
     public event Action OnStatChanged;
+    public event Action OnSetup;
+
+    public bool IsSetup { private set; get; } = false;
 
     private void OnDestroy()
     {
         OnStatChanged = null;
-
-        foreach(var kvp in stats)
+        OnSetup = null;
+        foreach (var kvp in stats)
         {
             kvp.Value.onValueChange -= InvokeOnStatChanged;
         }
@@ -37,6 +40,11 @@ public class StatContainer : MonoBehaviour
         }
     }
 
+    public Buff GetBuff(StatTypes stat)
+    {
+        return Get(stat);
+    }
+
     public void Setup(BuffableEntitySO buffableEntitySO)
     {
         if (buffableEntitySO == null)
@@ -56,7 +64,8 @@ public class StatContainer : MonoBehaviour
             stats.Add(stat, buffable);
             buffable.onValueChange += InvokeOnStatChanged;
         }
-
+        OnSetup?.Invoke();
+        IsSetup = true;
         InvokeOnStatChanged();
     }
 }

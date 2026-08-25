@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 namespace Attacks.Melee
 {
     public class MeleeAttack : Attack<MeleeAttackSO, AttackInit, AttackStats>
@@ -51,7 +52,7 @@ namespace Attacks.Melee
                 projectilesCountAsHits);
         }
 
-        protected override void InheritSetup(MeleeAttackSO heroAttackSO)
+        protected override void InheritSetup(MeleeAttackSO heroAttackSO, Func<StatTypes, Buff> entityBuffCallback)
         {
             destroyProjectiles = heroAttackSO.destroyProjectiles;
         }

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 1219480163354262768}
   - component: {fileID: 5430114328332533846}
   - component: {fileID: 896932531109456021}
+  - component: {fileID: 8631310109006786005}
   m_Layer: 12
   m_Name: Stump Monster
   m_TagString: Untagged
@@ -85,6 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85432af488da79e47b47efd5b339dd54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.StumpMonster
+  stats: {fileID: 0}
   rangeToFindTarget: 3
   findTargetMask:
     serializedVersion: 2
@@ -284,6 +286,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Gameplay::KnockbackEffectReciever
   knockBackSpeed: 1
   knockBackDuration: 0.2
+--- !u!114 &8631310109006786005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608093838665869098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cf3ac6c8645e34086d9578a1c089a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::StatContainer
 --- !u!1 &2661924288931559718
 GameObject:
   m_ObjectHideFlags: 0

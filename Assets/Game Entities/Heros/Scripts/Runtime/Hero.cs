@@ -24,7 +24,7 @@ namespace Heros
         {
             HeroSO = heroSO;
 
-            HeroMovement.Setup(heroSO);
+            HeroMovement.BaseInit(heroStats.Get(StatTypes.MovementSpeed));
 
             HealthAndShieldManager.Setup(
                 heroStats.Get(StatTypes.Health), 

@@ -1,7 +1,5 @@
-using Tiles.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 namespace UI
 {
 
@@ -52,7 +50,29 @@ namespace UI
             if (!isDragging)
                 return;
 
-            _windowTransform.position = eventData.position - dragOffset;
+            float xPos = eventData.position.x - dragOffset.x;
+            float yPos = eventData.position.y - dragOffset.y;
+
+            // World-space bounds of the draggable area
+            Vector3[] areaCorners = new Vector3[4];
+            draggableArea.GetWorldCorners(areaCorners); // [0]=bottom-left, [2]=top-right
+
+            // World-space size of the window itself
+            Vector3[] windowCorners = new Vector3[4];
+            _windowTransform.GetWorldCorners(windowCorners);
+            float halfWidth = (windowCorners[2].x - windowCorners[0].x) / 2f;
+            float halfHeight = (windowCorners[2].y - windowCorners[0].y) / 2f;
+
+            float xMin = areaCorners[0].x + halfWidth;
+            float xMax = areaCorners[2].x - halfWidth;
+            float yMin = areaCorners[0].y + halfHeight;
+            float yMax = areaCorners[2].y - halfHeight;
+
+            // Guard against the window being bigger than the area
+            float clampedXPos = (xMin <= xMax) ? Mathf.Clamp(xPos, xMin, xMax) : (xMin + xMax) / 2f;
+            float clampedYPos = (yMin <= yMax) ? Mathf.Clamp(yPos, yMin, yMax) : (yMin + yMax) / 2f;
+
+            _windowTransform.position = new Vector2(clampedXPos, clampedYPos);
         }
 
         public void OnEndDrag(PointerEventData eventData)

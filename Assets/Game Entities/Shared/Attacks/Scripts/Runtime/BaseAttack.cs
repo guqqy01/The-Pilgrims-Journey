@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Heros;
+using System;
 namespace Attacks
 {
     public abstract class BaseAttack : MonoBehaviour
@@ -103,7 +104,7 @@ namespace Attacks
 
         protected abstract bool ProtectedAttack();
 
-        public abstract void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, LayerMask hitLayerMask) 
+        public abstract void Setup<TBaseAttackSO>(TBaseAttackSO attackSO, Func<StatTypes, Buff> entityBuffCallback, LayerMask hitLayerMask) 
             where TBaseAttackSO : BaseAttackSO;
 
         protected abstract void InheritLevelSetup();

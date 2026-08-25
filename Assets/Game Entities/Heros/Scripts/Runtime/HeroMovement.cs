@@ -18,11 +18,6 @@ namespace Heros
         private bool overrideMovementToMoveOutOfMap = false;
         private Direction directionOutOfMap;
 
-        public void Setup(HeroSO heroSO)
-        {
-            BaseInit(HeroManager.Instance.Stats.Get(StatTypes.MovementSpeed));
-        }
-
         protected override void Awake()
         {
             base.Awake();

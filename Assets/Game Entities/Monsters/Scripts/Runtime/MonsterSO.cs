@@ -5,7 +5,7 @@ using Tiles;
 namespace Monsters
 {
     [CreateAssetMenu]
-    public class MonsterSO : ScriptableObject, IDescriptable, ITileable
+    public class MonsterSO : BuffableAttackEntitySO, IDescriptable, ITileable
     {
         public new string name;
         [TextArea()]
@@ -23,13 +23,6 @@ namespace Monsters
 
         public int powerLevel = 1;
 
-        [Header("Stats")]
-        public float movementSpeed;
-
-        public int health;
-        public int shield;
-        public float shieldCooldown;
-        public float shieldRegeneration;
 
         [Header("Difficulty Scaling")]
         public float movementDifficityScaling = 1f;

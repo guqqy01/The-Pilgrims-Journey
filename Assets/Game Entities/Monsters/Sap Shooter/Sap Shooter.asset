@@ -12,6 +12,174 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbadc714ae35dd64eb3dacc370bd2bc9, type: 3}
   m_Name: Sap Shooter
   m_EditorClassIdentifier: 
+  Health:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 5
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  Shield:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 2
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ShieldCooldown:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 6
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ShieldRegeneration:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  MovementSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  DamageBuff:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  AttackSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  CriticalChance:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  CriticalDamageMultiplier:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  AttackSize:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  Knockback:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  NumberOfAttacks:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ProjectileSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ProjectileTurnSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   name: Sap Shooter
   summary: A dangerous plant that grows in the grasslands of Estrania
   description: Sap shooters, along with their ice and lava counterparts, have developed
@@ -21,8 +189,9 @@ MonoBehaviour:
   prefab: {fileID: -3937348490146185227, guid: f17ecc19c59195447a80c1f4f45b458c, type: 3}
   size: {x: 1, y: 1}
   movementType: 0
-  movementSpeed: 1
-  health: 5
-  shield: 2
-  shieldCooldown: 6
-  shieldRegeneration: 1
+  powerLevel: 1
+  movementDifficityScaling: 0
+  healthDifficultyScaling: 10
+  shieldDifficultyScaling: 10
+  shieldCooldownDifficultyScaling: 0
+  shieldRegenerationDifficultyScaling: 0

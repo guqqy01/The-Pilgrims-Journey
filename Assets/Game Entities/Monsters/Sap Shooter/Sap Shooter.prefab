@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 4638114513612703921}
   - component: {fileID: 6888474566566265770}
   - component: {fileID: 1391713946618757458}
+  - component: {fileID: 2478503707999655262}
   m_Layer: 12
   m_Name: Sap Shooter
   m_TagString: Untagged
@@ -140,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1c647d5289f8c49b849bfceb772622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 2478503707999655262}
   rangeToFindTarget: 3.5
   findTargetMask:
     serializedVersion: 2
@@ -344,9 +346,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Gameplay::Attacks.AttacksManager
   beginningAttacks:
   - {fileID: 11400000, guid: 55212f2bf9276c6429b615e75d57c3cc, type: 2}
+  stats: {fileID: 2478503707999655262}
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 32832
+--- !u!114 &2478503707999655262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4957495057371097057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cf3ac6c8645e34086d9578a1c089a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::StatContainer
 --- !u!1 &6795605464711786627
 GameObject:
   m_ObjectHideFlags: 0

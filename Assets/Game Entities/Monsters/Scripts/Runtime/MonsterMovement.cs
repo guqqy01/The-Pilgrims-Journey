@@ -14,11 +14,6 @@ namespace Monsters
         [SerializeField]
         protected bool mirrorWhenTargetToTheLeft = false;
 
-        public void Setup(MonsterSO monsterSO)
-        {
-            BaseInit(monsterSO.movementSpeed);
-        }
-
         protected abstract Vector2? GetTargetPosition();
 
         public override void HandleFixedUpdateMovement()

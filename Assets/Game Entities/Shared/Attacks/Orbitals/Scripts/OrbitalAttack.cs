@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 namespace Attacks.Orbitals
 {
     public class OrbitalAttack : Attack<OrbitalAttackSO, OrbitalAttackInit, OrbitalAttackStats>
@@ -184,10 +185,10 @@ namespace Attacks.Orbitals
             SetupAmountOfTargetTransforms();
         }
 
-        protected override void InheritSetup(OrbitalAttackSO orbitalAttackSO)
+        protected override void InheritSetup(OrbitalAttackSO orbitalAttackSO, Func<StatTypes, Buff> entityBuffCallback)
         {
-            SetupBuffableStat(ref numberOfOrbitals, StatTypes.NumberOfAttacks);
-            SetupBuffableStat(ref orbitalSpeed, StatTypes.ProjectileTurnSpeed);
+            SetupBuffableStat(ref numberOfOrbitals, entityBuffCallback, StatTypes.NumberOfAttacks);
+            SetupBuffableStat(ref orbitalSpeed, entityBuffCallback, StatTypes.ProjectileTurnSpeed);
 
             numberOfOrbitals.onValueChange += OnNumberOfOrbitalsChanged;
 

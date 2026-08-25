@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 8124627347348237949}
   - component: {fileID: 7742020956753105442}
   - component: {fileID: 3601770877704659991}
+  - component: {fileID: 8322064590411518700}
   m_Layer: 12
   m_Name: Sap Hydra Boss
   m_TagString: Untagged
@@ -118,15 +119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ec1d95faec62b4990892207893e50a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 8322064590411518700}
   rangeToFindTarget: 15
   findTargetMask:
     serializedVersion: 2
     m_Bits: 32832
   animator: {fileID: 8159676589301376512}
   audioSource: {fileID: 2055764091639679189}
-  projectileSpeed: 5
-  projectileTurnSpeed: 10
-  projectile: {fileID: 2067198908419732263, guid: f8b4233d2ec11014c969b3d153a08be2, type: 3}
   target: {fileID: 0}
   stateChance:
     weightedList:
@@ -184,18 +183,11 @@ MonoBehaviour:
           m_RotationOrder: 0
         m_ConstantMin: 0
         m_ConstantMax: 1
-  knockbackMultiplier: 1
   attackManager: {fileID: 3601770877704659991}
-  rapidAttackDamage: 1
   minAndMaxTimeToDoRapidAttack: {x: 3, y: 5}
   rapidAttackSO: {fileID: 11400000, guid: ce6399b6275974c4cb2d3095370f7bbf, type: 2}
-  multishotAttackDamage: 1
   minAndMaxTimeToDoMultishotAttack: {x: 3, y: 5}
-  multishotAngle: 30
-  numberOfShotsInMultishot: 7
   multishotAttackSO: {fileID: 11400000, guid: 8b8979232beaf8a4bb224416fc0b2ace, type: 2}
-  burstAttackDamage: 3
-  numberOfShotsInBurstAttack: 36
   burstAttackSO: {fileID: 11400000, guid: 8dfc0343d170b5542abd8243cd6f5773, type: 2}
 --- !u!95 &8159676589301376512
 Animator:
@@ -523,9 +515,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Gameplay::Attacks.AttacksManager
   beginningAttacks: []
+  stats: {fileID: 8322064590411518700}
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 32832
+--- !u!114 &8322064590411518700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232727847357412824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cf3ac6c8645e34086d9578a1c089a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::StatContainer
 --- !u!1001 &3820215309968361552
 PrefabInstance:
   m_ObjectHideFlags: 0

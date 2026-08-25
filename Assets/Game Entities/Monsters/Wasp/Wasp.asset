@@ -12,6 +12,174 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbadc714ae35dd64eb3dacc370bd2bc9, type: 3}
   m_Name: Wasp
   m_EditorClassIdentifier: 
+  Health:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  Shield:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ShieldCooldown:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ShieldRegeneration:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  MovementSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  DamageBuff:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  AttackSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  CriticalChance:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  CriticalDamageMultiplier:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  AttackSize:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  Knockback:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  NumberOfAttacks:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ProjectileSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ProjectileTurnSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   name: Wasp
   summary: 
   description: 
@@ -19,8 +187,9 @@ MonoBehaviour:
   prefab: {fileID: 1852068231971348684, guid: 18395e6d31cfb3e4a90f5f097a55b452, type: 3}
   size: {x: 1, y: 1}
   movementType: 0
-  movementSpeed: 1
-  health: 5
-  shield: 2
-  shieldCooldown: 6
-  shieldRegeneration: 1
+  powerLevel: 1
+  movementDifficityScaling: 1
+  healthDifficultyScaling: 1.05
+  shieldDifficultyScaling: 1.05
+  shieldCooldownDifficultyScaling: 1
+  shieldRegenerationDifficultyScaling: 1

@@ -47,7 +47,7 @@ public class AddedBuffAndParameters
 
         if (buff != null && AddBuffParameters.HasFlag(AddBuffParameters.Multiplier))
         {
-            multiplier = buff.Multiplier;
+            multiplier = buff.PercentageMultiplier;
         }
 
         if (buff != null && AddBuffParameters.HasFlag(AddBuffParameters.Base))
