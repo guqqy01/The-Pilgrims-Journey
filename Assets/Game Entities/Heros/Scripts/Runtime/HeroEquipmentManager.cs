@@ -23,13 +23,24 @@ namespace Heros
             inventory.onEquipmentChanged -= OnEquipChange;
         }
 
-        private void OnEquipChange(EquipmentContainer equipmentContainer, EquipmentSO from, EquipmentSO to)
+        public void SetupBeginningEquipment(List<EquipmentSO> equipmentSOs)
         {
-            RemoveEquipment(equipmentContainer, from);
-            AddEquipment(equipmentContainer, to);
+            if (equipmentSOs == null)
+                return;
+
+            foreach(EquipmentSO equipmentSO in equipmentSOs)
+            {
+                inventory.TryAddEquipment(equipmentSO);
+            }
         }
 
-        private void AddEquipment(EquipmentContainer equipmentContainer, EquipmentSO equipment)
+        private void OnEquipChange(EquipmentContainer equipmentContainer, EquipmentSO from, EquipmentSO to)
+        {
+            RemoveEquipmentBuffs(equipmentContainer, from);
+            ApplyEquipmentBuffs(equipmentContainer, to);
+        }
+
+        private void ApplyEquipmentBuffs(EquipmentContainer equipmentContainer, EquipmentSO equipment)
         {
             if (equipment == null)
                 return;
@@ -53,7 +64,7 @@ namespace Heros
             }
         }
 
-        private void RemoveEquipment(EquipmentContainer equipmentContainer, EquipmentSO equipment)
+        private void RemoveEquipmentBuffs(EquipmentContainer equipmentContainer, EquipmentSO equipment)
         {
             if(equipment == null) 
                 return;
@@ -77,7 +88,7 @@ namespace Heros
             }
         }
 
-        public void ApplyEquipmentBuffs()
+        public void ApplyAllEquipmentBuffs()
         {
             if (inventory == null)
                 inventory = GetComponent<EquipmentInventory>();
@@ -90,7 +101,7 @@ namespace Heros
                 if (equipmentContainer.EquipmentSO == null)
                     continue;
 
-                AddEquipment(equipmentContainer, equipmentContainer.EquipmentSO);
+                ApplyEquipmentBuffs(equipmentContainer, equipmentContainer.EquipmentSO);
             }
         }
 

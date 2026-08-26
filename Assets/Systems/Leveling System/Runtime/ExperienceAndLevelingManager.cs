@@ -6,7 +6,7 @@ namespace LevelingSystem
 {
     public class ExperienceAndLevelingManager : Singleton<ExperienceAndLevelingManager>, ISaveLoad, IOnSave, IOnLoad, IOnClear
     {
-        public int Level { private set; get; } = 0;
+        public int Level { private set; get; } = 1;
         public float CurrentExperience { private set; get; }
         public float ExperienceNeededToLevel => Mathf.Pow(Level, 1.5f) * 10f + 10f;
 
@@ -15,7 +15,7 @@ namespace LevelingSystem
         public delegate void OnUpdateUI();
         public OnUpdateUI onUpdateUI;
 
-
+        public event Action<int> OnLevelChanged; 
         private void Awake()
         {
             LocalMapLevelCompletedManager.onUnitPassed += OnUnitPassed;
@@ -24,6 +24,8 @@ namespace LevelingSystem
         protected override void CleanUp()
         {
             LocalMapLevelCompletedManager.onUnitPassed -= OnUnitPassed;
+            onUpdateUI = null;
+            OnLevelChanged = null;
         }
 
         public void LevelUp()
@@ -31,6 +33,7 @@ namespace LevelingSystem
             Level++;
             CurrentExperience = 0;
             LevelingUpRewardManager.Instance.SetupRewardChoices();
+            OnLevelChanged?.Invoke(Level);
         }
 
         public void AddExperience(float amount)
@@ -76,7 +79,7 @@ namespace LevelingSystem
 
         public void Clear()
         {
-            Level = 0;
+            Level = 1;
             CurrentExperience = 0;
         }
 

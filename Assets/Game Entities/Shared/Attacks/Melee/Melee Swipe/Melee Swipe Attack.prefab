@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1070266199
-  m_SortingLayer: 5
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -7008412969330441016, guid: 2a1f3adfe67f25b418614547dc874461, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -137,9 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54aef22c29331114b9a836ecd88f29f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeSwipeAttack
-  hitLayerMask:
-    serializedVersion: 2
-    m_Bits: 4224
+  spawnAudioSources: []
+  hitAudioSources: []
+  hitCollider: {fileID: 6774249005188505379}
 --- !u!95 &4970180670810282786
 Animator:
   serializedVersion: 7

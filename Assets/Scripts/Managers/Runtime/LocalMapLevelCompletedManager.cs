@@ -67,9 +67,16 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         if (hoardStarted)
             return;
 
-        //Units on map
-        if (UnitSpawningManager.Instance.SpawnedUnits.NotNull().Count() > 0)
+        int UnitsOnMap = UnitSpawningManager.Instance.SpawnedUnits.NotNull().Count();
+        //Units on map >= Remaining Units Required.
+        if (UnitsOnMap != 0 && UnitsOnMap >= Mathf.Max(RequiredNumberOfUnitsToPass - unitsPassed, 0))
         {
+            return;
+        }
+
+        if (unitsPassed < RequiredNumberOfUnitsToPass)
+        {
+            GameManager.Instance.EndGame("Enough of your pilgrims did not survive the journey");
             return;
         }
 
@@ -78,18 +85,8 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         if (hasBossMonsterBeenKilled.HasValue && !hasBossMonsterBeenKilled.Value)
             return;
 
-        if (MonsterSpawnManager.Instance.Monsters.Count > 0)
-            return;
-
-        if(unitsPassed >= RequiredNumberOfUnitsToPass)
-        {
-            hoardStarted = true;
-            MonsterSpawnManager.Instance.StartHorde(20);
-        }
-        else
-        {
-            GameManager.Instance.EndGame("Your pilgrims did not survive the journey");
-        }
+        MonsterSpawnManager.Instance.StartHorde(20);
+        hoardStarted = true;
     }
 
     public void UnitPassed()

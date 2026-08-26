@@ -12,15 +12,184 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbadc714ae35dd64eb3dacc370bd2bc9, type: 3}
   m_Name: Electric Orb
   m_EditorClassIdentifier: Assembly-CSharp::Monsters.MonsterSO
+  Health:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 10
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  Shield:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 10
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ShieldCooldown:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 6
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ShieldRegeneration:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 4
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  MovementSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  DamageBuff:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  AttackSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  CriticalChance:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  CriticalDamageMultiplier:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  AttackSize:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  Knockback:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  NumberOfAttacks:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ProjectileSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ProjectileTurnSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   name: Electric Orb
   summary: 
   description: 
-  sprite: {fileID: 0}
+  sprite: {fileID: -7140680674604912700, guid: f95da918d856ca04d920660567bd39ae, type: 3}
   prefab: {fileID: 6373501031945108109, guid: 1ba559bc4ddd51b498b6e197e659ad5d, type: 3}
   size: {x: 1, y: 1}
   movementType: 1
-  movementSpeed: 0
-  health: 5
-  shield: 20
-  shieldCooldown: 5
-  shieldRegeneration: 2
+  powerLevel: 1
+  movementDifficityScaling: 0
+  healthDifficultyScaling: 5
+  shieldDifficultyScaling: 5
+  shieldCooldownDifficultyScaling: 0
+  shieldRegenerationDifficultyScaling: 0

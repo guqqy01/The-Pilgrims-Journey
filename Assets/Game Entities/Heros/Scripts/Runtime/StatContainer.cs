@@ -64,8 +64,8 @@ public class StatContainer : MonoBehaviour
             stats.Add(stat, buffable);
             buffable.onValueChange += InvokeOnStatChanged;
         }
-        OnSetup?.Invoke();
         IsSetup = true;
+        OnSetup?.Invoke();
         InvokeOnStatChanged();
     }
 }

@@ -178,6 +178,7 @@ namespace Attacks.Projectiles
         // Called by pool when this instance is retrieved from the pool
         public override void OnPoolGet()
         {
+            base.OnPoolGet();
             deactivated = false;
             transform.localScale = Vector3.one;
             hitHealth.Clear();

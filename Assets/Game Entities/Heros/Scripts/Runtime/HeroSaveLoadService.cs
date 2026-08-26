@@ -152,7 +152,7 @@ namespace Heros
             HeroStatBuffsManager.Instance.Bind(heroManager.Stats);
 
             // Reapply equipment-based buffs
-            HeroEquipmentManager.Instance.ApplyEquipmentBuffs();
+            HeroEquipmentManager.Instance.ApplyAllEquipmentBuffs();
 
             // Load attacks (they will reapply when hero exists)
             HeroAttacksManager.Instance.Load();

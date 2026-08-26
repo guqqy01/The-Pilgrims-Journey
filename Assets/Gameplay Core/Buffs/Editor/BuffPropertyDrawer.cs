@@ -9,10 +9,22 @@ using System.Collections.Generic;
 [CustomPropertyDrawer(typeof(Buff))]
 public class BuffPropertyDrawer : PropertyDrawer
 {
+    private const float enumLengthWhenOneValue = 50f;
+
     private static readonly Dictionary<Type, Func<int, bool>> EnumMappings =
     new Dictionary<Type, Func<int, bool>> {
-        { typeof(UnitStatsEnum), index => index == (int)UnitStatsEnum.Health || index == (int)UnitStatsEnum.Shield },
-        { typeof(StatTypes), index => index == (int)StatTypes.Health || index == (int)StatTypes.Shield || index == (int)StatTypes.Damage || index == (int)StatTypes.NumberOfAttacks }
+        { 
+            typeof(UnitStatsEnum), index => 
+                index == (int)UnitStatsEnum.Health || 
+                index == (int)UnitStatsEnum.Shield 
+        },
+        { 
+            typeof(StatTypes), index => 
+                index == (int)StatTypes.Health || 
+                index == (int)StatTypes.Shield || 
+                index == (int)StatTypes.Damage || 
+                index == (int)StatTypes.NumberOfAttacks 
+        }
     };
 
 
@@ -25,32 +37,47 @@ public class BuffPropertyDrawer : PropertyDrawer
 
 
         BuffType buffType = (BuffType)buffTypeProp.enumValueFlag;
+        bool hasJustOneFlag = HasOneFlag(buffType);
 
         float height = EditorGUIUtility.singleLineHeight; // foldout line
+
+        if (hasJustOneFlag) return height;
+
         if(buffType.HasFlag(BuffType.Multiplier))
-            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("multiplier")) + 2f;
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative(Buff.NameOfMultiplier)) + 2f;
         if (buffType.HasFlag(BuffType.Base))
-            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("baseBuff")) + 2f;
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative(Buff.NameOfBase)) + 2f;
         if (buffType.HasFlag(BuffType.Additional))
-            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("additionalBuff")) + 2f;
+            height += EditorGUI.GetPropertyHeight(property.FindPropertyRelative(Buff.NameOfAdditional)) + 2f;
         return height;
     }
 
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        SerializedProperty multiplierProp = property.FindPropertyRelative("multiplier");
-        SerializedProperty baseBuffProp = property.FindPropertyRelative("baseBuff");
-        SerializedProperty additionalBuffProp = property.FindPropertyRelative("additionalBuff");
+        SerializedProperty multiplierProp = property.FindPropertyRelative(Buff.NameOfMultiplier);
+        SerializedProperty baseBuffProp = property.FindPropertyRelative(Buff.NameOfBase);
+        SerializedProperty additionalBuffProp = property.FindPropertyRelative(Buff.NameOfAdditional);
         
         SerializedProperty buffTypeProp = property.FindPropertyRelative(nameof(Buff.buffFlags));
 
+        BuffType previousBuffType = (BuffType)buffTypeProp.enumValueFlag;
+        bool hasJustOneFlag = HasOneFlag(previousBuffType);
+
         Rect foldoutRect = new Rect(position) { width = position.width / 2f , height = EditorGUIUtility.singleLineHeight};
-        Rect enumRect = new Rect(position) { xMin = foldoutRect.xMax, height = EditorGUIUtility.singleLineHeight };
+        Rect ifOneValueRect = new Rect(position) { xMin = foldoutRect.xMax, xMax = hasJustOneFlag ? position.xMax - enumLengthWhenOneValue : foldoutRect.xMax, height = EditorGUIUtility.singleLineHeight };
+        Rect enumRect = new Rect(position) { xMin = ifOneValueRect.xMax + (hasJustOneFlag ? 2f : 0f), height = EditorGUIUtility.singleLineHeight };
 
-        property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label);
+        if (hasJustOneFlag)
+        {
+            EditorGUI.PrefixLabel(foldoutRect, label);
+        }
+        else
+        {
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label);
+        }
 
-        BuffType buffType = (BuffType)EditorGUI.EnumFlagsField(enumRect, (BuffType)buffTypeProp.enumValueFlag);
+        BuffType buffType = (BuffType)EditorGUI.EnumFlagsField(enumRect, previousBuffType);
         buffTypeProp.enumValueFlag = (int)buffType;
 
         AutoSetBuffType(position, property);
@@ -59,28 +86,62 @@ public class BuffPropertyDrawer : PropertyDrawer
 
         float yMin = foldoutRect.yMax + 2f;
 
-        if (property.isExpanded)
+        if (property.isExpanded || hasJustOneFlag)
         {
             if (buffType.HasFlag(BuffType.Multiplier))
             {
-                Rect multiplierRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
-                EditorGUI.PropertyField(multiplierRect, multiplierProp);
-                yMin += EditorGUIUtility.singleLineHeight + 2f;
+                if (hasJustOneFlag)
+                {
+                    EditorGUI.PropertyField(ifOneValueRect, multiplierProp, new GUIContent(""));
+                }
+                else
+                {
+                    Rect multiplierRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
+                    EditorGUI.PropertyField(multiplierRect, multiplierProp);
+                    yMin += EditorGUIUtility.singleLineHeight + 2f;
+                }
             }
             if (buffType.HasFlag(BuffType.Base))
             {
-                Rect baseRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
-                EditorGUI.PropertyField(baseRect, baseBuffProp);
-                yMin += EditorGUIUtility.singleLineHeight + 2f;
+                if (hasJustOneFlag)
+                {
+                    EditorGUI.PropertyField(ifOneValueRect, baseBuffProp, new GUIContent(""));
+                }
+                else
+                {
+                    Rect baseRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
+                    EditorGUI.PropertyField(baseRect, baseBuffProp);
+                    yMin += EditorGUIUtility.singleLineHeight + 2f;
+                }
             }
             if (buffType.HasFlag(BuffType.Additional))
             {
-                Rect additionalRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
-                EditorGUI.PropertyField(additionalRect, additionalBuffProp);
+                if (hasJustOneFlag)
+                {
+                    EditorGUI.PropertyField(ifOneValueRect, additionalBuffProp, new GUIContent(""));
+                }
+                else
+                {
+                    Rect additionalRect = new Rect(position) { yMin = yMin, height = EditorGUIUtility.singleLineHeight };
+                    EditorGUI.PropertyField(additionalRect, additionalBuffProp);
+                }   
             }
         }
 
         EditorGUI.indentLevel--;
+    }
+
+    private bool HasOneFlag(BuffType buffType)
+    {
+        bool multi = buffType.HasFlag(BuffType.Multiplier);
+        bool bas = buffType.HasFlag(BuffType.Base);
+        bool addit = buffType.HasFlag(BuffType.Additional);
+
+        bool justMulti = multi && !bas && !addit;
+        bool justBase = bas && !addit && !multi;
+        bool justAdditional = addit && !bas && !multi;
+
+        return justMulti || justBase || justAdditional;
     }
 
     private void DrawManualDropdown(Rect position, SerializedProperty property)

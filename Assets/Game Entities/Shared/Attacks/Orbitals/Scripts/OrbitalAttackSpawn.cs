@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Attacks.Orbitals
 {
@@ -13,15 +11,17 @@ namespace Attacks.Orbitals
         public delegate void OnDestroyed(OrbitalAttackSpawn orbitalDestroyed, Transform target);
         public OnDestroyed onDestroyed;
 
-        protected override void InheritInit(OrbitalAttackInit context)
+        protected override void InheritInit(OrbitalAttackInit initContext)
         {
-            targetPositionTransform = context.targetPositionTransform;
+            targetPositionTransform = initContext.targetPositionTransform;
         }
 
-        protected override void InheritSetupStats(OrbitalAttackStats heroAttackContext)
+        protected override void InheritSetupStats(OrbitalAttackStats orbitalAttackContext)
         {
             //Multiplied by 1.25 so it can catch up to the target if it needs to, otherwise the orbit speed will be controlled by the OrbitalHeroAttack through the targetTransform
-            this.orbitSpeed = heroAttackContext.orbitSpeed * 1.25f;
+            this.orbitSpeed = orbitalAttackContext.orbitSpeed * 1.25f;
+
+
         }
 
         protected override void FixedUpdateMovement()

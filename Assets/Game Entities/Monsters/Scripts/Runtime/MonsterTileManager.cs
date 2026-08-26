@@ -23,8 +23,6 @@ namespace Tiles
         private TilePlayerTileGrid tilePlayerTileGrid;
         
         [SerializeField]
-        private MonsterExpandingTileGrid monsterExpandingTileGrid;
-        [SerializeField]
         private UnitExpandingTileGrid unitExpandingTileGrid;
         private void SetupMonsterTiles()
         {
@@ -115,7 +113,6 @@ namespace Tiles
             foreach(MonsterTileBase monsterTile in monsterTiles)
             {
                 tilePlayerTileGrid.DestroyTile(monsterTile);
-                monsterExpandingTileGrid.DestroyTile(monsterTile);
             }
 
             monsterTiles.Clear();

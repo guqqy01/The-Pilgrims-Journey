@@ -15,7 +15,7 @@ MonoBehaviour:
   Health:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 8
       floatValue: 10
@@ -27,7 +27,7 @@ MonoBehaviour:
   Shield:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 5
       floatValue: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   ShieldCooldown:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 6
@@ -51,7 +51,7 @@ MonoBehaviour:
   ShieldRegeneration:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 1
@@ -63,7 +63,7 @@ MonoBehaviour:
   MovementSpeed:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 3
@@ -72,34 +72,10 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       isInt: 0
-  Luck:
-    buffFlags: 2
-    initialized: 1
-    multiplier: 0
-    baseBuff:
-      intValue: 0
-      floatValue: 1
-      isInt: 0
-    additionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
-  ExperienceGain:
-    buffFlags: 2
-    initialized: 1
-    multiplier: 0
-    baseBuff:
-      intValue: 0
-      floatValue: 1
-      isInt: 0
-    additionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 0
   DamageBuff:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -111,7 +87,7 @@ MonoBehaviour:
   AttackSpeed:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -120,22 +96,10 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       isInt: 0
-  NumberOfAttacks:
-    buffFlags: 2
-    initialized: 1
-    multiplier: 0
-    baseBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 1
-    additionalBuff:
-      intValue: 0
-      floatValue: 0
-      isInt: 1
   CriticalChance:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 10
@@ -147,7 +111,7 @@ MonoBehaviour:
   CriticalDamageMultiplier:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -159,7 +123,7 @@ MonoBehaviour:
   AttackSize:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -171,7 +135,7 @@ MonoBehaviour:
   Knockback:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -180,10 +144,22 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       isInt: 0
+  NumberOfAttacks:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
   ProjectileSpeed:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -195,7 +171,7 @@ MonoBehaviour:
   ProjectileTurnSpeed:
     buffFlags: 2
     initialized: 1
-    multiplier: 0
+    percentageMultiplier: 0
     baseBuff:
       intValue: 0
       floatValue: 0
@@ -207,8 +183,32 @@ MonoBehaviour:
   Description: 
   icon: {fileID: 948600811, guid: 16f6a535ce1522a4fa893c561b8c94db, type: 3}
   prefab: {fileID: 8373047235322333958, guid: 134839a390252a64896fb6e41e7b983e, type: 3}
+  Luck:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ExperienceGain:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 1
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   startingAttack: {fileID: 11400000, guid: f41e236921bf2b84ca35332bae27f8ad, type: 2}
   spriteLibrary: {fileID: 7108339969198208228, guid: 2acca449bda33324a9341d9010fa067b, type: 3}
   startingEquipment:
-  - {fileID: 11400000, guid: ed0859d5750782b4d898ede5290fd344, type: 2}
+  - {fileID: 11400000, guid: 2f11feac139acd949b0279d7918bc6f5, type: 2}
   - {fileID: 11400000, guid: e857872d290b8254c94741fdb5fa7f89, type: 2}

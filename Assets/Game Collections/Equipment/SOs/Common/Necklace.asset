@@ -16,35 +16,13 @@ MonoBehaviour:
   description: Necklace of regeneration
   EquipmentSpecial:
     rid: -2
-  unitEquipmentStats:
-    _serializedList:
-    - Key: 4
-      Value:
-        Multiplier: 25
-        baseBuff:
-          intValue: 0
-          floatValue: 2
-          isInt: 0
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 0
-    - Key: 1
-      Value:
-        Multiplier: 20
-        baseBuff:
-          intValue: 5
-          floatValue: 5
-          isInt: 1
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 1
   heroEquipmentStats:
     _serializedList:
     - Key: 3
       Value:
-        Multiplier: 25
+        buffFlags: 2
+        initialized: 1
+        percentageMultiplier: 0
         baseBuff:
           intValue: 0
           floatValue: 2
@@ -55,16 +33,17 @@ MonoBehaviour:
           isInt: 0
     - Key: 1
       Value:
-        Multiplier: 20
+        buffFlags: 2
+        initialized: 1
+        percentageMultiplier: 0
         baseBuff:
-          intValue: 5
+          intValue: 10
           floatValue: 0
           isInt: 1
         additionalBuff:
           intValue: 0
           floatValue: 0
           isInt: 1
-  descriptionStatUIPrefab: {fileID: 1272681180951300573, guid: 7f9378a1465d10845a576da89cada5c4, type: 3}
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

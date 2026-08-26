@@ -177,6 +177,18 @@ namespace Attacks.Orbitals
                 OrbitalAttackStats statsContext = GetAttackStats();
 
                 orbital.SetupStats(statsContext);
+
+                string reference = "baseSize";
+
+                size.AddBuff(reference, new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, orbital.transform.localScale.x, 0));
+                float newSizeX = size;
+                size.RemoveBuff(reference);
+
+                size.AddBuff(reference, new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, 0f, orbital.transform.localScale.y, 0));
+                float newSizeY = size;
+                size.RemoveBuff(reference);
+
+                orbital.transform.localScale = new Vector3(newSizeX, newSizeY, orbital.transform.localScale.z);
             }
         }
 

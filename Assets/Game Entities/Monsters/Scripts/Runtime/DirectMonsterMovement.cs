@@ -137,7 +137,7 @@ namespace Monsters
                 force += away.normalized * strength;
             }
 
-            return force * separationStrength;
+            return force.normalized * separationStrength;
         }
 
         public void SetTarget(Transform target)

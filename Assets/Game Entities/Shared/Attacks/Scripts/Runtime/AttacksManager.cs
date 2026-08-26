@@ -82,6 +82,7 @@ namespace Attacks
             if(stats == null)
             {
                 WorkingAddAttack(attackSO, null);
+                Debug.Log("Stats are null, ensure setup");
                 return;
             }
 

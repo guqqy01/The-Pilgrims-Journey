@@ -4802,7 +4802,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1275057283
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4914,7 +4914,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1275057283
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_Sprite: {fileID: 1267838529, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4970,6 +4970,8 @@ GameObject:
   - component: {fileID: 2708912128607793172}
   - component: {fileID: 6417978783390272101}
   - component: {fileID: 7401671924631272567}
+  - component: {fileID: 7237475199678553356}
+  - component: {fileID: 5712410894542723447}
   m_Layer: 6
   m_Name: Peasant
   m_TagString: Untagged
@@ -5081,6 +5083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49ee7bd2deeab6409c9cfb299c51c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 5712410894542723447}
 --- !u!114 &5069724962427592924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5213,6 +5216,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3caae74c0c23d5a41bed40f09c588002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UI::DamagePopupEffectReciever
+--- !u!114 &7237475199678553356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8982089314669466726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8562bec3953074b9376c5e3b0a0e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::DamageRecieverEffectManager
+--- !u!114 &5712410894542723447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8982089314669466726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cf3ac6c8645e34086d9578a1c089a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::StatContainer
 --- !u!1001 &7606776578927345081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5377,7 +5404,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2195010568488569672, guid: 616161240ccc63543a72fbd9f5c7e7e8, type: 3}
       propertyPath: m_SortingLayer
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2195010568488569672, guid: 616161240ccc63543a72fbd9f5c7e7e8, type: 3}
       propertyPath: m_SortingLayerID

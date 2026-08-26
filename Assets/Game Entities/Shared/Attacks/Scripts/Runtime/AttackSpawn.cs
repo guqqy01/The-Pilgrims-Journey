@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Unity.Properties;
 using UnityEngine;
 namespace Attacks
 {
@@ -127,6 +124,18 @@ namespace Attacks
             {
                 HandleAmountOfHits();
             }
+        }
+
+        public override void OnPoolGet()
+        {
+            timeToNextDmg.Clear();
+            currentAmountOfHits = 0;
+        }
+
+        public override void OnPoolRelease()
+        {
+            timeToNextDmg.Clear();
+            currentAmountOfHits = 0;
         }
 
         protected void HandleAmountOfHits()

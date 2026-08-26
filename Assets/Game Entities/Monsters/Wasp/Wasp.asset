@@ -17,7 +17,7 @@ MonoBehaviour:
     initialized: 1
     percentageMultiplier: 0
     baseBuff:
-      intValue: 0
+      intValue: 12
       floatValue: 0
       isInt: 1
     additionalBuff:
@@ -29,7 +29,7 @@ MonoBehaviour:
     initialized: 1
     percentageMultiplier: 0
     baseBuff:
-      intValue: 0
+      intValue: 5
       floatValue: 0
       isInt: 1
     additionalBuff:
@@ -42,7 +42,7 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 10
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 1
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 1
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -188,8 +188,8 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   movementType: 0
   powerLevel: 1
-  movementDifficityScaling: 1
-  healthDifficultyScaling: 1.05
-  shieldDifficultyScaling: 1.05
-  shieldCooldownDifficultyScaling: 1
-  shieldRegenerationDifficultyScaling: 1
+  movementDifficityScaling: 0
+  healthDifficultyScaling: 5
+  shieldDifficultyScaling: 5
+  shieldCooldownDifficultyScaling: 0
+  shieldRegenerationDifficultyScaling: 0

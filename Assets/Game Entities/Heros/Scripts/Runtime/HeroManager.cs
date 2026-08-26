@@ -52,7 +52,8 @@ namespace Heros
 
         private void SubscribeToHeroEquipmentManager()
         {
-            HeroEquipmentManager.Instance.ApplyEquipmentBuffs();
+            HeroEquipmentManager.Instance.SetupBeginningEquipment(HeroSO.startingEquipment);
+            HeroEquipmentManager.Instance.ApplyAllEquipmentBuffs();
             equipmentApplied = true;
         }
 
@@ -71,8 +72,8 @@ namespace Heros
 
             SetupStats();
 
-            HeroStatBuffsManager.WhenReady(_ => { SubscribeToHeroStatsManager(); statsBound = true; TryAdvance(); });
-            HeroEquipmentManager.WhenReady(_ => { SubscribeToHeroEquipmentManager(); equipmentApplied = true; TryAdvance(); });
+            HeroStatBuffsManager.WhenReady(_ => { SubscribeToHeroStatsManager(); TryAdvance(); });
+            HeroEquipmentManager.WhenReady(_ => { SubscribeToHeroEquipmentManager(); TryAdvance(); });
         }
 
         private void TryAdvance()

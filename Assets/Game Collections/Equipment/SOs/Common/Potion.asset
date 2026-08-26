@@ -17,26 +17,15 @@ MonoBehaviour:
     5 seconds
   EquipmentSpecial:
     rid: 1478789356158451821
-  unitEquipmentStats:
-    _serializedList:
-    - Key: 0
-      Value:
-        Multiplier: 20
-        baseBuff:
-          intValue: 5
-          floatValue: 5
-          isInt: 1
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 1
   heroEquipmentStats:
     _serializedList:
     - Key: 0
       Value:
-        Multiplier: 20
+        buffFlags: 2
+        initialized: 1
+        percentageMultiplier: 0
         baseBuff:
-          intValue: 5
+          intValue: 10
           floatValue: 0
           isInt: 1
         additionalBuff:

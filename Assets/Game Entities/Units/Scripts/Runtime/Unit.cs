@@ -11,7 +11,16 @@ namespace Units
     {
         [SerializeField]
         private StatContainer stats;
-        public StatContainer Stats => stats;
+        public StatContainer Stats
+        {
+            get
+            {
+                if (stats == null)
+                    stats = GetComponent<StatContainer>();
+
+                return stats;
+            }
+        }
         public UnitSO UnitSO { private set; get; }
         public UnitMovement Movement { private set; get; }
         public Health Health { private set; get; }

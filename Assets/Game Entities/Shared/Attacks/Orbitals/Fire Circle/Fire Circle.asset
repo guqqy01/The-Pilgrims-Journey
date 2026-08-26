@@ -17,7 +17,9 @@ MonoBehaviour:
   findTargetDistance: 0
   WeaponStatsAtLevel:
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -27,7 +29,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1
@@ -37,7 +41,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -47,7 +53,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 50
         floatValue: 0
@@ -57,7 +65,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0.5
@@ -67,17 +77,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.2
+        floatValue: 0.2
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
     numberOfOrbitals:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -87,7 +101,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     orbitalSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -97,7 +113,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -107,7 +125,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1
@@ -117,7 +137,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -127,7 +149,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 50
         floatValue: 0
@@ -137,7 +161,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0.5
@@ -147,17 +173,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.4
+        floatValue: 0.4
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
     numberOfOrbitals:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -167,7 +197,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     orbitalSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -177,7 +209,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 2
         floatValue: 0
@@ -187,7 +221,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1
@@ -197,7 +233,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -207,7 +245,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 50
         floatValue: 0
@@ -217,7 +257,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0.5
@@ -227,17 +269,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.6
+        floatValue: 0.6
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
     numberOfOrbitals:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -247,7 +293,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     orbitalSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -257,7 +305,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 2
         floatValue: 0
@@ -267,7 +317,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1
@@ -277,7 +329,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -287,7 +341,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 50
         floatValue: 0
@@ -297,7 +353,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0.5
@@ -307,17 +365,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1.8
+        floatValue: 0.8
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
     numberOfOrbitals:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -327,7 +389,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     orbitalSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -337,7 +401,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 3
         floatValue: 0
@@ -347,7 +413,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1
@@ -357,7 +425,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -367,7 +437,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 50
         floatValue: 0
@@ -377,7 +449,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0.5
@@ -387,17 +461,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 2
+        floatValue: 1
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
     numberOfOrbitals:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -407,7 +485,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     orbitalSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0

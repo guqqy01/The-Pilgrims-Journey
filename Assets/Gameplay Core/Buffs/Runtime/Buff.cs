@@ -18,6 +18,9 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     [SerializeField] private IntOrFloatObject baseBuff;
     [SerializeField] private IntOrFloatObject additionalBuff;
 
+    public static string NameOfMultiplier => nameof(percentageMultiplier);
+    public static string NameOfBase => nameof(baseBuff);
+    public static string NameOfAdditional => nameof(additionalBuff);
     /// <summary>
     /// Percentage multiplier. Example: 100 = +100% (doubles the base).
     /// </summary>

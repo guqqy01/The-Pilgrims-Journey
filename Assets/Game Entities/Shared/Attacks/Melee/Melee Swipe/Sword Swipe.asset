@@ -17,7 +17,9 @@ MonoBehaviour:
   findTargetDistance: 0
   WeaponStatsAtLevel:
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 4
         floatValue: 0
@@ -27,7 +29,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1
@@ -37,7 +41,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -47,7 +53,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -57,7 +65,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.5
@@ -67,17 +77,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 5
         floatValue: 0
@@ -87,7 +101,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.25
@@ -97,7 +113,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -107,7 +125,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -117,7 +137,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.5
@@ -127,17 +149,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 6
         floatValue: 0
@@ -147,7 +173,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.5
@@ -157,7 +185,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -167,7 +197,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -177,7 +209,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.5
@@ -187,17 +221,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 7
         floatValue: 0
@@ -207,7 +245,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.75
@@ -217,7 +257,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -227,7 +269,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -237,7 +281,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.5
@@ -247,17 +293,21 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0
         floatValue: 0
         isInt: 0
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 8
         floatValue: 0
@@ -267,7 +317,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 2
@@ -277,7 +329,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -287,7 +341,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -297,7 +353,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 1.5
@@ -307,10 +365,12 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
-        floatValue: 1
+        floatValue: 0
         isInt: 0
       additionalBuff:
         intValue: 0

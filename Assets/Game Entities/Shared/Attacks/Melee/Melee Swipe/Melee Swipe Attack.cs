@@ -5,14 +5,17 @@ namespace Attacks.Melee
     {
         protected override void FixedUpdateMovement()
         {
+
         }
 
         protected override void InheritInit(AttackInit initContext)
         {
+
         }
 
         protected override void InheritSetupStats(AttackStats statsContext)
         {
+
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)
