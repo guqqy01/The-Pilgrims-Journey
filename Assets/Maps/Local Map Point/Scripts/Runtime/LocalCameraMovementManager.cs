@@ -136,11 +136,11 @@ namespace LocalMap
             float MapTop = MapSizeY - 0.5f;
             float MapBottom = -0.5f;
 
-            float CameraYPosMax = MapTop - HalfCamHeight + GetVerticalWorldPadding(topPaddingPixels);
-            float CameraYPosMin = MapBottom + HalfCamHeight - GetVerticalWorldPadding(bottomPaddingPixels);
+            float CameraYPosMax = MapTop/* - HalfCamHeight + GetVerticalWorldPadding(topPaddingPixels)*/;
+            float CameraYPosMin = MapBottom/* + HalfCamHeight - GetVerticalWorldPadding(bottomPaddingPixels)*/;
 
-            float CameraXPosMin = MapLeft + HalfCamWidth;
-            float CameraXPosMax = MapRight - HalfCamWidth;
+            float CameraXPosMin = MapLeft/* + HalfCamWidth*/;
+            float CameraXPosMax = MapRight/* - HalfCamWidth*/;
 
             float camX = Mathf.Clamp(rigPos.x, CameraXPosMin, CameraXPosMax);
             float camY = Mathf.Clamp(rigPos.y, CameraYPosMin, CameraYPosMax);

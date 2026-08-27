@@ -173,7 +173,6 @@ namespace Attacks.Orbitals
 
                 if(orbital == null) continue;
 
-                int? amountOfHitsConverted = amountOfHits == null ? null : amountOfHits.Value;
                 OrbitalAttackStats statsContext = GetAttackStats();
 
                 orbital.SetupStats(statsContext);

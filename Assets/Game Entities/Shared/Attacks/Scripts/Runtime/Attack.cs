@@ -72,7 +72,11 @@ namespace Attacks
             _attackPrefab = attackSO.AttackSpawn;
             Level = 1;
 
-            SetupBuffableStat(ref amountOfHits, entityBuffCallback, StatTypes.AttackDurability);
+            Buff durabilityBuff = AttackSO.GetBuff(StatTypes.AttackDurability, Level);
+
+            if (durabilityBuff != null)
+                SetupBuffableStat(ref amountOfHits, entityBuffCallback, StatTypes.AttackDurability);
+
             SetupBuffableStat(ref damage, entityBuffCallback, StatTypes.Damage);
             SetupBuffableStat(ref attackSpeed, entityBuffCallback, StatTypes.AttackSpeed);
             SetupBuffableStat(ref criticalChance, entityBuffCallback, StatTypes.CriticalChance);

@@ -24,8 +24,18 @@ namespace LocalMap
         [SerializeField] private int mapSizeX = 32;
         [SerializeField] private int mapSizeY = 18;
 
+        [Header("Visual Border")]
+        [SerializeField] private int borderSize = 4;
+
+        // Indexed [x + borderSize, y + borderSize]. Only the ring outside the real
+        // map is populated — the interior overlaps with `Tiles` and is left null,
+        // since Tiles is always used for anything inside real map bounds.
+        private MapTile[,] borderTiles;
+
         [SerializeField] private float biomeBlendNoiseScale = 0.15f;
         [SerializeField] private float biomeBlendNoiseStrength = 0.25f;
+
+
 
         [SerializeField, HideInInspector]
         public List<GameObject> mapObjectGOs;
@@ -511,6 +521,8 @@ namespace LocalMap
             }
 
             PlaceTiles(generationSettings, previewSettings, terrainNoiseIndecies);
+            PlaceBorderTiles(generationSettings, previewSettings, terrainNoiseIndecies);
+            RunAutoTilePass();
 
             BuildConnectedRegion();
 
@@ -519,6 +531,118 @@ namespace LocalMap
 
             if (PathPicker.Instance != null)
                 PathPicker.Instance.Setup();
+        }
+
+        private void PlaceBorderTiles(
+            LocalMapGenerationSettings generationSettings,
+            MapGenerationPreviewSettings previewSettings,
+            List<int> terrainNoiseIndecies)
+        {
+            DestroyBorderTiles();
+
+            if (borderSize <= 0)
+                return;
+
+            borderTiles = new MapTile[mapSizeX + borderSize * 2, mapSizeY + borderSize * 2];
+
+            int? level = GameManager.Instance != null ? GameManager.Instance.Level : (int?)null;
+
+            HashSet<Vector2Int> extendedPathPositions =
+                previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles)
+                    ? GetExtendedPathPositions(generationSettings)
+                    : new HashSet<Vector2Int>();
+
+            for (int xPos = -borderSize; xPos < mapSizeX + borderSize; xPos++)
+            {
+                for (int yPos = -borderSize; yPos < mapSizeY + borderSize; yPos++)
+                {
+                    if (xPos >= 0 && xPos < mapSizeX && yPos >= 0 && yPos < mapSizeY)
+                        continue;
+
+                    Vector2Int position = new Vector2Int(xPos, yPos);
+
+                    MapTile mapTile = Instantiate(mapTilePrefab, new Vector3(xPos, yPos), Quaternion.identity,
+                        maptileParent != null ? maptileParent : transform);
+
+                    TileTypeAndVisual tileTypeAndSprite = extendedPathPositions.Contains(position)
+                        ? generationSettings.GetPathTileSprite(level)
+                        : GetMapTileSprite(generationSettings, position, level, previewSettings, terrainNoiseIndecies);
+
+                    mapTile.Init(tileTypeAndSprite, position, false);
+
+                    borderTiles[xPos + borderSize, yPos + borderSize] = mapTile;
+                }
+            }
+
+            /*// autotile pass unchanged from before — since the path tile type is
+            // already stored on the MapTile, FillExtendedTileTypeGrid picks it up
+            // automatically and blends it against the noise ring same as inside the map
+            for (int xPos = -borderSize; xPos < mapSizeX + borderSize; xPos++)
+            {
+                for (int yPos = -borderSize; yPos < mapSizeY + borderSize; yPos++)
+                {
+                    if (xPos >= 0 && xPos < mapSizeX && yPos >= 0 && yPos < mapSizeY)
+                        continue;
+
+                    Grid3x3<TileType> tileTypeGrid = new Grid3x3<TileType>();
+                    FillExtendedTileTypeGrid(tileTypeGrid, xPos, yPos);
+
+                    borderTiles[xPos + borderSize, yPos + borderSize]
+                        .SetupAutoTiles(autoBaseTileSettings, tileTypeGrid);
+                }
+            }*/
+        }
+
+        private MapTile GetTileAt(int x, int y)
+        {
+            if (x >= 0 && x < mapSizeX && y >= 0 && y < mapSizeY)
+                return Tiles[x, y];
+
+            if (borderTiles == null)
+                return null;
+
+            int bx = x + borderSize;
+            int by = y + borderSize;
+
+            if (bx < 0 || bx >= borderTiles.GetLength(0) || by < 0 || by >= borderTiles.GetLength(1))
+                return null;
+
+            return borderTiles[bx, by];
+        }
+
+        private TileType GetExtendedTileType(int x, int y)
+        {
+            MapTile tile = GetTileAt(x, y);
+            return tile != null ? tile.TileType : TileType.Nothing;
+        }
+
+        private void FillExtendedTileTypeGrid(Grid3x3<TileType> grid, int xPos, int yPos)
+        {
+            grid.TopLeft = GetExtendedTileType(xPos - 1, yPos + 1);
+            grid.TopCenter = GetExtendedTileType(xPos, yPos + 1);
+            grid.TopRight = GetExtendedTileType(xPos + 1, yPos + 1);
+            grid.CenterLeft = GetExtendedTileType(xPos - 1, yPos);
+            grid.CenterRight = GetExtendedTileType(xPos + 1, yPos);
+            grid.BottomLeft = GetExtendedTileType(xPos - 1, yPos - 1);
+            grid.BottomCenter = GetExtendedTileType(xPos, yPos - 1);
+            grid.BottomRight = GetExtendedTileType(xPos + 1, yPos - 1);
+        }
+
+        private void RunAutoTilePass()
+        {
+            for (int xPos = -borderSize; xPos < mapSizeX + borderSize; xPos++)
+            {
+                for (int yPos = -borderSize; yPos < mapSizeY + borderSize; yPos++)
+                {
+                    MapTile tile = GetTileAt(xPos, yPos);
+                    if (tile == null)
+                        continue;
+
+                    Grid3x3<TileType> tileTypeGrid = new Grid3x3<TileType>();
+                    FillExtendedTileTypeGrid(tileTypeGrid, xPos, yPos);
+                    tile.SetupAutoTiles(autoBaseTileSettings, tileTypeGrid);
+                }
+            }
         }
 
         private void DestroyMapObjects()
@@ -888,6 +1012,69 @@ namespace LocalMap
             }
         }
 
+        private HashSet<Vector2Int> GetExtendedPathPositions(LocalMapGenerationSettings generationSettings)
+        {
+            HashSet<Vector2Int> positions = new HashSet<Vector2Int>();
+
+            if (pathway?.AllDirections == null)
+                return positions;
+
+            int pathHalfWidth = Mathf.Max(1, Mathf.RoundToInt(generationSettings.pathWidthRange.x));
+
+            // Extend every path's exit stub (the wall each direction heads out towards)
+            foreach (Direction direction in pathway.AllDirections)
+            {
+                if (!pathway.SectionNodesPaths.TryGetValue(direction, out List<Vector2Int> nodes) || nodes.Count == 0)
+                    continue;
+
+                Vector2Int exitPoint = nodes[nodes.Count - 1];
+                AddExtensionStrip(positions, exitPoint, DirectionToStep(direction), pathHalfWidth);
+            }
+
+            // Extend the entrance stub too — only ToDirections[0] actually starts
+            // at pathStart (placed at StartWall, one tile outside the map); every
+            // other direction's path starts at an internal node instead.
+            if (pathway.ToDirections.Count > 0 &&
+                pathway.SectionNodesPaths.TryGetValue(pathway.ToDirections[0], out List<Vector2Int> primaryNodes) &&
+                primaryNodes.Count > 0)
+            {
+                Vector2Int entrancePoint = primaryNodes[0];
+                AddExtensionStrip(positions, entrancePoint, DirectionToStep(StartWall), pathHalfWidth);
+            }
+
+            return positions;
+        }
+
+        private void AddExtensionStrip(HashSet<Vector2Int> positions, Vector2Int origin, Vector2Int step, int pathHalfWidth)
+        {
+            if (step == Vector2Int.zero)
+                return;
+
+            Vector2Int perpendicular = new Vector2Int(-step.y, step.x);
+
+            for (int i = 0; i <= borderSize; i++)
+            {
+                Vector2Int center = origin + step * i;
+
+                for (int w = -pathHalfWidth; w <= pathHalfWidth; w++)
+                {
+                    positions.Add(center + perpendicular * w);
+                }
+            }
+        }
+
+        private static Vector2Int DirectionToStep(Direction direction)
+        {
+            return direction switch
+            {
+                Direction.North => Vector2Int.up,
+                Direction.South => Vector2Int.down,
+                Direction.East => Vector2Int.right,
+                Direction.West => Vector2Int.left,
+                _ => Vector2Int.zero
+            };
+        }
+
         private Vector2Int GetClosestNodeToTargetDirection(Direction targetDirection)
         {
             List<Vector2Int> closestPoints = new List<Vector2Int>();
@@ -965,25 +1152,44 @@ namespace LocalMap
 
         private void DestroyTiles()
         {
-            if (Tiles == null)
-                return;
-
-            for (int i = 0; i < Tiles.GetLength(0); i++)
+            if (Tiles != null)
             {
-                for (int j = 0; j < Tiles.GetLength(1); j++)
+                for (int i = 0; i < Tiles.GetLength(0); i++)
                 {
-                    if (Application.isPlaying)
+                    for (int j = 0; j < Tiles.GetLength(1); j++)
                     {
-                        if (Tiles[i, j] != null)
-                            Destroy(Tiles[i, j].gameObject);
-                    }
-                    else
-                    {
-                        if (Tiles[i, j] != null)
-                            DestroyImmediate(Tiles[i, j].gameObject);
+                        if (Application.isPlaying)
+                        {
+                            if (Tiles[i, j] != null) Destroy(Tiles[i, j].gameObject);
+                        }
+                        else
+                        {
+                            if (Tiles[i, j] != null) DestroyImmediate(Tiles[i, j].gameObject);
+                        }
                     }
                 }
             }
+
+            DestroyBorderTiles();
+        }
+
+        private void DestroyBorderTiles()
+        {
+            if (borderTiles == null)
+                return;
+
+            for (int i = 0; i < borderTiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < borderTiles.GetLength(1); j++)
+                {
+                    if (borderTiles[i, j] == null) continue;
+
+                    if (Application.isPlaying) Destroy(borderTiles[i, j].gameObject);
+                    else DestroyImmediate(borderTiles[i, j].gameObject);
+                }
+            }
+
+            borderTiles = null;
         }
 
         private void PlaceTiles(
@@ -1030,7 +1236,7 @@ namespace LocalMap
                 }
             }
 
-            // Autotile pass — unchanged
+            /*// Autotile pass — unchanged
             for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
                 for (int yPos = 0; yPos < mapSizeY; yPos++)
@@ -1056,7 +1262,7 @@ namespace LocalMap
                 bool UpShiftXValid() => xPos + 1 >= MapSizeX;
                 bool DownShiftYValid() => yPos - 1 < 0;
                 bool UpShiftYValid() => yPos + 1 >= MapSizeY;
-            }
+            }*/
         }
 
         private TileTypeAndVisual GetMapTileSprite(

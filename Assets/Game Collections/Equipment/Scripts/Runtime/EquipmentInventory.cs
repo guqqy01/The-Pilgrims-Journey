@@ -129,7 +129,10 @@ namespace Equipment
 
         public void Lock()
         {
-            foreach(var container in containers)
+            if (containers == null)
+                return;
+
+            foreach (var container in containers)
             {
                 container.Active = false;
             }
@@ -137,6 +140,9 @@ namespace Equipment
 
         public void Unlock()
         {
+            if (containers == null)
+                return;
+
             foreach (var container in containers)
             {
                 container.Active = true;

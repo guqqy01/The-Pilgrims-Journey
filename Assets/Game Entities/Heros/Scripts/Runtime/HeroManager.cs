@@ -50,17 +50,19 @@ namespace Heros
         private bool statsBound;
         private bool equipmentApplied;
 
-        private void SubscribeToHeroEquipmentManager()
+        private void SubscribeToHeroEquipmentManager(HeroEquipmentManager equipmentManager)
         {
-            HeroEquipmentManager.Instance.SetupBeginningEquipment(HeroSO.startingEquipment);
-            HeroEquipmentManager.Instance.ApplyAllEquipmentBuffs();
+            equipmentManager.SetupBeginningEquipment(HeroSO.startingEquipment);
+            equipmentManager.ApplyAllEquipmentBuffs();
             equipmentApplied = true;
+            TryAdvance();
         }
 
-        private void SubscribeToHeroStatsManager()
+        private void SubscribeToHeroStatsManager(HeroStatBuffsManager heroStatBuffsManager)
         {
-            HeroStatBuffsManager.Instance.Bind(Stats);
+            heroStatBuffsManager.Bind(Stats);
             statsBound = true;
+            TryAdvance();
         }
 
         public void SelectHero(HeroSO heroSO)
@@ -71,9 +73,9 @@ namespace Heros
             equipmentApplied = false;
 
             SetupStats();
-
-            HeroStatBuffsManager.WhenReady(_ => { SubscribeToHeroStatsManager(); TryAdvance(); });
-            HeroEquipmentManager.WhenReady(_ => { SubscribeToHeroEquipmentManager(); TryAdvance(); });
+            
+            HeroStatBuffsManager.WhenReady(SubscribeToHeroStatsManager);
+            HeroEquipmentManager.WhenReady(SubscribeToHeroEquipmentManager);
         }
 
         private void TryAdvance()

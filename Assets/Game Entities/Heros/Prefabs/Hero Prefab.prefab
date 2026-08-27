@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3537410325684111318, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
       propertyPath: m_labelHash
-      value: 6.3268984e-37
+      value: 1.2344378e-11
       objectReference: {fileID: 0}
     - target: {fileID: 3537410325684111318, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
       propertyPath: m_SpriteHash
@@ -139,6 +139,14 @@ PrefabInstance:
     - target: {fileID: 7100360438524998839, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
       propertyPath: m_Layer
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102495014975627988, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102495014975627988, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8886881838934102917, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
       propertyPath: m_Sprite

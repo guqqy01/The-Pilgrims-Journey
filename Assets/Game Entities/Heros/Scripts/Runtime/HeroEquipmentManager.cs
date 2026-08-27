@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Heros
 {
     [RequireComponent(typeof(EquipmentInventory))]
-    public class HeroEquipmentManager : Singleton<HeroEquipmentManager>, IOnAfterCreateLocalMap, IOnCompleteLocalMapLevel, IOnPlayLocalLevel
+    public class HeroEquipmentManager : Singleton<HeroEquipmentManager>, IOnAfterCreateLocalMap, IOnCompleteLocalMapLevel, IOnPlayLocalLevel, IOnClear, IOnSetupNewGame
     {
         private EquipmentInventory inventory;
         public EquipmentInventory Inventory => inventory;
@@ -19,8 +19,8 @@ namespace Heros
         protected override void CleanUp()
         {
             base.CleanUp();
-            if(inventory != null)
-            inventory.onEquipmentChanged -= OnEquipChange;
+            if (inventory != null)
+                inventory.onEquipmentChanged -= OnEquipChange;
         }
 
         public void SetupBeginningEquipment(List<EquipmentSO> equipmentSOs)
@@ -107,17 +107,32 @@ namespace Heros
 
         public void AfterCreateLocalMap()
         {
-            inventory.Unlock();
+            if (inventory != null)
+                inventory.Unlock();
         }
 
         public void OnCompleteLocalMapLevel()
         {
-            inventory.Unlock();
+            if (inventory != null)
+                inventory.Unlock();
         }
 
         public void OnPlayLocalLevel()
         {
-            inventory.Lock();
+            if (inventory != null)
+                inventory.Lock();
+        }
+
+        public void Clear()
+        {
+            if (inventory != null)
+                inventory.Unlock();
+        }
+
+        public void OnSetupNewGame()
+        {
+            if(inventory != null)
+                inventory.Unlock();
         }
     }
 }

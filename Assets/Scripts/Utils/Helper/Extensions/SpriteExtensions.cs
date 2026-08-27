@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class SpriteExtensions
 {
@@ -14,5 +15,20 @@ public static class SpriteExtensions
             spriteRect.height / texture.height
         );
         GUI.DrawTextureWithTexCoords(rect, texture, uvRect);
+    }
+}
+
+public static class MaterialExtensions
+{
+    public static void SetKeyword(this Material material, string keyword, bool value)
+    {
+        if (value)
+        {
+            material.EnableKeyword(keyword);
+        }
+        else
+        {
+            material.DisableKeyword(keyword);
+        }
     }
 }
