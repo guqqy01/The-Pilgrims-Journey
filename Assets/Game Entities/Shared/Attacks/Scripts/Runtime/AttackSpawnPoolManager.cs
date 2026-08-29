@@ -5,18 +5,18 @@ namespace Attacks
 {
     public static class AttackSpawnPoolManager
     {
-        private static readonly Dictionary<int, AttackSpawnPool> pools = new Dictionary<int, AttackSpawnPool>();
+        private static readonly Dictionary<EntityId, AttackSpawnPool> pools = new Dictionary<EntityId, AttackSpawnPool>();
 
         public static AttackSpawnPool GetPool(AttackSpawnBase prefab, Transform parent = null)
         {
             if (prefab == null)
                 return null;
 
-            int id = prefab.GetInstanceID();
-            if (!pools.TryGetValue(id, out var pool))
+            EntityId entityId = prefab.GetEntityId();
+            if (!pools.TryGetValue(entityId, out var pool))
             {
                 pool = new AttackSpawnPool(prefab, parent);
-                pools[id] = pool;
+                pools[entityId] = pool;
             }
 
             return pool;

@@ -20,7 +20,7 @@ namespace Monsters
     public partial class MonsterSpawnManager : Singleton<MonsterSpawnManager>,
         IOnPlayLocalLevel, IOnAfterCreateLocalMap, IOnClear, IOnCompleteLocalMapLevel
     {
-        [SerializeField, HideInInspector]
+        [HideInInspector]
         public List<Monster> Monsters { private set; get; } = new();
 
         private LocalMapGenerator Map => LocalMapGenerator.Instance;

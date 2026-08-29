@@ -2,9 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using Newtonsoft.Json;
 
-[SerializeField]
 public class EditorMenuToolbarWindow
 {
     protected List<IEditorMenuToolbarTab> _tabs = new List<IEditorMenuToolbarTab>();
