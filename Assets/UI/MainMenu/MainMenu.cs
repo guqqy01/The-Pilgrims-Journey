@@ -1,10 +1,6 @@
-using GlobalMap;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Monsters;
-using Unity.VisualScripting;
 using Helper.Wait;
 
 public class MainMenu : Singleton<MainMenu>

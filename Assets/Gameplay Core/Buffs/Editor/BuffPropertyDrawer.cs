@@ -3,7 +3,6 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using Units;
-using Unity.VisualScripting;
 using System.Collections.Generic;
 
 [CustomPropertyDrawer(typeof(Buff))]
@@ -220,7 +219,7 @@ public class BuffPropertyDrawer : PropertyDrawer
         if (keyProp == null || keyProp.propertyType != SerializedPropertyType.Enum)
             return false;
 
-        enumType = keyProp.GetUnderlyingType();
+        enumType = Type.GetType(keyProp.type);
 
         return enumType != null;
     }

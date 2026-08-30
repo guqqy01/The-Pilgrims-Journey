@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using UnityEngine.Rendering;
-using Unity.VisualScripting;
 namespace UI.CardCarousel
 {
     public class AdvancedCarousel :

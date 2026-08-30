@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 public static class EnumerableExtensions
 {
+    public static IEnumerable<T> NotNull<T>(this IEnumerable<T> source) where T : class
+    {
+        if (source == null)
+            return null;
+
+        List<T> returnEnumerable = new List<T>();
+        foreach (var item in source)
+        {
+            if (item != null)
+                returnEnumerable.Add(item);
+        }
+        return returnEnumerable;
+    }
+
+
     public static int NotNullCount<T>(this IEnumerable<T> source) where T : class
     {
         if (source == null)

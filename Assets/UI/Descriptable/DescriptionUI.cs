@@ -2,9 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
-using System.Linq;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class DescriptionUI : MonoBehaviour
 {

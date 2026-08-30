@@ -194,7 +194,6 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using System.Linq;
-using Unity.VisualScripting;
 
 [CustomPropertyDrawer(typeof(AbstractSelectorAttribute))]
 public class AbstractSelectorAttributeDrawer : PropertyDrawer
@@ -320,14 +319,16 @@ public class AbstractSelectorAttributeDrawer : PropertyDrawer
 
     private string TryGetAttributeTitle(Type type, Type baseType)
     {
-        if (!type.HasAttribute(typeof(AbstractTitle)))
+        if (!Attribute.IsDefined(type, typeof(AbstractTitle)))
             return null;
 
-        foreach (AbstractTitle attribute in type.GetAttributes(typeof(AbstractTitle)))
-        {
-            if (attribute.Type == null || attribute.Type == baseType)
-                return attribute.Title;
-        }
+        AbstractTitle abstractTitle = type.GetCustomAttribute<AbstractTitle>();
+
+        if (abstractTitle == null) return null;
+
+        if (abstractTitle.Type == null || abstractTitle.Type == baseType)
+            return abstractTitle.Title;
+        
         return null;
     }
 

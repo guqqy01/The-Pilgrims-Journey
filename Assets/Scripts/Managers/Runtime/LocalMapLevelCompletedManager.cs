@@ -1,16 +1,9 @@
 using GameManagerCalls;
 using GlobalMap;
-using Unity.VisualScripting;
 using UnityEngine;
-using static GameManager;
-using System.Collections.Generic;
-using System.Linq;
 using Tiles;
 using Helper.Wait;
-using Heros;
-using static LocalMapLevelCompletedManager;
 using Monsters;
-using LocalMap;
 public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedManager>, IOnBeforeCreateLocalMap, IOnPlayLocalLevel
 {
     private int unitsPassed = 0;
@@ -67,7 +60,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         if (hoardStarted)
             return;
 
-        int UnitsOnMap = UnitSpawningManager.Instance.SpawnedUnits.NotNull().Count();
+        int UnitsOnMap = UnitSpawningManager.Instance.SpawnedUnits.NotNullCount();
         //Units on map >= Remaining Units Required.
         if (UnitsOnMap != 0 && UnitsOnMap >= Mathf.Max(RequiredNumberOfUnitsToPass - unitsPassed, 0))
         {

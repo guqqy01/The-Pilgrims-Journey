@@ -21,9 +21,10 @@ public class TabReferencePropertyDrawer : PropertyDrawer
         GameObject currentSubTab = (currentSubTabIndex == -1 && currentTab != null) ? null : currentTab.subTabs[currentSubTabIndex];
         string dropdownString = (currentTab == null) ? "Null" : (currentSubTabIndex == -1) ? currentTab.gameObject.name : $"{currentTab.gameObject.name}/{currentSubTab.name}";
 
+
         if(EditorGUI.DropdownButton(position, new GUIContent(dropdownString), FocusType.Keyboard))
         {
-            Tab[] tabs = Object.FindObjectsByType<Tab>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            Tab[] tabs = Object.FindObjectsByType<Tab>(FindObjectsInactive.Include);
 
             GenericMenu menu = new GenericMenu();
 
