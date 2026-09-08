@@ -35,6 +35,11 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
         void Handler(T instance) { OnInstanceReady -= Handler; onReady(instance); }
         OnInstanceReady += Handler;
     }
+
+    public static void IfReady(Action<T> onReady)
+    {
+        if(HasInstance) { onReady(Instance); return; }
+    }
 }
 
 public class SingletonHelper<T> where T : class
@@ -65,5 +70,10 @@ public class SingletonHelper<T> where T : class
         if (HasInstance) { onReady(Instance); return; }
         void Handler(T instance) { OnReady -= Handler; onReady(instance); }
         OnReady += Handler;
+    }
+
+    public void IfReady(Action<T> onReady)
+    {
+        if (HasInstance) { onReady(Instance); return; }
     }
 }

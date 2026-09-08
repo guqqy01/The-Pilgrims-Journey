@@ -35,6 +35,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2551612116384175923
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -80,6 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: -1070266199
   m_SortingLayer: 8
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 4856351295673977021, guid: 32834b51f84e10c4b9dfc6b0dd5a5050, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -89,8 +91,8 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!95 &2072305240618860678
 Animator:
   serializedVersion: 7
@@ -261,6 +263,7 @@ MonoBehaviour:
     loop: 0
     volume: 1
     pitch: 1
+    pitchVarianceRange: 0
     spatialBlend: 1
     Type: 4
 --- !u!1 &4544737275292610018
@@ -350,9 +353,6 @@ MonoBehaviour:
   - {fileID: 5887747248436027095}
   hitAudioSources: []
   hitCollider: {fileID: 3724239882864732816}
-  hitLayerMask:
-    serializedVersion: 2
-    m_Bits: 4096
   canHitSameTargetMultipleTimes: 0
 --- !u!1 &6766304192076481792
 GameObject:

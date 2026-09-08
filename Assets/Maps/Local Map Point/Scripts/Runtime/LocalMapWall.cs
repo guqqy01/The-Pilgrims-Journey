@@ -11,6 +11,11 @@ public class LocalMapWall : MonoBehaviour, IOnAfterCreateLocalMap
 
     private BoxCollider2D boxCollider;
 
+    [SerializeField]
+    private GameObject fogWall;
+    private Renderer _fogWallRenderer;
+    [SerializeField]
+    private float fogWallEncroachDistance = 3f;
     private Renderer _renderer;
     [Header("Shader Values")]
     [SerializeField]
@@ -21,6 +26,7 @@ public class LocalMapWall : MonoBehaviour, IOnAfterCreateLocalMap
     {
         boxCollider = GetComponent<BoxCollider2D>();
         _renderer = GetComponent<Renderer>();
+        _fogWallRenderer = fogWall.GetComponent<Renderer>();
     }
 
     public void Setup(Direction direction, Vector2 size, Vector2 position)
@@ -31,6 +37,35 @@ public class LocalMapWall : MonoBehaviour, IOnAfterCreateLocalMap
         transform.position = position;
         _renderer.material.SetKeyword("_VERTICAL", vertical);
         _renderer.material.SetKeyword("_POSITIVE", positive);
+
+        _fogWallRenderer.material.SetKeyword("_VERTICAL", vertical);
+        _fogWallRenderer.material.SetKeyword("_POSITIVE", !positive);
+
+        float maxSize = size.Max();
+        fogWall.transform.localScale = 2f * new Vector2(maxSize, maxSize);
+
+        if (vertical)
+        {
+            if (positive)
+            {
+                fogWall.transform.position = new Vector2(position.x + maxSize - fogWallEncroachDistance, position.y);
+            }
+            else
+            {
+                fogWall.transform.position = new Vector2(position.x - maxSize + fogWallEncroachDistance, position.y);
+            }
+        }
+        else
+        {
+            if (positive)
+            {
+                fogWall.transform.position = new Vector2(position.x, position.y + maxSize - fogWallEncroachDistance);
+            }
+            else
+            {
+                fogWall.transform.position = new Vector2(position.x, position.y - maxSize + fogWallEncroachDistance);
+            }
+        }
     }
 
     private void Update()

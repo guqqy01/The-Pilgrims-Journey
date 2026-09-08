@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GlobalMap;
-using System.Dynamic;
 using System.Linq;
 using TMPro;
-using Helper.Wait;
 
 namespace LocalMap.UI
 {
@@ -46,36 +43,33 @@ namespace LocalMap.UI
         [SerializeField]
         private Sprite hightlightedArrowSprite;
 
-        public override void InitiateFromRootAtAwake()
-        {
-            base.InitiateFromRootAtAwake();
-
-            WaitForHelper.WaitForObjectThenPerformAction(() => PathPicker.Instance, SubscribeToOnClickSign);
-        }
-
         private void Start()
         {
-            RewardManager.Instance.OnShowRewards += Setup;
+            PathPicker.WhenReady(SubscribeToPathPicker);
+            RewardManager.WhenReady(SubscribeToRewardManager);
         }
 
-        private void OnDestroy()
+        private void SubscribeToRewardManager(RewardManager rewardManager)
         {
-            if(RewardManager.Instance != null)
-            {
-                RewardManager.Instance.OnShowRewards -= Setup;
-            }
+            rewardManager.OnShowRewards += Setup;
         }
-
-        private void SubscribeToOnClickSign()
+        private void UnsubscribeFromRewardManager(RewardManager rewardManager)
         {
-            PathPicker.Instance.onClickSign -= ShowDirection;
-            PathPicker.Instance.onClickSign += ShowDirection;
+            rewardManager.OnShowRewards -= Setup;
+        }
+        private void SubscribeToPathPicker(PathPicker pathPicker)
+        {
+            pathPicker.onClickSign += ShowDirection;
+        }
+        private void UnsubscribeToPathPicker(PathPicker pathPicker)
+        {
+            pathPicker.onClickSign -= ShowDirection;
         }
 
         protected override void CleanUp()
         {
-            if (PathPicker.Instance != null)
-                PathPicker.Instance.onClickSign -= ShowDirection;
+            RewardManager.IfReady(UnsubscribeFromRewardManager);
+            PathPicker.IfReady(UnsubscribeToPathPicker);
         }
 
         private void Setup(SerializableDictionary<Direction, SerializableDictionary<Reward, int>> rewards)
@@ -85,6 +79,7 @@ namespace LocalMap.UI
 
         public void Setup(List<Direction> avaliableDirections)
         {
+            avaliableDirections.ForEach(a => Debug.Log(a));
             northArrow.gameObject.SetActive(avaliableDirections.Contains(Direction.North));
             southArrow.gameObject.SetActive(avaliableDirections.Contains(Direction.South));
             eastArrow.gameObject.SetActive(avaliableDirections.Contains(Direction.East));

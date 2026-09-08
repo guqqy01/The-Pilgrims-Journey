@@ -78,7 +78,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         if (hasBossMonsterBeenKilled.HasValue && !hasBossMonsterBeenKilled.Value)
             return;
 
-        MonsterSpawnManager.Instance.StartHorde(20);
+        MonsterSpawnManager.Instance.StartHorde();
         hoardStarted = true;
     }
 

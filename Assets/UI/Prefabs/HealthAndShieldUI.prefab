@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 732216783655337123}
   - component: {fileID: 5736306025065359891}
   - component: {fileID: 5117647129855523052}
+  - component: {fileID: 806187125385220556}
   m_Layer: 5
   m_Name: Health Bar Outer
   m_TagString: Untagged
@@ -151,6 +152,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 20
+--- !u!225 &806187125385220556
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2804763663743397357}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4250666301952473778
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +175,7 @@ GameObject:
   - component: {fileID: 1492731721371848151}
   - component: {fileID: 2958495917805002845}
   - component: {fileID: 7102589956391784679}
+  - component: {fileID: 3200130009276396478}
   m_Layer: 5
   m_Name: Shield Bar Outer
   m_TagString: Untagged
@@ -227,6 +241,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 20
+--- !u!225 &3200130009276396478
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4250666301952473778}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6019251279536031331
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +450,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 480325165
@@ -451,7 +478,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6942453347269526542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +491,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec94eba0d02891499ef279f22fd3810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideUITimeLength: 4
+  showHideUISpeed: 0.2
+  canvasGroup: {fileID: 806187125385220556}
   healthFill: {fileID: 6211753201618425293}
   health: {fileID: 0}
   poisonDebuff: {fileID: 0}
@@ -479,6 +509,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e06bf76e8c32db498beab3b99864044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideUITimeLength: 4
+  showHideUISpeed: 0.2
+  canvasGroup: {fileID: 3200130009276396478}
   shieldFill: {fileID: 3172294354835000164}
   shield: {fileID: 0}
   shieldUIGO: {fileID: 4250666301952473778}

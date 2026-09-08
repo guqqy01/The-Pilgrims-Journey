@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Units.UI
 {
-    public class HealthUI : MonoBehaviour
+    public class HealthUI : ShowHideUI
     {
         [SerializeField]
         private Image healthFill;
@@ -12,6 +12,7 @@ namespace Units.UI
         private Health health;
         [SerializeField]
         private PoisonDebuff poisonDebuff;
+
         private void Awake()
         {
             if (health != null)
@@ -39,6 +40,7 @@ namespace Units.UI
         private void OnHealthChange(StatChangeInfo healthChangeInfo)
         {
             healthFill.fillAmount = Mathf.Clamp01((float)healthChangeInfo.CurrentAmount / health.MaxHealth);
+            ShowUI();
         }
 
         private void OnPoisoned()

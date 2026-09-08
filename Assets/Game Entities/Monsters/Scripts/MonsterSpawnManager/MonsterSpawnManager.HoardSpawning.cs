@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UIElements;
+using System;
 
 namespace Monsters
 {
@@ -17,14 +18,22 @@ namespace Monsters
         private float hordeLength = 30f;
 
         private float hordeEndTime;
-        private int hordeMultiplier = 1;
 
-        
         [SerializeField] private float hordeSpawnRate = 0.25f;
         private float nextHordeSpawnTime;
 
         [SerializeField]
         private MonsterSO deathMonster;
+
+        public event Action<float> OnHordeStart;
+        public event Action OnHordeFinished;
+
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            OnHordeFinished = null;
+            OnHordeFinished = null;
+        }
 
         private void ProcessHordeTimer(float now, float difficulty)
         {
@@ -37,7 +46,7 @@ namespace Monsters
                     SpawnMonster(deathMonster, GetAllSideTiles(PathPicker.Instance.PickedDirection.Value.OppositeDirection()).GetRandom(), difficulty);
 
                 hordeActive = false;
-                hordeMultiplier = 1;
+                OnHordeFinished?.Invoke();
                 return;
             }
 
@@ -48,11 +57,11 @@ namespace Monsters
             }
         }
 
-        public void StartHorde(int multiplier)
+        public void StartHorde()
         {
             hordeActive = true;
-            hordeMultiplier = Mathf.Max(1, multiplier);
             hordeEndTime = Time.time + hordeLength;
+            OnHordeStart?.Invoke(hordeLength);
         }
 
         private void SpawnHordeBatch(float difficulty)

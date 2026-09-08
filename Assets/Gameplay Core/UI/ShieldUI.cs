@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Units.UI
 {
-    public class ShieldUI : MonoBehaviour
+    public class ShieldUI : ShowHideUI
     {
         [SerializeField]
         private Image shieldFill;
@@ -35,13 +35,16 @@ namespace Units.UI
         {
             if(shield.MaxShield == 0)
             {
-                shieldUIGO.SetActive(false);
+                if (shieldUIGO.activeSelf)
+                    shieldUIGO.SetActive(false);
                 shieldFill.fillAmount = 0;
             }
             else
             {
-                shieldUIGO.SetActive(true);
+                if(!shieldUIGO.activeSelf)
+                    shieldUIGO.SetActive(true);
                 shieldFill.fillAmount = Mathf.Clamp01((float)shieldChangeInfo.CurrentAmount / shield.MaxShield);
+                ShowUI();
             }
         }
     }

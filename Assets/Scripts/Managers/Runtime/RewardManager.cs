@@ -45,8 +45,9 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
         LevelRewards.Clear();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         OnShowRewards = null;
         OnGiveEquipmentReward = null;
         OnGiveTileReward = null;

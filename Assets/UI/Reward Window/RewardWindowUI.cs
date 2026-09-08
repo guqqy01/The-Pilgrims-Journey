@@ -40,17 +40,24 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
 
     private void Start()
     {
-        RewardManager.Instance.OnGiveEquipmentReward += Setup;
-        RewardManager.Instance.OnGiveTileReward += Setup;
+        RewardManager.WhenReady(Subscribe);
     }
 
-    private void OnDestroy()
+    private void Subscribe(RewardManager rewardManager)
     {
-        if(RewardManager.Instance != null)
-        {
-            RewardManager.Instance.OnGiveEquipmentReward -= Setup;
-            RewardManager.Instance.OnGiveTileReward -= Setup;
-        }
+        rewardManager.OnGiveEquipmentReward += Setup;
+        rewardManager.OnGiveTileReward += Setup;
+    }
+    private void UnSubscribe(RewardManager rewardManager)
+    {
+        rewardManager.OnGiveEquipmentReward -= Setup;
+        rewardManager.OnGiveTileReward -= Setup;
+    }
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        RewardManager.IfReady(UnSubscribe);
     }
 
     private void Clear()
