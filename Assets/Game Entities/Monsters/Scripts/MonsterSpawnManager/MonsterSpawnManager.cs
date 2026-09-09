@@ -101,19 +101,22 @@ namespace Monsters
 
         private void Awake()
         {
-            WaitForHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToTilePlayer);
+            TilePlayerManager.WhenReady(SubscribeToTilePlayerManager);
         }
 
-        private void SubscribeToTilePlayer()
+        private void SubscribeToTilePlayerManager(TilePlayerManager tilePlayerManager)
         {
-            TilePlayerManager.Instance.onPositionChangeCurrentMonsterTiles -= SetupNewMonsterSpawnRates;
-            TilePlayerManager.Instance.onPositionChangeCurrentMonsterTiles += SetupNewMonsterSpawnRates;
+            tilePlayerManager.onPositionChangeCurrentMonsterTiles += SetupNewMonsterSpawnRates;
+        }
+        private void UnSubscribeToTilePlayerManager(TilePlayerManager tilePlayerManager)
+        {
+            tilePlayerManager.onPositionChangeCurrentMonsterTiles -= SetupNewMonsterSpawnRates;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            if(TilePlayerManager.Instance != null)
-                TilePlayerManager.Instance.onPositionChangeCurrentMonsterTiles -= SetupNewMonsterSpawnRates;
+            base.OnDestroy();
+            TilePlayerManager.IfReady(UnSubscribeToTilePlayerManager);
         }
 
         private List<(NormalMonsterSpawn, int)> normalSpawns = new List<(NormalMonsterSpawn, int)>();

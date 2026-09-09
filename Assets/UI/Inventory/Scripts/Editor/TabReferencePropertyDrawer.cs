@@ -9,6 +9,17 @@ public class TabReferencePropertyDrawer : PropertyDrawer
         return EditorGUIUtility.singleLineHeight;
     }
 
+    private string GetDropDownString(Tab currentTab, GameObject currentSubTab)
+    {
+        if (currentTab == null)
+            return "Null";
+
+        if (currentSubTab == null)
+            return currentTab.gameObject.name;
+
+        return $"{currentTab.gameObject.name}/{currentSubTab.name}";
+    }
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         SerializedProperty tabProperty = property.FindPropertyRelative("tab");
@@ -19,10 +30,10 @@ public class TabReferencePropertyDrawer : PropertyDrawer
         Tab currentTab = tabProperty.objectReferenceValue as Tab;
         int currentSubTabIndex = subTabIndexProperty.intValue;
         GameObject currentSubTab = (currentSubTabIndex == -1 && currentTab != null) ? null : currentTab.subTabs[currentSubTabIndex];
-        string dropdownString = (currentTab == null) ? "Null" : (currentSubTabIndex == -1) ? currentTab.gameObject.name : $"{currentTab.gameObject.name}/{currentSubTab.name}";
+        string dropdownString = GetDropDownString(currentTab, currentSubTab);
 
 
-        if(EditorGUI.DropdownButton(position, new GUIContent(dropdownString), FocusType.Keyboard))
+        if (EditorGUI.DropdownButton(position, new GUIContent(dropdownString), FocusType.Keyboard))
         {
             Tab[] tabs = Object.FindObjectsByType<Tab>(FindObjectsInactive.Include);
 

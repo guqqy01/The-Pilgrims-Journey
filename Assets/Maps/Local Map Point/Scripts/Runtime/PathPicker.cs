@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Tiles;
 using GlobalMap;
-using GameManagerCalls;
+using UnityEngine.InputSystem;
 
 namespace LocalMap
 {
@@ -19,19 +17,6 @@ namespace LocalMap
                     mapGenerator = LocalMapGenerator.Instance;
 
                 return mapGenerator;
-            }
-        }
-
-
-        private InputManager inputManager;
-        public InputManager InputManagerInstance
-        {
-            get
-            {
-                if (inputManager == null)
-                    inputManager = InputManager.Instance;
-
-                return inputManager;
             }
         }
 
@@ -68,29 +53,39 @@ namespace LocalMap
         protected override void CleanUp()
         {
             onClickSign = null;
+            InputManager.IfReady(UnSubscribe);
         }
 
-        private void Update()
+        private void Awake()
         {
-            if (InputManagerInstance == null)
+            InputManager.WhenReady(Subscribe);
+        }
+        private void Subscribe(InputManager inputManager)
+        {
+            inputManager.Actions.Player.Select.performed += OnSelect;
+        }
+        private void UnSubscribe(InputManager inputManager)
+        {
+            inputManager.Actions.Player.Select.performed -= OnSelect;
+        }
+        private void OnSelect(InputAction.CallbackContext _)
+        {
+            Vector3 worldPoint = Cam.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D collider = Physics2D.OverlapPoint(worldPoint, pathPickerLayerMask);
+
+            if (collider == null)
                 return;
 
-            if (InputManagerInstance.LeftClick)
+            if (pathPickerPoints.ContainsKey(collider.transform))
             {
-                Vector3 worldPoint = Cam.ScreenToWorldPoint(Input.mousePosition);
-                Collider2D collider = Physics2D.OverlapPoint(worldPoint, pathPickerLayerMask);
+                PickDirection(pathPickerPoints[collider.transform]);
+                return;
+            }
 
-                if (collider != null)
-                {
-                    if (pathPickerPoints.ContainsKey(collider.transform))
-                    {
-                        PickDirection(pathPickerPoints[collider.transform]);
-                    }
-                    else if (LocalMapGenerator.Instance.RoadSigns.ContainsKey(collider.gameObject))
-                    {
-                        onClickSign?.Invoke(LocalMapGenerator.Instance.RoadSigns[collider.gameObject]);
-                    }
-                }
+            if (MapGenerator.RoadSigns.ContainsKey(collider.gameObject))
+            {
+                onClickSign?.Invoke(MapGenerator.RoadSigns[collider.gameObject]);
+                return;
             }
         }
 

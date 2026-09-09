@@ -1,16 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Units;
 using UnityEngine;
 
 
 namespace Equipment
 {
-    public class EquipmentManager : MonoBehaviour
+    public class EquipmentInventoryManager : Singleton<EquipmentInventoryManager>
     {
-        public static EquipmentManager Instance { private set; get; }
-
         [SerializeField]
         private List<EquipmentAndState> initialEquipmentStates;
 
@@ -19,23 +16,6 @@ namespace Equipment
 
         public List<EquipmentInventory> EquipmentInventories = new();
 
-        public EquipmentInventory GetPriorityInventory(EquipmentInventory exclusion, EquipmentSO equipment)
-        {
-            EquipmentInventories.RemoveAll(x => x == null);
-
-            EquipmentInventories.Sort();
-
-            foreach (EquipmentInventory inv in EquipmentInventories)
-            {
-                if(inv != exclusion && inv.gameObject.activeInHierarchy && inv.HasFreeSpot(equipment))
-                {
-                    return inv;
-                }
-            }
-
-            return null;
-        }
-
         public void ChangeUnitState(EquipmentSO equipment, LockedLevelState state)
         {
             EquipmentStates[equipment] = state;
@@ -43,8 +23,6 @@ namespace Equipment
 
         private void Awake()
         {
-            Instance = this;
-
             EquipmentStates.Clear();
 
             foreach (var equip in initialEquipmentStates)
@@ -54,6 +32,8 @@ namespace Equipment
                     EquipmentStates.Add(equip.equipment, equip.state);
                 }
             }
+
+            base.InitiateFromRootAtAwake();
         }
     }
 

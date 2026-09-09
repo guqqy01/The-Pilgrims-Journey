@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.Audio.GeneratorInstance;
 
 public class AltarSpawnController : MonoBehaviour
 {
@@ -25,8 +27,7 @@ public class AltarSpawnController : MonoBehaviour
     [SerializeField]
     private CanvasGroup altarCanvasGroup;
 
-    [SerializeField]
-    private AltarUI altarUI;
+    public event Action<float> SetupUI;
 
     [SerializeField]
     private float showCanvasTime = 0.5f;
@@ -65,7 +66,7 @@ public class AltarSpawnController : MonoBehaviour
         Vector2 spriteUnitSize = spritePixelSize / pixelsPerUnit;
         maskTransform.localScale = spriteUnitSize;
 
-        altarUI.SetupUIPlacement(spriteUnitSize.y);
+        SetupUI?.Invoke(spriteUnitSize.y);
 
         pSTransform.localPosition = new Vector3(0, - spriteUnitSize.y / 2f, 0);
 

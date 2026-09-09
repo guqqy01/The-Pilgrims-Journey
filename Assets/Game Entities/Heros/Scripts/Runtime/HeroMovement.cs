@@ -1,13 +1,12 @@
 using LocalMap;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 namespace Heros
 {
     public class HeroMovement : BaseMovement
     {
         [SerializeField]
         private Animator ani;
-
 
         Vector2 input;
         int hashUp, hashDown, hashLeft, hashRight, hashSpeed;
@@ -35,9 +34,7 @@ namespace Heros
         {
             base.Update();
 
-            // Read input in Update (keeps input responsive)
-            input.x = Input.GetAxisRaw("Horizontal");
-            input.y = Input.GetAxisRaw("Vertical");
+            input = InputManager.Instance.Actions.Player.Move.ReadValue<Vector2>();
 
             // Apply deadzone
             if (Mathf.Abs(input.x) < Deadzone) input.x = 0f;

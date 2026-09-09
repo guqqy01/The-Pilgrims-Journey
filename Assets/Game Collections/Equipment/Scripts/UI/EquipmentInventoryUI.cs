@@ -8,6 +8,7 @@ namespace Equipment.UI
     {
         [SerializeField]
         protected EquipmentInventory equipmentInventory;
+        public EquipmentInventory Inventory { get { return equipmentInventory; } }
 
         [SerializeField]
         private EquipmentContainerUI containerUIPrefab;
@@ -68,6 +69,4 @@ namespace Equipment.UI
             }
         }
     }
-
-    
 }

@@ -160,17 +160,12 @@ namespace Equipment
 
         private void Start()
         {
-            AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded();
+            EquipmentInventoryManager.WhenReady(AddToEquipmentManagerInventories);
         }
 
-        private void AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded()
+        private void AddToEquipmentManagerInventories(EquipmentInventoryManager equipManager)
         {
-            SceneRoot.DoActionAfterCommonSceneLoaded(AddToEquipmentManagerInventories);
-        }
-
-        private void AddToEquipmentManagerInventories()
-        {
-            EquipmentManager.Instance.EquipmentInventories.Add(this);
+            equipManager.EquipmentInventories.Add(this);
         }
 
         void IOnClear.Clear()
@@ -191,7 +186,7 @@ namespace Equipment
 
         public void OnSetupNewGame()
         {
-            AddThisToEquipmentManagerInventoriesAfterCommonSceneLoaded();
+            EquipmentInventoryManager.WhenReady(AddToEquipmentManagerInventories);
 
             Setup(startEquipment);
         }

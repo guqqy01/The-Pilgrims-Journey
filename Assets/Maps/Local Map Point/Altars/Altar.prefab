@@ -148,6 +148,8 @@ MonoBehaviour:
     loop: 0
     volume: 1
     pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
     Type: 4
 --- !u!1 &1169371579463176775
 GameObject:
@@ -4907,7 +4909,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &8848909011582203646
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4953,6 +4955,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 62324479
   m_SortingLayer: 4
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4984,7 +4987,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &1303035051051176539
 GameObject:
   m_ObjectHideFlags: 0
@@ -5045,6 +5047,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 62324479
@@ -5098,6 +5101,7 @@ MonoBehaviour:
   combatSprite: {fileID: -342766291, guid: 808eb0c1ad1ecc6489fea685d2e17588, type: 3}
   topUIPadding: 0.3
   bottomUIPadding: 0.1
+  spawnController: {fileID: 4685852422056824902}
 --- !u!225 &8329366873075367834
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5415,6 +5419,7 @@ SpriteMask:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -7708608851621688193, guid: 1ea24192ccbc178468fa6f58fae290e6, type: 3}
   m_MaskAlphaCutoff: 0
   m_FrontSortingLayerID: 62324479
@@ -5460,6 +5465,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2279565308700364325
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5505,6 +5511,7 @@ SpriteRenderer:
   m_SortingLayerID: 62324479
   m_SortingLayer: 4
   m_SortingOrder: 0
+  m_MaskInteraction: 1
   m_Sprite: {fileID: -8949457856607087151, guid: b310f88c089441841810cedbec4c962a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5514,8 +5521,8 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!1 &6770244685664425678
 GameObject:
   m_ObjectHideFlags: 0
@@ -5646,10 +5653,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b2b288435dc96b4c90fade3c8b88d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  interactKey: 101
+  interactable:
+    target: {fileID: 8540009117095135236}
+  interactCollider2D: {fileID: 2987331056133742807}
   heroMask:
     serializedVersion: 2
     m_Bits: 32768
+  interactAction: {fileID: 1781555164194001046, guid: 45925abc50545c641881b6a068043b49, type: 3}
+  interactEvents:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8540009117095135236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5720,7 +5733,6 @@ MonoBehaviour:
   riseAnimationTime: 4
   altarCanvas: {fileID: 2201741364045576858}
   altarCanvasGroup: {fileID: 8329366873075367834}
-  altarUI: {fileID: 111620095008246736}
   showCanvasTime: 1
   mask: {fileID: 1351827706062457252}
   maskTransform: {fileID: 7321325590690157954}
@@ -5868,6 +5880,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -6006,6 +6019,7 @@ MonoBehaviour:
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

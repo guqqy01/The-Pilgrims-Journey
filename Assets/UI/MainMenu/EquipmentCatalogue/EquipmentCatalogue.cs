@@ -17,11 +17,11 @@ namespace Equipment.UI
         [SerializeField]
         private EquipmentCatalogueItem catalogueItem;
 
-        private EquipmentManager equipmentManager;
+        private EquipmentInventoryManager equipmentManager;
 
         private void Start()
         {
-            equipmentManager = EquipmentManager.Instance;
+            equipmentManager = EquipmentInventoryManager.Instance;
 
             List<EquipmentSO> equipment = equipmentManager.EquipmentStates.Keys.ToList();
 

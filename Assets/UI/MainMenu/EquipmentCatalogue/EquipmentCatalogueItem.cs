@@ -39,7 +39,7 @@ namespace Equipment.UI
         public void Setup(EquipmentSO equipment)
         {
             this.Equipment = equipment;
-            LockedLevelState state = EquipmentManager.Instance.EquipmentStates[equipment];
+            LockedLevelState state = EquipmentInventoryManager.Instance.EquipmentStates[equipment];
 
             equipmentNameText.text = (state == LockedLevelState.Unknown) ? "???" : equipment.name;
             equipmentDescriptionText.text = (state == LockedLevelState.Unknown) ? "?????" : equipment.description;

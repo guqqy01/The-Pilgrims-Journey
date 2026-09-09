@@ -61,18 +61,13 @@ namespace Tiles
             }
         }
 
-        private void OnDestroy()
-        {
-            OnStopPlaying = null;
-        }
-
         protected override void CleanUp()
         {
             onPositionChangeNextUnitTiles = null;
             onPositionChangeCurrentUnitTiles = null;
             noRemainingTilesToPlay = null;
             onPlay = null;
-
+            OnStopPlaying = null;
             onPositionChangeNextMonsterTiles = null;
             onPositionChangeCurrentMonsterTiles = null;
 

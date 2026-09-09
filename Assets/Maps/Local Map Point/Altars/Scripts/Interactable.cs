@@ -1,48 +1,55 @@
-using Heros;
-using System;
 using UnityEngine;
-
-[RequireComponent(typeof(CircleCollider2D))]
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 public class Interactable : MonoBehaviour
 {
-    private IInteractable _interactable;
-    private CircleCollider2D _circleCollider2D;
-
     [SerializeField]
-    private KeyCode interactKey = KeyCode.E;
+    private InterfaceReference<IInteractable> interactable;
+    [SerializeField]
+    private Collider2D interactCollider2D;
+
     [SerializeField]
     private LayerMask heroMask;
 
     private bool _inRange;
 
+    [SerializeField]
+    private InputActionReference interactAction;
+    [SerializeField]
+    private UnityEvent interactEvents;
+
     private void Awake()
     {
-        _interactable = GetComponent<IInteractable>();
-        if (_interactable == null)
-            Debug.LogError($"{name} has an Interactable but no IInteractable component.", this);
-        _circleCollider2D = GetComponent<CircleCollider2D>();
+        interactAction.action.performed -= TryInteract;
+        interactAction.action.performed += TryInteract;
+    }
+
+    private void OnDestroy()
+    {
+        interactAction.action.performed -= TryInteract;
     }
 
     private void Start()
     {
-        _circleCollider2D.isTrigger = true;
+        interactCollider2D.isTrigger = true;
     }
 
-    private void Update()
+    private void TryInteract(InputAction.CallbackContext context)
     {
         if (!_inRange)
             return;
 
-        if (!Input.GetKeyDown(interactKey))
+        InteractableObject();
+
+        interactEvents.Invoke();
+    }
+
+    private void InteractableObject()
+    {
+        if (!interactable.Interface.CanInteract())
             return;
 
-        if (!_interactable.CanInteract())
-            return;
-
-        if (!_interactable.Interact())
-        {
-            Debug.LogWarning($"Interaction with {_interactable} unsuccessful");
-        }
+        interactable.Interface.Interact();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -54,7 +61,7 @@ public class Interactable : MonoBehaviour
             return;
 
         _inRange = true;
-        _interactable.RaiseHeroRangeChange(_inRange);
+        interactable.Interface.RaiseHeroRangeChange(_inRange);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -66,15 +73,6 @@ public class Interactable : MonoBehaviour
             return;
 
         _inRange = false;
-        _interactable.RaiseHeroRangeChange(_inRange);
+        interactable.Interface.RaiseHeroRangeChange(_inRange);
     }
-}
-
-public interface IInteractable
-{
-    event Action<bool> HeroRangeChange;
-
-    public void RaiseHeroRangeChange(bool inRange);
-    public bool CanInteract();
-    public bool Interact();
 }

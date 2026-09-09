@@ -1,15 +1,14 @@
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using GlobalMap;
 using GameManagerCalls;
+using GlobalMap;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMapPoint
 {
-    [SerializeField]
-    private LayoutContentSizerBaseParent layoutContentSizer;
-
     public Sprite selectedBackground;
     public Sprite unselectedBackground;
 
@@ -25,6 +24,19 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
         Setup();
 
         Close();
+
+        foreach (ToolbarButtonSetup toolbarButton in toolbarButtons)
+        {
+            toolbarButton.Subscribe();
+        }
+    }
+
+    protected override void CleanUp()
+    {
+        foreach (ToolbarButtonSetup toolbarButton in toolbarButtons)
+        {
+            toolbarButton.UnSubscribe();
+        }
     }
 
     public void SetupLevelUI()
@@ -44,11 +56,6 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
         }
     }
 
-    private void Update()
-    {
-        HandleKeyboardShortcuts();
-    }
-
     public void OpenByReference(string reference)
     {
         foreach(ToolbarButtonSetup toolbarButton in toolbarButtons)
@@ -57,17 +64,6 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
             {
                 SelectButton(toolbarButton.Button);
                 return;
-            }
-        }
-    }
-
-    private void HandleKeyboardShortcuts()
-    {
-        foreach (ToolbarButtonSetup toolbarButton in toolbarButtons)
-        {
-            if (toolbarButton.Active && Input.GetKeyDown(toolbarButton.KeyCode))
-            {
-                toolbarButton.Button.onClick.Invoke();
             }
         }
     }
@@ -147,9 +143,6 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
         {
             selectedTab.SetActive(true);
         }
-
-        if (layoutContentSizer != null)
-            layoutContentSizer.UpdateAllLayoutsDeepestFirst();
     }
 
     public void Close()
@@ -178,8 +171,45 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
         public bool Active;
         public TabReference Tab;
         public Button Button;
-        public KeyCode KeyCode;
+        public InputActionReference NavigateAction;
         public List<GlobalMapPointType> MapPointTypesButtonActiveFor;
+
+        public InputContext InputContext;
+
+        private InputContextHandle _inputContextHandle;
+
+        public void Subscribe()
+        {
+            if(NavigateAction != null)
+            {
+                NavigateAction.action.performed += SubscribeAction;
+            }
+        }
+
+        public void UnSubscribe()
+        {
+            if (NavigateAction != null)
+            {
+                NavigateAction.action.performed -= SubscribeAction;
+            }
+        }
+
+        public void PushInput()
+        {
+            _inputContextHandle = InputManager.Instance.PushContext(InputContext);
+        }
+
+        public void PopInput()
+        {
+            InputManager.Instance.PopContext(_inputContextHandle);
+        }
+
+        private void SubscribeAction(InputAction.CallbackContext context)
+        {
+            if (!Active)
+                return;
+            Button.onClick.Invoke();
+        }
     }
 
 }

@@ -39,6 +39,8 @@ public class AltarUI : MonoBehaviour
     private float topUIPadding = 0.3f;
     [SerializeField]
     private float bottomUIPadding = 0.1f;
+    [SerializeField]
+    private AltarSpawnController spawnController;
 
 
     private void Start()
@@ -47,6 +49,11 @@ public class AltarUI : MonoBehaviour
         {
             altar.UpdateUI += UpdateUI;
             altar.HeroRangeChange += HeroInRangeChange;
+        }
+
+        if(spawnController != null)
+        {
+            spawnController.SetupUI += SetupUIPlacement;
         }
 
         UpdateUI();
@@ -59,6 +66,11 @@ public class AltarUI : MonoBehaviour
         {
             altar.UpdateUI -= UpdateUI;
             altar.HeroRangeChange -= HeroInRangeChange;
+        }
+
+        if (spawnController != null)
+        {
+            spawnController.SetupUI -= SetupUIPlacement;
         }
     }
 
