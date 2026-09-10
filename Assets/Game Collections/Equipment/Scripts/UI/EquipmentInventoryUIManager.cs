@@ -14,7 +14,7 @@ namespace Equipment.UI
 
             foreach (EquipmentInventoryUI inv in EquipmentInventories)
             {
-                if (inv != exclusion && inv.gameObject.activeInHierarchy && inv.Inventory.HasFreeSpot(equipment))
+                if (inv.Inventory != exclusion && inv.gameObject.activeInHierarchy && inv.Inventory.HasFreeSpot(equipment))
                 {
                     return inv.Inventory;
                 }

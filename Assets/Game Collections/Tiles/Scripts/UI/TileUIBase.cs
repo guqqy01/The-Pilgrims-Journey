@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Tiles.UI
@@ -176,7 +177,7 @@ namespace Tiles.UI
         public void OnPointerClick(PointerEventData eventData)
         {
             TileUIEventBus.RaiseTileSelected(this);
-            AudioManager.Instance.PlaySelectTile();
+            SFXManager.Instance.PlaySelectTile();
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -221,24 +222,24 @@ namespace Tiles.UI
 
         private void HandleCancelMoveTile()
         {
-            if (!Input.GetKeyDown(KeyCode.Escape))
+            if (!InputManager.Instance.Actions.UI.Cancel.WasPressedThisFrame())
                 return;
             TileUIEventBus.RaiseTileSelected(null);
 
-            AudioManager.Instance.PlayCancelMoveTile();
+            SFXManager.Instance.PlayCancelMoveTile();
         }
 
         private void HandleTileRotation()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (InputManager.Instance.Actions.UI_TilePlayer.RotateTileLeft.WasPressedThisFrame())
             {
                 Rotate(90);
-                AudioManager.Instance.PlayRotateTile();
+                SFXManager.Instance.PlayRotateTile();
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else if (InputManager.Instance.Actions.UI_TilePlayer.RotateTileRight.WasPressedThisFrame())
             {
                 Rotate(-90);
-                AudioManager.Instance.PlayRotateTile();
+                SFXManager.Instance.PlayRotateTile();
             }
         }
 
@@ -434,25 +435,25 @@ namespace Tiles.UI
         {
             if (draggedTileGridUI != null)
             {
-                Vector2Int gridPosition = draggedTileGridUI.GetGridPosition(Input.mousePosition);
+                Vector2Int gridPosition = draggedTileGridUI.GetGridPosition(PointerManager.Instance.PointerPosition);
                 RectTransform.position = draggedTileGridUI.TileRectPositionAtVector2IntPosition(this, gridPosition);
                 Color = (draggedTileGridUI.CanPlaceTile(this, gridPosition)) ? Color.white : Color.red;
 
                 if (currentTileGridUI != draggedTileGridUI)
                 {
-                    AudioManager.Instance.PlayMoveTile();
+                    SFXManager.Instance.PlayMoveTile();
                     currentTileGridUI = draggedTileGridUI;
                     currentTilePosition = gridPosition;
                 }
                 else if(currentTilePosition  != gridPosition)
                 {
-                    AudioManager.Instance.PlayMoveTile();
+                    SFXManager.Instance.PlayMoveTile();
                     currentTilePosition = gridPosition;
                 }
             }
             else
             {
-                RectTransform.position = (Vector2)Input.mousePosition - GetCenteredAnchoredPositionPositionInShape(RotatedShape, tileGridUI) * TileUIManager.Canvas.scaleFactor;
+                RectTransform.position = PointerManager.Instance.PointerPosition - GetCenteredAnchoredPositionPositionInShape(RotatedShape, tileGridUI) * TileUIManager.Canvas.scaleFactor;
                 Color = Color.white;
                 currentTileGridUI = null;
             }
@@ -494,7 +495,7 @@ namespace Tiles.UI
 
                 draggedTileGridUI.TryPlaceTileFromWorldPosition(this, eventData.position, !sameTileGrid, !sameTileGrid);
                 tileGridUI = draggedTileGridUI;
-                AudioManager.Instance.PlayPlaceTile();
+                SFXManager.Instance.PlayPlaceTile();
             }
             else
             {
@@ -502,7 +503,7 @@ namespace Tiles.UI
                 RectTransform.position = tileGridUI.TileRectPositionAtVector2IntPosition(this, BasePlacedPosition);
                 transform.SetParent(tileGridUI.transform);
                 Color = Color.white;
-                AudioManager.Instance.PlayCancelMoveTile();
+                SFXManager.Instance.PlayCancelMoveTile();
             }
 
             draggedTileGridUI = null;

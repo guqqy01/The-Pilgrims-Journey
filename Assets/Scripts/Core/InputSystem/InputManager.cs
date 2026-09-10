@@ -4,52 +4,84 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public enum InputContext
-{
-    Player,
-    UI,
-    UI_HeroStats,
-    UI_TilePlayer,
-    UI_Shop,
-    Main_Menu,
-    Dialogue,
-    Paused,
-}
-
-/// <summary>
-/// Implement this on anything that pushes an InputContext and cares about
-/// when it gains/loses input focus, as opposed to just whether its map is enabled.
-/// All methods are optional - use default interface methods so listeners only
-/// override what they actually need.
-/// </summary>
-public interface IInputContextListener
-{
-    /// <summary>Called when a higher-priority exclusive context is pushed on top of this one.</summary>
-    void OnContextPaused() { }
-
-    /// <summary>Called when the context(s) above this one have been popped and this one is visible again.</summary>
-    void OnContextResumed() { }
-
-    /// <summary>Called when this specific context entry is popped for good.</summary>
-    void OnContextClosed() { }
-}
-
-/// <summary>
-/// Opaque handle returned by PushContext. Pass it back to PopContext to remove
-/// exactly the entry you pushed - never pops "whatever is on top" by accident.
-/// </summary>
-public readonly struct InputContextHandle
-{
-    internal readonly int Id;
-    internal InputContextHandle(int id) => Id = id;
-
-    public static readonly InputContextHandle Invalid = new InputContextHandle(-1);
-    public bool IsValid => Id >= 0;
-}
-
 public class InputManager : Singleton<InputManager>
 {
     public InputSystemActions Actions { get; private set; }
+
+    #region Action Shortcuts
+    public static InputSystemActions.UIActions UI
+    {
+        get
+        {
+            if (Instance == null)
+                throw new NullReferenceException("Instance not set");
+
+            if(Instance.Actions == null)
+                throw new NullReferenceException("Instance not set");
+
+            return Instance.Actions.UI;
+        }
+    }
+
+    
+
+    public static InputSystemActions.UI_HeroStatsActions UI_HeroStats
+    {
+        get
+        {
+            if (Instance == null)
+                throw new NullReferenceException("Instance not set");
+
+            if (Instance.Actions == null)
+                throw new NullReferenceException("Instance not set");
+
+            return Instance.Actions.UI_HeroStats;
+        }
+    }
+
+    public static InputSystemActions.PlayerActions Player
+    {
+        get
+        {
+            if (Instance == null)
+                throw new NullReferenceException("Instance not set");
+
+            if (Instance.Actions == null)
+                throw new NullReferenceException("Instance not set");
+
+            return Instance.Actions.Player;
+        }
+    }
+
+    public static InputSystemActions.SpellActions Spells
+    {
+        get
+        {
+            if (Instance == null)
+                throw new NullReferenceException("Instance not set");
+
+            if (Instance.Actions == null)
+                throw new NullReferenceException("Instance not set");
+
+            return Instance.Actions.Spell;
+        }
+    }
+
+    public static InputSystemActions.DialogueActions Dialogue
+    {
+        get
+        {
+            if (Instance == null)
+                throw new NullReferenceException("Instance not set");
+
+            if (Instance.Actions == null)
+                throw new NullReferenceException("Instance not set");
+
+            return Instance.Actions.Dialogue;
+        }
+    }
+
+    #endregion
 
     [Header("Priority (higher = takes precedence when exclusive)")]
     [SerializeField]
@@ -94,21 +126,23 @@ public class InputManager : Singleton<InputManager>
             { InputContext.UI_HeroStats, Actions.UI_HeroStats.Get() },
             { InputContext.UI_TilePlayer,Actions.UI_TilePlayer.Get() },
             { InputContext.UI_Shop,      Actions.UI_Shop.Get() },
-            /*{ InputContext.Main_Menu,    Actions.Main_Menu.Get() },
             { InputContext.Dialogue,     Actions.Dialogue.Get() },
+            { InputContext.Spells,     Actions.Spell.Get() },
+            /*{ InputContext.Main_Menu,    Actions.Main_Menu.Get() },
             { InputContext.Paused,       Actions.Paused.Get() },*/
         };
 
         _defaultPriority = new Dictionary<InputContext, int>
         {
-            { InputContext.Player,        0 },
-            { InputContext.UI,            0 },
-            { InputContext.UI_HeroStats,  5 },
-            { InputContext.UI_TilePlayer, 5 },
-            { InputContext.UI_Shop,       5 },
-            { InputContext.Dialogue,      10 },
-            { InputContext.Main_Menu,     15 },
-            { InputContext.Paused,        20 },
+            { InputContext.Player,          0 },
+            { InputContext.UI,              0 },
+            { InputContext.Spells,          0 },
+            { InputContext.UI_HeroStats,    5 },
+            { InputContext.UI_TilePlayer,   5 },
+            { InputContext.UI_Shop,         5 },
+            { InputContext.Dialogue,        10 },
+            { InputContext.Main_Menu,       15 },
+            { InputContext.Paused,          20 },
         };
 
         // allow designer overrides from the Inspector without touching code
@@ -121,8 +155,9 @@ public class InputManager : Singleton<InputManager>
 
     private void OnEnable()
     {
-        Actions?.asset.Enable();
-        PushContext(InputContext.Player, exclusive: true);
+        PushContext(InputContext.Player);
+        PushContext(InputContext.Spells);
+        PushContext(InputContext.UI);
     }
 
     private void OnDisable()
@@ -143,7 +178,7 @@ public class InputManager : Singleton<InputManager>
     /// Non-exclusive contexts are always enabled immediately, layered on top of
     /// whatever else is active, and never block or get blocked.
     /// </summary>
-    public InputContextHandle PushContext(InputContext context, bool exclusive = true, IInputContextListener listener = null)
+    public InputContextHandle PushContext(InputContext context, bool exclusive = false, IInputContextListener listener = null)
     {
         if (!_contextMaps.ContainsKey(context))
         {
@@ -223,7 +258,7 @@ public class InputManager : Singleton<InputManager>
 
         foreach (var e in _activeEntries)
         {
-            bool shouldBeEnabled = !e.Exclusive || e == topExclusive;
+            bool shouldBeEnabled = topExclusive == null || e == topExclusive;
 
             if (shouldBeEnabled && !e.CurrentlyEnabled)
             {
@@ -249,23 +284,4 @@ public class InputManager : Singleton<InputManager>
         else if (!enabled && map.enabled) map.Disable();
     }
 
-    // ---------------------------------------------------------------------
-    // Misc existing utilities
-    // ---------------------------------------------------------------------
-
-    private Camera cam;
-    public Camera Camera
-    {
-        get
-        {
-            if (cam == null)
-                cam = Camera.main;
-            return cam;
-        }
-    }
-
-    public Vector2 MousePosition => Camera.ScreenToWorldPoint(Input.mousePosition);
-
-    public bool MouseOverUI =>
-        EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
 }

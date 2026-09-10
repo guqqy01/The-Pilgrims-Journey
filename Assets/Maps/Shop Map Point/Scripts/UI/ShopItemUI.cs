@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 public class ShopItemUI : MonoBehaviour
 {
-    public ShopItem ShopItem;
+    public ShopItem ShopItem { private set; get; }
 
     public EquipmentSO Equipment { private set; get; }
 

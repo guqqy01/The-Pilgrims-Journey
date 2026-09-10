@@ -1,5 +1,8 @@
-﻿namespace Tiles
+﻿using System;
+
+namespace Tiles
 {
+    [Serializable]
     public abstract class Tile<TObject> : TileBase where TObject : ITileable
     {
         protected TObject _object;

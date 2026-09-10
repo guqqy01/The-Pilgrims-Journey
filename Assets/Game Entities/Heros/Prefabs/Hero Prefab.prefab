@@ -160,6 +160,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 216724883
       objectReference: {fileID: 0}
+    - target: {fileID: 8982925330957416297, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -253,7 +257,6 @@ MonoBehaviour:
   visualTransform: {fileID: 6464321656993217688}
   ani: {fileID: 6560823851773087338}
   Deadzone: 0.1
-  moveAction: {fileID: -1680190386980627800, guid: 45925abc50545c641881b6a068043b49, type: 3}
 --- !u!114 &8373047235322333958
 MonoBehaviour:
   m_ObjectHideFlags: 0

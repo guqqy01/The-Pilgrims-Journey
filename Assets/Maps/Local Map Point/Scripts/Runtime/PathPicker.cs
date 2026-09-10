@@ -70,7 +70,7 @@ namespace LocalMap
         }
         private void OnSelect(InputAction.CallbackContext _)
         {
-            Vector3 worldPoint = Cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 worldPoint = Cam.ScreenToWorldPoint(PointerManager.Instance.PointerPosition);
             Collider2D collider = Physics2D.OverlapPoint(worldPoint, pathPickerLayerMask);
 
             if (collider == null)
@@ -100,7 +100,7 @@ namespace LocalMap
             if(!GlobalMapGenerator.Instance.TryPickDirection(direction))
                 return;
 
-            List<Vector2Int> pathPoints = mapGenerator.pathway.PathNodes[direction];
+            List<Vector2Int> pathPoints = mapGenerator.Pathway.PathNodes[direction];
 
             SetPositions(pathPoints);
 
@@ -109,7 +109,7 @@ namespace LocalMap
 
         public void Setup()
         {
-            pathEndPoints = MapGenerator.pathway.ToEndPoints;
+            pathEndPoints = MapGenerator.Pathway.ToEndPoints;
             SetPositions(new List<Vector2Int>());
             foreach (KeyValuePair<Transform, Direction> kvp in pathPickerPoints)
             {
@@ -147,7 +147,7 @@ namespace LocalMap
 
             if(pathPickerPoints.Count != 1 && 
                 PickedDirection.HasValue && 
-                MapGenerator.pathway.ToDirections.Contains((Direction)PickedDirection
+                MapGenerator.Pathway.ToDirections.Contains((Direction)PickedDirection
                 ))
             {
                 PickDirection((Direction)PickedDirection);

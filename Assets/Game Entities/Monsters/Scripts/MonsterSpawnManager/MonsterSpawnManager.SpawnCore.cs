@@ -145,7 +145,7 @@ namespace Monsters
                     Vector2Int cell = point + new Vector2Int(x, y);
 
                     if (occupiedSpots.Contains(cell) ||
-                        Map.pathway.ContainsStep(cell))
+                        Map.Pathway.ContainsStep(cell))
                         return true;
 
                     if (cell.x < 0 || cell.y < 0 ||

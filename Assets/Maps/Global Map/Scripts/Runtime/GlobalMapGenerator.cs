@@ -18,11 +18,8 @@ namespace GlobalMap
 
         public GlobalMapGenerationSettings GenerationSettings;
 
-        [SerializeField]
-        private GlobalMapPoint mapPointPrefab;
-
-        public GlobalMapPoint[,] mapPoints;
-        public List<GlobalMapPoint> takenPath = new List<GlobalMapPoint>();
+        public GlobalMapPoint[,] MapPoints { get; set; }
+        public readonly List<GlobalMapPoint> TakenPath = new List<GlobalMapPoint>();
 
         private Dictionary<GlobalMapPoint, int> _biomeRunLengths = new Dictionary<GlobalMapPoint, int>();
 
@@ -31,12 +28,12 @@ namespace GlobalMap
         {
             get
             {
-                mapPoints ??= new GlobalMapPoint[GenerationSettings.MapSize.x, GenerationSettings.MapSize.y];
+                MapPoints ??= new GlobalMapPoint[GenerationSettings.MapSize.x, GenerationSettings.MapSize.y];
 
-                GlobalMapPoint currentMapPoint = mapPoints[CurrentPosition.x, CurrentPosition.y];
+                GlobalMapPoint currentMapPoint = MapPoints[CurrentPosition.x, CurrentPosition.y];
 
-                if (!takenPath.Contains(currentMapPoint))
-                    takenPath.Add(currentMapPoint);
+                if (!TakenPath.Contains(currentMapPoint))
+                    TakenPath.Add(currentMapPoint);
 
                 return currentMapPoint;
             }
@@ -44,8 +41,8 @@ namespace GlobalMap
             {
                 CurrentPosition = value.Position;
 
-                if (!takenPath.Contains(value))
-                    takenPath.Add(value);
+                if (!TakenPath.Contains(value))
+                    TakenPath.Add(value);
             }
         }
 
@@ -70,7 +67,7 @@ namespace GlobalMap
             Random.InitState(Seed);
             _biomeRunLengths = new Dictionary<GlobalMapPoint, int>();
 
-            mapPoints = new GlobalMapPoint[GenerationSettings.MapSize.x, GenerationSettings.MapSize.y];
+            MapPoints = new GlobalMapPoint[GenerationSettings.MapSize.x, GenerationSettings.MapSize.y];
 
             Vector2Int currentPosition = new Vector2Int(0, Mathf.FloorToInt(GenerationSettings.MapSize.y / 2f));
             Direction currentDirection = Direction.East;
@@ -100,17 +97,17 @@ namespace GlobalMap
     List<GlobalMapPoint> pathPoints)
         {
             GlobalMapPoint mapPoint;
-            bool isNew = mapPoints[position.x, position.y] == null;
+            bool isNew = MapPoints[position.x, position.y] == null;
 
             if (isNew)
             {
                 mapPoint = new GlobalMapPoint(position);
-                mapPoints[position.x, position.y] = mapPoint;
+                MapPoints[position.x, position.y] = mapPoint;
                 mapPoint.Seed = Random.Range(int.MinValue, int.MaxValue);
             }
             else
             {
-                mapPoint = mapPoints[position.x, position.y];
+                mapPoint = MapPoints[position.x, position.y];
             }
 
             if (pathPoints != null && !pathPoints.Contains(mapPoint))
@@ -197,7 +194,7 @@ namespace GlobalMap
         private void AssignBiomes()
         {
             // Seed the start
-            GlobalMapPoint startPoint = mapPoints[0, Mathf.FloorToInt(GenerationSettings.MapSize.y / 2f)];
+            GlobalMapPoint startPoint = MapPoints[0, Mathf.FloorToInt(GenerationSettings.MapSize.y / 2f)];
             if (startPoint != null)
             {
                 startPoint.GenerationSettings = GenerationSettings.startingBiome;
@@ -209,7 +206,7 @@ namespace GlobalMap
             {
                 for (int y = 0; y < GenerationSettings.MapSize.y; y++)
                 {
-                    GlobalMapPoint mapPoint = mapPoints[x, y];
+                    GlobalMapPoint mapPoint = MapPoints[x, y];
 
                     if (mapPoint == null || mapPoint.GenerationSettings != null)
                         continue;
@@ -401,11 +398,11 @@ namespace GlobalMap
 
         #endregion
 
-        #region Save and Load
+       #region Save and Load
 
         public void Save()
         {
-            SaveData saveData = new SaveData(Seed, CurrentPosition, takenPath);
+            SaveData saveData = new SaveData(Seed, CurrentPosition, TakenPath);
             SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
             SaveManager.SaveOver(saveProfile);
         }
@@ -420,11 +417,11 @@ namespace GlobalMap
 
                 CurrentPosition = saveData.CurrentPosition;
 
-                takenPath = new List<GlobalMapPoint>();
+                TakenPath.Clear();
 
                 foreach (Vector2Int position in saveData.takenPath)
                 {
-                    takenPath.Add(mapPoints[position.x, position.y]);
+                    TakenPath.Add(MapPoints[position.x, position.y]);
                 }
 
                 updateUI?.Invoke();

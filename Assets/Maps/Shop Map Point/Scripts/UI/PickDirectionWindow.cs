@@ -15,7 +15,7 @@ public class PickDirectionWindow : MonoBehaviour
         GlobalMapGenerator gMGInstance = GlobalMapGenerator.Instance;
         Dictionary<Direction, GlobalMapPoint> directionAndToPoint = gMGInstance.CurrentMapPoint.connectedToPoints;
 
-        List<Direction> directions = directionAndToPoint.Keys.Where(x => !gMGInstance.takenPath.Contains(directionAndToPoint[x])).ToList();
+        List<Direction> directions = directionAndToPoint.Keys.Where(x => !gMGInstance.TakenPath.Contains(directionAndToPoint[x])).ToList();
 
         northButtonGO.SetActive(directions.Contains(Direction.North));
         eastButtonGO.SetActive(directions.Contains(Direction.East));

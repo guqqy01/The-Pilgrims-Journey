@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using LocalMap.Editor;
 using Monsters;
 namespace LocalMap
 {
@@ -26,6 +25,8 @@ namespace LocalMap
         public float cullingAmount = 0.2f;
 
         public MonsterSpawnSettings MonsterSpawnSettings;
+
+        public LocalMapTheme LocalMapTheme;
 
         public void SetupSeeds()
         {

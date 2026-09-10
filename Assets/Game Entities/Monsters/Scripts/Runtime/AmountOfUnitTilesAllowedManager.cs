@@ -49,7 +49,7 @@ namespace Tiles
             }
         }
 
-        private void OnDestroy()
+        protected override void CleanUp()
         {
             if (tilePlayerTileGrid != null)
             {

@@ -46,8 +46,9 @@ namespace Monsters
             throw new System.NotImplementedException();
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             nextTimeToShrinkAndMove = Time.time + Random.Range(timeToMove.Start, timeToMove.End);
         }
 

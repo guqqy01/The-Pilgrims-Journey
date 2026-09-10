@@ -17,7 +17,7 @@ namespace Monsters
 
         public SerializableDictionary<MonsterSO, BeastaryItem> beastaryItems = new SerializableDictionary<MonsterSO, BeastaryItem>();
 
-        public Dictionary<MonsterSO, int> monstersInLevelBuffer = new Dictionary<MonsterSO, int>();
+        private readonly Dictionary<MonsterSO, int> _monstersInLevelBuffer = new Dictionary<MonsterSO, int>();
 
         public int[] NumberOfEncountedMonstersToUpgradeLockState = new int[4] { 1, 1, 1, 1 };
 
@@ -43,13 +43,13 @@ namespace Monsters
 
         public void BufferMonster(MonsterSO monster)
         {
-            if (monstersInLevelBuffer.ContainsKey(monster))
+            if (_monstersInLevelBuffer.ContainsKey(monster))
             {
-                monstersInLevelBuffer[monster]++;
+                _monstersInLevelBuffer[monster]++;
             }
             else
             {
-                monstersInLevelBuffer.Add(monster, 1);
+                _monstersInLevelBuffer.Add(monster, 1);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Monsters
 
         public void ReleaseBuffer()
         {
-            monstersInLevelBuffer.Clear();
+            _monstersInLevelBuffer.Clear();
         }
 
         public void Save()
@@ -98,7 +98,7 @@ namespace Monsters
 
         public void OnLevelCompleted()
         {
-            foreach (KeyValuePair<MonsterSO, int> kvp in monstersInLevelBuffer)
+            foreach (KeyValuePair<MonsterSO, int> kvp in _monstersInLevelBuffer)
             {
                 if(beastaryItems.ContainsKey(kvp.Key))
                     beastaryItems[kvp.Key].encountered += kvp.Value;

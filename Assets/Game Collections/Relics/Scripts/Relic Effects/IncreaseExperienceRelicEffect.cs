@@ -1,9 +1,9 @@
 ﻿using LevelingSystem;
 using System;
-using Debug = UnityEngine.Debug;
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Experience")]
+    [Serializable]
     public class IncreaseExperienceRelicEffect : StatIncreaseRelicEffect
     {
         public override string StatString => "Experience Gain";

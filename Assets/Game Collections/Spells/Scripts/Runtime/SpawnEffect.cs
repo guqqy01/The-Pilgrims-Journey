@@ -1,34 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using UnityEngine.UIElements;
-using GlobalMap;
-using Tiles;
-using Spells;
+using System;
 
-public class SpawnEffect : SpellEffect
+namespace Spells
 {
-    [SerializeField]
-    private GameObject spawnedObject;
-
-    public override bool CanUseEffect(Vector2Int position)
+    [Serializable]
+    public class SpawnEffect : SpellEffect
     {
-        if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
-            return false;
-        return true;
-    }
+        [SerializeField]
+        private GameObject spawnedObject;
 
-    public override void Effect(Vector2Int origin)
-    {
-        SpellManager spellManager = SpellManager.Instance;
-
-        foreach(Vector2Int position in GetPositions(origin))
+        public override bool CanUseEffect(Vector2Int position)
         {
-            GameObject obj = GameObject.Instantiate(spawnedObject, (Vector2)position, Quaternion.identity, spellManager.transform);
+            if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
+                return false;
+            return true;
+        }
 
-            spellManager.spawnedObjects ??= new List<GameObject>();
+        public override void Effect(Vector2Int origin)
+        {
+            SpellManager spellManager = SpellManager.Instance;
 
-            spellManager.spawnedObjects.Add(obj);
+            foreach (Vector2Int position in GetPositions(origin))
+            {
+                GameObject obj = GameObject.Instantiate(spawnedObject, (Vector2)position, Quaternion.identity, spellManager.transform);
+
+                spellManager.spawnedObjects ??= new List<GameObject>();
+
+                spellManager.spawnedObjects.Add(obj);
+            }
         }
     }
+
 }

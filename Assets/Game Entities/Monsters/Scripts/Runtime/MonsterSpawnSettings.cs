@@ -66,6 +66,7 @@ namespace Monsters
         public int Range { get; }
     }
 
+    [Serializable]
     public class NormalDirectMonsterSpawn : NormalMonsterSpawn, IDirectMonsterSpawn
     {
         [SerializeField]
@@ -78,6 +79,7 @@ namespace Monsters
         public float MaxSpawnDistance => maxSpawnDistance;
     }
 
+    [Serializable]
     public class NormalStationaryMonsterSpawn : NormalMonsterSpawn, IStationaryMonsterSpawn
     {
         [SerializeField]
@@ -119,6 +121,7 @@ namespace Monsters
         public float Count => count;
     }
 
+    [Serializable]
     public class WaveDirectMonsterSpawn : WaveMonsterSpawn, IDirectMonsterSpawn
     {
         [SerializeField]
@@ -130,6 +133,7 @@ namespace Monsters
         public float MaxSpawnDistance => maxSpawnDistance;
     }
 
+    [Serializable]
     public class WaveStationaryMonsterSpawn : WaveMonsterSpawn, IStationaryMonsterSpawn
     {
         [SerializeField]

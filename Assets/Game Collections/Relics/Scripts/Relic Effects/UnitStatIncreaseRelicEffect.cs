@@ -6,6 +6,7 @@ using System;
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Normal")]
+    [Serializable]
     public class UnitStatIncreaseRelicEffect : StatIncreaseRelicEffect
     {
         [SerializeField]

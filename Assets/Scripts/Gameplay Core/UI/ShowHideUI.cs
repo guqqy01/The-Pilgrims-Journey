@@ -35,10 +35,12 @@ namespace Units.UI
             if (canvasGroup == null)
                 return;
 
+            if (!gameObject.activeInHierarchy)
+                return;
+
             if (_showHideCoroutine != null)
                 StopCoroutine(_showHideCoroutine);
 
-            
             _showHideCoroutine = StartCoroutine(ShowHideUICoroutine(true));
             _hiding = false;
             _timeToHideUI = Time.time + hideUITimeLength;
@@ -47,6 +49,9 @@ namespace Units.UI
         private void HideUI()
         {
             if (canvasGroup == null)
+                return;
+
+            if (!gameObject.activeInHierarchy)
                 return;
 
             if (_showHideCoroutine != null)

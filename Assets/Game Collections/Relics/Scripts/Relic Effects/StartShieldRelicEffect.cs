@@ -3,6 +3,7 @@ using Units;
 using System;
 namespace Relics
 {
+    [Serializable]
     public class StartShieldRelicEffect : RelicEffect
     {
         [SerializeField]

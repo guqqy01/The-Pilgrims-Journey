@@ -6867,6 +6867,7 @@ MonoBehaviour:
   beasaryCatalogue: {fileID: 6870044232600456933}
   relicCatalogue: {fileID: 6870044233984071991}
   continueJourneyButton: {fileID: 6870044233360040030}
+  mainMenuTheme: {fileID: 11400000, guid: 4a3345aa53d14e341a86af8873d0eafe, type: 2}
   Deactivated: 0
 --- !u!222 &6870044232240201695
 CanvasRenderer:
@@ -8412,7 +8413,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 33.47, y: -185.50764}
-  m_SizeDelta: {x: 66.94, y: 10.7453}
+  m_SizeDelta: {x: 0, y: 10.7453}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6870044232833324830
 GameObject:
@@ -10064,7 +10065,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 76.785, y: -84.017044}
-  m_SizeDelta: {x: 153.57, y: 10.7453}
+  m_SizeDelta: {x: 0, y: 10.7453}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6870044233392729392
 GameObject:
@@ -10271,7 +10272,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 84.66, y: -134.76234}
-  m_SizeDelta: {x: 169.32, y: 10.7453}
+  m_SizeDelta: {x: 0, y: 10.7453}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6870044233446384186
 GameObject:
@@ -10800,7 +10801,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 58.41, y: -236.25294}
-  m_SizeDelta: {x: 116.82, y: 10.7453}
+  m_SizeDelta: {x: 0, y: 10.7453}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6870044233746090157
 GameObject:

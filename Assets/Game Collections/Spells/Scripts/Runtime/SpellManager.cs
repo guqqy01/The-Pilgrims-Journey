@@ -1,15 +1,15 @@
+using GameManagerCalls;
+using GlobalMap;
+using LocalMap;
+using Spells;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using GameManagerCalls;
-using LocalMap;
 
 namespace Spells
 {
-    public class SpellManager : MonoBehaviour, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad, IOnClear
+    public class SpellManager : Singleton<SpellManager>, ISaveLoad, IOnCompletedLevel, IOnSave, IOnLoad, IOnClear
     {
-        public static SpellManager Instance { get; private set; }
-
         public List<Spell> Spells { private set; get; } = new List<Spell>();
 
         public string SaveFileName => "SpellManagerSave";
@@ -82,11 +82,11 @@ namespace Spells
             if (localMapGenerator == null)
                 localMapGenerator = LocalMapGenerator.Instance;
 
-            HideHighlight();
+            MapTileHighlightManager.Instance.HideHighlight();
 
             ShowHighlight();
 
-            if (Input.GetMouseButtonDown(0))
+            if (InputManager.Instance.Actions.Player.Select.WasPressedThisFrame())
             {
                 UseSpell();
             }
@@ -133,53 +133,26 @@ namespace Spells
             }
         }
 
-        private void HideHighlight()
-        {
-            if (highlightedTiles == null || highlightedTiles.Count == 0)
-                return;
-
-            for (int i = 0; i < highlightedTiles.Count; i++)
-            {
-                if (highlightedTiles[i] != null)
-                    highlightedTiles[i].Highlighted = false;
-            }
-
-            highlightedTiles.Clear();
-        }
-
         public void ShowHighlight()
         {
             if (activeSpell == null || activeSpell.spellSO == null)
                 return;
 
-            Vector2Int position = ((Vector2)cam.ScreenToWorldPoint(Input.mousePosition)).V2ToV2Int();
+            List<MapTileHighlightManager.HighlightInfo> highlightInfos = new List<MapTileHighlightManager.HighlightInfo>();
 
+            Vector2Int position = PointerManager.Instance.PointerWorldPosition.V2ToV2Int();
             bool canUseSpell = activeSpell.spellSO.CanUseSpell(position);
+            Color color = canUseSpell ? activeSpell.spellSO.highlightColor : activeSpell.spellSO.invalidUseColor;
 
             foreach (SpellEffect effect in activeSpell.spellSO.spellEffects)
             {
-                List<Vector2Int> v2IntList = effect.GetPositions(position);
+                MapTileHighlightManager.HighlightInfo highlightInfo = 
+                    new MapTileHighlightManager.HighlightInfo(color, effect.GetPositions(position));
 
-                foreach (Vector2Int v2Int in v2IntList)
-                {
-                    if (localMapGenerator.Tiles != null && v2Int.x >= 0 && v2Int.x < localMapGenerator.Tiles.GetLength(0) && v2Int.y >= 0 && v2Int.y < localMapGenerator.Tiles.GetLength(1))
-                    {
-                        bool[,] boolArray = new bool[3, 3];
-
-                        for (int i = 0; i < boolArray.GetLength(0); i++)
-                        {
-                            for (int j = 0; j < boolArray.GetLength(1); j++)
-                            {
-                                boolArray[i, j] = !v2IntList.Contains(v2Int + new Vector2Int(i, j) - new Vector2Int(1, 1));
-                            }
-                        }
-
-                        localMapGenerator.Tiles[v2Int.x, v2Int.y]?.HighlightWithColor(canUseSpell ? activeSpell.spellSO.highlightColor : activeSpell.spellSO.invalidUseColor, boolArray);
-                        highlightedTiles.Add(localMapGenerator.Tiles[v2Int.x, v2Int.y]);
-                    }
-
-                }
+                highlightInfos.Add(highlightInfo);
             }
+
+            MapTileHighlightManager.Instance.ShowHighlight(highlightInfos);
         }
 
         public void UseSpell()
@@ -190,10 +163,10 @@ namespace Spells
             if (activeSpell == null || activeSpell.numberOfUses <= 0)
                 return;
 
-            if (InputManager.Instance.MouseOverUI)
+            if (PointerManager.Instance.PointerOverUI)
                 return;
 
-            Vector2Int position = ((Vector2)cam.ScreenToWorldPoint(Input.mousePosition)).V2ToV2Int();
+            Vector2Int position = PointerManager.Instance.PointerWorldPosition.V2ToV2Int();
 
             if (!activeSpell.spellSO.CanUseSpell(position))
                 return;

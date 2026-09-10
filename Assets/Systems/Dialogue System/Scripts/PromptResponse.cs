@@ -16,7 +16,7 @@ namespace DialogueSystem
         public NextPromptSetupSettings nextPromptSetupSettings = NextPromptSetupSettings.GoToStart;
         public bool GoneDownPromptPath { get; set; }
 
-        public PromptResponseConditionCallback conditionCallback = new PromptResponseConditionCallback();
+        public readonly PromptResponseConditionCallback ConditionCallback = new PromptResponseConditionCallback();
     }
 
     public class PromptResponseConditionCallback

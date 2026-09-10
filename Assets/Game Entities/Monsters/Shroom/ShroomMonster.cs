@@ -52,7 +52,7 @@ namespace Monsters
                 {
                     if (colliders[i].TryGetComponentInParent(out HealthAndShieldManager healthAndShieldManager))
                     {
-                        OnHitInfo hitInfo = healthAndShieldManager.Damage(damage, (healthAndShieldManager.transform.position - transform.position).normalized);
+                        OnHitInfo hitInfo = healthAndShieldManager.Damage(damage, false, (healthAndShieldManager.transform.position - transform.position).normalized);
 
                         OnDamageUnit(hitInfo);
                     }

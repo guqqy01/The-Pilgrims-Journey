@@ -174,10 +174,6 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
         public InputActionReference NavigateAction;
         public List<GlobalMapPointType> MapPointTypesButtonActiveFor;
 
-        public InputContext InputContext;
-
-        private InputContextHandle _inputContextHandle;
-
         public void Subscribe()
         {
             if(NavigateAction != null)
@@ -194,16 +190,6 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
             }
         }
 
-        public void PushInput()
-        {
-            _inputContextHandle = InputManager.Instance.PushContext(InputContext);
-        }
-
-        public void PopInput()
-        {
-            InputManager.Instance.PopContext(_inputContextHandle);
-        }
-
         private void SubscribeAction(InputAction.CallbackContext context)
         {
             if (!Active)
@@ -211,5 +197,4 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
             Button.onClick.Invoke();
         }
     }
-
 }

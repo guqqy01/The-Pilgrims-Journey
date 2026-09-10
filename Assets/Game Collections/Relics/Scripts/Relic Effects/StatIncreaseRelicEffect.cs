@@ -2,6 +2,7 @@
 using System;
 namespace Relics
 {
+    [Serializable]
     public abstract class StatIncreaseRelicEffect : RelicEffect
     {
         [SerializeField]

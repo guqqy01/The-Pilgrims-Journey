@@ -22,8 +22,6 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
 
     [Header("Rewards")]
     [SerializeField]
-    private int goldAmountPerReward = 50;
-    [SerializeField]
     private int tileWorth = 100;
     public int TileWorth => tileWorth;
     [SerializeField]
@@ -160,7 +158,7 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
             return;
         }
 
-        var pathway = localMapGen.pathway;
+        var pathway = localMapGen.Pathway;
         if (pathway == null)
         {
             Debug.LogWarning("SetupRewards: pathway is null.");

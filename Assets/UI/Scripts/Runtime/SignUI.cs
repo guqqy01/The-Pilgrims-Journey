@@ -165,7 +165,7 @@ namespace LocalMap.UI
                     break;
             }
 
-            AudioManager.Instance.PlayOpenWindow();
+            SFXManager.Instance.PlayOpenWindow();
         }
 
 
@@ -173,20 +173,20 @@ namespace LocalMap.UI
         {
             ShowDirection((Direction)dir);
 
-            AudioManager.Instance.PlayButtonClick();
+            SFXManager.Instance.PlayButtonClick();
         }
 
         public void OnPickDirectionButton()
         {
             PathPicker.Instance.PickDirection(currentDirection);
 
-            AudioManager.Instance.PlayButtonClick();
+            SFXManager.Instance.PlayButtonClick();
         }
 
         public void Close()
         {
             gameObject.SetActive(false);
-            AudioManager.Instance.PlayCloseWindow();
+            SFXManager.Instance.PlayCloseWindow();
         }
 
 

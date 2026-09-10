@@ -10,8 +10,6 @@ namespace Tiles.UI
 
     public class TileUIManager : Singleton<TileUIManager>
     {
-        private InputManager inputManager;
-
         [SerializeField]
         public Canvas canvas;
         public static Canvas Canvas => Instance.canvas;
@@ -25,11 +23,6 @@ namespace Tiles.UI
         [SerializeField]
         private List<TileSO> tilesNotToShowHelper = new List<TileSO>();
 
-        private void Start()
-        {
-            inputManager = InputManager.Instance;
-        }
-
         protected void Awake()
         {
             TileUIEventBus.OnDragTile += DraggingTile;
@@ -38,10 +31,6 @@ namespace Tiles.UI
         protected override void CleanUp()
         {
             TileUIEventBus.OnDragTile -= DraggingTile;
-        }
-
-        private void OnDestroy()
-        {
             TileUIEventBus.Clear();
         }
 

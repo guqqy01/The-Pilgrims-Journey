@@ -13,7 +13,7 @@ public class LayoutContentSizerBaseParent : LayoutContentElement
     private Vector3 _finalAnchoredPosition;
 
     public ParentList<LayoutElementData> LayoutContentParentList = new ParentList<LayoutElementData>();
-    public Dictionary<RectTransform, LayoutElementData> RectAndLayoutContent = new Dictionary<RectTransform, LayoutElementData>();
+    public readonly Dictionary<RectTransform, LayoutElementData> RectAndLayoutContent = new Dictionary<RectTransform, LayoutElementData>();
 
     public void WaitOneFrameThenUpdateLayout()
     {
@@ -86,7 +86,7 @@ public class LayoutContentSizerBaseParent : LayoutContentElement
 
         rectTransformContent = GetComponentsInChildren<RectTransform>(false).ToList();
 
-        RectAndLayoutContent = new Dictionary<RectTransform, LayoutElementData>();
+        RectAndLayoutContent.Clear();
 
         foreach (RectTransform rect in rectTransformContent)
         {

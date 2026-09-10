@@ -137,7 +137,7 @@ public class UnitSpawningManager
         if (tile.UnitSO.unitPrefab == null)
             return false;
 
-        if (LocalMapGenerator.Instance == null ||LocalMapGenerator.Instance.pathway == null)
+        if (LocalMapGenerator.Instance == null ||LocalMapGenerator.Instance.Pathway == null)
         {
             Debug.LogWarning("LocalMapGenerator or pathway missing");
             return false;
@@ -148,7 +148,7 @@ public class UnitSpawningManager
 
     private Unit InstantiateUnit(UnitTile tile, Direction pathDirection)
     {
-        var path = LocalMapGenerator.Instance.pathway.PathNodes[pathDirection];
+        var path = LocalMapGenerator.Instance.Pathway.PathNodes[pathDirection];
         Unit unit = Instantiate(tile.UnitSO.unitPrefab, (Vector2)path[0], Quaternion.identity);
         unit.Init(tile, path, 0);
         SpawnedUnits.Add(unit);

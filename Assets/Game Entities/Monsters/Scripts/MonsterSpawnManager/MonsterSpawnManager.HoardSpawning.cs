@@ -62,6 +62,7 @@ namespace Monsters
             hordeActive = true;
             hordeEndTime = Time.time + hordeLength;
             OnHordeStart?.Invoke(hordeLength);
+            LocalMapThemeManager.Instance.SetState(LocalMapMusicState.Escape);
         }
 
         private void SpawnHordeBatch(float difficulty)

@@ -6,6 +6,7 @@ using Debug = UnityEngine.Debug;
 namespace Relics
 {
     [AbstractTitle("Stat Increase/Luck")]
+    [Serializable]
     public class IncreaseLuckRelicEffect : StatIncreaseRelicEffect
     {
         public override string StatString => "Luck";

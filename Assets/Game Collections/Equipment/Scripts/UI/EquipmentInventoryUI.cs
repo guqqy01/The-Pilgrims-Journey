@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Equipment.UI
 {
-    public class EquipmentInventoryUI : MonoBehaviour
+    public class EquipmentInventoryUI : MonoBehaviour, IComparable<EquipmentInventoryUI>
     {
         [SerializeField]
         protected EquipmentInventory equipmentInventory;
@@ -67,6 +68,11 @@ namespace Equipment.UI
             {
                 containerUIs[i].Clear();
             }
+        }
+
+        public int CompareTo(EquipmentInventoryUI other)
+        {
+            return Inventory.CompareTo(other.Inventory);
         }
     }
 }

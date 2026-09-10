@@ -13,43 +13,45 @@ namespace Attacks.UI
         [SerializeField]
         private Transform heroAttacksHolderTransform;
 
-        private Dictionary<BaseAttack, HeroAttackItemUI> heroAttackItemUIs = new Dictionary<BaseAttack, HeroAttackItemUI>();
+        private readonly Dictionary<BaseAttack, HeroAttackItemUI> _heroAttackItemUIs = new ();
 
         public override void InitiateFromRootAtAwake()
         {
             base.InitiateFromRootAtAwake();
-            WaitForHelper.WaitForObjectThenPerformAction(() => HeroAttacksManager.Instance, SubscribeToHeroAttacksManager);
+            HeroAttacksManager.WhenReady(SubscribeToHeroAttacksManager);
         }
 
-        private void OnDestroy()
+        protected override void CleanUp()
         {
-            if (HeroAttacksManager.Instance == null)
-                return;
-
-            HeroAttacksManager.Instance.OnAddAttackEvent -= CreateHeroAttackItemUI;
-            HeroAttacksManager.Instance.OnAttackLevelChangeEvent -= UpdateHeroAttackItemUI;
-            HeroAttacksManager.Instance.OnRemoveAttackEvent -= RemoveHeroAttackItemUI;
+            HeroAttacksManager.IfReady(UnSubscribeToHeroAttacksManager);
         }
 
-        private void SubscribeToHeroAttacksManager()
+        private void UnSubscribeToHeroAttacksManager(HeroAttacksManager heroAttacksManager)
         {
-            HeroAttacksManager.Instance.OnAddAttackEvent += CreateHeroAttackItemUI;
-            HeroAttacksManager.Instance.OnAttackLevelChangeEvent += UpdateHeroAttackItemUI;
-            HeroAttacksManager.Instance.OnRemoveAttackEvent += RemoveHeroAttackItemUI;
+            heroAttacksManager.OnAddAttackEvent -= CreateHeroAttackItemUI;
+            heroAttacksManager.OnAttackLevelChangeEvent -= UpdateHeroAttackItemUI;
+            heroAttacksManager.OnRemoveAttackEvent -= RemoveHeroAttackItemUI;
+        }
+
+        private void SubscribeToHeroAttacksManager(HeroAttacksManager heroAttacksManager)
+        {
+            heroAttacksManager.OnAddAttackEvent += CreateHeroAttackItemUI;
+            heroAttacksManager.OnAttackLevelChangeEvent += UpdateHeroAttackItemUI;
+            heroAttacksManager.OnRemoveAttackEvent += RemoveHeroAttackItemUI;
         }
 
         public void CreateHeroAttackItemUI(BaseAttack heroAttack)
         {
-            if (heroAttackItemUIs.ContainsKey(heroAttack))
+            if (_heroAttackItemUIs.ContainsKey(heroAttack))
             {
-                if (heroAttackItemUIs[heroAttack] != null)
+                if (_heroAttackItemUIs[heroAttack] != null)
                 {
                     UpdateHeroAttackItemUI(heroAttack);
                     return;
                 }
                 else
                 {
-                    heroAttackItemUIs.Remove(heroAttack);
+                    _heroAttackItemUIs.Remove(heroAttack);
                 }
             }
 
@@ -57,18 +59,18 @@ namespace Attacks.UI
             heroAttackItemUI.UpdateUI(heroAttack);
 
 
-            heroAttackItemUIs.Add(heroAttack, heroAttackItemUI);
+            _heroAttackItemUIs.Add(heroAttack, heroAttackItemUI);
         }
 
         public void UpdateHeroAttackItemUI(BaseAttack heroAttack)
         {
-            heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
+            _heroAttackItemUIs[heroAttack].UpdateUI(heroAttack);
         }
 
         public void RemoveHeroAttackItemUI(BaseAttack heroAttack)
         {
-            Destroy(heroAttackItemUIs[heroAttack].gameObject);
-            heroAttackItemUIs.Remove(heroAttack);
+            Destroy(_heroAttackItemUIs[heroAttack].gameObject);
+            _heroAttackItemUIs.Remove(heroAttack);
         }
     }
 

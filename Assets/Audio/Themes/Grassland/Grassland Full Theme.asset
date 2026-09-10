@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442551f1ac41f1e4f90728f5575553a8, type: 3}
+  m_Name: Grassland Full Theme
+  m_EditorClassIdentifier: Core.Audio::LocalMapTheme
+  Relax: {fileID: 11400000, guid: c83a01eacb439ab448bbdaf82335b109, type: 2}
+  RelaxToPlayImpact:
+    clip: {fileID: 8300000, guid: e971180f29542b34d906dd7ac5176313, type: 3}
+    loop: 0
+    volume: 0.3
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 4
+  Play: {fileID: 11400000, guid: e531e8fdf0671dc43b2c47cc97f23b74, type: 2}
+  PlayToEscapeImpact:
+    clip: {fileID: 8300000, guid: a2df40e86b790b742affa89ca0ca24f6, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 0.3
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 4
+  Escape: {fileID: 11400000, guid: 3ab7e61977ddf654c8ebe080cc2f2fcb, type: 2}

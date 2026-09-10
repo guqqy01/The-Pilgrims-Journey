@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 namespace DialogueSystem
 {
     public class DialogueManager : MonoBehaviour
@@ -64,9 +64,8 @@ namespace DialogueSystem
 
         private void Update()
         {
-            if (!Input.GetKeyDown(KeyCode.Return))
+            if (!InputManager.Dialogue.Skip.WasPressedThisFrame())
                 return;
-
 
             Skip();
         }

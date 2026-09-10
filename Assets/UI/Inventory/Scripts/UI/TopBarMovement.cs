@@ -19,8 +19,6 @@ public class TopBarMovement : Singleton<TopBarMovement>
 
     private bool controlMovementOfBar = true;
 
-    private float currentTopPadding = 0;
-
     private float currentPaddingAsFloat;
 
     [SerializeField]
@@ -73,7 +71,7 @@ public class TopBarMovement : Singleton<TopBarMovement>
         if (!controlMovementOfBar)
             return;
 
-        if(RectTransformUtility.RectangleContainsScreenPoint(topBarLocationRect, Input.mousePosition) || beginReveal)
+        if(RectTransformUtility.RectangleContainsScreenPoint(topBarLocationRect, PointerManager.Instance.PointerPosition) || beginReveal)
         {
             ReviealBar();
         }

@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Monsters;
+using System;
 using System.Collections.Generic;
-using Monsters;
-using Tiles;
+using UnityEngine;
 namespace Spells
 {
+    [Serializable]
     public class StaticShockEffect : SpellEffect
     {
         public float shockTime;

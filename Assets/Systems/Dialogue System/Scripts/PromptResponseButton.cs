@@ -57,9 +57,9 @@ namespace DialogueSystem
             DialogueManager = dialogueManager;
             responseText.text = response.response;
 
-            button.interactable = response.conditionCallback.CanShow();
+            button.interactable = response.ConditionCallback.CanShow();
 
-            if (response.conditionCallback.CanShow())
+            if (response.ConditionCallback.CanShow())
             {
                 responseText.color = response.GoneDownPromptPath ? goneDownPathColor : Color.white;
             }

@@ -168,7 +168,7 @@ public class LocalMapLeaveHelperUI : MonoBehaviour, IOnAfterCreateLocalMap, IOnC
         {
             return Vector2.zero;
         }
-        if (LocalMapGenerator.Instance == null || LocalMapGenerator.Instance.pathway == null)
+        if (LocalMapGenerator.Instance == null || LocalMapGenerator.Instance.Pathway == null)
         {
             return Vector2.zero;
         }
@@ -178,7 +178,7 @@ public class LocalMapLeaveHelperUI : MonoBehaviour, IOnAfterCreateLocalMap, IOnC
         }
 
         Direction pickedDirection = PathPicker.Instance.PickedDirection.Value;
-        return LocalMapGenerator.Instance.pathway.ToEndPoints[pickedDirection];
+        return LocalMapGenerator.Instance.Pathway.ToEndPoints[pickedDirection];
     }
 
     private void Subscribe(MonsterSpawnManager monsterSpawnManager)

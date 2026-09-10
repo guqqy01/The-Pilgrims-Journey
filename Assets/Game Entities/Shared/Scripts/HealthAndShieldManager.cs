@@ -72,18 +72,18 @@ public class HealthAndShieldManager : MonoBehaviour
         UnitMat.SetFloat("_EffectAmount", 0);
     }
 
-    public OnHitInfo Damage(int damage, Vector2 damageDirection, float knockBackMultiplier = 1f)
+    public OnHitInfo Damage(int damage, bool crit, Vector2 damageDirection, float knockBackMultiplier = 1f)
     {
         if (Invunrable)
             return new OnHitInfo(this, false, 0, 0);
 
-        int leftDmg = Shield.DamageShield(damage, damageDirection);
+        int leftDmg = Shield.DamageShield(damage, crit, damageDirection);
 
         OnHitInfo hitInfo = new OnHitInfo(this, leftDmg >= Health.CurrentHealth, damage - leftDmg, Mathf.Min(Health.CurrentHealth, leftDmg));
 
         if (leftDmg > 0)
         {
-            Health.ModifyHealth(-leftDmg, damageDirection, knockBackMultiplier);
+            Health.ModifyHealth(-leftDmg, crit, damageDirection, knockBackMultiplier);
         }
 
         return hitInfo;
@@ -96,18 +96,21 @@ public class HealthAndShieldManager : MonoBehaviour
 
         BuffableStat damage = new BuffableStat(hitStats.Damage);
 
+        bool crit = false;
+
         if(Random.value <= hitStats.CriticalChance / 100f)
         {
+            crit = true;
             damage.AddBuff("Critical", new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, hitStats.CriticalDamageMultiplier, 0, 0));
         }
 
-        int leftDmg = Shield.DamageShield(damage, damageDirection);
+        int leftDmg = Shield.DamageShield(damage, crit, damageDirection);
 
         OnHitInfo hitInfo = new OnHitInfo(this, leftDmg >= Health.CurrentHealth, damage - leftDmg, Mathf.Min(Health.CurrentHealth, leftDmg));
 
         if (leftDmg > 0)
         {
-            Health.ModifyHealth(-leftDmg, damageDirection, hitStats.Knockback);
+            Health.ModifyHealth(-leftDmg, crit, damageDirection, hitStats.Knockback);
         }
 
         return hitInfo;

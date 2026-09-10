@@ -39,7 +39,7 @@ namespace Monsters
                 return;
 
             weightMap = new EnemySpawnWeightMap(
-                Map.pathway,
+                Map.Pathway,
                 _allActiveSpawnSettings.Select(x => x.settings),
                 Map.MapSizeX,
                 Map.MapSizeY);

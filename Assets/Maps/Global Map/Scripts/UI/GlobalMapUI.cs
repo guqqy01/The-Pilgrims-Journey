@@ -44,7 +44,7 @@ namespace GlobalMap.UI
         [Header("Line UI")]
         [SerializeField] private Transform lineParentTransform;
         [SerializeField] private GlobalMapLineUI MapLinePrefab;
-        [SerializeField] private float lineColorChangeSpeed = 1;
+        
         private readonly Dictionary<GlobalMapPoint, Dictionary<GlobalMapPoint, GlobalMapLineUI>> toPointFromPointLine = new ();
         [SerializeField] private float lineWidth;
         [SerializeField] private Color defaultPathColor;
@@ -131,7 +131,7 @@ namespace GlobalMap.UI
             toPointFromPointLine.Clear();
 
             var gen = Generator;
-            if (gen == null || gen.mapPoints == null)
+            if (gen == null || gen.MapPoints == null)
                 return;
 
             // cache commonly used values per update
@@ -140,7 +140,7 @@ namespace GlobalMap.UI
             GlobalMapPointUI lastPathMapPoint = null;
 
             // Create new UI for points
-            foreach (GlobalMapPoint point in gen.mapPoints)
+            foreach (GlobalMapPoint point in gen.MapPoints)
             {
                 if (point == null)
                     continue;
@@ -151,7 +151,7 @@ namespace GlobalMap.UI
                 globalMapPoints.Add(pointUI);
                 SetupLinesMainUI(point, canvasScaleX);
                 SetupArrows(point);
-                if (gen.takenPath.Contains(point))
+                if (gen.TakenPath.Contains(point))
                 {
                     pointUI.Color = takenPointColor;
                     lastPathMapPoint = pointUI;
@@ -195,7 +195,7 @@ namespace GlobalMap.UI
         private List<GlobalMapLineUI> GetTakenPathLines()
         {
             var linesOnPath = new List<GlobalMapLineUI>();
-            var path = Generator?.takenPath;
+            var path = Generator?.TakenPath;
             if (path == null)
                 return linesOnPath;
 

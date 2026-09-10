@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-
+using System;
+[Serializable]
 public class EditorMenuToolbarWindow
 {
     protected List<IEditorMenuToolbarTab> _tabs = new List<IEditorMenuToolbarTab>();

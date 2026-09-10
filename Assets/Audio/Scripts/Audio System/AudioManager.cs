@@ -4,50 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager Instance { get; private set; }
-
-    [SerializeField]
-    private AudioSource mainMusicThemeSource;
-
     private readonly AudioManagerSourcesContainer audioSourceContainer = new AudioManagerSourcesContainer();
 
     [Header("Pooling")]
     [SerializeField] private int initialPoolSize = 8;
     private readonly Queue<AudioSource> pooledSources = new Queue<AudioSource>();
 
-    [Header("UI")]
-    [SerializeField] private AudioClipAndSettings buttonClick;
-    [SerializeField] private AudioClipAndSettings openWindow;
-    [SerializeField] private AudioClipAndSettings closeWindow;
-    [Header("Tiles")]
-    [SerializeField] private AudioClipAndSettings selectTile;
-    [SerializeField] private AudioClipAndSettings deselectTile;
-    [SerializeField] private AudioClipAndSettings pickupTile;
-    [SerializeField] private AudioClipAndSettings moveTile;
-    [SerializeField] private AudioClipAndSettings cancelMoveTile;
-    [SerializeField] private AudioClipAndSettings placeTile;
-    [SerializeField] private AudioClipAndSettings rotateTile;
-    [Header("Equipment")]
-    [SerializeField] private AudioClipAndSettings selectEquipment;
-    public void PlayButtonClick() => buttonClick.Play();
-    public void PlayOpenWindow() => openWindow.Play();
-    public void PlayCloseWindow() => closeWindow.Play();
-    public void PlaySelectTile() => selectTile.Play();
-    public void PlayDeselectTile() => deselectTile.Play();
-    public void PlayPickupTile() => pickupTile.Play();
-    public void PlayMoveTile() => moveTile.Play();
-    public void PlayCancelMoveTile() => cancelMoveTile.Play();
-    public void PlayPlaceTile() => placeTile.Play();
-    public void PlayRotateTile() => rotateTile.Play();
-    public void PlaySelectEquipment() => selectEquipment.Play();
-
     [Range(0f, 1f)]
     public float MasterVolume = 0.5f;
-
-    [SerializeField]
-    private List<AudioClipAndSettings> mainThemes;
 
     private readonly Dictionary<AudioType, float> audioTypeAndVolume = new Dictionary<AudioType, float>()
     {
@@ -63,6 +29,9 @@ public class AudioManager : MonoBehaviour
 
     public void UnregisterExternalSource(AudioSource source)
         => audioSourceContainer.RemoveSource(source);
+
+    public void UpdateExternalSource(AudioSource source, AudioClipAndSettings settings)
+        => audioSourceContainer.UpdateSettings(source, settings);
 
     public void SetMasterVolume(float volume)
     {
@@ -86,13 +55,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
+        base.InitiateFromRootAtAwake();
 
         for (int i = 0; i < initialPoolSize; i++)
             pooledSources.Enqueue(CreatePooledSource());
@@ -105,41 +68,7 @@ public class AudioManager : MonoBehaviour
         return source;
     }
 
-    private void Start()
-    {
-        if (mainThemes.Count > 0)
-            StartCoroutine(CycleMainThemes());
-    }
-
-    private bool mainThemeRegistered;
-
-    private IEnumerator CycleMainThemes()
-    {
-        int currentIndex = 0;
-        while (true)
-        {
-            if (mainMusicThemeSource.clip == null || (mainMusicThemeSource.time >= mainMusicThemeSource.clip.length && !mainMusicThemeSource.isPlaying))
-            {
-                AudioClipAndSettings audioClipAndSettings = new AudioClipAndSettings(mainThemes[currentIndex]) { loop = false };
-                SetUpAudioSource(mainMusicThemeSource, audioClipAndSettings);
-
-                if (!mainThemeRegistered)
-                {
-                    audioSourceContainer.Add(mainMusicThemeSource, audioClipAndSettings, AudioType.Music, AudioSourceLifecycle.PersistentExternal);
-                    mainThemeRegistered = true;
-                }
-                else
-                {
-                    audioSourceContainer.UpdateSettings(mainMusicThemeSource, audioClipAndSettings);
-                }
-
-                mainMusicThemeSource.Play();
-                currentIndex = (currentIndex + 1) % mainThemes.Count;
-            }
-            yield return null;
-        }
-    }
-
+    
     public AudioSource PlayClipOnObject(AudioClipAndSettings clip, GameObject obj)
     {
         if (clip?.clip == null)
@@ -266,6 +195,21 @@ public class AudioManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public IEnumerator FadeInAudioOverTime(AudioSource source, float targetVolume, float seconds)
+    {
+        float startTime = Time.time;
+        float finishTime = Time.time + seconds;
+
+        while (Time.time < finishTime)
+        {
+            float t = Mathf.Clamp01(Mathf.InverseLerp(startTime, finishTime, Time.time));
+            source.volume = targetVolume * t;
+            yield return null;
+        }
+
+        source.volume = targetVolume;
     }
 
     private IEnumerator WaitForEndOfAudio(AudioSource source, AudioSourceLifecycle lifecycle)

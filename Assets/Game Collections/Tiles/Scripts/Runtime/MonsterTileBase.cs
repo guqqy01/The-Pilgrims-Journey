@@ -1,6 +1,8 @@
 ﻿using Monsters;
+using System;
 namespace Tiles
 {
+    [Serializable]
     public abstract class MonsterTileBase : Tile<MonsterSpawn>
     {
         public MonsterSpawn MonsterSpawnBase => TiledObject as MonsterSpawn;

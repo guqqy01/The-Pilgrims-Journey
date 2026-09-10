@@ -10,7 +10,7 @@ namespace LocalMap
 {
     public class LocalMapGenerator : Singleton<LocalMapGenerator>, IOnClear, IOnCreateLocalMap
     {
-        public Pathway pathway;
+        public Pathway Pathway { private set; get; }
 
         public AutoTileSettings autoBaseTileSettings;
 
@@ -32,13 +32,10 @@ namespace LocalMap
         [SerializeField] private float biomeBlendNoiseScale = 0.15f;
         [SerializeField] private float biomeBlendNoiseStrength = 0.25f;
 
-
-
         [SerializeField, HideInInspector]
         public List<GameObject> mapObjectGOs;
 
-        [SerializeField]
-        private Dictionary<string, int> mapObjects = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _mapObjects = new Dictionary<string, int>();
 
         public MinMaxCurve targetDirectionVSLevelCurve;
         public MinMaxCurve traverseDirectionVSLevelCurve;
@@ -50,7 +47,7 @@ namespace LocalMap
         public Dictionary<GameObject, Direction> RoadSigns { get; private set; } = new Dictionary<GameObject, Direction>();
 
         private List<Vector2Int> occupiedSpots = new List<Vector2Int>();
-        public List<Direction> TargetDirections => pathway.ToDirections;
+        public List<Direction> TargetDirections => Pathway.ToDirections;
         public Direction StartWall { get; private set; }
         public int MapSizeX => mapSizeX;
         public int MapSizeY => mapSizeY;
@@ -439,11 +436,11 @@ namespace LocalMap
 
             Direction startWall = Direction.West;
 
-            if (generator.takenPath.Count > 1)
+            if (generator.TakenPath.Count > 1)
             {
                 foreach (var dirAndPoint in generator.CurrentMapPoint.connectedFromPoints)
                 {
-                    if (dirAndPoint.Value == generator.takenPath[generator.takenPath.Count - 2])
+                    if (dirAndPoint.Value == generator.TakenPath[generator.TakenPath.Count - 2])
                     {
                         startWall = dirAndPoint.Key;
                         break;
@@ -499,6 +496,8 @@ namespace LocalMap
                                                            MapGenerationPreviewSettings.TerrainNoise,
             List<(Direction direction, LocalMapGenerationSettings settings)> blends = null)
         {
+            LocalMapThemeManager.Instance.ChangeMapTheme(generationSettings.LocalMapTheme);
+
             _activeBlends = blends ?? new List<(Direction, LocalMapGenerationSettings)>();
 
             Clear();
@@ -513,7 +512,7 @@ namespace LocalMap
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.BaseTiles))
             {
                 CreatePath(startWall, toDirections, otherFromDirections);
-                pathway.CreatePaths();
+                Pathway.CreatePaths();
                 PlaceRoadSigns();
             }
 
@@ -876,10 +875,10 @@ namespace LocalMap
 
             mapObjectGOs.Add(spawnedObject);
 
-            if (mapObjects.ContainsKey(name))
-                mapObjects[name]++;
+            if (_mapObjects.ContainsKey(name))
+                _mapObjects[name]++;
             else
-                mapObjects.Add(name, 1);
+                _mapObjects.Add(name, 1);
 
             for (int x = 0; x < xSize; x++)
                 for (int y = 0; y < ySize; y++)
@@ -896,10 +895,10 @@ namespace LocalMap
                 Quaternion.identity,
                 transform));
 
-            if (mapObjects.ContainsKey(mapObject.name))
-                mapObjects[mapObject.name]++;
+            if (_mapObjects.ContainsKey(mapObject.name))
+                _mapObjects[mapObject.name]++;
             else
-                mapObjects.Add(mapObject.name, 1);
+                _mapObjects.Add(mapObject.name, 1);
 
             for (int x = 0; x < mapObject.size.x; x++)
                 for (int y = 0; y < mapObject.size.y; y++)
@@ -918,7 +917,7 @@ namespace LocalMap
                             yPos > mapSizeY ||
                             (useVisualPath ? 
                                 pathGrid != null && xPos < pathGrid.GetLength(0) && yPos < pathGrid.GetLength(1) && pathGrid[xPos, yPos] : 
-                                pathway != null && pathway.ContainsStep(new Vector2Int(xPos, yPos)))
+                                Pathway != null && Pathway.ContainsStep(new Vector2Int(xPos, yPos)))
                         )
                     {
                         return true;
@@ -1013,15 +1012,15 @@ namespace LocalMap
         {
             HashSet<Vector2Int> positions = new HashSet<Vector2Int>();
 
-            if (pathway?.AllDirections == null)
+            if (Pathway?.AllDirections == null)
                 return positions;
 
             int pathHalfWidth = Mathf.Max(1, Mathf.RoundToInt(generationSettings.pathWidthRange.x));
 
             // Extend every path's exit stub (the wall each direction heads out towards)
-            foreach (Direction direction in pathway.AllDirections)
+            foreach (Direction direction in Pathway.AllDirections)
             {
-                if (!pathway.SectionNodesPaths.TryGetValue(direction, out List<Vector2Int> nodes) || nodes.Count == 0)
+                if (!Pathway.SectionNodesPaths.TryGetValue(direction, out List<Vector2Int> nodes) || nodes.Count == 0)
                     continue;
 
                 Vector2Int exitPoint = nodes[nodes.Count - 1];
@@ -1031,8 +1030,8 @@ namespace LocalMap
             // Extend the entrance stub too — only ToDirections[0] actually starts
             // at pathStart (placed at StartWall, one tile outside the map); every
             // other direction's path starts at an internal node instead.
-            if (pathway.ToDirections.Count > 0 &&
-                pathway.SectionNodesPaths.TryGetValue(pathway.ToDirections[0], out List<Vector2Int> primaryNodes) &&
+            if (Pathway.ToDirections.Count > 0 &&
+                Pathway.SectionNodesPaths.TryGetValue(Pathway.ToDirections[0], out List<Vector2Int> primaryNodes) &&
                 primaryNodes.Count > 0)
             {
                 Vector2Int entrancePoint = primaryNodes[0];
@@ -1078,7 +1077,7 @@ namespace LocalMap
 
             int closestDistance = int.MaxValue;
 
-            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in pathway.SectionNodesPaths)
+            foreach (KeyValuePair<Direction, List<Vector2Int>> directionAndPath in Pathway.SectionNodesPaths)
             {
                 List<Vector2Int> path = directionAndPath.Value;
 
@@ -1202,7 +1201,7 @@ namespace LocalMap
             foreach (var (_, blendSettings) in _activeBlends)
                 blendSettings?.SetupSeeds();
 
-            pathGrid = pathway != null ? GetPathGrid(generationSettings) : null;
+            pathGrid = Pathway != null ? GetPathGrid(generationSettings) : null;
 
             for (int xPos = 0; xPos < mapSizeX; xPos++)
             {
@@ -1300,7 +1299,7 @@ namespace LocalMap
             {
                 for (int yPos = 0; yPos < mapSizeY; yPos++)
                 {
-                    bool containsStep = pathway.ContainsStep(new Vector2Int(xPos, yPos));
+                    bool containsStep = Pathway.ContainsStep(new Vector2Int(xPos, yPos));
                     mainPathGrid[xPos, yPos] = containsStep;
                     noiseGrid[xPos, yPos] = containsStep ? 1f : 0f;
                 }
@@ -1397,7 +1396,7 @@ namespace LocalMap
         {
             DestoryRoadSigns();
             
-            Dictionary<Direction, Vector2Int> endPoints = pathway.ToEndPoints;
+            Dictionary<Direction, Vector2Int> endPoints = Pathway.ToEndPoints;
 
             foreach(KeyValuePair<Direction, Vector2Int> kvp in endPoints)
             {
@@ -1450,20 +1449,20 @@ namespace LocalMap
                     break;
             }
 
-            pathway = new Pathway(toDirections, otherFromDirections);
+            Pathway = new Pathway(toDirections, otherFromDirections);
 
             for (int i = 0; i < toDirections.Count; i++)
             {
                 Vector2Int startPoint = i == 0 ? pathStart : GetClosestNodeToTargetDirection(toDirections[i]);
-                pathway[toDirections[i]].Add(startPoint);
-                CreatePathFromStartToTargetDirection(pathway[toDirections[i]], startPoint, i == 0 ? startWall.OppositeDirection() : toDirections[i], toDirections[i]);
+                Pathway[toDirections[i]].Add(startPoint);
+                CreatePathFromStartToTargetDirection(Pathway[toDirections[i]], startPoint, i == 0 ? startWall.OppositeDirection() : toDirections[i], toDirections[i]);
             }
 
             for (int i = 0; i < otherFromDirections.Count; i++)
             {
                 Vector2Int startPoint = GetClosestNodeToTargetDirection(otherFromDirections[i]);
-                pathway[otherFromDirections[i]].Add(startPoint);
-                CreatePathFromStartToTargetDirection(pathway[otherFromDirections[i]], startPoint, otherFromDirections[i], otherFromDirections[i]);
+                Pathway[otherFromDirections[i]].Add(startPoint);
+                CreatePathFromStartToTargetDirection(Pathway[otherFromDirections[i]], startPoint, otherFromDirections[i], otherFromDirections[i]);
             }
         }
 

@@ -1,5 +1,6 @@
 using Heros;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace LocalMap
 {
@@ -38,11 +39,6 @@ namespace LocalMap
 
         [SerializeField] private float bottomPaddingPixels;
         public float BottomPaddingPixels { get { return bottomPaddingPixels; } }
-
-        private KeyCode cameraMovementLeft = KeyCode.LeftArrow;
-        private KeyCode cameraMovementRight = KeyCode.RightArrow;
-        private KeyCode cameraMovementUp = KeyCode.UpArrow;
-        private KeyCode cameraMovementDown = KeyCode.DownArrow;
 
         private int MapSizeX => LocalMapGenerator.Instance.MapSizeX;
         private int MapSizeY => LocalMapGenerator.Instance.MapSizeY;
@@ -155,37 +151,26 @@ namespace LocalMap
 
         private void MoveCamera()
         {
-            float moveX = (Input.GetKey(cameraMovementRight) ? 1 : 0) - (Input.GetKey(cameraMovementLeft) ? 1 : 0);
-            float moveY = (Input.GetKey(cameraMovementUp) ? 1 : 0) - (Input.GetKey(cameraMovementDown) ? 1 : 0);
-
-            if (moveX != 0 || moveY != 0)
-            {
-                CameraLocked = false;
-            }
-
-            Vector3 move = new Vector3(moveX, moveY, 0f).normalized * cameraSpeed * Time.deltaTime;
+            Vector3 move = InputManager.Player.Look.ReadValue<Vector2>() * cameraSpeed * Time.deltaTime;
             transform.position += move;
         }
 
         private void HandleMouseDrag()
         {
-            if (Input.GetMouseButtonDown(0) && !InputManager.Instance.MouseOverUI)
+            if (InputManager.Player.Select.WasPressedThisFrame() && !PointerManager.Instance.PointerOverUI)
             {
-                // Reading from the live Camera for screen->world mapping is fine
-                // here (a frame of shake jitter on the drag origin is imperceptible),
-                // it's only the WRITE side that must target the rig.
-                dragOrigin = Cam.ScreenToWorldPoint(Input.mousePosition);
+                dragOrigin = Cam.ScreenToWorldPoint(PointerManager.Instance.PointerPosition);
                 isDragging = true;
             }
 
-            if (Input.GetMouseButton(0) && isDragging)
+            if (InputManager.Player.Select.IsPressed() && isDragging)
             {
-                Vector3 currentPos = Cam.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 currentPos = Cam.ScreenToWorldPoint(PointerManager.Instance.PointerPosition);
                 Vector3 difference = dragOrigin - currentPos;
                 transform.position += difference;
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (InputManager.Player.Select.WasReleasedThisFrame())
             {
                 isDragging = false;
             }
@@ -193,13 +178,13 @@ namespace LocalMap
 
         private void ZoomCamera()
         {
-            if (Input.mouseScrollDelta.y == 0)
+            if (Mouse.current.scroll.value.y == 0)
                 return;
 
-            if (InputManager.Instance.MouseOverUI)
+            if (PointerManager.Instance.PointerOverUI)
                 return;
 
-            float newSize = Cam.orthographicSize - Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
+            float newSize = Cam.orthographicSize - InputManager.Player.Zoom.ReadValue<Vector2>().y * zoomSpeed * Time.deltaTime;
             newSize = Mathf.Clamp(newSize, zoomMin, MaxZoom);
             Cam.orthographicSize = newSize;
         }

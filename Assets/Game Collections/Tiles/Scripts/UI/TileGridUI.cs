@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Tiles.UI
@@ -325,7 +326,7 @@ namespace Tiles.UI
 
         public Vector2Int GetMouseGridPosition()
         {
-            return GetGridPosition(Input.mousePosition);
+            return GetGridPosition(Mouse.current.position.ReadValue());
         }
 
         public bool IsWorldPositionInGrid(Vector2 position)

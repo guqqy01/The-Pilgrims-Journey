@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3204250450437610802
 Transform:
   m_ObjectHideFlags: 0
@@ -34,6 +34,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6159565328224101697
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -77,8 +78,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 777387971
-  m_SortingLayer: 5
+  m_SortingLayer: 11
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 671379226, guid: c7ae8f01d1851d148b17a29341e4577e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -88,8 +90,8 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!1 &6604227401521860522
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +195,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -276,17 +279,18 @@ MonoBehaviour:
   floatSpeed: 1
   duration: 1
   floatOffset: {x: 0, y: 1, z: 0}
-  hitSpeed: 5
-  fallOfHitSpeed: 5
-  spriteRenderer: {fileID: 6159565328224101697}
-  redHeartSprite: {fileID: -112891981, guid: c7ae8f01d1851d148b17a29341e4577e, type: 3}
-  blueHeartSprite: {fileID: 671379226, guid: c7ae8f01d1851d148b17a29341e4577e, type: 3}
+  healthDamageColor: {r: 1, g: 1, b: 1, a: 1}
+  shieldDamageColor: {r: 1, g: 1, b: 1, a: 1}
+  healthCritDamageColor: {r: 1, g: 0.41890383, b: 0, a: 1}
+  shieldCritDamageColor: {r: 1, g: 0.41960785, b: 0, a: 1}
+  critSizeMultiplier: 1.5
+  critMovementMultiplier: 1.2
   sizeOverLife:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.333
+      value: 0.666
       inSlope: -0.011834035
       outSlope: -0.011834035
       tangentMode: 0
@@ -295,7 +299,7 @@ MonoBehaviour:
       outWeight: 0.07844178
     - serializedVersion: 3
       time: 0.3
-      value: 1
+      value: 1.75
       inSlope: -0.0024048386
       outSlope: -0.0024048386
       tangentMode: 0
@@ -304,7 +308,7 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 0.8
-      value: 1
+      value: 1.75
       inSlope: 0.0003585092
       outSlope: 0.0003585092
       tangentMode: 0
@@ -323,6 +327,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  hitSpeed: 5
+  fallOfHitSpeed: 5
 --- !u!1 &9217576568149150231
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +386,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 777387971

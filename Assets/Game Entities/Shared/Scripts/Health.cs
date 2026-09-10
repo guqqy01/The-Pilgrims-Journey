@@ -43,29 +43,16 @@ public class Health : MonoBehaviour
         previousMaxHealth = MaxHealth;
         CurrentHealth = MaxHealth;
 
-        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, HitInfoType.Init, CurrentHealth, CurrentHealth);
+        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, HitInfoType.Init, CurrentHealth, CurrentHealth, false);
 
         onHealthChange?.Invoke(statChangeInfo);
     }
 
-    public void Init(int maxHealth)
-    {
-        this.maxHealth = new BuffableStat(maxHealth);
-
-        this.maxHealth.onValueChange += OnMaxHealthChanged;
-
-        CurrentHealth = MaxHealth;
-
-        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, HitInfoType.Init, CurrentHealth, CurrentHealth);
-
-        onHealthChange?.Invoke(statChangeInfo);
-    }
-
-    public void ModifyHealth(int amount, Vector2 hitDirection = new Vector2(), float knockBackMultiplier = 0)
+    public void ModifyHealth(int amount, bool crit = false, Vector2 hitDirection = new Vector2(), float knockBackMultiplier = 0)
     {
         CurrentHealth = Mathf.Clamp(amount + CurrentHealth, 0, MaxHealth);
 
-        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, amount, CurrentHealth, hitDirection, knockBackMultiplier);
+        StatChangeInfo statChangeInfo = new StatChangeInfo(HitStatType.Health, amount, CurrentHealth, crit, hitDirection, knockBackMultiplier);
 
         onHealthChange?.Invoke(statChangeInfo);
 
@@ -109,7 +96,7 @@ public class StatChangeInfo
     public readonly float KnockBackMultiplier;
     public readonly HitStatType Stat;
     public readonly HitInfoType HitInfoType;
-
+    public readonly bool Crit;
     public void Debug()
     {
         UnityEngine.Debug.Log($"Current Amount : {CurrentAmount}\r\n" +
@@ -120,7 +107,7 @@ public class StatChangeInfo
             $"InfoType : {HitInfoType}");
     }
 
-    public StatChangeInfo(HitStatType hitStatType, int modifyAmount, int currentAmount, Vector2 hitDirection = new Vector2(), float knockBackMultiplier = 0)
+    public StatChangeInfo(HitStatType hitStatType, int modifyAmount, int currentAmount, bool crit, Vector2 hitDirection = new Vector2(), float knockBackMultiplier = 0)
     {
         Stat = hitStatType;
         CurrentAmount = currentAmount;
@@ -132,13 +119,13 @@ public class StatChangeInfo
         {
             HitInfoType = HitInfoType.Damage;
         }
-
+        Crit = crit;
         ChangeAmount = Mathf.Abs(modifyAmount);
         HitDirection = hitDirection;
         KnockBackMultiplier = knockBackMultiplier;
     }
 
-    public StatChangeInfo(HitStatType hitStatType, HitInfoType hitInfoType,int modifyAmount, int currentAmount, Vector2 hitDirection = new Vector2(), float knockBackMultiplier = 0)
+    public StatChangeInfo(HitStatType hitStatType, HitInfoType hitInfoType,int modifyAmount, int currentAmount, bool crit, Vector2 hitDirection = new Vector2(), float knockBackMultiplier = 0)
     {
         Stat = hitStatType;
         HitInfoType = hitInfoType;
@@ -146,6 +133,7 @@ public class StatChangeInfo
         ChangeAmount = Mathf.Abs(modifyAmount);
         HitDirection = hitDirection;
         KnockBackMultiplier = knockBackMultiplier;
+        Crit = crit;
     }
 }
 

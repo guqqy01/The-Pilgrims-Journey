@@ -20,7 +20,7 @@ public class DirectionChoiceManager : Singleton<DirectionChoiceManager>
 
         foreach (Direction direction in GlobalMapGenerator.Instance.CurrentMapPoint.connectedToPoints.Keys) 
         {
-            if (GlobalMapGenerator.Instance.takenPath.Contains(GlobalMapGenerator.Instance.CurrentMapPoint.connectedToPoints[direction]))
+            if (GlobalMapGenerator.Instance.TakenPath.Contains(GlobalMapGenerator.Instance.CurrentMapPoint.connectedToPoints[direction]))
                 continue;
 
             PromptResponse response = new PromptResponse() { response = direction.ToString()};

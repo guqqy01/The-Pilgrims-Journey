@@ -21,6 +21,7 @@ public class DamagePopupEffectReciever : DamageRecieverEffect
             transform.position,
             shieldChangeInfo.ChangeAmount,
             false,
+            shieldChangeInfo.Crit,
             shieldChangeInfo.HitDirection
         );
     }
@@ -40,6 +41,7 @@ public class DamagePopupEffectReciever : DamageRecieverEffect
             transform.position,
             healthChangeInfo.ChangeAmount,
             true,
+            healthChangeInfo.Crit,
             healthChangeInfo.HitDirection
         );
     }

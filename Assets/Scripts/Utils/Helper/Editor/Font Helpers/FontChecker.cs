@@ -8,7 +8,7 @@ public class FontChecker
     [MenuItem("Tools/Check Missing Fonts")]
     public static void CheckFonts()
     {
-        var texts = GameObject.FindObjectsByType<Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        var texts = GameObject.FindObjectsByType<Text>(FindObjectsInactive.Include);
         int missingFonts = 0;
         foreach (var text in texts)
         {

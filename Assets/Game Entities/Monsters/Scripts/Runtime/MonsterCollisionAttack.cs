@@ -33,7 +33,7 @@ public class MonsterCollisionAttack : MonoBehaviour
         if (Time.time >= nextAllowed)
         {
             Vector3 dir = (collision.transform.position - transform.position).normalized;
-            health.Damage(damage, dir, knockback);
+            health.Damage(damage, false, dir, knockback);
 
             hitCooldowns[health] = Time.time + attackCooldown;
         }

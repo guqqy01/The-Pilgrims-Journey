@@ -25,27 +25,27 @@ namespace Spells.UI
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (InputManager.Instance.Actions.Spell.SelectSpell1.WasPressedThisFrame())
             {
                 Spell1Button();
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (InputManager.Instance.Actions.Spell.SelectSpell2.WasPressedThisFrame())
             {
                 Spell2Button();
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (InputManager.Instance.Actions.Spell.SelectSpell3.WasPressedThisFrame())
             {
                 Spell3Button();
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha4))
+            if (InputManager.Instance.Actions.Spell.SelectSpell4.WasPressedThisFrame())
             {
                 Spell4Button();
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (InputManager.Instance.Actions.Spell.CancelSpell.WasPressedThisFrame())
             {
                 manager.ActivateSpell(null);
             }
@@ -81,7 +81,9 @@ namespace Spells.UI
         public void Spell1Button()
         {
             if (spellUIItems[0].spell != null && spellUIItems[0].spell.numberOfUses > 0)
+            {
                 manager.ActivateSpell(spellUIItems[0].spell);
+            }
         }
 
         public void Spell2Button()

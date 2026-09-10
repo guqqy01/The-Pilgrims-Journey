@@ -51,11 +51,11 @@ namespace UI
             pool.Release(damagePopup);
         }
 
-        public void SpawnPopup(Vector3 position, int value, bool isHealthDamage, Vector3 direction)
+        public void SpawnPopup(Vector3 position, int value, bool isHealthDamage, bool crit, Vector3 direction)
         {
             DamagePopup popup = pool.Get();
             popup.transform.position = position;
-            popup.Setup(value, isHealthDamage, direction, () => Release(popup));
+            popup.Setup(value, isHealthDamage, crit, direction, () => Release(popup));
         }
     }
 }

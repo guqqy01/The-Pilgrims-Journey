@@ -15,7 +15,7 @@ namespace Attacks.Melee
         {
             float rotation;
 
-            Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            Vector2 inputDirection = InputManager.Instance.Actions.Player.Move.ReadValue<Vector2>();
 
             if (inputDirection.sqrMagnitude > 0.1f)
             {
@@ -60,16 +60,6 @@ namespace Attacks.Melee
         protected override void InheritLevelSetup()
         {
 
-        }
-
-        private Transform GetOrCreatePoolParent()
-        {
-            GameObject poolParent = GameObject.Find("Pools");
-            if (poolParent == null)
-            {
-                poolParent = new GameObject("Pools");
-            }
-            return poolParent.transform;
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using Units;
-using GlobalMap;
-using Monsters;
-using static UnityEngine.UI.Image;
+using System;
+
 
 namespace Spells
 {
+    [Serializable]
     public class HealEffect : SpellEffect
     {
         public int HealAmount = 10;

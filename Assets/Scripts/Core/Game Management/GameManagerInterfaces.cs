@@ -126,7 +126,7 @@ namespace GameManagerCalls
             var results = new List<T>();
 
             // Use Unity's search to include inactive objects too. Keep this as a single place for discovery.
-            foreach (var mono in UnityEngine.Object.FindObjectsByType(typeof(MonoBehaviour), FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var mono in UnityEngine.Object.FindObjectsByType(typeof(MonoBehaviour), FindObjectsInactive.Include))
             {
                 if (mono is IGameManagerCallInterface g && g is T typed)
                     results.Add(typed);

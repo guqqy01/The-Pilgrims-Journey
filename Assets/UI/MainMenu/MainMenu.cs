@@ -20,6 +20,9 @@ public class MainMenu : Singleton<MainMenu>
     [SerializeField]
     private Button continueJourneyButton;
 
+    [SerializeField]
+    private Theme mainMenuTheme;
+
     public bool Deactivated = false;
 
     private void Awake()
@@ -39,6 +42,7 @@ public class MainMenu : Singleton<MainMenu>
     private void OnEnable()
     {
         Setup();
+        ThemeManager.WhenReady((manager) => manager.PlayTheme(mainMenuTheme));
     }
 
     public void Setup()

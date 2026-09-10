@@ -74,11 +74,11 @@ public class Altar : MonoBehaviour, IInteractable
                 ResourceManager.Instance.ModifyGold(-Cost);
                 break;
             case AltarPayment.Health:
-                heroHealth.ModifyHealth(-Cost, hitDirection, 0f);
+                heroHealth.ModifyHealth(-Cost, true, hitDirection, 0f);
                 break;
             case AltarPayment.HealthPercentage:
                 int healthPaid = Mathf.FloorToInt(heroHealth.MaxHealth * Cost / 100f);
-                heroHealth.ModifyHealth(-healthPaid, hitDirection, 0f);
+                heroHealth.ModifyHealth(-healthPaid, true, hitDirection, 0f);
                 break;
             case AltarPayment.Combat:
                 BeingCombatTrail();

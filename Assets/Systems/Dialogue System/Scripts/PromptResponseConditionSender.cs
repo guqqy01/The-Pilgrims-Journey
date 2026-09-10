@@ -18,8 +18,8 @@ namespace DialogueSystem
             {
                 var promptResponse = prompt.promptResponses[responseIndex];
 
-                if (!promptResponse.conditionCallback.conditions.Contains(boolFunctionReference.Invoke))
-                    promptResponse.conditionCallback.conditions.Add(boolFunctionReference.Invoke);
+                if (!promptResponse.ConditionCallback.conditions.Contains(boolFunctionReference.Invoke))
+                    promptResponse.ConditionCallback.conditions.Add(boolFunctionReference.Invoke);
             }
         }
 
@@ -28,7 +28,7 @@ namespace DialogueSystem
             if (prompt != null && prompt.promptResponses != null && prompt.promptResponses.Count > responseIndex)
             {
                 var promptResponse = prompt.promptResponses[responseIndex];
-                promptResponse.conditionCallback.conditions.Remove(boolFunctionReference.Invoke);
+                promptResponse.ConditionCallback.conditions.Remove(boolFunctionReference.Invoke);
             }
         }
     }

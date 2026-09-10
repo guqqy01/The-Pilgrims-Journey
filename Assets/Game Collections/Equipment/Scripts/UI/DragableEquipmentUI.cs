@@ -102,7 +102,7 @@ namespace Equipment.UI
         {
             Info.Select(this);
 
-            if (InputManager.Instance.Actions.UI_HeroStats.QuickMoveEquipment.IsPressed() /*Input.GetKey(KeyCode.LeftShift)*/)
+            if (InputManager.UI_HeroStats.QuickMoveEquipment.IsPressed())
             {
                 EquipmentInventory priorityInventory = EquipmentInventoryUIManager.Instance.GetPriorityInventory(ContainerUI.Container.ParentInventory, EquipmentSO);
 

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Units;
-using Tiles;
+using System;
 
 namespace Spells
 {
+    [Serializable]
     public class InvunrabilityEffect : SpellEffect
     {
         public float invunrabilityTime;
