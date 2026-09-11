@@ -15,12 +15,17 @@ public class ThemeManager : Singleton<ThemeManager>
     private float songFadeTime;
 
     private Theme _currentlyPlayingTheme;
-    private Coroutine _switchCoroutine;
-    private Coroutine _cycleCoroutine;
+
+    // The ONE coroutine allowed to touch mainMusicThemeSource at any given time.
+    // Every public command (Play/Stop) routes through RunExclusive, which guarantees
+    // whatever was previously running here gets stopped first. This is what makes
+    // rapid-fire calls safe — there is never a second, untracked coroutine left
+    // fighting over the source's volume in the background.
+    private Coroutine _activeCoroutine;
     private bool _sourceRegistered;
 
     public Theme CurrentTheme => _currentlyPlayingTheme;
-    public bool IsPlayingTheme(Theme theme) => _currentlyPlayingTheme == theme && _cycleCoroutine != null;
+    public bool IsPlayingTheme(Theme theme) => _currentlyPlayingTheme == theme && _activeCoroutine != null;
 
     private void Awake()
     {
@@ -30,45 +35,59 @@ public class ThemeManager : Singleton<ThemeManager>
     /// <param name="forceRestart">If true, restarts the theme from its first song even if it's already playing.</param>
     public void PlayTheme(Theme theme, bool forceRestart = false)
     {
+        if (theme == null)
+        {
+            StopTheme();
+            return;
+        }
+
         if (!forceRestart && IsPlayingTheme(theme))
             return;
 
-        if (_switchCoroutine != null)
-            StopCoroutine(_switchCoroutine);
-
-        _switchCoroutine = StartCoroutine(SwitchThemes(theme));
+        RunExclusive(SwitchThemes(theme));
     }
 
     /// <summary>Fades everything out and stops music entirely (e.g. for a cutscene or menu).</summary>
     public void StopTheme(float? fadeOutOverride = null)
     {
-        if (_switchCoroutine != null) StopCoroutine(_switchCoroutine);
-        if (_cycleCoroutine != null) StopCoroutine(_cycleCoroutine);
-
-        _cycleCoroutine = null;
         _currentlyPlayingTheme = null;
+        RunExclusive(FadeOutAndStop(fadeOutOverride ?? switchThemeTime));
+    }
 
+    /// <summary>Cancels whatever's currently running on mainMusicThemeSource, then starts the new routine as the sole owner.</summary>
+    private void RunExclusive(IEnumerator routine)
+    {
+        if (_activeCoroutine != null)
+            StopCoroutine(_activeCoroutine);
+
+        _activeCoroutine = StartCoroutine(routine);
+    }
+
+    private IEnumerator FadeOutAndStop(float fadeTime)
+    {
         if (mainMusicThemeSource.isPlaying)
-            StartCoroutine(AudioManager.Instance.FadeOutAudioOverTime(mainMusicThemeSource, fadeOutOverride ?? switchThemeTime));
+            yield return AudioManager.Instance.FadeOutAudioOverTime(mainMusicThemeSource, fadeTime);
+
+        _activeCoroutine = null;
     }
 
     private IEnumerator SwitchThemes(Theme theme)
     {
-        if (_cycleCoroutine != null)
-        {
-            StopCoroutine(_cycleCoroutine);
+        if (mainMusicThemeSource.isPlaying)
             yield return AudioManager.Instance.FadeOutAudioOverTime(mainMusicThemeSource, switchThemeTime);
-        }
 
-        // First song of a new theme fades in over switchThemeTime (a deliberate transition),
-        // subsequent songs within the theme use the shorter songFadeTime.
-        _cycleCoroutine = StartCoroutine(CycleThemeSongs(theme, switchThemeTime));
+        // Nested directly into this same coroutine rather than a separately-tracked
+        // one — there's only ever one owner of mainMusicThemeSource, full stop.
+        yield return CycleThemeSongs(theme, switchThemeTime);
     }
 
     private IEnumerator CycleThemeSongs(Theme theme, float? initialFadeInOverride = null)
     {
         if (theme == null || theme.Songs == null || theme.Songs.Count == 0)
+        {
+            _activeCoroutine = null;
             yield break;
+        }
 
         _currentlyPlayingTheme = theme;
 
@@ -93,7 +112,8 @@ public class ThemeManager : Singleton<ThemeManager>
         float safeFadeOut = Mathf.Min(fadeOutTime, clipLength / 2f);
         float targetVolume = settings.volume * AudioManager.Instance.GetTotalAudioTypeVolume(settings.Type);
 
-        AudioManager.Instance.SetUpAudioSource(mainMusicThemeSource, settings);
+        mainMusicThemeSource.Setup(settings);
+
         EnsureSourceRegistered(settings);
         mainMusicThemeSource.Play();
 

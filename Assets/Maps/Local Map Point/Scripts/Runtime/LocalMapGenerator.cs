@@ -174,6 +174,13 @@ namespace LocalMap
             return _connectedToPath[tilePos.x, tilePos.y];
         }
 
+        public TileType? GetTileTypeAtPosition(Vector2 position)
+        {
+            Vector2Int v2IntPos = position.V2ToV2Int();
+
+            return Tiles[v2IntPos.x, v2IntPos.y].GetTileTypeAtPosition(position);
+        }
+
         public bool IsPositionOnFullyWalkableTile(Vector2 position)
         {
             Vector2Int v2IntPos = position.V2ToV2Int();

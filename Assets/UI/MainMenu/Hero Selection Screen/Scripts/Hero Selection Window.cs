@@ -74,6 +74,8 @@ public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
 
         gameObject.SetActive(false);
 
+        MainMenu.IfReady((mainMenu) => mainMenu.PlayImpactAndStopTheme());
+
         GameManager.Instance.StartNewJourney(heroSO);
 
         WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());

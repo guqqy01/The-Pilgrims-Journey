@@ -23,6 +23,10 @@ public class MainMenu : Singleton<MainMenu>
     [SerializeField]
     private Theme mainMenuTheme;
 
+    [SerializeField]
+    private AudioClipAndSettings impactClip;
+    [SerializeField]
+    private float stopThemeTime = 0.5f;
     public bool Deactivated = false;
 
     private void Awake()
@@ -42,7 +46,12 @@ public class MainMenu : Singleton<MainMenu>
     private void OnEnable()
     {
         Setup();
-        ThemeManager.WhenReady((manager) => manager.PlayTheme(mainMenuTheme));
+        ThemeManager.WhenReady(PlayTheme);
+    }
+
+    private void PlayTheme(ThemeManager manager)
+    {
+        manager.PlayTheme(mainMenuTheme);
     }
 
     public void Setup()
@@ -84,6 +93,12 @@ public class MainMenu : Singleton<MainMenu>
         }
     }
 
+    public void PlayImpactAndStopTheme()
+    {
+        impactClip.Play();
+        ThemeManager.IfReady((manager) => manager.StopTheme(stopThemeTime));
+    }
+
     public void ContinueJourneyButton()
     {
         if (Deactivated)
@@ -96,6 +111,7 @@ public class MainMenu : Singleton<MainMenu>
             Setup();
             return;
         }
+        PlayImpactAndStopTheme();
 
         GameManager.Instance.ContinueJourney();
         WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());

@@ -13,9 +13,8 @@ namespace Attacks.Spot
         [SerializeField]
         private float fadeTime = 0.2f;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
             shaker.StartShaking();
         }
 
@@ -33,27 +32,8 @@ namespace Attacks.Spot
         public override void DestroyAttack()
         {
             ani.SetBool("Finished", true);
-
-            spawnAudioSources.ForEach(x => FadePlayingAudio(x));
         }
 
-        private IEnumerator FadePlayingAudio(ManagedAudioSource managedAudioSource)
-        {
-            if (managedAudioSource.IsPlaying)
-            {
-                float time = 0f;
-                
-                while (time < fadeTime)
-                {
-                    yield return null;
-                    time += Time.deltaTime;
-
-                    float multiplier = (fadeTime - time) / fadeTime;
-
-                    managedAudioSource.ApplyVolume(multiplier);
-                }
-            }
-        }
         public void DestroyLightning()
         {
             shaker.StopShaking();

@@ -313,6 +313,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -483,6 +484,7 @@ GameObject:
   - component: {fileID: 1840361838}
   - component: {fileID: 1840361837}
   - component: {fileID: 1840361841}
+  - component: {fileID: 1840361842}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -548,6 +550,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -599,6 +602,19 @@ MonoBehaviour:
   - {fileID: -6849560313346760400, guid: da11682dea4192c4fb0a2b8e0274a4ad, type: 3}
   - {fileID: 3461736847834997338, guid: 52e6c800ca7563a4b83edd34413ece64, type: 3}
   - {fileID: -2794818632406469487, guid: 721243b49c5ecac448c488a2db6af9e9, type: 3}
+--- !u!114 &1840361842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840361836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c1f4074c6ae256459fa9e300352101c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core.SceneManagement::LoadingAudio
+  theme: {fileID: 11400000, guid: d166fce76cd3298429c11111e174a651, type: 2}
 --- !u!1 &2060720104
 GameObject:
   m_ObjectHideFlags: 0

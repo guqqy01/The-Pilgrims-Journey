@@ -78,7 +78,7 @@ public class AudioManager : Singleton<AudioManager>
         }
 
         AudioSource source = obj.AddComponent<AudioSource>();
-        SetUpAudioSource(source, clip);
+        source.Setup(clip);
         audioSourceContainer.Add(source, clip, clip.Type, AudioSourceLifecycle.TransientExternal);
         source.Play();
 
@@ -88,9 +88,9 @@ public class AudioManager : Singleton<AudioManager>
         return source;
     }
 
-    public AudioSource PlayClip(AudioClipAndSettings clip) => PlayClip(clip, null);
+    public AudioSource PlayClip(AudioClipAndSettings clip, AudioType? overrideType = null) => PlayClip(clip, null, overrideType);
 
-    public AudioSource PlayClip(AudioClipAndSettings clip, float? overrideVolume)
+    public AudioSource PlayClip(AudioClipAndSettings clip, float? overrideVolume, AudioType? overrideType = null)
     {
         if (clip?.clip == null)
         {
@@ -99,7 +99,7 @@ public class AudioManager : Singleton<AudioManager>
         }
 
         AudioSource source = RentPooledSource();
-        SetUpAudioSource(source, clip, overrideVolume);
+        source.Setup(clip, overrideType, overrideVolume);
         audioSourceContainer.Add(source, clip, clip.Type, AudioSourceLifecycle.Pooled);
         source.Play();
 
@@ -119,16 +119,6 @@ public class AudioManager : Singleton<AudioManager>
         source.Stop();
         source.clip = null;
         pooledSources.Enqueue(source);
-    }
-
-    public void SetUpAudioSource(AudioSource source, AudioClipAndSettings settings, float? overrideVolume = null)
-    {
-        source.clip = settings.clip;
-        source.loop = settings.loop;
-        
-        source.volume = overrideVolume ?? (settings.volume * GetTotalAudioTypeVolume(settings.Type));
-        source.pitch = settings.pitch == 0 ? 1 : settings.pitch + UnityEngine.Random.Range(- settings.pitchVarianceRange / 2f, settings.pitchVarianceRange / 2f);
-        source.spatialBlend = settings.spatialBlend;
     }
 
     public void StopLoopingAudioClipOnceFinished(AudioSource source)
@@ -165,46 +155,45 @@ public class AudioManager : Singleton<AudioManager>
 
     public IEnumerator FadeOutAudioOverTime(AudioSource source, float seconds)
     {
-        float startTime = Time.time;
-        float finishTime = Time.time + seconds;
+        float startTime = Time.unscaledTime;
+        float finishTime = Time.unscaledTime + seconds;
         float startVolume = source.volume;
 
-        while (true)
+        while (Time.unscaledTime < finishTime)
         {
-            float t = 1f - Mathf.Clamp01(Mathf.InverseLerp(startTime, finishTime, Time.time));
+            float t = 1f - Mathf.InverseLerp(startTime, finishTime, Time.unscaledTime);
             source.volume = startVolume * t;
-
-            if (t <= 0.01f)
-            {
-                if (!audioSourceContainer.IsRegistered(source))
-                    break;
-
-                AudioSourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
-
-                if (lifecycle == AudioSourceLifecycle.PersistentExternal)
-                    break; // stays registered, owner manages it — just goes quiet
-
-                audioSourceContainer.RemoveSource(source);
-                if (lifecycle == AudioSourceLifecycle.TransientExternal)
-                    Destroy(source);
-                else
-                    ReturnPooledSource(source);
-
-                break;
-            }
-
             yield return null;
         }
+
+        source.volume = 0f;
+        FinishFadeOutCleanup(source);
+    }
+
+    private void FinishFadeOutCleanup(AudioSource source)
+    {
+        if (!audioSourceContainer.IsRegistered(source))
+            return;
+
+        AudioSourceLifecycle lifecycle = audioSourceContainer.GetLifecycle(source);
+        if (lifecycle == AudioSourceLifecycle.PersistentExternal)
+            return; // stays registered, owner manages it — just goes quiet
+
+        audioSourceContainer.RemoveSource(source);
+        if (lifecycle == AudioSourceLifecycle.TransientExternal)
+            Destroy(source);
+        else
+            ReturnPooledSource(source);
     }
 
     public IEnumerator FadeInAudioOverTime(AudioSource source, float targetVolume, float seconds)
     {
-        float startTime = Time.time;
-        float finishTime = Time.time + seconds;
+        float startTime = Time.unscaledTime;
+        float finishTime = Time.unscaledTime + seconds;
 
-        while (Time.time < finishTime)
+        while (Time.unscaledTime < finishTime)
         {
-            float t = Mathf.Clamp01(Mathf.InverseLerp(startTime, finishTime, Time.time));
+            float t = Mathf.Clamp01(Mathf.InverseLerp(startTime, finishTime, Time.unscaledTime));
             source.volume = targetVolume * t;
             yield return null;
         }

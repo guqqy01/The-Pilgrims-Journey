@@ -32,4 +32,9 @@ public class AudioClipAndSettings
     {
         AudioManager.Instance.PlayClip(this);
     }
+
+    public void Play(AudioType? overrideType = null)
+    {
+        AudioManager.Instance.PlayClip(this, overrideType);
+    }
 }

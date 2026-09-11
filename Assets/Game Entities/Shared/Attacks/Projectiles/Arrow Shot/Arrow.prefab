@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6866783321708335059}
   - component: {fileID: 2872810802686929510}
   - component: {fileID: 358202956058573000}
+  - component: {fileID: 2513299807949914838}
   m_Layer: 17
   m_Name: Arrow
   m_TagString: Untagged
@@ -83,13 +84,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89986bb310121ff42b3343e33f5fb054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  spawnAudioSources: []
-  hitAudioSources: []
   hitCollider: {fileID: 2872810802686929510}
-  hitLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   canHitSameTargetMultipleTimes: 0
+--- !u!114 &2513299807949914838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084652012439665030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8888e4085845e24ebf2d3580fb19836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::Attacks.AttackAudio
+  attack: {fileID: 358202956058573000}
+  spawnAudioSources:
+  - clip:
+      clip: {fileID: 8300000, guid: 8acd67ee821d58d42b4c25ad1aeb66af, type: 3}
+      loop: 0
+      volume: 0.5
+      pitch: 1
+      pitchVarianceRange: 1
+      spatialBlend: 1
+      Type: 4
+    fadeTime: 0.5
+  hitAudioSources:
+  - clip:
+      clip: {fileID: 8300000, guid: 56ec1bcf451872c43a7e485973345ec1, type: 3}
+      loop: 0
+      volume: 0.5
+      pitch: 1
+      pitchVarianceRange: 0.5
+      spatialBlend: 1
+      Type: 4
+    fadeTime: 0.5
 --- !u!1 &1929096668613293871
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +154,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1632382629177201262
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -170,6 +200,7 @@ SpriteRenderer:
   m_SortingLayerID: -1070266199
   m_SortingLayer: 8
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -6546762027430228494, guid: c92c8fe7be6a7fa4492e4e22160bde74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -179,8 +210,8 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!95 &2374018942477804303
 Animator:
   serializedVersion: 7

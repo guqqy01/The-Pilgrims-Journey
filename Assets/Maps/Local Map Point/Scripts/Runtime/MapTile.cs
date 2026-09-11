@@ -28,6 +28,15 @@ namespace LocalMap
         private readonly List<AutoTileWalkability> _autoTileWalkability = new List<AutoTileWalkability>();
         public List<AutoTileWalkability> AutoTileWalkability => _autoTileWalkability;
 
+        private struct AutoTileTypeRegion
+        {
+            public TileType OverType;
+            public AutoTileWalkability Bounds;
+            public int DrawOrder;
+        }
+
+        private readonly List<AutoTileTypeRegion> _autoTileTypeRegions = new List<AutoTileTypeRegion>();
+
         public bool HasAutoTileWalkability => _autoTileWalkability.Count > 0;
 
         public TileTypeAndVisual TileTypeAndVisual;
@@ -117,7 +126,6 @@ namespace LocalMap
 
         internal bool IsPositionWalkable(Vector2 position)
         {
-            //Position must be within tile bounds to be walkable
             if (position.V2ToV2Int() != Position)
                 return false;
 
@@ -126,7 +134,7 @@ namespace LocalMap
 
             foreach (AutoTileWalkability autoTileWalkability in _autoTileWalkability)
             {
-                Vector2 relativePosition = position - (Vector2)Position - Vector2.one / 2f;
+                Vector2 relativePosition = position - (Vector2)Position + Vector2.one / 2f; // fixed: was minus
                 if (autoTileWalkability.Contains(relativePosition))
                 {
                     Debug.Log($"Tile in Position: {Position} is walkable from autotile");
@@ -135,6 +143,31 @@ namespace LocalMap
             }
 
             return false;
+        }
+
+        public TileType? GetTileTypeAtPosition(Vector2 position)
+        {
+            if (position.V2ToV2Int() != Position)
+                return null;
+
+            Vector2 relativePosition = position - (Vector2)Position + Vector2.one / 2f;
+
+            TileType? topMostOverType = null;
+            int topMostDrawOrder = int.MinValue;
+
+            foreach (AutoTileTypeRegion region in _autoTileTypeRegions)
+            {
+                if (region.DrawOrder <= topMostDrawOrder)
+                    continue;
+
+                if (region.Bounds.Contains(relativePosition))
+                {
+                    topMostDrawOrder = region.DrawOrder;
+                    topMostOverType = region.OverType;
+                }
+            }
+
+            return topMostOverType ?? TileType;
         }
 
         internal bool TryGetNearestWalkablePosition(Vector2 searchOriginPosition, out Vector2 walkablePos)
@@ -241,20 +274,20 @@ namespace LocalMap
 
                 int sortingOrder = 2 * autoTilesSettings.drawOrderForType.IndexOf(overType);
 
-                if (AutoTiles.StraightTopCenter(boolGrid)) SpawnAutoTile(autoTile.TopCenterAutoTile, sortingOrder);
-                if (AutoTiles.StraightCenterLeft(boolGrid)) SpawnAutoTile(autoTile.CenterLeftAutoTile, sortingOrder);
-                if (AutoTiles.StraightCenterRight(boolGrid)) SpawnAutoTile(autoTile.CenterRightAutoTile, sortingOrder);
-                if (AutoTiles.StraightBottomCenter(boolGrid)) SpawnAutoTile(autoTile.BottomCenterAutoTile, sortingOrder);
+                if (AutoTiles.StraightTopCenter(boolGrid)) SpawnAutoTile(autoTile.TopCenterAutoTile, sortingOrder, overType);
+                if (AutoTiles.StraightCenterLeft(boolGrid)) SpawnAutoTile(autoTile.CenterLeftAutoTile, sortingOrder, overType);
+                if (AutoTiles.StraightCenterRight(boolGrid)) SpawnAutoTile(autoTile.CenterRightAutoTile, sortingOrder, overType);
+                if (AutoTiles.StraightBottomCenter(boolGrid)) SpawnAutoTile(autoTile.BottomCenterAutoTile, sortingOrder, overType);
 
-                if (AutoTiles.SmallCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopLeftAutoTile, sortingOrder);
-                if (AutoTiles.SmallCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopRightAutoTile, sortingOrder);
-                if (AutoTiles.SmallCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomLeftAutoTile, sortingOrder);
-                if (AutoTiles.SmallCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomRightAutoTile, sortingOrder);
+                if (AutoTiles.SmallCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopLeftAutoTile, sortingOrder, overType);
+                if (AutoTiles.SmallCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopRightAutoTile, sortingOrder, overType);
+                if (AutoTiles.SmallCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomLeftAutoTile, sortingOrder, overType);
+                if (AutoTiles.SmallCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomRightAutoTile, sortingOrder, overType);
 
-                if (AutoTiles.BigCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopAndLeftAutoTile, sortingOrder);
-                if (AutoTiles.BigCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopAndRightAutoTile, sortingOrder);
-                if (AutoTiles.BigCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomAndLeftAutoTile, sortingOrder);
-                if (AutoTiles.BigCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomAndRightAutoTile, sortingOrder);
+                if (AutoTiles.BigCornerTopLeft(boolGrid)) SpawnAutoTile(autoTile.TopAndLeftAutoTile, sortingOrder, overType);
+                if (AutoTiles.BigCornerTopRight(boolGrid)) SpawnAutoTile(autoTile.TopAndRightAutoTile, sortingOrder, overType);
+                if (AutoTiles.BigCornerBottomLeft(boolGrid)) SpawnAutoTile(autoTile.BottomAndLeftAutoTile, sortingOrder, overType);
+                if (AutoTiles.BigCornerBottomRight(boolGrid)) SpawnAutoTile(autoTile.BottomAndRightAutoTile, sortingOrder, overType);
             }
         }
 
@@ -273,9 +306,9 @@ namespace LocalMap
             };
         }
 
-        public void SpawnAutoTile(AutoTileSpriteAndWalkability autoTile, int sortingOrder)
+        public void SpawnAutoTile(AutoTileSpriteAndWalkability autoTile, int sortingOrder, TileType? overType = null)
         {
-            if(autoTile.BaseSprite != null)
+            if (autoTile.BaseSprite != null)
             {
                 SpriteRenderer normalTile = Instantiate(graphic, transform.position, Quaternion.identity, transform);
                 normalTile.sprite = autoTile.BaseSprite;
@@ -290,6 +323,19 @@ namespace LocalMap
             }
 
             _autoTileWalkability.AddRange(autoTile.walkabilityBounds);
+
+            if (overType.HasValue)
+            {
+                foreach (AutoTileWalkability bounds in autoTile.walkabilityBounds)
+                {
+                    _autoTileTypeRegions.Add(new AutoTileTypeRegion
+                    {
+                        OverType = overType.Value,
+                        Bounds = bounds,
+                        DrawOrder = sortingOrder
+                    });
+                }
+            }
         }
     }
 

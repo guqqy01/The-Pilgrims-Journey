@@ -101,7 +101,7 @@ public class LocalMapThemeManager : Singleton<LocalMapThemeManager>, IOnAfterCre
 
     public void AfterCreateLocalMap()
     {
-        SetState(LocalMapMusicState.Relax);
+        SetState(LocalMapMusicState.Relax, true);
     }
 
     public void OnPlayLocalLevel()

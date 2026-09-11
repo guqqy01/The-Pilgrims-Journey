@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0453e3106977b41bfc165348ceaf9b, type: 3}
+  m_Name: Grassland Relax Theme Lara Test
+  m_EditorClassIdentifier: Core::Theme
+  Songs:
+  - clip: {fileID: 8300000, guid: 5566b7a9c378e2144a268fdebd90b44c, type: 3}
+    loop: 0
+    volume: 0.5
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 1
+  - clip: {fileID: 8300000, guid: b9b031786749b754ca8973a3f858471a, type: 3}
+    loop: 0
+    volume: 0.5
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 1
+  - clip: {fileID: 8300000, guid: 81dcd62d3ac8eb643b5a891f783cbdf6, type: 3}
+    loop: 0
+    volume: 0.5
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 1

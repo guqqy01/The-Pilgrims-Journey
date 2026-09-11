@@ -8,13 +8,8 @@ namespace Attacks
     {
         protected readonly Dictionary<HealthAndShieldManager, float> timeToNextDmg = new Dictionary<HealthAndShieldManager, float>();
 
-        protected event Action OnSpawn;
-        protected event Action<OnHitInfo> OnHit;
-
-        [SerializeField]
-        protected List<ManagedAudioSource> spawnAudioSources;
-        [SerializeField]
-        protected List<AudioClipAndSettings> hitAudioSources;
+        public event Action OnSpawn;
+        public event Action<OnHitInfo> OnHit;
 
         // Pool support: if set, DestroyAttack will call this instead of Destroy(gameObject)
         private Action returnToPoolCallback;
@@ -22,45 +17,6 @@ namespace Attacks
         public abstract void Init<TAttackInit, TAttackStats>(TAttackInit init, TAttackStats stats)
             where TAttackInit : AttackInit
             where TAttackStats : AttackStats;
-
-
-        protected virtual void Awake()
-        {
-            OnSpawn += HandleAudioOnSpawn;
-            OnHit += HandleAudioOnHit;
-        }
-
-        private void HandleAudioOnSpawn()
-        {
-            if (spawnAudioSources == null)
-                return;
-
-            for (int i = 0; i < spawnAudioSources.Count; i++)
-            {
-                var src = spawnAudioSources[i];
-                if (src == null) continue;
-                src.Play();
-            }
-        }
-
-        private void HandleAudioOnHit(OnHitInfo hitInfo)
-        {
-            if (hitAudioSources == null || hitAudioSources.Count == 0)
-                return;
-
-            AudioClipAndSettings toPlay = null;
-            for (int i = 0; i < hitAudioSources.Count; i++)
-            {
-                if (hitAudioSources[i] != null)
-                {
-                    toPlay = hitAudioSources[i];
-                    break;
-                }
-            }
-
-            if (toPlay != null && AudioManager.Instance != null)
-                AudioManager.Instance.PlayClipOnObject(toPlay, gameObject);
-        }
 
         /// <summary>
         /// Allow derived classes to raise the OnSpawn event.
@@ -153,9 +109,6 @@ namespace Attacks
         protected virtual void OnDestroy()
         {
             RemoveAllOnTargetDieSubscriptions();
-
-            OnSpawn -= HandleAudioOnSpawn;
-            OnHit -= HandleAudioOnHit;
 
             OnSpawn = null;
             OnHit = null;

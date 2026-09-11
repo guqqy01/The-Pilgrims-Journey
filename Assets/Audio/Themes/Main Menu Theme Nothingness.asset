@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0453e3106977b41bfc165348ceaf9b, type: 3}
+  m_Name: Main Menu Theme Nothingness
+  m_EditorClassIdentifier: Core::Theme
+  Songs:
+  - clip: {fileID: 8300000, guid: fb238bf69f3cad84cb3944021ee9c945, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 1
+  - clip: {fileID: 8300000, guid: 2c12f90ff9c56b74e9790c49b5faf8f8, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 1
+  - clip: {fileID: 8300000, guid: 4fb76c0e8c897954dad9c18500f4fced, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 1

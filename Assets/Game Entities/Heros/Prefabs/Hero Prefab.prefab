@@ -180,7 +180,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3128084753901511392, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
       insertIndex: -1
       addedObject: {fileID: 542801417569329674}
+    - targetCorrespondingSourceObject: {fileID: 3128084753901511392, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 102460481315005191}
   m_SourcePrefab: {fileID: 100100000, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
+--- !u!4 &1565891521931305800 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6048054993579570110, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
+  m_PrefabInstance: {fileID: 5067723807466492150}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6464321656993217688 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2297339110821817454, guid: 71ecf660bf5de03479b44c4103785b28, type: 3}
@@ -284,3 +292,91 @@ MonoBehaviour:
   experienceMask:
     serializedVersion: 2
     m_Bits: 65536
+--- !u!114 &102460481315005191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7871477897272881686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b2e31d44c0841d42bd48953e10310cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::FootstepAudio
+  movementTransform: {fileID: 1565891521931305800}
+  fallbackClips:
+  - clip: {fileID: 8300000, guid: 10529a83595daad4f9640168cd1e29e7, type: 3}
+    loop: 0
+    volume: 0.5
+    pitch: 1
+    pitchVarianceRange: 0.5
+    spatialBlend: 1
+    Type: 4
+  clips:
+    _serializedList:
+    - Key: 32
+      Value:
+      - clip: {fileID: 8300000, guid: be35508d8402a5845a41c41f31936b16, type: 3}
+        loop: 0
+        volume: 1
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+      - clip: {fileID: 8300000, guid: 2236959407eee6d4b990efa1981f4e43, type: 3}
+        loop: 0
+        volume: 1
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+    - Key: 17
+      Value:
+      - clip: {fileID: 8300000, guid: 399f0c02c26e1a64aaa3c993917aa76b, type: 3}
+        loop: 0
+        volume: 0.5
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+      - clip: {fileID: 8300000, guid: a8f30c22b1590614bb2193dcf5750c3c, type: 3}
+        loop: 0
+        volume: 0.5
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+    - Key: 12
+      Value:
+      - clip: {fileID: 8300000, guid: 3eeca693b0ab1974ab5b0a867f39b855, type: 3}
+        loop: 0
+        volume: 1
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+      - clip: {fileID: 8300000, guid: c4e08a824ee7b3140ba4142145588704, type: 3}
+        loop: 0
+        volume: 1
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+    - Key: 2
+      Value:
+      - clip: {fileID: 8300000, guid: bf0df4827e9e91e4585ceee522e8366a, type: 3}
+        loop: 0
+        volume: 1
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+      - clip: {fileID: 8300000, guid: 1102b2a5a47d042448bca704ebeac500, type: 3}
+        loop: 0
+        volume: 1
+        pitch: 1
+        pitchVarianceRange: 0.5
+        spatialBlend: 1
+        Type: 4
+  distanceBetweenStepSounds: 1.5

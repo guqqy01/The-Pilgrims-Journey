@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68f45fc7801d244a8029ce801e2a23e, type: 3}
+  m_Name: SFX_UI
+  m_EditorClassIdentifier: Core.Audio::SFXUISettings
+  ButtonClick:
+    clip: {fileID: 8300000, guid: 0b9149e828a78e647bbe516d61e6256b, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 2
+  ButtonHover:
+    clip: {fileID: 8300000, guid: 4dfd4e573fb62d74d98e94fce88af2c4, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 2
+  OpenWindow:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  CloseWindow:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  selectTile:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  deselectTile:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  pickupTile:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  moveTile:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  cancelMoveTile:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  placeTile:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  rotateTile:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0
+  selectEquipment:
+    clip: {fileID: 0}
+    loop: 0
+    volume: 0
+    pitch: 0
+    pitchVarianceRange: 0
+    spatialBlend: 0
+    Type: 0

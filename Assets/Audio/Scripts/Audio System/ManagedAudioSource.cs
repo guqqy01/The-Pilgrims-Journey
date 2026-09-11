@@ -27,18 +27,25 @@ public class ManagedAudioSource : MonoBehaviour
             return;
         }
 
-        audioSource.clip = audioClipSettings.clip;
-        audioSource.loop = audioClipSettings.loop;
-        audioSource.pitch = audioClipSettings.pitch == 0 ? 1 : audioClipSettings.pitch;
-        ApplyVolume();
-
-        audioSource.Play();
+        audioSource.Play(audioClipSettings);
 
         if (!isRegistered)
         {
             AudioManager.Instance.RegisterExternalSource(audioSource, audioClipSettings);
             isRegistered = true;
         }
+    }
+
+    /// <summary>
+    /// Plays the assigned clip starting partway through — useful for handing a clip
+    /// off between sources without restarting it from 0:00 (e.g. AudioResiduleManager
+    /// taking over a source that's about to be destroyed).
+    /// </summary>
+    public void Play(float startTime)
+    {
+        Play();
+        if (audioSource.isPlaying && audioSource.clip != null && startTime > 0f && startTime < audioSource.clip.length)
+            audioSource.time = startTime;
     }
 
     public void Stop()
