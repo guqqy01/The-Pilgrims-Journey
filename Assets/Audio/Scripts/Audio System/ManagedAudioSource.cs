@@ -31,7 +31,7 @@ public class ManagedAudioSource : MonoBehaviour
 
         if (!isRegistered)
         {
-            AudioManager.Instance.RegisterExternalSource(audioSource, audioClipSettings);
+            AudioManager.Instance.RegisterExternalSource(audioSource, audioClipSettings, audioSource.pitch);
             isRegistered = true;
         }
     }

@@ -130,7 +130,7 @@ public class ThemeManager : Singleton<ThemeManager>
     {
         if (!_sourceRegistered)
         {
-            AudioManager.Instance.RegisterExternalSource(mainMusicThemeSource, settings);
+            AudioManager.Instance.RegisterExternalSource(mainMusicThemeSource, settings, mainMusicThemeSource.pitch);
             _sourceRegistered = true;
         }
         else

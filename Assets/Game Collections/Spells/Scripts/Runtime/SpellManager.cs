@@ -14,18 +14,26 @@ namespace Spells
 
         public string SaveFileName => "SpellManagerSave";
 
+        private const string _timeManagmentReference = "SpellManager";
+
         public List<GameObject> spawnedObjects;
 
         private Spell activeSpell;
+
+        public Spell ActiveSpell => activeSpell;
 
         private Camera cam;
 
         private LocalMapGenerator localMapGenerator;
 
-        private List<MapTile> highlightedTiles = new List<MapTile>();
-
         public delegate void UpdateUI();
         public UpdateUI updateUI;
+
+        [SerializeField]
+        private float timeSlowDownScale = 0.1f;
+
+        [SerializeField]
+        private float transitionTimeSlow = 0.5f;
 
         private void Awake()
         {
@@ -51,7 +59,7 @@ namespace Spells
             DestorySpawnedObjects();
 
             activeSpell = null;
-
+            EndSlowTimeEffect();
             foreach (Spell spell in Spells)
             {
                 spell.Reset();
@@ -179,7 +187,7 @@ namespace Spells
 
             activeSpell.numberOfUses--;
             activeSpell = null;
-
+            EndSlowTimeEffect();
             updateUI?.Invoke();
         }
 
@@ -188,7 +196,26 @@ namespace Spells
             if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
                 return;
 
+            if (spell != null)
+                BeginSlowTimeEffect();
+            else if (activeSpell != null)
+                EndSlowTimeEffect();
+
             activeSpell = spell;
+        }
+
+        private void BeginSlowTimeEffect()
+        {
+            TimeManager.Instance.AddTimeScaleReference(_timeManagmentReference, timeSlowDownScale);
+            LocalCameraMovementManager.Instance.CameraLocked = false;
+            InputManager.Instance.Actions.Player.Disable();
+        }
+
+        private void EndSlowTimeEffect()
+        {
+            TimeManager.Instance.RemoveTimeScaleReference(_timeManagmentReference);
+            LocalCameraMovementManager.Instance.CameraLocked = true;
+            InputManager.Instance.Actions.Player.Enable();
         }
 
         public void Save()

@@ -177,7 +177,8 @@ namespace LocalMap
         public TileType? GetTileTypeAtPosition(Vector2 position)
         {
             Vector2Int v2IntPos = position.V2ToV2Int();
-
+            if (Tiles.IsInBounds(v2IntPos.x, v2IntPos.y))
+                return null;
             return Tiles[v2IntPos.x, v2IntPos.y].GetTileTypeAtPosition(position);
         }
 

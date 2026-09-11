@@ -24,8 +24,37 @@ public class AudioManager : Singleton<AudioManager>
         { AudioType.UI, 1f },
     };
 
-    public void RegisterExternalSource(AudioSource source, AudioClipAndSettings settings)
-    => audioSourceContainer.Add(source, settings, settings.Type, AudioSourceLifecycle.PersistentExternal);
+    private readonly Dictionary<AudioType, bool> audioTypeRespondsToTimeScale = new Dictionary<AudioType, bool>()
+{
+    { AudioType.None, false },
+    { AudioType.Effects, true },
+    { AudioType.Music, false },
+    { AudioType.Dialogue, false },
+    { AudioType.UI, false },
+};
+
+    public void SetAudioTypeRespondsToTimeScale(AudioType type, bool responds)
+        => audioTypeRespondsToTimeScale[type] = responds;
+
+    private float _lastAppliedTimeScale = 1f;
+
+    private void Update()
+    {
+        float currentTimeScale = Time.timeScale;
+        if (Mathf.Approximately(currentTimeScale, _lastAppliedTimeScale))
+            return;
+
+        _lastAppliedTimeScale = currentTimeScale;
+
+        foreach (var kvp in audioTypeRespondsToTimeScale)
+        {
+            if (kvp.Value)
+                audioSourceContainer.ApplyPitchToType(kvp.Key, currentTimeScale);
+        }
+    }
+
+    public void RegisterExternalSource(AudioSource source, AudioClipAndSettings settings, float pitch)
+    => audioSourceContainer.Add(source, settings, pitch, settings.Type, AudioSourceLifecycle.PersistentExternal);
 
     public void UnregisterExternalSource(AudioSource source)
         => audioSourceContainer.RemoveSource(source);
@@ -79,7 +108,7 @@ public class AudioManager : Singleton<AudioManager>
 
         AudioSource source = obj.AddComponent<AudioSource>();
         source.Setup(clip);
-        audioSourceContainer.Add(source, clip, clip.Type, AudioSourceLifecycle.TransientExternal);
+        audioSourceContainer.Add(source, clip, source.pitch, clip.Type, AudioSourceLifecycle.TransientExternal);
         source.Play();
 
         if (!clip.loop)
@@ -100,7 +129,7 @@ public class AudioManager : Singleton<AudioManager>
 
         AudioSource source = RentPooledSource();
         source.Setup(clip, overrideType, overrideVolume);
-        audioSourceContainer.Add(source, clip, clip.Type, AudioSourceLifecycle.Pooled);
+        audioSourceContainer.Add(source, clip, source.pitch, clip.Type, AudioSourceLifecycle.Pooled);
         source.Play();
 
         if (!clip.loop)

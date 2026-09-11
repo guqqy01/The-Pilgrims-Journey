@@ -20,6 +20,18 @@ public class AudioManagerSourcesContainer
         }
     }
 
+    public void ApplyPitchToType(AudioType audioType, float totalPitch)
+    {
+        if (!audioTypeSources.TryGetValue(audioType, out List<AudioSourceAndSettings> sources))
+            return;
+
+        foreach (AudioSourceAndSettings entry in sources)
+        {
+            if (entry.AudioSource == null) continue;
+            entry.AudioSource.pitch = entry.Pitch * totalPitch;
+        }
+    }
+
     public void UpdateSettings(AudioSource audioSource, AudioClipAndSettings settings)
     {
         if(TryFindTypeSourceStoredInDictionary(audioSource, out AudioSourceAndSettings returnSourceAndSetting, out AudioType returnAudioType))
@@ -37,9 +49,9 @@ public class AudioManagerSourcesContainer
             yield return entry.AudioSource;
     }
 
-    public void Add(AudioSource source, AudioClipAndSettings settings, AudioType audioType, AudioSourceLifecycle lifecycle)
+    public void Add(AudioSource source, AudioClipAndSettings settings, float pitch, AudioType audioType, AudioSourceLifecycle lifecycle)
     {
-        var entry = new AudioSourceAndSettings(source, settings, lifecycle);
+        var entry = new AudioSourceAndSettings(source, settings, pitch, lifecycle);
         audioSources.Add(entry);
         if (!audioTypeSources.TryGetValue(audioType, out var list))
         {
