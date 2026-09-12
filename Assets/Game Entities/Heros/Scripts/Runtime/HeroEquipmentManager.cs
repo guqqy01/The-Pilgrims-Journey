@@ -13,6 +13,7 @@ namespace Heros
         private void Awake()
         {
             inventory = GetComponent<EquipmentInventory>();
+            inventory.onEquipmentChanged -= OnEquipChange;
             inventory.onEquipmentChanged += OnEquipChange;
         }
 
@@ -27,6 +28,13 @@ namespace Heros
         {
             if (equipmentSOs == null)
                 return;
+
+            if (inventory == null)
+            {
+                inventory = GetComponent<EquipmentInventory>();
+                inventory.onEquipmentChanged -= OnEquipChange;
+                inventory.onEquipmentChanged += OnEquipChange;
+            }
 
             foreach(EquipmentSO equipmentSO in equipmentSOs)
             {

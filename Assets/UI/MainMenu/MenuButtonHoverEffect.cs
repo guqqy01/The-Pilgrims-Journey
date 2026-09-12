@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -24,8 +25,7 @@ public class MenuButtonHoverEffect : MonoBehaviour,
     [Header("Color (optional, leave targetGraphic empty to skip)")]
     [SerializeField] private Graphic targetGraphic;
     [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color highlightedColor = new Color(1f, 0.85f, 0.4f);
-
+    [SerializeField] private Color selectedColor = new Color(1f, 0.85f, 0.4f);
     [SerializeField]
     private TextMeshProUGUI text;
 
@@ -34,13 +34,16 @@ public class MenuButtonHoverEffect : MonoBehaviour,
     private Vector3 _targetScale;
     private bool _hovered;
     private bool _selected;
+    [SerializeField]
+    private Button button;
 
     private void Awake()
     {
         _targetScale = Vector3.one * normalScale;
         if (targetGraphic == null)
             targetGraphic = GetComponent<Graphic>();
-
+        if(button == null)
+            button = GetComponent<Button>();
         if(text != null)
             baseText = text.text;
     }
@@ -67,10 +70,10 @@ public class MenuButtonHoverEffect : MonoBehaviour,
 
     private void RefreshState()
     {
-        bool highlighted = _hovered || _selected;
+        bool highlighted = _selected && button.interactable;
         _targetScale = Vector3.one * (highlighted ? highlightedScale : normalScale);
         if (targetGraphic != null)
-            targetGraphic.color = highlighted ? highlightedColor : normalColor;
+            targetGraphic.color = highlighted ? selectedColor : normalColor;
 
         if (text != null)
             text.text = baseText + (highlighted ? "  <" : "") ;
@@ -78,6 +81,9 @@ public class MenuButtonHoverEffect : MonoBehaviour,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!button.interactable)
+            return;
+
         if (!_hovered && !_selected) SFXManager.Instance.PlayButtonHover();
 
         _hovered = true;
@@ -94,6 +100,9 @@ public class MenuButtonHoverEffect : MonoBehaviour,
 
     public void OnSelect(BaseEventData eventData)
     {
+        if (!button.interactable)
+            return;
+
         if (!_hovered && !_selected) SFXManager.Instance.PlayButtonHover();
         _selected = true;
         RefreshState();
@@ -102,6 +111,7 @@ public class MenuButtonHoverEffect : MonoBehaviour,
     public void OnDeselect(BaseEventData eventData)
     {
         _selected = false;
+
         RefreshState();
     }
 }

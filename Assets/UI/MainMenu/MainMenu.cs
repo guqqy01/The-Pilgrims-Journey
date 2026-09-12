@@ -2,181 +2,198 @@ using UnityEngine;
 using UnityEngine.UI;
 using Monsters;
 using Helper.Wait;
+using System.Collections.Generic;
 
-public class MainMenu : Singleton<MainMenu>
+
+namespace UI
 {
-    [SerializeField]
-    private InputQuery inputQuery;
-
-    [SerializeField]
-    private GameObject unitCatalogue;
-    [SerializeField]
-    private GameObject equipmentCatalogue;
-    [SerializeField]
-    private GameObject beasaryCatalogue;
-    [SerializeField]
-    private GameObject relicCatalogue;
-
-    [SerializeField]
-    private Button continueJourneyButton;
-
-    [SerializeField]
-    private Theme mainMenuTheme;
-
-    [SerializeField]
-    private AudioClipAndSettings impactClip;
-    [SerializeField]
-    private float stopThemeTime = 0.5f;
-    public bool Deactivated = false;
-
-    private void Awake()
+    public class MainMenu : Singleton<MainMenu>
     {
-        Deactivated = false;
-    }
+        [SerializeField]
+        private InputQuery inputQuery;
 
-    private void Start()
-    {
-        BeastaryManager.Instance.Load();
+        [SerializeField]
+        private GameObject unitCatalogue;
+        [SerializeField]
+        private GameObject equipmentCatalogue;
+        [SerializeField]
+        private GameObject beasaryCatalogue;
+        [SerializeField]
+        private GameObject relicCatalogue;
 
-        Setup();
+        [SerializeField]
+        private Button continueJourneyButton;
 
-        Deactivated = false;
-    }
+        [SerializeField]
+        private Theme mainMenuTheme;
 
-    private void OnEnable()
-    {
-        Setup();
-        ThemeManager.WhenReady(PlayTheme);
-    }
+        [SerializeField]
+        private AudioClipAndSettings impactClip;
+        [SerializeField]
+        private float stopThemeTime = 0.5f;
+        public bool Deactivated = false;
+        [SerializeField]
 
-    private void PlayTheme(ThemeManager manager)
-    {
-        manager.PlayTheme(mainMenuTheme);
-    }
+        private List<Button> buttons;
 
-    public void Setup()
-    {
-        continueJourneyButton.interactable = SaveManager.FileExists("GameManagerSave");
-
-        OpenPage(Pages.None);
-    }
-
-    public void StartNewJourneyButton()
-    {
-        if (SaveManager.FileExists("GameManagerSave"))
+        private void Awake()
         {
-            inputQuery.gameObject.SetActive(true);
-            inputQuery.Setup("Are you sure you want to start a new journey? this will delete the current journey.", StartNewJourney);
+            Deactivated = false;
         }
-        else
+
+        private void Start()
         {
-            StartNewJourney(true);
+            BeastaryManager.Instance.Load();
+
+            Setup();
+
+            Deactivated = false;
         }
-    }
 
-    private void ShowHeroSelectionScreen()
-    {
-        HeroSelectionWindow.Instance.gameObject.SetActive(true);
-        HeroSelectionWindow.Instance.UpdateUI();
-    }
+        private void OnEnable()
+        {
+            Setup();
+            ThemeManager.WhenReady(PlayTheme);
+        }
 
-    private void StartNewJourney(bool value)
-    {
-        if (value)
+        private void PlayTheme(ThemeManager manager)
+        {
+            manager.PlayTheme(mainMenuTheme);
+        }
+
+        public void Setup()
+        {
+            continueJourneyButton.interactable = SaveManager.FileExists("GameManagerSave");
+
+            OpenPage(Pages.None);
+        }
+
+        public void StartNewJourneyButton()
+        {
+            if (SaveManager.FileExists("GameManagerSave"))
+            {
+                inputQuery.gameObject.SetActive(true);
+                inputQuery.Setup("Are you sure you want to start a new journey? this will delete the current journey.", StartNewJourney);
+            }
+            else
+            {
+                StartNewJourney(true);
+            }
+        }
+
+        public void HideHeroSelectionScreen()
+        {
+            HeroSelectionWindow.Instance.gameObject.SetActive(false);
+            buttons.ForEach((button) => button.interactable = true);
+        }
+
+        private void ShowHeroSelectionScreen()
+        {
+            HeroSelectionWindow.Instance.gameObject.SetActive(true);
+            HeroSelectionWindow.Instance.UpdateUI();
+
+            buttons.ForEach((button) => button.interactable = false);
+        }
+
+        private void StartNewJourney(bool value)
+        {
+            if (value)
+            {
+                if (Deactivated)
+                    return;
+
+                Deactivated = true;
+
+                ShowHeroSelectionScreen();
+            }
+        }
+
+        public void PlayImpactAndStopTheme()
+        {
+            impactClip.Play();
+            ThemeManager.IfReady((manager) => manager.StopTheme(stopThemeTime));
+        }
+
+        public void ContinueJourneyButton()
         {
             if (Deactivated)
                 return;
 
             Deactivated = true;
 
-            ShowHeroSelectionScreen();
+            if (!SaveManager.FileExists("GameManagerSave"))
+            {
+                Setup();
+                return;
+            }
+            PlayImpactAndStopTheme();
+
+            GameManager.Instance.ContinueJourney();
+            WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());
         }
-    }
 
-    public void PlayImpactAndStopTheme()
-    {
-        impactClip.Play();
-        ThemeManager.IfReady((manager) => manager.StopTheme(stopThemeTime));
-    }
-
-    public void ContinueJourneyButton()
-    {
-        if (Deactivated)
-            return;
-
-        Deactivated = true;
-
-        if (!SaveManager.FileExists("GameManagerSave"))
+        public void BeastaryButton()
         {
-            Setup();
-            return;
+            if (Deactivated)
+                return;
+
+            OpenPage(Pages.Beastary);
         }
-        PlayImpactAndStopTheme();
 
-        GameManager.Instance.ContinueJourney();
-        WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());
-    }
+        public void OpenOptions()
+        {
+            if (Deactivated)
+                return;
 
-    public void BeastaryButton()
-    {
-        if (Deactivated)
-            return;
+            OpenPage(Pages.Options);
+        }
 
-        OpenPage(Pages.Beastary);
-    }
+        public void RelicButton()
+        {
+            if (Deactivated)
+                return;
 
-    public void OpenOptions()
-    {
-        if (Deactivated)
-            return;
+            OpenPage(Pages.Relic);
+        }
 
-        OpenPage(Pages.Options);
-    }
+        public void OpenEquipmentCatalogue()
+        {
+            if (Deactivated)
+                return;
 
-    public void RelicButton()
-    {
-        if (Deactivated)
-            return;
+            OpenPage(Pages.Equipment);
+        }
 
-        OpenPage(Pages.Relic);
-    }
+        public void OpenUnitCatalogue()
+        {
+            if (Deactivated)
+                return;
 
-    public void OpenEquipmentCatalogue()
-    {
-        if (Deactivated)
-            return;
+            OpenPage(Pages.Units);
+        }
 
-        OpenPage(Pages.Equipment);
-    }
+        private void OpenPage(Pages page)
+        {
+            equipmentCatalogue.SetActive(page == Pages.Equipment);
+            unitCatalogue.SetActive(page == Pages.Units);
+            beasaryCatalogue.SetActive(page == Pages.Beastary);
+            relicCatalogue.SetActive(page == Pages.Relic);
+        }
 
-    public void OpenUnitCatalogue()
-    {
-        if (Deactivated)
-            return;
+        public void ExitDesktopButton()
+        {
+            Application.Quit();
+        }
 
-        OpenPage(Pages.Units);
-    }
-
-    private void OpenPage(Pages page)
-    {
-        equipmentCatalogue.SetActive(page == Pages.Equipment);
-        unitCatalogue.SetActive(page == Pages.Units);
-        beasaryCatalogue.SetActive(page == Pages.Beastary);
-        relicCatalogue.SetActive(page == Pages.Relic);
-    }
-
-    public void ExitDesktopButton()
-    {
-        Application.Quit();
-    }
-
-    private enum Pages
-    {
-        None,
-        Options,
-        Beastary,
-        Units,
-        Equipment,
-        Relic,
+        private enum Pages
+        {
+            None,
+            Options,
+            Beastary,
+            Units,
+            Equipment,
+            Relic,
+        }
     }
 }
+

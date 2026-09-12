@@ -24,10 +24,10 @@ namespace LocalMap
         public SpriteRenderer highlightRightDownCorner;
 
         private bool _walkable;
-        public bool IsFullyWalkable => _walkable;
+        public bool IsFullyWalkable => _walkable && _blockedRegions.Count == 0;
         private readonly List<AutoTileWalkability> _autoTileWalkability = new List<AutoTileWalkability>();
         public List<AutoTileWalkability> AutoTileWalkability => _autoTileWalkability;
-
+        private readonly List<Rect> _blockedRegions = new List<Rect>();
         private struct AutoTileTypeRegion
         {
             public TileType OverType;
@@ -84,7 +84,17 @@ namespace LocalMap
                 highlightRightDownCorner.color = Color.white;
             }
         }
+        public void AddBlockedRegion(Rect relativeRect)
+        {
+            _blockedRegions.Add(relativeRect);
+        }
 
+        public void RemoveBlockedRegion(Rect relativeRect)
+        {
+            _blockedRegions.Remove(relativeRect);
+        }
+
+        public bool HasBlockedRegions => _blockedRegions.Count > 0;
         public void Init(TileTypeAndVisual tileTypeAndSprite, Vector2Int position, bool walkable)
         {
             TileTypeAndVisual = tileTypeAndSprite;
@@ -129,17 +139,21 @@ namespace LocalMap
             if (position.V2ToV2Int() != Position)
                 return false;
 
+            Vector2 relativePosition = position - (Vector2)Position + Vector2.one / 2f;
+
+            foreach (Rect blocked in _blockedRegions)
+            {
+                if (blocked.Contains(relativePosition))
+                    return false;
+            }
+
             if (_walkable)
                 return true;
 
             foreach (AutoTileWalkability autoTileWalkability in _autoTileWalkability)
             {
-                Vector2 relativePosition = position - (Vector2)Position + Vector2.one / 2f; // fixed: was minus
                 if (autoTileWalkability.Contains(relativePosition))
-                {
-                    Debug.Log($"Tile in Position: {Position} is walkable from autotile");
                     return true;
-                }
             }
 
             return false;

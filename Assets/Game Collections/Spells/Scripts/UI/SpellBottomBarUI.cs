@@ -25,27 +25,27 @@ namespace Spells.UI
 
         private void Update()
         {
-            if (InputManager.Instance.Actions.Spell.SelectSpell1.WasPressedThisFrame())
+            if (InputManager.Spell_Selection.SelectSpell1.WasPressedThisFrame())
             {
                 Spell1Button();
             }
 
-            if (InputManager.Instance.Actions.Spell.SelectSpell2.WasPressedThisFrame())
+            if (InputManager.Spell_Selection.SelectSpell2.WasPressedThisFrame())
             {
                 Spell2Button();
             }
 
-            if (InputManager.Instance.Actions.Spell.SelectSpell3.WasPressedThisFrame())
+            if (InputManager.Spell_Selection.SelectSpell3.WasPressedThisFrame())
             {
                 Spell3Button();
             }
 
-            if (InputManager.Instance.Actions.Spell.SelectSpell4.WasPressedThisFrame())
+            if (InputManager.Spell_Selection.SelectSpell4.WasPressedThisFrame())
             {
                 Spell4Button();
             }
 
-            if (InputManager.Instance.Actions.Spell.CancelSpell.WasPressedThisFrame())
+            if (InputManager.Spell_Selection.CancelSpell.WasPressedThisFrame())
             {
                 manager.ActivateSpell(null);
             }

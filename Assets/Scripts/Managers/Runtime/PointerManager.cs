@@ -28,7 +28,6 @@ public class PointerManager : Singleton<PointerManager>
     private void Update()
     {
         Mouse mouse = Mouse.current;
-
         if(mouse != null)
         {
             PointerPosition = GetPointerPositionMouse();

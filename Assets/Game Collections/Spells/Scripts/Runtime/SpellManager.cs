@@ -31,10 +31,7 @@ namespace Spells
 
         [SerializeField]
         private float timeSlowDownScale = 0.1f;
-
-        [SerializeField]
-        private float transitionTimeSlow = 0.5f;
-
+        
         private void Awake()
         {
             Instance = this;
@@ -94,9 +91,9 @@ namespace Spells
 
             ShowHighlight();
 
-            if (InputManager.Instance.Actions.Player.Select.WasPressedThisFrame())
+            if (InputManager.Instance.Actions.Spell_Casting.Cast.WasPressedThisFrame())
             {
-                UseSpell();
+                CastSpell();
             }
         }
 
@@ -163,15 +160,12 @@ namespace Spells
             MapTileHighlightManager.Instance.ShowHighlight(highlightInfos);
         }
 
-        public void UseSpell()
+        public void CastSpell()
         {
             if (!LocalMapLevelCompletedManager.Instance.CurrentlyPlayingLocalLevel)
                 return;
 
             if (activeSpell == null || activeSpell.numberOfUses <= 0)
-                return;
-
-            if (PointerManager.Instance.PointerOverUI)
                 return;
 
             Vector2Int position = PointerManager.Instance.PointerWorldPosition.V2ToV2Int();
@@ -209,6 +203,7 @@ namespace Spells
             TimeManager.Instance.AddTimeScaleReference(_timeManagmentReference, timeSlowDownScale);
             LocalCameraMovementManager.Instance.CameraLocked = false;
             InputManager.Instance.Actions.Player.Disable();
+            InputManager.Instance.Actions.Spell_Casting.Enable();
         }
 
         private void EndSlowTimeEffect()
@@ -216,6 +211,7 @@ namespace Spells
             TimeManager.Instance.RemoveTimeScaleReference(_timeManagmentReference);
             LocalCameraMovementManager.Instance.CameraLocked = true;
             InputManager.Instance.Actions.Player.Enable();
+            InputManager.Instance.Actions.Spell_Casting.Disable();
         }
 
         public void Save()

@@ -22,9 +22,10 @@ namespace Heros
             {
                 if (heroStatsManager == null)
                     heroStatsManager = HeroStatBuffsManager.Instance;
-
+                
                 return heroStatsManager;
             }
+            
         }
 
         private HeroEquipmentManager heroEquipmentManager;

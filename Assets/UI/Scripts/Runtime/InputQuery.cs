@@ -1,30 +1,43 @@
+using CodiceApp.EventTracking;
 using System;
-using UnityEngine;
 using TMPro;
-public class InputQuery : MonoBehaviour
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace UI 
 {
-    [SerializeField]
-    private TextMeshProUGUI queryText;
-    [SerializeField]
-    private TextMeshProUGUI yesText;
-    [SerializeField]
-    private TextMeshProUGUI noText;
-
-    private Action<bool> action;
-
-    public void Setup(string queryString, Action<bool> action, string yesString = "yes", string noString = "no")
+    public class InputQuery : MonoBehaviour
     {
-        queryText.text = queryString;
-        yesText.text = yesString;
-        noText.text = noString;
-        this.action = action;
-    }
+        [SerializeField]
+        private TextMeshProUGUI queryText;
+        [SerializeField]
+        private TextMeshProUGUI yesText;
+        [SerializeField]
+        private TextMeshProUGUI noText;
 
+        private Action<bool> _action;
 
+        [SerializeField]
+        private GameObject focusElement;
 
-    public void ButtonPress(bool value)
-    {
-        action(value);
-        gameObject.SetActive(false);
+        private GameObject previousSelectedObject;
+
+        public void Setup(string queryString, Action<bool> action, string yesString = "Yes", string noString = "No")
+        {
+            queryText.text = queryString;
+            yesText.text = yesString;
+            noText.text = noString;
+            this._action = action;
+
+            previousSelectedObject = SelectionManager.Instance.GetCurrentlySelected();
+            SelectionManager.Instance.FocusOnElement(focusElement);
+        }
+
+        public void ButtonPress(bool value)
+        {
+            _action(value);
+            gameObject.SetActive(false);
+            SelectionManager.Instance.FocusOnElement(previousSelectedObject);
+        }
     }
 }

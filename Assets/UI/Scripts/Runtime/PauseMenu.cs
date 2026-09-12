@@ -2,68 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+namespace UI
 {
-    [SerializeField]
-    private InputQuery inputQuery;
-
-    private const string pauseRequestReference = "Pause Menu";
-
-    private const string blurRequestReference = "Pause Menu";
-
-    public void OpenPauseMenuButton()
+    public class PauseMenu : MonoBehaviour
     {
-        TimeManager.Instance.PauseTime(pauseRequestReference);
-        BlurBackgroundController.Instance.EnableBlur(blurRequestReference);
-    }
+        [SerializeField]
+        private InputQuery inputQuery;
 
-    public void ContinueButton()
-    {
-        gameObject.SetActive(false);
-        TimeManager.Instance.RemovePauseRequest(pauseRequestReference);
-        BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
-    }
+        private const string pauseRequestReference = "Pause Menu";
 
-    public void OptionsButton()
-    {
+        private const string blurRequestReference = "Pause Menu";
 
-    }
-
-    public void AbandonRunButton()
-    {
-        inputQuery.gameObject.SetActive(true);
-        inputQuery.Setup("Are you sure you want to abandon the current Journey?", AbandonRun);
-    }
-
-    public void AbandonRun(bool value)
-    {
-        if (value)
+        public void OpenPauseMenuButton()
         {
-            SaveManager.IfFileExistsDelete("GameManagerSave"); 
-            SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, () => MainMenu.Instance.Deactivated = false);
+            TimeManager.Instance.PauseTime(pauseRequestReference);
+            BlurBackgroundController.Instance.EnableBlur(blurRequestReference);
+        }
+
+        public void ContinueButton()
+        {
             gameObject.SetActive(false);
+            TimeManager.Instance.RemovePauseRequest(pauseRequestReference);
             BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
         }
-    }
 
-    public void ExitMainMenuButton()
-    {
-        SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, () => MainMenu.Instance.Deactivated = false);
-        gameObject.SetActive(false);
-        BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
-
-        if (!GameManager.Instance.LocalMapPlaying)
+        public void OptionsButton()
         {
-            GameManager.Instance.Save();
+
+        }
+
+        public void AbandonRunButton()
+        {
+            inputQuery.gameObject.SetActive(true);
+            inputQuery.Setup("Are you sure you want to abandon the current Journey?", AbandonRun);
+        }
+
+        public void AbandonRun(bool value)
+        {
+            if (value)
+            {
+                SaveManager.IfFileExistsDelete("GameManagerSave");
+                SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, AfterLoadMainMenu);
+                gameObject.SetActive(false);
+                BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
+            }
+        }
+
+        private void AfterLoadMainMenu()
+        {
+            MainMenu.Instance.Deactivated = false;
+            MainMenu.Instance.HideHeroSelectionScreen();
+        }
+
+        public void ExitMainMenuButton()
+        {
+            SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, AfterLoadMainMenu);
+            gameObject.SetActive(false);
+            BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
+
+            if (!GameManager.Instance.LocalMapPlaying)
+            {
+                GameManager.Instance.Save();
+            }
+        }
+
+        public void ExitDesktopButton()
+        {
+            if (!GameManager.Instance.LocalMapPlaying)
+            {
+                GameManager.Instance.Save();
+            }
+            Application.Quit();
         }
     }
 
-    public void ExitDesktopButton()
-    {
-        if (!GameManager.Instance.LocalMapPlaying)
-        {
-            GameManager.Instance.Save();
-        }
-        Application.Quit();
-    }
 }

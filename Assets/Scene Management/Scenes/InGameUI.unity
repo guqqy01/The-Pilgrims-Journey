@@ -16635,7 +16635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
   m_IsGlobal: 1
-  priority: 0
+  priority: 1
   blendDistance: 0
   weight: 0
   sharedProfile: {fileID: 11400000, guid: b87bdf68539102d4bb2a9a234bc5b17e, type: 2}
@@ -16652,6 +16652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Gameplay::SpellVolumeManager
   blurVolume: {fileID: 1013076991}
+  removeWeightTime: 0.2
 --- !u!1 &1014255394
 GameObject:
   m_ObjectHideFlags: 0

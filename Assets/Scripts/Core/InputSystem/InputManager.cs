@@ -52,8 +52,7 @@ public class InputManager : Singleton<InputManager>
             return Instance.Actions.Player;
         }
     }
-
-    public static InputSystemActions.SpellActions Spells
+    public static InputSystemActions.Camera_MovementActions CameraMovement    
     {
         get
         {
@@ -63,7 +62,34 @@ public class InputManager : Singleton<InputManager>
             if (Instance.Actions == null)
                 throw new NullReferenceException("Instance not set");
 
-            return Instance.Actions.Spell;
+            return Instance.Actions.Camera_Movement;
+        }
+    }
+    public static InputSystemActions.Spell_CastingActions Spell_Casting
+    {
+        get
+        {
+            if (Instance == null)
+                throw new NullReferenceException("Instance not set");
+
+            if (Instance.Actions == null)
+                throw new NullReferenceException("Instance not set");
+
+            return Instance.Actions.Spell_Casting;
+        }
+    }
+
+    public static InputSystemActions.Spell_SelectionActions Spell_Selection 
+    {
+        get
+        {
+            if (Instance == null)
+                throw new NullReferenceException("Instance not set");
+
+            if (Instance.Actions == null)
+                throw new NullReferenceException("Instance not set");
+
+            return Instance.Actions.Spell_Selection;
         }
     }
 
@@ -127,7 +153,8 @@ public class InputManager : Singleton<InputManager>
             { InputContext.UI_TilePlayer,Actions.UI_TilePlayer.Get() },
             { InputContext.UI_Shop,      Actions.UI_Shop.Get() },
             { InputContext.Dialogue,     Actions.Dialogue.Get() },
-            { InputContext.Spells,     Actions.Spell.Get() },
+            { InputContext.Spell_Selection,     Actions.Spell_Selection.Get() },
+            { InputContext.Spell_Casting,     Actions.Spell_Casting.Get() },
             /*{ InputContext.Main_Menu,    Actions.Main_Menu.Get() },
             { InputContext.Paused,       Actions.Paused.Get() },*/
         };
@@ -136,7 +163,8 @@ public class InputManager : Singleton<InputManager>
         {
             { InputContext.Player,          0 },
             { InputContext.UI,              0 },
-            { InputContext.Spells,          0 },
+            { InputContext.Spell_Selection, 0 },
+            { InputContext.Spell_Casting,   0 },
             { InputContext.UI_HeroStats,    5 },
             { InputContext.UI_TilePlayer,   5 },
             { InputContext.UI_Shop,         5 },
@@ -156,7 +184,7 @@ public class InputManager : Singleton<InputManager>
     private void OnEnable()
     {
         PushContext(InputContext.Player);
-        PushContext(InputContext.Spells);
+        PushContext(InputContext.Spell_Selection);
         PushContext(InputContext.UI);
     }
 

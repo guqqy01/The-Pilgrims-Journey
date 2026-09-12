@@ -68,6 +68,10 @@ namespace LocalMap
             {
                 cameraLock = value;
 
+                if (cameraLock)
+                    InputManager.CameraMovement.Disable();
+                else InputManager.CameraMovement.Enable();
+
                 updateUI?.Invoke(cameraLock);
             }
         }
@@ -151,26 +155,26 @@ namespace LocalMap
 
         private void MoveCamera()
         {
-            Vector3 move = InputManager.Player.Look.ReadValue<Vector2>() * cameraSpeed * Time.deltaTime;
+            Vector3 move = InputManager.CameraMovement.Look.ReadValue<Vector2>() * cameraSpeed * Time.deltaTime;
             transform.position += move;
         }
 
         private void HandleMouseDrag()
         {
-            if (InputManager.Player.Select.WasPressedThisFrame() && !PointerManager.Instance.PointerOverUI)
+            if (InputManager.UI.Click.WasPressedThisFrame())
             {
                 dragOrigin = Cam.ScreenToWorldPoint(PointerManager.Instance.PointerPosition);
                 isDragging = true;
             }
 
-            if (InputManager.Player.Select.IsPressed() && isDragging)
+            if (InputManager.UI.Click.IsPressed() && isDragging)
             {
                 Vector3 currentPos = Cam.ScreenToWorldPoint(PointerManager.Instance.PointerPosition);
                 Vector3 difference = dragOrigin - currentPos;
                 transform.position += difference;
             }
 
-            if (InputManager.Player.Select.WasReleasedThisFrame())
+            if (InputManager.UI.Click.WasReleasedThisFrame())
             {
                 isDragging = false;
             }
@@ -184,7 +188,7 @@ namespace LocalMap
             if (PointerManager.Instance.PointerOverUI)
                 return;
 
-            float newSize = Cam.orthographicSize - InputManager.Player.Zoom.ReadValue<Vector2>().y * zoomSpeed * Time.deltaTime;
+            float newSize = Cam.orthographicSize - InputManager.CameraMovement.Zoom.ReadValue<Vector2>().y * zoomSpeed * Time.deltaTime;
             newSize = Mathf.Clamp(newSize, zoomMin, MaxZoom);
             Cam.orthographicSize = newSize;
         }

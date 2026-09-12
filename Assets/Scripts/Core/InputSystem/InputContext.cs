@@ -8,5 +8,6 @@ public enum InputContext
     Main_Menu,
     Dialogue,
     Paused,
-    Spells,
+    Spell_Selection,
+    Spell_Casting,
 }

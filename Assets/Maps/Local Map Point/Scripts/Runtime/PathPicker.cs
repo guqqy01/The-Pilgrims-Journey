@@ -62,11 +62,11 @@ namespace LocalMap
         }
         private void Subscribe(InputManager inputManager)
         {
-            inputManager.Actions.Player.Select.performed += OnSelect;
+            inputManager.Actions.UI.Click.performed += OnSelect;
         }
         private void UnSubscribe(InputManager inputManager)
         {
-            inputManager.Actions.Player.Select.performed -= OnSelect;
+            inputManager.Actions.UI.Click.performed -= OnSelect;
         }
         private void OnSelect(InputAction.CallbackContext _)
         {

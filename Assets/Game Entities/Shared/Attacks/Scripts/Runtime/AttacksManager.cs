@@ -70,7 +70,10 @@ namespace Attacks
         public void AddAttack(BaseAttackSO attackSO)
         {
             if (attacks.ContainsKey(attackSO))
+            {
+                Debug.Log($"{name}, already has attack: {attackSO.name}");
                 return;
+            }
 
             if (!typeof(BaseAttack).IsAssignableFrom(attackSO.AttackType))
             {

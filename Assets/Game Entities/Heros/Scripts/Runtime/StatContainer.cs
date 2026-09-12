@@ -13,6 +13,7 @@ public class StatContainer : MonoBehaviour
 
     public bool IsSetup { private set; get; } = false;
 
+
     private void OnDestroy()
     {
         OnStatChanged = null;
@@ -36,6 +37,7 @@ public class StatContainer : MonoBehaviour
         }
         else
         {
+            Debug.LogWarning($"Tried getting the buffableStat for {stat} and failed returned null");
             return null;
         }
     }

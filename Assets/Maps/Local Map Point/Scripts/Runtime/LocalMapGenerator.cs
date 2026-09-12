@@ -135,7 +135,7 @@ namespace LocalMap
 
                     MapTile neighbourTile = Tiles[neighbour.x, neighbour.y];
 
-                    if (!neighbourTile.TileType.IsWalkable())
+                    if (!neighbourTile.IsFullyWalkable)
                         continue;
 
                     _connectedToPath[neighbour.x, neighbour.y] = true;
@@ -177,8 +177,9 @@ namespace LocalMap
         public TileType? GetTileTypeAtPosition(Vector2 position)
         {
             Vector2Int v2IntPos = position.V2ToV2Int();
-            if (Tiles.IsInBounds(v2IntPos.x, v2IntPos.y))
+            if (!Tiles.IsInBounds(v2IntPos.x, v2IntPos.y))
                 return null;
+
             return Tiles[v2IntPos.x, v2IntPos.y].GetTileTypeAtPosition(position);
         }
 
@@ -528,10 +529,10 @@ namespace LocalMap
             PlaceBorderTiles(generationSettings, previewSettings, terrainNoiseIndecies);
             RunAutoTilePass();
 
-            BuildConnectedRegion();
-
             if (previewSettings.HasFlag(MapGenerationPreviewSettings.MapObjects))
                 SpawnMapObjects(generationSettings);
+            
+            BuildConnectedRegion();
 
             if (PathPicker.Instance != null)
                 PathPicker.Instance.Setup();
@@ -597,7 +598,7 @@ namespace LocalMap
             }*/
         }
 
-        private MapTile GetTileAt(int x, int y)
+        public MapTile GetTileAt(int x, int y)
         {
             if (x >= 0 && x < mapSizeX && y >= 0 && y < mapSizeY)
                 return Tiles[x, y];
@@ -613,6 +614,7 @@ namespace LocalMap
 
             return borderTiles[bx, by];
         }
+        public void RebuildConnectivity() => BuildConnectedRegion();
 
         private TileType GetExtendedTileType(int x, int y)
         {

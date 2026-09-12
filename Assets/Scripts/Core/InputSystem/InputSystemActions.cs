@@ -103,16 +103,6 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""priority"": 0
                 },
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""b60b597c-c1e7-46d4-a229-920ac4db7026"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true,
-                    ""priority"": 0
-                },
-                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""852140f2-7766-474d-8707-702459ba45f3"",
@@ -120,26 +110,6 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false,
-                    ""priority"": 0
-                },
-                {
-                    ""name"": ""Select"",
-                    ""type"": ""Button"",
-                    ""id"": ""424b107b-d380-47a9-8edb-f4e544d7dcab"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Hold"",
-                    ""initialStateCheck"": false,
-                    ""priority"": 0
-                },
-                {
-                    ""name"": ""Zoom"",
-                    ""type"": ""Value"",
-                    ""id"": ""a43f7c80-0aae-45f8-bf44-b73eaca2af6f"",
-                    ""expectedControlType"": ""Delta"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true,
                     ""priority"": 0
                 }
             ],
@@ -212,72 +182,6 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a3a613d2-bf37-41da-9c3c-bb7360f35a1c"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Arrows"",
-                    ""id"": ""5cb50449-79b5-4952-9e57-9710548e4b99"",
-                    ""path"": ""Dpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""64298cc4-ead3-4325-b66f-a43483d8b444"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""36dc0e99-0251-42f0-9ac4-a9c8140fdf5e"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""f3f33e31-d3f8-4da6-8fd8-a212012e1ca1"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""da3d483d-c6e5-4e4a-b2b4-c8188973bc32"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
                     ""id"": ""1c04ea5f-b012-41d1-a6f7-02e963b52893"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
@@ -297,21 +201,104 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Camera_Movement"",
+            ""id"": ""f4b5fa5b-f8fd-490d-8aa5-13f4800ef37c"",
+            ""actions"": [
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""fde1e7b6-25cc-4534-a3ee-f9974624f19b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
                 },
                 {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""effe9b10-bf3c-44bb-8fbc-29b40180f237"",
+                    ""expectedControlType"": ""Delta"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""411f0d2d-2c39-48e7-823f-78237f9f338d"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""80992939-508b-43b4-9f63-80a411024770"",
+                    ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Select"",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""Arrows"",
+                    ""id"": ""58729144-9181-4ef1-a3eb-ddc3e2c7af16"",
+                    ""path"": ""Dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""89c0e775-b3cd-464e-95dd-f8772fdacee8"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""46cdd447-b1b0-4def-ace2-8d45105d3882"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""3fa0b132-3b0e-47e8-95f7-51d825e1846f"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""8baa3da9-9ce8-4eca-aa9a-35a02d20aca7"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
-                    ""id"": ""027bd355-2695-42cf-84df-33bac02a1f70"",
+                    ""id"": ""391f0093-7e05-4bfb-ad2c-c5c2340dd3f1"",
                     ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -323,7 +310,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Spell"",
+            ""name"": ""Spell_Selection"",
             ""id"": ""31d599db-c1b5-4ee1-a30c-6aaef0937b37"",
             ""actions"": [
                 {
@@ -430,6 +417,132 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cancel Spell"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Spell_Casting"",
+            ""id"": ""1121bb47-a8da-4e93-860b-3e2780381683"",
+            ""actions"": [
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""102ebc6d-e443-45dc-9a7e-88d511be1b55"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""c50bcd1e-b3eb-4845-877c-87f5a282b075"",
+                    ""expectedControlType"": ""Delta"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Cast"",
+                    ""type"": ""Button"",
+                    ""id"": ""7028fd17-ba6a-4123-8d9e-a4ebb858b892"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f9509feb-975b-4b15-bbaf-02a78f914880"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""1f3d4d98-f168-4044-b7e3-957d84acddc7"",
+                    ""path"": ""Dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f2a35fda-0476-4415-8b4a-88b81d9f9fd6"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""106a889b-c6b0-4781-a400-e7857e522b71"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b8e9cbe3-57f5-499c-81e7-93616b74f129"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""1a58f705-1f76-4fac-be58-bcebd287f4f0"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0c96bbb-4e16-437a-a811-dd0a4de5d16e"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Cast"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a56fd1f-db05-4247-ab88-a9a098db56ac"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1281,17 +1394,23 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
-        m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
-        // Spell
-        m_Spell = asset.FindActionMap("Spell", throwIfNotFound: true);
-        m_Spell_SelectSpell1 = m_Spell.FindAction("Select Spell 1", throwIfNotFound: true);
-        m_Spell_SelectSpell2 = m_Spell.FindAction("Select Spell 2", throwIfNotFound: true);
-        m_Spell_SelectSpell3 = m_Spell.FindAction("Select Spell 3", throwIfNotFound: true);
-        m_Spell_SelectSpell4 = m_Spell.FindAction("Select Spell 4", throwIfNotFound: true);
-        m_Spell_CancelSpell = m_Spell.FindAction("Cancel Spell", throwIfNotFound: true);
+        // Camera_Movement
+        m_Camera_Movement = asset.FindActionMap("Camera_Movement", throwIfNotFound: true);
+        m_Camera_Movement_Look = m_Camera_Movement.FindAction("Look", throwIfNotFound: true);
+        m_Camera_Movement_Zoom = m_Camera_Movement.FindAction("Zoom", throwIfNotFound: true);
+        // Spell_Selection
+        m_Spell_Selection = asset.FindActionMap("Spell_Selection", throwIfNotFound: true);
+        m_Spell_Selection_SelectSpell1 = m_Spell_Selection.FindAction("Select Spell 1", throwIfNotFound: true);
+        m_Spell_Selection_SelectSpell2 = m_Spell_Selection.FindAction("Select Spell 2", throwIfNotFound: true);
+        m_Spell_Selection_SelectSpell3 = m_Spell_Selection.FindAction("Select Spell 3", throwIfNotFound: true);
+        m_Spell_Selection_SelectSpell4 = m_Spell_Selection.FindAction("Select Spell 4", throwIfNotFound: true);
+        m_Spell_Selection_CancelSpell = m_Spell_Selection.FindAction("Cancel Spell", throwIfNotFound: true);
+        // Spell_Casting
+        m_Spell_Casting = asset.FindActionMap("Spell_Casting", throwIfNotFound: true);
+        m_Spell_Casting_Look = m_Spell_Casting.FindAction("Look", throwIfNotFound: true);
+        m_Spell_Casting_Zoom = m_Spell_Casting.FindAction("Zoom", throwIfNotFound: true);
+        m_Spell_Casting_Cast = m_Spell_Casting.FindAction("Cast", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1335,7 +1454,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
     ~@InputSystemActions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystemActions.Player.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_Spell.enabled, "This will cause a leak and performance issues, InputSystemActions.Spell.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Camera_Movement.enabled, "This will cause a leak and performance issues, InputSystemActions.Camera_Movement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Spell_Selection.enabled, "This will cause a leak and performance issues, InputSystemActions.Spell_Selection.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Spell_Casting.enabled, "This will cause a leak and performance issues, InputSystemActions.Spell_Casting.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystemActions.UI.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI_TilePlayer.enabled, "This will cause a leak and performance issues, InputSystemActions.UI_TilePlayer.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI_HeroStats.enabled, "This will cause a leak and performance issues, InputSystemActions.UI_HeroStats.Disable() has not been called.");
@@ -1420,10 +1541,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_Select;
-    private readonly InputAction m_Player_Zoom;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1440,21 +1558,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Player_Move;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Look".
-        /// </summary>
-        public InputAction @Look => m_Wrapper.m_Player_Look;
-        /// <summary>
         /// Provides access to the underlying input action "Player/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Select".
-        /// </summary>
-        public InputAction @Select => m_Wrapper.m_Player_Select;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Zoom".
-        /// </summary>
-        public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1484,18 +1590,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @Select.started += instance.OnSelect;
-            @Select.performed += instance.OnSelect;
-            @Select.canceled += instance.OnSelect;
-            @Zoom.started += instance.OnZoom;
-            @Zoom.performed += instance.OnZoom;
-            @Zoom.canceled += instance.OnZoom;
         }
 
         /// <summary>
@@ -1510,18 +1607,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @Select.started -= instance.OnSelect;
-            @Select.performed -= instance.OnSelect;
-            @Select.canceled -= instance.OnSelect;
-            @Zoom.started -= instance.OnZoom;
-            @Zoom.performed -= instance.OnZoom;
-            @Zoom.canceled -= instance.OnZoom;
         }
 
         /// <summary>
@@ -1556,49 +1644,34 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
 
-    // Spell
-    private readonly InputActionMap m_Spell;
-    private List<ISpellActions> m_SpellActionsCallbackInterfaces = new List<ISpellActions>();
-    private readonly InputAction m_Spell_SelectSpell1;
-    private readonly InputAction m_Spell_SelectSpell2;
-    private readonly InputAction m_Spell_SelectSpell3;
-    private readonly InputAction m_Spell_SelectSpell4;
-    private readonly InputAction m_Spell_CancelSpell;
+    // Camera_Movement
+    private readonly InputActionMap m_Camera_Movement;
+    private List<ICamera_MovementActions> m_Camera_MovementActionsCallbackInterfaces = new List<ICamera_MovementActions>();
+    private readonly InputAction m_Camera_Movement_Look;
+    private readonly InputAction m_Camera_Movement_Zoom;
     /// <summary>
-    /// Provides access to input actions defined in input action map "Spell".
+    /// Provides access to input actions defined in input action map "Camera_Movement".
     /// </summary>
-    public struct SpellActions
+    public struct Camera_MovementActions
     {
         private @InputSystemActions m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public SpellActions(@InputSystemActions wrapper) { m_Wrapper = wrapper; }
+        public Camera_MovementActions(@InputSystemActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Spell/SelectSpell1".
+        /// Provides access to the underlying input action "Camera_Movement/Look".
         /// </summary>
-        public InputAction @SelectSpell1 => m_Wrapper.m_Spell_SelectSpell1;
+        public InputAction @Look => m_Wrapper.m_Camera_Movement_Look;
         /// <summary>
-        /// Provides access to the underlying input action "Spell/SelectSpell2".
+        /// Provides access to the underlying input action "Camera_Movement/Zoom".
         /// </summary>
-        public InputAction @SelectSpell2 => m_Wrapper.m_Spell_SelectSpell2;
-        /// <summary>
-        /// Provides access to the underlying input action "Spell/SelectSpell3".
-        /// </summary>
-        public InputAction @SelectSpell3 => m_Wrapper.m_Spell_SelectSpell3;
-        /// <summary>
-        /// Provides access to the underlying input action "Spell/SelectSpell4".
-        /// </summary>
-        public InputAction @SelectSpell4 => m_Wrapper.m_Spell_SelectSpell4;
-        /// <summary>
-        /// Provides access to the underlying input action "Spell/CancelSpell".
-        /// </summary>
-        public InputAction @CancelSpell => m_Wrapper.m_Spell_CancelSpell;
+        public InputAction @Zoom => m_Wrapper.m_Camera_Movement_Zoom;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Spell; }
+        public InputActionMap Get() { return m_Wrapper.m_Camera_Movement; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -1606,9 +1679,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="SpellActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="Camera_MovementActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(SpellActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(Camera_MovementActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -1616,11 +1689,133 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="SpellActions" />
-        public void AddCallbacks(ISpellActions instance)
+        /// <seealso cref="Camera_MovementActions" />
+        public void AddCallbacks(ICamera_MovementActions instance)
         {
-            if (instance == null || m_Wrapper.m_SpellActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_SpellActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_Camera_MovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Camera_MovementActionsCallbackInterfaces.Add(instance);
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="Camera_MovementActions" />
+        private void UnregisterCallbacks(ICamera_MovementActions instance)
+        {
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="Camera_MovementActions.UnregisterCallbacks(ICamera_MovementActions)" />.
+        /// </summary>
+        /// <seealso cref="Camera_MovementActions.UnregisterCallbacks(ICamera_MovementActions)" />
+        public void RemoveCallbacks(ICamera_MovementActions instance)
+        {
+            if (m_Wrapper.m_Camera_MovementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="Camera_MovementActions.AddCallbacks(ICamera_MovementActions)" />
+        /// <seealso cref="Camera_MovementActions.RemoveCallbacks(ICamera_MovementActions)" />
+        /// <seealso cref="Camera_MovementActions.UnregisterCallbacks(ICamera_MovementActions)" />
+        public void SetCallbacks(ICamera_MovementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_Camera_MovementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Camera_MovementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="Camera_MovementActions" /> instance referencing this action map.
+    /// </summary>
+    public Camera_MovementActions @Camera_Movement => new Camera_MovementActions(this);
+
+    // Spell_Selection
+    private readonly InputActionMap m_Spell_Selection;
+    private List<ISpell_SelectionActions> m_Spell_SelectionActionsCallbackInterfaces = new List<ISpell_SelectionActions>();
+    private readonly InputAction m_Spell_Selection_SelectSpell1;
+    private readonly InputAction m_Spell_Selection_SelectSpell2;
+    private readonly InputAction m_Spell_Selection_SelectSpell3;
+    private readonly InputAction m_Spell_Selection_SelectSpell4;
+    private readonly InputAction m_Spell_Selection_CancelSpell;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Spell_Selection".
+    /// </summary>
+    public struct Spell_SelectionActions
+    {
+        private @InputSystemActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public Spell_SelectionActions(@InputSystemActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Selection/SelectSpell1".
+        /// </summary>
+        public InputAction @SelectSpell1 => m_Wrapper.m_Spell_Selection_SelectSpell1;
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Selection/SelectSpell2".
+        /// </summary>
+        public InputAction @SelectSpell2 => m_Wrapper.m_Spell_Selection_SelectSpell2;
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Selection/SelectSpell3".
+        /// </summary>
+        public InputAction @SelectSpell3 => m_Wrapper.m_Spell_Selection_SelectSpell3;
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Selection/SelectSpell4".
+        /// </summary>
+        public InputAction @SelectSpell4 => m_Wrapper.m_Spell_Selection_SelectSpell4;
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Selection/CancelSpell".
+        /// </summary>
+        public InputAction @CancelSpell => m_Wrapper.m_Spell_Selection_CancelSpell;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Spell_Selection; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="Spell_SelectionActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(Spell_SelectionActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="Spell_SelectionActions" />
+        public void AddCallbacks(ISpell_SelectionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_Spell_SelectionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Spell_SelectionActionsCallbackInterfaces.Add(instance);
             @SelectSpell1.started += instance.OnSelectSpell1;
             @SelectSpell1.performed += instance.OnSelectSpell1;
             @SelectSpell1.canceled += instance.OnSelectSpell1;
@@ -1644,8 +1839,8 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="SpellActions" />
-        private void UnregisterCallbacks(ISpellActions instance)
+        /// <seealso cref="Spell_SelectionActions" />
+        private void UnregisterCallbacks(ISpell_SelectionActions instance)
         {
             @SelectSpell1.started -= instance.OnSelectSpell1;
             @SelectSpell1.performed -= instance.OnSelectSpell1;
@@ -1665,12 +1860,12 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SpellActions.UnregisterCallbacks(ISpellActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="Spell_SelectionActions.UnregisterCallbacks(ISpell_SelectionActions)" />.
         /// </summary>
-        /// <seealso cref="SpellActions.UnregisterCallbacks(ISpellActions)" />
-        public void RemoveCallbacks(ISpellActions instance)
+        /// <seealso cref="Spell_SelectionActions.UnregisterCallbacks(ISpell_SelectionActions)" />
+        public void RemoveCallbacks(ISpell_SelectionActions instance)
         {
-            if (m_Wrapper.m_SpellActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_Spell_SelectionActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -1680,21 +1875,139 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="SpellActions.AddCallbacks(ISpellActions)" />
-        /// <seealso cref="SpellActions.RemoveCallbacks(ISpellActions)" />
-        /// <seealso cref="SpellActions.UnregisterCallbacks(ISpellActions)" />
-        public void SetCallbacks(ISpellActions instance)
+        /// <seealso cref="Spell_SelectionActions.AddCallbacks(ISpell_SelectionActions)" />
+        /// <seealso cref="Spell_SelectionActions.RemoveCallbacks(ISpell_SelectionActions)" />
+        /// <seealso cref="Spell_SelectionActions.UnregisterCallbacks(ISpell_SelectionActions)" />
+        public void SetCallbacks(ISpell_SelectionActions instance)
         {
-            foreach (var item in m_Wrapper.m_SpellActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_Spell_SelectionActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_SpellActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_Spell_SelectionActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="SpellActions" /> instance referencing this action map.
+    /// Provides a new <see cref="Spell_SelectionActions" /> instance referencing this action map.
     /// </summary>
-    public SpellActions @Spell => new SpellActions(this);
+    public Spell_SelectionActions @Spell_Selection => new Spell_SelectionActions(this);
+
+    // Spell_Casting
+    private readonly InputActionMap m_Spell_Casting;
+    private List<ISpell_CastingActions> m_Spell_CastingActionsCallbackInterfaces = new List<ISpell_CastingActions>();
+    private readonly InputAction m_Spell_Casting_Look;
+    private readonly InputAction m_Spell_Casting_Zoom;
+    private readonly InputAction m_Spell_Casting_Cast;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Spell_Casting".
+    /// </summary>
+    public struct Spell_CastingActions
+    {
+        private @InputSystemActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public Spell_CastingActions(@InputSystemActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Casting/Look".
+        /// </summary>
+        public InputAction @Look => m_Wrapper.m_Spell_Casting_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Casting/Zoom".
+        /// </summary>
+        public InputAction @Zoom => m_Wrapper.m_Spell_Casting_Zoom;
+        /// <summary>
+        /// Provides access to the underlying input action "Spell_Casting/Cast".
+        /// </summary>
+        public InputAction @Cast => m_Wrapper.m_Spell_Casting_Cast;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Spell_Casting; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="Spell_CastingActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(Spell_CastingActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="Spell_CastingActions" />
+        public void AddCallbacks(ISpell_CastingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_Spell_CastingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Spell_CastingActionsCallbackInterfaces.Add(instance);
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
+            @Cast.started += instance.OnCast;
+            @Cast.performed += instance.OnCast;
+            @Cast.canceled += instance.OnCast;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="Spell_CastingActions" />
+        private void UnregisterCallbacks(ISpell_CastingActions instance)
+        {
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
+            @Cast.started -= instance.OnCast;
+            @Cast.performed -= instance.OnCast;
+            @Cast.canceled -= instance.OnCast;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="Spell_CastingActions.UnregisterCallbacks(ISpell_CastingActions)" />.
+        /// </summary>
+        /// <seealso cref="Spell_CastingActions.UnregisterCallbacks(ISpell_CastingActions)" />
+        public void RemoveCallbacks(ISpell_CastingActions instance)
+        {
+            if (m_Wrapper.m_Spell_CastingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="Spell_CastingActions.AddCallbacks(ISpell_CastingActions)" />
+        /// <seealso cref="Spell_CastingActions.RemoveCallbacks(ISpell_CastingActions)" />
+        /// <seealso cref="Spell_CastingActions.UnregisterCallbacks(ISpell_CastingActions)" />
+        public void SetCallbacks(ISpell_CastingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_Spell_CastingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Spell_CastingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="Spell_CastingActions" /> instance referencing this action map.
+    /// </summary>
+    public Spell_CastingActions @Spell_Casting => new Spell_CastingActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -2697,26 +3010,27 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLook(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera_Movement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="Camera_MovementActions.AddCallbacks(ICamera_MovementActions)" />
+    /// <seealso cref="Camera_MovementActions.RemoveCallbacks(ICamera_MovementActions)" />
+    public interface ICamera_MovementActions
+    {
         /// <summary>
-        /// Method invoked when associated input action "Select" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSelect(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -2726,11 +3040,11 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         void OnZoom(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Spell" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Spell_Selection" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="SpellActions.AddCallbacks(ISpellActions)" />
-    /// <seealso cref="SpellActions.RemoveCallbacks(ISpellActions)" />
-    public interface ISpellActions
+    /// <seealso cref="Spell_SelectionActions.AddCallbacks(ISpell_SelectionActions)" />
+    /// <seealso cref="Spell_SelectionActions.RemoveCallbacks(ISpell_SelectionActions)" />
+    public interface ISpell_SelectionActions
     {
         /// <summary>
         /// Method invoked when associated input action "Select Spell 1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -2767,6 +3081,35 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCancelSpell(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Spell_Casting" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="Spell_CastingActions.AddCallbacks(ISpell_CastingActions)" />
+    /// <seealso cref="Spell_CastingActions.RemoveCallbacks(ISpell_CastingActions)" />
+    public interface ISpell_CastingActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoom(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cast" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCast(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

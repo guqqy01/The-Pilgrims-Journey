@@ -3,113 +3,115 @@ using UnityEngine;
 using Heros;
 using Helper.Wait;
 using UnityEngine.UI;
-public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
+namespace UI
 {
-    [HideInInspector]
-    public HeroSO HoveredHeroSO;
-
-    [SerializeField]
-    private HeroSelectionButtonUI HeroSelectionButtonUIPrefab;
-
-    [SerializeField]
-    private Transform heroSelectionButtonsHolder;
-
-    private readonly List<HeroSelectionButtonUI> heroSelectionButtonUIs = new List<HeroSelectionButtonUI>();
-
-    [SerializeField]
-    private List<HeroSO> heroSOs = new List<HeroSO>();
-
-    [SerializeField]
-    private Button selectHeroButton;
-
-    [SerializeField]
-    private HeroMainDescriptionSection heroMainDescriptionSection;
-
-    [SerializeField]
-    private HeroWeaponDesciptionSection heroWeaponDesciptionSection;
-
-    [SerializeField]
-    private RectTransform contentTransform;
-
-    public override void InitiateFromRootAtAwake()
+    public class HeroSelectionWindow : Singleton<HeroSelectionWindow>
     {
-        base.InitiateFromRootAtAwake();
-        gameObject.SetActive(false);
-    }
+        [HideInInspector]
+        public HeroSO HoveredHeroSO;
 
-    public void UpdateUI()
-    {
-        heroSelectionButtonUIs.DestroyAndClearList();
+        [SerializeField]
+        private HeroSelectionButtonUI HeroSelectionButtonUIPrefab;
 
-        foreach (var heroSO in heroSOs)
+        [SerializeField]
+        private Transform heroSelectionButtonsHolder;
+
+        private readonly List<HeroSelectionButtonUI> heroSelectionButtonUIs = new List<HeroSelectionButtonUI>();
+
+        [SerializeField]
+        private List<HeroSO> heroSOs = new List<HeroSO>();
+
+        [SerializeField]
+        private Button selectHeroButton;
+
+        [SerializeField]
+        private HeroMainDescriptionSection heroMainDescriptionSection;
+
+        [SerializeField]
+        private HeroWeaponDesciptionSection heroWeaponDesciptionSection;
+
+        [SerializeField]
+        private RectTransform contentTransform;
+
+        public override void InitiateFromRootAtAwake()
         {
-            var buttonUI = Instantiate(HeroSelectionButtonUIPrefab, heroSelectionButtonsHolder);
-            buttonUI.UpdateUI(heroSO);
-            heroSelectionButtonUIs.Add(buttonUI);
+            base.InitiateFromRootAtAwake();
+            gameObject.SetActive(false);
         }
 
-        selectHeroButton.interactable = HoveredHeroSO != null;
+        public void UpdateUI()
+        {
+            heroSelectionButtonUIs.DestroyAndClearList();
 
-        UpdateDescriptionUI();
+            foreach (var heroSO in heroSOs)
+            {
+                var buttonUI = Instantiate(HeroSelectionButtonUIPrefab, heroSelectionButtonsHolder);
+                buttonUI.UpdateUI(heroSO);
+                heroSelectionButtonUIs.Add(buttonUI);
+            }
 
-        contentTransform.anchoredPosition = Vector2.zero;
+            selectHeroButton.interactable = HoveredHeroSO != null;
+
+            UpdateDescriptionUI();
+
+            contentTransform.anchoredPosition = Vector2.zero;
+        }
+
+        public void HoverHero(HeroSO heroSO)
+        {
+            HoveredHeroSO = heroSO;
+            selectHeroButton.interactable = HoveredHeroSO != null;
+            UpdateDescriptionUI();
+        }
+
+        public void SelectHoveredHero()
+        {
+            SelectHero(HoveredHeroSO);
+        }
+
+        public void SelectHero(HeroSO heroSO)
+        {
+            if (heroSO == null)
+                return;
+
+            MainMenu.IfReady((mainMenu) => mainMenu.PlayImpactAndStopTheme());
+
+            GameManager.Instance.StartNewJourney(heroSO);
+
+            TimeManager.WhenReady((manager) => manager.OverrideUnpauseTime());
+        }
+
+
+
+        private void UpdateDescriptionUI()
+        {
+            UpdateHeroDescriptionUI();
+            UpdateWeaponDescriptionUI();
+        }
+
+        private void UpdateHeroDescriptionUI()
+        {
+            bool hasContent = heroMainDescriptionSection.HasContent(HoveredHeroSO);
+
+            heroMainDescriptionSection.gameObject.SetActive(hasContent);
+
+            if (!hasContent)
+                return;
+
+            heroMainDescriptionSection.Bind(HoveredHeroSO);
+        }
+
+        private void UpdateWeaponDescriptionUI()
+        {
+            bool hasContent = heroWeaponDesciptionSection.HasContent(HoveredHeroSO);
+
+            heroWeaponDesciptionSection.gameObject.SetActive(hasContent);
+
+            if (!hasContent)
+                return;
+
+            heroWeaponDesciptionSection.Bind(HoveredHeroSO);
+        }
     }
 
-    public void HoverHero(HeroSO heroSO)
-    {
-        HoveredHeroSO = heroSO;
-        selectHeroButton.interactable = HoveredHeroSO != null;
-        UpdateDescriptionUI();
-    }
-
-    public void SelectHoveredHero()
-    {
-        SelectHero(HoveredHeroSO);
-    }
-
-    public void SelectHero(HeroSO heroSO)
-    {
-        if(heroSO == null)
-            return;
-
-        gameObject.SetActive(false);
-
-        MainMenu.IfReady((mainMenu) => mainMenu.PlayImpactAndStopTheme());
-
-        GameManager.Instance.StartNewJourney(heroSO);
-
-        TimeManager.WhenReady((manager) => manager.OverrideUnpauseTime());
-    }
-
-    
-
-    private void UpdateDescriptionUI()
-    {
-        UpdateHeroDescriptionUI();
-        UpdateWeaponDescriptionUI();
-    }
-
-    private void UpdateHeroDescriptionUI()
-    {
-        bool hasContent = heroMainDescriptionSection.HasContent(HoveredHeroSO);
-
-        heroMainDescriptionSection.gameObject.SetActive(hasContent);
-
-        if (!hasContent)
-            return;
-
-        heroMainDescriptionSection.Bind(HoveredHeroSO);
-    }
-
-    private void UpdateWeaponDescriptionUI()
-    {
-        bool hasContent = heroWeaponDesciptionSection.HasContent(HoveredHeroSO);
-
-        heroWeaponDesciptionSection.gameObject.SetActive(hasContent);
-
-        if (!hasContent)
-            return;
-
-        heroWeaponDesciptionSection.Bind(HoveredHeroSO);
-    }
 }

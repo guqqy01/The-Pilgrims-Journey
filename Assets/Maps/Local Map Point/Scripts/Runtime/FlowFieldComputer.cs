@@ -44,7 +44,7 @@ namespace LocalMap
 
                     MapTile tile = tiles[neighbour.x, neighbour.y];
 
-                    if (!tile.TileTypeAndVisual.TileType.IsWalkable())
+                    if (!tile.IsFullyWalkable)
                         continue;
 
                     Vector2Int toDirection = neighbour - current;

@@ -76,7 +76,7 @@ public class TimeManager : Singleton<TimeManager>
             Time.timeScale = Mathf.MoveTowards(
                 Time.timeScale,
                 targetTimeScale,
-                timeScaleTransitionRate * Time.unscaledDeltaTime);
+                (1f / timeScaleTransitionRate) * Time.unscaledDeltaTime);
 
             yield return null;
         }

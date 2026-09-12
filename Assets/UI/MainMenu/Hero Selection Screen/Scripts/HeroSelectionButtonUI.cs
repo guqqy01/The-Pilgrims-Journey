@@ -2,37 +2,42 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Heros;
-public class HeroSelectionButtonUI : MonoBehaviour
+
+namespace UI
 {
-    private HeroSO heroSO;
-
-    [SerializeField]
-    private Image heroIconImage;
-    [SerializeField]
-    private Image attackIconImage;
-    [SerializeField]
-    private TextMeshProUGUI heroNameText;
-
-    [SerializeField]
-    private float heroImageSize = 60f;
-    [SerializeField]
-    private float attackImageSize = 40f;
-
-    public void UpdateUI(HeroSO heroSO)
+    public class HeroSelectionButtonUI : MonoBehaviour
     {
-        this.heroSO = heroSO;
+        private HeroSO heroSO;
 
-        heroIconImage.sprite = heroSO.icon;
-        heroIconImage.NativeRatioScaleToSize(heroImageSize);
+        [SerializeField]
+        private Image heroIconImage;
+        [SerializeField]
+        private Image attackIconImage;
+        [SerializeField]
+        private TextMeshProUGUI heroNameText;
 
-        attackIconImage.sprite = heroSO.startingAttack.icon;
-        attackIconImage.NativeRatioScaleToSize(attackImageSize);
+        [SerializeField]
+        private float heroImageSize = 60f;
+        [SerializeField]
+        private float attackImageSize = 40f;
 
-        heroNameText.text = heroSO.name;
+        public void UpdateUI(HeroSO heroSO)
+        {
+            this.heroSO = heroSO;
+
+            heroIconImage.sprite = heroSO.icon;
+            heroIconImage.NativeRatioScaleToSize(heroImageSize);
+
+            attackIconImage.sprite = heroSO.startingAttack.icon;
+            attackIconImage.NativeRatioScaleToSize(attackImageSize);
+
+            heroNameText.text = heroSO.name;
+        }
+
+        public void OnButtonClick()
+        {
+            HeroSelectionWindow.Instance.HoverHero(heroSO);
+        }
     }
 
-    public void OnButtonClick()
-    {
-        HeroSelectionWindow.Instance.HoverHero(heroSO);
-    }
 }
