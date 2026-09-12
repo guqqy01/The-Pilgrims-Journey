@@ -499,10 +499,7 @@ MonoBehaviour:
   - name: Grass
     priority: 2
     scale: {x: 0.1, y: 0.1}
-    items:
-    - perlinNoiseRange: {x: 0, y: 0}
-      tileTypeAndSpriteList:
-        weightedList: []
+    items: []
   - name: Rocks
     priority: 3
     scale: {x: 0.1, y: 0.1}

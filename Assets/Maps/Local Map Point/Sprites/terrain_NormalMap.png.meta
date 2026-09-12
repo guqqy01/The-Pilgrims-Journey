@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 447fb5f079acd6c428858482caa34ffa
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 156146121071316739
+    second: terrain_NormalMap_0
+  - first:
+      213: 4863715594534897912
+    second: terrain_NormalMap_1
+  - first:
+      213: -8187051290916705236
+    second: terrain_NormalMap_2
+  - first:
+      213: -4196296369406312265
+    second: terrain_NormalMap_3
+  - first:
+      213: -6593887403673382895
+    second: terrain_NormalMap_4
+  - first:
+      213: 4124829917351434313
+    second: terrain_NormalMap_5
+  - first:
+      213: -6963196906834539236
+    second: terrain_NormalMap_6
+  - first:
+      213: 2225713610221330276
+    second: terrain_NormalMap_7
+  - first:
+      213: -5642955372220790728
+    second: terrain_NormalMap_8
+  - first:
+      213: 1884452239187707023
+    second: terrain_NormalMap_9
+  - first:
+      213: 7376172782782952289
+    second: terrain_NormalMap_10
+  - first:
+      213: 419145925617025312
+    second: terrain_NormalMap_11
+  - first:
+      213: -3322792511337430380
+    second: terrain_NormalMap_12
+  - first:
+      213: 8038963092323450569
+    second: terrain_NormalMap_13
+  - first:
+      213: -5982531257282528156
+    second: terrain_NormalMap_14
+  - first:
+      213: 7829621682150052073
+    second: terrain_NormalMap_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 0
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 1
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: terrain_NormalMap_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 415
+        width: 322
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30fc28fd11eba2200800000000000000
+      internalID: 156146121071316739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_1
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 580
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f8c7cc60936f7340800000000000000
+      internalID: 4863715594534897912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_2
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 580
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2ca10f4a30c16e80800000000000000
+      internalID: -8187051290916705236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_3
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 580
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b086495fa2c3c5c0800000000000000
+      internalID: -4196296369406312265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_4
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 580
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 110102f975ecd74a0800000000000000
+      internalID: -6593887403673382895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_5
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 580
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 948d2ae94f65e3930800000000000000
+      internalID: 4124829917351434313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_6
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 580
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1d470b4e41cd5f90800000000000000
+      internalID: -6963196906834539236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_7
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 580
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46f9ef47cb253ee10800000000000000
+      internalID: 2225713610221330276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_8
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 479
+        width: 258
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 838c5639cf130b1b0800000000000000
+      internalID: -5642955372220790728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_9
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 207
+        width: 130
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8409f8c35be62a10800000000000000
+      internalID: 1884452239187707023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_10
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 207
+        width: 130
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 163bea7b01e6d5660800000000000000
+      internalID: 7376172782782952289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_11
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 367
+        width: 258
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0218475affa11d500800000000000000
+      internalID: 419145925617025312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_12
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 239
+        width: 258
+        height: 114
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 492876bd0d113e1d0800000000000000
+      internalID: -3322792511337430380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_13
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 15
+        width: 130
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ce3a681752209f60800000000000000
+      internalID: 8038963092323450569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_14
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 47
+        width: 130
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46cf000b487c9fca0800000000000000
+      internalID: -5982531257282528156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terrain_NormalMap_15
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 143
+        width: 258
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e01042df6768ac60800000000000000
+      internalID: 7829621682150052073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      terrain_NormalMap_0: 156146121071316739
+      terrain_NormalMap_1: 4863715594534897912
+      terrain_NormalMap_10: 7376172782782952289
+      terrain_NormalMap_11: 419145925617025312
+      terrain_NormalMap_12: -3322792511337430380
+      terrain_NormalMap_13: 8038963092323450569
+      terrain_NormalMap_14: -5982531257282528156
+      terrain_NormalMap_15: 7829621682150052073
+      terrain_NormalMap_2: -8187051290916705236
+      terrain_NormalMap_3: -4196296369406312265
+      terrain_NormalMap_4: -6593887403673382895
+      terrain_NormalMap_5: 4124829917351434313
+      terrain_NormalMap_6: -6963196906834539236
+      terrain_NormalMap_7: 2225713610221330276
+      terrain_NormalMap_8: -5642955372220790728
+      terrain_NormalMap_9: 1884452239187707023
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
