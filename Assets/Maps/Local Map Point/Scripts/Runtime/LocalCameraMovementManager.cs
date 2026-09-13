@@ -182,13 +182,7 @@ namespace LocalMap
 
         private void ZoomCamera()
         {
-            if (Mouse.current.scroll.value.y == 0)
-                return;
-
-            if (PointerManager.Instance.PointerOverUI)
-                return;
-
-            float newSize = Cam.orthographicSize - InputManager.CameraMovement.Zoom.ReadValue<Vector2>().y * zoomSpeed * Time.deltaTime;
+            float newSize = Cam.orthographicSize - InputManager.Player.Zoom.ReadValue<Vector2>().y * zoomSpeed * Time.deltaTime;
             newSize = Mathf.Clamp(newSize, zoomMin, MaxZoom);
             Cam.orthographicSize = newSize;
         }

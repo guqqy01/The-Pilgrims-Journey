@@ -1,55 +1,55 @@
 fileFormatVersion: 2
-guid: 3d34de77739ec5041ab6ab33844c3462
+guid: 33e84d901d46f1d45b4ca430d29aa654
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4540760836039524045
-    second: terrain_normal_0
+      213: -7127167106097454469
+    second: terrain_specular_0
   - first:
-      213: -4802454096396045686
-    second: terrain_normal_1
+      213: 4574532983798509769
+    second: terrain_specular_1
   - first:
-      213: 4466194478038208417
-    second: terrain_normal_2
+      213: 6712406736739709573
+    second: terrain_specular_2
   - first:
-      213: 546934891936805983
-    second: terrain_normal_3
+      213: 3192890654318427784
+    second: terrain_specular_3
   - first:
-      213: -2936233230460943683
-    second: terrain_normal_4
+      213: -4454769453168278392
+    second: terrain_specular_4
   - first:
-      213: 5971216585556263264
-    second: terrain_normal_5
+      213: 5591377215127998139
+    second: terrain_specular_5
   - first:
-      213: -5043278512926868699
-    second: terrain_normal_6
+      213: -9093852544490172813
+    second: terrain_specular_6
   - first:
-      213: -1603109046889756656
-    second: terrain_normal_7
+      213: 8179057441911608126
+    second: terrain_specular_7
   - first:
-      213: -1112879897158395254
-    second: terrain_normal_8
+      213: -6595441736664581143
+    second: terrain_specular_8
   - first:
-      213: -3730866845411264577
-    second: terrain_normal_9
+      213: 4504597398834113533
+    second: terrain_specular_9
   - first:
-      213: 1234313367726474773
-    second: terrain_normal_10
+      213: -1060540902663723050
+    second: terrain_specular_10
   - first:
-      213: -3099858481932729867
-    second: terrain_normal_11
+      213: -6897606250837378973
+    second: terrain_specular_11
   - first:
-      213: 4233699883413083456
-    second: terrain_normal_12
+      213: 467031461549434957
+    second: terrain_specular_12
   - first:
-      213: 6708657693696190082
-    second: terrain_normal_13
+      213: 654474743628298686
+    second: terrain_specular_13
   - first:
-      213: -5647482366157160417
-    second: terrain_normal_14
+      213: -127456991193858928
+    second: terrain_specular_14
   - first:
-      213: 3002931723459157854
-    second: terrain_normal_15
+      213: 8125594423780639527
+    second: terrain_specular_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -82,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -120,7 +120,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -145,7 +145,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: terrain_normal_0
+      name: terrain_specular_0
       rect:
         serializedVersion: 2
         x: 15
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dce34222ce5040f30800000000000000
-      internalID: 4540760836039524045
+      spriteID: b7266324747371d90800000000000000
+      internalID: -7127167106097454469
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_1
+      name: terrain_specular_1
       rect:
         serializedVersion: 2
         x: 359
@@ -182,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a82b13e91714a5db0800000000000000
-      internalID: -4802454096396045686
+      spriteID: 9c03e9803810c7f30800000000000000
+      internalID: 4574532983798509769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_2
+      name: terrain_specular_2
       rect:
         serializedVersion: 2
         x: 372
@@ -204,14 +204,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1af4741073c1bfd30800000000000000
-      internalID: 4466194478038208417
+      spriteID: 5823f4bfc52472d50800000000000000
+      internalID: 6712406736739709573
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_3
+      name: terrain_specular_3
       rect:
         serializedVersion: 2
         x: 378
@@ -226,14 +226,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f54f82de26a179700800000000000000
-      internalID: 546934891936805983
+      spriteID: 88e7059222d6f4c20800000000000000
+      internalID: 3192890654318427784
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_4
+      name: terrain_specular_4
       rect:
         serializedVersion: 2
         x: 387
@@ -248,14 +248,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db28da80f676047d0800000000000000
-      internalID: -2936233230460943683
+      spriteID: 884c4a3e8ca7d22c0800000000000000
+      internalID: -4454769453168278392
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_5
+      name: terrain_specular_5
       rect:
         serializedVersion: 2
         x: 396
@@ -270,14 +270,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 061800309d50ed250800000000000000
-      internalID: 5971216585556263264
+      spriteID: bbecae8e3ff889d40800000000000000
+      internalID: 5591377215127998139
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_6
+      name: terrain_specular_6
       rect:
         serializedVersion: 2
         x: 401
@@ -292,14 +292,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 52b32a5b9eca20ab0800000000000000
-      internalID: -5043278512926868699
+      spriteID: 37e81e5ca452cc180800000000000000
+      internalID: -9093852544490172813
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_7
+      name: terrain_specular_7
       rect:
         serializedVersion: 2
         x: 407
@@ -314,14 +314,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 018cbe3c0dc90c9e0800000000000000
-      internalID: -1603109046889756656
+      spriteID: e3318aea869d18170800000000000000
+      internalID: 8179057441911608126
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_8
+      name: terrain_specular_8
       rect:
         serializedVersion: 2
         x: 351
@@ -336,14 +336,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a8a533c31a14e80f0800000000000000
-      internalID: -1112879897158395254
+      spriteID: 9eb72554fa84874a0800000000000000
+      internalID: -6595441736664581143
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_9
+      name: terrain_specular_9
       rect:
         serializedVersion: 2
         x: 15
@@ -358,14 +358,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb7bafefe5c493cc0800000000000000
-      internalID: -3730866845411264577
+      spriteID: dfbe7a5c77b838e30800000000000000
+      internalID: 4504597398834113533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_10
+      name: terrain_specular_10
       rect:
         serializedVersion: 2
         x: 175
@@ -380,14 +380,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5164ad0e779212110800000000000000
-      internalID: 1234313367726474773
+      spriteID: 6d7e4f20ba33841f0800000000000000
+      internalID: -1060540902663723050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_11
+      name: terrain_specular_11
       rect:
         serializedVersion: 2
         x: 351
@@ -402,14 +402,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5f10b6a62271bf4d0800000000000000
-      internalID: -3099858481932729867
+      spriteID: 368f252f8a7c640a0800000000000000
+      internalID: -6897606250837378973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_12
+      name: terrain_specular_12
       rect:
         serializedVersion: 2
         x: 351
@@ -424,14 +424,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0451374ec9f11ca30800000000000000
-      internalID: 4233699883413083456
+      spriteID: d48e59cc3aa3b7600800000000000000
+      internalID: 467031461549434957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_13
+      name: terrain_specular_13
       rect:
         serializedVersion: 2
         x: 15
@@ -446,14 +446,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 286e370e0a0f91d50800000000000000
-      internalID: 6708657693696190082
+      spriteID: eb9fd60df49251900800000000000000
+      internalID: 654474743628298686
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_14
+      name: terrain_specular_14
       rect:
         serializedVersion: 2
         x: 175
@@ -468,14 +468,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f108be9a5bc10a1b0800000000000000
-      internalID: -5647482366157160417
+      spriteID: 09cffb3ba8e2b3ef0800000000000000
+      internalID: -127456991193858928
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: terrain_normal_15
+      name: terrain_specular_15
       rect:
         serializedVersion: 2
         x: 351
@@ -490,8 +490,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e5fd8850e7e8ca920800000000000000
-      internalID: 3002931723459157854
+      spriteID: 7230752c319e3c070800000000000000
+      internalID: 8125594423780639527
       vertices: []
       indices: 
       edges: []
@@ -510,22 +510,22 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      terrain_normal_0: 4540760836039524045
-      terrain_normal_1: -4802454096396045686
-      terrain_normal_10: 1234313367726474773
-      terrain_normal_11: -3099858481932729867
-      terrain_normal_12: 4233699883413083456
-      terrain_normal_13: 6708657693696190082
-      terrain_normal_14: -5647482366157160417
-      terrain_normal_15: 3002931723459157854
-      terrain_normal_2: 4466194478038208417
-      terrain_normal_3: 546934891936805983
-      terrain_normal_4: -2936233230460943683
-      terrain_normal_5: 5971216585556263264
-      terrain_normal_6: -5043278512926868699
-      terrain_normal_7: -1603109046889756656
-      terrain_normal_8: -1112879897158395254
-      terrain_normal_9: -3730866845411264577
+      terrain_specular_0: -7127167106097454469
+      terrain_specular_1: 4574532983798509769
+      terrain_specular_10: -1060540902663723050
+      terrain_specular_11: -6897606250837378973
+      terrain_specular_12: 467031461549434957
+      terrain_specular_13: 654474743628298686
+      terrain_specular_14: -127456991193858928
+      terrain_specular_15: 8125594423780639527
+      terrain_specular_2: 6712406736739709573
+      terrain_specular_3: 3192890654318427784
+      terrain_specular_4: -4454769453168278392
+      terrain_specular_5: 5591377215127998139
+      terrain_specular_6: -9093852544490172813
+      terrain_specular_7: 8179057441911608126
+      terrain_specular_8: -6595441736664581143
+      terrain_specular_9: 4504597398834113533
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
