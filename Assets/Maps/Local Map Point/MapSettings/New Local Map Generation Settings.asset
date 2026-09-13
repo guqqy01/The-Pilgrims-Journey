@@ -17,7 +17,7 @@ MonoBehaviour:
     - item:
         TileType: 32
         TileVisualType: 0
-        Sprite: {fileID: 1527310793, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        Sprite: {fileID: -350192592, guid: 49710e57f1e9c0b4d823fc82c387e1d5, type: 3}
         SpriteAnimation:
           Frames: []
           FramesPerSecond: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
     - item:
         TileType: 32
         TileVisualType: 0
-        Sprite: {fileID: -815171303, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        Sprite: {fileID: -631720110, guid: 49710e57f1e9c0b4d823fc82c387e1d5, type: 3}
         SpriteAnimation:
           Frames: []
           FramesPerSecond: 0
@@ -61,11 +61,11 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         m_ConstantMin: 0
-        m_ConstantMax: 1
+        m_ConstantMax: 0
     - item:
         TileType: 32
         TileVisualType: 0
-        Sprite: {fileID: 1469006367, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+        Sprite: {fileID: 1983462364, guid: 49710e57f1e9c0b4d823fc82c387e1d5, type: 3}
         SpriteAnimation:
           Frames: []
           FramesPerSecond: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         m_ConstantMin: 0
-        m_ConstantMax: 1
+        m_ConstantMax: 0
   pathTilesAndType:
     weightedList:
     - item:
@@ -349,7 +349,7 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: -1569315097, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: 299468255, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
@@ -373,58 +373,7 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: 258869103, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            SpriteAnimation:
-              Frames: []
-              FramesPerSecond: 0
-          weightCurve:
-            m_Mode: 0
-            m_CurveMultiplier: 0
-            m_CurveMin:
-              serializedVersion: 2
-              m_Curve: []
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-            m_CurveMax:
-              serializedVersion: 2
-              m_Curve: []
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-            m_ConstantMin: 0
-            m_ConstantMax: 1
-    - perlinNoiseRange: {x: 0.21, y: 0.23}
-      tileTypeAndSpriteList:
-        weightedList:
-        - item:
-            TileType: 32
-            TileVisualType: 0
-            Sprite: {fileID: 1174991620, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
-            SpriteAnimation:
-              Frames: []
-              FramesPerSecond: 0
-          weightCurve:
-            m_Mode: 0
-            m_CurveMultiplier: 0
-            m_CurveMin:
-              serializedVersion: 2
-              m_Curve: []
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-            m_CurveMax:
-              serializedVersion: 2
-              m_Curve: []
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-            m_ConstantMin: 0
-            m_ConstantMax: 1
-        - item:
-            TileType: 32
-            TileVisualType: 0
-            Sprite: {fileID: 1157770879, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: -1478658962, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
@@ -451,7 +400,7 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: 1174991620, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: 595896678, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
@@ -475,7 +424,58 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: 1157770879, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: 41693890, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+    - perlinNoiseRange: {x: 0.21, y: 0.23}
+      tileTypeAndSpriteList:
+        weightedList:
+        - item:
+            TileType: 32
+            TileVisualType: 0
+            Sprite: {fileID: 595896678, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
+            SpriteAnimation:
+              Frames: []
+              FramesPerSecond: 0
+          weightCurve:
+            m_Mode: 0
+            m_CurveMultiplier: 0
+            m_CurveMin:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+            m_CurveMax:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+            m_ConstantMin: 0
+            m_ConstantMax: 1
+        - item:
+            TileType: 32
+            TileVisualType: 0
+            Sprite: {fileID: 41693890, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
@@ -506,7 +506,7 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: 926622456, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: 1576259941, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
@@ -530,7 +530,7 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: 19474371, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: -1906117441, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
@@ -554,7 +554,7 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: -2092175077, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: 1993978331, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
@@ -578,7 +578,7 @@ MonoBehaviour:
         - item:
             TileType: 32
             TileVisualType: 0
-            Sprite: {fileID: 669054599, guid: 15302446a2f12e34d8ef98bc8c48fbcb, type: 3}
+            Sprite: {fileID: -1015559834, guid: 9b745c2aef5885a459354f3b609dd6f2, type: 3}
             SpriteAnimation:
               Frames: []
               FramesPerSecond: 0
