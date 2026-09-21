@@ -94,6 +94,8 @@ namespace Relics
 
         public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
 
+        public string ShortDescription => relicSO.description;
+
         private string GetDescriptionString()
         {
             string returnString = relicSO.description;

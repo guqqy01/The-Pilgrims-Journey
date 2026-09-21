@@ -1,0 +1,176 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2825170826094185135
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852252, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862625845935852253, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      propertyPath: m_Name
+      value: Holigram Tile UI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5862625845935852253, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8877692078716414987}
+  m_SourcePrefab: {fileID: 100100000, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+--- !u!114 &1069313456824200225 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3018523398279603854, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!224 &1283646087234932534 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3955682976088540569, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5069779382011814588 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7020685867522844691, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c625cd79bcf614c961676abed71833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::Tiles.TileShapeTextureBuilder
+--- !u!224 &6223144624746003469 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8171791373716551330, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &7844348747846626287 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 5470110230690505024, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8532419967296192626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5862625845935852253, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8877692078716414987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532419967296192626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff43aafaa0686c4594e3bb99fba223e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::TPJ.UI.HoligramTileUI
+  tileShapeTextureBuilder: {fileID: 5069779382011814588}
+  TileGraphics: {fileID: 1069313456824200225}
+  LockImageHolder: {fileID: 6223144624746003469}
+  tileGridUI: {fileID: 0}
+  canvasGroup: {fileID: 7844348747846626287}
+  draggedTileGridUI: {fileID: 0}
+  highlightTransform: {fileID: 1283646087234932534}
+  _tileUIStyle: {fileID: 11400000, guid: b5b9df8964ab3cb4b99eb9a00ea08d8b, type: 2}
+  objectImage: {fileID: 8532419967604020997}
+--- !u!114 &8532419967604020997 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5862625845639175594, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

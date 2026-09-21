@@ -10,7 +10,7 @@ namespace LevelingSystem.UI
         private LevelingUpRewardUIItem levelingUpRelicUIItemPrefab;
 
         [SerializeField]
-        private AdvancedCarousel carousel;
+        private Carousel carousel;
 
         private readonly List<LevelingUpRewardUIItem> uiItems = new();
 

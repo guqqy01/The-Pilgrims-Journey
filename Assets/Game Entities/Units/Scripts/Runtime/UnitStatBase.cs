@@ -7,7 +7,7 @@ namespace Units
 {
     public static class UnitStatBase
     {
-        internal static BuffableStat CreateBuffableStat(UnitTile tile, IntOrFloatObject value, UnitStatsEnum stat)
+        internal static BuffableStat CreateBuffableStat(UnitTile tile, IntOrFloatObject value, StatTypes stat)
         {
             BuffableStat buffableStat = new BuffableStat(value);
 

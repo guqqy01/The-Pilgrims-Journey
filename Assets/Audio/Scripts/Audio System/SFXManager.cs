@@ -17,8 +17,4 @@ public class SFXManager : Singleton<SFXManager>
     public void PlayRotateTile() => uISFX.PlayRotateTile();
     public void PlaySelectEquipment() => uISFX.PlaySelectEquipment();
 
-    private void Awake()
-    {
-        InitiateFromRootAtAwake();
-    }
 }

@@ -10,17 +10,6 @@ public class TileShapeEditorWindow : EditorWindow
     float innerTileSizePercent = 0.95f;
     List<Vector2Int> listV2IntProp;
     SerializedProperty tilePicker;
-
-    [MenuItem("Window/My Window")]
-
-    static void Init()
-    {
-        TileShapeEditorWindow window = (TileShapeEditorWindow)EditorWindow.GetWindow(typeof(TileShapeEditorWindow));
-
-        window.drag = window.position.center;
-        window.Show();
-    }
-
     public static void Init(SerializedProperty v2IntProp)
     {
         TileShapeEditorWindow window = (TileShapeEditorWindow)EditorWindow.GetWindow(typeof(TileShapeEditorWindow));

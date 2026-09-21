@@ -38,15 +38,17 @@ namespace Equipment.UI
 
         public bool Dragging {  get; private set; }
 
-        public string Title => EquipmentSO.name;
+        public string Title => EquipmentSO.Title;
 
         public string GoldAmount => EquipmentSO.goldCost.ToString();
 
-        public string MainDescription => EquipmentSO.description;
+        public string MainDescription => EquipmentSO.MainDescription;
 
         public Sprite Sprite => EquipmentSO.Sprite;
 
         public List<ISubDescriptionData> GetSubDescriptionData => EquipmentSO != null ? EquipmentSO.GetSubDescriptionData : new List<ISubDescriptionData>();
+
+        public string ShortDescription => EquipmentSO.ShortDescription;
 
         private void Awake()
         {

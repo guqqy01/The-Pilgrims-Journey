@@ -103,13 +103,21 @@ namespace Monsters
     }
 
     [Serializable]
-    public abstract class MonsterSpawn: IMonsterSpawn, ITileable
+    public abstract class MonsterSpawn: IMonsterSpawn, ITileable, IDescriptable
     {
         public MonsterSO monster;
         public float Difficulty => monster.powerLevel;
         public Sprite Sprite => monster.sprite;
 
         public MonsterSO MonsterSO => monster;
+
+        public string Title => monster.name;
+
+        public string MainDescription => monster.MainDescription;
+
+        public List<ISubDescriptionData> GetSubDescriptionData => monster.GetSubDescriptionData;
+
+        public string ShortDescription => monster.ShortDescription;
     }
 
     [Serializable]

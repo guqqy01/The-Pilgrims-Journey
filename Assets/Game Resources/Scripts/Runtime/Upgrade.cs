@@ -11,13 +11,13 @@ public class Upgrade
     public delegate void OnLevelUp(int level);
     public OnLevelUp onLevelUp;
 
-    public UnitStatsEnum stat;
+    public StatTypes stat;
     public BuffType buffType;
 
     [SerializeField] private int[] intValues = new int[5];
     [SerializeField] private float[] floatValues = new float[5];
 
-    private bool IsIntStat => stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield;
+    private bool IsIntStat => stat == StatTypes.Health || stat == StatTypes.Shield;
 
     public Buff GetBuffAtLevel(int level) => GetBuff(GetValueAtLevel(level));
 

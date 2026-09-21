@@ -24,6 +24,8 @@ namespace Tile.UI
         public Sprite Sprite => MonsterSpawn.monster.Sprite;
 
         public List<ISubDescriptionData> GetSubDescriptionData => MonsterSpawn.monster.GetSubDescriptionData;
+
+        public string ShortDescription => MonsterSpawn.monster.ShortDescription;
     }
 
 }

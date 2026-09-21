@@ -36,15 +36,14 @@ namespace UI
 
         private List<Button> buttons;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             Deactivated = false;
         }
 
         private void Start()
         {
-            BeastaryManager.Instance.Load();
-
             Setup();
 
             Deactivated = false;
@@ -83,22 +82,29 @@ namespace UI
 
         public void HideHeroSelectionScreen()
         {
-            HeroSelectionWindow.Instance.gameObject.SetActive(false);
+            HeroSelectionWindow.IfReady(manager => manager.gameObject.SetActive(false));
             buttons.ForEach((button) => button.interactable = true);
         }
 
         private void ShowHeroSelectionScreen()
         {
-            HeroSelectionWindow.Instance.gameObject.SetActive(true);
-            HeroSelectionWindow.Instance.UpdateUI();
+            HeroSelectionWindow.WhenReady(HeroSelectSetActiveAndUpdateUI);
 
             buttons.ForEach((button) => button.interactable = false);
+        }
+
+        private void HeroSelectSetActiveAndUpdateUI(HeroSelectionWindow manager)
+        {
+            manager.gameObject.SetActive(false);
+            manager.UpdateUI();
         }
 
         private void StartNewJourney(bool value)
         {
             if (value)
             {
+                Debug.Log(1);
+
                 if (Deactivated)
                     return;
 

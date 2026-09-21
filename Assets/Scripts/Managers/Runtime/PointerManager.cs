@@ -20,8 +20,9 @@ public class PointerManager : Singleton<PointerManager>
 
     public Vector2 PointerWorldPosition => Cam.ScreenToWorldPoint(PointerPosition);
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         PointerPosition = new Vector2(Screen.width / 2f, Screen.height / 2f);
     }
 

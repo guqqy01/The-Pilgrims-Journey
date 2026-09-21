@@ -37,5 +37,7 @@ namespace Relics
         }
 
         public Sprite Sprite => sprite;
+
+        public string ShortDescription => description;
     }
 }

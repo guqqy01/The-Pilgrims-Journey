@@ -79,8 +79,9 @@ namespace LocalMap
         public delegate void UpdateUI(bool cameraLocked);
         public UpdateUI updateUI;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             smoothCameraFollow = GetComponent<SmoothCameraFollow>();
         }
 

@@ -13,9 +13,9 @@ public class AudioResiduleManager : Singleton<AudioResiduleManager>
 
     public int ActiveCount => activeResidules.Count;
 
-    private void Awake()
+    protected override void Awake()
     {
-        base.InitiateFromRootAtAwake();
+        base.Awake();
 
         for (int i = 0; i < initialPoolSize; i++)
             pooledResidues.Enqueue(CreatePooledResidule());

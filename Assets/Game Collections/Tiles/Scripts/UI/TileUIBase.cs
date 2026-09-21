@@ -30,7 +30,7 @@ namespace Tiles.UI
         private Vector2 _baseSize;
         protected Vector2 BaseSize => _baseSize;
         public float BaseRotation => Tile.Rotation;
-
+        protected virtual bool SuppressAutoUpdate => false;
         public float UIRotation
         {
             get
@@ -77,6 +77,9 @@ namespace Tiles.UI
 
         private void Update()
         {
+            if (SuppressAutoUpdate)
+                return;
+
             HandleCancelMoveTile();
 
             if (isDragging)
@@ -222,6 +225,9 @@ namespace Tiles.UI
 
         private void HandleCancelMoveTile()
         {
+            if (!InputManager.HasInstance)
+                return;
+
             if (!InputManager.Instance.Actions.UI.Cancel.WasPressedThisFrame())
                 return;
             TileUIEventBus.RaiseTileSelected(null);
@@ -282,7 +288,7 @@ namespace Tiles.UI
             }
 
             SetLockRect(grid);
-            OnTileSizeChaned(grid);
+            OnTileSizeChanged(grid);
         }
 
         private Vector2Int GetRightAndLowestPointInShape(List<Vector2Int> shape)
@@ -342,7 +348,7 @@ namespace Tiles.UI
             LockImageHolder.anchoredPosition = GetAnchoredPositionAtPointInShape(Tile.Shape, rightLowestPoint, gridUI);
         }
 
-        protected abstract void OnTileSizeChaned(TileGridUI grid);
+        protected abstract void OnTileSizeChanged(TileGridUI grid);
 
         public Vector2 GetOffset()
         {

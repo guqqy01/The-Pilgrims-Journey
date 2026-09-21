@@ -59,15 +59,9 @@ namespace LocalMap
         internal GameObject RoadSignPrefab => roadSignPrefab;
         internal Transform MaptileParent => maptileParent;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-                return;
-            }
-
-            Instance = this;
+            base.Awake();
 
             Walkability = new LocalMapWalkability(this);
             PathGenerator = new LocalMapPathGenerator(this);

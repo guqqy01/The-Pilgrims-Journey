@@ -9,14 +9,21 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
     private static event Action<T> OnInstanceReady;
     public virtual void InitiateFromRootAtAwake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance != null)
         {
-            Destroy(gameObject);
+            if(Instance != this)
+                Destroy(gameObject);
+
             return;
         }
 
         Instance = this as T;
         OnInstanceReady?.Invoke(Instance);
+    }
+
+    protected virtual void Awake()
+    {
+        InitiateFromRootAtAwake();
     }
 
     protected virtual void OnDestroy()

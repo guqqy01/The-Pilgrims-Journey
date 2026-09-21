@@ -1135,7 +1135,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Rotate Tile Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1146,7 +1146,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Rotate Tile Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

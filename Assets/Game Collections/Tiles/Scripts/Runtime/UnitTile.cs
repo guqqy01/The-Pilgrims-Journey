@@ -4,10 +4,12 @@ using Units;
 using Equipment;
 using System;
 using LevelingSystem;
+using TPJ.Gameplay;
 
 namespace Tiles
 {
-    public class UnitTile : Tile<UnitSO>
+
+    public class UnitTile : Tile<UnitSO>, ICardable, IEquipmentTarget
     {
         public int Level { get; private set; } = 1;
         public bool IsMaxLevel => Level == 5;
@@ -24,6 +26,8 @@ namespace Tiles
         public OnUpdateUI onUpdateLevelUnitsAndHealthUI;
 
         public UnitSO UnitSO => TiledObject as UnitSO;
+
+        public BaseCard CreateCard() => new UnitCard(this);
 
         public UnitTile(TileSO tileSO, UnitSO unitSO) : base(unitSO, tileSO)
         {
@@ -116,12 +120,19 @@ namespace Tiles
 
         #region Stats
 
-        public Buff GetTileBuff(UnitStatsEnum stat)
+        private readonly List<EquipmentSO> _equipment = new List<EquipmentSO>();
+
+        public void ApplyEquipment(EquipmentSO equipment)
+        {
+            _equipment.Add(equipment);
+        }
+
+        public Buff GetTileBuff(StatTypes stat)
         {
             return TileUpgradeManager.Instance.GetBuff(stat, Level);
         }
 
-        private IntOrFloatObject GetStat(UnitStatsEnum stat)
+        private IntOrFloatObject GetStat(StatTypes stat)
         {
             var baseValue = UnitSO.GetStat(stat);
 
@@ -131,6 +142,14 @@ namespace Tiles
                 UnitBuffManager.Instance.GetBuff(stat)
             };
 
+            foreach (EquipmentSO equip in _equipment)
+            {
+                if (equip.TryGetBuff(stat, out Buff buff))
+                {
+                    buffs.Add(buff);
+                }
+            }
+                
             if (buffs.Count == 0)
                 return baseValue;
 
@@ -141,12 +160,12 @@ namespace Tiles
             return combined.Value(baseValue);
         }
 
-        public float SpawnRate => Mathf.Max(GetStat(UnitStatsEnum.SpawnRate), 0f);
-        public float Movement => Mathf.Max(GetStat(UnitStatsEnum.MovementSpeed), 0f);
-        public int Health => Mathf.Max(GetStat(UnitStatsEnum.Health), 0);
-        public int Shield => Mathf.Max(GetStat(UnitStatsEnum.Shield), 0);
-        public float ShieldRegen => Mathf.Max(GetStat(UnitStatsEnum.ShieldRegeneration), 0f);
-        public float ShieldCooldown => Mathf.Max(GetStat(UnitStatsEnum.ShieldCooldown), 0f);
+        public float SpawnRate => Mathf.Max(GetStat(StatTypes.SpawnRate), 0f);
+        public float Movement => Mathf.Max(GetStat(StatTypes.MovementSpeed), 0f);
+        public int Health => Mathf.Max(GetStat(StatTypes.Health), 0);
+        public int Shield => Mathf.Max(GetStat(StatTypes.Shield), 0);
+        public float ShieldRegen => Mathf.Max(GetStat(StatTypes.ShieldRegeneration), 0f);
+        public float ShieldCooldown => Mathf.Max(GetStat(StatTypes.ShieldCooldown), 0f);
 
         #endregion
     }

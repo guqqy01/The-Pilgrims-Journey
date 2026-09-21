@@ -16,15 +16,15 @@ public class LocalMapOuterCollisionManager : Singleton<LocalMapOuterCollisionMan
 
     private Coroutine activeCoroutine;
 
-    private void Awake()
+    protected override void Awake()
     {
-        LocalMapLevelCompletedManager.Instance.onRequiredUnitsPassed += RequiredUnitsPassed;
+        base.Awake();
+        LocalMapLevelCompletedManager.WhenReady((manager) => manager.onRequiredUnitsPassed += RequiredUnitsPassed);
     }
 
     protected override void CleanUp()
     {
-        if (LocalMapLevelCompletedManager.Instance != null)
-            LocalMapLevelCompletedManager.Instance.onRequiredUnitsPassed -= RequiredUnitsPassed;
+        LocalMapLevelCompletedManager.IfReady((manager) => manager.onRequiredUnitsPassed -= RequiredUnitsPassed);
 
         if (activeCoroutine != null)
             StopCoroutine(activeCoroutine);

@@ -10,9 +10,9 @@ public class TileUpgradeManager : MonoBehaviour
 
     public List<Upgrade> upgrades;
 
-    public Buff GetBuff(UnitStatsEnum stat, int level)
+    public Buff GetBuff(StatTypes stat, int level)
     {
-        bool isBuffInt = stat == UnitStatsEnum.Health || stat == UnitStatsEnum.Shield;
+        bool isBuffInt = stat == StatTypes.Health || stat == StatTypes.Shield;
         Buff buff = new Buff(BuffType.Additional | BuffType.Multiplier | BuffType.Base, isBuffInt);
 
         foreach (var upgrade in upgrades)

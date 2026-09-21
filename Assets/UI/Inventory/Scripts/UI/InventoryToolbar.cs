@@ -19,8 +19,9 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
     private List<ToolbarButtonSetup> toolbarButtons;
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Setup();
 
         Close();

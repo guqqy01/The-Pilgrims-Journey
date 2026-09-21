@@ -99,8 +99,9 @@ namespace Monsters
             BeginSpawning(bossSpawn, DifficultyLevelManager.Instance.DifficultyLevel);
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             TilePlayerManager.WhenReady(SubscribeToTilePlayerManager);
         }
 

@@ -15,9 +15,10 @@ namespace LevelingSystem
         public delegate void OnUpdateUI();
         public OnUpdateUI onUpdateUI;
 
-        public event Action<int> OnLevelChanged; 
-        private void Awake()
+        public event Action<int> OnLevelChanged;
+        protected override void Awake()
         {
+            base.Awake();
             LocalMapLevelCompletedManager.onUnitPassed += OnUnitPassed;
         }
 

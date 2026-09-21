@@ -33,7 +33,7 @@ namespace Units
 
         public void Init(List<Vector2Int> path, int currentPathIndex, UnitTile tile)
         {
-            BaseInit(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.MovementSpeed, UnitStatsEnum.MovementSpeed));
+            BaseInit(UnitStatBase.CreateBuffableStat(tile, tile.UnitSO.MovementSpeed, StatTypes.MovementSpeed));
 
             CurrentPathIndex = currentPathIndex;
 

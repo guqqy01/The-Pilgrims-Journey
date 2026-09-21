@@ -32,11 +32,6 @@ namespace Spells
         [SerializeField]
         private float timeSlowDownScale = 0.1f;
         
-        private void Awake()
-        {
-            Instance = this;
-        }
-
         private void OnEnable()
         {
             cam = Camera.main;

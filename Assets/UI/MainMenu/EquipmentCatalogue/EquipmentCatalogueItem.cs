@@ -56,7 +56,7 @@ namespace Equipment.UI
             }
             equipmentBuffUIItems.Clear();
 
-            foreach (var equipmentBuff in equipment.HeroEquipmentStats)
+            foreach (var equipmentBuff in equipment.EquipmentStats)
             {
                 EquipmentBuffItemUI buffUI = Instantiate(equipmentBuffUIPrefab, equipmentBuffHolder);
                 buffUI.Init(equipmentBuff.Value, equipmentBuff.Key);

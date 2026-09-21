@@ -140,10 +140,10 @@ public class InputManager : Singleton<InputManager>
     // Setup
     // ---------------------------------------------------------------------
 
-    private void Awake()
+    protected override void Awake()
     {
         Actions = new InputSystemActions();
-        base.InitiateFromRootAtAwake();
+        base.Awake();
 
         _contextMaps = new Dictionary<InputContext, InputActionMap>
         {

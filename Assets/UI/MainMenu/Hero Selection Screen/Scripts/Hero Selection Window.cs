@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Heros;
-using Helper.Wait;
 using UnityEngine.UI;
 namespace UI
 {
@@ -32,12 +31,6 @@ namespace UI
 
         [SerializeField]
         private RectTransform contentTransform;
-
-        public override void InitiateFromRootAtAwake()
-        {
-            base.InitiateFromRootAtAwake();
-            gameObject.SetActive(false);
-        }
 
         public void UpdateUI()
         {

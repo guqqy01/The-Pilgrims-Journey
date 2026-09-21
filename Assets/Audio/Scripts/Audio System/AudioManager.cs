@@ -82,9 +82,9 @@ public class AudioManager : Singleton<AudioManager>
         return audioTypeAndVolume.TryGetValue(audioType, out float v) ? v * MasterVolume : MasterVolume;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        base.InitiateFromRootAtAwake();
+        base.Awake();
 
         for (int i = 0; i < initialPoolSize; i++)
             pooledSources.Enqueue(CreatePooledSource());

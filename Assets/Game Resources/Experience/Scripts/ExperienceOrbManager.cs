@@ -55,8 +55,9 @@ namespace LevelingSystem
 
         #region Unity Methods
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             BuildPools();
             BuildTierData();
         }

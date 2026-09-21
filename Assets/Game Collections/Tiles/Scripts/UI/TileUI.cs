@@ -79,7 +79,7 @@ public abstract class TileUI<TObjectTile> : TileUIBase where TObjectTile : TileB
         SizeChange(tileGridUI);
     }
 
-    protected override void OnTileSizeChaned(TileGridUI grid)
+    protected override void OnTileSizeChanged(TileGridUI grid)
     {
         SizeChange(grid);
     }

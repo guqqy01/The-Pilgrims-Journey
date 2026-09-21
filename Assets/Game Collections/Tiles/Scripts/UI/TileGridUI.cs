@@ -56,8 +56,18 @@ namespace Tiles.UI
         protected Image gridImage;
 
         private static readonly Dictionary<TileGridBase, TileGridUI> registry = new();
+        public static bool TryGetUIForGrid(TileGridBase grid, out TileGridUI ui) => registry.TryGetValue(grid, out ui);
+        private Canvas _rootCanvas;
 
-        
+        private Camera EventCamera =>
+            _rootCanvas == null || _rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay
+                ? null
+                : _rootCanvas.worldCamera;
+
+        private void Awake()
+        {
+            InitiateFromRootAtAwake();
+        }
 
         public void InitiateFromRootAtAwake()
         {
@@ -86,6 +96,7 @@ namespace Tiles.UI
                 return;
 
             _generatedSprite = TileGridUISpriteBuilder.GetSprite(tileGrid.GridSize, tileGridUIStyle, tileGridUIStyle.SpritePixelSize);
+            _rootCanvas = GetComponentInParent<Canvas>()?.rootCanvas;
             gridImage.sprite = _generatedSprite;
 
             UpdateRectSize();
@@ -316,12 +327,17 @@ namespace Tiles.UI
             return TryGetTilesUI(tile, out tileUI);
         }
 
-        public Vector2Int GetGridPosition(Vector2 worldPosition)
+        public Vector2Int GetGridPosition(Vector2 screenPosition)
         {
-            Vector2 gridHalfSize = (GridTransform.rect.size - SizeDeltaOffset) / 2f;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                GridTransform, screenPosition, EventCamera, out Vector2 localPoint);
 
-            Vector2 relativePos = (worldPosition - (Vector2)GridTransform.position) / GridTransform.lossyScale + gridHalfSize;
-            return new Vector2Int(Mathf.CeilToInt(relativePos.x / SingleTileSquareUISizeX), Mathf.CeilToInt(relativePos.y / SingleTileSquareUISizeY)) - Vector2Int.one;
+            Vector2 gridHalfSize = (GridTransform.rect.size - SizeDeltaOffset) / 2f;
+            Vector2 relativePos = localPoint + gridHalfSize;
+
+            return new Vector2Int(
+                Mathf.CeilToInt(relativePos.x / SingleTileSquareUISizeX),
+                Mathf.CeilToInt(relativePos.y / SingleTileSquareUISizeY)) - Vector2Int.one;
         }
 
         public Vector2Int GetMouseGridPosition()

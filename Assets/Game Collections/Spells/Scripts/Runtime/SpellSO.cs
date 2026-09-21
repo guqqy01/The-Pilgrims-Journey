@@ -22,10 +22,12 @@ namespace Spells
         public string Title => name;
 
         public string MainDescription => description;
+        public string ShortDescription => description;
 
         public Sprite Sprite => sprite;
 
         public List<ISubDescriptionData> GetSubDescriptionData => throw new System.NotImplementedException();
+
 
         public bool CanUseSpell(Vector2Int position)
         {

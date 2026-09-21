@@ -6,11 +6,6 @@ namespace UI
 {
     public class SelectionManager : Singleton<SelectionManager>
     {
-        private void Awake()
-        {
-            InitiateFromRootAtAwake();
-        }
-
         public GameObject GetCurrentlySelected()
         {
             return EventSystem.current.currentSelectedGameObject;

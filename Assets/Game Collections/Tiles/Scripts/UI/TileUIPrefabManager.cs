@@ -8,7 +8,7 @@ namespace Tiles.UI
     public class TileUIPrefabManager : Singleton<TileUIPrefabManager>
     {
         [SerializeField]
-        private SerializedDictionary<TypeReference, TileUIBase> tileTypeReferenceAndTileUIPrefab;
+        private SerializedDictionary<TypeReference<TileBase>, TileUIBase> tileTypeReferenceAndTileUIPrefab;
         private Dictionary<Type, TileUIBase> _tileTypeAndTileUIPrefab;
         public IReadOnlyDictionary<Type, TileUIBase> TileTypeAndUIPrefab => _tileTypeAndTileUIPrefab;
 

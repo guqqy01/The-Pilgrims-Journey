@@ -27,11 +27,6 @@ public class ThemeManager : Singleton<ThemeManager>
     public Theme CurrentTheme => _currentlyPlayingTheme;
     public bool IsPlayingTheme(Theme theme) => _currentlyPlayingTheme == theme && _activeCoroutine != null;
 
-    private void Awake()
-    {
-        InitiateFromRootAtAwake();
-    }
-
     /// <param name="forceRestart">If true, restarts the theme from its first song even if it's already playing.</param>
     public void PlayTheme(Theme theme, bool forceRestart = false)
     {

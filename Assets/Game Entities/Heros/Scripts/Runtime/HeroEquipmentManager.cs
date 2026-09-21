@@ -10,8 +10,9 @@ namespace Heros
     {
         private EquipmentInventory inventory;
         public EquipmentInventory Inventory => inventory;
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             inventory = GetComponent<EquipmentInventory>();
             inventory.onEquipmentChanged -= OnEquipChange;
             inventory.onEquipmentChanged += OnEquipChange;
@@ -61,7 +62,7 @@ namespace Heros
                 return;
             }
 
-            foreach (var kvp in equipment.HeroEquipmentStats)
+            foreach (var kvp in equipment.EquipmentStats)
             {
                 StatTypes stat = kvp.Key;
                 Buff buff = kvp.Value;
@@ -85,7 +86,7 @@ namespace Heros
                 return;
             }
 
-            foreach (var kvp in equipment.HeroEquipmentStats)
+            foreach (var kvp in equipment.EquipmentStats)
             {
                 StatTypes stat = kvp.Key;
                 Buff buff = kvp.Value;

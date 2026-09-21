@@ -37,6 +37,8 @@ namespace Tiles.UI
 
         public List<ISubDescriptionData> GetSubDescriptionData => UnitSO.GetSubDescriptionData;
 
+        public string ShortDescription => UnitSO.ShortDescription;
+
         #endregion
     }
  }

@@ -52,8 +52,9 @@ namespace Tiles
 
         public Action OnStopPlaying;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             if (playerTileGrid != null)
             {
                 playerTileGrid.onTileAdded += OnTileAdded;

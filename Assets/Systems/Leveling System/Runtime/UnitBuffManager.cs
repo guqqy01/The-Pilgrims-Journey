@@ -11,16 +11,16 @@ namespace LevelingSystem
         public BuffableStat ShieldCooldown = new BuffableStat(0f);
         public BuffableStat ShieldRegeneration = new BuffableStat(0f);
 
-        public Buff GetBuff(UnitStatsEnum stat)
+        public Buff GetBuff(StatTypes stat)
         {
             return stat switch
             {
-                UnitStatsEnum.Health => Health,
-                UnitStatsEnum.Shield => Shield,
-                UnitStatsEnum.MovementSpeed => MovementSpeed,
-                UnitStatsEnum.SpawnRate => SpawnRate,
-                UnitStatsEnum.ShieldRegeneration => ShieldRegeneration,
-                UnitStatsEnum.ShieldCooldown => ShieldCooldown,
+                StatTypes.Health => Health,
+                StatTypes.Shield => Shield,
+                StatTypes.MovementSpeed => MovementSpeed,
+                StatTypes.SpawnRate => SpawnRate,
+                StatTypes.ShieldRegeneration => ShieldRegeneration,
+                StatTypes.ShieldCooldown => ShieldCooldown,
                 _ => null,
             };
         }

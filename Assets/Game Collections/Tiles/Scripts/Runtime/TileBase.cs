@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TPJ.Gameplay;
 
 namespace Tiles
 {
@@ -118,8 +119,6 @@ namespace Tiles
         {
             ActionDestroyTile?.Invoke(this);
         }
-
-        
     }
 }
 

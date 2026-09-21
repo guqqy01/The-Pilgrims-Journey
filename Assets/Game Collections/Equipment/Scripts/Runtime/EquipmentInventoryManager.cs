@@ -21,7 +21,7 @@ namespace Equipment
             EquipmentStates[equipment] = state;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
             EquipmentStates.Clear();
 
@@ -33,7 +33,7 @@ namespace Equipment
                 }
             }
 
-            base.InitiateFromRootAtAwake();
+            base.Awake();
         }
     }
 

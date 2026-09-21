@@ -59,6 +59,8 @@ namespace Units
 
         public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
 
+        public string ShortDescription => Description;
+
         public SpellSO unitsSpecialSpell;
 
         [Header("Drops")]
@@ -66,16 +68,16 @@ namespace Units
         public float Coin5Percent = 0.1f;
         public float Coin10Percent = 0.01f;
 
-        public IntOrFloatObject GetStat(UnitStatsEnum unitStat)
+        public IntOrFloatObject GetStat(StatTypes unitStat)
         {
             return unitStat switch
             {
-                UnitStatsEnum.Health => Health,
-                UnitStatsEnum.Shield => Shield,
-                UnitStatsEnum.ShieldCooldown => ShieldCooldown,
-                UnitStatsEnum.ShieldRegeneration => ShieldRegeneration,
-                UnitStatsEnum.SpawnRate => SpawnRate,
-                UnitStatsEnum.MovementSpeed => MovementSpeed,
+                StatTypes.Health => Health,
+                StatTypes.Shield => Shield,
+                StatTypes.ShieldCooldown => ShieldCooldown,
+                StatTypes.ShieldRegeneration => ShieldRegeneration,
+                StatTypes.SpawnRate => SpawnRate,
+                StatTypes.MovementSpeed => MovementSpeed,
                 _ => throw new NotImplementedException($"Stat {unitStat} not implemented in UnitSO")
             };
         }

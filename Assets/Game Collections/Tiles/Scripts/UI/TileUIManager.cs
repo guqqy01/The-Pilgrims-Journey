@@ -23,8 +23,9 @@ namespace Tiles.UI
         [SerializeField]
         private List<TileSO> tilesNotToShowHelper = new List<TileSO>();
 
-        protected void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             TileUIEventBus.OnDragTile += DraggingTile;
         }
 

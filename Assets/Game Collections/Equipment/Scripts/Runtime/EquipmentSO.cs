@@ -5,11 +5,12 @@ using static UnityEngine.ParticleSystem;
 using AYellowpaper.SerializedCollections;
 using Heros;
 using UnityEngine.Serialization;
+using TPJ.Gameplay;
 
 namespace Equipment
 {
     [CreateAssetMenu()] 
-    public class EquipmentSO : ScriptableObject, IDescriptable
+    public class EquipmentSO : ScriptableObject, IDescriptable, ICardable
     {
         public Sprite sprite;
         public Sprite Sprite => sprite;
@@ -40,8 +41,8 @@ namespace Equipment
             {
                 int value = 0;
 
-                if (heroEquipmentStats != null)
-                    foreach (var kvp in heroEquipmentStats)
+                if (equipmentStats != null)
+                    foreach (var kvp in equipmentStats)
                     {
                         value += BuffsGoldValueCalculator.GetValue(kvp.Value, kvp.Key.ConvertToAllStats(), out _, out _, out _);
                     }
@@ -52,15 +53,15 @@ namespace Equipment
             }
         }
 
-        public bool TryGetHeroBuff(StatTypes stat, out Buff outBuff)
+        public bool TryGetBuff(StatTypes stat, out Buff outBuff)
         {
             outBuff = null;
 
-            if (!HeroEquipmentStats.ContainsKey(stat))
+            if (!EquipmentStats.ContainsKey(stat))
                 return false;
 
 
-            outBuff = HeroEquipmentStats[stat];
+            outBuff = EquipmentStats[stat];
 
             return true;
         }
@@ -70,25 +71,24 @@ namespace Equipment
         public EquipmentSpecial EquipmentSpecial;
 
         [SerializeField]
-        private SerializedDictionary<StatTypes, Buff> heroEquipmentStats;
+        private SerializedDictionary<StatTypes, Buff> equipmentStats;
 
-        public Dictionary<StatTypes, Buff> HeroEquipmentStats
+        public Dictionary<StatTypes, Buff> EquipmentStats
         {
             get
             {
-                heroEquipmentStats ??= new SerializedDictionary<StatTypes, Buff>();
+                equipmentStats ??= new SerializedDictionary<StatTypes, Buff>();
 
-                return heroEquipmentStats;
+                return equipmentStats;
             }
         }
 
         public string Title => name;
 
-        public string Description => description;
-
         public string GoldAmount => goldCost.ToString();
 
         public string MainDescription => description;
+        public string ShortDescription => description;
 
         public List<ISubDescriptionData> GetSubDescriptionData
         {
@@ -96,7 +96,7 @@ namespace Equipment
             {
                 var list = new List<ISubDescriptionData>();
 
-                foreach(var kvp in heroEquipmentStats)
+                foreach(var kvp in equipmentStats)
                 {
                     list.Add(new BuffSubDescriptionData(kvp.Value, kvp.Key.ToString().AddSpacesBeforeCapsRegex()));
                 }
@@ -112,5 +112,7 @@ namespace Equipment
         public Vector2Int IfInShopHowManyRange;
 
         public WeightedChanceList<float> discounts;
+
+        public BaseCard CreateCard() => new EquipmentCard(this);
     }
 }

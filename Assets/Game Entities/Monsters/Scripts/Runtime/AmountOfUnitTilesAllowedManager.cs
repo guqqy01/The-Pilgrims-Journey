@@ -32,8 +32,9 @@ namespace Tiles
             "Where 1 would be half the tile player, and 0.5f would be a quarter.")]
         private float maxAmountOfUnitTilesRequiredMultiplier = 0.8f;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             if (tilePlayerTileGrid != null)
             {
                 tilePlayerTileGrid.onTileAdded += OnTileAdded;

@@ -1,10 +1,17 @@
-﻿using Monsters;
+﻿using Equipment;
+using Monsters;
 using System;
+using System.Collections.Generic;
+using TPJ.Gameplay;
+using Units;
+using UnityEngine;
 namespace Tiles
 {
     [Serializable]
-    public abstract class MonsterTileBase : Tile<MonsterSpawn>
+    public abstract class MonsterTileBase : Tile<MonsterSpawn>, ICardable, IEquipmentTarget
     {
+        private readonly List<EquipmentSO> _equipment = new List<EquipmentSO>();
+
         public MonsterSpawn MonsterSpawnBase => TiledObject as MonsterSpawn;
 
         protected MonsterTileBase(MonsterSpawn obj, TileSO tileSO) : base(obj, tileSO) { }
@@ -16,8 +23,12 @@ namespace Tiles
                 return Shape.Count * MonsterSpawnBase.Difficulty; 
             }
         }
+        public BaseCard CreateCard() => new MonsterCard(this);
 
-        
+        public void ApplyEquipment(EquipmentSO equipment)
+        {
+            _equipment.Add(equipment);
+        }
     }
 }
 

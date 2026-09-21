@@ -39,6 +39,8 @@ namespace Monsters
         public Sprite Sprite => sprite;
 
         public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
+
+        public string ShortDescription => description;
     }
 }
 

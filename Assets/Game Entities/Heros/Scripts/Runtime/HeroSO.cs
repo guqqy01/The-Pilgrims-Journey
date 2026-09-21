@@ -4,11 +4,12 @@ using UnityEngine.U2D.Animation;
 using Attacks;
 using System.Collections.Generic;
 using Equipment;
+using Tiles;
 
 namespace Heros
 {
     [CreateAssetMenu()]
-    public class HeroSO : BuffableAttackEntitySO
+    public class HeroSO : BuffableAttackEntitySO, ITileable, IDescriptable
     {
         [TextArea()]
         public string Description;
@@ -28,6 +29,16 @@ namespace Heros
         public SpriteLibraryAsset spriteLibrary;
 
         public List<EquipmentSO> startingEquipment;
+
+        public Sprite Sprite => icon;
+
+        public string Title => name;
+
+        public string MainDescription => Description;
+        public string ShortDescription => Description;
+
+        public List<ISubDescriptionData> GetSubDescriptionData => null;
+
 
         protected override Buff InheritGetBuff(StatTypes stat)
         {

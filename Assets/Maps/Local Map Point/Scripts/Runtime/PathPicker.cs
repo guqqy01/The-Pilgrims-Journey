@@ -56,8 +56,9 @@ namespace LocalMap
             InputManager.IfReady(UnSubscribe);
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             InputManager.WhenReady(Subscribe);
         }
         private void Subscribe(InputManager inputManager)
