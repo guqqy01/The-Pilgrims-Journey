@@ -5,13 +5,13 @@ using Tiles;
 namespace TPJ.Gameplay
 {
     [Serializable]
-    public class EquipmentCard : Card<EquipmentSO>
+    public class EquipmentCard : Card<EquipmentSO, EquipmentCardPlayContext>
     {
         public EquipmentCard(EquipmentSO cardableRef) : base(cardableRef) { }
 
         public override IDescriptable GetDisplayInfo() => CardableRef;
 
-        public override bool CanPlay(CardPlayContext context)
+        public override bool AbstractCanPlay(EquipmentCardPlayContext context)
         {
             if (context.TargetTile is not IEquipmentTarget)
                 return false;
@@ -21,9 +21,11 @@ namespace TPJ.Gameplay
             return TileOwnership.Get(context.TargetTile) == Owner;
         }
 
-        protected override void ProtectedPlayCard(CardPlayContext context)
+        protected override void ProtectedPlayCard(EquipmentCardPlayContext context)
         {
             ((IEquipmentTarget)context.TargetTile).ApplyEquipment(CardableRef);
+
+            CardGameEventsBus.RaiseOnEquipmentCardPlayed(Owner, CardableRef);
         }
 
         public override bool HasAnyLegalPlay(ICardLegalityProvider provider)

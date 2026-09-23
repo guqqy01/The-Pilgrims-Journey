@@ -11,7 +11,7 @@ namespace TPJ.UI
         private readonly List<TileUIBase> _highlighted = new List<TileUIBase>();
         private Action<TileUIBase> _onTargetChosen;
 
-        public void BeginTargeting(BaseCard card, Action<TileUIBase> onTargetChosen)
+        public void BeginTargeting(CardBase card, Action<TileUIBase> onTargetChosen)
         {
             CancelTargeting();
 

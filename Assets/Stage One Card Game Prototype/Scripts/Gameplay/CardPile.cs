@@ -6,13 +6,13 @@ using System.Collections;
 namespace TPJ.Gameplay
 {
     [Serializable]
-    public class CardPile : IEnumerable<BaseCard>
+    public class CardPile : IEnumerable<CardBase>
     {
         [SerializeReference]
-        private List<BaseCard> cardPile = new List<BaseCard>();
-        protected List<BaseCard> ProtectedCardPile => cardPile;
+        private List<CardBase> cardPile = new List<CardBase>();
+        protected List<CardBase> ProtectedCardPile => cardPile;
 
-        public IReadOnlyList<BaseCard> Cards => cardPile;
+        public IReadOnlyList<CardBase> Cards => cardPile;
 
         public void Clear()
         {
@@ -30,7 +30,7 @@ namespace TPJ.Gameplay
 
             for (int i = 0; i < amountToDraw; i++)
             {
-                BaseCard card = cardPile[cardPile.Count - 1];
+                CardBase card = cardPile[cardPile.Count - 1];
 
                 cardPile.Remove(card);
                 returnPile.AddCard(card);
@@ -45,13 +45,13 @@ namespace TPJ.Gameplay
             cardPile.AddRange(other);
         }
 
-        public void Copy(List<BaseCard> other)
+        public void Copy(List<CardBase> other)
         {
             cardPile.Clear();
             cardPile.AddRange(other);
         }
 
-        public IEnumerator<BaseCard> GetEnumerator()
+        public IEnumerator<CardBase> GetEnumerator()
         {
             for (int i = 0; i < cardPile.Count; i++)
             {
@@ -72,13 +72,13 @@ namespace TPJ.Gameplay
                 n--;
                 int k = Random.Range(0, n + 1);
 
-                BaseCard value = cardPile[k];
+                CardBase value = cardPile[k];
                 cardPile[k] = cardPile[n];
                 cardPile[n] = value;
             }
         }
 
-        public void AddCard(BaseCard card)
+        public void AddCard(CardBase card)
         {
             if (cardPile.Contains(card))
             {
@@ -91,18 +91,18 @@ namespace TPJ.Gameplay
 
         public void AddPile(CardPile pile)
         {
-            foreach(BaseCard card in pile)
+            foreach(CardBase card in pile)
             {
                 AddCard(card);
             }
         }
 
-        public bool RemoveCard(BaseCard card)
+        public bool RemoveCard(CardBase card)
         {
             return cardPile.Remove(card);
         }
 
-        public void AddCardAndShuffle(BaseCard card)
+        public void AddCardAndShuffle(CardBase card)
         {
             AddCard(card);
             Shuffle();

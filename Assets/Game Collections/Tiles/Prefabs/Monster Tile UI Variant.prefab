@@ -138,6 +138,7 @@ MonoBehaviour:
   TileGraphics: {fileID: 3782676611481606698}
   LockImageHolder: {fileID: 7851251528053213702}
   tileGridUI: {fileID: 0}
+  typeUIHolder: {fileID: 8767768098084854799}
   canvasGroup: {fileID: 6229757129514458596}
   draggedTileGridUI: {fileID: 0}
   highlightTransform: {fileID: 3132359003539142973}
@@ -158,6 +159,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8171791373716551330, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
   m_PrefabInstance: {fileID: 2133922682207681700}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8767768098084854799 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7219386743197966507, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2133922682207681700}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21fd9e9ab99a4f409ba738bc2fd308e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::TPJ.UI.CardTypeUIHolder
 --- !u!114 &9003623397953819831 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7020685867522844691, guid: 177539f518a4b814c879c2637aaa2436, type: 3}

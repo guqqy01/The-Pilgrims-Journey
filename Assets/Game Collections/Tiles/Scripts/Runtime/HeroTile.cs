@@ -14,12 +14,15 @@ namespace Tiles
         {
 
         }
+
+        public int ActionPointCost => 0;
+
         public void ApplyEquipment(EquipmentSO equipment)
         {
             _equipment.Add(equipment);
         }
 
-        public BaseCard CreateCard() => new HeroCard(this);
+        public CardBase CreateCard() => new HeroCard(this);
     }
  }
 

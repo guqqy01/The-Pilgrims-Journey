@@ -5,11 +5,17 @@ namespace TPJ.Gameplay
     /// Shared placement logic for any card whose payload is a TileBase. Delegates
     /// entirely to TileGridBase so placement rules stay defined in exactly one place.
     /// </summary>
-    public abstract class TileCard<T> : Card<T> where T : TileBase, ICardable
+    public abstract class TileCard<T> : Card<T, TileCardPlayContext>, ITileCardType 
+        where T : TileBase, ICardable
     {
-        protected TileCard(T cardableRef) : base(cardableRef) { }
+        public TileCardType TileCardType { protected set; get; }
 
-        public override bool CanPlay(CardPlayContext context)
+        protected TileCard(T cardableRef) : base(cardableRef)
+        {
+            TileCardType = cardableRef.TileCardType;
+        }
+
+        public override bool AbstractCanPlay(TileCardPlayContext context)
         {
             if (context.Grid == null)
                 return false;
@@ -17,10 +23,14 @@ namespace TPJ.Gameplay
             return context.Grid.CanPlaceTile(CardableRef, context.GridPosition, context.Rotation);
         }
 
-        protected override void ProtectedPlayCard(CardPlayContext context)
+        protected override void ProtectedPlayCard(TileCardPlayContext context)
         {
-            context.Grid.TryPlaceTile(CardableRef, context.GridPosition, context.Rotation);
+            if (!context.Grid.TryPlaceTile(CardableRef, context.GridPosition, context.Rotation, false))
+                return;
+
+            CardGameEventsBus.RaiseOnTileCardPlayed(Owner, CardableRef);
             TileOwnership.Set(CardableRef, Owner);
+            context.Grid.onTileAdded?.Invoke(CardableRef);
         }
 
         public override bool HasAnyLegalPlay(ICardLegalityProvider provider)

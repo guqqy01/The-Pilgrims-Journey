@@ -383,4 +383,8 @@ public class Buff: IBuffSource, ISerializationCallbackReceiver
     }
 
     public static implicit operator IntOrFloatObject(Buff value) => value.Value(value.IsInt ? 0 : 0f);
+    public static implicit operator Buff(int value) => new Buff(BuffType.Base, 0, value, 0);
+    public static implicit operator Buff(float value) => new Buff(BuffType.Base, 0, value, 0);
+    public static implicit operator int(Buff buff) => buff.Value(0);
+    public static implicit operator float(Buff buff) => buff.Value(0f);
 }

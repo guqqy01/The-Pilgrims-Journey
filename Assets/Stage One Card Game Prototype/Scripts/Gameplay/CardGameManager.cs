@@ -5,8 +5,11 @@ using Tiles;
 using UnityEngine;
 using Units;
 using System.Linq;
+using Monsters;
+using System.Xml.Serialization;
 namespace TPJ.Gameplay
 {
+
     public class CardGameManager : Singleton<CardGameManager>, ICardLegalityProvider
     {
         [SerializeField]
@@ -16,20 +19,25 @@ namespace TPJ.Gameplay
 
         [SerializeField] private TileGridBase grid;
 
-        public event Action<DeckHolder> OnTurnChanged;
         public event Action OnBoardChanged;
-
         [SerializeField] private int startDrawToHand = 5;
         [SerializeField] private int drawToHandEachTurn = 1;
-
+        [SerializeField] private int startActionPoints = 2;
+        [SerializeField] private int actionPointsEachTurn = 2;
         private DeckHolder _currentHolder;
-        public bool IsPlayerTurn => _currentHolder == (DeckHolder)_player;
+        public bool IsPlayerTurn => _currentHolder == _player;
 
         [SerializeField]
         private List<EquipmentSO> testStartEquipment;
 
         [SerializeField]
-        private int testAmountOfTilesToCreate;
+        private int testAmountOfUnitTilesToCreate;
+
+        [SerializeField]
+        private MonsterSpawnSettings testMonsterSpawnSettings;
+
+        [SerializeField]
+        private int testAmountOfMonsterTilesToCreate;
 
         [SerializeField]
         private List<TileSO> testStartTiles;
@@ -43,8 +51,8 @@ namespace TPJ.Gameplay
 
         private void Start()
         {
-            grid.onTileAdded += _ => OnBoardChanged?.Invoke();
-            grid.onTileRemoved += _ => OnBoardChanged?.Invoke();
+            grid.onTileAdded += InvokeOnBoardChanged;
+            grid.onTileRemoved += InvokeOnBoardChanged;
 
             grid.onTileRemoved -= TileOwnership.Remove;
             grid.onTileRemoved += TileOwnership.Remove;
@@ -52,18 +60,26 @@ namespace TPJ.Gameplay
             BeginGame();
         }
 
+        private void InvokeOnBoardChanged(TileBase _)
+        {
+            OnBoardChanged?.Invoke();
+        }
+
         protected override void CleanUp()
         {
             _player.CleanUp();
             _enemyAI.CleanUp();
 
+            grid.onTileAdded -= InvokeOnBoardChanged;
+            grid.onTileRemoved -= InvokeOnBoardChanged;
             grid.onTileRemoved -= TileOwnership.Remove;
 
-            OnTurnChanged = null;
             OnBoardChanged = null;
+
+            CardGameEventsBus.CleanUp();
         }
 
-        public bool TryPlayCard(BaseCard card, CardPlayContext context)
+        public bool TryPlayCard(CardBase card, ICardPlayContext context)
         {
             if (_currentHolder == null || !_currentHolder.CurrentlyOurTurn)
                 return false;
@@ -74,7 +90,10 @@ namespace TPJ.Gameplay
             if (card.Owner != _currentHolder)
                 return false;
 
-            return _currentHolder.PlayCard(card, context);
+            if (!_currentHolder.TryPlayCard(card, context)) 
+                return false;
+
+            return true;
         }
 
         public void MoveNextTurn()
@@ -101,35 +120,57 @@ namespace TPJ.Gameplay
 
         public void BeginTurn(DeckHolder holder)
         {
-            holder.CurrentlyOurTurn = true;
-            holder.DrawToHand(drawToHandEachTurn);
-            OnTurnChanged?.Invoke(holder);
+            _currentHolder.BeginTurn(drawToHandEachTurn, actionPointsEachTurn);
+        }
+
+        private void LockAllTiles()
+        {
+            foreach(TileBase tile in grid.ListOfTiles)
+            {
+                tile.Locked = true;
+            }
         }
 
         public void EndTurn()
         {
-            _currentHolder.CurrentlyOurTurn = false;
+            _currentHolder.EndTurn();
+
+            LockAllTiles();
             MoveNextTurn();
         }
 
         public void BeginGame()
         {
-            List<ICardable> cardables = new List<ICardable>();
+            List<ICardable> playerCards = new List<ICardable>();
 
-            for (int i = 0; i < testAmountOfTilesToCreate; i++)
+            for (int i = 0; i < testAmountOfUnitTilesToCreate; i++)
             {
                 UnitTile unitTile = new UnitTile(testStartTiles.GetRandom(), testStartUnits.GetRandom());
-                cardables.Add(unitTile);
+                playerCards.Add(unitTile);
             }
-            cardables.AddRange(testStartEquipment);
-            DeckBuilder.BuildDeck(_player, cardables);
-            //DeckBuilder.BuildDeck(_enemyAI, testStartEquipment);
+            playerCards.AddRange(testStartEquipment);
+            DeckBuilder.BuildDeck(_player, playerCards);
+
+            List<MonsterTileBase> monsterTileBases = new List<MonsterTileBase>();
+            if (MonsterTileManager.HasInstance)
+            {
+                monsterTileBases = MonsterTileManager.Instance.GetMonsterTiles(testMonsterSpawnSettings, testStartTiles, testAmountOfMonsterTilesToCreate);
+            }
+            else
+            {
+                Debug.LogWarning("Need to setup Monster Tile Manager");
+            }
+            
+            DeckBuilder.BuildDeck(_enemyAI, monsterTileBases);
 
             _player.Init();
             _enemyAI.Init();
 
             _player.DrawToHand(startDrawToHand);
             _enemyAI.DrawToHand(startDrawToHand);
+
+            _player.CardGamePoints.ModifyPoints(startActionPoints);
+            _enemyAI.CardGamePoints.ModifyPoints(startActionPoints);
 
             InputManager.Instance.Actions.UI_TilePlayer.Enable();
 

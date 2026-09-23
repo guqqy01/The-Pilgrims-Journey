@@ -13,7 +13,7 @@ namespace TPJ.UI
 
         private HologramTileUI spawnedHologramTile;
 
-        private BaseCard _currentlySelectedCard;
+        private CardBase _currentlySelectedCard;
         private TileBase _currentlySelectedCardTile;
         private CardWidgetUI _currentlyDraggingCard;
         private TileGridBase _targetGrid;
@@ -99,7 +99,7 @@ namespace TPJ.UI
 
         private void OnCardBeginDrag(CardWidgetUI cardWidgetUI)
         {
-            BaseCard card = cardWidgetUI.Card;
+            CardBase card = cardWidgetUI.Card;
 
             if (card.Owner == null || !card.Owner.CurrentlyOurTurn)
                 return;
@@ -168,7 +168,7 @@ namespace TPJ.UI
                 _targetGridUI.IsWorldPositionInGrid(screenPos) &&
                 _targetGridUI.TryGetTileUIAtPosition(_targetGridUI.GetGridPosition(screenPos), out TileUIBase targetTileUI))
             {
-                var context = new CardPlayContext(targetTileUI.Tile);
+                var context = new EquipmentCardPlayContext(targetTileUI.Tile);
                 bool played = CardGameManager.Instance.TryPlayCard(_currentlySelectedCard, context);
                 EndSession(played);
             }
@@ -186,7 +186,7 @@ namespace TPJ.UI
         /// Starts tracking a card for placement, always ending any previous session
         /// (click or drag) first so the two flows can never fight over shared state.
         /// </summary>
-        private void BeginSession(BaseCard card, CardWidgetUI cardWidgetUI)
+        private void BeginSession(CardBase card, CardWidgetUI cardWidgetUI)
         {
             EndSession(played: false);
 
@@ -209,7 +209,7 @@ namespace TPJ.UI
 
         private void TryConfirmPlacement(Vector2Int gridPosition)
         {
-            var context = new CardPlayContext(_targetGrid, gridPosition, _currentRotation);
+            var context = new TileCardPlayContext(_targetGrid, gridPosition, _currentRotation);
             bool played = CardGameManager.Instance.TryPlayCard(_currentlySelectedCard, context);
 
             if (played)
@@ -220,7 +220,7 @@ namespace TPJ.UI
 
         private void OnEquipmentTargetChosen(TileUIBase targetTileUI)
         {
-            var context = new CardPlayContext(targetTileUI.Tile);
+            var context = new EquipmentCardPlayContext(targetTileUI.Tile);
             bool played = CardGameManager.Instance.TryPlayCard(_currentlySelectedCard, context);
             EndSession(played);
         }
@@ -273,7 +273,7 @@ namespace TPJ.UI
             group.alpha = alpha;
         }
 
-        private TileBase GetCardableTile(BaseCard card)
+        private TileBase GetCardableTile(CardBase card)
         {
             return card switch
             {

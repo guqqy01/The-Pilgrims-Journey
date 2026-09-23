@@ -5,11 +5,12 @@ using Attacks;
 using System.Collections.Generic;
 using Equipment;
 using Tiles;
+using TPJ.Gameplay;
 
 namespace Heros
 {
     [CreateAssetMenu()]
-    public class HeroSO : BuffableAttackEntitySO, ITileable, IDescriptable
+    public class HeroSO : BuffableAttackEntitySO, ITileable, IDescriptable, ITileCardType
     {
         [TextArea()]
         public string Description;
@@ -39,6 +40,8 @@ namespace Heros
 
         public List<ISubDescriptionData> GetSubDescriptionData => null;
 
+        private TileCardType tileCardType;
+        public TileCardType TileCardType => tileCardType;
 
         protected override Buff InheritGetBuff(StatTypes stat)
         {

@@ -90,6 +90,19 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       isInt: 0
+  tileCardType: 1
+  actionCost:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
   unitsSpecialSpell: {fileID: 0}
   Coin1Percent: 0.5
   Coin5Percent: 0.1

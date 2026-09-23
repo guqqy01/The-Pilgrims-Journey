@@ -7,7 +7,7 @@ namespace Tiles
 {
 
     [Serializable]
-    public abstract class TileBase
+    public abstract class TileBase: IActionPointCoster
     {
         public TileSO TileSO { get; }
         private bool locked;
@@ -33,7 +33,7 @@ namespace Tiles
 
         public abstract ITileable TiledObject { get; }
 
-        public List<Vector2Int> Shape => TileSO.Shape;
+        public List<Vector2Int> Shape => TileSO != null ? TileSO.Shape : new List<Vector2Int>();
         public List<Vector2Int> RotatedShape => TileSO.Shape.Rotate(Rotation);
 
         public List<Vector2Int> RotatedPlacedShape => RotatedShape.AddToAll(PlacedPosition);
@@ -42,6 +42,9 @@ namespace Tiles
 
         public Vector2Int PlacedPosition;
         public TileGridBase TileGrid;
+        public readonly Dictionary<TileCardType, int> AdjacentTileTypes = new Dictionary<TileCardType, int>();
+
+        public abstract TileCardType TileCardType { get; }
 
         public float Rotation
         {
@@ -101,6 +104,8 @@ namespace Tiles
                 return maxY - minY + 1;
             }
         }
+
+        public Buff ActionCost => Shape.Count;
 
         public virtual void OnDestroy()
         {

@@ -44,14 +44,14 @@ namespace UI.WindowStyles
             if (currentStyle == null)
                 return;
 
-
-
             if (cachedObjects == null || cachedObjects.Length == 0)
                 CacheObjects();
 
             foreach (var obj in cachedObjects)
             {
 #if UNITY_EDITOR
+                if (obj == null)
+                    continue;
                 if (!currentStyle.TryGetSprite(obj.label, out _))
                 {
                     Debug.LogWarning(

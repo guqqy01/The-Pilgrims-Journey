@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
-using Relics;
 using System.Collections.Generic;
 using Spells;
 using Tiles;
+using TPJ.Gameplay;
 
 namespace Units
 {
     [CreateAssetMenu(menuName = "Units/UnitSO")]
-    public class UnitSO : BuffableEntitySO, IDescriptable, ITileable
+    public class UnitSO : BuffableEntitySO, IDescriptable, ITileable, IActionPointCoster, ITileCardType
     {
         [TextArea] public string Description;
         public Sprite sprite;
@@ -25,8 +25,12 @@ namespace Units
 
         [Header("Unit Only Stats")]
         [BuffType(false)]
+        [Foldout("Stats")]
         public Buff SpawnRate;
 
+        [Foldout("Card Game")]
+        public TileCardType tileCardType;
+        public TileCardType TileCardType => tileCardType;
         protected override Buff InheritGetBuff(StatTypes stat)
         {
             return stat switch
@@ -60,6 +64,13 @@ namespace Units
         public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
 
         public string ShortDescription => Description;
+        [SerializeField]
+        [BuffType(true)]
+        [Foldout("Card Game")]
+        private Buff actionCost;
+        public Buff ActionCost => actionCost;
+
+        
 
         public SpellSO unitsSpecialSpell;
 

@@ -33,6 +33,8 @@ public abstract class TileUI<TObjectTile> : TileUIBase where TObjectTile : TileB
     [SerializeField]
     private TileUIStyle tileUIStyle;
     public override TileUIStyle TileUIStyle => tileUIStyle;
+    
+    private const float objectImageRelativeSizePercent = 60f;
 
     private void Awake()
     {
@@ -60,11 +62,11 @@ public abstract class TileUI<TObjectTile> : TileUIBase where TObjectTile : TileB
 
         if (tileGridUI != null)
         {
-            objectImage.NativeRatioScaleToSize(tileGridUI.SingleTileSquareSize.Min().Percent(80/*%*/));
+            objectImage.NativeRatioScaleToSize(tileGridUI.SingleTileSquareSize.Min().Percent(objectImageRelativeSizePercent/*%*/));
             return;
         }
 
-        objectImage.NativeRatioScaleToSize((BaseSize / new Vector2(Tile.Width, Tile.Height)).Min().Percent(80/*%*/));
+        objectImage.NativeRatioScaleToSize((BaseSize / new Vector2(Tile.Width, Tile.Height)).Min().Percent(objectImageRelativeSizePercent/*%*/));
     }
 
     public override void BaseInit(TileBase tile)

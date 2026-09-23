@@ -5,6 +5,17 @@ namespace TPJ.Gameplay
     /// </summary>
     public interface ICardable
     {
-        BaseCard CreateCard();
+        CardBase CreateCard();
+        int ActionPointCost { get; }
+    }
+
+    public interface IActionPointCoster
+    {
+        public Buff ActionCost { get; }
+    }
+
+    public interface ITileCardType
+    {
+        public TileCardType TileCardType { get; }
     }
 }

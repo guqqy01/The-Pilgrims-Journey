@@ -23,7 +23,10 @@ namespace Tiles
                 return Shape.Count * MonsterSpawnBase.Difficulty; 
             }
         }
-        public BaseCard CreateCard() => new MonsterCard(this);
+
+        public int ActionPointCost => ActionCost + MonsterSpawnBase.ActionCost;
+
+        public CardBase CreateCard() => new MonsterCard(this);
 
         public void ApplyEquipment(EquipmentSO equipment)
         {

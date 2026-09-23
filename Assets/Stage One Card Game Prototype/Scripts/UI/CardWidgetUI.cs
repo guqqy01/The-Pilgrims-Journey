@@ -19,8 +19,10 @@ namespace TPJ.UI
         [SerializeField] private float spriteSize = 30f;
         [SerializeField] private float followSpeed = 12f;
 
-        private BaseCard _card;
-        public BaseCard Card => _card;
+        [SerializeField] private PointHolderUI pointHolderUI;
+        [SerializeField] private CardTypeUIHolder cardTypeUIHolder;
+        private CardBase _card;
+        public CardBase Card => _card;
 
         private bool _interactable = true;
         private bool _dragging;
@@ -47,7 +49,7 @@ namespace TPJ.UI
             _rect.localScale = Vector3.Lerp(_rect.localScale, Vector3.one * _targetScale, t);
         }
 
-        public void Setup(BaseCard card)
+        public void Setup(CardBase card)
         {
             _card = card;
             IDescriptable descriptable = card.GetDisplayInfo();
@@ -55,6 +57,13 @@ namespace TPJ.UI
             itemImage.NativeRatioScaleToSize(spriteSize);
             title.text = descriptable.Title;
             description.text = descriptable.ShortDescription;
+
+            pointHolderUI.CreatePointUIs(card.CardActionCost, card.CardActionCost);
+
+            if(card is ITileCardType tileCardTypeInterface)
+            {
+                cardTypeUIHolder.Setup(tileCardTypeInterface.TileCardType);
+            }
 
             GetComponent<CardHighlighterUI>()?.Setup(card);
         }

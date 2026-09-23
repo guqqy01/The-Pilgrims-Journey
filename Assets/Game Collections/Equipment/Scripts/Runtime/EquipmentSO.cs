@@ -105,6 +105,10 @@ namespace Equipment
             }
         }
 
+        public int ActionPointCost => actionCost;
+        [SerializeField]
+        private int actionCost = 1;
+
         [Header("Shop Settings")]
         // X position is normalized to 0-1 so end of the map will be at t = 1
         public MinMaxCurve ChanceOfBeginInShopAtXMapPosition;
@@ -113,6 +117,6 @@ namespace Equipment
 
         public WeightedChanceList<float> discounts;
 
-        public BaseCard CreateCard() => new EquipmentCard(this);
+        public CardBase CreateCard() => new EquipmentCard(this);
     }
 }

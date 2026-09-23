@@ -10,9 +10,6 @@ namespace Attacks.Spot
         [SerializeField]
         private ConstantShakeSender shaker;
 
-        [SerializeField]
-        private float fadeTime = 0.2f;
-
         protected void Awake()
         {
             shaker.StartShaking();

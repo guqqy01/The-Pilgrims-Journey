@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TPJ.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -26,6 +27,9 @@ namespace Tiles.UI
 
         [HideInInspector]
         public TileGridUI tileGridUI;
+
+        [SerializeField]
+        private CardTypeUIHolder typeUIHolder;
 
         private Vector2 _baseSize;
         protected Vector2 BaseSize => _baseSize;
@@ -547,6 +551,8 @@ namespace Tiles.UI
 
             if (RectTransform == null)
                 RectTransform = GetComponent<RectTransform>();
+
+            typeUIHolder.Setup(tile.TileCardType);
         }
 
         #endregion

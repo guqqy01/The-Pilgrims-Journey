@@ -33,7 +33,8 @@ public class LightingManager : MonoBehaviour, IOnAfterCreateLocalMap, IOnClear
 
     private void LightIntensity()
     {
-        light2D.intensity = curve.Evaluate(GameManager.Instance.Level);
+        if(light2D != null)
+            light2D.intensity = curve.Evaluate(GameManager.Instance.Level);
     }
 
     private void AddOrRemoveFireFlys()

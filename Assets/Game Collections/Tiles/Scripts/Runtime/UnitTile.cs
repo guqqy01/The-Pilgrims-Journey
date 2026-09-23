@@ -8,7 +8,6 @@ using TPJ.Gameplay;
 
 namespace Tiles
 {
-
     public class UnitTile : Tile<UnitSO>, ICardable, IEquipmentTarget
     {
         public int Level { get; private set; } = 1;
@@ -27,7 +26,7 @@ namespace Tiles
 
         public UnitSO UnitSO => TiledObject as UnitSO;
 
-        public BaseCard CreateCard() => new UnitCard(this);
+        public CardBase CreateCard() => new UnitCard(this);
 
         public UnitTile(TileSO tileSO, UnitSO unitSO) : base(unitSO, tileSO)
         {
@@ -166,6 +165,8 @@ namespace Tiles
         public int Shield => Mathf.Max(GetStat(StatTypes.Shield), 0);
         public float ShieldRegen => Mathf.Max(GetStat(StatTypes.ShieldRegeneration), 0f);
         public float ShieldCooldown => Mathf.Max(GetStat(StatTypes.ShieldCooldown), 0f);
+
+        public int ActionPointCost => UnitSO.ActionCost + ActionCost;
 
         #endregion
     }

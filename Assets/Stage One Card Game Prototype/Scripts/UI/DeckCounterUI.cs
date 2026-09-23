@@ -26,7 +26,7 @@ namespace TPJ.UI
         }
 
         private void OnDraw(CardPile _) => Refresh();
-        private void OnDiscard(BaseCard _) => Refresh();
+        private void OnDiscard(CardBase _) => Refresh();
 
         private void Refresh()
         {

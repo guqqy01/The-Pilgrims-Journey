@@ -82,7 +82,7 @@ namespace Tiles
 
         public override bool AcceptTile(TileBase tile)
         {
-            return tile is UnitTile || tile is MonsterTileBase;
+            return tile is UnitTile || tile is MonsterTileBase || tile is HeroTile;
         }
 
         [Serializable]

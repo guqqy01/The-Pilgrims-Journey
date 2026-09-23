@@ -12,6 +12,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8794f4c313cef58438901ffd8d825bf4, type: 3}
   m_Name: Traveller
   m_EditorClassIdentifier: 
+  Health:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  Shield:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+  ShieldCooldown:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  ShieldRegeneration:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  MovementSpeed:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
   Description: The traveller, hardened and experieced from a life on the road. Equally
     good at everything but amazing at nothing.
   sprite: {fileID: -236381194, guid: a59e70585ea263e46bb810f9c9f09267, type: 3}
@@ -19,12 +79,31 @@ MonoBehaviour:
   rarity: 0
   numberOfUnitsEscapedToLevelUp: 28
   numberOfUnitsAbleToSpawn: 15
-  spawnRate: 1.2
-  movementSpeed: 2.5
-  health: 12
-  shield: 2
-  shieldRegeneration: 2
-  shieldCooldown: 4
+  SpawnRate:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 0
+  tileCardType: 16
+  actionCost:
+    buffFlags: 2
+    initialized: 1
+    percentageMultiplier: 0
+    baseBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
+    additionalBuff:
+      intValue: 0
+      floatValue: 0
+      isInt: 1
   unitsSpecialSpell: {fileID: 0}
   Coin1Percent: 0.5
   Coin5Percent: 0.1

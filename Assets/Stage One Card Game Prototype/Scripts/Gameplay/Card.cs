@@ -2,53 +2,45 @@ using System;
 
 namespace TPJ.Gameplay
 {
-    [Serializable]
-    public abstract class BaseCard
+
+    public interface ICard
     {
-        public DeckHolder Owner { get; internal set; }
-        public bool HasBeenPlayed { get; private set; }
+        public bool TryPlayCard<ICardPlayContext>(ICardPlayContext context);
+    }
 
-        public abstract IDescriptable GetDisplayInfo();
+    [Serializable]
+    public abstract class Card<TCardable, TPlayContext> : CardBase
+        where TCardable : ICardable 
+        where TPlayContext : ICardPlayContext
+    {
+        public TCardable CardableRef { protected set; get; }
 
-        public bool TryPlayCard(CardPlayContext context)
+        protected Card(TCardable cardableRef)
         {
+            CardableRef = cardableRef;
+            CardActionCost = cardableRef.ActionPointCost;
+        }
+
+        public override bool TryPlayCard<TMethodPlayContext>(TMethodPlayContext methodContext)
+        {
+            if (methodContext is not TPlayContext context)
+                return false;
+
             if (HasBeenPlayed)
                 return false;
 
-            if (!CanPlay(context))
+            if (!AbstractCanPlay(context))
                 return false;
 
             ProtectedPlayCard(context);
+
+            CardGameEventsBus.RaiseOnCardPlayed(Owner, this);
             HasBeenPlayed = true;
             return true;
         }
 
-        public abstract bool HasAnyLegalPlay(ICardLegalityProvider provider);
-
-        public abstract bool CanPlay(CardPlayContext context);
-        protected abstract void ProtectedPlayCard(CardPlayContext context);
-
-        /// <summary>
-        /// Resets the card's play state. Call this when a card is recycled back into the deck
-        /// after being discarded or reshuffled.
-        /// </summary>
-        public void ResetPlayState()
-        {
-            HasBeenPlayed = false;
-        }
-
-        public override string ToString() => GetType().Name;
-    }
-
-    [Serializable]
-    public abstract class Card<T> : BaseCard where T : ICardable
-    {
-        public T CardableRef { protected set; get; }
-
-        protected Card(T cardableRef)
-        {
-            CardableRef = cardableRef;
-        }
+        public abstract bool AbstractCanPlay(TPlayContext context);
+        protected abstract void ProtectedPlayCard(TPlayContext context);
 
         public override string ToString() => $"{GetType().Name}({CardableRef})";
     }

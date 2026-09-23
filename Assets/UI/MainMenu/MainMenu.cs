@@ -95,7 +95,7 @@ namespace UI
 
         private void HeroSelectSetActiveAndUpdateUI(HeroSelectionWindow manager)
         {
-            manager.gameObject.SetActive(false);
+            manager.gameObject.SetActive(true);
             manager.UpdateUI();
         }
 
@@ -103,8 +103,6 @@ namespace UI
         {
             if (value)
             {
-                Debug.Log(1);
-
                 if (Deactivated)
                     return;
 
@@ -135,7 +133,7 @@ namespace UI
             PlayImpactAndStopTheme();
 
             GameManager.Instance.ContinueJourney();
-            WaitForHelper.WaitForObjectThenPerformAction(() => TimeManager.Instance, () => TimeManager.Instance.OverrideUnpauseTime());
+            TimeManager.WhenReady(manager => manager.OverrideUnpauseTime());
         }
 
         public void BeastaryButton()

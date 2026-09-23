@@ -67,7 +67,7 @@ namespace TPJ.UI
 
         private void HandleRemoveNull() => _cardUIs.RemoveAll(c => c == null);
 
-        private void OnDiscard(BaseCard card)
+        private void OnDiscard(CardBase card)
         {
             CardWidgetUI cardToRemove = null;
 
@@ -117,11 +117,11 @@ namespace TPJ.UI
             }
         }
 
-        private void OnPlay(BaseCard card) { }
+        private void OnPlay(CardBase card) { }
 
         private void OnDraw(CardPile cardPile)
         {
-            foreach (BaseCard card in cardPile)
+            foreach (CardBase card in cardPile)
             {
                 CardWidgetUI cardUI = Instantiate(cardUIPrefab, handArea);
                 cardUI.Setup(card);

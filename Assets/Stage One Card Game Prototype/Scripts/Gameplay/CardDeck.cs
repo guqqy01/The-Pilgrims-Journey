@@ -17,12 +17,12 @@ namespace TPJ.Gameplay
             ActivePile.Shuffle();
         }
 
-        public void AddCardToDeck(BaseCard card)
+        public void AddCardToDeck(CardBase card)
         {
             WholeDeck.AddCard(card);
         }
 
-        public void RemoveCardFromDeck(BaseCard card)
+        public void RemoveCardFromDeck(CardBase card)
         {
             WholeDeck.RemoveCard(card);
             ActivePile.RemoveCard(card);
@@ -39,7 +39,7 @@ namespace TPJ.Gameplay
             DiscardPile.AddPile(pile);
         }
 
-        public void DiscardCard(BaseCard card)
+        public void DiscardCard(CardBase card)
         {
             DiscardPile.AddCard(card);
         }

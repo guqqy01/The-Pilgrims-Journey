@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Tiles;
+using TPJ.Gameplay;
+using Codice.Client.Common.GameUI;
 
 namespace Monsters
 {
@@ -103,7 +105,7 @@ namespace Monsters
     }
 
     [Serializable]
-    public abstract class MonsterSpawn: IMonsterSpawn, ITileable, IDescriptable
+    public abstract class MonsterSpawn: IMonsterSpawn, ITileable, IDescriptable, IActionPointCoster, ITileCardType
     {
         public MonsterSO monster;
         public float Difficulty => monster.powerLevel;
@@ -118,6 +120,13 @@ namespace Monsters
         public List<ISubDescriptionData> GetSubDescriptionData => monster.GetSubDescriptionData;
 
         public string ShortDescription => monster.ShortDescription;
+        [SerializeField]
+        private Buff actionCost;
+        public Buff ActionCost => actionCost;
+
+        [SerializeField]
+        private TileCardType tileCardType;
+        public TileCardType TileCardType => tileCardType;
     }
 
     [Serializable]

@@ -18,6 +18,8 @@ namespace TPJ.UI
         // TileUIBase's own drag/rotate/cancel loop.
         protected override bool SuppressAutoUpdate => true;
 
+        private const float objectImageRelativeSizePercent = 60f;
+
         /// <summary>Copies visual style from the real prefab this tile would use once placed,
         /// and reparents onto the top-level canvas so it renders above everything else.</summary>
         public void Setup(TileUIBase tileUIBase)
@@ -54,11 +56,11 @@ namespace TPJ.UI
 
             if (tileGridUI != null)
             {
-                objectImage.NativeRatioScaleToSize(tileGridUI.SingleTileSquareSize.Min().Percent(80));
+                objectImage.NativeRatioScaleToSize(tileGridUI.SingleTileSquareSize.Min().Percent(objectImageRelativeSizePercent));
                 return;
             }
 
-            objectImage.NativeRatioScaleToSize((BaseSize / new Vector2(Tile.Width, Tile.Height)).Min().Percent(80));
+            objectImage.NativeRatioScaleToSize((BaseSize / new Vector2(Tile.Width, Tile.Height)).Min().Percent(objectImageRelativeSizePercent));
         }
 
         public override void BaseInit(TileBase tile)

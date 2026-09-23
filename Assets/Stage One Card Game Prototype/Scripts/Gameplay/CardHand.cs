@@ -6,7 +6,7 @@ namespace TPJ.Gameplay
     [Serializable]
     public class CardHand : CardPile
     {
-        public bool TryPlayCard(BaseCard card, CardPlayContext context)
+        public bool TryPlayCard(CardBase card, ICardPlayContext context)
         {
             if (!ProtectedCardPile.Contains(card))
             {
@@ -16,7 +16,6 @@ namespace TPJ.Gameplay
 
             if (!card.TryPlayCard(context))
                 return false;
-
             ProtectedCardPile.Remove(card);
             return true;
         }

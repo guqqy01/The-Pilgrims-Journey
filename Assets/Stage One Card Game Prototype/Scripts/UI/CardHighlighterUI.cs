@@ -11,37 +11,40 @@ namespace TPJ.UI
         [SerializeField] private Color legalColor = Color.white;
         [SerializeField] private Color illegalColor = new Color(1f, 1f, 1f, 0.35f);
 
-        private BaseCard _card;
+        private CardBase _card;
 
         private void OnEnable()
         {
             if (!CardGameManager.HasInstance) return;
-            CardGameManager.Instance.OnTurnChanged += OnTurnChanged;
-            CardGameManager.Instance.OnBoardChanged += UpdateUI;
+            CardGameEventsBus.OnBeginTurn += OnBeginTurn;
+            CardGameManager.Instance.OnBoardChanged += OnBoardChanged;
+            CardGameEventsBus.OnCardPlayed += UpdateUI;
         }
 
         private void OnDisable()
         {
             if (!CardGameManager.HasInstance) return;
-            CardGameManager.Instance.OnTurnChanged -= OnTurnChanged;
-            CardGameManager.Instance.OnBoardChanged -= UpdateUI;
+            CardGameEventsBus.OnBeginTurn -= OnBeginTurn;
+            CardGameManager.Instance.OnBoardChanged -= OnBoardChanged;
+            CardGameEventsBus.OnCardPlayed -= UpdateUI;
         }
 
-        public void Setup(BaseCard card)
+        public void Setup(CardBase card)
         {
             _card = card;
-            UpdateUI();
+            UpdateUI(null, null);
         }
+        private void OnBeginTurn(DeckHolder _) => UpdateUI(_, null);
+        private void OnBoardChanged() => UpdateUI(null, null);
 
-        private void OnTurnChanged(DeckHolder _) => UpdateUI();
-
-        private void UpdateUI()
+        private void UpdateUI(DeckHolder _, CardBase card)
         {
             if (_card == null || !CardGameManager.HasInstance)
                 return;
 
             bool ownersTurn = _card.Owner != null && _card.Owner.CurrentlyOurTurn;
-            bool legal = ownersTurn && _card.HasAnyLegalPlay(CardGameManager.Instance);
+            bool hasEnoughPoints = _card.Owner.CardGamePoints.HasEnoughPoints(_card.CardActionCost);
+            bool legal = ownersTurn && hasEnoughPoints && _card.HasAnyLegalPlay(CardGameManager.Instance);
 
             Color color = legal ? legalColor : illegalColor;
             foreach (var image in images)

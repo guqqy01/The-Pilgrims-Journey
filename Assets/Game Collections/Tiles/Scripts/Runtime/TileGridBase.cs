@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using GameManagerCalls;
+using System.Collections.Generic;
+using TPJ.Gameplay;
 using UnityEngine;
-using GameManagerCalls;
 namespace Tiles
 {
-
     public abstract class TileGridBase : MonoBehaviour, IOnClear
     {
         public string SaveFileName => $"TileGrid_{name}_Save";
@@ -179,6 +179,30 @@ namespace Tiles
             return returnList;
         }
 
+        public bool TryGetRandomFreePosition(TileBase tile, out Vector2Int position, out float rotation)
+        {
+            List<Vector2Int> freePositions = GetFreeTilePositions();
+            int breaker = 4 * GridSize.x * GridSize.y;
+
+            rotation = 0f;
+            position = Vector2Int.zero;
+
+            while (breaker > 0)
+            {
+                rotation = Random.Range(0, 4) * 90f;
+                position = freePositions.GetRandom();
+
+                if (CanPlaceTile(tile, position, rotation))
+                {
+                    return true;
+                }
+
+                breaker--;
+            }
+
+            return false;
+        }
+
         public bool TryPlaceTileRandomly(TileBase tile, bool invokeAddedTile = true)
         {
             List<Vector2Int> freePositions = GetFreeTilePositions();
@@ -308,14 +332,109 @@ namespace Tiles
             selectedTile.ActionDestroyTile -= DestroyTile;
             selectedTile.ActionDestroyTile += DestroyTile;
 
-            if(invokeAddedTile)
+            CalculateSelfAndAdjacentTiles(selectedTile);
+
+            if (invokeAddedTile)
                 onTileAdded?.Invoke(selectedTile);
             return true;
+        }
+
+        private void CalculateSelfAndAdjacentTiles(TileBase tile)
+        {
+            CalculateAdjacentTileCardTypes(tile);
+            List<TileBase> adjacentTiles = GetAdjacentTiles(tile);
+            foreach (TileBase adjacentTile in adjacentTiles)
+            {
+                CalculateAdjacentTileCardTypes(adjacentTile);
+            }
+        }
+
+        private List<TileBase> GetAdjacentTiles(TileBase tile)
+        {
+            List<Vector2Int> checkedPoints = new List<Vector2Int>();
+            List<TileBase> adjacentTiles = new List<TileBase>();
+            foreach (Vector2Int position in tile.RotatedPlacedShape)
+            {
+                for (int x = -1; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        if (x == 0 && y == 0)
+                            continue;
+
+                        Vector2Int point = new Vector2Int(position.x + x, position.y + y);
+
+                        if (!Tiles.IsInBounds(point.x, point.y))
+                            continue;
+
+                        if (checkedPoints.Contains(point))
+                            continue;
+
+                        checkedPoints.Add(point);
+                        TileBase candidate = Tiles[point.x, point.y];
+
+                        if (candidate == null || candidate == tile)
+                            continue;
+
+                        if (!adjacentTiles.Contains(candidate))
+                            adjacentTiles.Add(candidate);
+                    }
+                }
+            }
+
+            return adjacentTiles;
+        }
+
+        public void CalculateAdjacentTileCardTypes(TileBase tile)
+        {
+            List<Vector2Int> checkedPoints = new List<Vector2Int>();
+            tile.AdjacentTileTypes.Clear();
+            foreach (Vector2Int position in tile.RotatedPlacedShape)
+            {
+                for (int x = -1; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        if (x == 0 && y == 0)
+                            continue;
+
+                        Vector2Int point = new Vector2Int(position.x + x, position.y + y);
+
+                        if (!Tiles.IsInBounds(point.x, point.y))
+                            continue;
+
+                        if (checkedPoints.Contains(point))
+                            continue;
+
+                        checkedPoints.Add(point);
+                        TileBase candidate = Tiles[point.x, point.y];
+
+                        if (candidate == null || candidate == tile)
+                            continue;
+
+                        TileCardType flaggedTileCardType = candidate.TileCardType;
+                        
+                        foreach(TileCardType tileCardType in flaggedTileCardType.CollapseFlags())
+                        {
+                            if (tile.AdjacentTileTypes.ContainsKey(tileCardType))
+                            {
+                                tile.AdjacentTileTypes[tileCardType]++;
+                            }
+                            else
+                            {
+                                tile.AdjacentTileTypes.Add(tileCardType, 1);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public bool RemoveTile(TileBase tile, bool invokeRemoveTile = true)
         {
             bool haveRemovedTile = false;
+
+            List<TileBase> adjacentTiles = GetAdjacentTiles(tile);
 
             for (int i = 0; i < gridSize.x; i++)
             {
@@ -333,7 +452,12 @@ namespace Tiles
             {
                 tile.ActionDestroyTile -= DestroyTile;
 
-                if(invokeRemoveTile)
+                foreach (TileBase adjacentTile in adjacentTiles)
+                {
+                    CalculateAdjacentTileCardTypes(adjacentTile);
+                }
+
+                if (invokeRemoveTile)
                     onTileRemoved?.Invoke(tile);
             }
 

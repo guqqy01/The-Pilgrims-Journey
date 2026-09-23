@@ -43,17 +43,22 @@ public abstract class BuffableAttackEntitySO : BuffableEntitySO
 
 public abstract class BuffableEntitySO : ScriptableObject
 {
+    [Foldout("Stats")]
     [Header("Defence")]
     [BuffType(true)]
     public Buff Health;
     [BuffType(true)]
+    [Foldout("Stats")]
     public Buff Shield;
     [BuffType(false)]
+    [Foldout("Stats")]
     public Buff ShieldCooldown;
     [BuffType(false)]
+    [Foldout("Stats")]
     public Buff ShieldRegeneration;
     [Header("Utility")]
     [BuffType(false)]
+    [Foldout("Stats")]
     public Buff MovementSpeed;
 
     protected virtual Buff InheritGetBuff(StatTypes stat) { return null; }
