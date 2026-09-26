@@ -16,21 +16,10 @@ MonoBehaviour:
   description: A sturdy leather belt
   EquipmentSpecial:
     rid: -2
-  heroEquipmentStats:
-    _serializedList:
-    - Key: 0
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 20
-          floatValue: 0
-          isInt: 1
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 1
+  equipmentStats:
+    _serializedList: []
+  actionCost: 1
+  grantedTileCardType: 1
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

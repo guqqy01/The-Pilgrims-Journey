@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Attacks
 {
+
     public abstract class AttackSO<TAttackSpawn, TStatsAtLevel> : BaseAttackSO 
         where TStatsAtLevel : BaseWeaponStatsAtLevel
         where TAttackSpawn : AttackSpawnBase

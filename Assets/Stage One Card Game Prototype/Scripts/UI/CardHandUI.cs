@@ -14,6 +14,10 @@ namespace TPJ.UI
         [Header("Hover")]
         [SerializeField] private float hoverYOffset = 80f;
         [SerializeField] private float hoverScaleBoost = 1.15f;
+        [Tooltip("How far immediate neighbors of the hovered card are pushed sideways to stay visible.")]
+        [SerializeField] private float hoverNeighborPushAmount = 70f;
+        [Tooltip("How many cards on each side of the hovered card are pushed, fading to no push at the edge of this range.")]
+        [SerializeField] private int hoverNeighborPushRange = 2;
 
         [Header("Drag to play")]
         [SerializeField] private RectTransform playDropZone;
@@ -93,6 +97,15 @@ namespace TPJ.UI
         private void UpdateLayout()
         {
             int count = _cardUIs.Count;
+            if (count == 0)
+                return;
+
+            float cardWidth = GetCardWidth();
+            Rect areaRect = handArea.rect;
+            float availableWidth = areaRect.width;
+            Vector2 centeringOffset = GetCenteringOffset(areaRect);
+            float effectiveSpacing = layout.GetSpacing(count, availableWidth, cardWidth);
+            int hoveredIndex = _hoveredCard != null ? _cardUIs.IndexOf(_hoveredCard) : -1;
 
             for (int i = 0; i < _cardUIs.Count; i++)
             {
@@ -105,17 +118,77 @@ namespace TPJ.UI
                 if (float.IsNaN(rel))
                     continue;
 
-                layout.Evaluate(rel, out var pos, out var rot, out var scale);
+                layout.Evaluate(rel, effectiveSpacing, out var pos, out var rot, out var scale);
+                pos += centeringOffset;
 
                 if (cardUI == _hoveredCard)
                 {
                     pos.y += hoverYOffset;
                     scale *= hoverScaleBoost;
                 }
+                else if (hoveredIndex >= 0)
+                {
+                    pos.x += GetHoverNeighborPush(i - hoveredIndex);
+                }
 
                 cardUI.Apply(pos, rot, scale);
             }
         }
+
+        /// <summary>
+        /// Extra horizontal push applied to cards near the hovered card so the hovered card's
+        /// scale-up doesn't hide them. Full push on the immediate neighbor, fading to zero at
+        /// hoverNeighborPushRange cards away.
+        /// </summary>
+        private float GetHoverNeighborPush(int distanceFromHovered)
+        {
+            int absDistance = Mathf.Abs(distanceFromHovered);
+            if (absDistance == 0 || absDistance > hoverNeighborPushRange)
+                return 0f;
+
+            float t = 1f - (absDistance - 1) / (float)hoverNeighborPushRange;
+            float push = hoverNeighborPushAmount * t;
+
+            return distanceFromHovered > 0 ? push : -push;
+        }
+
+        /// <summary>
+        /// Card width in handArea's local units, used to fit the hand within handArea.
+        /// Prefers an actual instantiated card's rect; falls back to the prefab's rect
+        /// if no cards exist yet.
+        /// </summary>
+        private float GetCardWidth()
+        {
+            if (_cardUIs.Count > 0 && _cardUIs[0] != null)
+                return _cardUIs[0].RectTransform.rect.width;
+
+            return cardUIPrefab != null ? ((RectTransform)cardUIPrefab.transform).rect.width : 1f;
+        }
+
+        /// <summary>
+        /// Where a card's anchor point (per its anchorMin) actually falls within areaRect.
+        /// anchoredPosition is measured relative to this point, not from the parent's pivot
+        /// or center, so both centering and drag-to-cursor placement need to correct for it.
+        /// Assumes the card uses a "point" anchor (anchorMin == anchorMax), which is standard
+        /// for a freely-positioned, draggable UI element.
+        /// </summary>
+        private Vector2 GetCardAnchorPoint(Rect areaRect)
+        {
+            RectTransform sample = _cardUIs.Count > 0 && _cardUIs[0] != null
+                ? _cardUIs[0].RectTransform
+                : (cardUIPrefab != null ? (RectTransform)cardUIPrefab.transform : null);
+
+            if (sample == null)
+                return areaRect.center;
+
+            Vector2 anchorMin = sample.anchorMin;
+            return new Vector2(
+                Mathf.Lerp(areaRect.xMin, areaRect.xMax, anchorMin.x),
+                Mathf.Lerp(areaRect.yMin, areaRect.yMax, anchorMin.y));
+        }
+
+        /// <summary>Offset to add to a layout-relative position so that it lands centered within areaRect.</summary>
+        private Vector2 GetCenteringOffset(Rect areaRect) => areaRect.center - GetCardAnchorPoint(areaRect);
 
         private void OnPlay(CardBase card) { }
 
@@ -194,7 +267,7 @@ namespace TPJ.UI
                 return;
 
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(handArea, screenPosition, EventCamera, out Vector2 localPoint))
-                card.RectTransform.anchoredPosition = localPoint;
+                card.RectTransform.anchoredPosition = localPoint - GetCardAnchorPoint(handArea.rect);
 
             ReorderAroundDraggedCard();
         }

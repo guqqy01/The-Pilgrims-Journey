@@ -12,6 +12,8 @@ namespace TPJ.UI
         public override TileUIStyle TileUIStyle => _tileUIStyle;
 
         [SerializeField]
+        private RectTransform objectHolder;
+        [SerializeField]
         private Image objectImage;
 
         // The hologram is entirely driven by CardPlacementController, not by
@@ -31,13 +33,13 @@ namespace TPJ.UI
         public override void Rotate(int angle)
         {
             base.Rotate(angle);
-            objectImage.rectTransform.rotation = Quaternion.Euler(Vector3.zero);
+            objectHolder.rotation = Quaternion.Euler(Vector3.zero);
         }
 
         public override void RotateTo(float angle)
         {
             base.RotateTo(angle);
-            objectImage.rectTransform.rotation = Quaternion.Euler(Vector3.zero);
+            objectHolder.rotation = Quaternion.Euler(Vector3.zero);
         }
 
         /// <summary>Assigns the grid this hologram is currently sized/previewed against,
@@ -52,7 +54,7 @@ namespace TPJ.UI
 
         private void SizeChange(TileGridUI tileGridUI)
         {
-            objectImage.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(Tile.Shape, tileGridUI);
+            objectHolder.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(Tile.Shape, tileGridUI);
 
             if (tileGridUI != null)
             {

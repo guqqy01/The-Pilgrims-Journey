@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Attacks;
+using Equipment;
+using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using TPJ.Gameplay;
 using UnityEngine;
@@ -7,7 +10,7 @@ namespace Tiles
 {
     [Serializable]
     public abstract class Tile<TObject> : TileBase, IDescriptable 
-        where TObject : ITileable, IDescriptable, ITileCardType
+        where TObject : ITileable, IDescriptable, ITileCardType, IEquipmentHolder, IAttackHolder
     {
         protected TObject _object;
         public override ITileable TiledObject => _object;
@@ -31,6 +34,16 @@ namespace Tiles
             _object = obj;
             tileCardType = obj.TileCardType;
         }
+
+        public override bool HasRoomForEquipment => _equipment.Count < _object.MaxEquipmentCapacity;
+        public override bool HasRoomForAttack => _attacks.Count < _object.MaxAttackCapacity;
+
+        /// <summary>Overridden by Tile&lt;TObject&gt;, where the actual mutable tileCardType field lives.</summary>
+        protected override void AddTileCardTypeFlag(TileCardType flag)
+        {
+            tileCardType |= flag;
+        }
+
     }
 }
 

@@ -6,7 +6,7 @@ namespace TPJ.Gameplay
     /// entirely to TileGridBase so placement rules stay defined in exactly one place.
     /// </summary>
     public abstract class TileCard<T> : Card<T, TileCardPlayContext>, ITileCardType 
-        where T : TileBase, ICardable
+        where T : TileBase, ICardable, IDescriptable
     {
         public TileCardType TileCardType { protected set; get; }
 

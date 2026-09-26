@@ -16,34 +16,10 @@ MonoBehaviour:
   description: A book of knowledge
   EquipmentSpecial:
     rid: -2
-  heroEquipmentStats:
-    _serializedList:
-    - Key: 2
-      Value:
-        buffFlags: 1
-        initialized: 1
-        percentageMultiplier: -15
-        baseBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 0
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 0
-    - Key: 1
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 5
-          floatValue: 0
-          isInt: 1
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 1
+  equipmentStats:
+    _serializedList: []
+  actionCost: 1
+  grantedTileCardType: 16
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

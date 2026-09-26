@@ -16,34 +16,10 @@ MonoBehaviour:
   description: Leather Armor, offering a small amount of protection
   EquipmentSpecial:
     rid: -2
-  heroEquipmentStats:
-    _serializedList:
-    - Key: 0
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 15
-          floatValue: 0
-          isInt: 1
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 1
-    - Key: 1
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 15
-          floatValue: 0
-          isInt: 1
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 1
+  equipmentStats:
+    _serializedList: []
+  actionCost: 1
+  grantedTileCardType: 32
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

@@ -5,24 +5,21 @@ public static class EnumExtensions
 {
     public static List<T> CollapseFlags<T>(this T flaggedEnum) where T : Enum
     {
-        List<T> returnList = new List<T>();
+        var result = new List<T>();
+        long value = Convert.ToInt64(flaggedEnum);
 
-        string[] names = typeof(T).GetEnumNames();
-
-        foreach(string name in names)
+        foreach (T flag in Enum.GetValues(typeof(T)))
         {
-            if (Enum.TryParse(typeof(T), name, out object result))
-            {
-                if (result is not T flag)
-                    continue;
+            long flagValue = Convert.ToInt64(flag);
 
-                if (flaggedEnum.HasFlag(flag))
-                {
-                    returnList.Add(flag);
-                }
-            }
+            // skip zero-value members and non-power-of-two (composite) members
+            if (flagValue == 0 || (flagValue & (flagValue - 1)) != 0)
+                continue;
+
+            if ((value & flagValue) == flagValue)
+                result.Add(flag);
         }
 
-        return returnList;
+        return result;
     }
 }

@@ -6,6 +6,8 @@ namespace TPJ.Gameplay
     [Serializable]
     public class CardHand : CardPile
     {
+        public int handLimit = 7;
+
         public bool TryPlayCard(CardBase card, ICardPlayContext context)
         {
             if (!ProtectedCardPile.Contains(card))

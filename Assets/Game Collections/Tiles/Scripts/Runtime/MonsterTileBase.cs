@@ -8,10 +8,8 @@ using UnityEngine;
 namespace Tiles
 {
     [Serializable]
-    public abstract class MonsterTileBase : Tile<MonsterSpawn>, ICardable, IEquipmentTarget
+    public abstract class MonsterTileBase : Tile<MonsterSpawn>, ICardable, IEquipmentCardTarget
     {
-        private readonly List<EquipmentSO> _equipment = new List<EquipmentSO>();
-
         public MonsterSpawn MonsterSpawnBase => TiledObject as MonsterSpawn;
 
         protected MonsterTileBase(MonsterSpawn obj, TileSO tileSO) : base(obj, tileSO) { }
@@ -27,11 +25,7 @@ namespace Tiles
         public int ActionPointCost => ActionCost + MonsterSpawnBase.ActionCost;
 
         public CardBase CreateCard() => new MonsterCard(this);
-
-        public void ApplyEquipment(EquipmentSO equipment)
-        {
-            _equipment.Add(equipment);
-        }
+        public void ApplyEquipment(EquipmentSO equipment) => AddEquipment(equipment);
     }
 }
 

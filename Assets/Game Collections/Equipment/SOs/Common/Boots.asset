@@ -16,21 +16,10 @@ MonoBehaviour:
   description: Leather boots, quick and sturdy
   EquipmentSpecial:
     rid: -2
-  heroEquipmentStats:
-    _serializedList:
-    - Key: 4
-      Value:
-        buffFlags: 3
-        initialized: 1
-        percentageMultiplier: 20
-        baseBuff:
-          intValue: 0
-          floatValue: 0.5
-          isInt: 0
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 0
+  equipmentStats:
+    _serializedList: []
+  actionCost: 1
+  grantedTileCardType: 8
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

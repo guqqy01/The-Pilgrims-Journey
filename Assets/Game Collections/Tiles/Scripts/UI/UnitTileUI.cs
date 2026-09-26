@@ -1,10 +1,10 @@
-﻿using Equipment;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Units;
 using UnityEngine;
 
 namespace Tiles.UI
 {
+
     public class UnitTileUI : TileUI<UnitTile>, IDescriptable
     {
         public UnitTile UnitTile => ObjectTile;

@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Tiles;
 using TPJ.Gameplay;
-using Codice.Client.Common.GameUI;
-
+using Equipment;
+using Attacks;
 namespace Monsters
 {
     [CreateAssetMenu()]
@@ -105,7 +104,14 @@ namespace Monsters
     }
 
     [Serializable]
-    public abstract class MonsterSpawn: IMonsterSpawn, ITileable, IDescriptable, IActionPointCoster, ITileCardType
+    public abstract class MonsterSpawn: 
+        IMonsterSpawn, 
+        ITileable, 
+        IDescriptable, 
+        IActionPointCoster, 
+        ITileCardType,
+        IEquipmentHolder,
+        IAttackHolder
     {
         public MonsterSO monster;
         public float Difficulty => monster.powerLevel;
@@ -127,6 +133,10 @@ namespace Monsters
         [SerializeField]
         private TileCardType tileCardType;
         public TileCardType TileCardType => tileCardType;
+
+        public int MaxEquipmentCapacity => monster.MaxEquipmentCapacity;
+
+        public int MaxAttackCapacity => monster.MaxAttackCapacity;
     }
 
     [Serializable]

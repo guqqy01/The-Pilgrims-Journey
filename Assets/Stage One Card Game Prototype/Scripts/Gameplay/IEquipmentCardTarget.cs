@@ -7,7 +7,7 @@ namespace Tiles
     /// (e.g. UnitTile, HeroTile). Should apply the equipment via your existing
     /// Buff/BuffableStat system on TiledObject.
     /// </summary>
-    public interface IEquipmentTarget
+    public interface IEquipmentCardTarget
     {
         void ApplyEquipment(EquipmentSO equipment);
     }

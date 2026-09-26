@@ -35,7 +35,7 @@ namespace TPJ.UI
                 TileCardType.Brigade => brigadeTypeSprite,
                 TileCardType.Guard => guardTypeSprite,
                 TileCardType.Scout => scoutTypeSprite,
-                TileCardType.Traveler => travelerTypeSprite,
+                TileCardType.Spy => travelerTypeSprite,
                 _ => farmerTypeSprite
             };
 

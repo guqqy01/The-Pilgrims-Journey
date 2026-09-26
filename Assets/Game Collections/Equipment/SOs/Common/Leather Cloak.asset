@@ -16,34 +16,10 @@ MonoBehaviour:
   description: a leather cloak
   EquipmentSpecial:
     rid: -2
-  heroEquipmentStats:
-    _serializedList:
-    - Key: 0
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 10
-          floatValue: 0
-          isInt: 1
-        additionalBuff:
-          intValue: 5
-          floatValue: 0
-          isInt: 1
-    - Key: 4
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 0
-          floatValue: 0.5
-          isInt: 0
-        additionalBuff:
-          intValue: 5
-          floatValue: 0
-          isInt: 0
+  equipmentStats:
+    _serializedList: []
+  actionCost: 1
+  grantedTileCardType: 8
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

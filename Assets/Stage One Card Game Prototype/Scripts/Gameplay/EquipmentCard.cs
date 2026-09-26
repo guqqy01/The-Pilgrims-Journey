@@ -4,37 +4,44 @@ using Tiles;
 
 namespace TPJ.Gameplay
 {
+
     [Serializable]
-    public class EquipmentCard : Card<EquipmentSO, EquipmentCardPlayContext>
+    public class EquipmentCard : Card<EquipmentSO, EquipmentCardPlayContext>, ITileCardType
     {
+        public TileCardType TileCardType => CardableRef.GrantedTileCardType;
+
         public EquipmentCard(EquipmentSO cardableRef) : base(cardableRef) { }
 
         public override IDescriptable GetDisplayInfo() => CardableRef;
 
         public override bool AbstractCanPlay(EquipmentCardPlayContext context)
         {
-            if (context.TargetTile is not IEquipmentTarget)
+            if (context.TargetTile is not IEquipmentCardTarget)
                 return false;
 
-            // Self-only for now, per current design - drop this line if/when
-            // you allow debuffing the opponent's tiles.
-            return TileOwnership.Get(context.TargetTile) == Owner;
-        }
+            if (TileOwnership.Get(context.TargetTile) != Owner)
+                return false;
 
-        protected override void ProtectedPlayCard(EquipmentCardPlayContext context)
-        {
-            ((IEquipmentTarget)context.TargetTile).ApplyEquipment(CardableRef);
+            if (!context.TargetTile.HasRoomForEquipment)
+                return false;
 
-            CardGameEventsBus.RaiseOnEquipmentCardPlayed(Owner, CardableRef);
+            return true;
         }
 
         public override bool HasAnyLegalPlay(ICardLegalityProvider provider)
         {
             foreach (var tile in provider.GetTargetableTiles(Owner))
-                if (tile is IEquipmentTarget && TileOwnership.Get(tile) == Owner)
+                if (tile is IEquipmentCardTarget && TileOwnership.Get(tile) == Owner && tile.HasRoomForEquipment)
                     return true;
 
             return false;
+        }
+
+        protected override void ProtectedPlayCard(EquipmentCardPlayContext context)
+        {
+            ((IEquipmentCardTarget)context.TargetTile).ApplyEquipment(CardableRef);
+
+            CardGameEventsBus.RaiseOnEquipmentCardPlayed(Owner, CardableRef);
         }
     }
 }

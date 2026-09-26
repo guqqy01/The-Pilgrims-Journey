@@ -6,7 +6,8 @@ using Tiles;
 public abstract class TileUI<TObjectTile> : TileUIBase where TObjectTile : TileBase
 {
     [SerializeField]
-    private RectTransform objectImageTransform;
+    private RectTransform objectHolder;
+    [SerializeField]
     private Image objectImage;
 
     private TObjectTile _objectTile;
@@ -36,29 +37,22 @@ public abstract class TileUI<TObjectTile> : TileUIBase where TObjectTile : TileB
     
     private const float objectImageRelativeSizePercent = 60f;
 
-    private void Awake()
-    {
-        objectImage = objectImageTransform.GetComponent<Image>();
-    }
 
     public override void Rotate(int angle)
     {
         base.Rotate(angle);
-        objectImageTransform.rotation = Quaternion.Euler(Vector3.zero);
+        objectHolder.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     public override void RotateTo(float angle)
     {
         base.RotateTo(angle);
-        objectImageTransform.rotation = Quaternion.Euler(Vector3.zero);
+        objectHolder.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void SizeChange(TileGridUI tileGridUI)
     {
-        if (objectImage == null)
-            objectImage = objectImageTransform.GetComponent<Image>();
-
-        objectImage.rectTransform.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(Tile.Shape, tileGridUI);
+        objectHolder.anchoredPosition = GetCenteredAnchoredPositionPositionInShape(Tile.Shape, tileGridUI);
 
         if (tileGridUI != null)
         {
@@ -76,7 +70,6 @@ public abstract class TileUI<TObjectTile> : TileUIBase where TObjectTile : TileB
         if (tile is not TObjectTile objectTile)
             return;
 
-        objectImage = objectImageTransform.GetComponent<Image>();
         objectImage.sprite = objectTile.TiledObject.Sprite;
         SizeChange(tileGridUI);
     }

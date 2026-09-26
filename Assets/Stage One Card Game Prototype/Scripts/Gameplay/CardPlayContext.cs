@@ -17,6 +17,16 @@ namespace TPJ.Gameplay
         }
     }
 
+    public class AttackCardPlayContext : ICardPlayContext
+    {
+        public readonly TileBase TargetTile;
+
+        public AttackCardPlayContext(TileBase targetTile)
+        {
+            TargetTile = targetTile;
+        }
+    }
+
     public class EquipmentCardPlayContext : ICardPlayContext
     {
         public readonly TileBase TargetTile;

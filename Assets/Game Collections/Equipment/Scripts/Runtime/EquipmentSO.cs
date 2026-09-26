@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Units;
 using static UnityEngine.ParticleSystem;
 using AYellowpaper.SerializedCollections;
-using Heros;
-using UnityEngine.Serialization;
 using TPJ.Gameplay;
 
 namespace Equipment
 {
+
     [CreateAssetMenu()] 
     public class EquipmentSO : ScriptableObject, IDescriptable, ICardable
     {
@@ -108,6 +106,9 @@ namespace Equipment
         public int ActionPointCost => actionCost;
         [SerializeField]
         private int actionCost = 1;
+
+        [SerializeField] private TileCardType grantedTileCardType;
+        public TileCardType GrantedTileCardType => grantedTileCardType;
 
         [Header("Shop Settings")]
         // X position is normalized to 0-1 so end of the map will be at t = 1

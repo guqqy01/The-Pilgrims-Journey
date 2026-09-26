@@ -16,34 +16,10 @@ MonoBehaviour:
   description: Necklace of regeneration
   EquipmentSpecial:
     rid: -2
-  heroEquipmentStats:
-    _serializedList:
-    - Key: 3
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 0
-          floatValue: 2
-          isInt: 0
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 0
-    - Key: 1
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 10
-          floatValue: 0
-          isInt: 1
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 1
+  equipmentStats:
+    _serializedList: []
+  actionCost: 1
+  grantedTileCardType: 16
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0

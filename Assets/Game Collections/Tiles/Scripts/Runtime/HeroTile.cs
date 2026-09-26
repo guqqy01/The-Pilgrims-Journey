@@ -3,13 +3,12 @@ using Heros;
 using Equipment;
 using System.Collections.Generic;
 using UnityEngine;
+using Attacks;
 
 namespace Tiles
 {
-    public class HeroTile : Tile<HeroSO>, ICardable, IEquipmentTarget
+    public class HeroTile : Tile<HeroSO>, ICardable, IEquipmentCardTarget, IAttackCardTarget
     {
-        private readonly List<EquipmentSO> _equipment = new List<EquipmentSO>();
-
         public HeroTile(HeroSO obj, TileSO tileSO) : base(obj, tileSO)
         {
 
@@ -17,9 +16,11 @@ namespace Tiles
 
         public int ActionPointCost => 0;
 
-        public void ApplyEquipment(EquipmentSO equipment)
+        public void ApplyEquipment(EquipmentSO equipment) => AddEquipment(equipment);
+
+        public void ApplyEquipment(BaseAttackSO equipment)
         {
-            _equipment.Add(equipment);
+
         }
 
         public CardBase CreateCard() => new HeroCard(this);

@@ -10,7 +10,7 @@ using TPJ.Gameplay;
 namespace Heros
 {
     [CreateAssetMenu()]
-    public class HeroSO : BuffableAttackEntitySO, ITileable, IDescriptable, ITileCardType
+    public class HeroSO : BuffableAttackEntitySO, ITileable, IDescriptable, ITileCardType, IEquipmentHolder, IAttackHolder
     {
         [TextArea()]
         public string Description;
@@ -42,6 +42,13 @@ namespace Heros
 
         private TileCardType tileCardType;
         public TileCardType TileCardType => tileCardType;
+
+        [SerializeField]
+        private int maxEquipmentCapacity = 1;
+        public int MaxEquipmentCapacity => maxEquipmentCapacity;
+        [SerializeField]
+        private int maxAttackCapacity;
+        public int MaxAttackCapacity => maxAttackCapacity;
 
         protected override Buff InheritGetBuff(StatTypes stat)
         {

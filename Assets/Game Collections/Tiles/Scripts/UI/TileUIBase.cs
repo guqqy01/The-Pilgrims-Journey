@@ -4,7 +4,6 @@ using System.Linq;
 using TPJ.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Tiles.UI
@@ -39,7 +38,7 @@ namespace Tiles.UI
         {
             get
             {
-                if(RectTransform == null)
+                if (RectTransform == null)
                     RectTransform = GetComponent<RectTransform>();
 
                 return RectTransform.eulerAngles.z;
@@ -54,7 +53,10 @@ namespace Tiles.UI
         {
             get
             {
-                return Tile.Shape.Rotate(UIRotation);
+                // ActiveLocalShape rather than Shape so positioning/offset math (GetOffset,
+                // drag preview, sibling sort) reflects a Brigade-damaged tile's current
+                // (smaller) footprint. Identical to the old behaviour for any undamaged tile.
+                return Tile.ActiveLocalShape.Rotate(UIRotation);
             }
         }
 
@@ -105,13 +107,14 @@ namespace Tiles.UI
             {
                 Tile.OnRotated -= RotateTo;
                 Tile.OnLockedChanged -= OnLockedChange;
+                Tile.OnCellDestroyed -= OnCellDestroyed;
             }
             TileUIEventBus.OnTileSelected -= Highlight;
         }
 
         #region Leveling and health
 
-        
+
 
         public void DestroyTile()
         {
@@ -141,16 +144,8 @@ namespace Tiles.UI
             if (RectTransform == null)
                 RectTransform = GetComponent<RectTransform>();
 
-            // Compute absolute Z rotation and snap to nearest 90° (0/90/180/270)
-            float z = RectTransform.eulerAngles.z;
-            int normalized = Mathf.RoundToInt(z / 90f) * 90;
-            normalized = ((normalized % 360) + 360) % 360;
-
             // Switch to the pre-rendered sprite for this absolute rotation
-
-            Stamp.ClockwiseRotations parsedRotation = (Stamp.ClockwiseRotations)normalized;
-
-            tileShapeTextureBuilder.ChangeSprite(parsedRotation);
+            tileShapeTextureBuilder.ChangeSprite(CurrentRotationEnum());
 
             LockImageHolder.transform.rotation = Quaternion.identity;
 
@@ -167,18 +162,22 @@ namespace Tiles.UI
             eulerAngles.z = angle;
             RectTransform.rotation = Quaternion.Euler(eulerAngles);
 
-            // Snap target angle to nearest 90° and normalize
-            int normalized = Mathf.RoundToInt(angle / 90f) * 90;
-            normalized = ((normalized % 360) + 360) % 360;
-
-            Stamp.ClockwiseRotations parsedRotation = (Stamp.ClockwiseRotations)normalized;
-
-            tileShapeTextureBuilder.ChangeSprite(parsedRotation);
+            tileShapeTextureBuilder.ChangeSprite(CurrentRotationEnum());
 
             LockImageHolder.transform.rotation = Quaternion.identity;
 
             if (tileGridUI != null)
                 ApplyGridSizing(tileGridUI);
+        }
+
+        /// <summary>The tile's current absolute rotation, snapped to the nearest 90° and
+        /// normalized to 0-270 — shared by Rotate/RotateTo/RebuildShapeSprites so they always
+        /// agree on which cached sprite is "current".</summary>
+        private Stamp.ClockwiseRotations CurrentRotationEnum()
+        {
+            int normalized = Mathf.RoundToInt(UIRotation / 90f) * 90;
+            normalized = ((normalized % 360) + 360) % 360;
+            return (Stamp.ClockwiseRotations)normalized;
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -206,8 +205,8 @@ namespace Tiles.UI
 
                     if (obj.TryGetComponent(out TileGridUI candidate))
                     {
-                        if (candidate.GridTransform.gameObject.activeInHierarchy && 
-                            candidate.IsWorldPositionInGrid(eventData.position) && 
+                        if (candidate.GridTransform.gameObject.activeInHierarchy &&
+                            candidate.IsWorldPositionInGrid(eventData.position) &&
                             IsCompatibleGrid(candidate))
                         {
                             draggedTileGridUI = candidate;
@@ -299,15 +298,15 @@ namespace Tiles.UI
         {
             List<Vector2Int> rightMostPoints = new List<Vector2Int>();
             int mostRightPosition = int.MinValue;
-            foreach(Vector2Int pointInShape in shape)
+            foreach (Vector2Int pointInShape in shape)
             {
-                if(pointInShape.x > mostRightPosition)
+                if (pointInShape.x > mostRightPosition)
                 {
                     rightMostPoints.Clear();
                     rightMostPoints.Add(pointInShape);
                     mostRightPosition = pointInShape.x;
                 }
-                else if(pointInShape.x == mostRightPosition)
+                else if (pointInShape.x == mostRightPosition)
                 {
                     rightMostPoints.Add(pointInShape);
                 }
@@ -321,9 +320,9 @@ namespace Tiles.UI
 
             int lowestPosition = int.MaxValue;
             Vector2Int returnPoint = Vector2Int.zero;
-            foreach(Vector2Int point in rightMostPoints)
+            foreach (Vector2Int point in rightMostPoints)
             {
-                if(point.y < lowestPosition)
+                if (point.y < lowestPosition)
                 {
                     returnPoint = point;
                     lowestPosition = point.y;
@@ -335,7 +334,7 @@ namespace Tiles.UI
 
         private void SetLockRect(TileGridUI gridUI)
         {
-            if(gridUI != null)
+            if (gridUI != null)
             {
                 LockImageHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUI.SingleTileSquareUISizeX);
                 LockImageHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUI.SingleTileSquareUISizeY);
@@ -346,10 +345,10 @@ namespace Tiles.UI
                 LockImageHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _baseSize.y);
             }
 
-            List<Vector2Int> rotatedShape = Tile.Shape.Rotate(UIRotation);
+            List<Vector2Int> rotatedShape = Tile.ActiveLocalShape.Rotate(UIRotation);
             Vector2Int preFixRotationRightLowestPoint = GetRightAndLowestPointInShape(rotatedShape);
             Vector2Int rightLowestPoint = preFixRotationRightLowestPoint.RotateAroundOrigin(-UIRotation);
-            LockImageHolder.anchoredPosition = GetAnchoredPositionAtPointInShape(Tile.Shape, rightLowestPoint, gridUI);
+            LockImageHolder.anchoredPosition = GetAnchoredPositionAtPointInShape(Tile.ActiveLocalShape, rightLowestPoint, gridUI);
         }
 
         protected abstract void OnTileSizeChanged(TileGridUI grid);
@@ -411,13 +410,13 @@ namespace Tiles.UI
             {
                 string shapeString = "";
 
-                foreach(Vector2Int p in shape)
+                foreach (Vector2Int p in shape)
                     shapeString = shapeString + p.ToString() + ", ";
 
                 Debug.LogWarning($"The point: {point}, is not appart of the shape: {shapeString}.");
                 return Vector2.zero;
             }
-                
+
             Vector2Int boundsMin = shape.Aggregate(
                 new Vector2Int(int.MaxValue, int.MaxValue),
                 (acc, p) => new Vector2Int(Mathf.Min(acc.x, p.x), Mathf.Min(acc.y, p.y)));
@@ -441,6 +440,12 @@ namespace Tiles.UI
             return (point - boundsCenter) * singleTileSize;
         }
 
+        /// <summary>Public entry point for external UI (e.g. a single-cell highlight) that needs
+        /// the anchored position, in this tile's own RectTransform space, of one specific local
+        /// (Shape-space) cell — without needing GetAnchoredPositionAtPointInShape's protected access.</summary>
+        public Vector2 GetAnchoredPositionForLocalCell(Vector2Int localCell) =>
+            GetAnchoredPositionAtPointInShape(Tile.ActiveLocalShape, localCell, tileGridUI);
+
         private void HandlePosition()
         {
             if (draggedTileGridUI != null)
@@ -455,7 +460,7 @@ namespace Tiles.UI
                     currentTileGridUI = draggedTileGridUI;
                     currentTilePosition = gridPosition;
                 }
-                else if(currentTilePosition  != gridPosition)
+                else if (currentTilePosition != gridPosition)
                 {
                     SFXManager.Instance.PlayMoveTile();
                     currentTilePosition = gridPosition;
@@ -474,7 +479,7 @@ namespace Tiles.UI
         {
             if (Locked)
                 return;
-            
+
             isDragging = true;
             RectTransform.SetParent(TileUIManager.Canvas.transform, true);
             canvasGroup.blocksRaycasts = false;
@@ -490,7 +495,7 @@ namespace Tiles.UI
             isDragging = false;
             canvasGroup.blocksRaycasts = true;
 
-            if(draggedTileGridUI != null && 
+            if (draggedTileGridUI != null &&
                 draggedTileGridUI.GridTransform.gameObject.activeInHierarchy &&
                 draggedTileGridUI.CanPlaceTileFromWorldPosition(this, eventData.position))
             {
@@ -524,16 +529,46 @@ namespace Tiles.UI
         [SerializeField]
         private RectTransform highlightTransform;
 
-       public abstract TileUIStyle TileUIStyle { get; }
+        public abstract TileUIStyle TileUIStyle { get; }
 
         public void Highlight(bool highlighted)
         {
+            if (highlightTransform == null || highlightTransform.gameObject == null)
+                return;
+
             highlightTransform.gameObject.SetActive(highlighted);
         }
 
         private void OnLockedChange(bool locked)
         {
             LockImageHolder.gameObject.SetActive(locked);
+        }
+
+        /// <summary>Redraws this tile's silhouette (main sprite + all four cached rotation
+        /// sprites) from its current ActiveLocalShape — i.e. Shape minus anything a Brigade
+        /// attack has destroyed. A no-op change of appearance for an undamaged tile, since
+        /// ActiveLocalShape == Shape until something's actually been destroyed.</summary>
+        private void RebuildShapeSprites()
+        {
+            List<Vector2Int> activeShape = Tile.ActiveLocalShape;
+
+            tileShapeTextureBuilder.Build(activeShape, TileUIStyle, CurrentRotationEnum());
+            tileShapeTextureBuilder.GetAllSpriteRotations(activeShape, TileUIStyle);
+        }
+
+        private void OnCellDestroyed(Vector2Int worldCell)
+        {
+            RebuildShapeSprites();
+
+            if (tileGridUI != null)
+            {
+                // The shape's bounding-box center shifts whenever the destroyed cell wasn't
+                // dead-center, so re-run the same placement math TileGridUI.SpawnTile uses —
+                // otherwise the shrunk sprite renders centered on the *old* bounding box and
+                // visibly drifts off its actual grid cell.
+                RectTransform.position = tileGridUI.TileRectPositionAtVector2IntPosition(this, Tile.PlacedPosition);
+                ApplyGridSizing(tileGridUI);
+            }
         }
 
         #region Init
@@ -543,26 +578,27 @@ namespace Tiles.UI
             Tile = tile;
             Tile.OnRotated += RotateTo;
             Tile.OnLockedChanged += OnLockedChange;
+            Tile.OnCellDestroyed += OnCellDestroyed;
             LockImageHolder.gameObject.SetActive(Locked);
 
-            tileShapeTextureBuilder.Build(tile.Shape, TileUIStyle);
-            tileShapeTextureBuilder.GetAllSpriteRotations(tile.Shape, TileUIStyle);
+            RebuildShapeSprites();
             _baseSize = TileGraphics.rectTransform.rect.size;
 
             if (RectTransform == null)
                 RectTransform = GetComponent<RectTransform>();
 
             typeUIHolder.Setup(tile.TileCardType);
+            typeUIHolder.Bind(tile);
+
         }
 
         #endregion
 
         public int CompareTo(object obj)
         {
-            if(obj is TileUIBase other)
+            if (obj is TileUIBase other)
                 return RotatedShape.Count.CompareTo(other.RotatedShape.Count);
             return 0;
         }
     }
- }
-
+}

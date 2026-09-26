@@ -10,7 +10,7 @@ namespace TPJ.Gameplay
 
     [Serializable]
     public abstract class Card<TCardable, TPlayContext> : CardBase
-        where TCardable : ICardable 
+        where TCardable : ICardable, IDescriptable
         where TPlayContext : ICardPlayContext
     {
         public TCardable CardableRef { protected set; get; }
@@ -31,6 +31,8 @@ namespace TPJ.Gameplay
 
             if (!AbstractCanPlay(context))
                 return false;
+
+            Owner.CardGamePoints.ModifyPoints(-CardActionCost);
 
             ProtectedPlayCard(context);
 

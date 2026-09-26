@@ -94,7 +94,6 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
     {
         tileSO = tile;
         Setup(unitOptions.Cast<IDescriptable>().ToList());
-        PlaceTile(tile.TileSprite);
     }
 
     public void PlaceTile(Sprite tileSprite)

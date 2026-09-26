@@ -1,14 +1,16 @@
-using System;
-using UnityEngine;
-using System.Collections.Generic;
+using Attacks;
+using Equipment;
 using Spells;
+using System;
+using System.Collections.Generic;
 using Tiles;
 using TPJ.Gameplay;
+using UnityEngine;
 
 namespace Units
 {
     [CreateAssetMenu(menuName = "Units/UnitSO")]
-    public class UnitSO : BuffableEntitySO, IDescriptable, ITileable, IActionPointCoster, ITileCardType
+    public class UnitSO : BuffableEntitySO, IDescriptable, ITileable, IActionPointCoster, ITileCardType, IEquipmentHolder, IAttackHolder
     {
         [TextArea] public string Description;
         public Sprite sprite;
@@ -31,6 +33,16 @@ namespace Units
         [Foldout("Card Game")]
         public TileCardType tileCardType;
         public TileCardType TileCardType => tileCardType;
+
+        [SerializeField]
+        private int maxEquipmentCapacity = 1;
+        public int MaxEquipmentCapacity => maxEquipmentCapacity;
+
+        [SerializeField]
+        private int maxAttackCapacity = 1;
+        public int MaxAttackCapacity => maxAttackCapacity;
+
+
         protected override Buff InheritGetBuff(StatTypes stat)
         {
             return stat switch
@@ -71,7 +83,6 @@ namespace Units
         public Buff ActionCost => actionCost;
 
         
-
         public SpellSO unitsSpecialSpell;
 
         [Header("Drops")]

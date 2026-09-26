@@ -116,6 +116,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3955682976088540569, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
   m_PrefabInstance: {fileID: 2825170826094185135}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &2472846102832770771 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 388529510878438524, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2825170826094185135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4829385042593491460 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7219386743197966507, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
@@ -174,6 +179,7 @@ MonoBehaviour:
   draggedTileGridUI: {fileID: 0}
   highlightTransform: {fileID: 1283646087234932534}
   _tileUIStyle: {fileID: 11400000, guid: b5b9df8964ab3cb4b99eb9a00ea08d8b, type: 2}
+  objectHolder: {fileID: 2472846102832770771}
   objectImage: {fileID: 8532419967604020997}
 --- !u!114 &8532419967604020997 stripped
 MonoBehaviour:

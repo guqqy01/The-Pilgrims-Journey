@@ -45,6 +45,8 @@ namespace TPJ.Gameplay
             deck.Reset();
         }
 
+
+
         public virtual void BeginTurn(int baseAmountOfCardToDraw, int baseAmountOfActionPoints)
         {
             CurrentlyOurTurn = true;
@@ -71,7 +73,9 @@ namespace TPJ.Gameplay
 
         public void DrawToHand(int amount)
         {
-            CardPile drawn = deck.DrawFromActive(amount);
+            int amountToDraw = Mathf.Min(amount, hand.handLimit - hand.Count());
+
+            CardPile drawn = deck.DrawFromActive(amountToDraw);
 
             // Reset play state for all drawn cards so they can be played this turn
             foreach (CardBase card in drawn)
@@ -81,6 +85,40 @@ namespace TPJ.Gameplay
 
             OnDraw?.Invoke(drawn);
         }
+
+        // DeckHolder.cs — add alongside AbleToPlayCards
+
+        /// <summary>
+        /// Whether any card in hand could structurally ever be played (ignores whose turn it is
+        /// and ignores current points, since points regenerate — only placement/targeting legality
+        /// makes a card permanently unplayable). Used to detect a stalemate.
+        /// </summary>
+        public bool HasAnyStructurallyPlayableCard(ICardLegalityProvider provider)
+        {
+            foreach (CardBase card in hand.Cards)
+            {
+                if (card.HasAnyLegalPlay(provider))
+                    return true;
+            }
+            return false;
+        }
+
+        public void GiveCardDirectlyToHand(CardBase card)
+        {
+            card.Owner = this;
+            card.ResetPlayState();
+
+            CardPile singleCardPile = new CardPile();
+            singleCardPile.AddCard(card);
+
+            hand.AddPile(singleCardPile);
+            OnDraw?.Invoke(singleCardPile);
+        }
+
+        public void SetTurnActive(bool active) => CurrentlyOurTurn = active;
+
+        /// <summary>Whether this holder could still draw a new card this game.</summary>
+        public bool HasCardsLeftToDraw => deck.ActivePile.Cards.Count > 0;
 
         public bool CardHasAnyLegalMove(CardBase card)
         {
@@ -102,8 +140,6 @@ namespace TPJ.Gameplay
 
             if (!hand.TryPlayCard(card, context))
                 return false;
-
-            _cardGamePoints.ModifyPoints(-card.CardActionCost);
 
             OnPlay?.Invoke(card);
             deck.DiscardCard(card);

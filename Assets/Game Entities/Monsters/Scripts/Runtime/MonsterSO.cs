@@ -1,11 +1,12 @@
-﻿using Monsters;
+﻿using Attacks;
+using Equipment;
 using System.Collections.Generic;
-using UnityEngine;
 using Tiles;
+using UnityEngine;
 namespace Monsters
 {
     [CreateAssetMenu]
-    public class MonsterSO : BuffableAttackEntitySO, IDescriptable, ITileable
+    public class MonsterSO : BuffableAttackEntitySO, IDescriptable, ITileable, IEquipmentHolder, IAttackHolder
     {
         public new string name;
         [TextArea()]
@@ -41,6 +42,13 @@ namespace Monsters
         public List<ISubDescriptionData> GetSubDescriptionData => new List<ISubDescriptionData>();
 
         public string ShortDescription => description;
+
+        [SerializeField]
+        private int maxEquipmentCapacity = 1;
+        public int MaxEquipmentCapacity => maxEquipmentCapacity;
+
+        private int maxAttackCapacity = 1;
+        public int MaxAttackCapacity => maxAttackCapacity;
     }
 }
 

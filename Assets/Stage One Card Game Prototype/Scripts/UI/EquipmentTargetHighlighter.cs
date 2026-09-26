@@ -22,7 +22,7 @@ namespace TPJ.UI
 
             foreach (TileUIBase tileUI in gridUI.TileUIs)
             {
-                if (tileUI.Tile is not IEquipmentTarget)
+                if (tileUI.Tile is not IEquipmentCardTarget)
                     continue;
 
                 if (TileOwnership.Get(tileUI.Tile) != card.Owner)

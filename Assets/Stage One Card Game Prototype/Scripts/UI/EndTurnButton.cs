@@ -14,21 +14,22 @@ namespace TPJ.UI
         private void Start()
         {
             CardGameEventsBus.OnBeginTurn += OnTurnChange;
+            CardGameEventsBus.OnCardPlayed += OnCardPlayed;   // add — hero placement needs a refresh trigger too
         }
 
         private void OnDestroy()
         {
             CardGameEventsBus.OnBeginTurn -= OnTurnChange;
+            CardGameEventsBus.OnCardPlayed -= OnCardPlayed;
         }
 
-        public void OnTurnChange(DeckHolder turnHolder)
-        {
-            button.interactable = cardGameManager.IsPlayerTurn;
-        }
-
+        public void OnTurnChange(DeckHolder turnHolder) => Refresh();
+        private void OnCardPlayed(DeckHolder holder, CardBase card) => Refresh();
+        private void Refresh() => button.interactable = cardGameManager.IsPlayerTurn && cardGameManager.CanEndTurn;
+        
         public void EndTurn()
         {
-            if (cardGameManager.IsPlayerTurn)
+            if (cardGameManager.CanEndTurn && cardGameManager.IsPlayerTurn)
                 cardGameManager.EndTurn();
         }
     }

@@ -5,10 +5,11 @@ using Equipment;
 using System;
 using LevelingSystem;
 using TPJ.Gameplay;
+using Attacks;
 
 namespace Tiles
 {
-    public class UnitTile : Tile<UnitSO>, ICardable, IEquipmentTarget
+    public class UnitTile : Tile<UnitSO>, ICardable, IEquipmentCardTarget, IAttackCardTarget
     {
         public int Level { get; private set; } = 1;
         public bool IsMaxLevel => Level == 5;
@@ -119,12 +120,13 @@ namespace Tiles
 
         #region Stats
 
-        private readonly List<EquipmentSO> _equipment = new List<EquipmentSO>();
+        public void ApplyEquipment(EquipmentSO equipment) => AddEquipment(equipment);
 
-        public void ApplyEquipment(EquipmentSO equipment)
+        public void ApplyEquipment(BaseAttackSO equipment)
         {
-            _equipment.Add(equipment);
+            
         }
+
 
         public Buff GetTileBuff(StatTypes stat)
         {
@@ -141,7 +143,7 @@ namespace Tiles
                 UnitBuffManager.Instance.GetBuff(stat)
             };
 
-            foreach (EquipmentSO equip in _equipment)
+            foreach (EquipmentSO equip in Equipment)
             {
                 if (equip.TryGetBuff(stat, out Buff buff))
                 {
@@ -158,6 +160,8 @@ namespace Tiles
 
             return combined.Value(baseValue);
         }
+
+        
 
         public float SpawnRate => Mathf.Max(GetStat(StatTypes.SpawnRate), 0f);
         public float Movement => Mathf.Max(GetStat(StatTypes.MovementSpeed), 0f);

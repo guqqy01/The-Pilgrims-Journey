@@ -17,11 +17,7 @@ namespace TPJ.Gameplay
 
         public readonly BuffableStat PointGenerationPerRound = new BuffableStat(2);
 
-        private void Start()
-        {
-            CardGameEventsBus.OnBeginTurn += GenerateFromNewRound;
-        }
-
+        private void Awake() => CardGameEventsBus.OnBeginTurn += GenerateFromNewRound;
         public bool HasEnoughPoints(int value)
         {
             return _currentPoints >= value;

@@ -23,6 +23,9 @@ namespace TPJ.UI
 
         private void OnDisable()
         {
+            if (_card?.Owner != null)
+                _card.Owner.CardGamePoints.OnPointValueChange -= OnPointsChanged;
+
             if (!CardGameManager.HasInstance) return;
             CardGameEventsBus.OnBeginTurn -= OnBeginTurn;
             CardGameManager.Instance.OnBoardChanged -= OnBoardChanged;
@@ -32,8 +35,13 @@ namespace TPJ.UI
         public void Setup(CardBase card)
         {
             _card = card;
+            if (_card.Owner != null)
+                _card.Owner.CardGamePoints.OnPointValueChange += OnPointsChanged;
+
             UpdateUI(null, null);
         }
+
+        private void OnPointsChanged() => UpdateUI(null, null);
         private void OnBeginTurn(DeckHolder _) => UpdateUI(_, null);
         private void OnBoardChanged() => UpdateUI(null, null);
 

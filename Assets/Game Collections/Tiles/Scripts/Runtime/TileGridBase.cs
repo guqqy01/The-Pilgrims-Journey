@@ -17,7 +17,7 @@ namespace Tiles
         {
             get
             {
-                if(tiles == null)
+                if (tiles == null)
                     tiles = new TileBase[gridSize.x, gridSize.y];
 
                 return tiles;
@@ -32,6 +32,10 @@ namespace Tiles
         public OnTileEvent onTileAdded;
         public OnTileEvent onTileRemoved;
         public OnTileEvent onTileDestroyed;
+        // Fired when one cell of a tile is destroyed (e.g. by Brigade) but the tile itself
+        // survives with a smaller footprint. Distinct from onTileRemoved, which only fires
+        // when the tile is gone entirely.
+        public OnTileEvent onTileSectionDestroyed;
 
         public enum Axis
         {
@@ -46,6 +50,7 @@ namespace Tiles
             onTileAdded = null;
             onTileRemoved = null;
             onTileDestroyed = null;
+            onTileSectionDestroyed = null;
         }
 
         public TileBase this[int i, int j]
@@ -96,7 +101,7 @@ namespace Tiles
 
             tiles = new TileBase[gridSize.x, gridSize.y];
 
-            foreach(TileBase tile in tileHolder)
+            foreach (TileBase tile in tileHolder)
             {
                 TryPlaceTileAnywhere(tile, axis, false);
             }
@@ -118,6 +123,36 @@ namespace Tiles
             onTileDestroyed?.Invoke(tile);
 
             RemoveTile(tile);
+        }
+
+        /// <summary>
+        /// Destroys a single placed cell of `tile` (e.g. from a Brigade attack) rather than
+        /// the whole tile. If this was the tile's last remaining active cell, it's a full
+        /// destroy via the normal DestroyTile path instead — the tile object doesn't linger
+        /// around empty. Returns false if `worldCell` doesn't actually belong to `tile`.
+        /// </summary>
+        public bool DestroyTileSection(TileBase tile, Vector2Int worldCell)
+        {
+            if (PointOutOfGrid(worldCell) || Tiles[worldCell.x, worldCell.y] != tile)
+                return false;
+
+            if (tile.ActivePlacedShape.Count <= 1)
+            {
+                DestroyTile(tile);
+                return true;
+            }
+
+            List<TileBase> previouslyAdjacent = GetAdjacentTiles(tile);
+
+            Tiles[worldCell.x, worldCell.y] = null;
+            tile.MarkCellDestroyed(worldCell);
+
+            CalculateAdjacentTileCardTypes(tile);
+            foreach (TileBase adjacent in previouslyAdjacent)
+                CalculateAdjacentTileCardTypes(adjacent);
+
+            onTileSectionDestroyed?.Invoke(tile);
+            return true;
         }
 
         public bool PointOutOfGrid(Vector2Int point) => point.x >= gridSize.x || point.x < 0 || point.y >= gridSize.y || point.y < 0;
@@ -208,7 +243,7 @@ namespace Tiles
             List<Vector2Int> freePositions = GetFreeTilePositions();
             int breaker = 4 * GridSize.x * GridSize.y;
 
-            while(breaker > 0)
+            while (breaker > 0)
             {
                 float rotation = Random.Range(0, 4) * 90f;
 
@@ -225,7 +260,7 @@ namespace Tiles
 
         public bool TryPlaceTileAnywhere(TileBase tile, Axis axis, bool invokeAddedTile = true)
         {
-            switch(axis)
+            switch (axis)
             {
                 case Axis.X:
                     return TryPlaceTileAnywhereX(tile, invokeAddedTile);
@@ -244,7 +279,7 @@ namespace Tiles
         {
             for (int y = gridSize.y - 1; y >= 0; y--)
             {
-                for (int x = 0; x < gridSize.x ; x++)
+                for (int x = 0; x < gridSize.x; x++)
                 {
                     for (float rotation = 0; rotation < 360; rotation += 90)
                     {
@@ -348,12 +383,12 @@ namespace Tiles
                 CalculateAdjacentTileCardTypes(adjacentTile);
             }
         }
-
-        private List<TileBase> GetAdjacentTiles(TileBase tile)
+        public void RecalculateAdjacentTileCardTypes(TileBase tile) => CalculateSelfAndAdjacentTiles(tile);
+        public List<TileBase> GetAdjacentTiles(TileBase tile)
         {
             List<Vector2Int> checkedPoints = new List<Vector2Int>();
             List<TileBase> adjacentTiles = new List<TileBase>();
-            foreach (Vector2Int position in tile.RotatedPlacedShape)
+            foreach (Vector2Int position in tile.ActivePlacedShape)
             {
                 for (int x = -1; x <= 1; x++)
                 {
@@ -389,7 +424,7 @@ namespace Tiles
         {
             List<Vector2Int> checkedPoints = new List<Vector2Int>();
             tile.AdjacentTileTypes.Clear();
-            foreach (Vector2Int position in tile.RotatedPlacedShape)
+            foreach (Vector2Int position in tile.ActivePlacedShape)
             {
                 for (int x = -1; x <= 1; x++)
                 {
@@ -413,8 +448,8 @@ namespace Tiles
                             continue;
 
                         TileCardType flaggedTileCardType = candidate.TileCardType;
-                        
-                        foreach(TileCardType tileCardType in flaggedTileCardType.CollapseFlags())
+
+                        foreach (TileCardType tileCardType in flaggedTileCardType.CollapseFlags())
                         {
                             if (tile.AdjacentTileTypes.ContainsKey(tileCardType))
                             {
@@ -464,10 +499,9 @@ namespace Tiles
             return haveRemovedTile;
         }
 
-        
 
-        
+
+
     }
 
 }
-

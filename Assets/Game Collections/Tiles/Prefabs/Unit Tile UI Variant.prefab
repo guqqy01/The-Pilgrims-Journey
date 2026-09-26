@@ -100,6 +100,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1086477414509555538}
   m_SourcePrefab: {fileID: 100100000, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+--- !u!224 &2013675535640788426 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 388529510878438524, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2204044394618231222}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2914741581002595375 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3955682976088540569, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
@@ -116,11 +121,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
---- !u!224 &5749528366079394845 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5862625845639175595, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+--- !u!114 &5749528366079394844 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5862625845639175594, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
   m_PrefabInstance: {fileID: 2204044394618231222}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5749528366318277483 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5862625845935852253, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
@@ -146,7 +157,8 @@ MonoBehaviour:
   canvasGroup: {fileID: 6160901161120479478}
   draggedTileGridUI: {fileID: 0}
   highlightTransform: {fileID: 2914741581002595375}
-  objectImageTransform: {fileID: 5749528366079394845}
+  objectHolder: {fileID: 2013675535640788426}
+  objectImage: {fileID: 5749528366079394844}
   tileUIStyle: {fileID: 11400000, guid: a7f53f357b9469746b06d0be61ec55a4, type: 2}
 --- !u!225 &6160901161120479478 stripped
 CanvasGroup:

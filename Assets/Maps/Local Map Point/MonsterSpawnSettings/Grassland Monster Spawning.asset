@@ -35,6 +35,19 @@ MonoBehaviour:
       type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+        actionCost:
+          buffFlags: 2
+          initialized: 1
+          percentageMultiplier: 0
+          baseBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+          additionalBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+        tileCardType: 2
         count: 15
         minSpawnDistance: 20
         maxSpawnDistance: 50
@@ -42,6 +55,19 @@ MonoBehaviour:
       type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+        actionCost:
+          buffFlags: 2
+          initialized: 1
+          percentageMultiplier: 0
+          baseBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+          additionalBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+        tileCardType: 4
         count: 3
         minSpawnDistance: 20
         maxSpawnDistance: 50
@@ -49,6 +75,19 @@ MonoBehaviour:
       type: {class: NormalStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+        actionCost:
+          buffFlags: 2
+          initialized: 1
+          percentageMultiplier: 0
+          baseBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+          additionalBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+        tileCardType: 1
         spawnRateVSLevel:
           serializedVersion: 2
           m_Curve:
@@ -78,5 +117,18 @@ MonoBehaviour:
       type: {class: WaveStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+        actionCost:
+          buffFlags: 2
+          initialized: 1
+          percentageMultiplier: 0
+          baseBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+          additionalBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 0
+        tileCardType: 1
         count: 3
         range: 3

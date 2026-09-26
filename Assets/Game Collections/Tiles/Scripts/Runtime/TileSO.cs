@@ -3,11 +3,9 @@ using UnityEngine;
 
 namespace Tiles
 {
-    [CreateAssetMenu()]
+    [CreateAssetMenu(menuName = "Tiles/TileSO")]
     public class TileSO : ScriptableObject
     {
-        public Sprite TileSprite;
-
         [SerializeField]
         private Vector2ListWrapper shape;
         public List<Vector2Int> Shape => shape;

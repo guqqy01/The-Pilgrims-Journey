@@ -101,6 +101,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6540094163576883088}
   m_SourcePrefab: {fileID: 100100000, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+--- !u!224 &1799578203875530968 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 388529510878438524, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+  m_PrefabInstance: {fileID: 2133922682207681700}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3132359003539142973 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3955682976088540569, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
@@ -142,13 +147,20 @@ MonoBehaviour:
   canvasGroup: {fileID: 6229757129514458596}
   draggedTileGridUI: {fileID: 0}
   highlightTransform: {fileID: 3132359003539142973}
-  objectImageTransform: {fileID: 5530715538725789967}
+  objectHolder: {fileID: 1799578203875530968}
+  objectImage: {fileID: 5530715538725789966}
   tileUIStyle: {fileID: 11400000, guid: b5b9df8964ab3cb4b99eb9a00ea08d8b, type: 2}
---- !u!224 &5530715538725789967 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5862625845639175595, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
+--- !u!114 &5530715538725789966 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5862625845639175594, guid: 177539f518a4b814c879c2637aaa2436, type: 3}
   m_PrefabInstance: {fileID: 2133922682207681700}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!225 &6229757129514458596 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 5470110230690505024, guid: 177539f518a4b814c879c2637aaa2436, type: 3}

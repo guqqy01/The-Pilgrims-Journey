@@ -16,34 +16,10 @@ MonoBehaviour:
   description: Studded Shield
   EquipmentSpecial:
     rid: -2
-  heroEquipmentStats:
-    _serializedList:
-    - Key: 1
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 35
-          floatValue: 0
-          isInt: 1
-        additionalBuff:
-          intValue: 30
-          floatValue: 0
-          isInt: 1
-    - Key: 2
-      Value:
-        buffFlags: 2
-        initialized: 1
-        percentageMultiplier: 0
-        baseBuff:
-          intValue: 0
-          floatValue: 1
-          isInt: 0
-        additionalBuff:
-          intValue: 0
-          floatValue: 0
-          isInt: 0
+  equipmentStats:
+    _serializedList: []
+  actionCost: 1
+  grantedTileCardType: 2
   ChanceOfBeginInShopAtXMapPosition:
     m_Mode: 0
     m_CurveMultiplier: 0
