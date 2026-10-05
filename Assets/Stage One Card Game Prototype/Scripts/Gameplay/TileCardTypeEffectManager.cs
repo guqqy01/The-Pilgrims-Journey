@@ -39,7 +39,7 @@ namespace TPJ.Gameplay
 
         private void OnBeginTurn(DeckHolder holder)
         {
-            foreach (TileBase tile in CardGameManager.Instance.GetGrid.ListOfTiles)
+            foreach (TileBase tile in CardGameManager.Instance.Grid.ListOfTiles)
             {
                 if (TileOwnership.Get(tile) != holder) continue;
 

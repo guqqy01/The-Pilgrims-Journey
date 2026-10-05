@@ -9,6 +9,10 @@ namespace TPJ.Gameplay
         public bool HasBeenPlayed { get; protected set; }
         public int CardActionCost { get; internal set; }
 
+        /// <summary>Whether the card is moved to the discard pile after being played. Cards that
+        /// stay on the board (e.g. tile cards) override this to false.</summary>
+        public virtual bool GoesToDiscardWhenPlayed => true;
+
         public abstract bool TryPlayCard<TPlayContext>(TPlayContext context) where TPlayContext : ICardPlayContext;
         public abstract bool HasAnyLegalPlay(ICardLegalityProvider provider);
         public abstract IDescriptable GetDisplayInfo();

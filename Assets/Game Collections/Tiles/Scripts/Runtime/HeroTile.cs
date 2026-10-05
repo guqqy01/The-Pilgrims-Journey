@@ -1,8 +1,6 @@
 ﻿using TPJ.Gameplay;
 using Heros;
 using Equipment;
-using System.Collections.Generic;
-using UnityEngine;
 using Attacks;
 
 namespace Tiles

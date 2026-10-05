@@ -3,7 +3,7 @@ using LocalMap;
 using Spells;
 using System;
 using System.Collections.Generic;
-using Units;
+using TPJ.Gameplay;
 using UnityEngine;
 
 namespace Tiles
@@ -27,9 +27,11 @@ namespace Tiles
         public OnPlay onPlay;
 
         [SerializeField]
-        private float oneTileTime = 15f;
+        private float oneTileTime = 15f; // seconds per timeline slot
 
         public bool IsPlaying { private set; get; } = false;
+
+        public SpawnTimeline Timeline { get; } = new SpawnTimeline();
 
         public Dictionary<UnitTile, int> SpawningUnitTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
         public Dictionary<UnitTile, int> NextSpawningUnitTilesAndSize { private set; get; } = new Dictionary<UnitTile, int>();
@@ -37,29 +39,13 @@ namespace Tiles
         public Dictionary<MonsterTileBase, int> SpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTileBase, int>();
         public Dictionary<MonsterTileBase, int> NextSpawningMonsterTilesAndSize { private set; get; } = new Dictionary<MonsterTileBase, int>();
 
-        [Header("Starting Tile")]
-        [SerializeField]
-        private TileSO startingTile;
-        [SerializeField]
-        private Vector2Int startTilePosition;
-        [SerializeField]
-        private float startTileRotation;
-        [SerializeField]
-        private UnitSO startingUnit;
-
-        [SerializeField]
-        private TilePlayerTileGrid playerTileGrid;
-
         public Action OnStopPlaying;
 
         protected override void Awake()
         {
             base.Awake();
-            if (playerTileGrid != null)
-            {
-                playerTileGrid.onTileAdded += OnTileAdded;
-                playerTileGrid.onTileRemoved += OnTileRemoved;
-            }
+            Timeline.TileAdded += OnTileAdded;
+            Timeline.TileRemoved += OnTileRemoved;
         }
 
         protected override void CleanUp()
@@ -72,22 +58,13 @@ namespace Tiles
             onPositionChangeNextMonsterTiles = null;
             onPositionChangeCurrentMonsterTiles = null;
 
-            if (playerTileGrid != null)
-            {
-                playerTileGrid.onTileAdded -= OnTileAdded;
-                playerTileGrid.onTileRemoved -= OnTileRemoved;
-            }
+            Timeline.TileAdded -= OnTileAdded;
+            Timeline.TileRemoved -= OnTileRemoved;
         }
 
         private void OnTileAdded(TileBase tile)
         {
-            if (tile == null)
-                return;
-
-            if (tile is not UnitTile unitTile) 
-                return;
-
-            if (unitTile.UnitSO == null || unitTile.UnitSO.unitsSpecialSpell == null)
+            if (tile is not UnitTile unitTile || unitTile.UnitSO?.unitsSpecialSpell == null)
                 return;
 
             SpellManager.Instance.AddSpell(unitTile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
@@ -95,13 +72,7 @@ namespace Tiles
 
         private void OnTileRemoved(TileBase tile)
         {
-            if (tile == null)
-                return;
-
-            if (tile is not UnitTile unitTile)
-                return;
-
-            if (unitTile.UnitSO == null || unitTile.UnitSO.unitsSpecialSpell == null)
+            if (tile is not UnitTile unitTile || unitTile.UnitSO?.unitsSpecialSpell == null)
                 return;
 
             SpellManager.Instance.RemoveSpell(unitTile.UnitSO.unitsSpecialSpell, tile.Shape.Count);
@@ -113,32 +84,16 @@ namespace Tiles
                 return;
 
             int posBefore = Mathf.FloorToInt(CurrentPlayingPosition);
-
             CurrentPlayingPosition += Time.deltaTime / oneTileTime;
 
-            
             if (posBefore != Mathf.FloorToInt(CurrentPlayingPosition))
-            {
                 PositionChanged();
-            }
         }
 
         public void OnSetupNewGame()
         {
             StopPlaying();
-
-            if (playerTileGrid.PointOutOfGrid(startTilePosition))
-            {
-                Debug.LogWarning($"Starting tile position is out of the grid");
-                return;
-            }
-
-            UnitTile tile = new UnitTile(startingTile, startingUnit);
-
-            if(!playerTileGrid.TryPlaceTileAnywhere(tile, TileGridBase.Axis.X))
-            {
-                Debug.LogWarning("Could not place tile.");
-            }
+            Timeline.Clear();
         }
 
         public void Play()
@@ -150,19 +105,17 @@ namespace Tiles
 
             PositionChanged();
 
-            foreach (TileBase tile in playerTileGrid.ListOfTiles)
-            {
+            foreach (TileBase tile in Timeline.Tiles)
                 tile.Locked = true;
-            }
 
             onPlay?.Invoke();
         }
 
         public void StopPlaying()
         {
-            foreach (TileBase tile in playerTileGrid.ListOfTiles)
+            foreach (TileBase tile in Timeline.Tiles)
             {
-                if(tile is UnitTile unitTile)
+                if (tile is UnitTile unitTile)
                     unitTile.Locked = false;
             }
 
@@ -175,12 +128,12 @@ namespace Tiles
         public void PositionChanged()
         {
             int newPosition = Mathf.FloorToInt(CurrentPlayingPosition);
-            
-            SpawningUnitTilesAndSize = GetUnitTilesInPositionAndSize(newPosition);
-            NextSpawningUnitTilesAndSize = GetUnitTilesInPositionAndSize(newPosition + 1);
 
-            SpawningMonsterTilesAndSize = GetMonsterTilesInPositionAndSize(newPosition);
-            NextSpawningMonsterTilesAndSize = GetMonsterTilesInPositionAndSize(newPosition + 1);
+            SpawningUnitTilesAndSize = Timeline.GetUnitTilesAt(newPosition);
+            NextSpawningUnitTilesAndSize = Timeline.GetUnitTilesAt(newPosition + 1);
+
+            SpawningMonsterTilesAndSize = Timeline.GetMonsterTilesAt(newPosition);
+            NextSpawningMonsterTilesAndSize = Timeline.GetMonsterTilesAt(newPosition + 1);
 
             onPositionChangeCurrentUnitTiles?.Invoke(SpawningUnitTilesAndSize);
             onPositionChangeNextUnitTiles?.Invoke(NextSpawningUnitTilesAndSize);
@@ -191,90 +144,20 @@ namespace Tiles
             if (!IsPlaying || SpawningUnitTilesAndSize.Count > 0)
                 return;
 
-            List<TileBase> remainingTiles = new List<TileBase>();
-
-            for (int i = newPosition + 1; i < playerTileGrid.GridSize.x + 1; i++)
-            {
-                remainingTiles.AddRange(GetUnitTilesInPositionAndSize(i).Keys);
-                remainingTiles.AddRange(GetMonsterTilesInPositionAndSize(i).Keys);
-            }
-
-            if (remainingTiles.Count == 0)
-            {
+            if (!Timeline.HasTilesAfter(newPosition))
                 noRemainingTilesToPlay?.Invoke();
-            }
         }
 
-        public Dictionary<UnitTile, int> GetUnitTilesInPositionAndSize(int position)
-        {
-            Dictionary<UnitTile, int> returnTiles = new Dictionary<UnitTile, int>();
+        // Kept so existing callers keep compiling.
+        public Dictionary<UnitTile, int> GetUnitTilesInPositionAndSize(int position) => Timeline.GetUnitTilesAt(position);
+        public Dictionary<MonsterTileBase, int> GetMonsterTilesInPositionAndSize(int position) => Timeline.GetMonsterTilesAt(position);
 
-            if (position >= playerTileGrid.Tiles.GetLength(0))
-            {
-                return returnTiles;
-            }
-
-            for (int i = 0; i < playerTileGrid.Tiles.GetLength(1); i++)
-            {
-                if (playerTileGrid.Tiles[position, i] != null)
-                {
-                    if (playerTileGrid.Tiles[position, i] is UnitTile unitTile)
-                    {
-                        if (returnTiles.ContainsKey(unitTile))
-                        {
-                            returnTiles[unitTile] += 1;
-                        }
-                        else
-                        {
-                            returnTiles.Add(unitTile, 1);
-                        }
-                    }
-                }
-            }
-
-            return returnTiles;
-        }
-
-        public Dictionary<MonsterTileBase, int> GetMonsterTilesInPositionAndSize(int position)
-        {
-            Dictionary<MonsterTileBase, int> returnTiles = new Dictionary<MonsterTileBase, int>();
-
-            if (position >= playerTileGrid.Tiles.GetLength(0))
-            {
-                return returnTiles;
-            }
-
-            for (int i = 0; i < playerTileGrid.Tiles.GetLength(1); i++)
-            {
-                if (playerTileGrid.Tiles[position, i] != null)
-                {
-                    if (playerTileGrid.Tiles[position, i] is MonsterTileBase monsterTile)
-                    {
-                        if (returnTiles.ContainsKey(monsterTile))
-                        {
-                            returnTiles[monsterTile] += 1;
-                        }
-                        else
-                        {
-                            returnTiles.Add(monsterTile, 1);
-                        }
-                    }
-                }
-            }
-
-            return returnTiles;
-        }
-
-        public void OnCompleteLocalMapLevel()
-        {
-            StopPlaying();
-        }
+        public void OnCompleteLocalMapLevel() => StopPlaying();
 
         public void Clear()
         {
             StopPlaying();
+            Timeline.Clear();
         }
     }
 }
-
-

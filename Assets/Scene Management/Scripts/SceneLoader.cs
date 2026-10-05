@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using Scene = UnityEngine.SceneManagement.Scene;
 using System.Linq;
+
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
@@ -14,23 +15,10 @@ public class SceneLoader : MonoBehaviour
     private List<SceneReference> dontUnloadScenes;
 
     [SerializeField]
-    private SceneLoadItem inGameAsset;
+    private SceneManagementSettings sceneSettings;
 
     [SerializeField]
     private Animator animator;
-
-    [SerializeField]
-    private SceneLoadItem localMapSceneLoad;
-    [SerializeField]
-    private SceneLoadItem shopSceneLoad;
-    [SerializeField]
-    private SceneLoadItem mainMenuSceneLoad;
-    [SerializeField]
-    private SceneLoadItem randomEventsSceneLoad;
-    [SerializeField]
-    private SceneLoadItem loadingSceneLoadItem;
-    [SerializeField]
-    private SceneLoadItem globalMapLoadItem;
 
     public static bool InitialSetupDone { private set; get; } = false;
 
@@ -58,7 +46,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (!InitialSetupDone)
         {
-            LoadSceneFromType(SceneLoadType.MainMenu, () => InitialSetupDone = true);
+            LoadSceneFromType(SceneLoad.MainMenu, () => InitialSetupDone = true);
             SceneRoot.CommonSceneLoaded = true;
         }
     }
@@ -130,26 +118,9 @@ public class SceneLoader : MonoBehaviour
         return returnList;
     }
 
-    public void LoadSceneFromType(SceneLoadType mapType, Action onSceneLoaded = null)
+    public void LoadSceneFromType(SceneLoad sceneLoad, Action onSceneLoaded = null)
     {
-        switch (mapType)
-        {
-            case SceneLoadType.LocalMap:
-                StartCoroutine(LoadSceneItem(localMapSceneLoad, onSceneLoaded));
-                break;
-            case SceneLoadType.RandomEvent:
-                StartCoroutine(LoadSceneItem(randomEventsSceneLoad, onSceneLoaded));
-                break;
-            case SceneLoadType.Shop:
-                StartCoroutine(LoadSceneItem(shopSceneLoad, onSceneLoaded));
-                break;
-            case SceneLoadType.GlobalMap:
-                StartCoroutine(LoadSceneItem(globalMapLoadItem, onSceneLoaded));
-                break;
-            case SceneLoadType.MainMenu:
-                StartCoroutine(LoadSceneItem(mainMenuSceneLoad, onSceneLoaded));
-                break;
-        }
+        StartCoroutine(LoadSceneItem(sceneSettings.GetScenLoadItem(sceneLoad), onSceneLoaded));
     }
 
     private IEnumerator LoadSceneItem(SceneLoadItem sceneLoadItem, Action onSceneLoaded = null)
@@ -200,7 +171,7 @@ public class SceneLoader : MonoBehaviour
 
         yield return StartCoroutine(DeactivateRootsOrUnloadScenes(scenesToRemove));
 
-        string loadingSceneName = loadingSceneLoadItem.activeScene.sceneName;
+        string loadingSceneName = sceneSettings.GetScenLoadItem(SceneLoad.LoadingScreen).activeScene.sceneName;
 
         yield return StartCoroutine(LoadSceneAdditiveWithRootsDeactivated(loadingSceneName));
         Scene loadingScene = GetScene(loadingSceneName);
@@ -227,7 +198,14 @@ public class SceneLoader : MonoBehaviour
 
         yield return null;
 
-        onSceneLoaded?.Invoke();
+        try
+        {
+            onSceneLoaded?.Invoke();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
 
         yield return FadeFromBlack();
     }
@@ -375,11 +353,12 @@ public class SceneLoader : MonoBehaviour
     }
 }
 
-public enum SceneLoadType
+public enum SceneLoad
 {
     MainMenu,
     InGame,
-    LocalMap,
+    PhaseOneLoad,
+    PhaseTwoLoad,
     Shop,
     RandomEvent,
     LoadingScreen,

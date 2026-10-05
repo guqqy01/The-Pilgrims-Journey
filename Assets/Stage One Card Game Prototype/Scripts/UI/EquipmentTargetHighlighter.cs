@@ -15,7 +15,7 @@ namespace TPJ.UI
         {
             CancelTargeting();
 
-            TileGridBase grid = CardGameManager.Instance.GetGrid;
+            TileGridBase grid = CardGameManager.Instance.Grid;
 
             if (!TileGridUI.TryGetUIForGrid(grid, out TileGridUI gridUI))
                 return;
@@ -26,6 +26,9 @@ namespace TPJ.UI
                     continue;
 
                 if (TileOwnership.Get(tileUI.Tile) != card.Owner)
+                    continue;
+
+                if (!tileUI.Tile.HasRoomForEquipment)
                     continue;
 
                 tileUI.Highlight(true);

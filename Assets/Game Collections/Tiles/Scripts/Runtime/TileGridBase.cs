@@ -4,7 +4,7 @@ using TPJ.Gameplay;
 using UnityEngine;
 namespace Tiles
 {
-    public abstract class TileGridBase : MonoBehaviour, IOnClear
+    public class TileGridBase : MonoBehaviour, IOnClear
     {
         public string SaveFileName => $"TileGrid_{name}_Save";
 
@@ -93,8 +93,6 @@ namespace Tiles
             }
         }
 
-        public abstract bool AcceptTile(TileBase tile);
-
         public void Organise(Axis axis)
         {
             List<TileBase> tileHolder = ListOfTiles;
@@ -171,9 +169,6 @@ namespace Tiles
 
         public bool CanPlaceTile(TileBase tile, Vector2Int position, float rotation)
         {
-            if (!AcceptTile(tile))
-                return false;
-
             foreach (Vector2Int point in tile.Shape.Rotate(rotation))
             {
                 if (PointOutOfGrid(point + position) ||

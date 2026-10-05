@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Units
 {
-    [CreateAssetMenu(menuName = "Units/UnitSO")]
+    [CreateAssetMenu(menuName = "Entities/Unit")]
     public class UnitSO : BuffableEntitySO, IDescriptable, ITileable, IActionPointCoster, ITileCardType, IEquipmentHolder, IAttackHolder
     {
         [TextArea] public string Description;

@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Equipment;
-using Tiles.UI;
 using Units;
 using UnityEngine.UI;
 using Tiles;
@@ -21,16 +20,8 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
 
     private IDescriptable currentSelected;
 
-    [SerializeField]
-    private EquipmentInventory equipmentInventory;
-
     private TileSO tileSO;
 
-    [SerializeField]
-    private TileGridUI playerGrid;
-
-    [SerializeField]
-    private TileGridUI equipmentGrid;
     public override void InitiateFromRootAtAwake()
     {
         base.InitiateFromRootAtAwake();
@@ -118,28 +109,26 @@ public class RewardWindowUI : Singleton<RewardWindowUI>
         descriptionText.UpdateUI(descriptableObject);
     }
 
-   /* public void Select()
+    public void Select()
     {
         gameObject.SetActive(false);
-        //RewardGainedUI.Instance.Setup(currentSelected);
-        
-        if(currentSelected is EquipmentSO equipment)
+
+        switch (currentSelected)
         {
-            if (!equipmentInventory.TryAddEquipment(equipment))
-            {
-                //Couldnt Place Equipment.
-            }
+            case EquipmentSO equipment:
+                PlayerCollection.Instance.AddEquipment(equipment);
+                break;
+
+            case UnitSO unit:
+                if (tileSO == null)
+                {
+                    Debug.LogWarning("RewardWindowUI: no tile stored for the unit reward.");
+                    break;
+                }
+                PlayerCollection.Instance.AddUnit(tileSO, unit);
+                break;
         }
 
-        if(currentSelected is UnitSO unit)
-        {
-            if (!playerGrid.TryPlaceTile(new TileAndUnit(tileSO, unit)))
-            {
-                if(!equipmentGrid.TryPlaceTile(new TileAndUnit(tileSO, unit)))
-                {
-                    //Couldnt Place Tile.
-                }
-            }
-        }
-    }*/
+        currentSelected = null;
+    }
 }

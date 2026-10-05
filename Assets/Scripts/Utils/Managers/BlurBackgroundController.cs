@@ -20,16 +20,23 @@ public class BlurBackgroundController : Singleton< BlurBackgroundController>, IO
 
     public void EnableBlur(string reference)
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         blurRequests.Add(reference);
 
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
 
+        
         currentCoroutine = StartCoroutine(Blur(true));
     }
 
     public void RemoveBlurRequest(string reference)
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         blurRequests.Remove(reference);
 
         if (blurRequests.Count > 0)

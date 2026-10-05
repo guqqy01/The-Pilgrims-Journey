@@ -80,20 +80,20 @@ namespace GlobalMap
 
     public static class GlobalMapPointTypeExtensions
     {
-        public static SceneLoadType GetSceneLoadType(this GlobalMapPointType type)
+        public static SceneLoad GetSceneLoadType(this GlobalMapPointType type)
         {
             switch (type)
             {
                 case GlobalMapPointType.Normal:
-                    return SceneLoadType.LocalMap;
+                    return SceneLoad.PhaseOneLoad;
                 case GlobalMapPointType.Random:
-                    return SceneLoadType.RandomEvent;
+                    return SceneLoad.RandomEvent;
                 case GlobalMapPointType.Shop:
-                    return SceneLoadType.Shop;
+                    return SceneLoad.Shop;
                 case GlobalMapPointType.Relic:
-                    return SceneLoadType.LocalMap;
+                    return SceneLoad.PhaseOneLoad;
                 default:
-                    return SceneLoadType.LocalMap;
+                    throw new NotImplementedException($"No scene load type defined for {type}");
             }
         }
     }

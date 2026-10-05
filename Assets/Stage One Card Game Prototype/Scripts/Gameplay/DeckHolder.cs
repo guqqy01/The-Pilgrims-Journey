@@ -6,17 +6,6 @@ using UnityEngine;
 
 namespace TPJ.Gameplay
 {
-    public class DeckResourceEventHandler : MonoBehaviour
-    {
-        [SerializeField]
-        private DeckHolder targetDeckHolder;
-
-        [SerializeField]
-        private TileGridBase tileGrid;
-
-
-    }
-
     public class DeckHolder : MonoBehaviour, ICardPointHolder
     {
         [SerializeField]
@@ -44,8 +33,6 @@ namespace TPJ.Gameplay
         {
             deck.Reset();
         }
-
-
 
         public virtual void BeginTurn(int baseAmountOfCardToDraw, int baseAmountOfActionPoints)
         {
@@ -115,6 +102,19 @@ namespace TPJ.Gameplay
             OnDraw?.Invoke(singleCardPile);
         }
 
+        public void DrawAllCardsOfType<TCard>() where TCard : CardBase
+        {
+            List<CardBase> cardsToDraw = deck.ActivePile.Cards.ToList();
+            foreach (CardBase cardBase in cardsToDraw)
+            {
+                if (cardBase is TCard)
+                {
+                    deck.ActivePile.RemoveCard(cardBase);
+                    GiveCardDirectlyToHand(cardBase);
+                }
+            }
+        }
+
         public void SetTurnActive(bool active) => CurrentlyOurTurn = active;
 
         /// <summary>Whether this holder could still draw a new card this game.</summary>
@@ -142,9 +142,37 @@ namespace TPJ.Gameplay
                 return false;
 
             OnPlay?.Invoke(card);
-            deck.DiscardCard(card);
+
+            // Tile cards stay on the board once played, so they don't go to the discard pile
+            // (otherwise they could be redrawn). The OnDiscard event is still raised so the
+            // hand UI removes the played card's widget.
+            if (card.GoesToDiscardWhenPlayed)
+                deck.DiscardCard(card);
+
             OnDiscard?.Invoke(card);
             return true;
+        }
+
+        public virtual void ResetForNewGame()
+        {
+            // Raise OnDiscard per card so any hand UI removes its widgets.
+            foreach (CardBase card in hand.Cards.ToList())
+                OnDiscard?.Invoke(card);
+
+            hand.Clear();
+            deck.ClearAll();
+            _cardGamePoints.Reset();
+            CurrentlyOurTurn = false;
+        }
+
+        /// <summary>Moves a card out of the hand into the discard pile without playing it.</summary>
+        public void DiscardFromHand(CardBase card)
+        {
+            if (!hand.RemoveCard(card))
+                return;
+
+            deck.DiscardCard(card);
+            OnDiscard?.Invoke(card);
         }
 
         public virtual void CleanUp()

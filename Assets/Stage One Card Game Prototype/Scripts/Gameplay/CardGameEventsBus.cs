@@ -37,6 +37,7 @@ namespace TPJ.Gameplay
             OnCardPlayed = null;
             OnTileCardPlayed = null;
             OnEquipmentCardPlayed = null;
+            OnAttackCardPlayed = null;
             OnBrigadePlaced = null;
             OnBrigadeResolved = null;
         }

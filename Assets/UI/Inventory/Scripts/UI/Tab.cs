@@ -36,6 +36,9 @@ public class TabReference
 
     public void Open()
     {
+        if (tab == null || tab.gameObject == null)
+            return;
+
         tab.gameObject.SetActive(true);
 
         if (subTabIndex >= 0 && tab.subTabs.Count > 0)
@@ -46,6 +49,7 @@ public class TabReference
 
     public void Close()
     {
-        tab.Close();
+        if(tab != null)
+            tab.Close();
     }
 }

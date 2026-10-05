@@ -1,3 +1,5 @@
+using GlobalMap;
+using Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,17 @@ namespace TPJ.Gameplay
 
         [SerializeField, Range(0f, 5f)]
         private float randomJitter = 0.5f; // small noise so the AI isn't perfectly predictable
+
+        [SerializeField]
+        private int amountOfMonsterCards = 20;
+
+        public void SetupCards()
+        {
+            MonsterSpawnSettings monsterSpawnSettings = GlobalMapGenerator.Instance.CurrentMapPoint.GenerationSettings.MonsterSpawnSettings;
+
+            List<MonsterTileBase> monsterTileBases = MonsterTileManager.Instance.GetMonsterTiles(monsterSpawnSettings, TileManager.Instance.MonsterTiles, amountOfMonsterCards);
+            DeckBuilder.BuildDeck(this, monsterTileBases);
+        }
 
         // Column index = cell.x (i.e. columns run along the grid's X axis, rows along Y).
         // Swap to cell.y below in BuildColumnTally/ScoreColumnControl if your lanes run the other way.
@@ -63,7 +76,7 @@ namespace TPJ.Gameplay
 
         private EnemyMove FindBestMove()
         {
-            TileGridBase grid = CardGameManager.Instance.GetGrid;
+            TileGridBase grid = CardGameManager.Instance.Grid;
             Dictionary<int, (int ally, int enemy)> columnTally = BuildColumnTally(grid);
 
             EnemyMove best = null;
@@ -161,8 +174,7 @@ namespace TPJ.Gameplay
                 foreach (Vector2Int cell in placed.RotatedPlacedShape)
                 {
                     var entry = tally.TryGetValue(cell.x, out var v) ? v : (0, 0);
-                    if (owner == this) v.ally++;
-                    else v.enemy++;
+                    if (owner == this) v.ally++; else v.enemy++;
                     tally[cell.x] = entry;
                 }
             }

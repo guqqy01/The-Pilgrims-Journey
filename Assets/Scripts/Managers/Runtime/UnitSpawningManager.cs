@@ -28,13 +28,13 @@ public class UnitSpawningManager
 
     private void OnEnable()
     {
-        WaitForHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, Subscribe);
+        TilePlayerManager.WhenReady(Subscribe);
     }
 
     private void OnDisable()
     {
-        if (TilePlayerManager.Instance != null)
-            TilePlayerManager.Instance.onPositionChangeCurrentUnitTiles -= SetupNewSpawnRateValues;
+        TilePlayerManager.IfReady(
+            manager => manager.onPositionChangeCurrentUnitTiles -= SetupNewSpawnRateValues);
     }
 
     private void Update()
@@ -46,10 +46,10 @@ public class UnitSpawningManager
     //  Event Subscription
     // ---------------------------------------------------------
 
-    private void Subscribe()
+    private void Subscribe(TilePlayerManager manager)
     {
-        TilePlayerManager.Instance.onPositionChangeCurrentUnitTiles -= SetupNewSpawnRateValues;
-        TilePlayerManager.Instance.onPositionChangeCurrentUnitTiles += SetupNewSpawnRateValues;
+        manager.onPositionChangeCurrentUnitTiles -= SetupNewSpawnRateValues;
+        manager.onPositionChangeCurrentUnitTiles += SetupNewSpawnRateValues;
     }
 
     // ---------------------------------------------------------

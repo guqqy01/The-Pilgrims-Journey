@@ -28,23 +28,25 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
     private void Start()
     {
-        WaitForHelper.WaitForObjectThenPerformAction(() => TilePlayerManager.Instance, SubscribeToEndOfGameCheck, 1f);
-    }
-
-    private void SubscribeToEndOfGameCheck()
-    {
-        TilePlayerManager.Instance.noRemainingTilesToPlay += StartEndOfGameCheck;
-    }
-
-    public void OnPlayLocalLevel()
-    {
-        CurrentlyPlayingLocalLevel = true;
+        TilePlayerManager.WhenReady(SubscribeToEndOfGameCheck);
     }
 
     protected override void CleanUp()
     {
-        if (TilePlayerManager.Instance != null)
-            TilePlayerManager.Instance.noRemainingTilesToPlay -= StartEndOfGameCheck;
+        TilePlayerManager.IfReady(UnSubscribeToEndOfGameCheck);
+    }
+
+    private void SubscribeToEndOfGameCheck(TilePlayerManager manager)
+    {
+        manager.noRemainingTilesToPlay += StartEndOfGameCheck;
+    }
+    private void UnSubscribeToEndOfGameCheck(TilePlayerManager manager)
+    {
+        manager.noRemainingTilesToPlay -= StartEndOfGameCheck;
+    }
+    public void OnPlayLocalLevel()
+    {
+        CurrentlyPlayingLocalLevel = true;
     }
 
     private void StartEndOfGameCheck()

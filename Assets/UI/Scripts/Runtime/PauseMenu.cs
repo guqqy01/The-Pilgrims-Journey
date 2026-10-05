@@ -42,7 +42,7 @@ namespace UI
             if (value)
             {
                 SaveManager.IfFileExistsDelete("GameManagerSave");
-                SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, AfterLoadMainMenu);
+                SceneLoader.Instance.LoadSceneFromType(SceneLoad.MainMenu, AfterLoadMainMenu);
                 gameObject.SetActive(false);
                 BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
             }
@@ -56,7 +56,7 @@ namespace UI
 
         public void ExitMainMenuButton()
         {
-            SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, AfterLoadMainMenu);
+            SceneLoader.Instance.LoadSceneFromType(SceneLoad.MainMenu, AfterLoadMainMenu);
             gameObject.SetActive(false);
             BlurBackgroundController.Instance.RemoveBlurRequest(blurRequestReference);
 

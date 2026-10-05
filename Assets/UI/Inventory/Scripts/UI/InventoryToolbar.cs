@@ -125,7 +125,7 @@ public class InventoryToolbar : Singleton<InventoryToolbar>, IOnCreateCurrentMap
                 if (iterationButton.Button == selectedButton)
                 {
                     image.sprite = selectedBackground;
-                    if(iterationButton.Tab != null)
+                    if(iterationButton.Tab != null && iterationButton.Tab.tab != null)
                     {
                         iterationButton.Tab.Open();
                         selectedTab = iterationButton.Tab.tab.gameObject;

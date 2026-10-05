@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
-[CreateAssetMenu()]
+[CreateAssetMenu(menuName = "Scene/Scene Load Item")]
 public class SceneLoadItem : ScriptableObject
 {
     public SceneReference activeScene;

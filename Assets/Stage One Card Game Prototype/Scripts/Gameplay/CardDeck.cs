@@ -22,6 +22,13 @@ namespace TPJ.Gameplay
             WholeDeck.AddCard(card);
         }
 
+        public void ClearAll()
+        {
+            WholeDeck.Clear();
+            ActivePile.Clear();
+            DiscardPile.Clear();
+        }
+
         public void RemoveCardFromDeck(CardBase card)
         {
             WholeDeck.RemoveCard(card);

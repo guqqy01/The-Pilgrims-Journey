@@ -7,6 +7,7 @@ using LocalMap;
 using System;
 using System.Collections.Generic;
 using Tiles;
+using TPJ.Gameplay;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -59,27 +60,36 @@ public class GameManager : MonoBehaviour, ISaveLoad
     {
         GlobalMapGenerator.Instance.GenerateMap(seed);
 
-        GlobalMapGenerator.Instance.CurrentMapPoint.LoadScene(SetupFirstLocalMap);
+        GlobalMapGenerator.Instance.CurrentMapPoint.LoadScene(SetupGame);
     }
 
-    private void SetupFirstLocalMap()
+    private void SetupPhaseOne(CardGameManager manager)
+    {
+        manager.ResetForNewGame();
+        manager.PlayerDeckHolder.SetHeroCard(pendingHeroSO);
+
+        PlayerCollection.IfReady(collection =>
+        {
+            foreach (ICardable cardable in collection.CreateCardables())
+                manager.PlayerDeckHolder.AddCardToDeck(cardable.CreateCard());
+        });
+
+        CardBase attackCard = pendingHeroSO.startingAttack.CreateCard();
+        manager.PlayerDeckHolder.AddCardToDeck(attackCard);
+        manager.BeginGame();
+    }
+
+    private void SetupGame()
     {
         Delete();
 
-        Setup();
-
-        HeroManager.Instance.SelectHero(pendingHeroSO);
-
-        CreateLocalMap();
-        InterfaceCaller.CallInterfaces<IOnCreateCurrentMapPoint>(x => x.OnCreateCurrentMapPoint());
-    }
-    
-    private void Setup()
-    {
         Level = 1;
 
         InterfaceCaller.CallInterfaces<IOnSetupNewGame>(x => x.OnSetupNewGame());
-    } 
+
+        HeroManager.WhenReady(manager => manager.SelectHero(pendingHeroSO));
+        CardGameManager.WhenReady(SetupPhaseOne);
+    }
 
     #endregion
 
@@ -116,13 +126,13 @@ public class GameManager : MonoBehaviour, ISaveLoad
         switch (type)
         {
             case GlobalMapPointType.Normal:
-                action += CreateLocalMap;
+                action +=  () => CardGameManager.WhenReady(SetupPhaseOne);
                 break;
             case GlobalMapPointType.Random:
                 action += GenerateRandomEvent;
                 break;
             case GlobalMapPointType.Relic:
-                action += CreateLocalMap;
+                action += () => CardGameManager.WhenReady(SetupPhaseOne);
                 break;
             case GlobalMapPointType.Shop:
                 if (!fromContinueingGame)
@@ -144,7 +154,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         InterfaceCaller.CallInterfaces<IOnGenerateNewRandomEvent>(x => x.OnGenerateNewRandomEvent());
     }
 
-    private void CreateLocalMap()
+    public void CreateLocalMap()
     {
         InterfaceCaller.CallInterfaces<IOnBeforeCreateLocalMap>(x => x.OnBeforeCreateLocalMap());
         InterfaceCaller.CallInterfaces<IOnCreateLocalMap>(x => x.OnCreateLocalMap());

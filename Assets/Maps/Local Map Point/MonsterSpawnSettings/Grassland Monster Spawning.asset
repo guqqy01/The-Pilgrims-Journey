@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945d5f93844d9ab46baf73a6c9be6cf0, type: 3}
   m_Name: Grassland Monster Spawning
   m_EditorClassIdentifier: 
-  normalMonsterSpawns:
-  - rid: 4205786435911680182
+  normalMonsterSpawns: []
   waveMonsterSpawns:
   - rid: 4205786435911680181
   - rid: 4205786435911680180
@@ -48,7 +47,7 @@ MonoBehaviour:
             floatValue: 0
             isInt: 0
         tileCardType: 2
-        count: 15
+        count: 5
         minSpawnDistance: 20
         maxSpawnDistance: 50
     - rid: 4205786435911680181
@@ -68,51 +67,9 @@ MonoBehaviour:
             floatValue: 0
             isInt: 0
         tileCardType: 4
-        count: 3
+        count: 1
         minSpawnDistance: 20
         maxSpawnDistance: 50
-    - rid: 4205786435911680182
-      type: {class: NormalStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
-      data:
-        monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
-        actionCost:
-          buffFlags: 2
-          initialized: 1
-          percentageMultiplier: 0
-          baseBuff:
-            intValue: 0
-            floatValue: 0
-            isInt: 0
-          additionalBuff:
-            intValue: 0
-            floatValue: 0
-            isInt: 0
-        tileCardType: 1
-        spawnRateVSLevel:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1.5
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 20
-            value: 10
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        range: 3
     - rid: 5183111235916005461
       type: {class: WaveStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
@@ -130,5 +87,5 @@ MonoBehaviour:
             floatValue: 0
             isInt: 0
         tileCardType: 1
-        count: 3
+        count: 1
         range: 3

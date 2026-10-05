@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5852b0c1e40476241b6e0a7d04485826, type: 3}
+  m_Name: Main Load Settings
+  m_EditorClassIdentifier: Core.SceneManagement::SceneManagementSettings
+  InGameAsset: {fileID: 11400000, guid: 264edd61e19bc484dbd7e1e7b7aaeeb3, type: 2}
+  PhaseOneLoad: {fileID: 11400000, guid: f8d2b2235652eff4d94b29670a6970d1, type: 2}
+  PhaseTwoLoad: {fileID: 11400000, guid: 260cce3e7901053428efd80f4d7335ce, type: 2}
+  ShopSceneLoad: {fileID: 11400000, guid: 0d463f61937f9c9418593b6f5e244e08, type: 2}
+  MainMenuSceneLoad: {fileID: 11400000, guid: 2965d66a0d8f0da4f8ac3cc09a3c996e, type: 2}
+  RandomEventsLoad: {fileID: 11400000, guid: 0948a5f7210123e468a357808c17faab, type: 2}
+  LoadingSceneLoad: {fileID: 11400000, guid: f9bba5e705136e94cb1439e17ecf2b50, type: 2}
+  GlobalMapLoad: {fileID: 11400000, guid: a31f2e0274034464ab887c188ee80c3e, type: 2}

@@ -891,6 +891,8 @@ Transform:
   - {fileID: 1989003971}
   - {fileID: 1320853913}
   - {fileID: 1415790165}
+  - {fileID: 2061327995}
+  - {fileID: 1812992915}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1320853912
@@ -1413,6 +1415,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2326633976282387214, guid: 925cd0ea774cd2248b5667851f5517b8, type: 3}
   m_PrefabInstance: {fileID: 1783642620}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1812992914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1812992915}
+  - component: {fileID: 1812992916}
+  m_Layer: 0
+  m_Name: Tile Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1812992915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812992914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1129539843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812992916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812992914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2664b51ca2b12b49a46e64f1616b183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::TPJ.Gameplay.TilesManager
+  settings: {fileID: 11400000, guid: 64a2067c5670dd349ab787914126e992, type: 2}
 --- !u!1 &1958670768
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,6 +1802,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &2061327994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2061327995}
+  - component: {fileID: 2061327996}
+  m_Layer: 0
+  m_Name: Pointer Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2061327995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061327994}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 292.5565, y: 192.48161, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1129539843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2061327996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061327994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4839ff0dc639e624ab87c7e498cc2c29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::PointerManager
+  PointerPosition: {x: 0, y: 0}
 --- !u!1 &2132221284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,14 +1894,8 @@ MonoBehaviour:
   dontUnloadScenes:
   - sceneName: Common
     sceneAsset: {fileID: 102900000, guid: 1685e8583991d0d468d9c48eef969888, type: 3}
-  inGameAsset: {fileID: 11400000, guid: 264edd61e19bc484dbd7e1e7b7aaeeb3, type: 2}
+  sceneSettings: {fileID: 11400000, guid: 56ac22a15824e28479ec2406d94edaa6, type: 2}
   animator: {fileID: 658387069}
-  localMapSceneLoad: {fileID: 11400000, guid: 260cce3e7901053428efd80f4d7335ce, type: 2}
-  shopSceneLoad: {fileID: 11400000, guid: 0d463f61937f9c9418593b6f5e244e08, type: 2}
-  mainMenuSceneLoad: {fileID: 11400000, guid: 2965d66a0d8f0da4f8ac3cc09a3c996e, type: 2}
-  randomEventsSceneLoad: {fileID: 11400000, guid: 0948a5f7210123e468a357808c17faab, type: 2}
-  loadingSceneLoadItem: {fileID: 11400000, guid: f9bba5e705136e94cb1439e17ecf2b50, type: 2}
-  globalMapLoadItem: {fileID: 11400000, guid: a31f2e0274034464ab887c188ee80c3e, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

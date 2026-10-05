@@ -9,7 +9,7 @@ using TPJ.Gameplay;
 
 namespace Heros
 {
-    [CreateAssetMenu()]
+    [CreateAssetMenu(menuName = "Entities/Hero")]
     public class HeroSO : BuffableAttackEntitySO, ITileable, IDescriptable, ITileCardType, IEquipmentHolder, IAttackHolder
     {
         [TextArea()]

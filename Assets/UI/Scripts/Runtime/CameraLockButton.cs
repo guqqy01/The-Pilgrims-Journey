@@ -16,24 +16,24 @@ public class CameraLockButton : MonoBehaviour
 
     private void Awake()
     {
-        WaitForHelper.WaitForObjectThenPerformAction(() => LocalCameraMovementManager.Instance, SubscribeToLocalCameraMovementManager);
+        LocalCameraMovementManager.WhenReady(Subscribe);
     }
 
     private void OnDestroy()
     {
-        if(LocalCameraMovementManager.Instance != null)
-            LocalCameraMovementManager.Instance.updateUI -= UpdateUI;
+        LocalCameraMovementManager.IfReady(manager => manager.updateUI -= UpdateUI);
     }
 
-    private void SubscribeToLocalCameraMovementManager()
+    private void Subscribe(LocalCameraMovementManager manager)
     {
-        LocalCameraMovementManager.Instance.updateUI += UpdateUI;
-        UpdateUI(LocalCameraMovementManager.Instance.CameraLocked);
+        manager.updateUI += UpdateUI;
+        UpdateUI(manager.CameraLocked);
     }
 
     public void UpdateUI(bool locked)
     {
-        cameraImage.sprite = locked ? lockedCameraSprite : unlockedCameraSprite;
+        if(cameraImage != null)
+            cameraImage.sprite = locked ? lockedCameraSprite : unlockedCameraSprite;
     }
 
     public void OnButtonClick()

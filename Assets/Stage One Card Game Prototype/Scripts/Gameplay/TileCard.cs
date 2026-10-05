@@ -5,9 +5,13 @@ namespace TPJ.Gameplay
     /// Shared placement logic for any card whose payload is a TileBase. Delegates
     /// entirely to TileGridBase so placement rules stay defined in exactly one place.
     /// </summary>
-    public abstract class TileCard<T> : Card<T, TileCardPlayContext>, ITileCardType 
+    public abstract class TileCard<T> : Card<T, TileCardPlayContext>, ITileCardType
         where T : TileBase, ICardable, IDescriptable
     {
+        /// <summary>Tile cards stay on the board once played, so they are not added to the
+        /// discard pile (otherwise they could be redrawn).</summary>
+        public override bool GoesToDiscardWhenPlayed => false;
+
         public TileCardType TileCardType { protected set; get; }
 
         protected TileCard(T cardableRef) : base(cardableRef)

@@ -5,7 +5,7 @@ using Tiles;
 using UnityEngine;
 namespace Monsters
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "Entities/Monster")]
     public class MonsterSO : BuffableAttackEntitySO, IDescriptable, ITileable, IEquipmentHolder, IAttackHolder
     {
         public new string name;

@@ -37,9 +37,12 @@ public class ScreenShakeManager : MonoBehaviour
     private float _noiseSeedX;
     private float _noiseSeedY;
     private float _noiseSeedRot;
-
-    private Vector3 _originalLocalPosition;
-    private Quaternion _originalLocalRotation;
+    [SerializeField]
+    private Vector3 originalLocalPosition;
+    private Vector3 OriginalLocalPosition => originalLocalPosition;
+    [SerializeField]
+    private Vector3 origonalLocalRotation;
+    private Quaternion OriginalLocalRotation => Quaternion.Euler(origonalLocalRotation);
 
     private struct SustainedSource
     {
@@ -62,12 +65,6 @@ public class ScreenShakeManager : MonoBehaviour
         _noiseSeedX = Random.Range(0f, 1000f);
         _noiseSeedY = Random.Range(0f, 1000f);
         _noiseSeedRot = Random.Range(0f, 1000f);
-
-        if (cameraTransform != null)
-        {
-            _originalLocalPosition = cameraTransform.localPosition;
-            _originalLocalRotation = cameraTransform.localRotation;
-        }
     }
 
     private void OnDestroy()
@@ -110,8 +107,8 @@ public class ScreenShakeManager : MonoBehaviour
         if (shakeAmount <= 0.0001f)
         {
             // Settle back exactly to rest to avoid any residual drift.
-            cameraTransform.localPosition = _originalLocalPosition;
-            cameraTransform.localRotation = _originalLocalRotation;
+            cameraTransform.localPosition = OriginalLocalPosition;
+            cameraTransform.localRotation = OriginalLocalRotation;
             return;
         }
 
@@ -121,8 +118,8 @@ public class ScreenShakeManager : MonoBehaviour
         float offsetY = (Mathf.PerlinNoise(_noiseSeedY, t) * 2f - 1f) * maxOffset * shakeAmount;
         float rotZ = (Mathf.PerlinNoise(_noiseSeedRot, t) * 2f - 1f) * maxRotation * shakeAmount;
 
-        cameraTransform.localPosition = _originalLocalPosition + new Vector3(offsetX, offsetY, 0f);
-        cameraTransform.localRotation = _originalLocalRotation * Quaternion.Euler(0f, 0f, rotZ);
+        cameraTransform.localPosition = OriginalLocalPosition + new Vector3(offsetX, offsetY, 0f);
+        cameraTransform.localRotation = OriginalLocalRotation * Quaternion.Euler(0f, 0f, rotZ);
     }
 
     public void AddTrauma(float amount)
@@ -141,8 +138,8 @@ public class ScreenShakeManager : MonoBehaviour
         _sustainedSources.Clear();
         if (cameraTransform != null)
         {
-            cameraTransform.localPosition = _originalLocalPosition;
-            cameraTransform.localRotation = _originalLocalRotation;
+            cameraTransform.localPosition = OriginalLocalPosition;
+            cameraTransform.localRotation = OriginalLocalRotation;
         }
     }
     public void SetSustainedTrauma(object source, float amount)

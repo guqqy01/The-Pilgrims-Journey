@@ -55,7 +55,7 @@ namespace UI
 
         public void ExitMainMenuButton()
         {
-            SceneLoader.Instance.LoadSceneFromType(SceneLoadType.MainMenu, AfterMainMenuLoaded);
+            SceneLoader.Instance.LoadSceneFromType(SceneLoad.MainMenu, AfterMainMenuLoaded);
         }
 
         private void AfterMainMenuLoaded()

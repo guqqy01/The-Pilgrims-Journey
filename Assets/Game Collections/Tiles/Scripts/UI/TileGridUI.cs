@@ -185,11 +185,6 @@ namespace Tiles.UI
             tileUIBase.transform.SetSiblingIndex(tileUIs.Count);
         }
 
-        public bool AcceptsTile(TileUIBase tileUIBase)
-        {
-            return tileGrid.AcceptTile(tileUIBase.Tile);
-        }
-
         private void OnTileAdded(TileBase tileAdded)
         {
             if (tileAdded == null) return;

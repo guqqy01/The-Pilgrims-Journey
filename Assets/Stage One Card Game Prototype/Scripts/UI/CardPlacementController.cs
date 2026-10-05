@@ -20,6 +20,7 @@ namespace TPJ.UI
         private TileGridUI _targetGridUI;
 
         private EquipmentTargetHighlighter _equipmentHighlighter;
+        private AttackTargetHighlighter _attackHighlighter;
 
         private bool _isHologramActive;
         private float _currentRotation;
@@ -32,6 +33,7 @@ namespace TPJ.UI
         private void Awake()
         {
             _equipmentHighlighter = GetComponent<EquipmentTargetHighlighter>();
+            _attackHighlighter = GetComponent<AttackTargetHighlighter>();
         }
 
         private void OnEnable()
@@ -70,6 +72,8 @@ namespace TPJ.UI
 
             if (_currentlySelectedCard is EquipmentCard)
                 _equipmentHighlighter?.BeginTargeting(_currentlySelectedCard, OnEquipmentTargetChosen);
+            else if (_currentlySelectedCard is AttackCard)
+                _attackHighlighter?.BeginTargeting(_currentlySelectedCard, OnAttackTargetChosen);
             else
                 RequestHologram(_currentlySelectedCardTile);
         }
@@ -112,8 +116,8 @@ namespace TPJ.UI
             if (_currentlyDraggingCard != cardWidgetUI || _targetGridUI == null)
                 return;
 
-            if (_currentlySelectedCard is EquipmentCard)
-                return; // equipment resolves on drop, not tracked live
+            if (_currentlySelectedCard is EquipmentCard || _currentlySelectedCard is AttackCard)
+                return; // equipment and attack resolve on drop, not tracked live
 
             HandleRotationInput();
 
@@ -156,10 +160,32 @@ namespace TPJ.UI
                 return;
             }
 
+            if (_currentlySelectedCard is AttackCard)
+            {
+                TryConfirmAttackDrop(screenPos);
+                return;
+            }
+
             if (_targetGridUI != null && _targetGridUI.IsWorldPositionInGrid(screenPos))
                 TryConfirmPlacement(_targetGridUI.GetGridPosition(screenPos));
             else
                 EndSession(played: false);
+        }
+
+        private void TryConfirmAttackDrop(Vector2 screenPos)
+        {
+            if (_targetGridUI != null &&
+                _targetGridUI.IsWorldPositionInGrid(screenPos) &&
+                _targetGridUI.TryGetTileUIAtPosition(_targetGridUI.GetGridPosition(screenPos), out TileUIBase targetTileUI))
+            {
+                var context = new AttackCardPlayContext(targetTileUI.Tile);
+                bool played = CardGameManager.Instance.TryPlayCard(_currentlySelectedCard, context);
+                EndSession(played);
+            }
+            else
+            {
+                EndSession(played: false);
+            }
         }
 
         private void TryConfirmEquipmentDrop(Vector2 screenPos)
@@ -193,7 +219,7 @@ namespace TPJ.UI
             if (card.Owner == null || !card.Owner.CurrentlyOurTurn)
                 return;
 
-            _targetGrid = CardGameManager.Instance.GetGrid;
+            _targetGrid = CardGameManager.Instance.Grid;
 
             if (!TileGridUI.TryGetUIForGrid(_targetGrid, out _targetGridUI))
             {
@@ -225,6 +251,13 @@ namespace TPJ.UI
             EndSession(played);
         }
 
+        private void OnAttackTargetChosen(TileUIBase targetTileUI)
+        {
+            var context = new AttackCardPlayContext(targetTileUI.Tile);
+            bool played = CardGameManager.Instance.TryPlayCard(_currentlySelectedCard, context);
+            EndSession(played);
+        }
+
         public void CancelCurrentSelection() => EndSession(played: false);
 
         private void EndSession(bool played)
@@ -233,6 +266,7 @@ namespace TPJ.UI
 
             DestroyHologramTile();
             _equipmentHighlighter?.CancelTargeting();
+            _attackHighlighter?.CancelTargeting();
 
             if (_currentlyDraggingCard != null)
                 SetCardAlpha(_currentlyDraggingCard, 1f);

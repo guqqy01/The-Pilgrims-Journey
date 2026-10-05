@@ -84,13 +84,15 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 2
+      floatValue: 0.75
       isInt: 0
     additionalBuff:
       intValue: 0
       floatValue: 0
       isInt: 0
   tileCardType: 1
+  maxEquipmentCapacity: 1
+  maxAttackCapacity: 1
   actionCost:
     buffFlags: 2
     initialized: 1

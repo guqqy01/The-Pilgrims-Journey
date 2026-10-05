@@ -39,12 +39,19 @@ public class ShopManager : Singleton<ShopManager>, ISaveLoad, IOnSave, IOnLoadAf
         onPurchase = null;
         onSell = null;
         onUpdateSellGold = null;
+        if (equipmentInventory != null)
+        {
+            equipmentInventory.onEquipmentChanged -= UpdateSellGoldAmount;
+        }
     }
 
     private void Start()
     {
-        equipmentInventory.onEquipmentChanged -= UpdateSellGoldAmount;
-        equipmentInventory.onEquipmentChanged += UpdateSellGoldAmount;
+        if(equipmentInventory != null)
+        {
+            equipmentInventory.onEquipmentChanged -= UpdateSellGoldAmount;
+            equipmentInventory.onEquipmentChanged += UpdateSellGoldAmount;
+        }
     }
 
     private void UpdateSellGoldAmount(EquipmentContainer equipmentContainer, EquipmentSO from, EquipmentSO to)

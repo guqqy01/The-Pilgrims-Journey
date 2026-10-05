@@ -206,8 +206,7 @@ namespace Tiles.UI
                     if (obj.TryGetComponent(out TileGridUI candidate))
                     {
                         if (candidate.GridTransform.gameObject.activeInHierarchy &&
-                            candidate.IsWorldPositionInGrid(eventData.position) &&
-                            IsCompatibleGrid(candidate))
+                            candidate.IsWorldPositionInGrid(eventData.position))
                         {
                             draggedTileGridUI = candidate;
                             break;
@@ -219,11 +218,6 @@ namespace Tiles.UI
                     }
                 }
             }
-        }
-
-        private bool IsCompatibleGrid(TileGridUI candidate)
-        {
-            return candidate.AcceptsTile(this);
         }
 
         private void HandleCancelMoveTile()

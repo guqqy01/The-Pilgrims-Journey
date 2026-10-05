@@ -1,13 +1,10 @@
-using Equipment;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Attacks;
 using Tiles;
 using UnityEngine;
-using Units;
-using System.Linq;
-using Monsters;
-using Heros;
-using Attacks;
+
 namespace TPJ.Gameplay
 {
     public class CardGameManager : Singleton<CardGameManager>, ICardLegalityProvider
@@ -37,58 +34,46 @@ namespace TPJ.Gameplay
         private DeckHolder _currentHolder;
         public bool IsPlayerTurn => _currentHolder == _player;
 
-        [SerializeField]
-        private List<EquipmentSO> testStartEquipment;
-
-        [SerializeField]
-        private int testAmountOfUnitTilesToCreate;
-
-        [SerializeField]
-        private MonsterSpawnSettings testMonsterSpawnSettings;
-
-        [SerializeField]
-        private int testAmountOfMonsterTilesToCreate;
-
-        [SerializeField]
-        private List<TileSO> testStartTiles;
-        [SerializeField]
-        private List<UnitSO> testStartUnits;
-
-        [SerializeField]
-        private List<BaseAttackSO> testAttacks;
-
-        [SerializeField]
-        private HeroSO testHero;
-        [SerializeField]
-        private TileSO testHeroTile;
-        public TileGridBase GetGrid => grid;
+        public TileGridBase Grid => grid;
 
         private bool _gameEnded;
         private bool _inHeroSetupTurn;
+        private bool _heroTilePlaced;
+        private bool _attackPlacedOnHero;
 
 
-        public IEnumerable<TileBase> GetTargetableTiles =>
-            GetGrid.ListOfTiles;
+        public IEnumerable<TileBase> GetTargetableTiles => Grid.ListOfTiles;
 
         private void Start()
         {
             grid.onTileAdded += InvokeOnBoardChanged;
             grid.onTileRemoved += InvokeOnBoardChanged;
-            grid.onTileSectionDestroyed -= InvokeOnBoardChanged;
             grid.onTileSectionDestroyed += InvokeOnBoardChanged;
-
-            grid.onTileRemoved -= TileOwnership.Remove;
             grid.onTileRemoved += TileOwnership.Remove;
 
-            CardGameEventsBus.OnCardPlayed += OnAnyCardPlayed;   // add
-
-            BeginGame();
+            CardGameEventsBus.OnTileCardPlayed += HandleTileCardPlayed;
+            CardGameEventsBus.OnAttackCardPlayed += HandleAttackCardPlayed;
         }
-
 
         private void InvokeOnBoardChanged(TileBase _)
         {
             OnBoardChanged?.Invoke();
+        }
+
+        public void ResetForNewGame()
+        {
+            _gameEnded = false;
+            _currentAmountOfTurnsTaken = 0;
+            _currentHolder = null;
+            _inHeroSetupTurn = false;
+            _heroTilePlaced = false;
+            _attackPlacedOnHero = false;
+
+            grid.Clear();           // fires onTileRemoved -> TileOwnership.Remove
+            TileOwnership.Clear();  // safety net
+
+            _player.ResetForNewGame();
+            _enemyAI.ResetForNewGame();
         }
 
         protected override void CleanUp()
@@ -101,13 +86,42 @@ namespace TPJ.Gameplay
             grid.onTileSectionDestroyed -= InvokeOnBoardChanged;
             grid.onTileRemoved -= TileOwnership.Remove;
 
-            CardGameEventsBus.OnCardPlayed -= OnAnyCardPlayed;   // add
+            CardGameEventsBus.OnTileCardPlayed -= HandleTileCardPlayed;
+            CardGameEventsBus.OnAttackCardPlayed -= HandleAttackCardPlayed;
 
             OnBoardChanged = null;
 
             CardGameEventsBus.CleanUp();
         }
-        public bool CanEndTurn => !_gameEnded && _currentHolder != null && !_inHeroSetupTurn;
+
+        private void HandleTileCardPlayed(DeckHolder holder, TileBase tile)
+        {
+            if (holder == _player && tile is HeroTile)
+                _heroTilePlaced = true;
+        }
+
+        private void HandleAttackCardPlayed(DeckHolder holder, BaseAttackSO attack)
+        {
+            if (holder == _player)
+                _attackPlacedOnHero = true;
+        }
+
+        /// <summary>Whether the player may end the current turn. During the hero setup turn
+        /// this requires the hero tile and at least one attack card to have been placed.</summary>
+        public bool CanEndTurn
+        {
+            get
+            {
+                if (_gameEnded || _currentHolder == null)
+                    return false;
+
+                if (_inHeroSetupTurn)
+                    return _heroTilePlaced && _attackPlacedOnHero;
+
+                return true;
+            }
+        }
+
         public bool TryPlayCard(CardBase card, ICardPlayContext context)
         {
             if (_currentHolder == null || !_currentHolder.CurrentlyOurTurn)
@@ -119,10 +133,26 @@ namespace TPJ.Gameplay
             if (card.Owner != _currentHolder)
                 return false;
 
+            if (_inHeroSetupTurn && !IsAllowedDuringHeroSetup(card))
+                return false;
+
             if (!_currentHolder.TryPlayCard(card, context))
                 return false;
 
             return true;
+        }
+
+        /// <summary>During the hero setup turn only the hero card and attack cards may be played,
+        /// and an attack card requires the hero tile to already be on the board.</summary>
+        private bool IsAllowedDuringHeroSetup(CardBase card)
+        {
+            if (card is HeroCard)
+                return true;
+
+            if (card is AttackCard)
+                return _heroTilePlaced;
+
+            return false;
         }
 
         public void MoveNextTurn()
@@ -197,6 +227,12 @@ namespace TPJ.Gameplay
             if (!CanEndTurn)
                 return;
 
+            if (_inHeroSetupTurn)
+            {
+                CompleteHeroSetupTurn();
+                return;
+            }
+
             _currentHolder.EndTurn();
 
             LockAllTiles();
@@ -211,26 +247,9 @@ namespace TPJ.Gameplay
 
             List<ICardable> playerCards = new List<ICardable>();
 
-            for (int i = 0; i < testAmountOfUnitTilesToCreate; i++)
-            {
-                UnitTile unitTile = new UnitTile(testStartTiles.GetRandom(), testStartUnits.GetRandom());
-                playerCards.Add(unitTile);
-            }
-            playerCards.AddRange(testStartEquipment);
-            playerCards.AddRange(testAttacks);
-            DeckBuilder.BuildDeck(_player, playerCards);
-
             List<MonsterTileBase> monsterTileBases = new List<MonsterTileBase>();
-            if (MonsterTileManager.HasInstance)
-            {
-                monsterTileBases = MonsterTileManager.Instance.GetMonsterTiles(testMonsterSpawnSettings, testStartTiles, testAmountOfMonsterTilesToCreate);
-            }
-            else
-            {
-                Debug.LogWarning("Need to setup Monster Tile Manager");
-            }
 
-            DeckBuilder.BuildDeck(_enemyAI, monsterTileBases);
+            _enemyAI.SetupCards();
 
             _player.Init();
             _enemyAI.Init();
@@ -248,24 +267,19 @@ namespace TPJ.Gameplay
         private void BeginHeroSetupTurn()
         {
             _inHeroSetupTurn = true;
-
-            HeroTile heroTile = new HeroTile(testHero, testHeroTile);
-            HeroCard heroCard = new HeroCard(heroTile);
-
+            _heroTilePlaced = false;
+            _attackPlacedOnHero = false;
             _currentHolder = _player;
             _player.SetTurnActive(true);              // order matters: must be true before
-            _player.GiveCardDirectlyToHand(heroCard);  // the card widget's legality check runs
-        }
-
-        private void OnAnyCardPlayed(DeckHolder holder, CardBase card)
-        {
-            if (_inHeroSetupTurn && card is HeroCard)
-                CompleteHeroSetupTurn();
+            _player.GiveCardDirectlyToHand(_player.HeroCard);
+            _player.DrawAllCardsOfType<AttackCard>();
         }
 
         private void CompleteHeroSetupTurn()
         {
             _inHeroSetupTurn = false;
+
+            DiscardUnplayedAttackCardsFromHand();
 
             _player.EndTurn();
             LockAllTiles();
@@ -280,6 +294,15 @@ namespace TPJ.Gameplay
             MoveNextTurn();
         }
 
+        /// <summary>Moves any attack cards still in the player's hand (i.e. not placed on the
+        /// hero tile during the setup turn) into the discard pile.</summary>
+        private void DiscardUnplayedAttackCardsFromHand()
+        {
+            List<CardBase> unplayedAttacks = _player.Hand.Where(card => card is AttackCard).ToList();
+            foreach (CardBase card in unplayedAttacks)
+                _player.DiscardFromHand(card);
+        }
+
         public void EndGame(CardGameEndReason reason = CardGameEndReason.TurnLimitReached)
         {
             if (_gameEnded)
@@ -291,11 +314,19 @@ namespace TPJ.Gameplay
             InputManager.Instance.Actions.UI_TilePlayer.Disable();
 
             CardGameEventsBus.RaiseOnGameEnd(reason);
+
+            SceneLoader.Instance.LoadSceneFromType(SceneLoad.PhaseTwoLoad, AfterLoadPhaseTwo);
+        }
+
+        private void AfterLoadPhaseTwo()
+        {
+            TilePlayerManager.WhenReady(t => t.Timeline.LoadFromGrid(Grid));
+            GameManager.Instance.CreateLocalMap();
         }
 
         public TileGridBase GetGridFor(DeckHolder holder)
         {
-            return GetGrid;
+            return Grid;
         }
 
         IEnumerable<TileBase> ICardLegalityProvider.GetTargetableTiles(DeckHolder holder)

@@ -23,6 +23,12 @@ namespace TPJ.Gameplay
             return _currentPoints >= value;
         }
 
+        public void Reset()
+        {
+            _currentPoints = 0;
+            OnPointValueChange?.Invoke();
+        }
+
         public void GenerateFromNewRound(DeckHolder holder)
         {
             if (holder != owner)

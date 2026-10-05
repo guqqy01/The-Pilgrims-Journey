@@ -22,7 +22,8 @@ public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnComplete
 
     public void OnCompleteLocalMapLevel()
     {
-        LevelCompleteScreen.SetActive(true);
+        if (LevelCompleteScreen != null)
+            LevelCompleteScreen.SetActive(true);
 
         if (RewardManager.Instance.TilesOrEquipmentAvailiable)
         {
@@ -38,7 +39,8 @@ public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnComplete
 
     public void OnCreateLocalMap()
     {
-        LevelCompleteScreen.SetActive(false);
+        if (LevelCompleteScreen != null)
+            LevelCompleteScreen.SetActive(false);
     }
 
     public void OnButtonClick()
@@ -48,7 +50,7 @@ public class ContinueAndCollectRewardsButtonManager : MonoBehaviour, IOnComplete
             GameManager.Instance.CompleteLevel();
 
             GlobalMapUI.FirstSeen = true;
-            SceneLoader.Instance.LoadSceneFromType(SceneLoadType.GlobalMap, () => GlobalMapGenerator.Instance.updateUI?.Invoke());
+            SceneLoader.Instance.LoadSceneFromType(SceneLoad.GlobalMap, () => GlobalMapGenerator.Instance.updateUI?.Invoke());
 
             LevelCompleteScreen.SetActive(false);
         }
