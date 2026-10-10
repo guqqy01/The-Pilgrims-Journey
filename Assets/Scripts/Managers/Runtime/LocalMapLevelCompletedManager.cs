@@ -1,22 +1,24 @@
 using GameManagerCalls;
 using GlobalMap;
 using UnityEngine;
-using Tiles;
 using Helper.Wait;
 using Monsters;
+using Quests;
+using Spawning;
+
 public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedManager>, IOnBeforeCreateLocalMap, IOnPlayLocalLevel
 {
     private int unitsPassed = 0;
 
-    [SerializeField]
-    private AnimationCurve requiredUnits;
-
     public bool CurrentlyPlayingLocalLevel { private set; get; } = false;
 
-    public int RequiredNumberOfUnitsToPass => Mathf.CeilToInt(requiredUnits.Evaluate(GameManager.Instance.Level));
+    /// <summary>Now decided by the level plan (SpawnDirector) instead of an AnimationCurve.</summary>
+    public int RequiredNumberOfUnitsToPass =>
+        SpawnDirector.Instance != null && SpawnDirector.Instance.Plan != null
+            ? SpawnDirector.Instance.Plan.RequiredUnits
+            : 0;
 
-    private bool tilePlayerFinishedPlaying;
-
+    private bool spawnPhaseFinished;
 
     public delegate void OnUnitPassed(int totalPassed, int requiredToPass);
     public static OnUnitPassed onUnitPassed;
@@ -28,42 +30,37 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
     private void Start()
     {
-        TilePlayerManager.WhenReady(SubscribeToEndOfGameCheck);
+        SpawnDirector.WhenReady(Subscribe);
     }
 
     protected override void CleanUp()
     {
-        TilePlayerManager.IfReady(UnSubscribeToEndOfGameCheck);
+        SpawnDirector.IfReady(Unsubscribe);
     }
 
-    private void SubscribeToEndOfGameCheck(TilePlayerManager manager)
-    {
-        manager.noRemainingTilesToPlay += StartEndOfGameCheck;
-    }
-    private void UnSubscribeToEndOfGameCheck(TilePlayerManager manager)
-    {
-        manager.noRemainingTilesToPlay -= StartEndOfGameCheck;
-    }
+    private void Subscribe(SpawnDirector director) => director.onSpawnPhaseFinished += OnSpawnPhaseFinished;
+    private void Unsubscribe(SpawnDirector director) => director.onSpawnPhaseFinished -= OnSpawnPhaseFinished;
+
     public void OnPlayLocalLevel()
     {
         CurrentlyPlayingLocalLevel = true;
     }
 
-    private void StartEndOfGameCheck()
+    private void OnSpawnPhaseFinished()
     {
-        tilePlayerFinishedPlaying = true;
+        spawnPhaseFinished = true;
     }
 
     private void Update()
     {
-        if (!tilePlayerFinishedPlaying)
+        if (!spawnPhaseFinished)
             return;
 
         if (hoardStarted)
             return;
 
         int UnitsOnMap = UnitSpawningManager.Instance.SpawnedUnits.NotNullCount();
-        //Units on map >= Remaining Units Required.
+        // Keep waiting while enough units are still walking to possibly reach the requirement.
         if (UnitsOnMap != 0 && UnitsOnMap >= Mathf.Max(RequiredNumberOfUnitsToPass - unitsPassed, 0))
         {
             return;
@@ -97,7 +94,14 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
     public void CompleteLevel()
     {
-        tilePlayerFinishedPlaying = false;
+        spawnPhaseFinished = false;
+
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.FinalizeQuests();
+            QuestManager.Instance.GrantRewards();
+        }
+
         if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Normal)
             RewardManager.Instance.GiveRewards();
 
@@ -109,10 +113,8 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
     public void OnBeforeCreateLocalMap()
     {
         unitsPassed = 0;
-        tilePlayerFinishedPlaying = false;
+        spawnPhaseFinished = false;
         CurrentlyPlayingLocalLevel = false;
         hoardStarted = false;
     }
-
-    
 }

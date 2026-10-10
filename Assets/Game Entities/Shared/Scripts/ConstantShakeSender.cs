@@ -50,15 +50,13 @@ public class ConstantShakeSender : MonoBehaviour
 
     private void Start()
     {
-        WaitForHelper.WaitForObjectThenPerformAction(
-            () => HeroManager.Instance,
-            SetTarget);
+        HeroManager.WhenReady(SetTarget);
     }
 
-    private void SetTarget()
+    private void SetTarget(HeroManager manager)
     {
-        distanceTarget =    HeroManager.Instance.ActiveHero != null ? 
-                            HeroManager.Instance.ActiveHero.transform : 
+        distanceTarget =    manager.ActiveHero != null ?
+                            manager.ActiveHero.transform : 
                             null;
     }
 

@@ -357,8 +357,8 @@ public enum SceneLoad
 {
     MainMenu,
     InGame,
-    PhaseOneLoad,
-    PhaseTwoLoad,
+    CardGame,
+    LocalMap,
     Shop,
     RandomEvent,
     LoadingScreen,

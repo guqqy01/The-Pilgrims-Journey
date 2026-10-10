@@ -1,5 +1,4 @@
 using UnityEngine;
-using Helper.Wait;
 [RequireComponent(typeof(AudioListener))]
 public class ManagedAudioListener : MonoBehaviour
 {
@@ -16,19 +15,12 @@ public class ManagedAudioListener : MonoBehaviour
 
     private void OnEnable()
     {
-        if (AudioListenerManager.HasInstance)
-            AudioListenerManager.Instance.RegisterListener(this);
-        else
-            WaitForHelper.WaitForObjectThenPerformAction(
-                () =>AudioListenerManager.Instance, 
-                () => AudioListenerManager.Instance.RegisterListener(this));
+        AudioListenerManager.WhenReady(manager => manager.RegisterListener(this));
     }
 
     private void OnDisable()
     {
-        // Guard against recreating the singleton during teardown/quit.
-        if (AudioListenerManager.HasInstance)
-            AudioListenerManager.Instance.UnregisterListener(this);
+        AudioListenerManager.IfReady(manager => manager.UnregisterListener(this));
     }
 
     public void ActivateListener() => audioListener.enabled = true;

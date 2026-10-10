@@ -1,13 +1,11 @@
 using Equipment;
 using GameManagerCalls;
 using GlobalMap;
-using Helper.Wait;
 using Heros;
 using LocalMap;
 using System;
 using System.Collections.Generic;
 using Tiles;
-using TPJ.Gameplay;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -49,7 +47,6 @@ public class GameManager : MonoBehaviour, ISaveLoad
     {
         InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
         
-
         pendingHeroSO = heroSO;
         currentSeed = Random.Range(int.MinValue, int.MaxValue);
 
@@ -63,7 +60,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         GlobalMapGenerator.Instance.CurrentMapPoint.LoadScene(SetupGame);
     }
 
-    private void SetupPhaseOne(CardGameManager manager)
+    /*private void SetupPhaseOne(CardGameManager manager)
     {
         manager.ResetForNewGame();
         manager.PlayerDeckHolder.SetHeroCard(pendingHeroSO);
@@ -77,7 +74,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         CardBase attackCard = pendingHeroSO.startingAttack.CreateCard();
         manager.PlayerDeckHolder.AddCardToDeck(attackCard);
         manager.BeginGame();
-    }
+    }*/
 
     private void SetupGame()
     {
@@ -86,9 +83,8 @@ public class GameManager : MonoBehaviour, ISaveLoad
         Level = 1;
 
         InterfaceCaller.CallInterfaces<IOnSetupNewGame>(x => x.OnSetupNewGame());
-
         HeroManager.WhenReady(manager => manager.SelectHero(pendingHeroSO));
-        CardGameManager.WhenReady(SetupPhaseOne);
+        CreateLocalMap();
     }
 
     #endregion
@@ -126,13 +122,13 @@ public class GameManager : MonoBehaviour, ISaveLoad
         switch (type)
         {
             case GlobalMapPointType.Normal:
-                action +=  () => CardGameManager.WhenReady(SetupPhaseOne);
+                action += CreateLocalMap;
                 break;
             case GlobalMapPointType.Random:
                 action += GenerateRandomEvent;
                 break;
             case GlobalMapPointType.Relic:
-                action += () => CardGameManager.WhenReady(SetupPhaseOne);
+                action += CreateLocalMap;
                 break;
             case GlobalMapPointType.Shop:
                 if (!fromContinueingGame)

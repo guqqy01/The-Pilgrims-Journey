@@ -30,14 +30,17 @@ namespace LocalMap.UI
         {
             int requiredToPass = LocalMapLevelCompletedManager.Instance.RequiredNumberOfUnitsToPass;
 
+
+
             requiredUnitsText.text = "0/" + requiredToPass;
-            progressBarFill.fillAmount = Mathf.Clamp01(0 / requiredToPass);
+
+            progressBarFill.fillAmount = requiredToPass == 0 ? 0 : Mathf.Clamp01(0 / requiredToPass);
         }
 
         public void OnUnitPassed(int totalPassed, int requiredToPass)
         {
             requiredUnitsText.text = totalPassed + "/" + requiredToPass;
-            progressBarFill.fillAmount = Mathf.Clamp01((float)totalPassed / requiredToPass);
+            progressBarFill.fillAmount = requiredToPass == 0 ? 0 : Mathf.Clamp01((float)totalPassed / requiredToPass);
         }
 
         public void AfterCreateLocalMap()

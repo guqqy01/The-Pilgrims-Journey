@@ -315,7 +315,7 @@ namespace TPJ.Gameplay
 
             CardGameEventsBus.RaiseOnGameEnd(reason);
 
-            SceneLoader.Instance.LoadSceneFromType(SceneLoad.PhaseTwoLoad, AfterLoadPhaseTwo);
+            SceneLoader.Instance.LoadSceneFromType(SceneLoad.LocalMap, AfterLoadPhaseTwo);
         }
 
         private void AfterLoadPhaseTwo()

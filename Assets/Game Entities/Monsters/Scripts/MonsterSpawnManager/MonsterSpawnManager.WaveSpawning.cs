@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 namespace Monsters
 {
@@ -14,14 +14,7 @@ namespace Monsters
         /// </summary>
         [SerializeField] private float waveSpawnRate = 60f;
 
-
-        private void ProcessWaveTriggers(float difficulty)
-        {
-            foreach(var waveSpawn in waveSpawns)
-            {
-                BeginSpawningWave(waveSpawn.Item1, waveSpawn.Item2, difficulty);
-            }
-        }
+        // ProcessWaveTriggers is gone: the SpawnDirector now schedules waves.
 
         public void BeginSpawningWave(WaveMonsterSpawn wave, int multiplier, float difficulty)
         {
@@ -34,7 +27,7 @@ namespace Monsters
             float startTime = Time.time;
             int totalToSpawn = Mathf.CeilToInt(wave.Count * multiplier);
 
-            while (currentCount < totalToSpawn)
+            while (currentCount < totalToSpawn && isSpawning)
             {
                 int amountShouldHaveSpawnedByNow = Mathf.CeilToInt((Time.time - startTime) * waveSpawnRate);
                 int amountToSpawnThisIteration = amountShouldHaveSpawnedByNow - currentCount;
@@ -58,6 +51,53 @@ namespace Monsters
             }
         }
 
+        // -----------------------------------------------------------------
+        //  Quest waves: a one-off swarm of one monster type, not tied to a MonsterSpawn asset.
+        // -----------------------------------------------------------------
 
+        public void SpawnQuestWave(MonsterSO monster, int count, float spawnSeconds, float minDistance, float maxDistance, float difficulty)
+        {
+            StartCoroutine(SpawnQuestWaveRoutine(
+                new AdHocDirectSpawn(monster, minDistance, maxDistance), count, spawnSeconds, difficulty));
+        }
+
+        private IEnumerator SpawnQuestWaveRoutine(IDirectMonsterSpawn spawn, int count, float spawnSeconds, float difficulty)
+        {
+            float startTime = Time.time;
+            float rate = count / Mathf.Max(0.1f, spawnSeconds);
+            int spawned = 0;
+
+            while (spawned < count && isSpawning)
+            {
+                int due = Mathf.Min(count, Mathf.CeilToInt((Time.time - startTime) * rate));
+
+                while (spawned < due)
+                {
+                    if (!TrySpawnOneDirect(spawn, difficulty))
+                    {
+                        yield return new WaitForSeconds(spawnRetryDelay);
+                        break;
+                    }
+
+                    spawned++;
+                }
+
+                yield return null;
+            }
+        }
+
+        private sealed class AdHocDirectSpawn : IDirectMonsterSpawn
+        {
+            public MonsterSO MonsterSO { get; }
+            public float MinSpawnDistance { get; }
+            public float MaxSpawnDistance { get; }
+
+            public AdHocDirectSpawn(MonsterSO monster, float minDistance, float maxDistance)
+            {
+                MonsterSO = monster;
+                MinSpawnDistance = minDistance;
+                MaxSpawnDistance = maxDistance;
+            }
+        }
     }
 }

@@ -32,7 +32,8 @@ namespace Monsters
         {
             base.CleanUp();
             OnHordeFinished = null;
-            OnHordeFinished = null;
+            OnHordeStart = null;
+            OnMonsterKilled = null;
         }
 
         private void ProcessHordeTimer(float now, float difficulty)

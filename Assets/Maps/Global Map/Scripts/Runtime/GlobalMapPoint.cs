@@ -85,13 +85,13 @@ namespace GlobalMap
             switch (type)
             {
                 case GlobalMapPointType.Normal:
-                    return SceneLoad.PhaseOneLoad;
+                    return SceneLoad.LocalMap;
                 case GlobalMapPointType.Random:
                     return SceneLoad.RandomEvent;
                 case GlobalMapPointType.Shop:
                     return SceneLoad.Shop;
                 case GlobalMapPointType.Relic:
-                    return SceneLoad.PhaseOneLoad;
+                    return SceneLoad.LocalMap;
                 default:
                     throw new NotImplementedException($"No scene load type defined for {type}");
             }

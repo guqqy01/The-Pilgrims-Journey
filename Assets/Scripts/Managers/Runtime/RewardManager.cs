@@ -9,7 +9,7 @@ using Equipment;
 using GameManagerCalls;
 using LocalMap;
 using Tiles;
-
+using Quests;
 public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLoad, IOnAfterCreateLocalMap
 {
     public string SaveFileName => $"RewardManagerSave";
@@ -50,6 +50,8 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
         OnGiveEquipmentReward = null;
         OnGiveTileReward = null;
     }
+    // Replace GiveRewards() in RewardManager with these two methods. The per-reward switch moves into
+    // GiveReward so level rewards and quest rewards share the exact same code path.
 
     public void GiveRewards()
     {
@@ -67,9 +69,6 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
         }
 
         UnityEngine.Random.InitState(mapGen.CurrentMapPoint.Seed);
-
-        var prizeEquipment = new List<List<EquipmentSO>>();
-        var prizeTiles = new List<TileAndUnit>();
 
         if (PathPicker.Instance == null)
         {
@@ -93,47 +92,51 @@ public class RewardManager : Singleton<RewardManager>, ISaveLoad, IOnSave, IOnLo
         }
 
         foreach (KeyValuePair<Reward, int> reward in rewardsForDirection)
+            GiveReward(reward.Key, reward.Value);
+    }
+
+    /// <summary>Grants an amount of one reward type. Used for level rewards and quest rewards.</summary>
+    public void GiveReward(Reward type, int amount)
+    {
+        switch (type)
         {
-            switch (reward.Key)
-            {
-                case Reward.Gold:
-                    ResourceManager.Instance?.ModifyGold(reward.Value);
-                    break;
-                case Reward.Tile:
-                    for (int i = 0; i < reward.Value; i++)
+            case Reward.Gold:
+                ResourceManager.Instance?.ModifyGold(amount);
+                break;
+            case Reward.Tile:
+                for (int i = 0; i < amount; i++)
+                {
+                    var tile = GameManager.Instance?.Tiles?.GetRandom();
+
+                    List<UnitSO> units = UnitManager.Instance.unlockedUnits.GetRandomAmount(2);
+
+                    OnGiveTileReward?.Invoke(tile, units);
+                }
+                break;
+            case Reward.Equipment:
+                for (int i = 0; i < amount; i++)
+                {
+                    List<EquipmentSO> availableEquipment = GameManager.Instance?.AvaliableEquipment;
+                    if (availableEquipment == null || availableEquipment.Count == 0)
+                        continue;
+
+                    var equipmentList = new List<EquipmentSO>();
+                    for (int j = 0; j < 3; j++)
                     {
-                        var tile = GameManager.Instance?.Tiles?.GetRandom();
-
-                        List<UnitSO> units = UnitManager.Instance.unlockedUnits.GetRandomAmount(2);
-
-                        OnGiveTileReward?.Invoke(tile, units);
-                    }
-                    break;
-                case Reward.Equipment:
-                    for (int i = 0; i < reward.Value; i++)
-                    {
-                        List<EquipmentSO> availableEquipment = GameManager.Instance?.AvaliableEquipment;
-                        if (availableEquipment == null || availableEquipment.Count == 0)
-                            continue;
-
-                        var equipmentList = new List<EquipmentSO>();
-                        for (int j = 0; j < 3; j++)
+                        int breaker = 10;
+                        EquipmentSO equip = availableEquipment.GetRandom();
+                        while (breaker > 0 && equipmentList.Contains(equip))
                         {
-                            int breaker = 10;
-                            EquipmentSO equip = availableEquipment.GetRandom();
-                            while (breaker > 0 && equipmentList.Contains(equip))
-                            {
-                                equip = availableEquipment.GetRandom();
-                                breaker--;
-                            }
-                            if (equip != null)
-                                equipmentList.Add(equip);
+                            equip = availableEquipment.GetRandom();
+                            breaker--;
                         }
-
-                        OnGiveEquipmentReward?.Invoke(equipmentList.Cast<IDescriptable>().ToList());
+                        if (equip != null)
+                            equipmentList.Add(equip);
                     }
-                    break;
-            }
+
+                    OnGiveEquipmentReward?.Invoke(equipmentList.Cast<IDescriptable>().ToList());
+                }
+                break;
         }
     }
 

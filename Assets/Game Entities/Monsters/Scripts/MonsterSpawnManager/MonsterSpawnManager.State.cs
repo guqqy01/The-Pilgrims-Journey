@@ -39,6 +39,10 @@ namespace Monsters
             hordeActive = false;
 
             currentBossSpawn = null;
+            StopAllCoroutines(); 
+
+            activeNormalSpawns.Clear(); 
+            spawnIntensity = 0f;
         }
     }
 

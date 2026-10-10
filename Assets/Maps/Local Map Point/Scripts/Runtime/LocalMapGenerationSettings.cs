@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Monsters;
+using Spawning;
 namespace LocalMap
 {
     [CreateAssetMenu()]
@@ -13,6 +14,8 @@ namespace LocalMap
         public List<MapObject> mapObjects;
 
         public List<DynamicMapObject> dynamicMapObjects;
+
+        public SpawnDirectorSettings SpawnDirectorSettings;
 
         public List<TerrainNoise> terrainNoiseLists;
 

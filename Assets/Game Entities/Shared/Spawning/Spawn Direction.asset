@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919f3c257f6698546b8df1c821a85d78, type: 3}
+  m_Name: Spawn Direction
+  m_EditorClassIdentifier: Gameplay::Spawning.SpawnDirectorSettings
+  levelDuration:
+    baseValue: 120
+    perDifficulty: 5
+    clamp: 1
+    min: 0
+    max: 300
+  pacing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.7
+      inSlope: 0
+      outSlope: 0.59999996
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1.3
+      inSlope: 0.59999996
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chaos: 0.8
+  unitPool:
+  - unit: {fileID: 11400000, guid: 11ce5637eefb61f4699fe79abcc3a775, type: 2}
+    weight: 1
+    minDifficulty: 1
+  - unit: {fileID: 11400000, guid: 99b9e74b1cdaa90489725fb81f226ea5, type: 2}
+    weight: 1
+    minDifficulty: 1
+  - unit: {fileID: 11400000, guid: 5462e31195e56de46a7a21e97f3a7dc2, type: 2}
+    weight: 1
+    minDifficulty: 1
+  totalUnits:
+    baseValue: 40
+    perDifficulty: 2
+    clamp: 0
+    min: 0
+    max: 0
+  requiredFraction:
+    baseValue: 0.15
+    perDifficulty: 0.01
+    clamp: 1
+    min: 0.2
+    max: 0.85
+  groupSizeMin:
+    baseValue: 2
+    perDifficulty: 0
+    clamp: 0
+    min: 0
+    max: 0
+  groupSizeMax:
+    baseValue: 10
+    perDifficulty: 0.25
+    clamp: 0
+    min: 0
+    max: 0
+  groupStagger: 0.4
+  unitSpawnWindow: 0.85
+  monsterDensity:
+    baseValue: 0.5
+    perDifficulty: 0.1
+    clamp: 0
+    min: 0
+    max: 0
+  maxMonstersAlive:
+    baseValue: 10
+    perDifficulty: 5
+    clamp: 0
+    min: 0
+    max: 0
+  activeNormalTypes:
+    baseValue: 0
+    perDifficulty: 0
+    clamp: 0
+    min: 0
+    max: 0
+  waveCount:
+    baseValue: 1
+    perDifficulty: 0.3
+    clamp: 0
+    min: 0
+    max: 0
+  waveWindow: {x: 0.2, y: 0.85}
+  waveSizeMultiplier:
+    baseValue: 1
+    perDifficulty: 0.15
+    clamp: 0
+    min: 0
+    max: 0
+  questSettings: {fileID: 11400000, guid: eb8a66ef188792d42b2ae6d731c0fee1, type: 2}

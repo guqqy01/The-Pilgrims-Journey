@@ -4,18 +4,17 @@ using Helper.Wait;
 using LocalMap;
 using System.Collections.Generic;
 using System.Linq;
-using Tiles;
 using UnityEngine;
 
 namespace Monsters
 {
     /// <summary>
     /// Handles all monster spawning logic inside a local level:
-    ///  • Normal spawns based on spawn definitions
-    ///  • Wave-triggered spawns
-    ///  • Boss spawn
-    ///  • Horde/exponential spawn modes
-    ///  • Occupied-grid tracking
+    ///  - Normal spawns (rate controlled by the SpawnDirector)
+    ///  - Waves (scheduled by the SpawnDirector, or requested by quests)
+    ///  - Boss spawn
+    ///  - Horde/exponential spawn modes
+    ///  - Occupied-grid tracking
     /// </summary>
     public partial class MonsterSpawnManager : Singleton<MonsterSpawnManager>,
         IOnPlayLocalLevel, IOnAfterCreateLocalMap, IOnClear, IOnCompleteLocalMapLevel
@@ -65,10 +64,10 @@ namespace Monsters
                 return;
             }
 
-            // Base biome — no direction constraint
+            // Base biome - no direction constraint
             _allActiveSpawnSettings.Add((monsterSpawnSettings, null));
 
-            // Blended biomes — each tied to their direction
+            // Blended biomes - each tied to their direction
             foreach (var (direction, blendSettings) in LocalMapGenerator.Instance.ActiveBlends)
             {
                 if (blendSettings?.MonsterSpawnSettings == null) continue;
@@ -99,55 +98,7 @@ namespace Monsters
             BeginSpawning(bossSpawn, DifficultyLevelManager.Instance.DifficultyLevel);
         }
 
-        protected override void Awake()
-        {
-            base.Awake();
-            TilePlayerManager.WhenReady(SubscribeToTilePlayerManager);
-        }
-
-        private void SubscribeToTilePlayerManager(TilePlayerManager tilePlayerManager)
-        {
-            tilePlayerManager.onPositionChangeCurrentMonsterTiles += SetupNewMonsterSpawnRates;
-        }
-        private void UnSubscribeToTilePlayerManager(TilePlayerManager tilePlayerManager)
-        {
-            tilePlayerManager.onPositionChangeCurrentMonsterTiles -= SetupNewMonsterSpawnRates;
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            TilePlayerManager.IfReady(UnSubscribeToTilePlayerManager);
-        }
-
-        private List<(NormalMonsterSpawn, int)> normalSpawns = new List<(NormalMonsterSpawn, int)>();
-        private List<(WaveMonsterSpawn, int)> waveSpawns = new List<(WaveMonsterSpawn, int)>();
-        private void SetupNewMonsterSpawnRates(Dictionary<MonsterTileBase, int> tileAndSize)
-        {
-            normalSpawns.Clear();
-            waveSpawns.Clear();
-
-            foreach (var kvp in tileAndSize)
-            {
-                MonsterTileBase monsterTile = kvp.Key;
-                int tileSize = kvp.Value;
-
-                if(monsterTile is NormalMonsterTile normalMonsterTile)
-                {
-                    normalSpawns.Add((normalMonsterTile.MonsterSpawn, tileSize));
-                }
-                else if (monsterTile is WaveMonsterTile waveMonsterTile)
-                {
-                    waveSpawns.Add((waveMonsterTile.MonsterSpawn, tileSize));
-                }
-                else
-                {
-                    Debug.LogWarning($"Monster tile of type: {monsterTile.GetType()}, is not an implemented type");
-                }
-            }
-
-            ProcessWaveTriggers(DifficultyLevelManager.Instance.DifficultyLevel);
-        }
+        // The tile subscriptions (Awake / OnDestroy / SetupNewMonsterSpawnRates) are gone.
 
         private void Update()
         {
@@ -157,12 +108,10 @@ namespace Monsters
             float now = Time.time;
 
             float difficulty = DifficultyLevelManager.Instance.DifficultyLevel;
-            
+
             ProcessHordeTimer(now, difficulty);
             ProcessNormalSpawns(now, difficulty);
             HandleSpawnBossMinions(now, difficulty);
         }
     }
-
-
 }

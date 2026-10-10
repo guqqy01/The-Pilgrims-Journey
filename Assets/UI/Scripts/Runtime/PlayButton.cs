@@ -1,6 +1,5 @@
 using GameManagerCalls;
-using GlobalMap;
-using Tiles;
+using LocalMap;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,12 +23,16 @@ public class PlayButton : MonoBehaviour, IOnCompletedLevel, IOnCreateLocalMap
 
     public void OnButtonClick()
     {
-        if (!completedLevel)
-        {
-            TilePlayerManager.Instance.Play();
-            button.interactable = false;
-            InterfaceCaller.CallInterfaces<IOnPlayLocalLevel>(x => x.OnPlayLocalLevel());
-            InterfaceCaller.CallInterfaces<IOnSave>(x => x.Save());
-        }
+        if (completedLevel)
+            return;
+
+        // The old TilePlayerManager.Play() bailed out here too, but the button was still disabled
+        // and the play interfaces were still called. Now nothing starts until a path is picked.
+        if (PathPicker.Instance == null || PathPicker.Instance.PickedDirection == null)
+            return;
+
+        button.interactable = false;
+        InterfaceCaller.CallInterfaces<IOnPlayLocalLevel>(x => x.OnPlayLocalLevel());
+        InterfaceCaller.CallInterfaces<IOnSave>(x => x.Save());
     }
 }

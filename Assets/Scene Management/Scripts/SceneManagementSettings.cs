@@ -27,9 +27,9 @@ public class SceneManagementSettings : ScriptableObject
         {
             case SceneLoad.InGame:
                 return InGameAsset;
-            case SceneLoad.PhaseOneLoad:
+            case SceneLoad.CardGame:
                 return PhaseOneLoad;
-            case SceneLoad.PhaseTwoLoad:
+            case SceneLoad.LocalMap:
                 return PhaseTwoLoad;
             case SceneLoad.Shop:
                 return ShopSceneLoad;

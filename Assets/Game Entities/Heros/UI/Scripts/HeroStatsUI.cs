@@ -24,25 +24,22 @@ public class HeroStatsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CriticalDamageText;
     [SerializeField] private TextMeshProUGUI SizeText;
 
-
     private StatContainer heroStats;
-    private HeroManager HeroManager => HeroManager.Instance;
 
     private void Awake()
     {
-        WaitForHelper.WaitForObjectThenPerformAction(() => HeroManager.Instance, SubscribeToHeroStatsSetup);
+        HeroManager.WhenReady(SubscribeToHeroStatsSetup);
         WaitForHelper.WaitForConditionThenPerformAction(() => heroStats != null, SubscribeToStatChange);
     }
 
-    private void SubscribeToHeroStatsSetup()
+    private void SubscribeToHeroStatsSetup(HeroManager manager)
     {
         if (heroStats != null)
             heroStats.OnStatChanged -= UpdateHeroStatsUI;
 
-        HeroManager.onStatsSetup -= HeroStatsSetup;
-        HeroManager.onStatsSetup += HeroStatsSetup;
-        HeroStatsSetup(HeroManager.Stats);
-
+        manager.onStatsSetup -= HeroStatsSetup;
+        manager.onStatsSetup += HeroStatsSetup;
+        HeroStatsSetup(manager.Stats);
     }
 
     private void HeroStatsSetup(StatContainer heroStatContainer)
@@ -85,9 +82,6 @@ public class HeroStatsUI : MonoBehaviour
             heroStats.OnStatChanged -= UpdateHeroStatsUI;
         }
 
-        if(HeroManager != null)
-        {
-            HeroManager.onStatsSetup -= HeroStatsSetup;
-        }
+        HeroManager.IfReady(manager => manager.onStatsSetup -= HeroStatsSetup);
     }
 }

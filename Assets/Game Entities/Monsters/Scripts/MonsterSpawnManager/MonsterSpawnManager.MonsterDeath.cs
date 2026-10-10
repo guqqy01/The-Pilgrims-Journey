@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Monsters
@@ -7,6 +8,14 @@ namespace Monsters
     /// </summary>
     public partial class MonsterSpawnManager
     {
+        public event Action<Monster> OnMonsterKilled;
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            OnMonsterKilled = null;
+        }
+
         private void OnMonsterDie(Health health)
         {
             if (!health.TryGetComponent(out Monster monster))
@@ -26,6 +35,7 @@ namespace Monsters
             Monsters.Remove(monster);
 
             health.onDie -= OnMonsterDie;
+            OnMonsterKilled?.Invoke(monster);
             HandleRespawnDelay(monster.MonsterSO);
         }
 

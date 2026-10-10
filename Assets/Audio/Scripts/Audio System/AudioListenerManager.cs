@@ -1,18 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioListenerManager : MonoBehaviour
+public class AudioListenerManager : Singleton<AudioListenerManager>
 {
     private readonly List<ManagedAudioListener> listeners = new List<ManagedAudioListener>();
 
     public ManagedAudioListener ActiveListenerController { get; private set; }
-
-    public static AudioListenerManager Instance { get; private set; }
-    public static bool HasInstance { get { return Instance != null; } }
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     public void RegisterListener(ManagedAudioListener controller)
     {

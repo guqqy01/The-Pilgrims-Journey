@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e69d349778a5b54aa5e9b889e7fc8f0, type: 3}
+  m_Name: Quest Settings
+  m_EditorClassIdentifier: Gameplay::Quests.QuestSettings
+  questCount:
+    baseValue: 2
+    perDifficulty: 0.1
+    clamp: 0
+    min: 0
+    max: 0
+  templates:
+  - rid: 5422655214215233639
+  - rid: 5422655214215233640
+  - rid: 5422655214215233641
+  - rid: 5422655214215233642
+  references:
+    version: 2
+    RefIds:
+    - rid: 5422655214215233639
+      type: {class: CasualtyLimitTemplate, ns: Quests, asm: Gameplay}
+      data:
+        weight: 1
+        minDifficulty: 1
+        reward:
+          type: 0
+          amount:
+            baseValue: 0
+            perDifficulty: 0
+            clamp: 0
+            min: 0
+            max: 0
+        allowedFraction:
+          baseValue: 0.3
+          perDifficulty: -0.01
+          clamp: 1
+          min: 0.05
+          max: 0.6
+    - rid: 5422655214215233640
+      type: {class: KillEnemiesTemplate, ns: Quests, asm: Gameplay}
+      data:
+        weight: 1
+        minDifficulty: 1
+        reward:
+          type: 0
+          amount:
+            baseValue: 0
+            perDifficulty: 0
+            clamp: 0
+            min: 0
+            max: 0
+        killCount:
+          baseValue: 25
+          perDifficulty: 3
+          clamp: 0
+          min: 0
+          max: 0
+        specificMonster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+    - rid: 5422655214215233641
+      type: {class: ProtectChampionTemplate, ns: Quests, asm: Gameplay}
+      data:
+        weight: 1
+        minDifficulty: 1
+        reward:
+          type: 0
+          amount:
+            baseValue: 0
+            perDifficulty: 0
+            clamp: 0
+            min: 0
+            max: 0
+        unitOverride: {fileID: 0}
+        buffPercent:
+          baseValue: 150
+          perDifficulty: 25
+          clamp: 0
+          min: 0
+          max: 0
+        scale: 1.5
+        arrivalWindow: {x: 0.1, y: 0.5}
+    - rid: 5422655214215233642
+      type: {class: SurviveWaveTemplate, ns: Quests, asm: Gameplay}
+      data:
+        weight: 1
+        minDifficulty: 1
+        reward:
+          type: 0
+          amount:
+            baseValue: 0
+            perDifficulty: 0
+            clamp: 0
+            min: 0
+            max: 0
+        monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+        monsterCount:
+          baseValue: 40
+          perDifficulty: 8
+          clamp: 0
+          min: 0
+          max: 0
+        windowSeconds:
+          baseValue: 30
+          perDifficulty: 1
+          clamp: 0
+          min: 0
+          max: 0
+        minHeroHealthFraction: 0.35
+        spawnDistance: {x: 6, y: 16}
+        startWindow: {x: 0.2, y: 0.7}
