@@ -15,13 +15,15 @@ MonoBehaviour:
   icon: {fileID: 9064289929049976407, guid: 32834b51f84e10c4b9dfc6b0dd5a5050, type: 3}
   description: A bolt of magic that targets the closest enemy.
   findTargetDistance: 10
+  actionPointCost: 0
+  tileCardType: 0
   WeaponStatsAtLevel:
   - damage:
       buffFlags: 2
       initialized: 1
       percentageMultiplier: 0
       baseBuff:
-        intValue: 2
+        intValue: 3
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -141,7 +143,7 @@ MonoBehaviour:
       initialized: 1
       percentageMultiplier: 0
       baseBuff:
-        intValue: 3
+        intValue: 4
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -261,7 +263,7 @@ MonoBehaviour:
       initialized: 1
       percentageMultiplier: 0
       baseBuff:
-        intValue: 4
+        intValue: 5
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -381,7 +383,7 @@ MonoBehaviour:
       initialized: 1
       percentageMultiplier: 0
       baseBuff:
-        intValue: 5
+        intValue: 6
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -501,7 +503,7 @@ MonoBehaviour:
       initialized: 1
       percentageMultiplier: 0
       baseBuff:
-        intValue: 6
+        intValue: 7
         floatValue: 0
         isInt: 1
       additionalBuff:

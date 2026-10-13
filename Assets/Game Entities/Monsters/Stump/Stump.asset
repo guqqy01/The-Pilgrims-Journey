@@ -17,7 +17,7 @@ MonoBehaviour:
     initialized: 1
     percentageMultiplier: 0
     baseBuff:
-      intValue: 5
+      intValue: 7
       floatValue: 0
       isInt: 1
     additionalBuff:
@@ -29,7 +29,7 @@ MonoBehaviour:
     initialized: 1
     percentageMultiplier: 0
     baseBuff:
-      intValue: 5
+      intValue: 0
       floatValue: 0
       isInt: 1
     additionalBuff:
@@ -193,3 +193,4 @@ MonoBehaviour:
   shieldDifficultyScaling: 5
   shieldCooldownDifficultyScaling: 0
   shieldRegenerationDifficultyScaling: 0
+  maxEquipmentCapacity: 1

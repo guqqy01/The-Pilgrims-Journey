@@ -32,7 +32,7 @@ public class PlayButton : MonoBehaviour, IOnCompletedLevel, IOnCreateLocalMap
             return;
 
         button.interactable = false;
-        InterfaceCaller.CallInterfaces<IOnPlayLocalLevel>(x => x.OnPlayLocalLevel());
-        InterfaceCaller.CallInterfaces<IOnSave>(x => x.Save());
+        GameCalls.PlayLocalLevel();
+        GameCalls.Save();
     }
 }

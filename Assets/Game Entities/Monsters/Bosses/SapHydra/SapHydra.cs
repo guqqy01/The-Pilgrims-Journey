@@ -85,8 +85,8 @@ namespace Monsters
             attackManager.AddAttack(burstAttackSO);
 
             attackManager.AttackTriggeredExternally(rapidAttackSO, true);
-            attackManager.AttackTriggeredExternally(rapidAttackSO, true);
-            attackManager.AttackTriggeredExternally(rapidAttackSO, true);
+            attackManager.AttackTriggeredExternally(multishotAttackSO, true);
+            attackManager.AttackTriggeredExternally(burstAttackSO, true);
         }
 
         private Buff GetBuff(StatTypes statType)

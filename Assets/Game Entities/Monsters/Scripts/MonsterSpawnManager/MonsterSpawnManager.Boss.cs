@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -11,6 +12,8 @@ namespace Monsters
         public Monster BossMonster { get; private set; }
 
         public bool? HasBossMonsterBeenKilled {  get; private set; }
+
+        public event Action<Monster> OnBossKilled;
 
         private void SpawnBoss(BossMonsterSpawn bossSpawn, float difficulty)
         {
@@ -49,6 +52,8 @@ namespace Monsters
 
             foreach (var spawn in minionSpawns)
             {
+                if (spawn == null)
+                    continue;
                 // safety: skip invalid entries
                 if (spawn.monster == null)
                     continue;
@@ -71,6 +76,7 @@ namespace Monsters
         {
             BossMonster.HealthAndShieldManager.Health.onDie -= OnBossDie;
             HasBossMonsterBeenKilled = true;
+            OnBossKilled?.Invoke(BossMonster);
             BossMonster = null;
         }
     }

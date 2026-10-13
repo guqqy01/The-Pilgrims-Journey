@@ -15,9 +15,13 @@ MonoBehaviour:
   icon: {fileID: 0}
   description: Sap Hydra Burst Attack
   findTargetDistance: 15
+  actionPointCost: 0
+  tileCardType: 0
   WeaponStatsAtLevel:
   - damage:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -27,7 +31,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     attackSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -37,7 +43,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalChance:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -47,7 +55,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     criticalDamageMultiplier:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0
@@ -57,7 +67,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     knockback:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0.5
@@ -67,7 +79,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     size:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 0.5
@@ -77,9 +91,11 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     numberOfProjectiles:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
-        intValue: 7
+        intValue: 1
         floatValue: 0
         isInt: 1
       additionalBuff:
@@ -87,7 +103,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     projectileSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 5
@@ -97,7 +115,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 0
     amountOfHits:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 1
         floatValue: 0
@@ -107,7 +127,9 @@ MonoBehaviour:
         floatValue: 0
         isInt: 1
     projectileTurnSpeed:
-      Multiplier: 0
+      buffFlags: 2
+      initialized: 1
+      percentageMultiplier: 0
       baseBuff:
         intValue: 0
         floatValue: 10

@@ -7,7 +7,7 @@ namespace Relics
     public class IncreaseExperienceRelicEffect : StatIncreaseRelicEffect
     {
         public override string StatString => "Experience Gain";
-
+        protected override bool BuffIsInt => true;
         public override string Description(Relic r)
         {
             return $"{StatString}: {(buffIncreasePerLevel * r.Level).GetSignedSimpleDescription()}";

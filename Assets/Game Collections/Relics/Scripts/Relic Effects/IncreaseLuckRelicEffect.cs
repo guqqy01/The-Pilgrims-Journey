@@ -10,7 +10,7 @@ namespace Relics
     public class IncreaseLuckRelicEffect : StatIncreaseRelicEffect
     {
         public override string StatString => "Luck";
-
+        protected override bool BuffIsInt => false;
         public override string Description(Relic relic)
         {
             return $"{StatString}: {(buffIncreasePerLevel * relic.Level).GetSignedSimpleDescription()}";

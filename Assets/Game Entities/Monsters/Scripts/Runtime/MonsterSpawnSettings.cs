@@ -5,6 +5,7 @@ using Tiles;
 using TPJ.Gameplay;
 using Equipment;
 using Attacks;
+using Spawning;
 namespace Monsters
 {
     [CreateAssetMenu()]
@@ -118,6 +119,8 @@ namespace Monsters
         public Sprite Sprite => monster.sprite;
 
         public MonsterSO MonsterSO => monster;
+
+        public ScalingValue maxAmountOfMonster;
 
         public string Title => monster.name;
 

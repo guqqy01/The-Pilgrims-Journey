@@ -5,13 +5,15 @@ using System;
 
 namespace Relics
 {
-    [AbstractTitle("Stat Increase/Normal")]
+    [AbstractTitle("Stat Increase/Units")]
     [Serializable]
     public class UnitStatIncreaseRelicEffect : StatIncreaseRelicEffect
     {
         [SerializeField]
         private UnitStatsEnum stat;
         public UnitStatsEnum Stat => stat;
+
+        protected override bool BuffIsInt => stat.IsIntStat();
 
         public override RelicEffect CreateInstance(Relic relic)
         {
@@ -58,7 +60,5 @@ namespace Relics
         {
             UnitBuffManager.Instance.RemoveStatBuff(relic.relicSO.name, stat);
         }
-
-        
     }
 }

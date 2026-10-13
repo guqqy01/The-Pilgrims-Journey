@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using UnityEngine.UIElements;
-using System.Reflection;
+using GameManagerCalls;
 
-
+[RequireComponent(typeof(SceneGameCallRegistrar))]
 public class SceneRoot : MonoBehaviour
 {
     private SceneLoader loader;

@@ -2,7 +2,6 @@ using GameManagerCalls;
 using Heros;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 namespace UI
 {

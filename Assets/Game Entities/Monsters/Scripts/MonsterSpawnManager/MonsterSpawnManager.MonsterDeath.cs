@@ -10,10 +10,12 @@ namespace Monsters
     {
         public event Action<Monster> OnMonsterKilled;
 
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
             OnMonsterKilled = null;
+            OnBossKilled = null;
         }
 
         private void OnMonsterDie(Health health)

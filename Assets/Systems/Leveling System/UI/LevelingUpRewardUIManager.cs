@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UI.CardCarousel;
 
 namespace LevelingSystem.UI
 {
-    public class LevelingUpRewardUIManager : MonoBehaviour
+    public class LevelingUpRewardUIManager : Singleton<LevelingUpRewardUIManager>
     {
         [SerializeField]
         private LevelingUpRewardUIItem levelingUpRelicUIItemPrefab;
-
-        [SerializeField]
-        private Carousel carousel;
 
         private readonly List<LevelingUpRewardUIItem> uiItems = new();
 
@@ -22,56 +18,36 @@ namespace LevelingSystem.UI
 
         private const string blurRequestReference = "Leveling Up Reward UI manager";
 
-        private void Awake()
+        protected override void Awake()
         {
-            LevelingUpRewardManager.Instance.onShowUI += ShowUI;
+            base.Awake();
+            LevelingUpRewardManager.WhenReady(m => m.onShowUI += ShowUI);
         }
 
-        private void OnDestroy()
+        protected override void CleanUp()
         {
-            if (LevelingUpRewardManager.Instance != null)
-                LevelingUpRewardManager.Instance.onShowUI -= ShowUI;
+            LevelingUpRewardManager.IfReady(m => m.onShowUI -= ShowUI);
         }
 
         public void ShowUI(Dictionary<ILevelingUpReward, int> rewards)
         {
             uiItems.DestroyAndClearList();
 
-            List<CarouselCard> cards = new List<CarouselCard>();
-
             foreach (var rewardPair in rewards)
             {
                 LevelingUpRewardUIItem uiItem =
                     Instantiate(levelingUpRelicUIItemPrefab, uiItemsHolder);
-
-                if(uiItem.TryGetComponent(out CarouselCard card))
-                {
-                    cards.Add(card);
-                }
 
                 uiItem.Setup(rewardPair.Key, rewardPair.Value);
 
                 uiItems.Add(uiItem);
             }
 
-            carousel.AddCards(cards);
-
             BlurBackgroundController.Instance.EnableBlur(blurRequestReference);
             window.SetActive(true);
         }
 
-        public void Select()
-        {
-            if (carousel.CurrentSelectedCard == null)
-                return;
-
-            if(!carousel.CurrentSelectedCard.TryGetComponent(out LevelingUpRewardUIItem item))
-                return;
-
-            OnSelectReward(item.Reward);
-        }
-
-        private void OnSelectReward(ILevelingUpReward reward)
+        public void SelectReward(ILevelingUpReward reward)
         {
             LevelingUpRewardManager.Instance.SelectReward(reward);
 

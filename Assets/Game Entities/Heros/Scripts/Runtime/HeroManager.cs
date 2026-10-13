@@ -51,21 +51,6 @@ namespace Heros
         private bool statsBound;
         private bool equipmentApplied;
 
-        private void SubscribeToHeroEquipmentManager(HeroEquipmentManager equipmentManager)
-        {
-            equipmentManager.SetupBeginningEquipment(HeroSO.startingEquipment);
-            equipmentManager.ApplyAllEquipmentBuffs();
-            equipmentApplied = true;
-            TryAdvance();
-        }
-
-        private void SubscribeToHeroStatsManager(HeroStatBuffsManager heroStatBuffsManager)
-        {
-            heroStatBuffsManager.Bind(Stats);
-            statsBound = true;
-            TryAdvance();
-        }
-
         public void SelectHero(HeroSO heroSO)
         {
             HeroSO = heroSO;
@@ -74,9 +59,21 @@ namespace Heros
             equipmentApplied = false;
 
             SetupStats();
-            
-            HeroStatBuffsManager.WhenReady(SubscribeToHeroStatsManager);
-            HeroEquipmentManager.WhenReady(SubscribeToHeroEquipmentManager);
+
+            HeroStatBuffsManager.WhenReady(statsManager =>
+            {
+                statsManager.Bind(Stats);
+                statsBound = true;
+
+                // Equipment is applied only after the stat container is bound
+                HeroEquipmentManager.WhenReady(equipmentManager =>
+                {
+                    equipmentManager.SetupBeginningEquipment(HeroSO.startingEquipment);
+                    equipmentManager.ApplyAllEquipmentBuffs();
+                    equipmentApplied = true;
+                    TryAdvance();
+                });
+            });
         }
 
         private void TryAdvance()

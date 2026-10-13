@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using LocalMap;
 
 namespace GlobalMap

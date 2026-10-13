@@ -36,6 +36,12 @@ namespace Monsters
 
                 EnsureMonsterTrackingExists(spawn.monster);
 
+                if (aliveCountByMonster.ContainsKey(spawn.MonsterSO))
+                {
+                    if (aliveCountByMonster[spawn.MonsterSO] >= spawn.maxAmountOfMonster.Evaluate(DifficultyLevelManager.Instance.DifficultyLevel))
+                        continue;
+                }
+
                 if (!nextSpawnTimeByMonster.TryGetValue(spawn.monster, out float next) || now < next)
                     continue;
 

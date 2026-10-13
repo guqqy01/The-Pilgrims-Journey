@@ -8,7 +8,7 @@ namespace LevelingSystem
     {
         public int Level { private set; get; } = 1;
         public float CurrentExperience { private set; get; }
-        public float ExperienceNeededToLevel => Mathf.Pow(Level, 1.5f) * 10f + 10f;
+        public float ExperienceNeededToLevel => Mathf.Pow(Level, 1.25f) * 8f + 12f;
 
         public string SaveFileName => "ExperienceAndLevelManager";
 

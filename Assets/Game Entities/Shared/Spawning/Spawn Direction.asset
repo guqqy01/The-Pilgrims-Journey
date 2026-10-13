@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Spawn Direction
   m_EditorClassIdentifier: Gameplay::Spawning.SpawnDirectorSettings
   levelDuration:
-    baseValue: 120
-    perDifficulty: 5
+    baseValue: 60
+    perDifficulty: 7
     clamp: 1
     min: 0
     max: 300
@@ -54,25 +54,25 @@ MonoBehaviour:
     weight: 1
     minDifficulty: 1
   totalUnits:
-    baseValue: 40
-    perDifficulty: 2
+    baseValue: 15
+    perDifficulty: 5
     clamp: 0
     min: 0
     max: 0
   requiredFraction:
-    baseValue: 0.15
+    baseValue: 0.1
     perDifficulty: 0.01
     clamp: 1
-    min: 0.2
+    min: 0.1
     max: 0.85
   groupSizeMin:
-    baseValue: 2
-    perDifficulty: 0
+    baseValue: 1
+    perDifficulty: 0.25
     clamp: 0
     min: 0
     max: 0
   groupSizeMax:
-    baseValue: 10
+    baseValue: 2
     perDifficulty: 0.25
     clamp: 0
     min: 0
@@ -86,8 +86,8 @@ MonoBehaviour:
     min: 0
     max: 0
   maxMonstersAlive:
-    baseValue: 10
-    perDifficulty: 5
+    baseValue: 5
+    perDifficulty: 3
     clamp: 0
     min: 0
     max: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
     max: 0
   waveWindow: {x: 0.2, y: 0.85}
   waveSizeMultiplier:
-    baseValue: 1
+    baseValue: 0.2
     perDifficulty: 0.15
     clamp: 0
     min: 0

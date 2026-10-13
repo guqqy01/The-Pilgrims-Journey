@@ -37,9 +37,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -374,7 +374,7 @@ TextureImporter:
         height: 4
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 3, y: 0, z: 3, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -563,16 +563,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _bar_sheet_21
+      name: Big_Angle_Health_Bar_Inner
       rect:
         serializedVersion: 2
-        x: 74
+        x: 122
         y: 410
-        width: 68
+        width: 20
         height: 4
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 0, z: 3, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -607,7 +607,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _bar_sheet_23
+      name: _1_H_O_1
       rect:
         serializedVersion: 2
         x: 169
@@ -616,7 +616,7 @@ TextureImporter:
         height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 1, z: 1, w: 1}
       customData: 
       outline: []
       physicsShape: []
@@ -1267,7 +1267,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _bar_sheet_53
+      name: _1_H_O_2
       rect:
         serializedVersion: 2
         x: 25
@@ -1276,7 +1276,7 @@ TextureImporter:
         height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 1, z: 1, w: 1}
       customData: 
       outline: []
       physicsShape: []
@@ -1443,7 +1443,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _bar_sheet_61
+      name: Big_Angle_Health_Bar
       rect:
         serializedVersion: 2
         x: 49
@@ -1452,7 +1452,7 @@ TextureImporter:
         height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 4, y: 2, z: 4, w: 1}
       customData: 
       outline: []
       physicsShape: []
@@ -4061,7 +4061,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _bar_sheet_180
+      name: _1_S_I_1
       rect:
         serializedVersion: 2
         x: 242
@@ -4193,7 +4193,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _bar_sheet_186
+      name: _1_S_O_1
       rect:
         serializedVersion: 2
         x: 169
@@ -4202,7 +4202,7 @@ TextureImporter:
         height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 2, z: 1, w: 1}
       customData: 
       outline: []
       physicsShape: []
@@ -10234,11 +10234,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Big_Angle_Health_Bar: -870293877
+      Big_Angle_Health_Bar_Inner: -158676222
       Health And Shield Outer: 2125174595
       HealthBarInner: 1788269278
       HealthBarOuter: -1673929383
       ShieldInner: 564668571
       ShieldOuter: -1261566164
+      _1_H_O_1: -2081079613
+      _1_H_O_2: -610030954
+      _1_S_I_1: 1897254838
+      _1_S_O_1: -1724069931
       _bar_sheet_1: 1704632570
       _bar_sheet_10: 1551968190
       _bar_sheet_100: 1835806665
@@ -10327,13 +10333,11 @@ TextureImporter:
       _bar_sheet_178: -548770250
       _bar_sheet_179: -2138600876
       _bar_sheet_18: 788038634
-      _bar_sheet_180: 1897254838
       _bar_sheet_181: 1658466548
       _bar_sheet_182: -1702123962
       _bar_sheet_183: 1079080251
       _bar_sheet_184: -1598818687
       _bar_sheet_185: 2009796191
-      _bar_sheet_186: -1724069931
       _bar_sheet_187: 1754986795
       _bar_sheet_188: -1814360097
       _bar_sheet_189: -933192256
@@ -10359,7 +10363,6 @@ TextureImporter:
       _bar_sheet_207: -1437449598
       _bar_sheet_208: 986132450
       _bar_sheet_209: 1683235828
-      _bar_sheet_21: -158676222
       _bar_sheet_210: 1692020263
       _bar_sheet_211: 1310742981
       _bar_sheet_212: -135448613
@@ -10381,7 +10384,6 @@ TextureImporter:
       _bar_sheet_227: -1123456665
       _bar_sheet_228: -1745831445
       _bar_sheet_229: -1010030169
-      _bar_sheet_23: -2081079613
       _bar_sheet_230: -974746283
       _bar_sheet_231: 1270788006
       _bar_sheet_232: 949863724
@@ -10643,7 +10645,6 @@ TextureImporter:
       _bar_sheet_50: -845985450
       _bar_sheet_51: 1569374816
       _bar_sheet_52: -947357581
-      _bar_sheet_53: -610030954
       _bar_sheet_54: 1092491661
       _bar_sheet_55: 823345668
       _bar_sheet_56: -447855759
@@ -10652,7 +10653,6 @@ TextureImporter:
       _bar_sheet_59: 2094537501
       _bar_sheet_6: 652204920
       _bar_sheet_60: -736195535
-      _bar_sheet_61: -870293877
       _bar_sheet_62: 265766167
       _bar_sheet_63: -1783573186
       _bar_sheet_64: 1304742907

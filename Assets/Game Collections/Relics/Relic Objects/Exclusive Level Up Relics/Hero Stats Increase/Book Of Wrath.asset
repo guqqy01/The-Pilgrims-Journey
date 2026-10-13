@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10fef4fd75ff20a4cad66e582ad9d11e, type: 3}
+  m_Name: Book Of Wrath
+  m_EditorClassIdentifier: Assembly-CSharp::Relics.RelicSO
+  description: Increases the the hero's damage.
+  sprite: {fileID: -2380648252260410793, guid: 0e9b0dba6a767094f980041fb155a461, type: 3}
+  baseValue: 0
+  spells: []
+  relicEffects:
+  - rid: 5422655309717700702
+  references:
+    version: 2
+    RefIds:
+    - rid: 5422655309717700702
+      type: {class: HeroStatIncreaseRelicEffect, ns: Relics, asm: Gameplay}
+      data:
+        buffIncreasePerLevel:
+          buffFlags: 1
+          initialized: 1
+          percentageMultiplier: 5
+          baseBuff:
+            intValue: 1
+            floatValue: 1
+            isInt: 1
+          additionalBuff:
+            intValue: 0
+            floatValue: 0
+            isInt: 1
+        stat: 9

@@ -103,6 +103,7 @@ namespace UI.Minimap
 
             for (int i = 0; i < entities.Count; i++)
             {
+                if (entities[i] == null) continue;
                 Transform t = entities[i].transform;
 
                 if (!entityMap.TryGetValue(t, out var entity))

@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: _checkmark_sheet_0
+      name: Quest InProgress
       rect:
         serializedVersion: 2
         x: 0
@@ -387,7 +387,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _checkmark_sheet_12
+      name: Quest Success
       rect:
         serializedVersion: 2
         x: 0
@@ -651,7 +651,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _checkmark_sheet_24
+      name: Quest Failure
       rect:
         serializedVersion: 2
         x: 0
@@ -2776,7 +2776,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      _checkmark_sheet_0: 210003508
+      Quest Failure: 1229545304
+      Quest InProgress: 210003508
+      Quest Success: 901728637
       _checkmark_sheet_1: 1178912123
       _checkmark_sheet_10: 993837288
       _checkmark_sheet_100: 1114354710
@@ -2800,7 +2802,6 @@ TextureImporter:
       _checkmark_sheet_117: 1784272800
       _checkmark_sheet_118: -955812077
       _checkmark_sheet_119: 1810415247
-      _checkmark_sheet_12: 901728637
       _checkmark_sheet_13: 1052655294
       _checkmark_sheet_14: 1599780656
       _checkmark_sheet_15: -387055741
@@ -2813,7 +2814,6 @@ TextureImporter:
       _checkmark_sheet_21: 1797654128
       _checkmark_sheet_22: 1031369973
       _checkmark_sheet_23: -64611517
-      _checkmark_sheet_24: 1229545304
       _checkmark_sheet_25: 1768573938
       _checkmark_sheet_26: 274015007
       _checkmark_sheet_27: -661008500

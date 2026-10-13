@@ -16,7 +16,7 @@ namespace LevelingSystem
         [SerializeField] private WeightedChanceList<BaseAttackSO> heroWeaponRelicsTest;
 
         private int unitWeight = 1;
-        private int heroWeight = 0;
+        private int heroWeight = 1;
         private int weaponWeight = 1;
 
         public Dictionary<ILevelingUpReward, int> Rewards { get; private set; } = new();
@@ -49,7 +49,7 @@ namespace LevelingSystem
             if (selected == RewardPool.Weapon) weaponWeight = 0;
 
             unitWeight++;
-            //heroWeight++;
+            heroWeight++;
             weaponWeight++;
 
             return selected;

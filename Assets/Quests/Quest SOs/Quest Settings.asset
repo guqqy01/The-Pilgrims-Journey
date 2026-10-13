@@ -59,12 +59,12 @@ MonoBehaviour:
             min: 0
             max: 0
         killCount:
-          baseValue: 25
+          baseValue: 5
           perDifficulty: 3
           clamp: 0
           min: 0
           max: 0
-        specificMonster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+        specificMonster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
     - rid: 5422655214215233641
       type: {class: ProtectChampionTemplate, ns: Quests, asm: Gameplay}
       data:
@@ -78,7 +78,7 @@ MonoBehaviour:
             clamp: 0
             min: 0
             max: 0
-        unitOverride: {fileID: 0}
+        unitOverride: {fileID: 11400000, guid: 7e97bebaa1f208d4e83fb0611a3c2151, type: 2}
         buffPercent:
           baseValue: 150
           perDifficulty: 25
@@ -86,7 +86,7 @@ MonoBehaviour:
           min: 0
           max: 0
         scale: 1.5
-        arrivalWindow: {x: 0.1, y: 0.5}
+        arrivalWindow: {x: 0.2, y: 0.5}
     - rid: 5422655214215233642
       type: {class: SurviveWaveTemplate, ns: Quests, asm: Gameplay}
       data:
@@ -102,8 +102,8 @@ MonoBehaviour:
             max: 0
         monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
         monsterCount:
-          baseValue: 40
-          perDifficulty: 8
+          baseValue: 16
+          perDifficulty: 4
           clamp: 0
           min: 0
           max: 0
@@ -114,5 +114,5 @@ MonoBehaviour:
           min: 0
           max: 0
         minHeroHealthFraction: 0.35
-        spawnDistance: {x: 6, y: 16}
+        spawnDistance: {x: 10, y: 25}
         startWindow: {x: 0.2, y: 0.7}

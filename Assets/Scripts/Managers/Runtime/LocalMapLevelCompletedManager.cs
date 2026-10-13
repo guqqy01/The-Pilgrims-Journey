@@ -1,10 +1,11 @@
 using GameManagerCalls;
 using GlobalMap;
-using UnityEngine;
 using Helper.Wait;
 using Monsters;
 using Quests;
 using Spawning;
+using System.Linq;
+using UnityEngine;
 
 public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedManager>, IOnBeforeCreateLocalMap, IOnPlayLocalLevel
 {
@@ -12,13 +13,15 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
 
     public bool CurrentlyPlayingLocalLevel { private set; get; } = false;
 
-    /// <summary>Now decided by the level plan (SpawnDirector) instead of an AnimationCurve.</summary>
     public int RequiredNumberOfUnitsToPass =>
         SpawnDirector.Instance != null && SpawnDirector.Instance.Plan != null
             ? SpawnDirector.Instance.Plan.RequiredUnits
             : 0;
 
     private bool spawnPhaseFinished;
+    private bool requiredQuestsCompleted;
+    private bool levelFailed;
+    private bool hoardStarted;
 
     public delegate void OnUnitPassed(int totalPassed, int requiredToPass);
     public static OnUnitPassed onUnitPassed;
@@ -26,55 +29,51 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
     public delegate void RequiredUnitsPassed();
     public RequiredUnitsPassed onRequiredUnitsPassed;
 
-    private bool hoardStarted;
-
     private void Start()
     {
-        SpawnDirector.WhenReady(Subscribe);
+        SpawnDirector.WhenReady(d => d.onSpawnPhaseFinished += OnSpawnPhaseFinished);
+        QuestManager.WhenReady(q =>
+        {
+            q.OnMainQuestFailed += HandleMainQuestFailed;
+            q.OnAllMainQuestsCompleted += HandleAllMainQuestsCompleted;
+        });
     }
 
     protected override void CleanUp()
     {
-        SpawnDirector.IfReady(Unsubscribe);
+        SpawnDirector.IfReady(d => d.onSpawnPhaseFinished -= OnSpawnPhaseFinished);
+        QuestManager.IfReady(q =>
+        {
+            q.OnMainQuestFailed -= HandleMainQuestFailed;
+            q.OnAllMainQuestsCompleted -= HandleAllMainQuestsCompleted;
+        });
     }
 
-    private void Subscribe(SpawnDirector director) => director.onSpawnPhaseFinished += OnSpawnPhaseFinished;
-    private void Unsubscribe(SpawnDirector director) => director.onSpawnPhaseFinished -= OnSpawnPhaseFinished;
+    public void OnPlayLocalLevel() => CurrentlyPlayingLocalLevel = true;
 
-    public void OnPlayLocalLevel()
+    private void OnSpawnPhaseFinished() => spawnPhaseFinished = true;
+
+    private void HandleMainQuestFailed(Quest quest)
     {
-        CurrentlyPlayingLocalLevel = true;
+        if (!CurrentlyPlayingLocalLevel || levelFailed)
+            return;
+
+        levelFailed = true;
+        GameManager.Instance.EndGame(quest.FailureReason);
     }
 
-    private void OnSpawnPhaseFinished()
-    {
-        spawnPhaseFinished = true;
-    }
+    private void HandleAllMainQuestsCompleted() => requiredQuestsCompleted = true;
 
     private void Update()
     {
-        if (!spawnPhaseFinished)
+        if (levelFailed || hoardStarted)
             return;
 
-        if (hoardStarted)
+        // The horde only starts once the spawn phase is over AND every required quest is done.
+        if (!spawnPhaseFinished || !requiredQuestsCompleted)
             return;
 
-        int UnitsOnMap = UnitSpawningManager.Instance.SpawnedUnits.NotNullCount();
-        // Keep waiting while enough units are still walking to possibly reach the requirement.
-        if (UnitsOnMap != 0 && UnitsOnMap >= Mathf.Max(RequiredNumberOfUnitsToPass - unitsPassed, 0))
-        {
-            return;
-        }
-
-        if (unitsPassed < RequiredNumberOfUnitsToPass)
-        {
-            GameManager.Instance.EndGame("Enough of your pilgrims did not survive the journey");
-            return;
-        }
-
-        bool? hasBossMonsterBeenKilled = MonsterSpawnManager.Instance.HasBossMonsterBeenKilled;
-
-        if (hasBossMonsterBeenKilled.HasValue && !hasBossMonsterBeenKilled.Value)
+        if (UnitSpawningManager.Instance.SpawnedUnits.NotNullCount() != 0)
             return;
 
         MonsterSpawnManager.Instance.StartHorde();
@@ -86,10 +85,11 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         unitsPassed++;
         onUnitPassed?.Invoke(unitsPassed, RequiredNumberOfUnitsToPass);
 
+        if (QuestManager.Instance != null)
+            QuestManager.Instance.NotifyUnitPassed(unitsPassed);
+
         if (unitsPassed >= RequiredNumberOfUnitsToPass)
-        {
             onRequiredUnitsPassed?.Invoke();
-        }
     }
 
     public void CompleteLevel()
@@ -105,7 +105,7 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
         if (GlobalMapGenerator.Instance.CurrentMapPoint.Type == GlobalMapPointType.Normal)
             RewardManager.Instance.GiveRewards();
 
-        InterfaceCaller.CallInterfaces<IOnCompleteLocalMapLevel>(x => x.OnCompleteLocalMapLevel());
+        GameCalls.CompleteLocalMapLevel();
 
         CurrentlyPlayingLocalLevel = false;
     }
@@ -114,6 +114,8 @@ public class LocalMapLevelCompletedManager : Singleton<LocalMapLevelCompletedMan
     {
         unitsPassed = 0;
         spawnPhaseFinished = false;
+        requiredQuestsCompleted = false;
+        levelFailed = false;
         CurrentlyPlayingLocalLevel = false;
         hoardStarted = false;
     }

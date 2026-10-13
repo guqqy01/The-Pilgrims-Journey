@@ -7,8 +7,10 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
 
     public static bool HasInstance { get { return Instance != null; } }
     private static event Action<T> OnInstanceReady;
+    private bool isInitiatedFromRoot = false;
     public virtual void InitiateFromRootAtAwake()
     {
+        isInitiatedFromRoot = true;
         if (Instance != null)
         {
             if(Instance != this)
@@ -16,14 +18,14 @@ public abstract class Singleton<T> : MonoBehaviour, IToBeInitiatedFromRoot where
 
             return;
         }
-
         Instance = this as T;
         OnInstanceReady?.Invoke(Instance);
     }
 
     protected virtual void Awake()
     {
-        InitiateFromRootAtAwake();
+        if(!isInitiatedFromRoot)
+            InitiateFromRootAtAwake();
     }
 
     protected virtual void OnDestroy()

@@ -17,7 +17,33 @@ MonoBehaviour:
   EquipmentSpecial:
     rid: -2
   equipmentStats:
-    _serializedList: []
+    _serializedList:
+    - Key: 1
+      Value:
+        buffFlags: 2
+        initialized: 1
+        percentageMultiplier: 0
+        baseBuff:
+          intValue: 5
+          floatValue: 0
+          isInt: 1
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 1
+    - Key: 2
+      Value:
+        buffFlags: 1
+        initialized: 1
+        percentageMultiplier: -5
+        baseBuff:
+          intValue: 5
+          floatValue: 5
+          isInt: 0
+        additionalBuff:
+          intValue: 0
+          floatValue: 0
+          isInt: 0
   actionCost: 1
   grantedTileCardType: 16
   ChanceOfBeginInShopAtXMapPosition:

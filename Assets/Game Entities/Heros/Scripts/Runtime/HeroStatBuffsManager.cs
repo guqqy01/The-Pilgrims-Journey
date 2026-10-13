@@ -9,7 +9,7 @@ namespace Heros
         public static bool HasInstance => _singleton.HasInstance;
 
         public static void WhenReady(Action<HeroStatBuffsManager> onReady) => _singleton.WhenReady(onReady);
-
+        public static void IfReady(Action<HeroStatBuffsManager> onReady) => _singleton.IfReady(onReady);
         public void InitiateFromRootAtAwake()
         {
             if (!_singleton.TryClaim(this, () => Destroy(gameObject)))

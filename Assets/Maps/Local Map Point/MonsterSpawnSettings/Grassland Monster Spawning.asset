@@ -38,6 +38,12 @@ MonoBehaviour:
       type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+        maxAmountOfMonster:
+          baseValue: 0
+          perDifficulty: 0
+          clamp: 0
+          min: 0
+          max: 0
         actionCost:
           buffFlags: 2
           initialized: 1
@@ -58,6 +64,12 @@ MonoBehaviour:
       type: {class: WaveDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+        maxAmountOfMonster:
+          baseValue: 0
+          perDifficulty: 0
+          clamp: 0
+          min: 0
+          max: 0
         actionCost:
           buffFlags: 2
           initialized: 1
@@ -78,6 +90,12 @@ MonoBehaviour:
       type: {class: WaveStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+        maxAmountOfMonster:
+          baseValue: 0
+          perDifficulty: 0
+          clamp: 0
+          min: 0
+          max: 0
         actionCost:
           buffFlags: 2
           initialized: 1
@@ -97,6 +115,12 @@ MonoBehaviour:
       type: {class: NormalDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: bf829433ac18b3a47aa863ad5f42b433, type: 2}
+        maxAmountOfMonster:
+          baseValue: 15
+          perDifficulty: 5
+          clamp: 0
+          min: 0
+          max: 0
         actionCost:
           buffFlags: 2
           initialized: 1
@@ -140,6 +164,12 @@ MonoBehaviour:
       type: {class: NormalDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: a2dfbdd25b2edf84d878f6a0b56df4bd, type: 2}
+        maxAmountOfMonster:
+          baseValue: 1
+          perDifficulty: 1
+          clamp: 0
+          min: 0
+          max: 0
         actionCost:
           buffFlags: 2
           initialized: 1
@@ -183,6 +213,12 @@ MonoBehaviour:
       type: {class: NormalStationaryMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+        maxAmountOfMonster:
+          baseValue: 3
+          perDifficulty: 2
+          clamp: 0
+          min: 0
+          max: 0
         actionCost:
           buffFlags: 2
           initialized: 1
@@ -225,6 +261,12 @@ MonoBehaviour:
       type: {class: NormalDirectMonsterSpawn, ns: Monsters, asm: Gameplay}
       data:
         monster: {fileID: 11400000, guid: 52ce219f132e4e846bcdf8b4ebe23b58, type: 2}
+        maxAmountOfMonster:
+          baseValue: 3
+          perDifficulty: 2
+          clamp: 0
+          min: 0
+          max: 0
         actionCost:
           buffFlags: 2
           initialized: 1

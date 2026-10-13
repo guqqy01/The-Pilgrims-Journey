@@ -17,7 +17,7 @@ MonoBehaviour:
     initialized: 1
     percentageMultiplier: 0
     baseBuff:
-      intValue: 0
+      intValue: 8
       floatValue: 0
       isInt: 1
     additionalBuff:
@@ -29,7 +29,7 @@ MonoBehaviour:
     initialized: 1
     percentageMultiplier: 0
     baseBuff:
-      intValue: 0
+      intValue: 5
       floatValue: 0
       isInt: 1
     additionalBuff:
@@ -42,7 +42,7 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 3
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 1
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 1
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
     percentageMultiplier: 0
     baseBuff:
       intValue: 0
-      floatValue: 0
+      floatValue: 1
       isInt: 0
     additionalBuff:
       intValue: 0
@@ -93,6 +93,7 @@ MonoBehaviour:
       isInt: 0
   tileCardType: 0
   maxEquipmentCapacity: 3
+  maxAttackCapacity: 1
   actionCost:
     buffFlags: 2
     initialized: 1

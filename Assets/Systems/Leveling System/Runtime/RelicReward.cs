@@ -15,12 +15,12 @@ namespace LevelingSystem
 
         public string Description(int levelsIncrease)
         {
-            string relicMainDescription = RelicSO.description;
+            string relicMainDescription = GetRelicStatIncrease(levelsIncrease);
 
-            if (RelicManager.Instance == null)
+            if (RelicManager.HasInstance)
                 return relicMainDescription;
 
-            relicMainDescription = relicMainDescription.AddStringWithCarriageReturn(GetRelicStatIncrease(levelsIncrease), 2);
+            relicMainDescription = relicMainDescription.AddStringWithCarriageReturn(RelicSO.description, 2);
 
             return relicMainDescription;
         }

@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace Spawning
 {
-    /// <summary>The concrete, already-randomised plan for one level. Built once from settings + difficulty + seed.</summary>
+    /// <summary>The concrete, already-randomised plan for one level. 
+    /// Built once from settings + difficulty + seed.</summary>
     public class LevelPlan
     {
         public float Duration { get; private set; }

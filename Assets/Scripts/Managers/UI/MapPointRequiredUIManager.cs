@@ -22,7 +22,7 @@ public class MapPointRequiredUIManager : Singleton<MapPointRequiredUIManager>, I
             }
         }
 
-        TopBarMovement.Instance.ControlMovementOfBar = currentNeeded.controlTopBarMovement;
+        TopBarMovement.IfReady(tbMovement => tbMovement.ControlMovementOfBar = currentNeeded.controlTopBarMovement);
 
         foreach(GameObject optionalUI in optionalUIs)
         {

@@ -2,25 +2,34 @@ using UnityEngine;
 
 public abstract class BuffableAttackEntitySO : BuffableEntitySO
 {
+    [Foldout("Stats")]
     [Header("Attack")]
     [BuffType(true)]
     public Buff DamageBuff;
+    [Foldout("Stats")]
     [BuffType(false)]
     public Buff AttackSpeed;
+    [Foldout("Stats")]
     [BuffType(false)]
     [Tooltip("critical percentage, value 100 => 100% chance to crit")]
     public Buff CriticalChance;
+    [Foldout("Stats")]
     [BuffType(false)]
     [Tooltip("critical damage multiplier, value 100 => +100% damage increase")]
     public Buff CriticalDamageMultiplier;
+    [Foldout("Stats")]
     [BuffType(false)]
     public Buff AttackSize;
+    [Foldout("Stats")]
     [BuffType(false)]
     public Buff Knockback;
+    [Foldout("Stats")]
     [BuffType(true)]
     public Buff NumberOfAttacks;
+    [Foldout("Stats")]
     [BuffType(false)]
     public Buff ProjectileSpeed;
+    [Foldout("Stats")]
     [BuffType(false)]
     public Buff ProjectileTurnSpeed;
     protected override Buff InheritGetBuff(StatTypes stat)

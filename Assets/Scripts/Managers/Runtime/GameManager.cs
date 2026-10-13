@@ -1,3 +1,4 @@
+using Codice.CM.Common;
 using Equipment;
 using GameManagerCalls;
 using GlobalMap;
@@ -45,36 +46,14 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     public void StartNewJourney(HeroSO heroSO)
     {
-        InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
+        GameCalls.Clear();
         
         pendingHeroSO = heroSO;
         currentSeed = Random.Range(int.MinValue, int.MaxValue);
 
-        GenerateGlobalMap(currentSeed);
+        GlobalMapGenerator.Instance.GenerateMap(currentSeed);
+        SetupGame();
     }
-
-    private void GenerateGlobalMap(int seed)
-    {
-        GlobalMapGenerator.Instance.GenerateMap(seed);
-
-        GlobalMapGenerator.Instance.CurrentMapPoint.LoadScene(SetupGame);
-    }
-
-    /*private void SetupPhaseOne(CardGameManager manager)
-    {
-        manager.ResetForNewGame();
-        manager.PlayerDeckHolder.SetHeroCard(pendingHeroSO);
-
-        PlayerCollection.IfReady(collection =>
-        {
-            foreach (ICardable cardable in collection.CreateCardables())
-                manager.PlayerDeckHolder.AddCardToDeck(cardable.CreateCard());
-        });
-
-        CardBase attackCard = pendingHeroSO.startingAttack.CreateCard();
-        manager.PlayerDeckHolder.AddCardToDeck(attackCard);
-        manager.BeginGame();
-    }*/
 
     private void SetupGame()
     {
@@ -82,9 +61,9 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
         Level = 1;
 
-        InterfaceCaller.CallInterfaces<IOnSetupNewGame>(x => x.OnSetupNewGame());
-        HeroManager.WhenReady(manager => manager.SelectHero(pendingHeroSO));
-        CreateLocalMap();
+        Action action = GameCalls.SetupNewGame;
+        action += () => HeroManager.WhenReady(manager => manager.SelectHero(pendingHeroSO));
+        LoadCurrentMapPoint(action, false);
     }
 
     #endregion
@@ -93,7 +72,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     public void ContinueJourney()
     {
-        InterfaceCaller.CallInterfaces<IOnClear>(x => x.Clear());
+        GameCalls.Clear();
 
         Load();
 
@@ -105,7 +84,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     public void CompleteLevel()
     {
-        InterfaceCaller.CallInterfaces<IOnCompletedLevel>(x => x.OnLevelCompleted());
+        GameCalls.LevelCompleted();
 
         Level++;
 
@@ -117,7 +96,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         GlobalMapPointType type = GlobalMapGenerator.Instance.CurrentMapPoint.Type;
 
         if(fromContinueingGame)
-            action += () => InterfaceCaller.CallInterfaces<IOnLoadAfterMapPointSceneLoad>(x => x.LoadAfterMapPointSceneLoad());
+            action += GameCalls.LoadAfterMapPointSceneLoad;
 
         switch (type)
         {
@@ -135,7 +114,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
                     action += SetupShop;
                 break;
         }
-        action += () => InterfaceCaller.CallInterfaces<IOnCreateCurrentMapPoint>(x => x.OnCreateCurrentMapPoint());
+        action += GameCalls.CreateCurrentMapPoint;
 
         GlobalMapGenerator.Instance.CurrentMapPoint.LoadScene(action);
     }
@@ -147,21 +126,21 @@ public class GameManager : MonoBehaviour, ISaveLoad
 
     void GenerateRandomEvent()
     {
-        InterfaceCaller.CallInterfaces<IOnGenerateNewRandomEvent>(x => x.OnGenerateNewRandomEvent());
+        GameCalls.GenerateNewRandomEvent();
     }
 
     public void CreateLocalMap()
     {
-        InterfaceCaller.CallInterfaces<IOnBeforeCreateLocalMap>(x => x.OnBeforeCreateLocalMap());
-        InterfaceCaller.CallInterfaces<IOnCreateLocalMap>(x => x.OnCreateLocalMap());
-        InterfaceCaller.CallInterfaces<IOnAfterCreateLocalMap>(x => x.AfterCreateLocalMap());
+        GameCalls.BeforeCreateLocalMap();
+        GameCalls.CreateLocalMap();
+        GameCalls.AfterCreateLocalMap();
 
         Save();
     }
 
     public void EndGame(string reason)
     {
-        InterfaceCaller.CallInterfaces<IOnGameEnd>(x => x.OnGameEnd(reason));
+        GameCalls.GameEnd(reason);
 
         Delete();
     }
@@ -169,7 +148,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
     private void Delete()
     {
         SaveManager.DeleteAllSaves();
-        InterfaceCaller.CallInterfaces<IOnDelete>(x => x.Delete());
+        GameCalls.Delete();
     }
 
     public void Save()
@@ -179,7 +158,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
         SaveProfile<SaveData> saveProfile = new SaveProfile<SaveData>(SaveFileName, saveData);
         SaveManager.SaveOver(saveProfile);
 
-        InterfaceCaller.CallInterfaces<IOnSave>(x => x.Save());
+        GameCalls.Save();
     }
 
     public void Load()
@@ -191,8 +170,7 @@ public class GameManager : MonoBehaviour, ISaveLoad
             Level = saveData.Level;
             currentSeed = saveData.Seed;
 
-            Debug.Log("Call Load");
-            InterfaceCaller.CallInterfaces<IOnLoad>(x => x.Load());
+            GameCalls.Load();
         }
         else
         {
